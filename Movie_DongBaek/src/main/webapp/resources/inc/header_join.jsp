@@ -6,6 +6,6 @@
 <nav class="navbar  navbar-light bg-light" >
 
   <a class="navbar-brand" href="#" style="margin:0px auto">
-    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="180" height="55" alt="">
+    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
 </a>
 </nav>
