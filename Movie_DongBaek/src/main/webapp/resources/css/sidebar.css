@@ -1,0 +1,19 @@
+@charset "UTF-8";
+div{
+	background-color: transparent;
+}
+#mainNav{
+  	max-width: 200px;
+  	min-width: 150px;
+}
+#mainNav .nav-link:hover {
+	font-weight: bold;
+}
+#mainNav .active{
+	border-radius: 2px;
+}
+
+#mainNav hr{
+	margin: 0 2px 0 2px;
+	visibility: hidden;	
+}

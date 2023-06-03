@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+/* clear클래스 호출로 clear처리 */
+.clear{ clear: both; }
+.container-top{
+	margin: 3rem;
+/* 	margin-left: 3rem; */
+/* 	margin-right: 3rem; */
+}
+aside{
+	margin: 10px;
+	background-color: #d5b59c;
+}
+
+/* 예매 선택 구간 */
+/* 크기 조절 */
+.payment_con{
+	width: 1000px;
+	margin: 1rem;
+	padding-left: 2rem;
+	background-color: #d5b59c;
+}
+/* div{ */
+/* 	background-color: transparent; */
+/* } */
+.container-fluid h5{
+	text-align: center;
+	font-weight: bold;
+}
+/* 각 파트 구별을 위한 색상 조절, 여백 */
+.row1>div{
+	height: 300px;
+	margin: 0.5rem;
+	padding: 10px;
+	background-color: white;
+}
+/* 페이지 이름 잘보이게 설정 */
+#mainArticle>h2{
+	font-weight: bold;
+	padding-left: 1rem;
+}
+
+/* 선택사항 안내 구간 */
+/* 위 파트와 구별을 위한 색상 부여 */
+.row2{
+	padding-top: 0.5rem;
+	height: 150px;
+	background-color: #e2cdbc;
+}
