@@ -11,13 +11,13 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   <li class="nav-item" >
-    <a class="nav-link" href="#" style="background-color:white; color:black;">영화</a>
+    <a class="nav-link" href="movie_list_present" style="background-color:white; color:black;">영화</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#" style="background-color:white; color:black;">예매</a>
   </li>
   <li class="nav-item" style=margin-right:30px>
-    <a class="nav-link" href="#" style="background-color:white; color:black;">영화</a>
+    <a class="nav-link" href="#" style="background-color:white; color:black;">영화관</a>
   </li>
   <a class="navbar-brand" href="#" >
     <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
