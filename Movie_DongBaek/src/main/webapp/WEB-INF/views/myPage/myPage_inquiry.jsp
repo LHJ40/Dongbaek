@@ -23,32 +23,34 @@
 	  <div class="mainTop">
 		 <h2>문의 내역</h2>
 		 <hr>
-		 <table class="table table-striped">
-		 	<tr>
-		 		<th>번호</th>
-		 		<th>문의유형</th>
-		 		<th>제목</th>
-		 		<th>문의내용</th>
-		 		<th>답변여부</th>
-		 		<th>문의내역변경</th>
-		 	</tr>
-		 	<tr>
-		 		<td>2</td><%--{param.inquiry_board_num} --%>
-		 		<td>문의유형1</td><%--{param.inquiry-category} --%>
-		 		<td>취소관련</td><%--{param.inquiry_board_subject} --%>
-		 		<td>취소언제쯤되는지<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-		 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-		 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-		 	</tr>
-		 	<tr>
-		 		<td>1</td><%--{param.inquiry_board_num} --%>
-		 		<td>문의유형2</td><%--{param.inquiry-category} --%>
-		 		<td>환불관련</td><%--{param.inquiry_board_subject} --%>
-		 		<td>환불언제쯤되나요<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-		 		<td><img alt="답변달렸을때사진" src="Y.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-		 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-		 	</tr>
-		 </table>
+		 <form action="">
+			 <table class="table table-striped">
+			 	<tr>
+			 		<th>번호</th>
+			 		<th>문의유형</th>
+			 		<th>제목</th>
+			 		<th>문의내용</th>
+			 		<th>답변여부</th>
+			 		<th>문의내역변경</th>
+			 	</tr>
+			 	<tr>
+			 		<td>2</td><%--{param.inquiry_board_num} --%>
+			 		<td>문의유형1</td><%--{param.inquiry-category} --%>
+			 		<td>취소관련</td><%--{param.inquiry_board_subject} --%>
+			 		<td>취소언제쯤되는지<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+			 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
+			 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
+			 	</tr>
+			 	<tr>
+			 		<td>1</td><%--{param.inquiry_board_num} --%>
+			 		<td>문의유형2</td><%--{param.inquiry-category} --%>
+			 		<td>환불관련</td><%--{param.inquiry_board_subject} --%>
+			 		<td>환불언제쯤되나요<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+			 		<td><img alt="답변달렸을때사진" src="Y.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
+			 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
+			 	</tr>
+			 </table>
+		 </form>
 	 </div>
   </div>
   </article>
