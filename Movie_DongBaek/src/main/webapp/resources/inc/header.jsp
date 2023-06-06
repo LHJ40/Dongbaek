@@ -14,20 +14,19 @@
     <a class="nav-link" href="movie_list_present" style="background-color:white; color:black;">영화</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="background-color:white; color:black;">예매</a>
+    <a class="nav-link" href="reservation_main" style="background-color:white; color:black;">예매</a>
   </li>
   <li class="nav-item" style=margin-right:30px>
-    <a class="nav-link" href="#" style="background-color:white; color:black;">영화관</a>
+    <a class="nav-link" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
-  <a class="navbar-brand" href="#" >
-    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
-    
-  </a>
+  <a class="navbar-brand">
+   <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
+    </a>
   <li class="nav-item" style=margin-left:30px>
     <a class="nav-link active" href="#" style="background-color:white; color:black;">멤버십</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="background-color:white; color:black;">스토어</a>
+    <a class="nav-link" href="snack_main" style="background-color:white; color:black;">스토어</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#" style="background-color:white; color:black;">심플모드</a>
@@ -56,17 +55,17 @@
     </tr>
     <tr>
       
-      <td><a href="#">전체영화</a> </td>
-      <td><a href="#">전체극장</a></td>
+      <td><a href="movie_list_present">전체영화</a> </td>
+      <td><a href="theater_main">전체극장</a></td>
       <td><a href="#">고객센터홈</a></td>
-      <td><a href="#">예매/구매내역</a></td>
+      <td><a href="reservation_check">예매/구매내역</a></td>
     </tr>
     <tr>
      
       <td></td>
       <td></td>
       <td><a href="#">공지사항</a></td>
-      <td><a href="#">나의 리뷰</td>
+      <td><a href="#">나의 리뷰</a></td>
     </tr>
     <tr>
      
@@ -77,8 +76,8 @@
     </tr>
     <tr>
      
-      <td><a href="#">전체상품</a></td>
-       <td><a href="#">빠른예매</a></td>
+      <td><a href="snack_main">전체상품</a></td>
+       <td><a href="reservation_main">빠른예매</a></td>
       <td><a href="#">1:1 질문</a></td>
       <td><a href="#">등급별혜택</a></td>
     </tr>

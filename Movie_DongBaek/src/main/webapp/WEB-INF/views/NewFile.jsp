@@ -26,7 +26,7 @@
   <%--왼쪽 사이드바 --%>
   </nav>
   
-  <div id="siteAds"></div>
+  <div id="sieAds"></div>t
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
 </body>

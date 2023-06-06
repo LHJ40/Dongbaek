@@ -37,20 +37,10 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("movie_list_present")
-	public String movielist() {
-		return "movie/movie_list_present";
-	}
-	
-	@GetMapping("reservation_ing")
-	public String ing() {
-		return "reservation/reservation_ing";
-	}
-	
-	@GetMapping("reservation_check")
-	public String check() {
+	@GetMapping("snack_main")
+	public String snack_main() {
 		
-		return "reservation/reservation_check";
+		return "store/snack_main";
 	}
 	
 	

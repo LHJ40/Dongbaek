@@ -215,7 +215,7 @@
 	                </div>
 	                <%-- 다음 페이지 이동 버튼 --%>
 	                <div class="col-3">
-			  			<button class="btn btn-danger" id="nextBtn" onclick=""> next ></button>
+			  			<button class="btn btn-danger" id="nextBtn" onclick="location.href='reservation_seat'"> next ></button>
 	                </div>
 	            </div>
 	        </div>

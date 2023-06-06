@@ -19,17 +19,14 @@ footer{
 </style>
 </head>
 <body>
-<!-- <aside id=left-sidebar> -->
-<!-- <div id=left-margin></div> -->
-<!-- <!-- 왼쪽 사이드바 내용 입력 --> -->
-<!-- </aside> -->
+
 <%--header include --%>
-<header id=header>
+<header id=pageHeader>
 <%@ include file="/resources/inc/header.jsp"%>      
 </header>
 
 <%--컨텐츠 섹션(본문내용) 시작  --%>
-<section id=content>
+<section id=mainArticle>
 <div id=content-margin>
 </div>
 <!-- 본문 내용 입력-->
@@ -117,7 +114,13 @@ footer{
 </div>	
 <%--컨텐츠 섹션 끝 ------------------------------------------------------------------------------------- --%>
 </section>
-<footer id=footer>
+
+ <nav id="mainNav">
+  <%--왼쪽 사이드바 --%>
+  <div id=left-margin></div>
+  </nav>
+ <div id="siteAds"></div>
+<footer id=pageFooter>
 <%@ include file="/resources/inc/footer.jsp"%>
 </footer>
 </body>

@@ -272,7 +272,7 @@
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
-		  			<button class="btn btn-danger vertical-center" onclick=""> next > </button>
+		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack'"> next > </button>
                 </div>
             </div>
         </div>
