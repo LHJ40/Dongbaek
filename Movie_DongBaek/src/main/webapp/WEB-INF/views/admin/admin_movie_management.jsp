@@ -50,19 +50,20 @@
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
-  	<div class="d-flex justify-content-center">
-		  <div class="col-10">
-		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		      <a class="nav-link active" id="v-pills-member-management-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">회원관리</a>
-		      <a class="nav-link" id="v-pills-movie-management-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">영화관리</a>
-		      <a class="nav-link" id="v-pills-schedule-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">상영스케쥴 관리</a>
-		      <a class="nav-link" id="v-pills-payments-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">결제관리</a>
-		      <a class="nav-link" id="v-pills-notice-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">공지사항 관리</a>
-		      <a class="nav-link" id="v-pills-csPQ-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">1:1 질문 관리</a>
-		      <a class="nav-link" id="v-pills-faq-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">자주 묻는 질문 관리</a>
-	   		 </div>
-		  </div>
-	</div>
+<!--   	<div class="d-flex justify-content-center"> -->
+<!-- 		  <div class="col-10"> -->
+<!-- 		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> -->
+<!-- 		      <a class="nav-link active" id="v-pills-member-management-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">회원관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-movie-management-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">영화관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-schedule-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">상영스케쥴 관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-payments-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">결제관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-notice-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">공지사항 관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-csPQ-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">1:1 질문 관리</a> -->
+<!-- 		      <a class="nav-link" id="v-pills-faq-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">자주 묻는 질문 관리</a> -->
+<!-- 	   		 </div> -->
+<!-- 		  </div> -->
+<!-- 	</div> -->
+  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
   </nav>
   
   <div id="siteAds"></div>

@@ -48,6 +48,48 @@ public class AdminController {
 		return "admin/admin_cs_faq_list";
 	}
 	
+	// 관리자페이지 회원관리 메인(리스트)
+	@GetMapping("admin_member_list")
+	public String adminMemberList() {
+		return "admin/admin_member_list";
+	}
+	
+	// 관리자페이지 영화관리 메인
+	@GetMapping("admin_movie_management")
+	public String adminMovieManagement() {
+		return "admin/admin_movie_management";
+	}
+	
+	// 관리자페이지 결제관리 메인
+	@GetMapping("admin_payment_list")
+	public String adminPaymentList() {
+		return "admin/admin_payment_list";
+	}
+	
+	// 관리자페이지 회원관리 메인(리스트) 현재는 현재상태 밑 회원상태버튼(현재상태 옆에 수정버튼 추가? 이름클릭?) -> 클릭시 상세페이지 이동
+	@GetMapping("admin_member_oneperson")
+	public String adminMemberOneperson() {
+		return "admin/admin_member_oneperson";
+	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

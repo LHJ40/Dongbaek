@@ -99,7 +99,7 @@ article {
 					    	<td>hogn11</td>
 					    	<td>플래티넘</td>
 					    	<td>
-						      	<button type="button" class="btn btn-secondary">회원</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">회원</button>
 				     		</td>
 				    	</tr>
 				    	<tr>
@@ -108,7 +108,7 @@ article {
 					    	<td>leess11</td>
 					    	<td>골드</td>
 					    	<td>
-						      	<button type="button" class="btn btn-secondary">회원</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">회원</button>
 				     		</td>
 				    	</tr>
 				    	<tr>
@@ -117,7 +117,7 @@ article {
 					    	<td>kkc77</td>
 					    	<td>실버</td>
 					    	<td>
-						      	<button type="button" class="btn btn-secondary">회원</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">회원</button>
 				     		</td>
 				    	</tr>
 				    	<tr>
@@ -127,7 +127,7 @@ article {
 					    	<td>브론즈</td>
 					    	<td>
 					    		<%-- 탈퇴한 회원을 어느 상태로 처리할지 정해면 하나로 ! --%>
-						      	<button type="button" class="btn btn-secondary">휴면</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">휴면</button>
 				     		</td>
 				    	</tr>
 				    	<tr>
@@ -136,7 +136,7 @@ article {
 					    	<td>burgerking</td>
 					    	<td>플래티넘</td>
 					    	<td>
-						      	<button type="button" class="btn btn-secondary">탈퇴</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">탈퇴</button>
 				     		</td>
 				    	</tr>
 				  </tbody>
@@ -173,7 +173,7 @@ article {
   
   	<%--왼쪽 사이드바 --%>
  	<nav id="mainNav" class="d-none d-md-block sidebar">
-  		<%@ include file="../sidebar/sideBar3.jsp" %>
+  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
   	</nav>
   
   <%--페이지 하단 --%>

@@ -136,6 +136,7 @@ th{
   
   <nav id="mainNav" class="d-none d-md-block sidebar">
   	<%-- 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
+  	  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
   </nav>
   
   <div id="siteAds"></div>
