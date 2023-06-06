@@ -30,6 +30,16 @@ article {
 		align-items: center;
 		margin: 2em auto;
 }
+
+#mainNav{
+/* 		border: 1px solid #f00; */
+		padding: 8rem 2rem;
+		
+}
+
+#mainNav>ul{
+	list-style: none;
+}
 </style>
 </head>
 <body>
