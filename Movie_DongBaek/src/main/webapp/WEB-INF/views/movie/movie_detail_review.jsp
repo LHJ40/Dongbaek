@@ -111,13 +111,13 @@
 		  	   <div class="col">
 		  		<ul class="nav nav-tabs">
 				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_info.jsp">주요정보</a>
+				    <a class="nav-link" href="movie_detail_info">주요정보</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link active" href="movie_detail_review.jsp">&nbsp;&nbsp;&nbsp;&nbsp;리뷰&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				    <a class="nav-link active" href="movie_detail_review">&nbsp;&nbsp;&nbsp;&nbsp;리뷰&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_photo.jsp">&nbsp;&nbsp;&nbsp;&nbsp;포토&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				    <a class="nav-link" href="movie_detail_photo">&nbsp;&nbsp;&nbsp;&nbsp;포토&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				  </li>
 				</ul>
 			   </div>

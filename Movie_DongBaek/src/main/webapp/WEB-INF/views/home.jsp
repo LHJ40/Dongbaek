@@ -29,16 +29,16 @@
  </ul>
  </div>
 
- <div class="d-flex justify-content-end"><b>더 많은 영화보기</b> +</div>
+ <div class="d-flex justify-content-end"><a href="movie_list_present"><b>더 많은 영화보기</b></a> +</div>
  <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div class="row">
  	<div class="col">
  	 <div class="card h-100">
-      <img src="${pageContext.request.contextPath}/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+     <a href="movie_detail_info"><img src="${pageContext.request.contextPath}/resources/img/poster02@2.jpg" class="card-img-top" alt="..." ></a> 
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button>
-        <button type="button" class="btn btn-danger">예매하기</button></p>
+        <button type="button" class="btn btn-danger" onclick="location.href='reservation_main'">예매하기</button></p>
       </div>
     </div>
  	</div>
