@@ -106,13 +106,7 @@
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
-	<ul>
-  		<li>고객센터홈</li>
-  		<li>공지사항</li>
-  		<li>자주묻는질문</li>
-  		<li>1:1문의</li>
-  		
-  	</ul>
+	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>
   
   <div id="siteAds"></div>

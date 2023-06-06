@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -36,7 +37,7 @@
     
   <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-white">
-    <li class="breadcrumb-item"><a href="#">고객센터 홈</a></li>
+    <li class="breadcrumb-item"><a href="cs_main">고객센터 홈</a></li>
     <li class="breadcrumb-item active" aria-current="page">공지사항</li>
   </ol>
 </nav>
@@ -48,15 +49,24 @@
       <th scope="col">번호</th>
       <th scope="col">극장</th>
       <th scope="col">제목</th>
-      <th scope="col">등록</th>
+      <th scope="col">등록일</th>
     </tr>
   </thead>
   <tbody>
+  
+<%--   	<c:forEach var="i" items="DB에서 게시글 불러오기"> --%>
+<!--   		<tr> -->
+<!--   			<td><a>극장</a></td> -->
+<!--   			<td><a>제목</a></td> -->
+<!--   			<td><a>등록일</a></td> -->
+<!--   		</tr> -->
+<%--   	</c:forEach> --%>
+  
     <tr>
       <th scope="row">1</th>
-      <td>극장극장극장극장극장극장극장극장극장</td>
-      <td>제목제목제목제목제목제목제목제목제목</td>
-      <td>등록일등록일등록일등록일등록일등록일</td>
+      <td>극장</td>
+      <td>제목제목제목제목제목</td>
+      <td>등록일등록일</td>
     </tr>
     <tr>
       <th scope="row">2</th>
@@ -84,13 +94,7 @@
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
-	<ul>
-  		<li>고객센터홈</li>
-  		<li>공지사항</li>
-  		<li>자주묻는질문</li>
-  		<li>1:1문의</li>
-  		
-  	</ul>
+	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>
   
   <div id="siteAds"></div>

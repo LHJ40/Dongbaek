@@ -36,7 +36,7 @@
     
  <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-white">
-    <li class="breadcrumb-item"><a href="#">고객센터 홈</a></li>
+    <li class="breadcrumb-item"><a href="cs_main">고객센터 홈</a></li>
     <li class="breadcrumb-item active" aria-current="page">자주묻는 질문</li>
   </ol>
 </nav>
@@ -63,11 +63,21 @@
     </tr>
   </thead>
   <tbody>
+  
+  <%--   	<c:forEach var="i" items="DB에서 게시글 불러오기"> --%>
+	<!--   		<tr> -->
+	<!--   			<td><a>극장</a></td> -->
+	<!--   			<td><a>제목</a></td> -->
+	<!--   			<td><a>등록일</a></td> -->
+	<!--   		</tr> -->
+	<%--   	</c:forEach> --%>
+  
+  
     <tr>
       <th scope="row">1</th>
-      <td>유형유형유형유형유형유형유형유형유형</td>
-      <td>제목제목제목제목제목제목제목제목제목</td>
-      <td>등록일등록일등록일등록일등록일등록일</td>
+      <td>유형유형</td>
+      <td>제목제목제목제목제목</td>
+      <td>등록일등록일</td>
     </tr>
     <tr>
       <th scope="row">2</th>
@@ -93,13 +103,7 @@
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
-	<ul>
-  		<li>고객센터홈</li>
-  		<li>공지사항</li>
-  		<li>자주묻는질문</li>
-  		<li>1:1문의</li>
-  		
-  	</ul>
+	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>
   
   <div id="siteAds"></div>

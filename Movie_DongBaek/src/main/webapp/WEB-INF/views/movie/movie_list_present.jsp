@@ -70,7 +70,7 @@
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
 				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeA.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="/resources/img/gradeA.png" class="img-rounded" onclick="location.href='movie_detail_info'">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>

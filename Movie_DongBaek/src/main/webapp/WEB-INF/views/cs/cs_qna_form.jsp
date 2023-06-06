@@ -43,7 +43,7 @@
 
 <h1>1:1문의</h1>
 
-<form action="cs_qna_Pro">
+<form action="cs_qna_Pro" method="post">
 	<table class="table table-striped"  >
 		<tr>
 			<th>
@@ -103,7 +103,7 @@
 	</tbody>
 	</table>
 	<button class="btn btn-primary" type="submit">등록</button>	
-	<button class="btn btn-primary" type="button">돌아가기</button>	
+	<button class="btn btn-primary" type="button" onclick="location.href='cs_main'">돌아가기</button>	
 </form>
 		
 	</div>

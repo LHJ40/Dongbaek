@@ -19,7 +19,7 @@
   <li class="nav-item" style=margin-right:30px>
     <a class="nav-link" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
-  <a class="navbar-brand" href="/dongbaekcinema/">
+  <a class="navbar-brand" href="./">
    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
     </a>
   <li class="nav-item" style=margin-left:30px>
@@ -58,7 +58,7 @@
       <td><a href="movie_list_present">전체영화</a> </td>
       <td><a href="theater_main">전체극장</a></td>
       <td><a href="#">고객센터홈</a></td>
-      <td><a href="reservation_check">예매/구매내역</a></td>
+      <td><a href="#">예매/구매내역</a></td>
     </tr>
     <tr>
      
