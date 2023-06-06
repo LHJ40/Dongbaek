@@ -19,8 +19,8 @@
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#">
-        상영스케쥴 관리
+      <a class="nav-link" href="admin_schedule_list">
+        상영스케줄 관리
       </a>
     </li>
     <hr>
@@ -31,19 +31,19 @@
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="admin_cs_notice">
         공지사항 관리
       </a>
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="admin_cs_qna">
         1:1질문 관리
       </a>
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="admin_cs_faq">
         자주묻는 관리
       </a>
     </li>

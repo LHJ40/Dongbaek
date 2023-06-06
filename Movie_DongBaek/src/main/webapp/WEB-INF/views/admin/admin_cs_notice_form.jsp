@@ -9,7 +9,15 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+		padding: 8rem 2rem;
+		
+}
 
+#mainNav>ul{
+	list-style: none;
+}
 </style>
 
 </head>
@@ -52,7 +60,7 @@
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
-
+    	<%@ include file="../sidebar/sideBar.jsp"%>
   </nav>
   
   <div id="siteAds"></div>
