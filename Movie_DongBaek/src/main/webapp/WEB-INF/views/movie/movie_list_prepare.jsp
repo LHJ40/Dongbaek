@@ -42,10 +42,10 @@
 <%-- 상영작 구분 --%>
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-	    <a class="nav-link" href="movie_list_present.jsp">현재상영작</a>
+	    <a class="nav-link" href="movie_list_present">현재상영작</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link active" aria-current="page" href="#">상영예정작</a>
+	    <a class="nav-link active" aria-current="page" href="movie_list_prepare">상영예정작</a>
 	  </li>
 	</ul>
 <%-- 정렬 기준 --%>

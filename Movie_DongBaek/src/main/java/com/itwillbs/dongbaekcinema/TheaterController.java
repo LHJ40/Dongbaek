@@ -13,12 +13,12 @@ public class TheaterController {
 	public String theater_tap() {
 		return "theater/theater_tap";
 	}
-	@GetMapping("theater_price_tap")
+	@GetMapping("theater-price_tap")
 	public String theater_price_tap() {
-		return "theater/theater_price_tap";
+		return "theater/theater-price_tap";
 	}
-	@GetMapping("theater_runningtime_tap")
+	@GetMapping("theater-runningtime_tap")
 	public String theater_runningtime_tap() {
-		return "theater/theater_runningtime_tap";
+		return "theater/theater-runningtime_tap";
 	}
 }

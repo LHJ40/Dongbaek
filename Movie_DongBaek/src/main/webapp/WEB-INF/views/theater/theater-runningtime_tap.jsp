@@ -20,11 +20,11 @@
 </style>
 </head>
 <body>
-<header id=header>
+<header id=pageHeader>
 <%@ include file="/resources/inc/header.jsp"%>      
 </header>
 
-<section id=content>
+<section id=mainArticle>
 <div id=content-margin>
 
 </div>
@@ -52,13 +52,13 @@
 	<div class="row-col-my-5">
 		<nav>
 		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-		    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" >
+		   <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" onclick="location.href='theater_main'">
 		    	극장정보
 		    </button>
-		    <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+		    <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" onclick="location.href='theater-runningtime_tap'">
 		    	상영시간표
 		    </button>
-		    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+		    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" onclick="location.href='theater-price_tap'">
 		    	요금안내
 		    </button>
 		  </div>
@@ -136,7 +136,12 @@
 	
 <%--컨텐츠 섹션 끝 ------------------------------------------------------------------------------------- --%>
 </section>
-<footer id=footer>
+ <nav id="mainNav">
+  <%--왼쪽 사이드바 --%>
+  <div id=left-margin></div>
+  </nav>
+ <div id="siteAds"></div>
+<footer id=pageFooter>
 <%@ include file="/resources/inc/footer.jsp"%>
 </footer>
 </body>
