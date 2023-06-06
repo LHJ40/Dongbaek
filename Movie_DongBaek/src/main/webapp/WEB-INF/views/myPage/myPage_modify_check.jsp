@@ -28,7 +28,7 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password"><input type="button" value="확인"></td> <!-- 패스워드 서블릿에서 if로 맞는지안맞는지 -->
+					<td><input type="password"><input type="button" value="확인" onclick="location.href='myPage_modify_member'"></td> <!-- 패스워드 서블릿에서 if로 맞는지안맞는지 -->
 				</tr>
 			</table>
 		</div>
@@ -39,13 +39,15 @@
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   <!-- 	왼쪽 탭 링크들 -->
+  	<h3>마이페이지</h3>
 		<ul class="left-tap">
-			<li class="myPage-ticketing-buy"><a class="nav-link" href="#">예매
+			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매
 					/ 구매내역</a></li>
-			<li class="myPage-review"><a class="nav-link" href="#">나의 리뷰</a></li>
-			<li class="myPage-quest"><a class="nav-link" href="#">문의 내역</a></li>
-			<li class="myPage-grade"><a class="nav-link" href="#">등급별 혜택</a></li>
-			<li class="myPage-privacy"><a class="nav-link" href="#">개인정보수정</a></li>
+			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li>
+			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li>
+			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li>
+			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li>
+			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li>
 		</ul>
   </nav>
   

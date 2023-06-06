@@ -64,16 +64,16 @@
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   <!-- 	왼쪽 탭 링크들 -->
-		 <div class="d-flex justify-content-center">
-		  <div class="col-10">
-		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		      <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">고객센터홈</a>
-		      <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">공지사항</a>
-		      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">자주묻는 질문</a>
-		      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">1:1 문의</a>
-		    </div>
-		  </div>
-		  </div>
+  	<h3>마이페이지</h3>
+		<ul class="left-tap">
+			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매
+					/ 구매내역</a></li>
+			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li>
+			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li>
+			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li>
+			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li>
+			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li>
+		</ul>
   </nav>
   
   <div id="siteAds"></div>
