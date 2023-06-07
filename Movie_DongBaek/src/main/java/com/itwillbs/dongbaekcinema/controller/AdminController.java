@@ -1,4 +1,4 @@
-package com.itwillbs.dongbaekcinema;
+package com.itwillbs.dongbaekcinema.controller;
 
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;

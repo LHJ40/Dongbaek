@@ -81,6 +81,15 @@
 		    <version>2.1.1</version>
 		</dependency>
 		
+		<!-- 5. VO 클래스 자동 관리를 위한 Lombok 라이브러리(라이브러리 추가와 별개로 플러그인 설치 필요) -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.28</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		
 		<!-- AspectJ -->
 		<dependency>
