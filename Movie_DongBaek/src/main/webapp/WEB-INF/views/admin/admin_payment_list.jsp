@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>관리자 - 결제관리</title>
 <style>
 .w-900{
 	width: 900px;
@@ -74,21 +74,22 @@ div {
 			  <tbody>
 			    <tr>
 			      <th scope="row">1</th>
-			      <td></td>
-			      <td></td>
-			      <td><a href="#"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+			      <td>$.{payment_name }</td>
+			      <td>$.{payment_datetime }</td>
+			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+			      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 			    </tr>
 			    <tr>
 			      <th scope="row">2</th>
 			      <td></td>
 			      <td></td>
-			      <td><a href="#"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 			    </tr>
 			    <tr>
 			      <th scope="row">3</th>
 			      <td></td>
 			      <td></td>
-			      <td><a href="#"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 			    </tr>
 			  </tbody>
 			</table>

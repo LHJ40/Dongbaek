@@ -105,7 +105,7 @@ article {
   
   	<%--왼쪽 사이드바 --%>
   	<nav id="mainNav" class="d-none d-md-block sidebar">
-  		<%@ include file="../sidebar/sideBar3.jsp" %>
+  		<%@ include file="../sidebar/sideBar.jsp" %>
   	</nav>
 
 <!--  	<nav id="mainNav"> -->

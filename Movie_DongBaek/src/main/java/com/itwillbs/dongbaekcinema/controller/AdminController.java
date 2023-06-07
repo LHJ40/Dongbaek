@@ -72,6 +72,11 @@ public class AdminController {
 		return "admin/admin_member_oneperson";
 	}
 	
+	@GetMapping("admin_payment_list_detail")
+	public String adminPaymentListDetail() {
+		return "admin/admin_payment_list_detail";
+	}
+	
 	
 }
 
