@@ -8,7 +8,7 @@
 <nav class="navbar  navbar-light bg-light" >
  
   <a class="navbar-brand" href="#" >
-    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
+    <img src="${pageContext.request.contextPath}/resources/img/last-logo.png" width="200" height="48" alt="">
     
   </a>
 

@@ -25,7 +25,11 @@
     <a class="nav-link menuItem" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
   <a class="navbar-brand" href="./">
+<<<<<<< HEAD
    <img src="${pageContext.request.contextPath}/resources/img/logo2.png" width="220" alt="">
+=======
+   <img src="${pageContext.request.contextPath}/resources/img/last-logo.png" width="200" height="48" alt="">
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
     </a>
   <li class="nav-item" style=margin-left:30px>
     <a class="nav-link active menuItem" href="grade" style="background-color:white; color:black;">멤버십</a>

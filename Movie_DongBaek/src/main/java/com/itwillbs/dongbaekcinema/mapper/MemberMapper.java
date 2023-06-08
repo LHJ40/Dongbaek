@@ -1,5 +1,7 @@
 package com.itwillbs.dongbaekcinema.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
@@ -9,7 +11,11 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 
 @Mapper
 public interface MemberMapper {
-
+	
+	// 회원 정보 조회 id로 구별
 	MemberVO selectStudent(String id);
 
+	// 회원 목록 조회 
+	List<MemberVO> selectMemberList();
+	
 }

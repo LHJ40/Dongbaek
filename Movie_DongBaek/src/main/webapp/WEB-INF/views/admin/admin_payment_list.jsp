@@ -66,7 +66,7 @@ div {
 			  <thead>
 			    <tr>
 			      <th scope="col">주문번호</th>
-			      <th scope="col">주문자명</th>
+			      <th scope="col">아이디</th> <%-- 원래는 주문자명이었는데 동명이인이 있을수 있으니 id로 바꿔놓음 0608 - 정의효 --%>
 			      <th scope="col">결제일시</th>
 			      <th scope="col">주문내역 상세보기</th>
 			    </tr>
@@ -74,7 +74,7 @@ div {
 			  <tbody>
 			    <tr>
 			      <th scope="row">1</th>
-			      <td>$.{payment_name }</td>
+			      <td>$.{payment_id }</td>
 			      <td>$.{payment_datetime }</td>
 			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 			      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>

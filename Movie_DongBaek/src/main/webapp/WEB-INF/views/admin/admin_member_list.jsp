@@ -98,7 +98,7 @@ div {
 						</thead>
 		  		<%-- 테이블에 채워지는 잉름, 아이디, 멤버십, 현재상태는 데이터베이스에서 가져오기 --%>
 		  		<%-- 뿌리기 코드 <c:forEach var="member" items="${member }"> --%>
-		  		<%-- 뿌리기 코드 <c:forEach var="member" items="${grade }"> 참조안하고 멤버별로 뿌려지나? 일일이? --%>
+		  		<%-- 한페이지에 몇개 나오고 밑에 1,2,3,4,5페이지 넘어가기 = jsp복습해보기 --%>
 						<tbody>
 							<tr>
 								<th scope="row">24</th> 
