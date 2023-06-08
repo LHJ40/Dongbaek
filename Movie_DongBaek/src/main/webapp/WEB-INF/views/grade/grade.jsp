@@ -55,9 +55,12 @@
 		</div>
 
 	</article>
-
+	
+	<%-- 메인화면에서 멤버십 클릭하여 진입 시 왼쪽 사이드바 불필요 -> 삭제 --%>
+<%-- 
 	<nav id="mainNav">
 		<%--왼쪽 사이드바 --%>
+		<%-- 
 		<!-- 	왼쪽 탭 링크들 -->
 		<ul class="left-tap">
 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매
@@ -69,6 +72,7 @@
 			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li>
 		</ul>
 	</nav>
+	--%>
 
 	<div id="siteAds"></div>
 	<%--페이지 하단 --%>

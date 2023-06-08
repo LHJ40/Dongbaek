@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
-<title>회원가입 1.본인인증</title>
+<title>동백시네마 회원가입 1.본인인증</title>
 <style>
 .w-900{
 	width: 900px;
@@ -36,10 +36,11 @@ th{
 		<!-- 4단계 탭 -->
  	 	<%-- 네이게이션 중앙 정렬 : justify-content-center --%>
  		<nav class=	"nav nav-pills justify-content-center">
+ 			<%-- 해당 탭에서는 클릭 시 다음 단계로 이동 불가 --%>
   			<a class="nav-link active btn-danger" aria-current="page" href="#">본인인증</a>
- 			<a class="nav-link" href="#">약관동의</a>
-			<a class="nav-link" href="#">정보입력</a>
-			<a class="nav-link" href="#">가입완료</a>
+ 			<a class="nav-link" >약관동의</a>
+			<a class="nav-link"  href="member_join_step3">정보입력</a>
+			<a class="nav-link" >가입완료</a>
 		</nav>
 		
 		<hr>
@@ -62,13 +63,13 @@ th{
 	    			<div class="col">
 	    				<%-- 핸드폰 인증 방식 --%>
 	      				<div class="text-center">
-	  						<img src="/resources/img/check1.jpg" class="rounded" alt="...">
+	  						<img src="/resources/img/member_join_step1_phone.jpg" class="rounded" alt="...">
 						</div>
 	    			</div>
 	    			<div class="col">	
 	    				<%-- 아이핀 인증 방식 --%>
 	      				<div class="text-center">
-	  						<img src="/resources/img/check2.jpg" class="rounded" alt="...">
+	  						<img src="/resources/img/member_join_step1_ipin.jpg" class="rounded" alt="...">
 						</div>
 				    </div>
 	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>

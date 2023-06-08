@@ -74,9 +74,9 @@ div {
  	<%-- 회원로그인/비회원로그인/비회원예매 확인 탭 --%>
 	<header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="mem_login_form.jsp" class="nav-link">회원로그인</a></li>
-        <li class="nav-item"><a href="no_mem_login_form.jsp" class="nav-link">비회원로그인</a></li>
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">비회원예매 확인</a></li>
+        <li class="nav-item"><a href="member_login_form" class="nav-link">회원로그인</a></li>
+        <li class="nav-item"><a href="no_member_login_form" class="nav-link">비회원로그인</a></li>
+        <li class="nav-item"><a href="no_member_reservation_check_form" class="nav-link active" aria-current="page">비회원예매 확인</a></li>
       </ul>
     </header>
 	

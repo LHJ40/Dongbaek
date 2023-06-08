@@ -73,7 +73,7 @@
 				<b>다음 등급 : </b><img src="${pageContext.request.contextPath }/resources/img/gold.png" id="myPage_nowGrade"><br>
 				<b>혜택</b> :영화 금액의 <b>{param_grade_discount}%할인</b>
 				<br> 
-				<a href="all_grade">전체 등급 혜택 확인하러 가기 click</a>
+				<a href="grade">전체 등급 혜택 확인하러 가기 click</a>
 			</div>
 
 			<div class="myQuest">
@@ -98,18 +98,19 @@
 
 	<nav id="mainNav">
 		<%--왼쪽 사이드바 --%>
-		<!-- 	왼쪽 탭 링크들 -->
-  	<h3>마이페이지</h3>
-		<ul class="left-tap">
-			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매
-					/ 구매내역</a></li>
-			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li>
-			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li>
-			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li>
-			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li>
-			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li>
-		</ul>
-	</nav>
+  		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
+  	</nav>
+<!--   	<h3>마이페이지</h3> -->
+<!-- 		<ul class="left-tap"> -->
+<!-- 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매 -->
+<!-- 					/ 구매내역</a></li> -->
+<!-- 			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li> -->
+<!-- 			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li> -->
+<!-- 			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li> -->
+<!-- 			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li> -->
+<!-- 			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li> -->
+<!-- 		</ul> -->
+<!-- 	</nav> -->
 
 	<div id="siteAds"></div>
 	<%--페이지 하단 --%>

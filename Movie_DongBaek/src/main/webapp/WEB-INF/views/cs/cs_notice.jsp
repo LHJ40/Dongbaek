@@ -42,6 +42,7 @@
   </ol>
 </nav>
 <br><h1>공지사항</h1>
+<br>
   <div class="d-flex justify-content-center">
 <table  class="table table-striped">
   <thead>
@@ -92,7 +93,7 @@
   
   </article>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
 	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>

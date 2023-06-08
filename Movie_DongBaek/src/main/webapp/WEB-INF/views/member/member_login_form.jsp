@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>동백시네마 회원로그인</title>
 <style>
 .jumbotron{
 	padding: 1rem 1rem;
@@ -82,8 +82,8 @@ div {
 	<header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">회원로그인</a></li>
-        <li class="nav-item"><a href="no_mem_login_form.jsp" class="nav-link">비회원로그인</a></li>
-        <li class="nav-item"><a href="no_mem_reservation_check_form.jsp" class="nav-link">비회원예매 확인</a></li>
+        <li class="nav-item"><a href="no_member_login_form" class="nav-link">비회원로그인</a></li>
+        <li class="nav-item"><a href="no_member_reservation_check_form" class="nav-link">비회원예매 확인</a></li>
       </ul>
     </header>
 	
@@ -128,15 +128,15 @@ div {
 		    <div class="row mb-3 d-flext justify-content-center">
 		    	<%-- 네이버 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="naver" src="/resources/img/naver.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="naver" src="${pageContext.request.contextPath }/resources/img/naver.png" width="50px" height="50px"></a>
 		    	</div>
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="kakao" src="/resources/img/kakao.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao.png" width="50px" height="50px"></a>
 		    	</div>
 		    	<%-- qr --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="qr" src="/resources/img/qr.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a>
 		    	</div>
 		    </div>
 		</form>

@@ -36,7 +36,7 @@ header{width:100%; top: 0; background: white; z-index: 9999;}
   background: #ef4f4f;}
 #pageFooter.d-flex justify-content-end{background: #d5b59c;}
 #mainArticle { 
-  grid-area: article;      
+  grid-area: article;  
   }
 #mainNav { 
   grid-area: nav; 
