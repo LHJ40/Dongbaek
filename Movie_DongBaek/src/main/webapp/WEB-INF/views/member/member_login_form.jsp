@@ -128,15 +128,15 @@ div {
 		    <div class="row mb-3 d-flext justify-content-center">
 		    	<%-- 네이버 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="naver" src="/resources/img/naver.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="naver" src="${pageContext.request.contextPath }/resources/img/naver.png" width="50px" height="50px"></a>
 		    	</div>
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="kakao" src="/resources/img/kakao.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao.png" width="50px" height="50px"></a>
 		    	</div>
 		    	<%-- qr --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="qr" src="/resources/img/qr.png" width="50px" height="50px"></a>
+			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a>
 		    	</div>
 		    </div>
 		</form>

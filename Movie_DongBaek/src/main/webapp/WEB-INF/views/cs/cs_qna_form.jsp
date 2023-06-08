@@ -121,14 +121,6 @@
     		</td>
   		</tr>
   		<tr>
-    		<th>
-    			비밀번호*
-    		</th>
-    		<td>
-    			<input type="password" name="password" placeholder="숫자 6자리">
-    		</td>
-  		</tr>
-  		<tr>
 	  		<td colspan="2" style="text-align: center">
 				<button class="btn btn-danger" type="submit">등록</button>	
 	  		</td>
