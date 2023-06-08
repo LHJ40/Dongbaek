@@ -42,6 +42,7 @@
 </nav>
 
 <br><h1>자주묻는 질문</h1>
+<br>
 <div class="btn-group " role="group" aria-label="Basic example">
   <button type="button" class="btn btn-outline-secondary">전체</button>
   <button type="button" class="btn btn-outline-secondary">예매</button>
@@ -101,7 +102,7 @@
   
   </article>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
 	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>

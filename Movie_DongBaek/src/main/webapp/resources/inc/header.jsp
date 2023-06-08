@@ -3,7 +3,12 @@
 
 
 <nav id=global>
-<span id="navbar-memberbox"><a href="member_login_form">로그인</a> <a href="member_join_step1">회원가입</a> <a href="cs_main">고객센터</a></span>
+
+<span id="navbar-memberbox">
+	<a href="member_login">로그인</a>
+	<a href="member_join">회원가입</a> 
+	<a href="cs_main">고객센터</a>
+</span>
 </nav>
 <nav class="navbar  navbar-light bg-light" >
      <ul class="nav" >

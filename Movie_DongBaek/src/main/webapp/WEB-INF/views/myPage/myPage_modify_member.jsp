@@ -23,7 +23,7 @@
 		<div class="mainTop">
 	 		<h2>개인정보 수정</h2>
 			* 회원님의 정보를 정확히 입력해주세요.
-			<form action="">
+			<form action="" method="post">
 <!-- 				<table border="1"> -->
 <%-- 					프로필 사진 항목 삭제 --%>
 <%-- 					
@@ -62,10 +62,6 @@
 					<tr>
 						<td>이메일</td>
 						<td><input type="email" placeholder="이메일을 적어주세요" value="{param.}"></td>
-					</tr>
-					<tr>
-						<td>주소</td>
-						<td><input type="text" placeholder="주소를 입력해주세요"><input type="text" placeholder="상세 주소를 "></td>
 					</tr>
 				</table>
 			<input type="button" value="취소" onclick="history.back()"> <input type="button" value="등록 / 변경" onclick="location.href='myPage_modify_member_pro'">

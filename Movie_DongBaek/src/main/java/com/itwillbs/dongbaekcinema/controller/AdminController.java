@@ -1,10 +1,21 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import com.itwillbs.dongbaekcinema.service.MemberService;
+import com.itwillbs.dongbaekcinema.vo.MemberVO;
 
 @Controller
 public class AdminController {
+	
+	//0608 정의효 - 데이터랑 없는상태에서는 오류떠서 주석처리 다해놓음
+	//멤버 관련 회원가입, 조회를 위한 MemberService @Autowired 
+	@Autowired
+	private MemberService service;
+	
 	
 	// 관리자페이지 메인
 	@GetMapping("admin_main")
@@ -66,12 +77,20 @@ public class AdminController {
 		return "admin/admin_payment_list";
 	}
 	
-	// 관리자페이지 회원관리 메인(리스트) 현재는 현재상태 밑 회원상태버튼(현재상태 옆에 수정버튼 추가? 이름클릭?) -> 클릭시 상세페이지 이동
+	// 관리자페이지 회원(1명) 정보 조회
+	// 파라미터 id(이름은 중복될수있으니까 X)
+	// 포워딩 페이지 : admin/admin_member_oneperson
+	// 나중에 주석풀기
 	@GetMapping("admin_member_oneperson")
-	public String adminMemberOneperson() {
+	public String adminMemberOneperson(/*@RequestParam String id, Model model*/) {
+//		MemberVO member = service.getMember(id);
+//		
+//		model.addAttribute("member", member);
+		
 		return "admin/admin_member_oneperson";
 	}
 	
+	// 관리자페이지 결제관리메인 -> 상세보기 클릭시 주문내역상세
 	@GetMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail() {
 		return "admin/admin_payment_list_detail";
