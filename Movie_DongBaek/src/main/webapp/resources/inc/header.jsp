@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
-<nav id=global>
+<nav id="global">
 
 <span id="navbar-memberbox">
 	<a href="member_login_form">로그인</a>
@@ -16,30 +16,29 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   <li class="nav-item" >
-    <a class="nav-link" href="movie_list_present" style="background-color:white; color:black;">영화</a>
+    <a class="nav-link menuItem" href="movie_list_present" style="background-color:white; color:black;">영화</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="reservation_main" style="background-color:white; color:black;">예매</a>
+    <a class="nav-link menuItem" href="reservation_main" style="background-color:white; color:black;">예매</a>
   </li>
   <li class="nav-item" style=margin-right:30px>
-    <a class="nav-link" href="theater_main" style="background-color:white; color:black;">영화관</a>
+    <a class="nav-link menuItem" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
   <a class="navbar-brand" href="./">
-   <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
+   <img src="${pageContext.request.contextPath}/resources/img/logo2.png" width="220" alt="">
     </a>
   <li class="nav-item" style=margin-left:30px>
-    <a class="nav-link active" href="grade" style="background-color:white; color:black;">멤버십</a>
+    <a class="nav-link active menuItem" href="grade" style="background-color:white; color:black;">멤버십</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="snack_main" style="background-color:white; color:black;">스토어</a>
+    <a class="nav-link menuItem" href="snack_main" style="background-color:white; color:black;">스토어</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" style="background-color:white; color:black;">심플모드</a>
+    <a class="nav-link menuItem" href="#" style="background-color:white; color:black;">심플모드</a>
   </li>
  
 </ul>
-  
-  
+  <span class="underline"></span>
   </nav>
 <div class="pos-f-t">
   <div class="collapse" id="navbarToggleExternalContent">
@@ -62,28 +61,28 @@
       
       <td><a href="movie_list_present">전체영화</a> </td>
       <td><a href="theater_main">전체극장</a></td>
-      <td><a href="#">고객센터홈</a></td>
+      <td><a href="cs_main">고객센터홈</a></td>
       <td><a href="#">예매/구매내역</a></td>
     </tr>
     <tr>
      
       <td></td>
       <td></td>
-      <td><a href="#">공지사항</a></td>
+      <td><a href="cs_notice">공지사항</a></td>
       <td><a href="#">나의 리뷰</a></td>
     </tr>
     <tr>
      
       <th>스토어</th>
       <th>예매</th>
-      <td><a href="#">자주묻는질문</a></td>
+      <td><a href="cs_faq">자주묻는질문</a></td>
       <td><a href="#">문의내역</a></td>
     </tr>
     <tr>
      
       <td><a href="snack_main">전체상품</a></td>
        <td><a href="reservation_main">빠른예매</a></td>
-      <td><a href="#">1:1 질문</a></td>
+      <td><a href="cs_qna_form">1:1 질문</a></td>
       <td><a href="#">등급별혜택</a></td>
     </tr>
      <tr>

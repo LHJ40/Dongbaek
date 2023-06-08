@@ -12,6 +12,12 @@
 .w-1200 {
 	width: 1200px;
 }
+.subject_now {
+	color: #ef4f4f;
+	font-size: 18px;
+ 	text-decoration: overline;
+	margin: auto;
+}
 </style>
 </head>
 <body>
@@ -25,7 +31,9 @@
   <div class="d-flex justify-content-center" >
 	<ul class="nav nav-pills mb-3 text-dark" id="pills-tab" role="tablist"  >
 		<li class="nav-item bg-white " >
-			<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">현재상영작</a>
+<!-- 			<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"> -->
+			<b class="subject_now">현재상영작</b>
+<!-- 			</a> -->
 		</li>
 	</ul>
   </div>
