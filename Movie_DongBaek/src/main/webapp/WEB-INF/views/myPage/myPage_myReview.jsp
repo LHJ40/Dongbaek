@@ -52,7 +52,7 @@
 	 		<td></td> <%-- {param.avg_review_point} --%>
 	 		<td></td> <%-- {param.review_datetime} --%>
 	 		<td></td>
-	 		<td><a href="review_write">작성하기</a></td>
+	 		<td><a href="myPage_reviewWrite">작성하기</a></td>
  		</tr>
  	
  	</table>

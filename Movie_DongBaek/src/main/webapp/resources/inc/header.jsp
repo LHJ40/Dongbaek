@@ -3,7 +3,7 @@
 
 
 <nav id=global>
-<span id="navbar-memberbox">로그인 회원가입 <a href="cs_main">고객센터</a></span>
+<span id="navbar-memberbox"><a href="member_login_form">로그인</a> <a href="member_join_step1">회원가입</a> <a href="cs_main">고객센터</a></span>
 </nav>
 <nav class="navbar  navbar-light bg-light" >
      <ul class="nav" >
@@ -23,7 +23,7 @@
    <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
     </a>
   <li class="nav-item" style=margin-left:30px>
-    <a class="nav-link active" href="#" style="background-color:white; color:black;">멤버십</a>
+    <a class="nav-link active" href="grade" style="background-color:white; color:black;">멤버십</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="snack_main" style="background-color:white; color:black;">스토어</a>
