@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
-<title>회원관리 - 홍길동</title>
+<title>회원관리 - $.{member.id}</title>
 <style>
 .w-900{
 	width: 900px;
@@ -38,7 +38,7 @@ article {
 	<div class="row">
 		<div class="col-md-12 mt-3">
 			<h3>
-				홍길동 님의 회원정보
+				$.{member.id} 님의 회원정보
 			</h3>
 		</div>
 	</div>
@@ -51,13 +51,13 @@ article {
 			    <tr>
 			    	<%-- 가로 길이 고정(일시) --%>
 			    	<th width="250px">이름</th>
-			    	<td width="550px" colspan="2">홍길동( 가져올 값 )</td>
+			    	<td width="550px" colspan="2">$.{member.name }</td>
 			    </tr>
 			    <tr>
 			    	<%-- 회원상태 : selectBox , 상태변경 확인버튼 --%>
 			    	<%-- --%>
 			    	<th>회원상태</th>
-			    	<td width="350px">활동중(회원) // 상태변경 버튼 클릭 시 변화</td>
+			    	<td width="350px">$.{member.type}(회원) // 상태변경 버튼 클릭 시 변화</td>
 			    	<td>
 				  		<select>
 				  			<option>활동중(회원)</option>
@@ -69,23 +69,23 @@ article {
 			    </tr>
 			    <tr>
 			    	<th>멤버십</th>
-			    	<td colspan="2">플래티넘 ( 가져올 값 )</td>
+			    	<td colspan="2">$.{member.grade_name}</td>
 			    </tr>
 			    <tr>
 			    	<th>아이디</th>
-			    	<td colspan="2">( 가져올 값 )</td>
+			    	<td colspan="2">$.{member.id}</td>
 			    </tr>
 			    <tr>
 			    	<th>생년월일</th>
-			    	<td colspan="2">( 가져올 값 )</td>
+			    	<td colspan="2">$.{member.birth}</td>
 			    </tr>
 			    <tr>
 			    	<th>전화번호</th>
-			    	<td colspan="2">010-1234-5679 (가져올 값)</td>
+			    	<td colspan="2">$.{member.phone}</td>
 			    </tr>
 				<tr>
 			    	<th>이메일(선택)</th>
-			    	<td colspan="2">( 가져올 값 )</td>
+			    	<td colspan="2">$.{member.email}</td>
 				</tr>
 			</table>
 		</div>
