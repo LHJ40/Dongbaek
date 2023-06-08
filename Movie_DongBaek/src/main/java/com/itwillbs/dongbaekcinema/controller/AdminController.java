@@ -48,17 +48,53 @@ public class AdminController {
 	@GetMapping("admin_cs_notice")
 	public String adminCsNotice() {
 		return "admin/admin_cs_notice_list";
-	}	
+	}
+	
+	// 관리자페이지 공지사항 글쓰기 폼
+	@GetMapping("admin_cs_notice_form")
+	public String adminCsNoticeForm() {
+		return "admin/admin_cs_notice_form";
+	}
+	
+	// 관리자페이지 글쓰기 등록
+	@PostMapping("admin_cs_notice_pro")
+	public String adminCsNoticePro() {
+		return "admin/admin_cs_notice_list";
+	}
 	
 	// 관리자페이지 1:1 질문관리
 	@GetMapping("admin_cs_qna")
 	public String adminCsQna() {
+		return "admin/admin_cs_qna_list";
+	}
+	
+	// 관리자페이지 1:1 질문 답글 폼 이동
+	@GetMapping("admin_cs_qna_reply")
+	public String adminCsQnaReply() {
+		return "admin/admin_cs_qna_form";
+	}	
+	
+	// 관리자페이지 1:1 질문 답글 등록
+	@PostMapping("admin_cs_qna_pro")
+	public String adminCsQnaPro() {
 		return "admin/admin_cs_qna_list";
 	}	
 	
 	// 관리자페이지 자주묻는 질문 관리
 	@GetMapping("admin_cs_faq")
 	public String adminCsFaq() {
+		return "admin/admin_cs_faq_list";
+	}
+	
+	// 관리자페이지 자주묻는 질문 글쓰기 폼 이동
+	@GetMapping("admin_cs_faq_form")
+	public String adminCsFaqForm() {
+		return "admin/admin_cs_faq_form";
+	}
+	
+	// 관리자페이지 자주묻는 질문 글쓰기 등록	
+	@PostMapping("admin_cs_faq_pro")
+	public String adminCsFaqPro() {
 		return "admin/admin_cs_faq_list";
 	}
 	
