@@ -28,7 +28,8 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password"><input type="button" value="확인" onclick="location.href='myPage_modify_member'"></td> <!-- 패스워드 서블릿에서 if로 맞는지안맞는지 -->
+					<%-- 패스워드 서블릿에서 if로 맞는지안맞는지 --%>
+					<td><input type="password"><input type="button" value="확인" onclick="location.href='myPage_modify_member'"></td>
 				</tr>
 			</table>
 		</div>

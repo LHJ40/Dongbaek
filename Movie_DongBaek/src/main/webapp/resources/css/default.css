@@ -85,4 +85,15 @@ header{width:100%; top: 0; background: white; z-index: 9999;}
    
     border-color: white;
 }
+
+/* 넓이이와 높이 설정 */
+.w-900{
+	width: 900px;
+}
+.w-500{
+	width: 500px;
+}
+.h-500{
+	height: 500px;
+}
   
