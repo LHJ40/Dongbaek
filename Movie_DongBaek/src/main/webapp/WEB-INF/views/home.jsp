@@ -9,7 +9,9 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-
+.w-1200 {
+	width: 1200px;
+}
 </style>
 </head>
 <body>
@@ -18,21 +20,22 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
-  
- <br>
- <div class="d-flex justify-content-center" >
-  <ul class="nav nav-pills mb-3 text-dark" id="pills-tab" role="tablist"  >
-  <li class="nav-item bg-white " >
-    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">현재상영작</a>
-  </li>
- 
- </ul>
- </div>
+  <div class="container-fluid w-1200">
+  <br>
+  <div class="d-flex justify-content-center" >
+	<ul class="nav nav-pills mb-3 text-dark" id="pills-tab" role="tablist"  >
+		<li class="nav-item bg-white " >
+			<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">현재상영작</a>
+		</li>
+	</ul>
+  </div>
 
- <div class="d-flex justify-content-end"><a href="movie_list_present"><b>더 많은 영화보기</b></a> +</div>
- <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div class="row">
- 	<div class="col">
+  <div class="d-flex justify-content-end"><a href="movie_list_present"><b>더 많은 영화보기</b></a> +</div>
+ 
+  <div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+	<div class="row">
+	<div class="col-3">
  	 <div class="card h-100">
      <a href="movie_detail_info"><img src="${pageContext.request.contextPath}/resources/img/poster02@2.jpg" class="card-img-top" alt="..." ></a> 
       <div class="card-body">
@@ -42,7 +45,7 @@
       </div>
     </div>
  	</div>
- 	<div class="col">
+ 	<div class="col-3">
  	 <div class="card h-100">
       <img src="${pageContext.request.contextPath}/resources/img/poster04@2.jpg"  class="card-img-top" alt="...">
       <div class="card-body">
@@ -52,7 +55,7 @@
       </div>
     </div>
  	</div>
- 	<div class="col">
+ 	<div class="col-3">
  	<div class="card h-100">
       <img src="${pageContext.request.contextPath}/resources/img/poster09.jpg"   class="card-img-top" alt="...">
       <div class="card-body">
@@ -62,7 +65,7 @@
       </div>
     </div>
  	</div>
- 	<div class="col">
+ 	<div class="col-3">
  	<div class="card h-100">
       <img src="${pageContext.request.contextPath}/resources/img/poster09.jpg"   class="card-img-top" alt="...">
       <div class="card-body">
@@ -73,15 +76,17 @@
     </div>
  	</div>
  
- </div></div>
-  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div>
+	</div>
+	</div>
+	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div>
  
-</div>
+	</div>
 <br>
    <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search"  style="border: 1px solid #bd2130;">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+    </div>
   </article>
   
   <nav id="mainNav">
