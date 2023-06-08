@@ -23,6 +23,7 @@
 		<div class="mainTop">
 	 		<h2>개인정보 수정</h2>
 			*회원님의 정보를 정확히 입력해주세요.
+			<form action="" method="post">
 			<table border="1">
 				<tr>
 					<td>프로필 사진</td>
@@ -41,7 +42,17 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td>{param.member.password}<input type="button" value="비밀번호 변경"></td>
+					<td>
+						{param.member.password}
+						<input type="button" value="비밀번호 변경">
+					</td>
+				</tr>
+				<tr>
+					<td>비밀번호 확인</td>
+					<td>
+						{param.member.password}
+						<input type="button" value="비밀번호 확인">
+					</td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
@@ -55,11 +66,8 @@
 					<td>이메일</td>
 					<td>{param.member.email}param@afasda.com<input type="email" placeholder="이메일을 적어주세요"></td>
 				</tr>
-				<tr>
-					<td>주소</td>
-					<td><input type="text" placeholder="주소를 입력해주세요"><input type="text" placeholder="상세 주소를 "></td>
-				</tr>
 			</table>
+			</form>
 			<input type="button" value="취소" onclick="history.back()"> <input type="button" value="등록 / 변경" onclick="location.href='myPage_modify_member_pro'">
   		</div>
 	</div>

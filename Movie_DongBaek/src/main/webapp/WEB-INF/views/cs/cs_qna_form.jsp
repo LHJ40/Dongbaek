@@ -18,6 +18,7 @@
 	#mainNav>ul{
 		list-style: none;
 	}
+	
 </style>
 
 </head>
@@ -42,12 +43,14 @@
 </nav>
 
 <h1>1:1문의</h1>
-
+<br>
 <form action="cs_qna_Pro" method="post">
-	<table class="table table-striped"  >
+	<table class="table">
 		<tr>
 			<th>
 			  	문의 유형* 
+			</th>
+			<td>
 				<select>
 	   				<option value="">선택</option>
 					<option value="정보문의">정보문의</option>
@@ -55,13 +58,21 @@
 					<option value="예매 결제 관련 문의">예매 결제 관련 문의</option>
 					<option value="일반문의">일반문의</option>
 				</select>
-			</th>
+			</td>
  		</tr>
  		<tr>
-			<td class="tg-fymr" >
+			<th>
 				이름*&nbsp;&nbsp;&nbsp;
+			</th>
+			<td>
 				<input type="text" name="name">
+			</td>
+		</tr>
+		<tr>
+			<th>
 				이메일*
+			</th>
+			<td>
 				<input type="text" name="jumin1" onkeyup="" style="width:150px">
 				@ <input type="text" name="jumin2" onkeyup="">
 					<select name="emailDomain" onchange="selectDomain(this.value)">
@@ -71,39 +82,58 @@
 						<option value="nate.com">nate.com</option>
 					</select>
 			</td>
-   
 		</tr>
 		<tr>
-			<td class="tg-fymr">휴대전화* <input type="text" name="phone-number1" >-<input type="text" name="phone-number2" >-<input type="text" name="phone-number3" ></td>
-    
+			<th>
+				휴대전화* 
+			</th>
+			<td>
+				<input type="text" name="phone-number1" width="3em" maxlength="3">
+				-<input type="text" name="phone-number2" width="5em" maxlength="4">
+				-<input type="text" name="phone-number3" width="5em"  maxlength="4">
+			</td>
 		</tr>
   		<tr>
-    		<td class="tg-fymr">
-    			제목* <textarea rows="1" cols="20" name="title"></textarea></td>
-   
+    		<th>
+    			제목* 
+    		</th>
+    		<td>
+    			<textarea rows="1" cols="20" name="title"></textarea>
+    		</td>
   		</tr>
   		<tr>
-    		<td class="tg-fymr">
+    		<th>
 	    		내용*
+	    	</th>
+	    	<td>
 	    		<textarea rows="5" cols="50" name="content" 
 	    			placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다. - 
 	    					-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.">
 	    		</textarea>
     		</td>
-    
   		</tr>
   		<tr>
-    		<td class="tg-fymr">사진첨부 <input type="file" value="사진첨부"></td>
-    
+    		<th>
+    			사진첨부
+    		</th>
+    		<td>
+    			<input type="file" value="사진첨부">
+    		</td>
   		</tr>
   		<tr>
-    		<td class="tg-fymr">비밀번호* <input type="password" name="password" ></td>
-   
+    		<th>
+    			비밀번호*
+    		</th>
+    		<td>
+    			<input type="password" name="password" placeholder="숫자 6자리">
+    		</td>
   		</tr>
-	</tbody>
+  		<tr>
+	  		<td colspan="2" style="text-align: center">
+				<button class="btn btn-danger" type="submit">등록</button>	
+	  		</td>
+  		</tr>
 	</table>
-	<button class="btn btn-primary" type="submit">등록</button>	
-	<button class="btn btn-primary" type="button" onclick="location.href='cs_main'">돌아가기</button>	
 </form>
 		
 	</div>
