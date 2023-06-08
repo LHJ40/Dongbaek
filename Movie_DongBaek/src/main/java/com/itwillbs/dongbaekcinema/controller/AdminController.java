@@ -56,7 +56,7 @@ public class AdminController {
 		return "admin/admin_cs_notice_form";
 	}
 	
-	// 관리자페이지 글쓰기 등록
+	// 관리자페이지 글쓰기 등록 후 게시판 이동
 	@PostMapping("admin_cs_notice_pro")
 	public String adminCsNoticePro() {
 		return "admin/admin_cs_notice_list";
@@ -74,7 +74,7 @@ public class AdminController {
 		return "admin/admin_cs_qna_form";
 	}	
 	
-	// 관리자페이지 1:1 질문 답글 등록
+	// 관리자페이지 1:1 질문 답글 등록 후 게시판 이동
 	@PostMapping("admin_cs_qna_pro")
 	public String adminCsQnaPro() {
 		return "admin/admin_cs_qna_list";
@@ -92,7 +92,7 @@ public class AdminController {
 		return "admin/admin_cs_faq_form";
 	}
 	
-	// 관리자페이지 자주묻는 질문 글쓰기 등록	
+	// 관리자페이지 자주묻는 질문 글쓰기 등록 후 게시판 이동
 	@PostMapping("admin_cs_faq_pro")
 	public String adminCsFaqPro() {
 		return "admin/admin_cs_faq_list";

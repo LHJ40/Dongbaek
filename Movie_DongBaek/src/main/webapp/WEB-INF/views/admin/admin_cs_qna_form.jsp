@@ -41,6 +41,16 @@ background-color: transparent;
 
 </style>
 
+<script type="text/javascript">
+<%-- 이메일 자동 넣기 --%>
+function selectDomain(domain) {
+	// 직접입력의 경우 널스트링("") 값이 할당되어 있으므로
+	// 모든 값을 email2 영역에 표시하면 직접입력 선택 시 널스트링이 표시됨
+	document.fr.email2.value = domain;
+}
+
+</script>
+
 </head>
 <body>
  <header id="pageHeader">
@@ -54,14 +64,14 @@ background-color: transparent;
    <div class="container-fluid w-900" >
   
 
-	<form action="admin_cs_qna_pro" method="post">
+	<form action="admin_cs_qna_pro" method="post" name="fr">
 		<h1>1:1게시판 관리자 답글쓰기</h1>
 
-		<table class="table table-striped text-center align-middle">
+		<table class="table table-striped text-center">
 			
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">24</th>
+			      <td scope="col" class="align-middle" width="100">번호</th>
 			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value=""></td>
 			    </tr>
 				<tr>
@@ -77,12 +87,26 @@ background-color: transparent;
 			      </td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">제목</th>
+			      <td scope="col" class="align-middle" width="100">이름</th>
 			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" value=""></td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" value=""></td>
+			      <td scope="col" class="align-middle" width="100">이메일</th>
+			      <td scope="col" class="align-middle d-flex justify-content-start">
+   					<input type="text" name="email1">
+					@ <input type="text" name="email2" >
+						<select name="emailDomain" onchange="selectDomain(this.value)">
+							<option value="">직접입력</option>
+							<option value="naver.com">naver.com</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="nate.com">nate.com</option>
+						</select>
+			      </td>
+			    </tr>
+				<tr>
+			      <td scope="col" class="align-middle" width="100">휴대전화</th>
+			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" pattern="(010)-\d{3,4}-\d{4}" 
+                placeholder="형식 010-0000-0000" required="required" ></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>

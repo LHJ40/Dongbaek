@@ -21,6 +21,13 @@
 	
 </style>
 
+<script type="text/javascript">
+function selectDomain(domain) {
+	// 직접입력의 경우 널스트링("") 값이 할당되어 있으므로
+	// 모든 값을 email2 영역에 표시하면 직접입력 선택 시 널스트링이 표시됨
+	document.fr.email2.value = domain;
+</script>
+
 </head>
 <body>
  <header id="pageHeader">
@@ -44,8 +51,8 @@
 
 <h1>1:1문의</h1>
 <br>
-<form action="cs_qna_Pro" method="post">
-	<table class="table">
+<form action="cs_qna_Pro" method="post" name="fr">
+	<table class="table" >
 		<tr>
 			<th>
 			  	문의 유형* 
@@ -73,8 +80,8 @@
 				이메일*
 			</th>
 			<td>
-				<input type="text" name="jumin1" onkeyup="" style="width:150px">
-				@ <input type="text" name="jumin2" onkeyup="">
+				<input type="text" name="email1" style="width:150px">
+				@ <input type="text" name="email2" >
 					<select name="emailDomain" onchange="selectDomain(this.value)">
 						<option value="">직접입력</option>
 						<option value="naver.com">naver.com</option>
