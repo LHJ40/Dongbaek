@@ -25,7 +25,7 @@
     <a class="nav-link" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
   <a class="navbar-brand" href="./">
-   <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200" height="48" alt="">
+   <img src="${pageContext.request.contextPath}/resources/img/last-logo.png" width="200" height="48" alt="">
     </a>
   <li class="nav-item" style=margin-left:30px>
     <a class="nav-link active" href="grade" style="background-color:white; color:black;">멤버십</a>
