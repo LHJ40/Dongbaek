@@ -11,56 +11,38 @@
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>결제내역 상세페이지</title>
 <style>
-/* .w-900{ */
-/* 	width: 900px; */
-/* } */
-/* .h-500{ */
-/* 	height: 500px; */
-/* } */
+.w-900{
+	width: 900px;
+}
+.h-500{
+	height: 500px;
+}
 
-/* div { */
-/* 	background-color: transparent; */
-/* } */
+div {
+	background-color: transparent;
+}
 
-/* th{ */
-/* 	width: 200px; */
-/* } */
+th{
+	width: 200px;
+}
 
-/* /* 확인용 */ */
-/* .container-fluid{ */
-/* 	border: 1px solid gray; */
-/* } */
+/* 확인용 */
+.container-fluid{
+	border: 1px solid gray;
+}
 
-/* #mainNav{ */
-/* 	border: 1px solid blue; */
-/* } */
-/* 원본  헤드,푸터,왼쪽 사이드바 위치깨져서 주석하고 수정 0609 - 정의효 */
-	.w-900{
-		width: 900px;
-		margin: 0 auto;
-	}
-	.h-500{
-		height: 500px;
-	}
-	
-	div {
-		background-color: transparent;
-	}
-	article {
-		justify-content: center;
-			align-items: center;
-			margin: 2em auto;
-	}
-
+#mainNav{
+	border: 1px solid blue;
+}
 </style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
  
-  <%--본문내용 --%>
   <article id="mainArticle">
-<div class="container-fluid w-900 justify-content-center" style="border: 1px solid gray">
+  <%--본문내용 --%>
+  <div class="container-fluid w-900">
 	<div class="row">
 		<div class="col-md-12 mt-3">
 			<h3>
@@ -160,13 +142,10 @@
   
   </article>
   
-  	<%-- 왼쪽 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
-<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
-<%--   	  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%> --%>
-<!--   </nav> -->
- 	<nav id="mainNav" class="d-none d-md-block sidebar">
-  		<%@ include file="../sidebar/sideBar.jsp" %>
-  	</nav>
+  <nav id="mainNav" class="d-none d-md-block sidebar">
+  	<%-- 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
+  	  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
+  </nav>
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>

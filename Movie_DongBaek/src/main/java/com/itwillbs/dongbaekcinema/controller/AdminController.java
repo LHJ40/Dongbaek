@@ -8,17 +8,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.itwillbs.dongbaekcinema.service.MemberService;
+import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 
 @Controller
 public class AdminController {
 	
-	//0608 정의효 - 데이터랑 없는상태에서는 오류떠서 주석처리 다해놓음
-	//멤버 관련 회원가입, 조회를 위한 MemberService @Autowired 
+	// 0608 정의효 - 데이터랑 없는상태에서는 오류떠서 주석처리 다해놓음
+	// 멤버 관련 회원가입, 조회를 위한 MemberService @Autowired 
 	@Autowired
-	private MemberService service;
+	private MemberService member_service;
 	
+	// 0609 정의효
+	// 결제 관련 조회를 위한 PaymentService @Autowired
+	@Autowired
+	private PaymentService payment_service;
 	
 	// 관리자페이지 메인
 	@GetMapping("admin_main")
@@ -102,7 +107,7 @@ public class AdminController {
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 	@GetMapping("admin_member_list")
 	public String adminMemberList(/* Model model */) {
-//		List<MemberVO> memberList = service.getMemberList();
+//		List<MemberVO> memberList = member_service.getMemberList();
 //		model.addAttribute("memberList", memberList);
 		return "admin/admin_member_list";
 	}
@@ -113,10 +118,21 @@ public class AdminController {
 		return "admin/admin_movie_management";
 	}
 	
+	// 관리자페이지 영화관리 등록페이지로 이동 - 0609 정의효
+	@GetMapping("admin_movie_regist")
+	public String adminMovieRegist() {
+		return "admin/admin_movie_regist";
+	}
+	
+	
 	// 관리자페이지 결제관리 메인(리스트) 결제목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
+	// 0609 완
 	@GetMapping("admin_payment_list")
-	public String adminPaymentList() {
+	public String adminPaymentList(/* Model model */) {
+//		List<PaymentVO> paymentList = payment_service.getPaymentList();
+		
+//		model.addAttribute("paymentList", paymentList);
 		
 		return "admin/admin_payment_list";
 	}
@@ -127,8 +143,8 @@ public class AdminController {
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 	@GetMapping("admin_member_oneperson")
 	public String adminMemberOneperson(/* @RequestParam String id, Model model */) {
-//		MemberVO member = service.getMember(id);
-//		
+//		MemberVO member = member_service.getMember(id);
+////		
 //		model.addAttribute("member", member);
 		
 		return "admin/admin_member_oneperson";
@@ -138,9 +154,13 @@ public class AdminController {
 	// 파라미터 id
 	// 포워딩페이지 : admin/admin_payment_list_detai
 	// 데이터넣고 주석풀고 확인하기 **완료X 0608 - 정의효
+	// 0609 완
 	@GetMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail(/* @RequestParam String id, Model model */) {
-//		PaymentVO payment = service.getPayment(id); 
+//		PaymentVO payment = payment_service.getPayment(id); 
+//		
+//		model.addAttribute("payment", payment);
+		
 		return "admin/admin_payment_list_detail";
 	}
 	

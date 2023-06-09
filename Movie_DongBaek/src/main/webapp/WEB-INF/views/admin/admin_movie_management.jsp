@@ -148,6 +148,12 @@ div {
 						</tbody>
 					</table>
 				</div>
+				
+		<div class="col-12 d-flex justify-content-center">
+  			<button type="button" class="btn btn-primary btn-lg btn-danger mr-3" onclick="location.href='admin_movie_regist'">등록</button>
+  		</div>
+  		
+	</div>
 			</div>
 
 			<%-- 페이징 처리 --%>
