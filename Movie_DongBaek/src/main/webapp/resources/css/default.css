@@ -62,9 +62,10 @@ header{width:100%; top: 0; background: white; z-index: 9999;}
 	color: #eb2d2d;
 }
 
-.navbar-toggler{
+button.navbar-toggler{
 	margin-right: 10px;
-	padding-top: 30px;
+	margin-top: 30px;
+	height:40px;
 }
 .menuItem {
 	font-size: 18px;
@@ -86,10 +87,7 @@ header{width:100%; top: 0; background: white; z-index: 9999;}
  }
  .nav-link{color:black; 
  font-weight: bold; } 
-  button.navbar-toggler{height:40px;
- margin-top:3px;
-
-  }
+ 
   .nav-item{
   width:115px;}
  
