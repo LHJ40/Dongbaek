@@ -67,6 +67,7 @@ div {
 	
 </script>
 
+<script src="../js/jquery-3.7.0.js"></script>
 </head>
 <body>
   <%--네비게이션 바 영역 --%>
@@ -89,14 +90,14 @@ div {
 	
 	<div class="row d-flex justify-content-center mt-3">
 	  <div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
-		<form>
+		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
 			<%-- 아이디 --%>
 			<div class="row mb-3">
               <label for="id" class="col-2 text-nowrap">아이디</label>
               <div class="col-10">
-	              <input type="text" class="form-control" name="id" id="id" placeholder="아이디" required="required">
+	              <input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required="required">
               </div>
 	        </div>
 	        
@@ -104,7 +105,7 @@ div {
 			<div class="row mb-3">
               <label for="passwd" class="col-2 text-nowrap">비밀번호</label>
               <div class="col-10">
-	              <input type="text" class="form-control" name="passwd" id="passwd" placeholder="비밀번호" required="required">
+	              <input type="text" class="form-control" name="member_pass" id="member_pass" placeholder="비밀번호" required="required">
               </div>
 	        </div>
 		
@@ -132,12 +133,91 @@ div {
 		    	</div>
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao.png" width="50px" height="50px"></a>
+			    	<button type="button" id="submit-btn" onclick="loginWithKakao()">
+			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao.png" width="50px" height="50px">
+			    	</button>
 		    	</div>
+		    	<%-- 카카오 로그인 --%>
+		    	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+		    	<!-- 카카오 로그인 시작 -->
+				<script type="text/javascript">
+					Kakao.init('17e8c8c84f86f6d5956a91da31df8878');	// 카카오에서 받아온 앱 키
+					Kakao.isInitialized();
+					
+					function loginWithKakao() {
+						Kakao.Auth.login({
+							
+						// 이 부분은 생략가능한 부분인데, 이용 중 동의를 설정했을 때 scope에 추가해주면 됨
+						// scope: "profile_nickname, account_email",
+						success: function (response) {
+							Kakao.API.request({
+							url: '/v2/user/me',
+							success: function (response) {
+								
+								// 이메일과 닉네임을 변수에 저장
+								// 다른 값들을 받고 싶으면 response.XXX 해서 꺼내오면 된다!
+								var email = response.kakao_account.email;
+// 								var nickname = response.kakao_account.profile.nickname;
+								
+								// JSON 객체 출력하기
+								// 카카오 로그인을 성공하면 여기에 전달받은 값들이 출력됨
+								alert(JSON.stringify(response));
+								
+								// 여기서 부터는 직접 구현해야 하는 부분임!
+								// 이메일을 사용하여 회원가입 여부 판별할 예정임
+								// DB에 회원 이메일(아이디)이 존재하면? => 바로 사이트 로그인 처리
+								// 존재하지 않으면? => 카카오에서 전달받은 값들을 바탕으로 회원가입 진행
+								$.ajax({
+									// 이메일 판별을 하기 위해서 아래 주소로 ajax 요청
+									// 각자 주소에 맞게 변경하면 됨!
+									url: '<c:url value="/member_login_pro"/>',
+									method: 'POST',
+									data: {email: email},
+									success: function (result) {
+										
+										if (result === 'new') {	// DB에 없는 새로운 이메일!
+											// DB에 카카오에서 받아온 이메일이 존재하지 않을 경우 => 회원가입 진행
+											alert('카카오 로그인 성공! 회원가입을 완료해주세요');
+											console.log('카카오 로그인 성공! 회원가입을 완료해주세요');
+											
+											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
+											// 로컬의 세션 스토리지에 이메일 저장
+											sessionStorage.setItem('email', email);
+											
+											// 회원가입 페이지로 이동
+											location.href = '<c:url value="/member/member_join_step3"/>';
+											
+										} else if (result === 'existing') {	// DB에 있는 이메일!
+											alert('카카오 로그인 성공!')
+											// DB에 이메일이 존재할 경우 => 이미 가입된 회원인 경우
+											// 세션 스토리지 값 비우기
+											sessionStorage.removeItem("email");
+											
+											console.log('기존 회원이므로 로그인 처리 진행');
+											
+											// 로그인 완료 후 메인 페이지로 이동
+											location.href = '<c:url value="/" />';
+										}
+									}
+								});
+							},
+							fail: function (error) {
+								alert(JSON.stringify(error));
+							}
+						});
+					},
+					fail: function (error) {
+					alert(JSON.stringify(error));
+					}
+				});
+				}
+				</script>
+				<!-- 카카오 로그인 끝 -->
+
 		    	<%-- qr --%>
-		    	<div class="col-2">
-			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a>
-		    	</div>
+<!-- 		    	<div class="col-2"> -->
+<%-- 			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a> --%>
+<!-- 		    	</div> -->
 		    </div>
 		</form>
       </div>
