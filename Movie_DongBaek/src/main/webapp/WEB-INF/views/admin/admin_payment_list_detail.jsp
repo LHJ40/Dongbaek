@@ -6,60 +6,35 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath }/resources/ss/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>결제내역 상세페이지</title>
 <style>
-/* .w-900{ */
-/* 	width: 900px; */
-/* } */
-/* .h-500{ */
-/* 	height: 500px; */
-/* } */
+.w-900{
+	width: 900px;
+	margin: 0 auto;
+}
+.h-500{
+	height: 500px;
+}
 
-/* div { */
-/* 	background-color: transparent; */
-/* } */
-
-/* th{ */
-/* 	width: 200px; */
-/* } */
-
-/* /* 확인용 */ */
-/* .container-fluid{ */
-/* 	border: 1px solid gray; */
-/* } */
-
-/* #mainNav{ */
-/* 	border: 1px solid blue; */
-/* } */
-/* 원본  헤드,푸터,왼쪽 사이드바 위치깨져서 주석하고 수정 0609 - 정의효 */
-	.w-900{
-		width: 900px;
-		margin: 0 auto;
-	}
-	.h-500{
-		height: 500px;
-	}
-	
-	div {
-		background-color: transparent;
-	}
-	article {
-		justify-content: center;
-			align-items: center;
-			margin: 2em auto;
-	}
-
+div {
+	background-color: transparent;
+}
+article {
+	justify-content: center;
+		align-items: center;
+		margin: 2em auto;
+}
 </style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
  
-  <%--본문내용 --%>
-  <article id="mainArticle">
+<%--본문내용 --%>
+<article id="mainArticle">
 <div class="container-fluid w-900 justify-content-center" style="border: 1px solid gray">
 	<div class="row">
 		<div class="col-md-12 mt-3">
@@ -68,8 +43,10 @@
 			</h3>
 		</div>
 	</div>
-	<%-- 상세보기 테이블 --%>
-	<div class="row">
+
+
+  	<%-- 상세보기 테이블 --%>
+  	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-bordered text-center">
 			    <tr>
@@ -130,7 +107,7 @@
 			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#paymentCancel">결제취소</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button">뒤로가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list'">뒤로가기</button>
 		</div>
 	</div>
   </div>
@@ -156,19 +133,28 @@
 	    </div>
 	  </div>
 	</div>
- 
+  	<%-- 본문 테이블 끝 --%>
+</article>
   
-  </article>
-  
-  	<%-- 왼쪽 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
-<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
-<%--   	  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%> --%>
-<!--   </nav> -->
- 	<nav id="mainNav" class="d-none d-md-block sidebar">
+  	<%--왼쪽 사이드바 --%>
+  	<nav id="mainNav" class="d-none d-md-block sidebar">
   		<%@ include file="../sidebar/sideBar.jsp" %>
   	</nav>
+
+<!--  	<nav id="mainNav"> -->
+<!--  	<h1>관리자 페이지</h1> -->
+<!--  	<div class="list-group"> -->
+<%--  		<%-- 활성화된 페이지는 active로 나타냄 --%> --%>
+<!--   		<a href="#" class="list-group-item list-group-item-action active" aria-current="true">회원관리</a> -->
+<!--   		<a href="#" class="list-group-item list-group-item-action">영화관리</a> -->
+<!--   		<a href="#" class="list-group-item list-group-item-action">상영스케쥴 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">결제 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">CS 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">혜택 관리</a> -->
+<!-- 	</div> -->
+  </nav>
   
-  <div id="siteAds"></div>
   <%--페이지 하단 --%>
+  <div id="siteAds"></div>
   <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
 </body>

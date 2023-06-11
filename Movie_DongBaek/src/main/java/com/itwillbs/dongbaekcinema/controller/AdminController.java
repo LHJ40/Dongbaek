@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.itwillbs.dongbaekcinema.service.MemberService;
+import com.itwillbs.dongbaekcinema.service.MovieService;
 import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
+import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 
 @Controller
@@ -24,6 +26,9 @@ public class AdminController {
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
 	private PaymentService payment_service;
+	
+	@Autowired
+	private MovieService movie_service;
 	
 	// 관리자페이지 메인
 	@GetMapping("admin_main")
@@ -124,6 +129,14 @@ public class AdminController {
 		return "admin/admin_movie_regist";
 	}
 	
+	// 영화등록페이지 에서 등록하기 클릭시(insert 구문) - 영화관리 메인으로 이동 - 0610 정의효
+	// POST => 폼 파라미터 데이터를 전송받아 저장할 MovieVO 타입 파라미터 설정
+	@PostMapping("admin_movie_regist_Pro")
+	public String adminMovieRegistPro(/* MovieVO movie, Model model */) {
+//		int insertCount = movie_service.registMovie(movie);
+		
+		return "redirect:/admin_movie_management";
+	}
 	
 	// 관리자페이지 결제관리 메인(리스트) 결제목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
