@@ -37,11 +37,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("snack_main")
-	public String snack_main() {
-		
-		return "store/snack_main";
-	}
+	
 	
 	
 }
