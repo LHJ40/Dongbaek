@@ -106,7 +106,7 @@ div {
 						<c:forEach var="member" items="${memberList }">
 							<tr>
 								<th scope="row">나한테 왜그러는건데</th> 
-						    	<td>${member.membername }</td>			
+						    	<td>${member.member_name }</td>			
 						    	<td>${member.member_id }</td>			
 						    	<td>${member.grade_name }</td> 
 						    	<td>

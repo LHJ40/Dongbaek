@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -72,25 +73,15 @@ div {
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>$.{payment_id }</td>
-			      <td>$.{payment_datetime }</td>
-			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
-			      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
-			    </tr>
-			    <tr>
-			      <th scope="row">2</th>
-			      <td></td>
-			      <td></td>
-			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
-			    </tr>
-			    <tr>
-			      <th scope="row">3</th>
-			      <td></td>
-			      <td></td>
-			      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
-			    </tr>
+			  <c:forEach var="payment" items="${paymentList }">
+				    <tr>
+				      <th scope="row">1</th>
+				      <td>${payment_id }</td>
+				      <td>${payment_datetime }</td>
+				      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
+				    </tr>
+			    </c:forEach>
 			  </tbody>
 			</table>
 		</div>

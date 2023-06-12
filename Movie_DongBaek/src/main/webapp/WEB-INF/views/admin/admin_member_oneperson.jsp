@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -39,7 +40,7 @@ article {
 	<div class="row">
 		<div class="col-md-12 mt-3">
 			<h3>
-				$.{member.id} 님의 회원정보
+				${member.id} 님의 회원정보
 			</h3>
 		</div>
 	</div>
@@ -52,13 +53,13 @@ article {
 			    <tr>
 			    	<%-- 가로 길이 고정(일시) --%>
 			    	<th width="250px">이름</th>
-			    	<td width="550px" colspan="2">$.{member.name }</td>
+			    	<td width="550px" colspan="2">${member.name }</td>
 			    </tr>
 			    <tr>
 			    	<%-- 회원상태 : selectBox , 상태변경 확인버튼 --%>
 			    	<%-- --%>
 			    	<th>회원상태</th>
-			    	<td width="350px">$.{member.type}(회원) // 상태변경 버튼 클릭 시 변화</td>
+			    	<td width="350px">${member.type}(회원) // 상태변경 버튼 클릭 시 변화</td>
 			    	<td>
 				  		<select>
 				  			<option>활동중(회원)</option>
@@ -70,23 +71,23 @@ article {
 			    </tr>
 			    <tr>
 			    	<th>멤버십</th>
-			    	<td colspan="2">$.{member.grade_name}</td>
+			    	<td colspan="2">${member.grade_name}</td>
 			    </tr>
 			    <tr>
 			    	<th>아이디</th>
-			    	<td colspan="2">$.{member.id}</td>
+			    	<td colspan="2">${member.id}</td>
 			    </tr>
 			    <tr>
 			    	<th>생년월일</th>
-			    	<td colspan="2">$.{member.birth}</td>
+			    	<td colspan="2">${member.birth}</td>
 			    </tr>
 			    <tr>
 			    	<th>전화번호</th>
-			    	<td colspan="2">$.{member.phone}</td>
+			    	<td colspan="2">${member.phone}</td>
 			    </tr>
 				<tr>
 			    	<th>이메일(선택)</th>
-			    	<td colspan="2">$.{member.email}</td>
+			    	<td colspan="2">${member.email}</td>
 				</tr>
 			</table>
 		</div>
@@ -134,7 +135,7 @@ article {
 <!--  	<nav id="mainNav"> -->
 <!--  	<h1>관리자 페이지</h1> -->
 <!--  	<div class="list-group"> -->
-<%--  		<%-- 활성화된 페이지는 active로 나타냄 --%> --%>
+<%--  		<%-- 활성화된 페이지는 active로 나타냄 --%>
 <!--   		<a href="#" class="list-group-item list-group-item-action active" aria-current="true">회원관리</a> -->
 <!--   		<a href="#" class="list-group-item list-group-item-action">영화관리</a> -->
 <!--   		<a href="#" class="list-group-item list-group-item-action">상영스케쥴 관리</a> -->

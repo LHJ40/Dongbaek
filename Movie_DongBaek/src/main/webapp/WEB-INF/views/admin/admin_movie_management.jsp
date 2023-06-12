@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -92,59 +93,20 @@ div {
 						</thead>
 						<%-- 테이블에 채워지는 영화제목, 개봉일시, 종영일시, 수정 및 삭제 (제목,개봉/종영 일시 = DB에서가져오기) --%>
 						<%-- 뿌리기 코드 <c:forEach var="movie" items="${movie }"> --%>
+						<%-- movieList 해야됨 0612 정의효 --%>
 						<tbody>
-							<tr>
-								<th scope="row">24</th>
-								<td>달마야놀다</td>
-								<%-- ${movie.name} --%>
-								<td>2023.02.21</td>
-								<%-- ${movie.release_date} --%>
-								<td>2023.05.22</td>
-								<%-- ${movie.close_date} --%>
-								<td>
-									<button class="btn btn-danger" value="수정">수정</button>
-									<button class="btn btn-danger" value="삭제">삭제</button>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">23</th>
-								<td>아바타</td>
-								<%-- ${movie.name} --%>
-								<td>2023.01.15</td>
-								<%-- ${movie.release_date} --%>
-								<td>2023.02.12</td>
-								<%-- ${movie.close_date} --%>
-								<td>
-									<button class="btn btn-danger" value="수정">수정</button>
-									<button class="btn btn-danger" value="삭제">삭제</button>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">22</th>
-								<td>범죄도시3</td>
-								<%-- ${movie.name} --%>
-								<td>2022.08.20</td>
-								<%-- ${movie.release_date} --%>
-								<td>2023.12.22</td>
-								<%-- ${movie.close_date} --%>
-								<td>
-									<button class="btn btn-danger" value="수정">수정</button>
-									<button class="btn btn-danger" value="삭제">삭제</button>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">21</th>
-								<td>아바타2</td>
-								<%-- ${movie.name} --%>
-								<td>2021.10.01</td>
-								<%-- ${movie.release_date} --%>
-								<td>2022.08.22</td>
-								<%-- ${movie.close_date} --%>
-								<td>
-									<button class="btn btn-danger" value="수정">수정</button>
-									<button class="btn btn-danger" value="삭제">삭제</button>
-								</td>
-							</tr>
+						<c:forEach var="movie" items="${movieList }">
+								<tr>
+									<th scope="row">24</th>
+									<td>${movie.movie_name}</td>
+									<td>${movie.movie_release_date}</td>
+									<td>${movie.movie_close_date}</td>
+									<td>
+										<button class="btn btn-danger" value="수정">수정</button>
+										<button class="btn btn-danger" value="삭제">삭제</button>
+									</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
