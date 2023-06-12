@@ -111,9 +111,9 @@ public class AdminController {
 	// 관리자페이지 회원관리 메인(리스트) 회원목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 	@GetMapping("admin_member_list")
-	public String adminMemberList(/* Model model */) {
-//		List<MemberVO> memberList = member_service.getMemberList();
-//		model.addAttribute("memberList", memberList);
+	public String adminMemberList(Model model) {
+		List<MemberVO> memberList = member_service.getMemberList();
+		model.addAttribute("memberList", memberList);
 		return "admin/admin_member_list";
 	}
 	
