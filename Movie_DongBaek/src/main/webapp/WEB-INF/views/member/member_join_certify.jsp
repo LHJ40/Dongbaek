@@ -1,0 +1,170 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!doctype html>
+<head>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<title>본인인증</title>
+<style>
+.w-900{
+	width: 900px;
+}
+.h-500{
+	height: 500px;
+}
+
+div {
+	background-color: transparent;
+}
+
+th{
+	width: 200px;
+}
+</style>
+<script type="text/javascript">
+	
+	// 정규표현식으로 전화번호 판별
+	function phoneCheck(phone) {
+		let regExp = /^(010|011)[-\s]?[\d]{3,4}(-|\s)?\d{4}$/;
+		
+		if(!regExp.test(phone)) {
+			// 입력창에 정규표현식에 맞지 않는 값이면
+			alert("맞지 않는 형식");
+			
+		}
+	}
+	
+</script>
+</head>
+<body>
+ <%--네비게이션 바 영역 --%>
+ <header id="pageHeader"><%@ include file="../inc/header_join.jsp"%></header>
+ 
+  <article id="mainArticle">
+  <%--본문내용 --%>
+ <%-- 본문 내용을 div로 감싸 전체 폭 조절 --%>
+	<%-- 폭 조절 div 끝 --%>
+		<!-- 4단계 탭 -->
+ 	 	<%-- 네이게이션 중앙 정렬 : justify-content-center --%>
+ 		<nav class=	"nav nav-pills justify-content-center">
+ 			<%-- 해당 탭에서는 클릭 시 다음 단계로 이동 불가 --%>
+  			<a class="nav-link active btn-danger" aria-current="page" href="#">본인인증</a>
+ 			<a class="nav-link" >약관동의</a>
+			<a class="nav-link" >정보입력</a>
+			<a class="nav-link" >가입완료</a>
+		</nav>
+		
+		<hr>
+	<div class="container-fluid w-900">
+		<div align="center">
+			<%-- 상단 문구 구역 --%>
+			<div>
+				<h3>회원 가입을 위한 본인 인증 단계 입니다.</h3>
+			</div>
+			
+			<br>
+			
+			<%-- 인증 형식 선택 --%>
+			<%-- 사진을 클릭 시 해당 인증 방식으로 이동 --%>
+			<div class="container">
+	  			<div class="row">
+	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
+	  				<div class="col"></div>
+	    			<div class="col">
+	    				<%-- 핸드폰 인증 방식 --%>
+<!-- 	      				<div class="text-center"> -->
+						<form action="member_join_step2" method="post">
+						<table>
+						<tr>
+							<td>휴대폰 번호</td>
+							<td>
+		      					<input type="text" id="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
+<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
+		      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
+		      					<br>
+							</td>
+						</tr>
+						<tr>
+							<td>인증번호</td>
+							<td>
+		      					<input type="text" id="phone2" title="인증번호 입력" disabled="disabled" placeholder="인증번호">
+<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
+		      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
+		      					<br>
+								<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
+								<input type="hidden" id="phoneDoubleChk">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="submit" id="DoneBtn" value="인증완료" disabled="disabled">
+							</td>
+						</tr>
+						</table>
+						</form>
+<!-- 						</div> -->
+					<script type="text/javascript">
+						//휴대폰 번호 인증
+						var code2 = "";
+						$("#phoneChk").click(function(){
+							alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+							var phone = $("#member_phone").val();
+							$.ajax({
+						        type:"GET",
+						        url:"phoneCheck?member_phone=" + member_phone,
+						        cache : false,
+						        success:function(data){
+						        	if(data == "error"){
+						        		alert("휴대폰 번호가 올바르지 않습니다.")
+										$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
+										$(".successPhoneChk").css("color","red");
+										$("#member_phone").attr("autofocus",true);
+						        	}else{	        		
+						        		$("#phone2").attr("disabled",false);
+						        		$("#phoneChk2").css("display","inline-block");
+						        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+						        		$(".successPhoneChk").css("color","green");
+						        		$("#member_phone").attr("readonly",true);
+						        		code2 = data;
+						        	}
+						        }
+						    });
+						});
+						
+						//휴대폰 인증번호 대조
+						$("#phoneChk2").click(function(){
+							if($("#phone2").val() == code2){
+								$(".successPhoneChk").text("인증번호가 일치합니다.");
+								$(".successPhoneChk").css("color","green");
+								$("#phoneDoubleChk").val("true");
+								$("#phone2").attr("disabled",true);
+								$("#DoneBtn").attr("disabled",false);
+							}else{
+								$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+								$(".successPhoneChk").css("color","red");
+								$("#phoneDoubleChk").val("false");
+								$(this).attr("autofocus",true);
+							}
+						});
+					</script>
+	    			</div>
+	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
+	  				<div class="col"></div>
+	  			</div>
+	  		</div>
+  		</div>
+  		
+		</div> <%-- 폭 조절 div 끝 --%>
+  </article>
+  
+  <nav id="mainNav">
+  <%--왼쪽 사이드바 --%>
+  </nav>
+  
+  <div id="siteAds"></div>
+  <%--페이지 하단 --%>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
+</body>

@@ -78,9 +78,14 @@ public class MemberController {
 		return "member/member_join_step1";
 	}
 	
+	@GetMapping("member_join_certify")
+	public String member_join_certify() {
+		return "member/member_join_certify";
+	}
+	
 	// 회원가입 화면 1에서 인증 성공 시 회원가입 화면 2페이지로 이동
 	@GetMapping("member_join_step2")
-	public String member_join_step2(Model model) {
+	public String member_join_step2(MemberVO member, Model model) {
 		// 약관 동의 하는 페이지로 이동
 		
 		return "member/member_join_step2";
