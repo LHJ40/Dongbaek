@@ -43,22 +43,22 @@ th{
 </head>
 <body>
 <%--네비게이션 바 영역 --%>
-<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 		<article id="mainArticle">
 	<!-- 	<div class="container-fluid w-900" style="border: 1px solid gray"> -->
 		<%--본문내용 --%>
 	 	 	<!-- 4단계 탭 -->
 	 	 		<%-- 네이게이션 중앙 정렬 : justify-content-center --%>
 	 		<nav class=	"nav nav-pills justify-content-center">
-	  			<a class="nav-link" aria-current="page">본인인증</a>
+	  			<a class="nav-link" aria-current="page" href="member_join_step1">본인인증</a>
 	 			<a class="nav-link active btn-danger">약관동의</a>
-				<a class="nav-link">정보입력</a>
+				<a class="nav-link" href="member_join_step3">정보입력</a>
 				<a class="nav-link">가입완료</a>
 			</nav>
 	  		<hr>
 	  		
 	  	<%-- 마게팅 약관의 동의를 파라미터로  다음 페이지인 정보 입력 페이지로 넘긴 후에 DB로 INSERT --%>
-		<form action="">
+		<form action="member_join_step3" method="post">
 			<div class="container-fluid w-600">
 		  		<!-- 약관 전체 동의 체크박스 - jQuery 기능 구현 -->
 		  		<div class="terms_p">
@@ -128,7 +128,7 @@ th{
 		  			<p class="terms_check">
 		            	<span class="input_check">
 		            		<!-- 필수 항목 : required 속성 -->
-		                	<input type="checkbox" id="check3" name="check3" required="required">
+		                	<input type="checkbox" id="check3" name="check3">
 		                <label for="check3">
 		                	<span class="check3_txt">
 		                		마케팅 활용을 위한 개인 정보 수집 이용 안내(선택)
@@ -161,8 +161,8 @@ th{
 				<div class="col-12 d-flex justify-content-center">
 					<!-- 취소 버튼 클릭 시 메인페이지로 돌아가기 -->
 					<!-- 확인 버튼 클릭 시 다음 단계인 정보입력 페이지로 넘어아기 -->
-		  			<button class="btn btn-secondary mr-3 btn-lg" type="button">&nbsp;&nbsp;취소&nbsp;&nbsp;</button>
-		  			<button class="btn btn-danger ml-3 btn-lg" type="button">&nbsp;&nbsp;확인&nbsp;&nbsp;</button>
+		  			<button class="btn btn-secondary mr-3 btn-lg" type="button" onclick="location.href='./'">&nbsp;&nbsp;취소&nbsp;&nbsp;</button>
+		  			<button class="btn btn-danger ml-3 btn-lg" type="submit">&nbsp;&nbsp;확인&nbsp;&nbsp;</button>
 				</div>
 			</div>
 		</form>
@@ -173,5 +173,5 @@ th{
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

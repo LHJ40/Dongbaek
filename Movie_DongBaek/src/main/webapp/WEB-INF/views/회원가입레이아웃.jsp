@@ -14,7 +14,7 @@
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header_join.jsp"%></header>
+ <header id="pageHeader"><%@ include file="inc/header_join.jsp"%></header>
  
   <article id="mainArticle">
   <%--본문내용 --%>
@@ -27,5 +27,5 @@
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="inc/footer.jsp"%></footer>
 </body>

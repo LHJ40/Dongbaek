@@ -6,13 +6,14 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath }/resources/ss/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>결제내역 상세페이지</title>
 <style>
 .w-900{
 	width: 900px;
+	margin: 0 auto;
 }
 .h-500{
 	height: 500px;
@@ -21,28 +22,20 @@
 div {
 	background-color: transparent;
 }
-
-th{
-	width: 200px;
-}
-
-/* 확인용 */
-.container-fluid{
-	border: 1px solid gray;
-}
-
-#mainNav{
-	border: 1px solid blue;
+article {
+	justify-content: center;
+		align-items: center;
+		margin: 2em auto;
 }
 </style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
-  <article id="mainArticle">
-  <%--본문내용 --%>
-  <div class="container-fluid w-900">
+<%--본문내용 --%>
+<article id="mainArticle">
+<div class="container-fluid w-900 justify-content-center" style="border: 1px solid gray">
 	<div class="row">
 		<div class="col-md-12 mt-3">
 			<h3>
@@ -50,49 +43,59 @@ th{
 			</h3>
 		</div>
 	</div>
-	<%-- 상세보기 테이블 --%>
-	<div class="row">
+
+
+  	<%-- 상세보기 테이블 --%>
+  	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-bordered text-center">
 			    <tr>
-			      <th>주문번호</th>
-			      <td></td>
+			      <th>주문번호</th> <%-- 결제번호? order_num? --%>
+			      <td>$.{payment.num}</td>
 			    </tr>
 			    <tr>
 			      <th>주문자명</th>
-			      <td></td>
+			      <td>$.{payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
 			    </tr>
 			    <tr>
 			      <th>결제일</th>
-			      <td></td>
+			      <td>$.{payment.datetime}</td>
 			    </tr>
 			    <tr>
 			      <th>영화명</th>
-			      <td></td>
+			      <td>$.{payment.movie_name}</td> <%-- 조인(fk) : order_num을 참조하는 payments, ordertickets을
+			      									   			  조인?하고 ordertickets join play_num join movie_num 해서 
+			      									   			  movie_name 가져오기--%>
 			    </tr>
 			    <tr>
 			      <th>극장명</th>
-			      <td></td>
+			      <td>$.{payment.theater_name}</td> <%-- 조인(fk) : payments join order_num(에서 member_id 가져와서) 
+			      									   join member_id(에서 theater_num 가져와서) 
+			      									   join theaters_num 에서 theater_name 가져오기 --%>
 			    </tr>
 			    <tr>
 			      <th>인원수</th>
-			      <td></td>
+			      <td>$.{payment.headcount }</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고 
+			      										  ORDER_TICKETS join ticket_type_num,  count(*) as headcount from ticket_type_num --%>
 			    </tr>
 				<tr>
 			      <th>좌석번호</th>
-			      <td></td>
+			      <td>$.{payment.seatnum}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고
+			      												order_tickets 에서 seat_num 가져오기 --%>
 				</tr>
 				<tr>
 			      <th>주문한 스낵</th>
-			      <td></td>
+			      <td>$.{payment.snack_name}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_SNACKS를 조인하고 
+			      										   ORDER_SNACKS JOIN SNACKS 에서 snack_name 가져오기 
+			      									  	   *snack_quantity 개수 가져와서 어떻게뿌릴지  --%>
 				</tr>
 				<tr>
-			      <th>결제방법</th>
-			      <td></td>
+			      <th>결제방법</th> <%-- 우리는 카드 --%>
+			      <td>$.{payment.card_name }</td> <%-- 카드회사명 --%>
 				</tr>
 			     <tr>
 			      <th>총결제 금액</th>
-			      <td></td>
+			      <td>$.{payment.total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
 			     </tr>
 			</table>
 		</div>
@@ -104,7 +107,7 @@ th{
 			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#paymentCancel">결제취소</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button">뒤로가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list'">뒤로가기</button>
 		</div>
 	</div>
   </div>
@@ -130,16 +133,28 @@ th{
 	    </div>
 	  </div>
 	</div>
- 
+  	<%-- 본문 테이블 끝 --%>
+</article>
   
-  </article>
-  
-  <nav id="mainNav" class="d-none d-md-block sidebar">
-  	<%-- 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
-  	  	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
+  	<%--왼쪽 사이드바 --%>
+  	<nav id="mainNav" class="d-none d-md-block sidebar">
+  		<%@ include file="../sidebar/sideBar.jsp" %>
+  	</nav>
+
+<!--  	<nav id="mainNav"> -->
+<!--  	<h1>관리자 페이지</h1> -->
+<!--  	<div class="list-group"> -->
+<%--  		<%-- 활성화된 페이지는 active로 나타냄 --%> --%>
+<!--   		<a href="#" class="list-group-item list-group-item-action active" aria-current="true">회원관리</a> -->
+<!--   		<a href="#" class="list-group-item list-group-item-action">영화관리</a> -->
+<!--   		<a href="#" class="list-group-item list-group-item-action">상영스케쥴 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">결제 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">CS 관리</a> -->
+<!-- 		<a href="#" class="list-group-item list-group-item-action">혜택 관리</a> -->
+<!-- 	</div> -->
   </nav>
   
-  <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <div id="siteAds"></div>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

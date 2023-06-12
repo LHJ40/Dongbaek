@@ -53,7 +53,7 @@ div {
 <body>
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include
-			file="/resources/inc/header.jsp"%></header>
+			file="../inc/header.jsp"%></header>
 
 	<article id="mainArticle">
 		<%--본문내용 --%>
@@ -148,6 +148,12 @@ div {
 						</tbody>
 					</table>
 				</div>
+				
+		<div class="col-12 d-flex justify-content-center">
+  			<button type="button" class="btn btn-primary btn-lg btn-danger mr-3" onclick="location.href='admin_movie_regist'">등록</button>
+  		</div>
+  		
+	</div>
 			</div>
 
 			<%-- 페이징 처리 --%>
@@ -181,5 +187,5 @@ div {
 	<div id="siteAds"></div>
 	<%--페이지 하단 --%>
 	<footer id="pageFooter"><%@ include
-			file="/resources/inc/footer.jsp"%></footer>
+			file="../inc/footer.jsp"%></footer>
 </body>

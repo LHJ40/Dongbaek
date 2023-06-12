@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.PaymentMapper">
+<!--   <cache-ref namespace=""/> -->
+
+	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 상세내역 -->
+	<select id="selectPayment" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+		select *
+		from payments
+		where id = #{id}
+	</select>
+	
+	<select id="selectPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+		select *
+		from payments
+	</select>
+	
+</mapper>

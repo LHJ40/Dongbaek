@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.MovieMapper">
+<!--   <cache-ref namespace=""/> -->
+
+	<insert id="insertMovie">
+		INSERT 
+			INTO MOVIES
+			VALUES (
+				#{movie_name}
+				, #{movie_director}
+				, #{movie_genre}
+				, #{movie_running_time}
+				, #{movie_grade}
+				, #{movie_release_date}
+				, #{movie_close_date}
+				, #{movie_cast}
+				, #{movie_post}
+				, #{movie_content}
+			) 
+		
+	</insert>
+	
+	
+</mapper>

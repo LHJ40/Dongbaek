@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>회원관리 - $.{member.id}</title>
 <style>
 .w-900{
@@ -30,7 +31,7 @@ article {
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
-<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
 <%--본문내용 --%>
 <article id="mainArticle">
@@ -91,15 +92,37 @@ article {
 		</div>
 	</div>
 	
-		<%-- 확인 버튼 클릭 시 회원 목록 페이지로 돌아가기--%>
-  		<div class="col-12 d-flex justify-content-center">
-  			<button type="button" class="btn btn-primary btn-lg btn-danger mr-3">확인</button>
-  			
-			<button type="button" class="btn btn-secondary btn-lg ml-3">삭제</button>
-  		</div>
-  		
+	<%-- 버튼 --%>
+	<div class="row d-flex justify-content-center mt-3">
+		<div class="col-3">
+			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#memberTypeChange">삭제</button>
+		</div>
+		<div class="col-3">
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list'">돌아가기</button>
+		</div>
 	</div>
-	<%--div container 끝 --%>
+  </div>
+  
+	<%-- '결제취소' 모달 --%>
+	<div class="modal fade" id="memberTypeChange" tabindex="-1" role="dialog" aria-labelledby="memberDeleteTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="memberDeleteTitle">회원 삭제확인</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        회원 정보를 삭제 하시겠습니까?
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+	        <button type="button" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
   	<%-- 본문 테이블 끝 --%>
 </article>
   
@@ -119,9 +142,9 @@ article {
 <!-- 		<a href="#" class="list-group-item list-group-item-action">CS 관리</a> -->
 <!-- 		<a href="#" class="list-group-item list-group-item-action">혜택 관리</a> -->
 <!-- 	</div> -->
-  </nav>
+<!--   </nav> -->
   
   <%--페이지 하단 --%>
   <div id="siteAds"></div>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>
