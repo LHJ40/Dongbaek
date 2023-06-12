@@ -45,6 +45,7 @@ public class MemberController {
 		} else {
 			// 로그인 성공 시
 			// 세션에 값 넣기
+			session.setAttribute("member_id", member.getMember_id());
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
 			
@@ -59,6 +60,16 @@ public class MemberController {
 		// "아직 동백씨네마의 회원이 아닙니다. 회원가입 하시겠습니까?" => 회원가입 페이지로 넘어가기
 //		return "member/member_join_step3";	// => 회원가입(3단계) 정보입력창으로 가기
 		
+	}
+	
+	// 로그아웃 작업 후 메인으로 돌아가기
+	@GetMapping("member_logout")
+	public String member_logout(HttpSession session) {
+		// 세션에 저장한 member_id(저장한 정보들) 초기화
+		session.invalidate();
+		
+		// 세션 초기화 후 main 화면으로 돌아가기
+		return "redirect:/";
 	}
 	
 	// 메인화면에서 회원가입 화면 1페이지로 이동

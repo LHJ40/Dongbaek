@@ -105,7 +105,7 @@ div {
 			<div class="row mb-3">
               <label for="passwd" class="col-2 text-nowrap">비밀번호</label>
               <div class="col-10">
-	              <input type="text" class="form-control" name="member_pass" id="member_pass" placeholder="비밀번호" required="required">
+	              <input type="password" class="form-control" name="member_pass" id="member_pass" placeholder="비밀번호" required="required">
               </div>
 	        </div>
 		
