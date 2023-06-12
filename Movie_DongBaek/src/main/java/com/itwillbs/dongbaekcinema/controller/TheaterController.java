@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.dongbaekcinema.service.TheaterService;
+import com.itwillbs.dongbaekcinema.vo.ScheduleVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 
@@ -41,6 +42,18 @@ public class TheaterController {
 		System.out.println(theater);
 		return theater;
 	}
+	@ResponseBody
+	@GetMapping("getSchedule")
+	public List<ScheduleVO> getSchedule(int theater_num, String play_date, Model model) {
+		System.out.println("getSchedule");
+		System.out.println(theater_num);
+		System.out.println(play_date);
+		List<ScheduleVO> schedule = service.getSchedule(theater_num,play_date);
+		model.addAttribute("schedule", schedule);
+		System.out.println(schedule);
+
+		return schedule;
+	}
 	@GetMapping("theater-price_tap")
 	public String theater_price_tap() {
 		return "theater/theater-price_tap";
@@ -51,7 +64,7 @@ public class TheaterController {
 		System.out.println(theaterList);
 		
 		LocalDate currentdate = LocalDate.now();
-		LocalDate maxdate=currentdate.plusDays(7);
+		LocalDate maxdate=currentdate.plusDays(9);
 
 		
 		

@@ -18,6 +18,32 @@
 
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	let theater_num = $("#theater_num").val();
+	let play_date=$("#play_date").val();
+	
+
+    $.ajax({
+        type: "get",
+        url: "getSchedule",
+        data: {
+        	"theater_num" : theater_num,
+    		"play_date" : play_date
+        },
+        dataType : "json",
+    })
+ 		.done(function(schedule) {
+		
+			
+ 			
+					
+ 		})
+ 		.fail(function() { // 요청 실패 시
+ 			alert("요청실패");
+ 		});
+});
+</script>s
 </head>
 <body>
 <header id=pageHeader>
@@ -69,8 +95,9 @@
 		<div class="tab-content" id="nav-tabContent">
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
-					<input type="date" id="start" value="${currentdate}" min="${currentdate}" max="${maxdate}">
+					<input type="date" id="play_date" value="${currentdate}" min="${currentdate}" max="${maxdate}">
 					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name">${theaterList[0].theater_name }</span></b>
+					   <input type="hidden" id="theater_num" value="${theaterList[0].theater_num }">
 				</div>
 				<div class="row container" align="center">
 				
