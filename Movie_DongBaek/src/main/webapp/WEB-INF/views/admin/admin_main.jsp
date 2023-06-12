@@ -17,6 +17,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
+	
 <link
 	href="${pageContext.request.contextPath }/resources/css/default.css"
 	rel="stylesheet" type="text/css">
@@ -26,6 +27,8 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/button.css"
 	rel="stylesheet" type="text/css">
+	
+
 <title>영화 예매 사이트</title>
 <style>
 #mainNav{
@@ -62,14 +65,15 @@ background-color: transparent;
   border-color: #ccc;
 }
 
-#mainNav{
-/* 		border: 1px solid #f00; */
-/* 		padding: 8rem 2rem; */
-		
-}
-
-#mainNav>ul{
-	list-style: none;
+/* 제목 글자 설정*/
+#adminTitle {
+  color:#000000;
+  font-weight: bold;
+  font-size: 32px;
+  /* 타이틀그라디언트 효과*/
+  background: linear-gradient(to right, #270a09, #8ca6ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
 	
@@ -88,7 +92,7 @@ background-color: transparent;
 <div class="container-fluid w-900" >
 
 	 <br> <br> <br>
-	 <h1>관리자 페이지</h1><br>
+	 <div id="adminTitle">관리자 페이지</div><br>
 	  <div class="d-flex justify-content-center">
 	    
 		<h4>환영합니다 ${session.member_id }님!</h4>
@@ -113,4 +117,6 @@ background-color: transparent;
 	<%--페이지 하단 --%>
 	<footer id="pageFooter"><%@ include
 			file="../inc/footer.jsp"%></footer>
+			
+
 </body>
