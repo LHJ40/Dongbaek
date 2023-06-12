@@ -25,36 +25,29 @@ public class MemberController {
 	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
-	public String member_login_pro(@RequestParam String member_id, @RequestParam String member_pass , HttpSession session, Model model) {
+	public String member_login_pro(MemberVO member, HttpSession session, Model model) {
 		
-		// 회원 정보 확인(일치, 불일치)
-		// MemberService - isMember() 메서드를 호출하여 회원 여부 확인
-		// 파라미터 : id	리턴타입 : boolean(isMember)
-		boolean isMember = service.isMember(member_id);
-		if (!isMember) {
-			// id가 DB에 없을 때
-			model.addAttribute("msg", "존재하지 않는 ID 입니다!");
-			return "failPage";
-			
+		// 1. 일반 로그인 시도
+		// MemberService - getPasswd()
+		// member 테이블에서 id가 일치하는 레코드의 패스워드(passwd) 조회
+		// 파라미터 : MemberVO member	리턴타입 : String(passwd)
+		String passwd = service.getPasswd(member);
+//		System.out.println(passwd);
+		
+		// 로그인 성공/ 실패 여부 판별하여 포워딩
+		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
+		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
+		if(passwd == null || !passwd.equals(member.getMember_pass())) {
+			// 아이디로 조회 시 없는 아이디이거나 나온 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
+					+ "입력하신 내용을 다시 확인해주세요.");
+			return "fail_back";
 		} else {
-			// id가 DB에 있을 때
-			// MemberService - isCorrectMember() 메서드를 호출하여 회원 여부 확인
-			// 파라미터 : MemberVO (member)- id, passwd		리턴타입 : boolean(isCorrectMember)
-			boolean isCorrectMember = service.isCorrectMember(member_id, member_pass);
-			
-			if (!isCorrectMember) {
-				// id와 pass가 일치하지 않을 때
-				model.addAttribute("msg", "ID와 비밀번호가 일치하지 않습니다!");
-				return "failPage";
-				
-			} else {
-				// id와 pass가 일치할 때 -> session에 member_id를 저장하고 main 페이지로 돌아감
-				session.setAttribute("member_id", member_id);
-				return "redirect:/./";
-			}
-			
+			// 로그인 성공 시
+			// 세션에 값 넣기
+			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
-		
+			
 		
 		// 네이버/카카오 로그인 클릭 시 (네이버/카카오 로그인 성공)
 		// 넘어온 이메일 정보가 DB에 있는지 확인
@@ -82,34 +75,7 @@ public class MemberController {
 		return "member/member_join_step2";
 	}
 	
-	// 회원가입 화면 2페이지 약관동의 후 , 네이버/카카오 인증 후 회원가입 화면 3페이지로 이동
-	@RequestMapping(value = "member_join_step3", method = {RequestMethod.GET, RequestMethod.POST})
-	public String member_join_step3(MemberVO member, Model model) {
-		
-		// 2페이지에서 받아온 약관동의 여부 저장 후 step3 페이지로 이동
-//		model.addAttribute("member", member);
-		
-		return "member/member_join_step3";
-	}
 	
-	@PostMapping("member_join_pro")
-	public String member_join_pro(MemberVO member, Model model) {
-		// 회원가입 화면 3페이지에서 회원가입 클릭 시 이동하는 회원가입 처리
-		
-		
-		// 회원가입 로직 MemberService - joinMember() 메서드 호출
-		// 파라미터 : MemberVO (member)		리턴타입 : int(insertCount)
-		int insertCount = service.joinMember(member);
-		
-		if (insertCount == 0) {
-			// 등록 실패 시
-			model.addAttribute("msg", "회원가입 실패! 입력창을 다시 확인해주세요!");
-			return "failPage";
-		}
-		// 등록 성공 시
-		
-		return "member_join_step4";	// 회원가입 화면 4페이지로 이동
-	}
 	
 	@GetMapping("member_join_step4")
 	public String member_join_step4() {

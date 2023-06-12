@@ -21,7 +21,7 @@
 </head>
 <body>
 <header id=pageHeader>
-<%@ include file="/resources/inc/header.jsp"%>      
+<%@ include file="../inc/header.jsp"%>      
 </header>
 
 <section id=mainArticle>
@@ -142,7 +142,7 @@
   </nav>
  <div id="siteAds"></div>
 <footer id=pageFooter>
-<%@ include file="/resources/inc/footer.jsp"%>
+<%@ include file="../inc/footer.jsp"%>
 </footer>
 </body>
 </html>

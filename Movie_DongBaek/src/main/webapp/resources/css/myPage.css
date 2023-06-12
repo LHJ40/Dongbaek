@@ -9,12 +9,12 @@ div {
 }
 
 span {
-	font-size: 1.3em; 
+	font-size: 1.1em; 
 }
 
-.mainTop {
-	background-color: lightgray;
-}
+/* .mainTop { */
+/* 	background-color: lightgray; */
+/* } */
 
 #myPage_GOLD {
 	width: 150px;

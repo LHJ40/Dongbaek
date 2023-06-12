@@ -56,7 +56,7 @@ div {
 <body>
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include
-			file="/resources/inc/header.jsp"%></header>
+			file="../inc/header.jsp"%></header>
 
 	<article id="mainArticle">
 		<%--본문내용 --%>
@@ -150,5 +150,5 @@ div {
 	<div id="siteAds"></div>
 	<%--페이지 하단 --%>
 	<footer id="pageFooter"><%@ include
-			file="/resources/inc/footer.jsp"%></footer>
+			file="../inc/footer.jsp"%></footer>
 </body>

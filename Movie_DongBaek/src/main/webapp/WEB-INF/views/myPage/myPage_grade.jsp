@@ -19,6 +19,7 @@
 	crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
 </style>
@@ -26,7 +27,7 @@
 <body>
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include
-			file="/resources/inc/header.jsp"%></header>
+			file="../inc/header.jsp"%></header>
 
 	<article id="mainArticle">
 		<%--본문내용 --%>
@@ -68,5 +69,5 @@
 	<div id="siteAds"></div>
 	<%--페이지 하단 --%>
 	<footer id="pageFooter"><%@ include
-			file="/resources/inc/footer.jsp"%></footer>
+			file="../inc/footer.jsp"%></footer>
 </body>

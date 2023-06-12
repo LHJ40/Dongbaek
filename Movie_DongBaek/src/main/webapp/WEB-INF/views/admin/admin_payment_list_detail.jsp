@@ -31,7 +31,7 @@ article {
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
-<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
 <%--본문내용 --%>
 <article id="mainArticle">
@@ -156,5 +156,5 @@ article {
   
   <%--페이지 하단 --%>
   <div id="siteAds"></div>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>
