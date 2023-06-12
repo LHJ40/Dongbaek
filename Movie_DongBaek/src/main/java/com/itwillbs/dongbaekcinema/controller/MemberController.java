@@ -23,6 +23,41 @@ public class MemberController {
 		return "member/member_login_form";
 	}
 	
+	// "/member_join_pro" 요청에 대해 MemberService 객체 비즈니스 로직 수행 
+	// => 폼 파라미터로 전달되는 가입 정보를 파라미터로 전달받기 
+	// => 가입 완료 후 이동할 페이지 : member/member_join_step4.jsp 
+	// => 가입 실패 시 오류 페이지(fail_back) 을 통해 "회원 가입이 실패하였습니다." 출력 후 이전 페이지( )로 돌아가기!
+	@PostMapping("member_join_pro")
+	public String joinPro(MemberVO member, Model model) {
+		System.out.println(member);
+		
+		// MemberService(registMember()) - MemberMapper(insertMember())
+		int insertCount = service.registMember(member);
+		
+		// 회원 가입 성공/실패에 따른 페이지 포워딩
+		// => 성공 시 MemberJoinSuccess 로 리다이렉트
+		// => 실패 시 fail_back.jsp 로 포풔딩(model 객체의 "msg" 속성으로 "회원 가입 실패!" 저장)
+		if(insertCount > 0) {
+			return "redirect:/MemberJoinSuccess";
+		} else {
+			model.addAttribute("msg", "회원 가입이 실패하였습니다!");
+			return "fail_back";
+		}
+	}
+	
+	// "/MemberJoinSuccess" 요청에 대해 "member/member_join_step4.jsp" 페이지 포워딩
+	// => GET 방식 요청, Dispatch 방식 포워딩 
+	@GetMapping("MemberJoinSuccess")
+	public String joinSuccess() {
+		return "member/member_join_step4";
+	}
+	
+	@GetMapping("member_join_step4")
+	public String member_join_step4() {
+		return "member_join_step4";
+	}
+	
+	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
 	public String member_login_pro(MemberVO member, HttpSession session, Model model) {
@@ -92,11 +127,6 @@ public class MemberController {
 	}
 	
 	
-	
-	@GetMapping("member_join_step4")
-	public String member_join_step4() {
-		return "member_join_step4";
-	}
 	
 	
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
