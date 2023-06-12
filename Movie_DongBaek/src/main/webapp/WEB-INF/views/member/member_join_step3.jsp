@@ -94,9 +94,8 @@ th{
 		
 		<%-- 회원정보 입력 폼 시작 --%>		
 		<div class="container-fluid w-600">
-		<div class="row d-flex justify-content-center mt-3">
-			<div class="col-10">	<%-- 전체 12개의 col중에 가운데 10개의 col 사용 --%>
-			
+			<div class="row d-flex justify-content-center mt-3">
+				<div class="col-10">	<%-- 전체 12개의 col중에 가운데 10개의 col 사용 --%>
 					<form action="member_join_pro" method="post" name="fr">
 					<%-- 회원 가입 폼 시작 --%>
 					<!--  아이디 (필수)  -->
@@ -185,87 +184,81 @@ th{
 					    	</div>
 				    	</div>
 			    </div>
+			    
 			    <!-- 생년월일 합친 데이터 -->
 			    <input type="hidden" id="member_birth" name="member_birth" value="">
-				    <!-- 전화번호 (필수) -->
-				    <div class="row mb-3">
-				    	<label for="inputCity" class="col-sm-12">전화번호</label>
-				    	<div class="col-sm-12"> <!-- 여기의 숫자 : input 입력 박스의 길이 조절 -->
-					    	<div class="input-group">
-								<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="- 없이" maxlength="11">
-								<input class="btn btn-outline-danger" type="button" value="인증요청" id="inputPhoneCheck">
-							</div>
-				 		</div>
+			    
+				<!-- 전화번호 (필수) -->
+				<div class="row mb-3">
+				    <label for="inputCity" class="col-sm-12">전화번호</label>
+				    <div class="col-sm-12"> <!-- 여기의 숫자 : input 입력 박스의 길이 조절 -->
+					    <div class="input-group">
+							<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="- 없이" maxlength="11">
+							<input class="btn btn-outline-danger" type="button" value="인증요청" id="inputPhoneCheck">
+						</div>
 				 	</div>
+				 </div>
 
-				 	<!-- 인증번호 입력 -->
-				    <div class="row mb-3">
-		              <label for="inputCity" class="col-sm-12">인증번호</label>
-		              <div class="col-sm-12">
-			              <div class="input-group">
+				 <!-- 인증번호 입력 -->
+				 <div class="row mb-3">
+		         	<label for="inputCity" class="col-sm-12">인증번호</label>
+		            <div class="col-sm-12">
+			            <div class="input-group">
 						  	<input type="text" class="form-control" id="inputPhoneCheck2" name="phoneCheck2">
 						  	<input class="btn btn-outline-danger" type="button" value="    확인    " >
-						  </div>
-		              </div>
+						</div>
 		            </div>
+		         </div>
 				 	
-				 	<!-- 이메일 (선택)  -->
-					<div class="row mb-3">
-				    	<label for="inputCity" class="col-sm-12">이메일 <font size="2px">(선택)</font></label>
-				    	<div class="col-md-3"> <!-- 여기의 숫자 : input 입력 박스의 길이 조절 -->
-				    		<input type="text" class="form-control" id="email1"> @ </div>
-				    	<div class="col-md-3"> 
-				    		<input type="text" class="form-control" id="email2" name="email2" placeholder="직접 입력"> </div>
-				    	<div class="col-md-3"> 
-				    		<%-- 해당 이메일 선택 시 바로 입력되도록 --%>
-				    		<select id="inputState" class="form-select" onchange="email(this.value)">
-				    			<option selected>직접 입력</option>
-				    			<option value="naver.com">naver.com</option>
-				    			<option value="google.com">google.com</option>
-				    			<option value="kakao.com">kakao.com</option>
-				    		</select>
-				    	</div>
-				 	</div> 
-				 	<!-- 이메일 주소 합친 데이터 -->
-			   		<input type="hidden" id="member_email" name="member_email" value="">
-				 	
+				 <!-- 이메일 (선택)  -->
+				<div class="row mb-3">
+				    <label for="inputCity" class="col-sm-12">이메일 <font size="2px">(선택)</font></label>
+					  	<div class="col-sm-12">
+					  		<input type="text" class="form-control" id="member_name" name="member_name">
+					 	</div>
+				</div>
+
+					<!-- 좋아하는 장르(선택) -->				 	
 					<div class="row mb-3">
 				    	<label for="inputCity" class="col-sm-12">좋아하는 장르<font size="2px">(선택)</font></label>
-				 	</div> 
 					
-					<!-- 좋아하는 장르( 선택 ) -->
-					<div class="btn-group">
-						<button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-					    	<span class="visually-hidden">선택안함</span>
-						</button>
-							<ul class="dropdown-menu">
-					    		<li><a class="dropdown-item">스릴러</a></li>
-							    <li><a class="dropdown-item">로맨스코미디</a></li>
-							    <li><a class="dropdown-item">공포</a></li>
-							    <li><a class="dropdown-item">SF</a></li>
-							    <li><a class="dropdown-item">범죄</a></li>
-							    <li><a class="dropdown-item">액션</a></li>
-							    <li><a class="dropdown-item">코미디</a></li>
-							    <li><a class="dropdown-item">판타지</a></li>
-							    <li><a class="dropdown-item">음악</a></li>
-							    <li><a class="dropdown-item">멜로</a></li>
-							    <li><a class="dropdown-item">뮤지컬</a></li>
-							    <li><a class="dropdown-item">스포츠</a></li>
-							    <li><a class="dropdown-item">애니메이션</a></li>
-							    <li><a class="dropdown-item">다큐멘터리</a></li>
-							    <li><a class="dropdown-item">기타</a></li>
-					   			<li><hr class="dropdown-divider"></li>
-					   			<li><a class="dropdown-item">Separated link</a></li>
-					  		</ul>
-					</div>
-				
+						<!-- 좋아하는 장르(선택) : 셀렉트 박스 -->
+						<%-- 셀렉트박스 작동 오류 : 추후 수정 예정 --%>
+						<div class="btn-group">
+							<button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+						    	<span class="visually-hidden">선택안함</span>
+							</button>
+								<ul class="dropdown-menu">
+						    		<li><a class="dropdown-item">스릴러</a></li>
+								    <li><a class="dropdown-item">로맨스코미디</a></li>
+								    <li><a class="dropdown-item">공포</a></li>
+								    <li><a class="dropdown-item">SF</a></li>
+								    <li><a class="dropdown-item">범죄</a></li>
+								    <li><a class="dropdown-item">액션</a></li>
+								    <li><a class="dropdown-item">코미디</a></li>
+								    <li><a class="dropdown-item">판타지</a></li>
+								    <li><a class="dropdown-item">음악</a></li>
+								    <li><a class="dropdown-item">멜로</a></li>
+								    <li><a class="dropdown-item">뮤지컬</a></li>
+								    <li><a class="dropdown-item">스포츠</a></li>
+								    <li><a class="dropdown-item">애니메이션</a></li>
+								    <li><a class="dropdown-item">다큐멘터리</a></li>
+								    <li><a class="dropdown-item">기타</a></li>
+						   			<li><hr class="dropdown-divider"></li>
+						   			<li><a class="dropdown-item">Separated link</a></li>
+						  		</ul>
+						</div>
+				 	</div> 
+				 	
+				 	<!-- 버튼  -->
 					<div class="col-12 d-flex justify-content-center">
 				 		<input type="button" class="btn btn-secondary mr-3 btn-lg" onclick="location.href='./'" value="돌아가기">
 				  		<input type="submit" class="btn btn-danger ml-3 btn-lg" value="회원가입">
 				  	</div>
-				</form>
+				  	
 			</div>
 		</div>
+				</form>
 
 	<!-- </section> -->
 	</div>

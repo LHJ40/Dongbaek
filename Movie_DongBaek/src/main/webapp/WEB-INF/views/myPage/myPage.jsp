@@ -19,6 +19,7 @@
 	crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
 </style>
@@ -32,9 +33,11 @@
 		<%--본문내용 --%>
 		<div class="container">
 			<div class="mainTop">
-				<h1><img src="${pageContext.request.contextPath }/resources/img/gold.png" id="myPage_GOLD"><span><b>OOO{param.name]님</b> <br> 좋은 하루 되세요!</span></h1>
+				<h1><img src="${pageContext.request.contextPath }/resources/img/membership_main_photo.png" id="myPage_GOLD"><span><b>{param.name}님</b></span></h1>
 			</div>
-			<a href="myPage_modify_check">회원정보수정</a> <br>
+				<%-- 왼쪽 사이드바에 있으니 굳이 필요하지 않은듯 --%>	
+<!-- 			<a href="myPage_modify_check">회원정보수정</a> <br> -->
+			
 			<br>
 			<div class="myTicketing">
 				<h1>나의예매내역</h1>
