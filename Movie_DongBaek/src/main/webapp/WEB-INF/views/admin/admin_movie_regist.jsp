@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>영화 등록페이지</title>
 <style>
 .w-900{
 	width: 900px;

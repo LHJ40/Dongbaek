@@ -14,7 +14,7 @@ public interface MemberMapper {
 	
 	
 	// 로그인 작업 (id로 조회, passwd받아오기)
-	String selectPasswd(MemberVO member);
+	String selectPasswd(MemberVO member_id);
 
 	// 회원 정보 조회 id로 구별
 	MemberVO selectMember(String member_id);

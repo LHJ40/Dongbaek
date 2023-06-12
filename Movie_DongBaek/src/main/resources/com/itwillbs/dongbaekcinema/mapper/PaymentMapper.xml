@@ -6,13 +6,13 @@
 	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 상세내역 -->
 	<select id="selectPayment" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		select *
-		from payments
+		from PAYMENTS
 		where id = #{id}
 	</select>
 	
 	<select id="selectPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		select *
-		from payments
+		from PAYMENTS
 	</select>
 	
 </mapper>

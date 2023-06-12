@@ -23,7 +23,7 @@
 	<!-- 관리자페이지 - 회원 전체 조회해서 뿌리기 -->
 	<select id="selectMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
 		SELECT *
-		FROM MEMBERS
+			FROM MEMBERS
 	</select>
 	
 	

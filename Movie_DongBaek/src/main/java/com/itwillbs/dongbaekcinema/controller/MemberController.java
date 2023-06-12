@@ -106,11 +106,11 @@ public class MemberController {
 		return "member/no_member_reservation_check_form";
 	}
 	
-//	// 임시 - 정보입력화면 
-//	@GetMapping("member_join_step3")
-//	public String member_join_step3() {
-//		return "member/member_join_step3";
-//	}
+	// 임시 - 정보입력화면 
+	@GetMapping("member_join_step3")
+	public String member_join_step3() {
+		return "member/member_join_step3";
+	}
 	
 
 }

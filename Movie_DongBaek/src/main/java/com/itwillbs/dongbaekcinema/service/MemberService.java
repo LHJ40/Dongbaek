@@ -16,9 +16,9 @@ public class MemberService {
 	private MemberMapper mapper;
 	
 	// 로그인 작업
-	public String getPasswd(MemberVO member) {
+	public String getPasswd(MemberVO member_id) {
 		// 받아온 member_id로 회원 정보 조회 후 그 회원의 member_pass 리턴
-		return mapper.selectPasswd(member);
+		return mapper.selectPasswd(member_id);
 	}
 	
 	
