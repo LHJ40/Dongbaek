@@ -67,7 +67,7 @@ background-color: transparent;
 <body>
  <header id="pageHeader">
  <%--네비게이션 바 영역 --%>
-  <%@ include file="/resources/inc/header.jsp"%>
+  <%@ include file="../inc/header.jsp"%>
  </header>
  
   <article id="mainArticle">
@@ -169,5 +169,5 @@ background-color: transparent;
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

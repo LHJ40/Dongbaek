@@ -22,7 +22,7 @@ footer{
 
 <%--header include --%>
 <header id=pageHeader>
-<%@ include file="/resources/inc/header.jsp"%>      
+<%@ include file="../inc/header.jsp"%>      
 </header>
 
 <%--컨텐츠 섹션(본문내용) 시작  --%>
@@ -121,7 +121,7 @@ footer{
   </nav>
  <div id="siteAds"></div>
 <footer id=pageFooter>
-<%@ include file="/resources/inc/footer.jsp"%>
+<%@ include file="../inc/footer.jsp"%>
 </footer>
 </body>
 </html>

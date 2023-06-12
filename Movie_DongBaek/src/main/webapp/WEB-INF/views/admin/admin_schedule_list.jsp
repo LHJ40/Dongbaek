@@ -58,7 +58,7 @@ background-color: transparent;
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+ <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
   <%--본문내용 --%>
@@ -534,7 +534,7 @@ background-color: transparent;
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
  
 <%-- 모달 --%>
 <div class="modal fade" id="deleteWrite" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

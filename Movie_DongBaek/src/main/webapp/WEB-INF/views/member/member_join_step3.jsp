@@ -78,7 +78,7 @@ th{
 </head>
 <body>
 	<%-- Header 영역 --%>
-	<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 	<%--본문 영역 --%>
 	<!--  가운데 정렬 코드 : class="container d-flex justify-content-center"  -->
 	<article id="mainArticle">
@@ -269,5 +269,5 @@ th{
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>
