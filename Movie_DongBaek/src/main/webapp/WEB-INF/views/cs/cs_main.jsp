@@ -59,7 +59,7 @@ a:hover{
 							</a>
 					    </div>
 					    <div class="col-6 d-flex justify-content-center">
-					    	<a href="cs_qna_form" class="text-center">
+					    	<a href="cs_faq" class="text-center">
 						    	<img src="${pageContext.request.contextPath}/resources/img/faq.png"  alt="..." width="100px" height="100px"style=" display:block;">
 						    	<b>FAQ</b>
 					    	</a>
