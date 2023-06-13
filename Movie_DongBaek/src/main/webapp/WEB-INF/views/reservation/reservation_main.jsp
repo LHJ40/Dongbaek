@@ -6,6 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
@@ -184,12 +185,12 @@ $(function() {
 	                <div class="col-3">
 						<h5>선택 정보</h5>
 				  		<img src="" alt="선택영화포스터" height="200px">
-				  		<span>영화명</span><br>
+				  		<div id="movieInfo"></div><br>
 					</div>
 					<%-- 선택한 상영스케줄 노출 --%>
 	                <div class="col-3">
 <%-- 	                	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!-- 				  			<tr><td>극장 (극장명)</td></tr> -->
+<!-- 				  			<tr><td id="theaterInfo"></td></tr> -->
 <!-- 				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr> -->
 <!-- 				  			<tr><td>상영관 (n관 m층)</td></tr> -->
 <!-- 				  		</table> -->
