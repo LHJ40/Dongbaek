@@ -58,7 +58,7 @@ $(function() {
 				let res = "<ul>";
 				for(let i = 0; i < movie.length; i++) {
 					res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
-					res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr + ">" + movie[i].movie_name_kr + "</span></a></li>"
+					res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span></a></li>"
 				}
 				res += "</ul>";
 				
@@ -69,6 +69,8 @@ $(function() {
 			});
 		}
 	});
+	
+	
 	// [영화명] 클릭시
 	$(document).on("click", "#selectMovie li", function(){
 		$("#selectMovie li").removeClass("selected");
@@ -76,7 +78,11 @@ $(function() {
 		
 		let movieNum = $(".selected span").attr("data-movie-num");
 		let movieName = $(".selected span").attr("data-movie-name");
-		$("#movieInfo").html(movieName);	// [선택정보] 영역에 영화명 출력
+		let moviePoster = $(".selected span").attr("data-movie-poster");
+
+		$("#movieInfo").css("display", "flex");
+		$(".movie_name_kr").html(movieName);	// [선택정보] 영역에 영화명 출력
+		$(".movie_poster img").attr("src", moviePoster);	// [선택정보] 영역에 영화포스터 출력
 		
 		// 극장명 출력
 		$("#selectTheater").css("display", "flex");
@@ -165,7 +171,7 @@ $(function() {
 						 			<li>
 	 						 			<a href="#">
 						 					<i><img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15세"></i>
-						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}">${movie.movie_name_kr }</span>
+						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}" data-movie-poster="${movie.movie_poster }">${movie.movie_name_kr }</span>
 						 				</a>
 						 			</li>					 				
 					 			</c:forEach>
@@ -198,8 +204,8 @@ $(function() {
 	                <div class="col-4">
 	                	<h5>시간</h5>
 				  		<div id="playType">
-				  			<img src="/resources/img/sun.png" alt="해" width="15px"> 조조
-				  			<img src="/resources/img/moon.png" alt="달" width="15px"> 심야
+				  			<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조
+				  			<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야
 				  		</div>
 				  		<div id="playTable">
 					  		<table>
@@ -219,7 +225,7 @@ $(function() {
 					  			<tr>
 					  				<td>
 					  					<button>09:00</button>
-					  						<img src="/resources/img/sun.png" alt="해" width="15px"> n석 &nbsp;&nbsp;
+					  						<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> n석 &nbsp;&nbsp;
 					  					<button>14:10</button> n석 &nbsp;&nbsp;
 					  				</td>
 					  			</tr>
@@ -233,8 +239,10 @@ $(function() {
 	            	<%-- 선택한 영화 포스터와 영화명 노출 --%>
 	                <div class="col-3">
 						<h5>선택 정보</h5>
-				  		<img src="" alt="선택영화포스터" height="200px">
-				  		<div id="movieInfo"></div><br>
+						<div class="row p-0" id="movieInfo"  style="display: none;">
+							<div class="col-4 movie_poster"><img src="" alt="선택영화포스터" height="90px"></div>
+					  		<div class="col-8 movie_name_kr"></div><br>
+						</div>
 					</div>
 					<%-- 선택한 상영스케줄 노출 --%>
 	                <div class="col-3">
