@@ -35,9 +35,18 @@
 			AND movie_release_date > subdate(now(), INTERVAL 15 DAY);
 	</select>
 
+	<!-- 영화 목록 전부 조회 -->
+	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+	</select>
 
-
-
-
+	<!-- 영화목록 상세 조회 -->
+	<select id="selectMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE movie_num = #{movie_num}
+	</select>
+	
 	
 </mapper>

@@ -20,7 +20,7 @@ public class MovieService {
 	}
 	
 
-	// 영화 정보 조회 요청을 위한 getMovieList() 메서드 정의
+	// 영화 정보 조회 요청을 위한 getMovieList() 메서드 정의 -(0613+정의효 
 	public MovieVO getMovie(int movie_num) {
 		System.out.println("ReservationService - getMovie()");
 		return mapper.selectMovie(movie_num);
@@ -38,6 +38,12 @@ public class MovieService {
 		System.out.println("ReservationService - getMovieList()");
 		return mapper.select_prepareMovie();
 	}
+
+	// 영화 목록 전부 조회
+	public List<MovieVO> getMovieList() {
+		return mapper.selectMovieList();
+	}
+
 	
 	
 	

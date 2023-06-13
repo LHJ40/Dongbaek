@@ -106,11 +106,11 @@ div {
 						<c:forEach var="member" items="${memberList }">
 							<tr>
 								<th scope="row">나한테 왜그러는건데</th> 
-						    	<td>${member.member_name }</td>			
-						    	<td>${member.member_id }</td>			
-						    	<td>${member.grade_name }</td> 
+						    	<td>${memberList.member_name }</td>			
+						    	<td>${memberList.member_id }</td>			
+						    	<td>${memberList.grade_name }</td> 
 						    	<td>
-						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">회원</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${memberList.member_id }'">${memberList.member_type }</button>
 				     			</td>
 					    	</tr>
 						</c:forEach>

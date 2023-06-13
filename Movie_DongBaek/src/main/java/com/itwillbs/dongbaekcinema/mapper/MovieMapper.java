@@ -20,4 +20,7 @@ public interface MovieMapper {
 
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
+
+	// 영화 정보 모두 조회
+	List<MovieVO> selectMovieList();
 }
