@@ -25,7 +25,8 @@ public class MemberVO {
 	private Date member_withdrawl;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
 	private String member_type;
 	private String member_like_genre; // NULL
-
+	private int theater_num;
+	private String grade_name;
 	
 	
 //  myBatis Enum 타입 사용법 공부(기본 EnumTypeHandler 사용하면될지
