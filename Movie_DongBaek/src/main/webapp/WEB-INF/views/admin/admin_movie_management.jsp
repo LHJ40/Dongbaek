@@ -97,7 +97,9 @@ div {
 						<tbody>
 						<c:forEach var="movie" items="${movieList }">
 								<tr>
-									<th scope="row">24</th>
+									<c:set var="memberNum" value="${memberNum + 1 }">
+										<th scope="row">${memberNum }</th>
+									</c:set>
 									<td>${movie.movie_name}</td>
 									<td>${movie.movie_release_date}</td>
 									<td>${movie.movie_close_date}</td>
