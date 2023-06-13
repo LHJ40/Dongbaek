@@ -39,7 +39,7 @@ a:hover{
 <body>
  <header id="pageHeader">
  <%--네비게이션 바 영역 --%>
-  <%@ include file="/resources/inc/header.jsp"%>
+  <%@ include file="../inc/header.jsp"%>
  </header>
  
   <article id="mainArticle" class="d-flex justify-content-center">
@@ -59,7 +59,7 @@ a:hover{
 							</a>
 					    </div>
 					    <div class="col-6 d-flex justify-content-center">
-					    	<a href="cs_qna_form" class="text-center">
+					    	<a href="cs_faq" class="text-center">
 						    	<img src="${pageContext.request.contextPath}/resources/img/faq.png"  alt="..." width="100px" height="100px"style=" display:block;">
 						    	<b>FAQ</b>
 					    	</a>
@@ -103,5 +103,5 @@ a:hover{
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

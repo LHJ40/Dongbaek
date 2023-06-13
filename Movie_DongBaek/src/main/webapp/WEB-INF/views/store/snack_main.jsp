@@ -76,7 +76,7 @@
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+ <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
   <%--본문내용 --%>
@@ -86,29 +86,30 @@
 	           	<%-- 스낵 권유 파트 --%>
 	               <div class="col-md-8 col-lg-8" id="seat-part">
 	               		<div class="row row-cols-1 row-cols-md-3" style="width: 45rem;">
+	               		<c:forEach var="snack" items="${snackList }">
 						<div class="col mb-4">
 						    <div class="card h-100">
-						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="...">
+						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
 						      <div class="card-body">
-						        <h5 class="card-title">상품명</h5>
-						        	10,000원
+						        <h5 class="card-title">${snack.snack_name}</h5>
+						        	${snack.snack_price}
 						        	<br>
-						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br>
+						        	${snack.snack_txt}<br>
 						      </div>
 						    </div>
 						  </div>
-	               			
-	               			<div class="col mb-4">
-						    <div class="card h-100">
-						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="...">
-						      <div class="card-body">
-						        <h5 class="card-title">상품명</h5>
-						        	10,000원
-						        	<br>
-						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br>
-						      </div>
-						    </div>
-						  </div>
+	               		</c:forEach>
+<!-- 	               			<div class="col mb-4"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="..."> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title">상품명</h5> -->
+<!-- 						        	10,000원 -->
+<!-- 						        	<br> -->
+<!-- 						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
 	               			
 	               		</div>
 	               		
@@ -128,5 +129,5 @@
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

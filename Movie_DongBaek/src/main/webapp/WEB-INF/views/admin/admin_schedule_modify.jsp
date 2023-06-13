@@ -14,7 +14,7 @@ admin_schedule.jsp<%@ page language="java" contentType="text/html; charset=UTF-8
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+ <header id="pageHeader"><%@ include file="..//inc/header.jsp"%></header>
  
   <article id="mainArticle">
   <%--본문내용 --%>
@@ -159,5 +159,5 @@ admin_schedule.jsp<%@ page language="java" contentType="text/html; charset=UTF-8
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="..//inc/footer.jsp"%></footer>
 </body>

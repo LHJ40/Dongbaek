@@ -71,7 +71,7 @@ div {
 </head>
 <body>
   <%--네비게이션 바 영역 --%>
-  <header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
   <%--본문내용(width: 900px) --%>
@@ -105,7 +105,7 @@ div {
 			<div class="row mb-3">
               <label for="passwd" class="col-2 text-nowrap">비밀번호</label>
               <div class="col-10">
-	              <input type="text" class="form-control" name="member_pass" id="member_pass" placeholder="비밀번호" required="required">
+	              <input type="password" class="form-control" name="member_pass" id="member_pass" placeholder="비밀번호" required="required">
               </div>
 	        </div>
 		
@@ -231,5 +231,5 @@ div {
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

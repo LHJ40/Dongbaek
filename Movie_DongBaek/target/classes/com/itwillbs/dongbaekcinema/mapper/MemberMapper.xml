@@ -3,44 +3,48 @@
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.MemberMapper">
 <!--   <cache-ref namespace=""/> -->
 
+	<!-- 회원가입 -INSERT -->
+	<!--  -->
+	<insert id="insertMember" parameterType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+		INSERT
+			INTO MEMBERS
+			VALUES (
+				#{member_id}
+				, #{member_pass}
+				, #{member_name}
+				, #{member_email}
+				, #{member_birth}
+				, now() 			-- #{member_date}
+				, #{member_phone}
+				, #{member_status}
+				, #{member_agree_marketing}
+				, #{member_withdrawl}
+				, #{member_type} -- CHECK 제약 조건 
+				, #{member_like_genre} -- ENUM 타입 
+			)
+	</insert>
+
 	<!-- 로그인, 관리자 페이지 - 회원 한명 id 조회   -->
-	<select id="selectStudent" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+	<select id="selectMember" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
 		SELECT * 
 		FROM MEMBERS
 		WHERE member_id = #{member_id}
 	</select>
 	
-	<!-- 로그인 페이지 - id, pass 일치 여부 조회 -->
-	<select id="CorrectMember" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
-		SELECT * 
-		FROM MEMBERS
-		WHERE member_id = #{member_id} AND member_pass = #{member_pass}
+	<!-- 로그인 작업 - member_id로 조회, member_pass 받아오기 -->
+	<select id="selectPasswd" resultType="String">
+		SELECT member_pass 
+			FROM MEMBERS
+			WHERE
+				member_id = #{member_id}
 	</select>
 	
-	<!-- 회원가입 페이지(join) - 입력받은 회원 정보 DB에 삽입 -->
-	<insert id="joinMember">
-		INSERT INTO MEMBERS
-		VALUES (
-			#{member_id}
-			, #{member_pass}
-			, #{member_name}
-			, #{member_email}
-			, #{member_birth}
-			, #{member_date}
-			, #{member_phone}
-			, #{member_status}
-			, #{member_agree_marketing}
-			, #{member_withdrawl}
-			, #{member_type}
-			, #{member_like_genre}
-			)
-	</insert>
 	
 	
 	<!-- 관리자페이지 - 회원 전체 조회해서 뿌리기 -->
 	<select id="selectMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
 		SELECT *
-		FROM MEMBERS
+			FROM MEMBERS
 	</select>
 	
 	

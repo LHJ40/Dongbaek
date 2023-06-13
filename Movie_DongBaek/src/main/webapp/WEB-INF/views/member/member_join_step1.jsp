@@ -27,7 +27,7 @@ th{
 </head>
 <body>
 	<%--네비게이션 바 영역 --%>
-	<header id="pageHeader"><%@ include file="/resources/inc/header.jsp"%></header>
+	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
 	<%--본문내용 --%>
 	<article id="mainArticle">
@@ -63,15 +63,15 @@ th{
 	    			<div class="col">
 	    				<%-- 핸드폰 인증 방식 --%>
 	      				<div class="text-center">
-	  						<img src="/resources/img/member_join_step1_phone.jpg" class="rounded" alt="...">
+	  						<img src="${pageContext.request.contextPath }/resources/img/member_join_step1_phone.jpg" class="rounded" alt="..." onclick="location.href='member_join_certify'">
 						</div>
 	    			</div>
-	    			<div class="col">	
-	    				<%-- 아이핀 인증 방식 --%>
-	      				<div class="text-center">
-	  						<img src="/resources/img/member_join_step1_ipin.jpg" class="rounded" alt="...">
-						</div>
-				    </div>
+<!-- 	    			<div class="col">	 -->
+<%-- 	    				아이핀 인증 방식 --%>
+<!-- 	      				<div class="text-center"> -->
+<%-- 	  						<img src="${pageContext.request.contextPath }/resources/img/member_join_step1_ipin.jpg" class="rounded" alt="..."> --%>
+<!-- 						</div> -->
+<!-- 				    </div> -->
 	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
 	  				<div class="col"></div>
 	  			</div>
@@ -94,5 +94,5 @@ th{
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="/resources/inc/footer.jsp"%></footer>
+  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

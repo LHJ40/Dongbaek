@@ -1,13 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script>
+	function logout() {
+		// 컨펌창으로 로그아웃 여부 한번 확인 후 로그아웃하기
+		let isLogout = confirm("로그아웃 하시겠습니까?");
+		
+		// isLogout이 true일 때 member_logout 서블릿 요청
+		if(isLogout) {	// 로그아웃하겠다
+			location.href = "member_logout";
+		}
+	}
+
+</script>
 
 <nav id="global">
 
 <span id="navbar-memberbox">
-	<a href="member_login_form">로그인</a>
-	<a href="member_join_step1">회원가입</a> 
-	<a href="cs_main">고객센터</a>
+	<%-- JSTL과 EL을 사용하여 로그인여부 뷰화면에 보여주기 --%>
+	<%-- EL의 내장객체 sessionScope 에 접근하여 "sId" 속성값 판별 --%>
+	<c:choose>
+		<c:when test="${empty member_id }">
+			<a href="member_login_form">로그인</a> &nbsp;
+			<a href="member_join_step1">회원가입</a> &nbsp;
+		</c:when>
+		<c:otherwise>
+			<%-- 아이디 클릭 시 회원 정보 조회를 위한 MemberInfo.me 요청(아이디 전달) --%>
+			 <a href="myPage?id=${member_id }">${member_id }님</a> &nbsp;
+			<%-- 로그아웃하기전에 알림창띄우기 위해 javascript로 함수 한번 쓰기 --%>
+			 <a href="javascript:logout()">로그아웃</a> &nbsp;
+		</c:otherwise>
+	</c:choose>
+		<a href="cs_main">고객센터</a> &nbsp;
+		<%-- 만약, 세션 아이디가 "admin" 일 경우 관리자페이지(admin_main) 링크 표시 --%>
+		<c:if test="${member_id eq 'admin' }">
+			 <a href="admin_main">관리자페이지</a>
+		</c:if>
 </span>
 </nav>
 <nav class="navbar  navbar-light bg-light" >

@@ -12,17 +12,20 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 @Mapper
 public interface MemberMapper {
 	
-	// 로그인 id, 회원 정보 조회 id로 구별
-	MemberVO selectStudent(String member_id);
-	
-	// 회원가입 작업
-	int joinMember(MemberVO member);
-	
-	// 로그인 작업
-	MemberVO CorrectMember(String member_id, String member_pass);
+	// 회원 가입 
+	int insertMember(MemberVO member);
 
+	
+	// 로그인 작업 (id로 조회, passwd받아오기)
+	String selectPasswd(MemberVO member_id);
+
+	// 회원 정보 조회 id로 구별
+	MemberVO selectMember(String member_id);
+	
 	// 회원 목록 조회 
 	List<MemberVO> selectMemberList();
+
+	
 
 
 	
