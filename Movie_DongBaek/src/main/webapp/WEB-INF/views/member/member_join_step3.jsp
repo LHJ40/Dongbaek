@@ -240,8 +240,17 @@ th{
 					    <label for="inputCity" class="col-sm-12">전화번호</label>
 					    <div class="col-sm-12"> <!-- 여기의 숫자 : input 입력 박스의 길이 조절 -->
 						    <div class="input-group">
-								<input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="- 없이 전화번호를 입력하세요." maxlength="11"
+						    	<c:choose>
+						    	<c:when test="${empty member_phone }">
+									<input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="- 없이 전화번호를 입력하세요." maxlength="11"
 									   oninput="inputNum_phone(this.id)">
+						    	
+						    	</c:when>
+						    	<c:otherwise>
+									<input type="text" class="form-control" id="member_phone" name="member_phone" maxlength="11" value="${member_phone }"
+										   oninput="inputNum_phone(this.id)">
+						    	</c:otherwise>
+						    	</c:choose>
 							</div>
 					 	</div>
 					 </div>
