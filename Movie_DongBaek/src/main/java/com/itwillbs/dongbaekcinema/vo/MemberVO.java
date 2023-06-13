@@ -11,18 +11,18 @@ import lombok.Data;
  
 @Data
 public class MemberVO {
-	private String member_id;
+	private String member_id; 
 	private String member_pass;
 	private String member_name;
-	private String member_email;
+	private String member_email; // NULL
 	private Date member_birth;  //Date : java.sqlDate 임포트함
 	private Date member_date;	//Date : java.sqlDate 임포트함
 	private String member_phone;
-	private Member_status member_status;
+	private Member_status member_status; // ENUM 타입 
 	private boolean member_agree_marketing;
-	private Date member_withdrawl;	//Date : java.sql.Date 임포트함 XX-YY-MM
+	private Date member_withdrawl;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
 	private String member_type;
-	private String member_like_genre;
+	private String member_like_genre; // NULL
 
 	
 	
