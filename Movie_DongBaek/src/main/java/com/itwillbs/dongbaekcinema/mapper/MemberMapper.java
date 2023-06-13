@@ -24,8 +24,9 @@ public interface MemberMapper {
 	// 회원 목록 조회 
 	List<MemberVO> selectMemberList();
 
-	// 아이디 중복 체크
-	int idCheck(String id);
+	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
+	int idCheck(String member_id);
+
 
 	
 

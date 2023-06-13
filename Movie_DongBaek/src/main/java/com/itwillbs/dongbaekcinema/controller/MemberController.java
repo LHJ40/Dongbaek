@@ -95,9 +95,38 @@ public class MemberController {
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
 			
+	}
 		
 		// 네이버/카카오 로그인 클릭 시 (네이버/카카오 로그인 성공)
 		// 넘어온 이메일 정보가 DB에 있는지 확인
+		
+		// 2. 카카오 로그인 클릭
+		@PostMapping("/checkKakao")
+		@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+		public String checkKakao(@RequestParam String email, @RequestParam String nickname, HttpSession session) {
+			// 카카오에서 받아온 데이터 출력
+			System.out.println("email : " + email + "name : " + nickname);
+			
+			// DB에서 리턴받아 판별
+			// MemberService - idCheck()
+			// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
+			int idCheck = service.idCheck(email);
+			
+			// 카카오에서 전달받은 이메일 값으로 회원가입 여부 판별
+			if (idCheck > 0) {
+				// DB에 카카오에서 전달받은 이메일이 아이디로 존재할 때
+				System.out.println("존재하는 회원");
+				
+				// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+				session.setAttribute("member_id", email);
+				return "existing";
+			} else {
+				// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+				return "new";
+			}
+			
+		}
+		
 		
 		
 		// 이메일 정보가 있을 때 (회원임)
@@ -106,7 +135,6 @@ public class MemberController {
 		// "아직 동백씨네마의 회원이 아닙니다. 회원가입 하시겠습니까?" => 회원가입 페이지로 넘어가기
 //		return "member/member_join_step3";	// => 회원가입(3단계) 정보입력창으로 가기
 		
-	}
 	
 	// 로그아웃 작업 후 메인으로 돌아가기
 	@GetMapping("member_logout")

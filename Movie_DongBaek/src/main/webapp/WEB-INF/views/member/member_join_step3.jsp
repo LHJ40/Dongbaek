@@ -86,17 +86,6 @@ th{
 		
 	}
 	
-	// 생년월일 가져오기
-	$("#birthYear").blur(function() {
-		birth();
-	});
-	$("#birthMonth").change(function() {
-		birth();
-	});
-	$("#birthDay").change(function() {
-		birth();
-	});
-	
 	// 하나로 합치기
 	/* function birth() {
 		var year = $("#birthYear").val();
@@ -141,7 +130,28 @@ th{
 		element.value = element.value.replace(/[^0-9]/gi, "");
 	}
 	
+	// ------ 카카오 로그인 후 회원가입 진행 작업 -------------
+	// 로컬의 세션 스토리지에 저장한 이메일과 닉네임을 <input> 요소에 설정
+	let member_name = sessionStorage.getItem('member_name');
+	let member_email = sessionStorage.getItem('member_email');
+	let member_birth = sessionStorage.getItem('member_birth');
 	
+	$("#member_name").val(member_name);
+	$("#member_email").val(member_email);
+	$("#member_birth").val(member_birth);
+	
+	// 세션 스토리지에 카카오 값이 존재할 경우 <input> 요소를 읽기 전용으로 설정
+	if(member_name) {
+		$("#member_name").attr("readOnly", "readOnly");
+	}
+	if(member_email) {
+		$("#member_email").attr("readOnly", "readOnly");
+	}
+	if(member_birth) {
+		$("#member_birth").attr("readOnly", "readOnly");
+	}
+	
+	// ------------------------------
 	
 </script>
 </head>
@@ -177,7 +187,7 @@ th{
 								    			minlength="5" maxlength="10" onchange="checkId()">
 						    			</c:when>
 						    			<c:otherwise>	<%-- session에 email이 있을 경우(카카오, 네이버 로그인 시 --%>
-								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly" value="${email }">
+								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly">
 						    			</c:otherwise>
 						    		</c:choose>
 					    	</div>
