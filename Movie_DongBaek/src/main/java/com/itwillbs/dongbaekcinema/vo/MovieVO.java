@@ -20,7 +20,7 @@ public class MovieVO {
 	private int movie_audience_num;
 	private String movie_content;
 //	private ENUM movie_grade;
-	private String movie_post;
+	private String movie_poster;
 	private String movie_preview;
 	private String movie_photo1;
 	private String movie_photo2;

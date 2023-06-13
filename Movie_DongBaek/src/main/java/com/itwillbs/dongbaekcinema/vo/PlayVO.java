@@ -11,8 +11,8 @@ public class PlayVO {
     private int play_num;
     private String play_date;
     private int play_turn;
-    private String start_time;
-    private String end_time;
+    private String play_start_time;
+    private String play_end_time;
 //    private Enum<play_time_type<String>> play_time_type;
     private int movie_num;
     private int theater_num;
