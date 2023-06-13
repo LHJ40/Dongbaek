@@ -75,11 +75,11 @@ $(function() {
 			const playDate = new Date();
 			let year = playDate.getFullYear();
 			let month = playDate.getMonth() + 1;
-			let dataDay = playDate.getDate();	// 요일
-			let dayLabel = playDate.getDay();
+			let dataDay = playDate.getDate();
+			let dayLabel = playDate.getDay();	// 요일
 			let dayNumber = Number(dataDay);
 			
-			$(".playMonth").html("<h4>" + (month+1) + "<small>월</small></h4>");
+			$(".playMonth").html("<h4>" + month + "<small>월</small></h4>");
 						
 		})
 		.fail(function() { // 요청 실패 시
