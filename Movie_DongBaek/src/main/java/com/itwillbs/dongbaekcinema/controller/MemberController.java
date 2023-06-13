@@ -119,14 +119,23 @@ public class MemberController {
 	}
 	
 	// 회원가입 화면 1에서 인증 성공 시 회원가입 화면 2페이지로 이동
-	@GetMapping("member_join_step2")
-	public String member_join_step2(MemberVO member, Model model) {
+	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
+	public String member_join_step2(String member_phone,HttpSession session) {
 		// 약관 동의 하는 페이지로 이동
+		System.out.println(member_phone);
+		
+		session.setAttribute("member_phone", member_phone);
 		
 		return "member/member_join_step2";
 	}
 	
 	
+	@PostMapping("member_join_step3")
+	public String member_join_step3(String member_phone, HttpSession session) {
+		session.setAttribute("member_phone", member_phone);
+		
+		return "member/member_join_step3";
+	}
 	
 	
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
@@ -141,11 +150,6 @@ public class MemberController {
 		return "member/no_member_reservation_check_form";
 	}
 	
-	// 임시 - 정보입력화면 
-	@GetMapping("member_join_step3")
-	public String member_join_step3() {
-		return "member/member_join_step3";
-	}
 	
 
 }
