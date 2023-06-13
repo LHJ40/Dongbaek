@@ -185,12 +185,12 @@ $(function() {
 	                <div class="col-3">
 						<h5>선택 정보</h5>
 				  		<img src="" alt="선택영화포스터" height="200px">
-				  		<span>영화명</span><br>
+				  		<div id="movieInfo"></div><br>
 					</div>
 					<%-- 선택한 상영스케줄 노출 --%>
 	                <div class="col-3">
 <%-- 	                	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!-- 				  			<tr><td>극장 (극장명)</td></tr> -->
+<!-- 				  			<tr><td id="theaterInfo"></td></tr> -->
 <!-- 				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr> -->
 <!-- 				  			<tr><td>상영관 (n관 m층)</td></tr> -->
 <!-- 				  		</table> -->
