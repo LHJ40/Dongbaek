@@ -26,7 +26,7 @@ $(function() {
 		
 		let movieNum = $(".selected span").attr("data-movie-num");
 		let movieName = $(".selected span").attr("data-movie-name");
-		$("#movieInfo").html(movieName)
+		$("#movieInfo").html(movieName);	// [선택정보] 영역에 영화명 출력
 		
 		$("#selectTheater").css("display", "flex");
 		
@@ -47,6 +47,42 @@ $(function() {
 		})
 		.fail(function() { // 요청 실패 시
 			$("#selectTheater").html("요청 실패!");
+		});
+	});
+	
+	
+	// 극장명 클릭 시
+	$(document).on("click", "#selectTheater li", function() {
+		$("#selectTheater li").removeClass("selected");
+		$(this).addClass("selected");
+		
+		let theaterName = $("#selectTheater .selected span").text();
+		$("#theaterInfo").html("극장 (" + theaterName + ")");	// [선택정보] 영역에 극장명 출력
+		
+		// 날짜 출력
+		$("#selectDate").css("display", "flex");
+		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
+		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
+		$.ajax({
+			type : "post", 
+			url : "ReservationStep2Servlet", 
+			data : {"movie_num" : movieNum, "theater_num" : theaterNum}, 
+			dataType : "json", 
+		})
+		.done(function(date) {
+			
+			const playDate = new Date();
+			let year = playDate.getFullYear();
+			let month = playDate.getMonth() + 1;
+			let dataDay = playDate.getDate();	// 요일
+			let dayLabel = playDate.getDay();
+			let dayNumber = Number(dataDay);
+			
+			$(".playMonth").html("<h4>" + (month+1) + "<small>월</small></h4>");
+						
+		})
+		.fail(function() { // 요청 실패 시
+			$("#selectDate").html("요청 실패!");
 		});
 	});
 });
@@ -99,16 +135,13 @@ $(function() {
 	                <div class="col-1">
 						<h5>날짜</h5>
 						<br>
-						<b> 6</b>월<br>
-				 		<%--날짜 조회(limit 10일 조회가능) --%> 
-				 		<%--년,월,일.. if 년이 ~ 월이~ --%>
-				 		<a href="#">토 29</a><br>
-				 		<a href="#">일 30</a><br>
-				 		<a href="#">월 31</a><br>
-				 		<br>
-						<b> 7</b>월<br>
-				 		<a href="#">화 1</a><br>
-				 		<a href="#">수 2</a><br>
+						<div id="selectDate" style="display: none;">
+							<div class="playMonth"></div>
+							<div class="day">
+								<span class="playWeekday"></span>
+								<span class="playDate"></span>								
+							</div>
+						</div>
 					</div>
 					
 					<%-- 상영목록 파트 --%>
@@ -155,11 +188,14 @@ $(function() {
 					</div>
 					<%-- 선택한 상영스케줄 노출 --%>
 	                <div class="col-3">
-	                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-				  			<tr><td>극장 (극장명)</td></tr>
-				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr>
-				  			<tr><td>상영관 (n관 m층)</td></tr>
-				  		</table>
+<%-- 	                	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
+<!-- 				  			<tr><td>극장 (극장명)</td></tr> -->
+<!-- 				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr> -->
+<!-- 				  			<tr><td>상영관 (n관 m층)</td></tr> -->
+<!-- 				  		</table> -->
+						<div id="theaterInfo"></div>
+						<div id="dateInfo"></div>
+						<div id="roomInfo"></div>
 	                </div>
 	                <%-- 미선택 사항 노출 --%>
 	                <div class="col-3">
