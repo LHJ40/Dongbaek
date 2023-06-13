@@ -10,9 +10,13 @@ import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 
 @Mapper
 public interface ReservationMapper {
-	// 영화 목록 조회
-	List<MovieVO> selectMovieList();
-
+	
+	// 영화 목록 조회(예매율 순)
+	List<MovieVO> selectMovieListDescBookinRate();
+	
+	// 영화 목록 조회(가나다 순)
+	List<MovieVO> selectMovieListAscMovieName();
+	
 	// 영화 정보 조회
 	MovieVO selectMovie(int movie_num);
 

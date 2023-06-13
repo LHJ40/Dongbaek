@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,55 +42,57 @@
 <%-- 극장 선택 버튼 --%>
 <div class="container text-center">
 	  <div class="row">
+	  <c:forEach var="theater" items="${theaterList}">
 	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">기장점</button>
+			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">${theater.theater_name}</button>
 	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">송정점</button>
-	    </div>
-	    <div class="col">
-			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">해운대점</button>
-	    </div>
-	    <div class="col">
-			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">센텀점</button>
-	    </div>
-	    <div class="col">
-			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">수영점</button>
-	    </div>
-  </div>
+	    </c:forEach>
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">송정점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">해운대점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">센텀점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">수영점</button> -->
+<!-- 	    </div> -->
+<!--   </div> -->
   
-    <div class="row">
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">동래점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">경성대점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">광안리점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">초량점</button>
-	    </div>
-	   <div class="col">
-			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4">개금점</button>
-	    </div>
-  	</div>
-  	<div class="row">
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3 ">서면점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4  my-3">사상점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">남포동점</button>
-	    </div>
-	    <div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">다대포점</button>
-	    </div>
-	   	<div class="col">
-			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">명지점</button>
-	    </div>
+<!--     <div class="row"> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">동래점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">경성대점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">광안리점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">초량점</button> -->
+<!-- 	    </div> -->
+<!-- 	   <div class="col"> -->
+<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4">개금점</button> -->
+<!-- 	    </div> -->
+<!--   	</div> -->
+<!--   	<div class="row"> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3 ">서면점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4  my-3">사상점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">남포동점</button> -->
+<!-- 	    </div> -->
+<!-- 	    <div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">다대포점</button> -->
+<!-- 	    </div> -->
+<!-- 	   	<div class="col"> -->
+<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">명지점</button> -->
+<!-- 	    </div> -->
   	</div>
 </div>

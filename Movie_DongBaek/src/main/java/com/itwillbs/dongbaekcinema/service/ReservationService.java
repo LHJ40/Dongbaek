@@ -16,14 +16,22 @@ public class ReservationService {
 	@Autowired
 	private ReservationMapper mapper;
 
-	// 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의
-	public List<MovieVO> getMovieList() {
+	// 예매율순 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의
+	public List<MovieVO> getMovieListDescBookingRate() {
 		System.out.println("ReservationService - getMovieList()");
 				
-		return mapper.selectMovieList();
+		return mapper.selectMovieListDescBookinRate();
 	}
 
-	// 영화 정보 조회 요청을 위한 getMovieList() 메서드 정의
+	// 가나다순 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의
+	public List<MovieVO> getMovieListAscMovieName() {
+		System.out.println("ReservationService - getMovieList()");
+		
+		return mapper.selectMovieListAscMovieName();
+	}
+		
+
+	// 영화 정보 조회 요청을 위한 getMovie() 메서드 정의
 	public MovieVO getMovie(int movie_num) {
 		System.out.println("ReservationService - getMovie()");
 		
