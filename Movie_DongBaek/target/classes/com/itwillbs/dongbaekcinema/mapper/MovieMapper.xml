@@ -27,12 +27,12 @@
 		AND movie_close_date >= now() 
 	</select>
 	
-	<!-- 상영예정작 조회 -->
+	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지-->
 	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
 		SELECT *
 		FROM MOVIES
-		WHERE BETWEEN subdate(movie_release_date, INTERVAL 7 DAY)
-		AND movie_close_date
+		WHERE now() >= movie_release_date
+			AND movie_release_date > subdate(now(), INTERVAL 15 DAY);
 	</select>
 
 	
