@@ -7,94 +7,49 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-	.container-top{
-		margin: 3rem;
-	}
-	aside{
-		margin: 10px;
-		background-color: #d5b59c;
-	}
-	
-	/* 예매 선택 구간 */
-	/* 크기 조절 */
-	.container-fluid{
-		width: 900px;
-		padding-left: 2rem;
-		border: 2px solid #aaa;
-	/* 	background-color: #d5b59c; */
-	}
-	div{
-		background-color: transparent;
-	}
-	.container-fluid h5{
-		text-align: center;
-		font-weight: bold;
-	}
-	/* 각 파트 구별을 위한 색상 조절, 여백 */
-	.row1>div{
-		height: 300px;
-		margin: 0.5rem;
-		padding: 10px;
-		background-color: white;
-	}
-	/* 페이지 이름 잘보이게 설정 */
-	#mainArticle>h2{
-		font-weight: bold;
-		padding-left: 1rem;
-	}
-	
-	/* 선택사항 안내 구간 */
-	/* 위 파트와 구별을 위한 색상 부여 */
-	.row2{
-		padding-top: 0.5rem;
-		height: 150px;
-		background-color: #aaa;
-	}
-	
-	.row1>div{
-		border: 1px solid #aaa;
-	}
-	/* 영화 목록에 앞의 모양 제거 */
-	#selectMovie ul {
-		list-style: none;
-		padding-left: 0;
-	}
-	/* 극장 파트 좌우 배치 */
-	#region{
-	/* 	border: 1px solid #000; */
-		width: 70px;
-		display: inline-block;
-	}
-	#region td {
-		padding: 5px;
-	}
-	#room{
-		vertical-align: top;
-	/* 	border: 1px solid #000; */
-		width: 120px;
-		display: inline-block;
-	}
-	#playType{
-		text-align: right;
-	}
-	#playTable {
-		overflow: auto;
-	}
-	#playTable button {
-		margin: 3px;
-	}
+
 </style>
 <script type="text/javascript">
+$(function() {
+	$(".nav-link").on("click", function() {
+		$(".nav-link").removeClass("active");
+		$(this).addClass("active");
+		$("#selectMovie li").removeClass("selected");
+	});
 	
-	$(function() {
-		$(".nav-link").on("click", function() {
-			$(".nav-link").removeClass("active");
-			$(this).addClass("active");
+	$("#selectMovie li").on("click", function() {
+		$("#selectMovie li").removeClass("selected");
+		$(this).addClass("selected");
+		
+		let movieNum = $(".selected span").attr("data-movie-num");
+		let movieName = $(".selected span").attr("data-movie-name");
+		$("#movieInfo").html(movieName)
+		
+		$("#selectTheater").css("display", "flex");
+		
+		$.ajax({
+			type : "post", 
+			url : "ReservationStep1Servlet", 
+			data : {"movie_num" : movieNum}, 
+			dataType : "json", 
 		})
-	})
-	
+		.done(function(theater) {
+			let res = "<ul>";
+			for(let i = 0; i < theater.length; i++) {
+				res += "<li><a href='#'><span class='text' data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span></a></li>"
+			}
+			res += "</ul>";
+			
+			$("#selectTheater").html(res);
+		})
+		.fail(function() { // 요청 실패 시
+			$("#selectTheater").html("요청 실패!");
+		});
+	});
+});
 </script>
 </head>
 <body>
@@ -120,28 +75,25 @@
 					 	<br>
 					 	<div id="selectMovie">
 					 		<ul>
-					 			<li><img src="" alt="15세"><a href="#">영화 1</a></li>
-					 			<li><img src="" alt="12세"><a href="#">영화 2</a></li>
-					 			<li><img src="" alt="15세"><a href="#">영화 3</a></li>
-					 			<li><img src="" alt="ALL"><a href="#">영화 4</a></li>
+					 			<c:forEach var="movie" items="${movieList }">
+						 			<li>
+	 						 			<a href="#">
+						 					<i><img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15세"></i>
+						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}">${movie.movie_name_kr }</span>
+						 				</a>
+						 			</li>					 				
+					 			</c:forEach>
 					 		</ul>
 				 		</div>
 	                </div>
 	                
 	                <%-- 극장목록 파트 --%>
-	                <div class="col-2">
+	               <div class="col-2">
 		                <h5>극장</h5>
 					 	<br>
-					 	<table id="room">
-<!-- 					 		<tr> -->
-<!-- 					 			<th width="150px">영화관</th> -->
-<!-- 					 		</tr> -->
-					 		<tr><td><a href="#">극장명</a></td></tr>
-					 		<tr><td><a href="#">극장명</a></td></tr>
-					 		<tr><td><a href="#">극장명</a></td></tr>
-					 		<%-- 구 선택되면 구 별로 영화관 노출(기본값 전체) --%>
-					 	</table>
-	                </div>
+					 	<div id="selectTheater" style="display: none;">
+					 	</div>	
+	               </div>
 	                
 	                <%-- 날짜목록 파트 --%>
 	                <div class="col-1">
