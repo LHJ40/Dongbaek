@@ -28,12 +28,18 @@ public class MovieService {
 	
 	
 	// 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의 - 현재상영작? select_presentMovie
-	public List<MovieVO> getMovieList() {
+	public List<MovieVO> getMovieList_present() {
 		System.out.println("ReservationService - getMovieList()");
 		return mapper.select_presentMovie();
 	}
 	
 	//영화목록조회  - 상영예정작? select_prepareMovie
+	public List<MovieVO> getMovieList_prepare() {
+		System.out.println("ReservationService - getMovieList()");
+		return mapper.select_prepareMovie();
+	}
+	
+	
 	
 	
 	//영화목록조회  - 현재상영작? select_presentMovie
