@@ -15,6 +15,13 @@ public class MemberService {
 	@Autowired
 	private MemberMapper mapper;
 	
+	// 회원가입 폼 - 아이디 중복확인 메서드 
+	public int idCheck(String id) {
+		int cnt = mapper.idCheck(id);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
+	
 	// 회원 가입 
 	public int registMember(MemberVO member) {
 		return mapper.insertMember(member);
@@ -36,6 +43,8 @@ public class MemberService {
 	public List<MemberVO> getMemberList() {
 		return mapper.selectMemberList();
 	}
+
+	
 
 	
 

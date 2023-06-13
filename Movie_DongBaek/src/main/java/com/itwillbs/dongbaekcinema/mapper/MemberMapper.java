@@ -14,7 +14,6 @@ public interface MemberMapper {
 	
 	// 회원 가입 
 	int insertMember(MemberVO member);
-
 	
 	// 로그인 작업 (id로 조회, passwd받아오기)
 	String selectPasswd(MemberVO member_id);
@@ -24,6 +23,9 @@ public interface MemberMapper {
 	
 	// 회원 목록 조회 
 	List<MemberVO> selectMemberList();
+
+	// 아이디 중복 체크
+	int idCheck(String id);
 
 	
 
