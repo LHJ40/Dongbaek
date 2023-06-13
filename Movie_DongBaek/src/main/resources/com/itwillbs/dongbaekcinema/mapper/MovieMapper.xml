@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.MovieMapper">
 <!--   <cache-ref namespace=""/> -->
-
 	<insert id="insertMovie">
 		INSERT 
 			INTO MOVIES
@@ -18,8 +17,23 @@
 				, #{movie_post}
 				, #{movie_content}
 			) 
-		
 	</insert>
 	
+	<!-- 현재상영중인 영화 조회 -->
+ 	<select id="select_presentMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> 
+ 		SELECT * 
+ 		FROM MOVIES 
+ 		WHERE now() >= movie_release_date  
+		AND movie_close_date >= now() 
+	</select>
+	
+	<!-- 상영예정작 조회 -->
+	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE BETWEEN subdate(movie_release_date, INTERVAL 7 DAY)
+		AND movie_close_date
+	</select>
+
 	
 </mapper>
