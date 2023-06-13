@@ -177,7 +177,7 @@ th{
 								    			minlength="5" maxlength="10" onchange="checkId()">
 						    			</c:when>
 						    			<c:otherwise>	<%-- session에 email이 있을 경우(카카오, 네이버 로그인 시 --%>
-								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly">
+								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly" value="${email }">
 						    			</c:otherwise>
 						    		</c:choose>
 					    	</div>
@@ -259,7 +259,7 @@ th{
 					<div class="row mb-3">
 					    <label for="inputCity" class="col-sm-12">이메일 <font size="2px">(선택)</font></label>
 						  	<div class="col-sm-12">
-						  		<input type="text" class="form-control" id="member_name" name="member_name" placeholder="이메일 주소를 입력하세요.">
+						  		<input type="text" class="form-control" id="member_email" name="member_email" placeholder="이메일 주소를 입력하세요.">
 						 	</div>
 					</div>
 
@@ -297,10 +297,10 @@ th{
 				  	</div>
 				  	
 				  <input type="hidden" name="member_status" value="활동">
-				  <input type="hidden" name="member_type" value="직원">
+				  <input type="hidden" name="member_type" value="회원">
+				</form>
 			</div>
 		</div>
-	</form>
 
 	<!-- </section> -->
 	</div>
