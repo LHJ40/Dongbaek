@@ -3,6 +3,11 @@
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.MemberMapper">
 <!--   <cache-ref namespace=""/> -->
 
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(member_id) FROM MEMBERS WHERE member_id = #{member_id}
+	</select>
+
 	<!-- 회원가입 -INSERT -->
 	<!--  -->
 	<insert id="insertMember" parameterType="com.itwillbs.dongbaekcinema.vo.MemberVO">
@@ -14,13 +19,15 @@
 				, #{member_name}
 				, #{member_email}
 				, #{member_birth}
-				, now() 			-- #{member_date}
+				, now() 			-- {member_date}
 				, #{member_phone}
-				, #{member_status}
+				, #{member_status} -- ENUM 타입 에서 String 타입으로 변경 
 				, #{member_agree_marketing}
 				, #{member_withdrawl}
 				, #{member_type} -- CHECK 제약 조건 
-				, #{member_like_genre} -- ENUM 타입 
+				, #{member_like_genre, jdbcType=VARCHAR} -- NULL
+				, 1
+				, 'BRONZE'
 			)
 	</insert>
 
@@ -38,7 +45,6 @@
 			WHERE
 				member_id = #{member_id}
 	</select>
-	
 	
 	
 	<!-- 관리자페이지 - 회원 전체 조회해서 뿌리기 -->

@@ -67,7 +67,7 @@ div {
 	
 </script>
 
-<script src="../js/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 </head>
 <body>
   <%--네비게이션 바 영역 --%>
@@ -134,7 +134,7 @@ div {
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
 			    	<button type="button" id="submit-btn" onclick="loginWithKakao()">
-			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao.png" width="50px" height="50px">
+			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao_login_medium.png" height="50px">
 			    	</button>
 		    	</div>
 		    	<%-- 카카오 로그인 --%>
@@ -148,7 +148,7 @@ div {
 						Kakao.Auth.login({
 							
 						// 이 부분은 생략가능한 부분인데, 이용 중 동의를 설정했을 때 scope에 추가해주면 됨
-						// scope: "profile_nickname, account_email",
+						scope: "profile_nickname, account_email, birthday",
 						success: function (response) {
 							Kakao.API.request({
 							url: '/v2/user/me',
@@ -157,7 +157,7 @@ div {
 								// 이메일과 닉네임을 변수에 저장
 								// 다른 값들을 받고 싶으면 response.XXX 해서 꺼내오면 된다!
 								var email = response.kakao_account.email;
-// 								var nickname = response.kakao_account.profile.nickname;
+								var nickname = response.kakao_account.profile.nickname;
 								
 								// JSON 객체 출력하기
 								// 카카오 로그인을 성공하면 여기에 전달받은 값들이 출력됨
@@ -170,9 +170,9 @@ div {
 								$.ajax({
 									// 이메일 판별을 하기 위해서 아래 주소로 ajax 요청
 									// 각자 주소에 맞게 변경하면 됨!
-									url: '<c:url value="/member_login_pro"/>',
+									url: '<c:url value="/checkKakao"/>',
 									method: 'POST',
-									data: {email: email},
+									data: {email: email, nickname: nickname},
 									success: function (result) {
 										
 										if (result === 'new') {	// DB에 없는 새로운 이메일!
@@ -182,16 +182,18 @@ div {
 											
 											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
 											// 로컬의 세션 스토리지에 이메일 저장
-											sessionStorage.setItem('email', email);
+											sessionStorage.setItem('member_email', email);
+											sessionStorage.setItem('member_name', nickname);
 											
 											// 회원가입 페이지로 이동
-											location.href = '<c:url value="/member/member_join_step3"/>';
+											location.href = '<c:url value="/member_join_step2"/>';
 											
 										} else if (result === 'existing') {	// DB에 있는 이메일!
 											alert('카카오 로그인 성공!')
 											// DB에 이메일이 존재할 경우 => 이미 가입된 회원인 경우
 											// 세션 스토리지 값 비우기
-											sessionStorage.removeItem("email");
+											sessionStorage.removeItem("member_email");
+											sessionStorage.removeItem("member_name");
 											
 											console.log('기존 회원이므로 로그인 처리 진행');
 											

@@ -95,15 +95,16 @@ div {
 						<%-- 뿌리기 코드 <c:forEach var="movie" items="${movie }"> --%>
 						<%-- movieList 해야됨 0612 정의효 --%>
 						<tbody>
-						<c:forEach var="movie" items="${movieList }">
+						<c:forEach var="movieList" items="${movieList }">
 								<tr>
-									<th scope="row">24</th>
-									<td>${movie.movie_name}</td>
-									<td>${movie.movie_release_date}</td>
-									<td>${movie.movie_close_date}</td>
+									<c:set var="movieNum" value="${movieNum + 1 }">
+										<th scope="row">${movieNum }</th>
+									</c:set>
+									<td>${movieList.movie_name_kr}</td>
+									<td>${movieList.movie_release_date}</td>
+									<td>${movieList.movie_close_date}</td>
 									<td>
-										<button class="btn btn-danger" value="수정">수정</button>
-										<button class="btn btn-danger" value="삭제">삭제</button>
+										<button class="btn btn-danger" value="수정 및 삭제" onclick="location.href='admin_movie_detail?movie_num=${movieList.movie_num }'">수정 및 삭제</button>
 									</td>
 								</tr>
 							</c:forEach>

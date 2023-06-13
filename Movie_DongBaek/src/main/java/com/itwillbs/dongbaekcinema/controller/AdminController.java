@@ -167,9 +167,24 @@ public class AdminController {
 	}
 	
 	// 관리자페이지 영화관리 메인
+	// 영화 가져와서 뿌리기
 	@GetMapping("admin_movie_management")
-	public String adminMovieManagement() {
+	public String adminMovieManagement(Model model) {
+		List<MovieVO> movieList = movie_service.getMovieList();
+		model.addAttribute("movieList", movieList);
 		return "admin/admin_movie_management";
+	}
+	
+	// 영화 상세정보 조회
+	//  ?=movie_num
+	// 포워딩 페이지 : admin/admin_movie_detail
+	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
+	@GetMapping("admin_movie_detail")
+	public String adminMemberOneperson(@RequestParam int movie_num, Model model) {
+		MovieVO movie = movie_service.getMovie(movie_num);
+		model.addAttribute("movie", movie);
+		
+		return "admin/admin_movie_detail";
 	}
 	
 	// 관리자페이지 영화관리 등록페이지로 이동 - 0609 정의효
@@ -200,13 +215,12 @@ public class AdminController {
 	}
 	
 	// 관리자페이지 회원(1명) 정보 조회
-	// 파라미터 id(이름은 중복될수있으니까 X)
+	//  ?=member_id(이름은 중복될수있으니까 X)
 	// 포워딩 페이지 : admin/admin_member_oneperson
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 	@GetMapping("admin_member_oneperson")
 	public String adminMemberOneperson(@RequestParam String member_id, Model model) {
 		MemberVO member = member_service.getMember(member_id);
-//		
 		model.addAttribute("member", member);
 		
 		return "admin/admin_member_oneperson";

@@ -76,8 +76,8 @@ div {
 			  <c:forEach var="payment" items="${paymentList }">
 				    <tr>
 				      <th scope="row">1</th>
-				      <td>${payment_id }</td>
-				      <td>${payment_datetime }</td>
+				      <td>${payment.payment_id }</td>
+				      <td>${payment.payment_datetime }</td>
 				      <td><a href="admin_payment_list_detail"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 				    </tr>

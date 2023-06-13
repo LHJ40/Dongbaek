@@ -6,6 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
@@ -14,22 +15,77 @@
 </style>
 <script type="text/javascript">
 $(function() {
-	$(".nav-link").on("click", function() {
+	// [영화선택] 영역의 네비바 클릭 시
+	$(".nav-link").on("click", function(){
 		$(".nav-link").removeClass("active");
 		$(this).addClass("active");
 		$("#selectMovie li").removeClass("selected");
+		$("#selectTheater li").empty();
+		$("#selectDate").empty();
+		
+		// [예매율순] 클릭 시
+		if($("#descBookingRate").hasClass(".active")){
+			$("#selectMovie ul").empty();
+			$.ajax({
+				type : "get", 
+				url : "descBookingRate", 
+				dataType : "json", 
+			})
+			.done(function(movie) {
+				let res = "<ul>";
+				for(let i = 0; i < movie.length; i++) {
+					res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
+					res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr + ">" + movie[i].movie_name_kr + "</span></a></li>"
+				}
+				res += "</ul>";
+				
+				$("#selectMovie").html(res);
+			})
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
+			
+		}else{	// [가나다순] 클릭 시
+			
+			$("#selectMovie ul").empty();
+			
+			$.ajax({
+				type : "get", 
+				url : "ascMovieName", 
+				dataType : "json", 
+			})
+			.done(function(movie) {
+				let res = "<ul>";
+				for(let i = 0; i < movie.length; i++) {
+					res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
+					res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span></a></li>"
+				}
+				res += "</ul>";
+				
+				$("#selectMovie").html(res);
+			})
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
+		}
 	});
 	
-	$("#selectMovie li").on("click", function() {
+	
+	// [영화명] 클릭시
+	$(document).on("click", "#selectMovie li", function(){
 		$("#selectMovie li").removeClass("selected");
 		$(this).addClass("selected");
 		
 		let movieNum = $(".selected span").attr("data-movie-num");
 		let movieName = $(".selected span").attr("data-movie-name");
-		$("#movieInfo").html(movieName)
+		let moviePoster = $(".selected span").attr("data-movie-poster");
+
+		$("#movieInfo").css("display", "flex");
+		$(".movie_name_kr").html(movieName);	// [선택정보] 영역에 영화명 출력
+		$(".movie_poster img").attr("src", moviePoster);	// [선택정보] 영역에 영화포스터 출력
 		
+		// 극장명 출력
 		$("#selectTheater").css("display", "flex");
-		
 		$.ajax({
 			type : "post", 
 			url : "ReservationStep1Servlet", 
@@ -39,7 +95,7 @@ $(function() {
 		.done(function(theater) {
 			let res = "<ul>";
 			for(let i = 0; i < theater.length; i++) {
-				res += "<li><a href='#'><span class='text' data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span></a></li>"
+				res += "<li><a href='#'><span class='text' data-theater-num=" + theater[i].theater_num + " data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span></a></li>"
 			}
 			res += "</ul>";
 			
@@ -47,6 +103,42 @@ $(function() {
 		})
 		.fail(function() { // 요청 실패 시
 			$("#selectTheater").html("요청 실패!");
+		});
+	});
+	
+	
+	// [극장명] 클릭 시
+	$(document).on("click", "#selectTheater li", function() {
+		$("#selectTheater li").removeClass("selected");
+		$(this).addClass("selected");
+		
+		let theaterName = $("#selectTheater .selected span").text();
+		$("#theaterInfo").html("극장 (" + theaterName + ")");	// [선택정보] 영역에 극장명 출력
+		
+		// 날짜 출력
+		$("#selectDate").css("display", "flex");
+		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
+		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
+		$.ajax({
+			type : "post", 
+			url : "ReservationStep2Servlet", 
+			data : {"movie_num" : movieNum, "theater_num" : theaterNum}, 
+			dataType : "json", 
+		})
+		.done(function(date) {
+			
+			const playDate = new Date();
+			let year = playDate.getFullYear();
+			let month = playDate.getMonth() + 1;
+			let dataDay = playDate.getDate();
+			let dayLabel = playDate.getDay();	// 요일
+			let dayNumber = Number(dataDay);
+			
+			$(".playMonth").html("<h4>" + month + "<small>월</small></h4>");
+						
+		})
+		.fail(function() { // 요청 실패 시
+			$("#selectDate").html("요청 실패!");
 		});
 	});
 });
@@ -79,7 +171,7 @@ $(function() {
 						 			<li>
 	 						 			<a href="#">
 						 					<i><img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15세"></i>
-						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}">${movie.movie_name_kr }</span>
+						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}" data-movie-poster="${movie.movie_poster }">${movie.movie_name_kr }</span>
 						 				</a>
 						 			</li>					 				
 					 			</c:forEach>
@@ -99,24 +191,21 @@ $(function() {
 	                <div class="col-1">
 						<h5>날짜</h5>
 						<br>
-						<b> 6</b>월<br>
-				 		<%--날짜 조회(limit 10일 조회가능) --%> 
-				 		<%--년,월,일.. if 년이 ~ 월이~ --%>
-				 		<a href="#">토 29</a><br>
-				 		<a href="#">일 30</a><br>
-				 		<a href="#">월 31</a><br>
-				 		<br>
-						<b> 7</b>월<br>
-				 		<a href="#">화 1</a><br>
-				 		<a href="#">수 2</a><br>
+						<div id="selectDate" style="display: none;">
+							<div class="playMonth"></div>
+							<div class="day">
+								<span class="playWeekday"></span>
+								<span class="playDate"></span>								
+							</div>
+						</div>
 					</div>
 					
 					<%-- 상영목록 파트 --%>
 	                <div class="col-4">
 	                	<h5>시간</h5>
 				  		<div id="playType">
-				  			<img src="/resources/img/sun.png" alt="해" width="15px"> 조조
-				  			<img src="/resources/img/moon.png" alt="달" width="15px"> 심야
+				  			<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조
+				  			<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야
 				  		</div>
 				  		<div id="playTable">
 					  		<table>
@@ -136,7 +225,7 @@ $(function() {
 					  			<tr>
 					  				<td>
 					  					<button>09:00</button>
-					  						<img src="/resources/img/sun.png" alt="해" width="15px"> n석 &nbsp;&nbsp;
+					  						<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> n석 &nbsp;&nbsp;
 					  					<button>14:10</button> n석 &nbsp;&nbsp;
 					  				</td>
 					  			</tr>
@@ -150,16 +239,21 @@ $(function() {
 	            	<%-- 선택한 영화 포스터와 영화명 노출 --%>
 	                <div class="col-3">
 						<h5>선택 정보</h5>
-				  		<img src="" alt="선택영화포스터" height="200px">
-				  		<span>영화명</span><br>
+						<div class="row p-0" id="movieInfo"  style="display: none;">
+							<div class="col-4 movie_poster"><img src="" alt="선택영화포스터" height="90px"></div>
+					  		<div class="col-8 movie_name_kr"></div><br>
+						</div>
 					</div>
 					<%-- 선택한 상영스케줄 노출 --%>
 	                <div class="col-3">
-	                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-				  			<tr><td>극장 (극장명)</td></tr>
-				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr>
-				  			<tr><td>상영관 (n관 m층)</td></tr>
-				  		</table>
+<%-- 	                	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
+<!-- 				  			<tr><td id="theaterInfo"></td></tr> -->
+<!-- 				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr> -->
+<!-- 				  			<tr><td>상영관 (n관 m층)</td></tr> -->
+<!-- 				  		</table> -->
+						<div id="theaterInfo"></div>
+						<div id="dateInfo"></div>
+						<div id="roomInfo"></div>
 	                </div>
 	                <%-- 미선택 사항 노출 --%>
 	                <div class="col-3">

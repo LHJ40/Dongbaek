@@ -8,5 +8,6 @@ public class TheaterVO {
 	private String theater_name;
 	private String theater_address;
 	private String theater_region;
+	private String theater_map;
 	
 }

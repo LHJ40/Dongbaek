@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.MovieMapper">
 <!--   <cache-ref namespace=""/> -->
-
 	<insert id="insertMovie">
 		INSERT 
 			INTO MOVIES
@@ -18,8 +17,36 @@
 				, #{movie_post}
 				, #{movie_content}
 			) 
-		
 	</insert>
+	
+	<!-- 현재상영중인 영화 조회 -->
+ 	<select id="select_presentMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> 
+ 		SELECT * 
+ 		FROM MOVIES 
+ 		WHERE now() >= movie_release_date  
+		AND movie_close_date >= now() 
+	</select>
+	
+	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지-->
+	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE now() >= movie_release_date
+			AND movie_release_date > subdate(now(), INTERVAL 15 DAY);
+	</select>
+
+	<!-- 영화 목록 전부 조회 -->
+	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+	</select>
+
+	<!-- 영화목록 상세 조회 -->
+	<select id="selectMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE movie_num = #{movie_num}
+	</select>
 	
 	
 </mapper>
