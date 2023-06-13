@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.ReservationMapper">
+	
+	<!-- 영화 목록 조회 -->
+	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT * FROM MOVIES 
+		WHERE SYSDATE() >= movie_release_date AND movie_close_date >= SYSDATE()
+		ORDER BY movie_name_kr
+	</select>
+	
+	<!-- 영화 정보 조회 -->
+	<select id="selectMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT * FROM MOVIES 
+		WHERE movie_num = #{movie_num}
+	</select>
+	
+	<!-- 극장 목록 조회 -->
+	<resultMap type="com.itwillbs.dongbaekcinema.vo.MovieVO" id="MovieVO">
+		<result property="movie_num" column="movie_num"/>
+		<result property="movie_name_kr" column="movie_name_kr"/>
+		<result property="movie_name_en" column="movie_name_en"/>
+		<result property="movie_director" column="movie_director"/>
+		<result property="movie_cast" column="movie_cast"/>
+		<result property="movie_genre" column="movie_genre"/>
+		<result property="movie_release_date" column="movie_release_date"/>
+		<result property="movie_close_date" column="movie_close_date"/>
+		<result property="movie_running_time" column="movie_running_time"/>
+		<result property="movie_audience_num" column="movie_audience_num"/>
+		<result property="movie_content" column="movie_content"/>
+		<result property="movie_poster" column="movie_poster"/>
+		<result property="movie_preview" column="movie_preview"/>
+		<result property="movie_photo1" column="movie_photo1"/>
+		<result property="movie_photo2" column="movie_photo2"/>
+		<result property="movie_photo3" column="movie_photo3"/>
+		<result property="movie_booking_rate" column="movie_booking_rate"/>
+	</resultMap>
+	
+	<resultMap type="com.itwillbs.dongbaekcinema.vo.TheaterVO" id="TheaterVO">
+		<result property="theater_num" column="theater_num"/>
+		<result property="theater_name" column="theater_name"/>
+		<result property="theater_address" column="theater_address"/>
+		<result property="theater_region" column="theater_region"/>
+	</resultMap>
+	
+	<resultMap type="com.itwillbs.dongbaekcinema.vo.PlayVO" id="PlayVO">
+		<result property="play_num" column="play_num"/>
+		<result property="play_date" column="play_date"/>
+		<result property="play_turn" column="play_turn"/>
+		<result property="play_start_time" column="play_start_time"/>
+		<result property="play_end_time" column="play_end_time"/>
+		<result property="movie_num" column="movie_num"/>
+		<result property="theater_num" column="theater_num"/>
+		<result property="room_num" column="room_num"/>
+		<result property="theater_name" column="theater_name"/>
+		<result property="movie_name" column="movie_name"/>
+		<result property="play_time_type" column="play_time_type"/>
+	</resultMap>
+	
+	<select id="selectTheaterList" parameterType="int" resultType="com.itwillbs.dongbaekcinema.vo.TheaterVO">
+		SELECT DISTINCT t.theater_name, t.theater_num FROM THEATERS t
+		JOIN PLAYS p ON t.theater_num = p.theater_num 
+		JOIN MOVIES m ON p.movie_num = m.movie_num
+		WHERE m.movie_num = #{movie_num}
+	</select>
+	
+</mapper>

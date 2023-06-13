@@ -30,7 +30,7 @@ public class AdminController {
 	private MemberService member_service;
 	
 	@Autowired
-	private AdminService adminService;
+	private AdminService admin_service;
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
@@ -62,7 +62,7 @@ public class AdminController {
 //    public String showSchedual(@RequestParam String theater_name, @RequestParam("play_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date play_date, Model model) {
    	public String showSchedual(@RequestParam String theater_name, @RequestParam String play_date, Model model) {
         System.out.println(theater_name + ", "+ play_date);
-        PlayVO play = adminService.showSchedual(theater_name, play_date);
+        PlayVO play = admin_service.showSchedual(theater_name, play_date);
         System.out.println(play);
         return "admin/admin_schedule_list";
     }
