@@ -83,12 +83,12 @@ div {
 	<%-- 비회원예매 확인 폼 --%>
 	<div class="row d-flex justify-content-center mt-3">
 		<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
-		<form>
+		<form action="noMemberCheckPro" method="post">
 			<%-- 이름 --%>
             <div class="row mb-3">
               <label for="name" class="col-2 text-nowrap">이름</label>
               <div class="col-10">
-	              <input type="text" class="form-control" id="name" name="name" placeholder="이름" required="required">
+	              <input type="text" class="form-control" id="member_name" name="member_name" placeholder="이름" required="required">
               </div>
             </div>
             
@@ -96,7 +96,8 @@ div {
             <div class="row mb-3">
               <label for="phoneNum" class="col-2 text-nowrap">휴대폰번호</label>
               <div class="col-10">
-				  	<input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="- 없이" required="required">
+				  	<input type="text" class="form-control" id="member_phone" name="member_phone" maxlength="11"
+				  			 placeholder="- 없이" required="required">
               </div>
             </div>
             
@@ -104,7 +105,8 @@ div {
             <div class="row mb-3">
               <label for="passwd" class="col-2 text-nowrap">비밀번호</label>
               <div class="col-10">
-	              <input type="password" class="form-control" id="passwd" name="passwd" placeholder="비밀번호(4자리)" required="required">
+	              <input type="password" class="form-control" id="member_pass" name="member_pass" maxlength="4"
+	              		placeholder="비밀번호(4자리)" required="required">
 	          </div>
             </div>
             

@@ -90,8 +90,10 @@ public class MemberController {
 		// 파라미터 : MemberVO member	리턴타입 : String(passwd)
 //		String passwd = service.getPasswd(member);
 		MemberVO getMember = service.getMember(member.getMember_id());
-//		System.out.println(passwd);
+		
 		String passwd = getMember.getMember_pass();
+//		System.out.println(passwd);
+		
 		// 로그인 성공/ 실패 여부 판별하여 포워딩
 		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
 		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
@@ -288,13 +290,69 @@ public class MemberController {
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
 	@GetMapping("no_member_login_form")
 	public String no_member_login_form() {
+		
 		return "member/no_member_login_form";
+	}
+	
+	// 비회원 로그인(가입) 작업
+	@PostMapping("no_member_login_pro")
+	public String no_member_login_pro(MemberVO noMember, Model model, HttpSession session) {
+		
+		// 비회원 로그인 작업 
+		// MemberService - noMemberLogin()
+		// 파라미터 : MemberVO(noMember)	리턴타입 : int(insertCount)
+		int insertCount = service.noMemberLogin(noMember);
+		System.out.println(insertCount);
+		// 비회원 로그인(가입) 성공 시 success_back으로 이동
+		if(insertCount > 0) {
+			session.setAttribute("member_id", noMember.getMember_name()); // name으로 불리게 하기
+			session.setAttribute("member_type", "비회원");
+			// 나중에 작업하던 곳으로 돌아가게 설정하기
+//			model.addAttribute("url", "/");
+//			model.addAttribute("msg", "비회원 로그인 성공!");
+			
+//			return "success_back";
+			return "redirect:/./";
+		} else {
+			// 로그인 실패 시 "로그인에 실패했습니다." 띄우고 이전 페이지로 돌아가기
+			model.addAttribute("msg", "로그인에 실패했습니다.");
+			
+			return "fail_back";
+		}
+		
 	}
 
 	// 회원 로그인 화면에서 상단 탭(header)의  비회훤 예매 확인 탭 클릭 시 비회원 예매 확인 페이지로 이동
 	@GetMapping("no_member_reservation_check_form")
 	public String no_member_reservation_check_form() {
+		
 		return "member/no_member_reservation_check_form";
+	}
+	
+	// 비회원 예매 확인을 위한 로그인
+	@PostMapping("noMemberCheckPro")
+	public String no_member_reservation_check_pro(String member_name, String member_phone, String member_pass
+					, Model model, HttpSession session) {
+		
+		// 이름, 휴대폰번호, 비밀번호를 받아 맞는 레코드 조회
+		// MemberService - getNoMemberPasswd()
+		// 파라미터 : String 파라미터 두 개(member_name, member_phone)	리턴타입 : String(passwd)
+		String passwd = service.getNoMemberPasswd(member_name, member_phone);
+		System.out.println(passwd);
+		
+		if (passwd == null || !passwd.equals(member_pass)) {	// 가져오는 비밀번호가 없음
+			
+			model.addAttribute("msg", "회원이 아니거나 비밀번호가 틀립니다. 다시 한 번 정보를 확인해주세요.");
+			return "fail_back";
+			
+		} else  {	// 비밀번호 일치 -> 로그인 성공
+			session.setAttribute("member_id", member_name);
+			// 세션에 "member_type"로 저장해서 비회원의 경우 권한 제한
+			session.setAttribute("member_type", "비회원");
+			// 마이페이지 홈으로 이동
+			return "myPage/myPage";
+		} 
+		
 	}
 	
 }
