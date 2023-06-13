@@ -79,33 +79,33 @@ th{
 	    				<%-- 핸드폰 인증 방식 --%>
 <!-- 	      				<div class="text-center"> -->
 						<form action="member_join_step2" method="post">
-						<table>
-						<tr>
-							<td>휴대폰 번호</td>
-							<td>
-		      					<input type="text" id="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
-<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
-		      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
-		      					<br>
-							</td>
-						</tr>
-						<tr>
-							<td>인증번호</td>
-							<td>
-		      					<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호">
-<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
-		      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
-		      					<br>
-								<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
-								<input type="hidden" id="phoneDoubleChk">
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<input type="submit" id="DoneBtn" value="인증완료" disabled="disabled">
-							</td>
-						</tr>
-						</table>
+							<table>
+							<tr>
+								<td>휴대폰 번호</td>
+								<td>
+			      					<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
+	<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
+			      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
+			      					<br>
+								</td>
+							</tr>
+							<tr>
+								<td>인증번호</td>
+								<td>
+			      					<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호">
+	<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
+			      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
+			      					<br>
+									<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
+									<input type="hidden" id="phoneDoubleChk">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<input type="submit" id="DoneBtn" value="인증완료" disabled="disabled">
+								</td>
+							</tr>
+							</table>
 						</form>
 <!-- 						</div> -->
 					<%-- CoolSMS 문자인증 시작 --%>
@@ -127,7 +127,7 @@ th{
 						        	
 						         	console.log("2");
 						         	let checkNum = data;
-						         	alert('checkNum: ' + checkNum);
+						         	alert(member_phone + ', checkNum: ' + checkNum);
 						         	
 						        	if(data == "error"){
 						        		console.log("3");
@@ -152,6 +152,7 @@ th{
 											$(".successPhoneChk").css("color","green");
 											$("#phoneDoubleChk").val("true");
 											$("#DoneBtn").attr("disabled",false);
+											session.setAttribute("member_phone", member_phone);
 										}else{
 											$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
 											$(".successPhoneChk").css("color","red");

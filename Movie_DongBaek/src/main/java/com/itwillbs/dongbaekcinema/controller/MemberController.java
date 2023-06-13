@@ -1,5 +1,7 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.*;
+
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -113,26 +115,28 @@ public class MemberController {
 		return "member/member_join_step1";
 	}
 	
+	// 회원가입 화면 1페이지에서 휴대폰 인증 클릭 시 이동
 	@GetMapping("member_join_certify")
 	public String member_join_certify() {
 		return "member/member_join_certify";
 	}
 	
-	// 회원가입 화면 1에서 인증 성공 시 회원가입 화면 2페이지로 이동
+	// 회원가입 화면 1 인증 성공, 네이버/카카오 인증 성공하면 회원가입 화면 2페이지로 이동
 	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
-	public String member_join_step2(String member_phone,HttpSession session) {
-		// 약관 동의 하는 페이지로 이동
-		System.out.println(member_phone);
+	public String member_join_step2(MemberVO member, Model model) {
+		System.out.println(member);
 		
-		session.setAttribute("member_phone", member_phone);
+		// 약관 동의 하는 페이지로 이동
+		model.addAttribute("member", member);
 		
 		return "member/member_join_step2";
 	}
 	
-	
-	@PostMapping("member_join_step3")
-	public String member_join_step3(String member_phone, HttpSession session) {
-		session.setAttribute("member_phone", member_phone);
+	// 회원정보(member_phone, member_email, member_birth 등)을 가지고 정보입력(step3)로 이동
+	@RequestMapping(value = "/member_join_step3", method = {RequestMethod.GET, RequestMethod.POST})
+	public String member_join_step3(MemberVO member, Model model) {
+		System.out.println(member);
+		model.addAttribute("member", member);
 		
 		return "member/member_join_step3";
 	}
