@@ -28,6 +28,23 @@
 	rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 
+
+<%-- jqery DBN --%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+
+
+<script type="text/javascript">
+$("#createScheduel").on("click", function() {
+    if($("theather_name").val() == "영화관") {
+        alert("영화관을 선택해주세요!");
+        $("#play_list").hide();
+    } else {
+        alert("영화관이 선택되었습니다");
+        $("#play_list").show();
+    }
+</script>
+
 <style>
 div {
 background-color: transparent;
@@ -73,20 +90,22 @@ background-color: transparent;
 		    	<a class="navbar-brand" >상영스케줄 관리</a>
 		    </div>
 	    	<div class="col col-md-10">
-			    <form class="form-inline">
-			      <select class="form-control mr-sm-2" name="theater">
-			      	<option value="">영화관</option>
-			      	<option value="영화관1">영화관1</option>
-			      	<option value="영화관2">영화관2</option>
+	    	
+			    <form class="form-inline" action="showSchedual">
+			      <select class="form-control mr-sm-2" name="theater_name">
+			      	<option value="영화관" checked="checked">영화관</option>
+			      	<option value="서면점">서면점</option>
+			      	<option value="사상점">사상점</option>
 			      </select>
 			      <div class="input-group">
 					  <div class="input-group-prepend">
 					    <span class="input-group-text" id="play_date">상영날짜</span>
 					  </div>
-					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" id="">
+					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date">
 				  </div>
-			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="submit">확인</button>
+			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="submit" id="createScheduel">확인</button>
 			    </form>
+			    
 		    </div>
 		  </div>
 
@@ -94,7 +113,7 @@ background-color: transparent;
   	</div>
   	
   	<%-- 본문 테이블 --%>
-  	<div class="row">
+  	<div class="row" id="play_list">
   	<table class="table table-striped text-center align-middle">
 	  <%-- 테이블 헤드 --%>
 	  <thead>

@@ -1,18 +1,25 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MovieService;
 import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.vo.PlayVO;
+
+
+
 
 @Controller
 public class AdminController {
@@ -22,6 +29,8 @@ public class AdminController {
 	@Autowired
 	private MemberService member_service;
 	
+	@Autowired
+	private AdminService adminService;
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
@@ -47,6 +56,16 @@ public class AdminController {
 	public String adminScheduleList() {
 		return "admin/admin_schedule_list";
 	}
+	
+    // 관리자페이지 상영스케줄 상단 버튼 클릭
+    @GetMapping("showSchedual")
+//    public String showSchedual(@RequestParam String theater_name, @RequestParam("play_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date play_date, Model model) {
+   	public String showSchedual(@RequestParam String theater_name, @RequestParam String play_date, Model model) {
+        System.out.println(theater_name + ", "+ play_date);
+        PlayVO play = adminService.showSchedual(theater_name, play_date);
+        System.out.println(play);
+        return "admin/admin_schedule_list";
+    }
 	
 	// 관리자페이지 결제관리
 //	@GetMapping("")
