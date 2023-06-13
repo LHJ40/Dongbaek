@@ -45,25 +45,45 @@ th{
 
 }
 
+.id_ok {
+	color: #000000;
+	display: none;
+}
+
+.id_already {
+	color: #6A82FB;
+	display: none;
+}
+
 </style>
-<script src="../js/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 
 	// 아이디 중복 확인
-	function checkDupId() {
-		// 입력받은 ID 값을 가져와서 변수에 저장
-		let id = document.fr.member_id.value;
+	function checkId() {
+		var id = $('#member_id').val(); // id 의 값이 "member_id" 인 입력칸의 값을 변수 id에 저장		
 		
-		// ID 값에 대한 길이 판정 ( 5 ~ 10 글자 사이)
-		if(id.length >= 5 && id.length <= 10) { // 유효한 길이
-	 		var url ="";
-			window.open(url, "checkId", "width=400, height=250");
-			document.querySelector("#checkIdResult").innerHTML = "중복확인완료";
-		} else { // 유효하지 않은 길이
-			alert("아이디는 5 ~ 10 글자 가 필수입니다!");
-			document.querySelector("#checkIdResult").innerHTML = "";
-			document.fr.member_id.select();
-		}
+		$.ajax({
+			url:'./idCheck', 			// Controller 에서 요청 받을 주소
+			type:'post', 	 			// POST 방식으로 전달
+			data:{id:id},
+			success:function(cnt) {		// Controller 에서 넘어온 cnt 값을 받는다
+				if(cnt == 0) { 			//  cnt 가 1이 아니면(==0일 경우) => 사용 가능한 아이디
+					$('.id_already').css("display", "none");
+					$('.id_ok').css("display", "inline-block");
+				} else {				// 이미 존재하는 아이디
+					$('.id_already').css("display", "inline-block");
+					$('.id_ok').css("display", "none");
+					alert("아이디를 다시 입력해주세요!");
+					$('#member_id').val('');
+				}
+			},
+			error:function(error) {
+				alert("error : " + error);
+			}
+		
+		})
+		
 	}
 	
 	// 생년월일 가져오기
@@ -78,14 +98,14 @@ th{
 	});
 	
 	// 하나로 합치기
-	function birth() {
+	/* function birth() {
 		var year = $("#birthYear").val();
 		var month = $("#birthMonth").val();
 		var day = $("#birthDay").val();
 		if(year != "" && month != "" && day != "") {
 			$("member_birth").val(year + month + day);
 		}
-	};
+	}; */
 	
 	// email 주소 선택하면 앞 칸에 value 전달 함수
 	function email(address) {
@@ -153,8 +173,8 @@ th{
 					    	<div class="col-sm-12">
 						    		<c:choose>
 						    			<c:when test="${empty sessionStorage.email }"> <%-- session에 email가 없으면 -> 그냥 회원가입 --%>
-								    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" maxlength="20" placeholder="5 ~ 10글자 이상 필수 입력"
-								    			minlength="5" maxlength="10">
+								    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
+								    			minlength="5" maxlength="10" onchange="checkId()">
 						    			</c:when>
 						    			<c:otherwise>	<%-- session에 email이 있을 경우(카카오, 네이버 로그인 시 --%>
 								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly">
@@ -163,11 +183,12 @@ th{
 					    	</div>
 					</div>
 					    	
-					<!-- 아이디 중복 확인 -->
+					<!-- 아이디 중복확인 : ajax -->
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>
 					    	<div class="col-sm-12">
-					     	 	<input type="button" class="form-control" id="member_pass" name="member_pass" required="required" value="아이디 중복 확인" onclick="checkDupId()">
+								<span class="id_ok">사용 가능한 아이디 입니다.</span>
+								<span class="id_already">이미 사용중인 아이디 입니다.</span>
 					   		</div>
 					</div>	
 					
@@ -204,6 +225,8 @@ th{
 				  	</div>
 				
 					<!-- 생년월일 (필수)  -->
+					<!-- 현재 입력 폼은 input type ="text" -->
+					<!-- DB의 데이터타입 : DATE -->
 				    <div class="row mb-3">
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일</label>
 				  		<div class="col-sm-12">
@@ -264,6 +287,8 @@ th{
 				  		<input type="submit" class="btn btn-danger ml-3 btn-lg" value="회원가입">
 				  	</div>
 				  	
+				  <input type="hidden" name="member_status" value="활동">
+				  <input type="hidden" name="member_type" value="직원">
 			</div>
 		</div>
 	</form>

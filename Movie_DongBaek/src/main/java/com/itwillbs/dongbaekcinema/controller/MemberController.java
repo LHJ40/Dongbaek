@@ -23,6 +23,15 @@ public class MemberController {
 		return "member/member_login_form";
 	}
 	
+	// 회원가입 폼에서 아이디 중복확인
+	@PostMapping("/idCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int idCheck(@RequestParam("id") String id) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.idCheck(id);
+		return cnt;
+	}
+	
+	
 	// "/member_join_pro" 요청에 대해 MemberService 객체 비즈니스 로직 수행 
 	// => 폼 파라미터로 전달되는 가입 정보를 파라미터로 전달받기 
 	// => 가입 완료 후 이동할 페이지 : member/member_join_step4.jsp 
