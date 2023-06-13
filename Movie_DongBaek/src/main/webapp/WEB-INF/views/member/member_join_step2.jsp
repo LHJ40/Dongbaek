@@ -74,7 +74,10 @@ th{
 		                </span>
 					</p>
 		  		</div>
-		  		
+		  		<%-- 번호인증 후 받아온 전화번호, 이메일, 생년월일을 hidden으로 넘김 --%>
+		  		<input type="hidden" value="${member.member_phone }" name="member_phone">
+		  		<input type="hidden" value="${member.member_email }" name="member_email">
+<%-- 		  		<input type="hidden" value="${member_birth }" name="member_birth"> --%>
 		         <%-- 약관 1 : 필수 항목 : required  --%>
 		  		<div class="terms_p">
 		  			<p class="terms_check">
@@ -128,7 +131,8 @@ th{
 		  			<p class="terms_check">
 		            	<span class="input_check">
 		            		<!-- 필수 항목 : required 속성 -->
-		                	<input type="checkbox" id="check3" name="check3">
+		            		<%-- 선택 사항 중 마케팅 활용은 컬럼이 있어 id로 컬럼명 넣음 --%>
+		                	<input type="checkbox" id="check3" name="member_agree_marketing" name="check3">
 		                <label for="check3">
 		                	<span class="check3_txt">
 		                		마케팅 활용을 위한 개인 정보 수집 이용 안내(선택)

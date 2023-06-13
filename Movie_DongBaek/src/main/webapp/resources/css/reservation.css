@@ -47,6 +47,7 @@ div{
 .row1>div{
 	border: 1px solid #aaa;
 }
+
 /* 영화 목록, 극장 목록 앞의 모양 제거 */
 #selectMovie ul, #selectTheater ul {
 	list-style: none;
@@ -96,7 +97,16 @@ a {
 
 #selectMovie .selected a, #selectTheater .selected a {
 	background-color: #333;
-    width: 242px;
+    width: 270px;
+    height: 33px;
+    line-height: 33px;
+    border: 1px solid #000;
+    color:#fff;
+}
+
+#selectTheater .selected a {
+	background-color: #333;
+    width: 124px;
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;

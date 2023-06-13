@@ -1,5 +1,7 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.*;
+
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -22,6 +24,15 @@ public class MemberController {
 	public String member_login_form() {
 		return "member/member_login_form";
 	}
+	
+	// 회원가입 폼에서 아이디 중복확인
+	@PostMapping("/idCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int idCheck(@RequestParam("id") String id) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.idCheck(id);
+		return cnt;
+	}
+	
 	
 	// "/member_join_pro" 요청에 대해 MemberService 객체 비즈니스 로직 수행 
 	// => 폼 파라미터로 전달되는 가입 정보를 파라미터로 전달받기 
@@ -113,20 +124,31 @@ public class MemberController {
 		return "member/member_join_step1";
 	}
 	
+	// 회원가입 화면 1페이지에서 휴대폰 인증 클릭 시 이동
 	@GetMapping("member_join_certify")
 	public String member_join_certify() {
 		return "member/member_join_certify";
 	}
 	
-	// 회원가입 화면 1에서 인증 성공 시 회원가입 화면 2페이지로 이동
-	@GetMapping("member_join_step2")
+	// 회원가입 화면 1 인증 성공, 네이버/카카오 인증 성공하면 회원가입 화면 2페이지로 이동
+	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
 	public String member_join_step2(MemberVO member, Model model) {
+		System.out.println(member);
+		
 		// 약관 동의 하는 페이지로 이동
+		model.addAttribute("member", member);
 		
 		return "member/member_join_step2";
 	}
 	
-	
+	// 회원정보(member_phone, member_email, member_birth 등)을 가지고 정보입력(step3)로 이동
+	@RequestMapping(value = "/member_join_step3", method = {RequestMethod.GET, RequestMethod.POST})
+	public String member_join_step3(MemberVO member, Model model) {
+		System.out.println(member);
+		model.addAttribute("member", member);
+		
+		return "member/member_join_step3";
+	}
 	
 	
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
@@ -141,11 +163,6 @@ public class MemberController {
 		return "member/no_member_reservation_check_form";
 	}
 	
-	// 임시 - 정보입력화면 
-	@GetMapping("member_join_step3")
-	public String member_join_step3() {
-		return "member/member_join_step3";
-	}
 	
 
 }

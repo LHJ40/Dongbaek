@@ -17,8 +17,8 @@ public class PlayVO {
     private int movie_num;
     private int theater_num;
     private int room_num;
-    private String theater_name;
-    private String movie_name;
+//    private String theater_name; // 값 받아오기용 임시
+//    private String movie_name; // 값 받아오기용 임시
 
 }
 
