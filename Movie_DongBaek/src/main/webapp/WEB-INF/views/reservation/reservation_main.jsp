@@ -21,11 +21,10 @@ $(function() {
 		$(this).addClass("active");
 		$("#selectMovie li").removeClass("selected");
 		$("#selectTheater li").empty();
-		$("#selectDate").empty();
+		$("#selectDate").css("display", "none");
 		
 		// [예매율순] 클릭 시
-		if($("#descBookingRate").hasClass(".active")){
-			$("#selectMovie ul").empty();
+		if($("#descBookingRate").hasClass("active")){
 			$.ajax({
 				type : "get", 
 				url : "descBookingRate", 
@@ -45,10 +44,7 @@ $(function() {
 				alert("요청 실패!");
 			});
 			
-		}else{	// [가나다순] 클릭 시
-			
-			$("#selectMovie ul").empty();
-			
+		}else{	// [가나다순] 클릭 시			
 			$.ajax({
 				type : "get", 
 				url : "ascMovieName", 
