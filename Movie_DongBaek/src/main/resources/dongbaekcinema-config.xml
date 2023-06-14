@@ -13,8 +13,4 @@
 	reflectorFactory, plugins, environments,
 	databaseIdProvider, mappers
 	-->
-	<!--  타입 핸들러 등록 (objectFactory보다 위, typeAliases 아래 에 위치) -->
-	<typeHandlers>
-		<typeHandler handler="com.itwillbs.dongbaekcinema.type.Member_status$TypeHandler"/>
-	</typeHandlers>
 </configuration>

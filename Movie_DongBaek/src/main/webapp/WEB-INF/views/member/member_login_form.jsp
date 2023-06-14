@@ -97,6 +97,7 @@ div {
 			<div class="row mb-3">
               <label for="id" class="col-2 text-nowrap">아이디</label>
               <div class="col-10">
+              		<%-- 쿠키에 member_id가 있으면 쿠키에서 id를 가져와 보여주기 --%>
 	              <input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required="required" value="${cookie.member_id.value }">
               </div>
 	        </div>
@@ -112,7 +113,7 @@ div {
 			<%-- 아래 버튼들... --%>
 		    <div class="row checkbox mb-3">
 		      <label class="col-4" >
-		      
+		      	<%-- 쿠키에 member_id가 있는 경우 check 상태로 보이게 하기  --%>
 		        <input type="checkbox" name="remember_me" <c:if test="${not empty cookie.member_id}">checked</c:if> > 아이디 저장
 		      </label>
 		      <span class="col-4 d-flex justify-content-end">

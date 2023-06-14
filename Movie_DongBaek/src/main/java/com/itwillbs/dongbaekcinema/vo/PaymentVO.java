@@ -12,7 +12,7 @@ public class PaymentVO {
 	private String payment_card_name;
 	private int payment_card_num;
 	private int payment_total_price;
-	private String member_id;
 	private int order_num;
+	private String payment_status;	// 추가함
 //	데이터넣고 주석풀고 확인하기 0608 - 정의효
 }

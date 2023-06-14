@@ -1,11 +1,26 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.itwillbs.dongbaekcinema.service.*;
+import com.itwillbs.dongbaekcinema.vo.*;
 
 @Controller
 public class MyPageController {
-
+	
+	@Autowired
+	private MypageService service;
+	
+	@Autowired
+	private PaymentService paymentService;
+	
 	//  마이페이지 메인화면
 	@GetMapping("myPage")
 	public String myPage() {
@@ -14,7 +29,28 @@ public class MyPageController {
 	
 	// 마이페이지 -  예매/구매내역 페이지로 이동
 	@GetMapping("myPage_reservation_buy_history")
-	public String myPage_reservation_buy_history() {
+	public String myPage_reservation_buy_history(HttpSession session, Model model) {
+		// 세션아이디로 나의 예매/구매 내역 보여주기
+		String member_id = (String) session.getAttribute("member_id");
+		
+		// 나의 예매내역 조회
+		// MypageService - getMyTicket()
+		// 파라미터 : member_id		리턴타입 : List<MyTicketVO>(myTicketList)
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id);
+//		System.out.println(myTicketList);
+		
+		// 받아온 예매내역 전달
+		model.addAttribute("myTicketList", myTicketList);
+		
+		// 나의 구매내역 조회
+		// MypageService - getMyPayment()
+		// 파라미터 : member_id		리턴타입 : List<PaymentVO>(myPaymentList)
+		List<PaymentVO> myPaymentList = paymentService.getMyPaymentList(member_id);
+		System.out.println(myPaymentList);
+		
+		//받아온 구매내역 전달
+		model.addAttribute("myPaymentList", myPaymentList);
+		
 		return "myPage/myPage_reservation_buy_history";
 	}
 	

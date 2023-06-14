@@ -20,4 +20,14 @@
 		
 	</select>
 	
+	<!-- 마이페이지 - 회원의 나의 구매내역 조회 -->
+	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+		SELECT *
+			FROM PAYMENTS p
+			JOIN ORDERS o
+				ON p.order_num = o.order_num
+			WHERE member_id = #{member_id}
+			LIMIT 3 -- 후에 pageNum으로 조절
+	</select>
+	
 </mapper>

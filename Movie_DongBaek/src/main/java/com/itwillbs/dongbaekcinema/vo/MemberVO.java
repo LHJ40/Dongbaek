@@ -2,10 +2,6 @@ package com.itwillbs.dongbaekcinema.vo;
 
 import java.sql.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.itwillbs.dongbaekcinema.type.*;
-
 import lombok.Data;
 
  

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.MypageMapper">
+  
+  <!-- 나의 예매내역 조회 -->
+  <select id="selectMyTicket" resultType="com.itwillbs.dongbaekcinema.vo.MyTicketVO">
+		SELECT *
+			FROM ORDER_MY_TICKET
+			WHERE ORDER_MY_TICKET.member_id = #{member_id}
+			LIMIT 3 -- 후에 pageNum으로 조절할 예정
+  </select>
+  
+  
+  
+</mapper>
