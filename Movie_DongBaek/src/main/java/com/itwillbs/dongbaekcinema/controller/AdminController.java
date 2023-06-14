@@ -2,6 +2,7 @@ package com.itwillbs.dongbaekcinema.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,18 +99,19 @@ public class AdminController {
 //	        return "fail_back";
 //	    }
 		
-//		List<String> theaterInfo = admin_service.getTheater();
-//		System.out.println(theaterInfo);
-//		model.addAttribute("theaterInfo",theaterInfo);
+		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
+		List<HashMap<String, String>> theaterInfo = admin_service.getTheater();
+//		System.out.println(theaterInfo);		
+		model.addAttribute("theaterInfo",theaterInfo);
 		
 		
 		return "admin/admin_schedule_list";
 	}
 	
-    // 관리자페이지 상영스케줄 상단 버튼 클릭1 json
+    // 관리자페이지 상영스케줄 상단 확인 클릭시 상영스케줄 목록 조회- json
 	@ResponseBody
 	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_name, @RequestParam String play_date, Model model) throws Exception {
+	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, Model model) throws Exception {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -124,8 +126,9 @@ public class AdminController {
 //		String theater_name = params.get("theater_name");
 //		String play_date = params.get("play_date");
 		
-		System.out.println(theater_name + ", " + play_date);
-		List<PlayVO> playList = admin_service.showSchedual(theater_name, play_date);
+		// 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
+		System.out.println(theater_num + ", " + play_date);
+		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date);
 		
 		System.out.println(playList);
 		model.addAttribute("playList", playList);	
