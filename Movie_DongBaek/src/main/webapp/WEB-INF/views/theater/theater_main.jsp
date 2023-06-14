@@ -74,13 +74,13 @@ footer{
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row">
 				  <div class="col">
-				  	<h5 id="theater_name">XXX지점</h5><br>
-				  	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1645890.219410453!2d126.72779374253922!3d36.32129450891771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568eb7a9ffb035f%3A0x8e030b4b8ef4a2dd!2z7JWE7J207Yuw7JyMIOu2gOyCsOq1kOycoeyEvO2EsA!5e0!3m2!1sko!2skr!4v1684826116604!5m2!1sko!2skr" width="350" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				  	<h5 id="theater_name">${theaterList[0].theater_name }</h5><br>
+				  	<span id="theater_map">${theaterList[0].theater_map}</span>
 				  	<br>
 				  </div>
 				  <div class="col" >
 				  	<h5>주소</h5> 
-				  	<span id ="theater_address"></span>
+				  	<span id ="theater_address">${theaterList[0].theater_address} </span>
 				  </div>
 				  <div class="col"> 
 				  	<h5>공지사항</h5>
