@@ -1,13 +1,21 @@
 package com.itwillbs.dongbaekcinema.controller;
 
-import java.util.Date;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
@@ -17,6 +25,7 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
+import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 
 
 
@@ -31,6 +40,7 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService admin_service;
+	
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
@@ -57,15 +67,34 @@ public class AdminController {
 		return "admin/admin_schedule_list";
 	}
 	
-    // 관리자페이지 상영스케줄 상단 버튼 클릭
-    @GetMapping("showSchedual")
-//    public String showSchedual(@RequestParam String theater_name, @RequestParam("play_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date play_date, Model model) {
-   	public String showSchedual(@RequestParam String theater_name, @RequestParam String play_date, Model model) {
-        System.out.println(theater_name + ", "+ play_date);
-        PlayVO play = admin_service.showSchedual(theater_name, play_date);
-        System.out.println(play);
-        return "admin/admin_schedule_list";
-    }
+    // 관리자페이지 상영스케줄 상단 버튼 클릭1 json
+	@ResponseBody
+	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	public List<PlayVO> findSchedule(@RequestParam String theater_name, @RequestParam String play_date, Model model) throws Exception {
+//		String theater_name = params.get("theater_name");
+//		String play_date = params.get("play_date");
+		
+		System.out.println(theater_name + ", " + play_date);
+		List<PlayVO> playList = admin_service.showSchedual(theater_name, play_date);
+		
+		System.out.println(playList);
+		model.addAttribute("playList", playList);	
+		return playList;	
+//		return null;	
+	}
+
+	
+    // 관리자페이지 상영스케줄 상단 버튼 클릭2
+//    @GetMapping("showSchedual2")
+//    public String showSchedual(@RequestParam String theater_name, @RequestParam Date play_date, Model model) {
+////   	public String showSchedual(@RequestParam String theater_name, @RequestParam String play_date, Model model) {
+//        System.out.println(theater_name + ", "+ play_date);
+//        
+//       
+//        List<PlayVO> playList = admin_service.showSchedual(theater_name, play_date);
+//        System.out.println(playList);
+//        return "admin/admin_schedule_list";
+//    }
 	
 	// 관리자페이지 결제관리
 //	@GetMapping("")
