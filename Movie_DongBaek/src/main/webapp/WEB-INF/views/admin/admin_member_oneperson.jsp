@@ -10,7 +10,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<title>회원관리 - $.{member.id}</title>
+<title>회원관리 - ${member.member_id}</title>
 <style>
 .w-900{
 	width: 900px;
@@ -40,7 +40,7 @@ article {
 	<div class="row">
 		<div class="col-md-12 mt-3">
 			<h3>
-				${member.id} 님의 회원정보
+				${member.member_id} 님의 회원정보
 			</h3>
 		</div>
 	</div>
@@ -53,13 +53,13 @@ article {
 			    <tr>
 			    	<%-- 가로 길이 고정(일시) --%>
 			    	<th width="250px">이름</th>
-			    	<td width="550px" colspan="2">${member.name }</td>
+			    	<td width="550px" colspan="2">${member.member_name }</td>
 			    </tr>
 			    <tr>
 			    	<%-- 회원상태 : selectBox , 상태변경 확인버튼 --%>
 			    	<%-- --%>
 			    	<th>회원상태</th>
-			    	<td width="350px">${member.type}(회원) // 상태변경 버튼 클릭 시 변화</td>
+			    	<td width="350px">${member.member_type}</td>
 			    	<td>
 				  		<select>
 				  			<option>활동중(회원)</option>
@@ -75,19 +75,19 @@ article {
 			    </tr>
 			    <tr>
 			    	<th>아이디</th>
-			    	<td colspan="2">${member.id}</td>
+			    	<td colspan="2">${member.member_id}</td>
 			    </tr>
 			    <tr>
 			    	<th>생년월일</th>
-			    	<td colspan="2">${member.birth}</td>
+			    	<td colspan="2">${member.member_birth}</td>
 			    </tr>
 			    <tr>
 			    	<th>전화번호</th>
-			    	<td colspan="2">${member.phone}</td>
+			    	<td colspan="2">${member.member_phone}</td>
 			    </tr>
 				<tr>
 			    	<th>이메일(선택)</th>
-			    	<td colspan="2">${member.email}</td>
+			    	<td colspan="2">${member.member_email}</td>
 				</tr>
 			</table>
 		</div>

@@ -74,7 +74,6 @@ th{
 		                </span>
 					</p>
 		  		</div>
-		  		
 		         <%-- 약관 1 : 필수 항목 : required  --%>
 		  		<div class="terms_p">
 		  			<p class="terms_check">
@@ -128,7 +127,8 @@ th{
 		  			<p class="terms_check">
 		            	<span class="input_check">
 		            		<!-- 필수 항목 : required 속성 -->
-		                	<input type="checkbox" id="check3" name="check3">
+		            		<%-- 선택 사항 중 마케팅 활용은 컬럼이 있어 id로 컬럼명 넣음 --%>
+		                	<input type="checkbox" id="check3" name="member_agree_marketing" name="check3">
 		                <label for="check3">
 		                	<span class="check3_txt">
 		                		마케팅 활용을 위한 개인 정보 수집 이용 안내(선택)
@@ -141,22 +141,6 @@ th{
 					</p>
 		  		</div>
 		  		
-		  		<%-- 약관 4 : 선택 항목 --%>
-		  		<div class="terms_p">
-		  			<p class="terms_check">
-		            	<span class="input_check">
-		                	<input type="checkbox" id="check4" name="check4">
-		                <label for="check4">
-		                	<span class="check4_txt">
-		                		위치기반 서비스 이용 약관 동의(선택)
-								<div class="form-floating overflow-auto">
-		 							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" readonly="readonly"></textarea>
-								</div>
-		                	</span>
-		                </label>
-		                </span>
-					</p>
-		  		</div>
 		<!-- 		<div class="d-grid gap-2"> -->
 				<div class="col-12 d-flex justify-content-center">
 					<!-- 취소 버튼 클릭 시 메인페이지로 돌아가기 -->

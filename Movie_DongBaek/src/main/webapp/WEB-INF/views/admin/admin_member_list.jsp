@@ -103,14 +103,14 @@ div {
 		  		<%-- 뿌리기 코드 <c:forEach var="member" items="${member }">
 		  		한페이지에 몇개 나오고 밑에 1,2,3,4,5페이지 넘어가기 = jsp복습해보기 --%>
 						<tbody>
-						<c:forEach var="member" items="${memberList }">
+						<c:forEach var="memberList" items="${memberList }" >
 							<tr>
-								<th scope="row">나한테 왜그러는건데</th> 
-						    	<td>${member.member_name }</td>			
-						    	<td>${member.member_id }</td>			
-						    	<td>${member.grade_name }</td> 
+								<th scope="row">번호</th> 
+						    	<td>${memberList.member_name }</td>			
+						    	<td>${memberList.member_id }</td>			
+						    	<td>${memberList.grade_name }</td> 
 						    	<td>
-						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson'">회원</button>
+						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${memberList.member_id }'">${memberList.member_type }</button>
 				     			</td>
 					    	</tr>
 						</c:forEach>

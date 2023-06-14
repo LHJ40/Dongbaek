@@ -7,6 +7,40 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+// 	//날짜입력 
+// 	$(function() {
+// 	    let y = new Date();
+// 	    y.setDate(y.getDate()-1);
+// 	    let str = y.getFullYear() + "-"
+// 	    + ("0" + (y.getMonth() + 1)).slice(-2) + "-"
+// 	    + ("0" + y.getDate()).slice(-2);
+// 	    $("#date").attr("max",str);
+
+
+// 	// 확인버튼 클릭 이벤트 => API로 정보 가져옴
+// 	//===> 영화목록페이지로 이동시 api로 정보 가져오는것으로 변경
+// 	$("#mybtn").click(function() {
+// 	    let d = $("#date").val(); //선택날짜값 YYYY-MM-DD 형태로 받음
+// 	    const regex = /-/g; //정규표현식으로 - 제거
+// 	    let d_str = d.replace(regex,"") // YYYYMMDD (d_str에저장)
+	
+// 	    let url = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt="+d_str
+// 		//targetDt="+d_str -> 해당날짜의 정보 가져옴
+// 	     $.getJSON(url, function(data) {
+// 	         let movieList = data.boxOfficeResult.dailyBoxOfficeList;
+// 	         $("div").empty();
+// 	         $("div").append(d+" 박스 오피스 순위<br>");
+// 	         for(let i in movieList){
+// 	             $("div").append("<span id= '"+movieList[i].movieCd + "'>" +(parseInt(i)+1) + " " + movieList[i].movieNm+"/"+movieList[i].audiAcc + "명 " + "</span><hr>" );
+// 	         }
+// 	        });
+// 	});//click
+
+
+</script>
+
+
 <title>영화 예매 사이트</title>
 <style>
 	<%-- 페이징 색상변경 --%>
@@ -57,9 +91,8 @@
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
 		  <select class="custom-select" name="movie_array">
-		    <option selected>정렬순</option>
-		    <option value="1">예매순</option>
-		    <option value="2">평점순</option>
+		    <option selected>예매순</option>
+		    <option value="1">평점순</option>
 		  </select>
 		</div>
 	</div>

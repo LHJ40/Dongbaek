@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -92,7 +93,7 @@
 						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
 						      <div class="card-body">
 						        <h5 class="card-title">${snack.snack_name}</h5>
-						        	${snack.snack_price}
+						        	${snack.snack_price}원
 						        	<br>
 						        	${snack.snack_txt}<br>
 						      </div>

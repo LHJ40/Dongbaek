@@ -75,6 +75,10 @@
 		position: absolute;
 	}
 </style>
+<script type="text/javascript">
+
+
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -88,36 +92,38 @@
 	           	<%-- 스낵 권유 파트 --%>
 	               <div class="col-8" id="seat-part">
 	               	<h5>스낵이 필요하지는 않으신가요?</h5>
-	               		<div class="row row-cols-1 row-cols-md-3" style="width: 45rem;">
+	               		<div class="row row-cols-1 row-cols-md-4" style="width: 45rem;">
+	               		<c:forEach var="snack" items="${snackList}">
 						<div class="col mb-4">
 						    <div class="card h-100">
-						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="...">
+						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
 						      <div class="card-body">
-						        <h5 class="card-title">상품명</h5>
-						        	10,000원
+						        <h5 class="card-title">${snack.snack_name}</h5>
+						        	${snack.snack_price}원
 						        <p class="card-text">
-						        	<input type="number">
-						        	<button type="button" class="btn btn-outline-danger">담기</button><br>
-						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br>
+						        	<input type="number" value=1>
+						        	<button type="button" class="btn btn-outline-danger" id="addsnack" >담기</button><br>
+						        	${snack.snack_txt}<br>
 						        </p>
 						      </div>
 						    </div>
 						  </div>
+						  </c:forEach>
 	               			
-	               			<div class="col mb-4">
-						    <div class="card h-100">
-						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="...">
-						      <div class="card-body">
-						        <h5 class="card-title">상품명</h5>
-						        	10,000원
-						        <p class="card-text">
-						        	<input type="number">
-						        	<button type="button" class="btn btn-outline-danger">담기</button><br>
-						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br>
-						        </p>
-						      </div>
-						    </div>
-						  </div>
+<!-- 	               			<div class="col mb-4"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						      <img src="/resources/img/popcorn.png" width="80" height="130" class="card-img-top" alt="..."> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title">상품명</h5> -->
+<!-- 						        	10,000원 -->
+<!-- 						        <p class="card-text"> -->
+<!-- 						        	<input type="number"> -->
+<!-- 						        	<button type="button" class="btn btn-outline-danger">담기</button><br> -->
+<!-- 						        	한 줄 설명(고소팝콘 M1 + 콜라2)<br> -->
+<!-- 						        </p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
 	               			
 	               		</div>
 	               		
@@ -132,7 +138,7 @@
 	                <h5>주문 정보</h5>
 	                <hr>
 	                <%-- (상품 담기 시 입력되는 창) --%>
-	                <table border="1">
+	                <table border="1" id="snackCart" >
 	                	<tr>
 	                		<td>1</td>
 	                		<td width="150px">상품명 x n </td>

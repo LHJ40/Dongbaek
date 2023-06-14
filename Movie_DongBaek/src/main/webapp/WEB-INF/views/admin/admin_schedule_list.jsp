@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
 	crossorigin="anonymous"></script>
@@ -27,6 +29,56 @@
 	href="${pageContext.request.contextPath }/resources/css/button.css"
 	rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
+
+
+<%-- jquery DBN --%>
+<%-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --%> 
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> <!-- 추가 --%>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+<%-- ajax를 이용한 목록 선택 --%>
+$(function(){
+	
+	
+	
+    $("#createScheduel").on("click",function(){
+        let theater_num = $("#theater_num").val();
+        let play_date = $("#play_date").val();   
+        
+        let result;
+        
+        $.ajax({
+            url: "showSchedual",
+            type: "POST",
+            data : {
+        		"theater_num" : theater_num,
+        		"play_date" : play_date
+        	},
+            success: function(data, status, xhr){ // 목록데이터 출력 장소
+                $(data).each(function(){
+                result = JSON.parse(json);
+alert(this.play_num + ',' + this.play_turn + ',' + this.movie_name + ',' + this.movie_relese_date + ',' + this.movie_running_time);
+                });
+            },
+            error: function(){ // 실패시 구문
+                alert("request error!");
+            }
+        })
+
+        return result;
+        
+    });
+        alert(result);
+});
+
+
+
+
+</script>
+
+
 
 <style>
 div {
@@ -73,28 +125,33 @@ background-color: transparent;
 		    	<a class="navbar-brand" >상영스케줄 관리</a>
 		    </div>
 	    	<div class="col col-md-10">
-			    <form class="form-inline">
-			      <select class="form-control mr-sm-2" name="theater">
-			      	<option value="">영화관</option>
-			      	<option value="영화관1">영화관1</option>
-			      	<option value="영화관2">영화관2</option>
+	    	
+			    <form class="form-inline" action="showSchedual">
+			      <select class="form-control mr-sm-2" name="theater_num" id="theater_num">
+			      	<option value="" checked="checked">영화관</option>
+			      	<c:forEach var="theater" items="${theaterInfo }">
+			      		<option value="${theater.theater_num }">${theater.theater_name }</option>
+			      	</c:forEach>
 			      </select>
 			      <div class="input-group">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text" id="play_date">상영날짜</span>
+					    <span class="input-group-text">상영날짜</span>
 					  </div>
-					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" id="">
+					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date" id="play_date">
 				  </div>
-			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="submit">확인</button>
+			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">확인</button>
 			    </form>
+			    
 		    </div>
 		  </div>
 
 		</nav>
   	</div>
-  	
+
+	<div class="row"><p id="play_list"></p></div>
   	<%-- 본문 테이블 --%>
   	<div class="row">
+  	
   	<table class="table table-striped text-center align-middle">
 	  <%-- 테이블 헤드 --%>
 	  <thead>

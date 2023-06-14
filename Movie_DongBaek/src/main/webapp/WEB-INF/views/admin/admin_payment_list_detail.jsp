@@ -107,7 +107,7 @@ article {
 			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#paymentCancel">결제취소</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list'">뒤로가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_payment_list'">뒤로가기</button>
 		</div>
 	</div>
   </div>

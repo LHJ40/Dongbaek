@@ -1,11 +1,7 @@
 @charset "UTF-8";
 
-/* clear클래스 호출로 clear처리 */
-.clear{ clear: both; }
 .container-top{
 	margin: 3rem;
-/* 	margin-left: 3rem; */
-/* 	margin-right: 3rem; */
 }
 aside{
 	margin: 10px;
@@ -14,15 +10,15 @@ aside{
 
 /* 예매 선택 구간 */
 /* 크기 조절 */
-.payment_con{
-	width: 1000px;
-	margin: 1rem;
+.container-fluid{
+	width: 900px;
 	padding-left: 2rem;
-	background-color: #d5b59c;
+	border: 2px solid #aaa;
+/* 	background-color: #d5b59c; */
 }
-/* div{ */
-/* 	background-color: transparent; */
-/* } */
+div{
+	background-color: transparent;
+}
 .container-fluid h5{
 	text-align: center;
 	font-weight: bold;
@@ -45,5 +41,89 @@ aside{
 .row2{
 	padding-top: 0.5rem;
 	height: 150px;
-	background-color: #e2cdbc;
+	background-color: #aaa;
+}
+
+.row1>div{
+	border: 1px solid #aaa;
+}
+
+/* 영화 목록, 극장 목록 앞의 모양 제거 */
+#selectMovie ul, #selectTheater ul, #selectDate ul {
+	list-style: none;
+	padding-left: 0;
+}
+/* 극장 파트 좌우 배치 */
+#region{
+/* 	border: 1px solid #000; */
+	width: 70px;
+	display: inline-block;
+}
+#region td {
+	padding: 5px;
+}
+#room{
+	vertical-align: top;
+/* 	border: 1px solid #000; */
+	width: 120px;
+	display: inline-block;
+}
+#playType{
+	text-align: right;
+}
+#playTable {
+	overflow: auto;
+}
+#playTable button {
+	margin: 3px;
+}
+
+#selectMovie a, #selectTheater a, #selectDate a {
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+a:link, a:hover {
+	text-decoration: none;
+}
+
+a {
+	color: #333;
+	margin: 1px;
+}
+
+#selectMovie .selected a {
+	background-color: #333;
+    width: 270px;
+    height: 33px;
+    line-height: 33px;
+    border: 1px solid #000;
+    color:#fff;
+}
+
+#selectTheater .selected a {
+	background-color: #333;
+    width: 124px;
+    height: 33px;
+    line-height: 33px;
+    border: 1px solid #000;
+    color:#fff;
+}
+
+#selectDate .selected a {
+	background-color: #333;
+    width: 124px;
+    height: 33px;
+    line-height: 33px;
+    border: 1px solid #000;
+    color:#fff;
+}
+
+li .selected a span.text {
+	color:#fff;
+	font-weight: bold;
+   	padding-right: 5px;
 }
