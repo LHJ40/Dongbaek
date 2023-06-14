@@ -203,8 +203,8 @@ public class AdminController {
 	// 데이터넣고 주석풀고 확인하기 **완료X 0608 - 정의효
 	// 0609 완
 	@GetMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(@RequestParam String id, Model model) {
-		PaymentVO payment = payment_service.getPayment(id); 
+	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
+		PaymentVO payment = payment_service.getPayment(order_num); 
 //		
 		model.addAttribute("payment", payment);
 		

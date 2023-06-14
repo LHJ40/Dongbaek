@@ -5,14 +5,19 @@
 
 	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 상세내역 -->
 	<select id="selectPayment" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
-		select *
-		from PAYMENTS
-		where id = #{id}
+		SELECT *
+		FROM PAYMENTS p
+		JOIN ORDERS o
+		ON p.order_num = o.order_num
+		where member_id = #{member_id}
 	</select>
 	
 	<select id="selectPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
-		select *
-		from PAYMENTS
+		SELECT *
+		FROM PAYMENTS p
+		JOIN ORDERS o
+		ON p.order_num = o.order_num
+		
 	</select>
 	
 </mapper>
