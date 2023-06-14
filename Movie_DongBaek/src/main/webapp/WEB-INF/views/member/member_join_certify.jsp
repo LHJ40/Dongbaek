@@ -152,7 +152,9 @@ th{
 											$(".successPhoneChk").css("color","green");
 											$("#phoneDoubleChk").val("true");
 											$("#DoneBtn").attr("disabled",false);
-											session.setAttribute("member_phone", member_phone);
+											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
+											// 로컬의 세션 스토리지에 이메일 저장
+											sessionStorage.setItem('member_phone', member_phone);
 										}else{
 											$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
 											$(".successPhoneChk").css("color","red");
