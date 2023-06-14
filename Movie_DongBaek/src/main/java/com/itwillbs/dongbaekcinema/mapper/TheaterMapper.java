@@ -11,4 +11,6 @@ public interface TheaterMapper {
 
 	List<TheaterVO> selectTheaterList();
 
+	TheaterVO selectTheater(int theater_num);
+
 }

@@ -5,4 +5,8 @@
   	SELECT * FROM THEATERS;
   </select>
   
+  <select id="selectTheater"  resultType="com.itwillbs.dongbaekcinema.vo.TheaterVO">
+  	SELECT * FROM THEATERS
+  	WHERE theater_num = #{theater_num};
+  </select>
 </mapper>

@@ -18,14 +18,14 @@ public class ReservationService {
 
 	// 예매율순 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의
 	public List<MovieVO> getMovieListDescBookingRate() {
-		System.out.println("ReservationService - getMovieList()");
+		System.out.println("ReservationService - getMovieListDescBookingRate()");
 				
 		return mapper.selectMovieListDescBookinRate();
 	}
 
 	// 가나다순 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의
 	public List<MovieVO> getMovieListAscMovieName() {
-		System.out.println("ReservationService - getMovieList()");
+		System.out.println("ReservationService - getMovieListAscMovieName()");
 		
 		return mapper.selectMovieListAscMovieName();
 	}
