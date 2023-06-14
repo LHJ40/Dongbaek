@@ -74,10 +74,6 @@ th{
 		                </span>
 					</p>
 		  		</div>
-		  		<%-- 번호인증 후 받아온 전화번호, 이메일, 생년월일을 hidden으로 넘김 --%>
-		  		<input type="hidden" value="${member.member_phone }" name="member_phone">
-		  		<input type="hidden" value="${member.member_email }" name="member_email">
-<%-- 		  		<input type="hidden" value="${member_birth }" name="member_birth"> --%>
 		         <%-- 약관 1 : 필수 항목 : required  --%>
 		  		<div class="terms_p">
 		  			<p class="terms_check">
@@ -145,22 +141,6 @@ th{
 					</p>
 		  		</div>
 		  		
-		  		<%-- 약관 4 : 선택 항목 --%>
-		  		<div class="terms_p">
-		  			<p class="terms_check">
-		            	<span class="input_check">
-		                	<input type="checkbox" id="check4" name="check4">
-		                <label for="check4">
-		                	<span class="check4_txt">
-		                		위치기반 서비스 이용 약관 동의(선택)
-								<div class="form-floating overflow-auto">
-		 							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" readonly="readonly"></textarea>
-								</div>
-		                	</span>
-		                </label>
-		                </span>
-					</p>
-		  		</div>
 		<!-- 		<div class="d-grid gap-2"> -->
 				<div class="col-12 d-flex justify-content-center">
 					<!-- 취소 버튼 클릭 시 메인페이지로 돌아가기 -->

@@ -97,7 +97,7 @@ div {
 			<div class="row mb-3">
               <label for="id" class="col-2 text-nowrap">아이디</label>
               <div class="col-10">
-	              <input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required="required">
+	              <input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required="required" value="${cookie.member_id.value }">
               </div>
 	        </div>
 	        
@@ -112,7 +112,8 @@ div {
 			<%-- 아래 버튼들... --%>
 		    <div class="row checkbox mb-3">
 		      <label class="col-4" >
-		        <input type="checkbox" value="remember-me" > 아이디 저장
+		      
+		        <input type="checkbox" name="remember_me" <c:if test="${not empty cookie.member_id}">checked</c:if> > 아이디 저장
 		      </label>
 		      <span class="col-4 d-flex justify-content-end">
 		        <a href="#">회원가입</a>
@@ -148,7 +149,7 @@ div {
 						Kakao.Auth.login({
 							
 						// 이 부분은 생략가능한 부분인데, 이용 중 동의를 설정했을 때 scope에 추가해주면 됨
-						scope: "profile_nickname, account_email, birthday",
+						scope: "profile_nickname, account_email",
 						success: function (response) {
 							Kakao.API.request({
 							url: '/v2/user/me',
