@@ -69,7 +69,7 @@
 		<div class="tab-content" id="nav-tabContent">
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
-					<input type="date" id="start" value="2023-05-23" min="2018-01-01" max="2023-12-31">
+					<input type="date" id="start" value="${currentdate}" min="2018-01-01" max="2023-12-31">
 				</div>
 				<div class="row container" align="center">
 				

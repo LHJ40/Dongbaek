@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,18 @@ public class TheaterController {
 		return "theater/theater-price_tap";
 	}
 	@GetMapping("theater-runningtime_tap")
-	public String theater_runningtime_tap() {
+	public String theater_runningtime_tap(Model model) {
+		List<TheaterVO> theaterList = service.getTheaterList();
+		System.out.println(theaterList);
+		
+		LocalDate currentdate = LocalDate.now();
+	
+
+		
+		// student_list.jsp 페이지로 포워딩 시 전달할 List 객체 저장
+		model.addAttribute("theaterList", theaterList);
+		model.addAttribute("currentdate", currentdate);
+		
 		return "theater/theater-runningtime_tap";
 	}
 }
