@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.dongbaekcinema.service.TheaterService;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
@@ -27,9 +30,22 @@ public class TheaterController {
 		
 		return "theater/theater_main";
 	}
-	@GetMapping("theater_tap")
-	public String theater_tap() {
-		return "theater/theater_tap";
+//	@ResponseBody
+//	@GetMapping(value="getTheater",produces = "application/json;charset=utf-8")
+//	public Object theater_tap(int theater_num) {
+//		System.out.println("theater_tap");
+//		System.out.println(theater_num);
+//		return "";
+//	}
+	
+	@ResponseBody
+	@GetMapping("getTheater")
+	public Object getTheater(int theater_num, Model model) {
+		System.out.println(theater_num);
+		TheaterVO theater=service.getTheater(theater_num);
+		model.addAttribute("theater", theater);		
+		System.out.println(theater);
+		return theater;
 	}
 	@GetMapping("theater-price_tap")
 	public String theater_price_tap() {
