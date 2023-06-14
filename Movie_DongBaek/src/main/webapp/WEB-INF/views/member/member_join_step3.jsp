@@ -212,7 +212,6 @@ th{
 				  	
 					<!-- 비밀번호 (필수)  -->
 				  	<div class="row mb-3">
-				  	
 				    	<label for="inputPassword" class="col-sm-5 ">비밀번호</label>
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required"  onchange="checkPass(this.value)">
