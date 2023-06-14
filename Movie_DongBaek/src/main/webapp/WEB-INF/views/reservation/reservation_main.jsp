@@ -113,29 +113,154 @@ $(function() {
 		
 		// 날짜 출력
 		$("#selectDate").css("display", "flex");
-		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
-		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
-		$.ajax({
-			type : "post", 
-			url : "ReservationStep2Servlet", 
-			data : {"movie_num" : movieNum, "theater_num" : theaterNum}, 
-			dataType : "json", 
-		})
-		.done(function(date) {
-			
-			const playDate = new Date();
-			let year = playDate.getFullYear();
-			let month = playDate.getMonth() + 1;
-			let dataDay = playDate.getDate();
-			let dayLabel = playDate.getDay();	// 요일
-			let dayNumber = Number(dataDay);
-			
-			$(".playMonth").html("<h4>" + month + "<small>월</small></h4>");
+// 		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
+// 		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
+
+		const now = new Date();
+		let year = now.getFullYear();
+		let month = now.getMonth();
+		let thisMonth = month + 1;
+		let date = now.getDate();	
+		let lastDate = new Date(year, month + 1, 0).getDate();	// 달의 마지막 날
+		
+		let today = new Date(year, month, date);
+		let dayLabel = today.getDay();	// 요일
+		let weekDay = ['일', '월', '화', '수', '목', '금', '토'];
+		let todayLabel = weekDay[today.getDay()];
+		let showDateRange = 10;	// 보여주기로 한 날짜 범위(10일)
+		let dateDiff = lastDate - date;	// 오늘과 달의 마지막 날의 차
+
+		let res = "";
+		if(dateDiff > showDateRange){	// dateDiff(오늘과 달의 마지막 날의 차이)가 10보다 클 때
+			// 년
+			res += "<div class='col-12'>" + 
+						"<div class='row'>" + 
+							"<div class='col-12 playYear'>" + year + "년</div>" + 
+						"</div>";
+				// 월
+				res += "<div class='row'>" + 
+							"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
+						"</div>" + 
+						"<div class='row col text-center day'><ul>";
 						
-		})
-		.fail(function() { // 요청 실패 시
-			$("#selectDate").html("요청 실패!");
-		});
+			for(let j = date; j <= date + showDateRange; j++){
+				today = new Date(year, month, j);	// 오늘 날짜 넣기
+				dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+				todayLabel = weekDay[dayLabel];
+		
+				// 요일 & 일
+				res += "<li><a href='#'>" + 
+							"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+							"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+						"</a></li>";
+			}
+			res += "</ul></div></div>";
+			
+		}else {	// dateDiff(오늘과 달의 마지막 날의 차이)가 10보다 작을 때
+			if(month != 11){	// 12월이 아닐 때
+			
+				// 년
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + year + "년</div>" + 
+							"</div>";
+					// 월
+					res += "<div class='row'>" + 
+								"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
+							"</div>" + 
+							"<div class='row col text-center day'><ul>";
+							
+				for(let j = date; j <= lastDate; j++){
+					today = new Date(year, month, j);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+							"</a></li>";
+				}
+				res += "</ul></div></div>";
+				
+				// 년
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + year + "년</div>" + 
+							"</div>";
+					// 월
+					res += "<div class='row'>" + 
+								"<span class='col-4 playMonth'><h4>" + (thisMonth + 1) + "</h4></span><span class='col-2 p-0'>월</span>" + 
+							"</div>" + 
+							"<div class='row col text-center day'><ul>";
+							
+				for(let j = 1; j <= showDateRange - dateDiff; j++){
+					today = new Date(year, month + 1, j);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+							"</a></li>";
+				}
+				res += "</ul></div></div>";
+				
+			}else{	// 12월일 때
+			// 년
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + year + "년</div>" + 
+							"</div>";
+					// 월
+					res += "<div class='row'>" + 
+								"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
+							"</div>" + 
+							"<div class='row col text-center day'><ul>";
+							
+				for(let j = date; j <= lastDate; j++){
+					today = new Date(year, month, j);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+							"</a></li>";
+				}
+				res += "</ul></div></div>";
+				
+				// 년
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + (year + 1) + "년</div>" + 
+							"</div>";
+					// 월
+					res += "<div class='row'>" + 
+								"<span class='col-4 playMonth'><h4>" + (thisMonth - 11) + "</h4></span><span class='col-2 p-0'>월</span>" + 
+							"</div>" + 
+							"<div class='row col text-center day'><ul>";
+							
+				for(let j = 1; j <= showDateRange - dateDiff; j++){
+					today = new Date(year + 1, month - 11, j);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+							"</a></li>";
+				}
+				res += "</ul></div></div>";
+												
+			}
+		}
+		res += "<br>";
+		$("#selectDate").html(res);	
+		
 	});
 });
 </script>

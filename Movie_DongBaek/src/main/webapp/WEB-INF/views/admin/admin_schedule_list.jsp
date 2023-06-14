@@ -40,30 +40,42 @@
 <script type="text/javascript">
 <%-- ajax를 이용한 목록 선택 --%>
 $(function(){
+	
+	
+	
     $("#createScheduel").on("click",function(){
-        let theater_name = $("#theater_name").val();
-        let play_date = $("#play_date").val();
-        alert(theater_name + ", " + play_date);
-   
+        let theater_num = $("#theater_num").val();
+        let play_date = $("#play_date").val();   
+        
+        let result;
         
         $.ajax({
             url: "showSchedual",
             type: "POST",
             data : {
-        		"theater_name" : theater_name,
+        		"theater_num" : theater_num,
         		"play_date" : play_date
         	},
-            success: function(data){ // 목록데이터 출력 장소
+            success: function(data, status, xhr){ // 목록데이터 출력 장소
                 $(data).each(function(){
-                    alert(this.play_num);
+                result = JSON.parse(json);
+alert(this.play_num + ',' + this.play_turn + ',' + this.movie_name + ',' + this.movie_relese_date + ',' + this.movie_running_time);
                 });
             },
-            error: function(){
+            error: function(){ // 실패시 구문
                 alert("request error!");
             }
-        });
+        })
+
+        return result;
+        
     });
+        alert(result);
 });
+
+
+
+
 </script>
 
 
@@ -115,10 +127,11 @@ background-color: transparent;
 	    	<div class="col col-md-10">
 	    	
 			    <form class="form-inline" action="showSchedual">
-			      <select class="form-control mr-sm-2" name="theater_name" id="theater_name">
-			      	<option value="영화관" checked="checked">영화관</option>
-			      	<option value="서면점">서면점</option>
-			      	<option value="사상점">사상점</option>
+			      <select class="form-control mr-sm-2" name="theater_num" id="theater_num">
+			      	<option value="" checked="checked">영화관</option>
+			      	<c:forEach var="theater" items="${theaterInfo }">
+			      		<option value="${theater.theater_num }">${theater.theater_name }</option>
+			      	</c:forEach>
 			      </select>
 			      <div class="input-group">
 					  <div class="input-group-prepend">

@@ -39,6 +39,7 @@ $(function() {
  			
  			$("#theater_name").html(theater.theater_name);
  			$("#theater_address").html(theater.theater_address);
+ 			$("#theater_map").html(theater.theater_map);
 						
  		})
  		.fail(function() { // 요청 실패 시
