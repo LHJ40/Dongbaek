@@ -39,7 +39,7 @@ public class ReservationController {
 	@GetMapping(value = "descBookingRate", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Object descBookingRate(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("ReservationController - reservation_main");
+		System.out.println("ReservationController - descBookingRate");
 		
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
 		System.out.println(movieList);
@@ -52,7 +52,7 @@ public class ReservationController {
 	@GetMapping(value = "ascMovieName", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Object ascMovieName(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("ReservationController - reservation_main");
+		System.out.println("ReservationController - ascMovieName");
 		
 		List<MovieVO> movieList = service.getMovieListAscMovieName();
 		System.out.println(movieList);
