@@ -98,9 +98,9 @@ public class AdminController {
 //	        return "fail_back";
 //	    }
 		
-		List<String> theaterInfo = admin_service.getTheater();
-		System.out.println(theaterInfo);
-		model.addAttribute("theaterInfo",theaterInfo);
+//		List<String> theaterInfo = admin_service.getTheater();
+//		System.out.println(theaterInfo);
+//		model.addAttribute("theaterInfo",theaterInfo);
 		
 		
 		return "admin/admin_schedule_list";
