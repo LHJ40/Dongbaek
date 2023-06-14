@@ -132,24 +132,26 @@ th{
 	
 	// ------ 카카오 로그인 후 회원가입 진행 작업 -------------
 	// 로컬의 세션 스토리지에 저장한 이메일과 닉네임을 <input> 요소에 설정
-	let member_name = sessionStorage.getItem('member_name');
-	let member_email = sessionStorage.getItem('member_email');
-	let member_birth = sessionStorage.getItem('member_birth');
-	
-	$("#member_name").val(member_name);
-	$("#member_email").val(member_email);
-	$("#member_birth").val(member_birth);
-	
-	// 세션 스토리지에 카카오 값이 존재할 경우 <input> 요소를 읽기 전용으로 설정
-	if(member_name) {
-		$("#member_name").attr("readOnly", "readOnly");
-	}
-	if(member_email) {
-		$("#member_email").attr("readOnly", "readOnly");
-	}
-	if(member_birth) {
-		$("#member_birth").attr("readOnly", "readOnly");
-	}
+	$(function() {
+		let member_name = sessionStorage.getItem('member_name');
+		let member_email = sessionStorage.getItem('member_email');
+		let member_phone = sessionStorage.getItem('member_phone');
+		
+		
+		// 세션 스토리지에 카카오 값이 존재할 경우 <input> 요소를 읽기 전용으로 설정
+		if(member_name != null) {
+			$("#member_name").val(member_name);
+			$("#member_name").attr("readOnly", "readOnly");
+		}
+		if(member_email != null) {
+			$("#member_id").val(member_email);
+			$("#member_id").attr("readOnly", "readOnly");
+		}
+		if(member_phone != null) {
+			$("#member_phone").val(member_phone);
+			$("#member_phone").attr("readOnly", "readOnly");
+		}
+	});
 	
 	// ------------------------------
 	
@@ -181,18 +183,10 @@ th{
 					<div class="row mb-3">
 				    	<label for="inputEmail3" class="col-sm-5 ">아이디</label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
 					    	<div class="col-sm-12">
-						    		<c:choose>
-						    			<c:when test="${empty sessionStorage.email }"> <%-- session에 email가 없으면 -> 그냥 회원가입 --%>
-								    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
-								    			minlength="5" maxlength="10" onchange="checkId()">
-						    			</c:when>
-						    			<c:otherwise>	<%-- session에 email이 있을 경우(카카오, 네이버 로그인 시 --%>
-								    		<input type="text" class="form-control" id="member_id" name="member_id" readonly="readonly">
-						    			</c:otherwise>
-						    		</c:choose>
+					    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
+						    			minlength="5" maxlength="20" onchange="checkId()">
 					    	</div>
 					</div>
-					    	
 					<!-- 아이디 중복확인 : ajax -->
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>

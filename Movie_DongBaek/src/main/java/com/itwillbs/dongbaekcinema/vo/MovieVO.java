@@ -19,7 +19,7 @@ public class MovieVO {
 	private int movie_running_time;
 	private int movie_audience_num;
 	private String movie_content;
-//	private ENUM movie_grade;
+	private String movie_grade;
 	private String movie_poster;
 	private String movie_preview;
 	private String movie_photo1;

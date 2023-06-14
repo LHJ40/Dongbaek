@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.net.http.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -19,11 +20,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 		
-	// 메인화면에서 회원 로그인 화면으로 이동
-	@GetMapping("member_login_form")
-	public String member_login_form() {
-		return "member/member_login_form";
-	}
 	
 	// 회원가입 폼에서 아이디 중복확인
 	@PostMapping("/idCheck")
@@ -33,22 +29,25 @@ public class MemberController {
 		return cnt;
 	}
 	
-	
 	// "/member_join_pro" 요청에 대해 MemberService 객체 비즈니스 로직 수행 
 	// => 폼 파라미터로 전달되는 가입 정보를 파라미터로 전달받기 
 	// => 가입 완료 후 이동할 페이지 : member/member_join_step4.jsp 
 	// => 가입 실패 시 오류 페이지(fail_back) 을 통해 "회원 가입이 실패하였습니다." 출력 후 이전 페이지( )로 돌아가기!
 	@PostMapping("member_join_pro")
-	public String joinPro(MemberVO member, Model model) {
+	public String joinPro(MemberVO member, HttpSession session,  Model model) {
 		System.out.println(member);
 		
 		// MemberService(registMember()) - MemberMapper(insertMember())
 		int insertCount = service.registMember(member);
 		
+		
 		// 회원 가입 성공/실패에 따른 페이지 포워딩
 		// => 성공 시 MemberJoinSuccess 로 리다이렉트
 		// => 실패 시 fail_back.jsp 로 포풔딩(model 객체의 "msg" 속성으로 "회원 가입 실패!" 저장)
 		if(insertCount > 0) {
+			// (카카오)회원 이메일, 이름 session에서 제거
+			session.removeAttribute("member_email");
+			session.removeAttribute("member_name");
 			return "redirect:/MemberJoinSuccess";
 		} else {
 			model.addAttribute("msg", "회원 가입이 실패하였습니다!");
@@ -68,10 +67,16 @@ public class MemberController {
 		return "member_join_step4";
 	}
 	
+	// 메인화면에서 회원 로그인 화면으로 이동
+	@GetMapping("member_login_form")
+	public String member_login_form() {
+		return "member/member_login_form";
+	}
 	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
-	public String member_login_pro(MemberVO member, HttpSession session, Model model) {
+	public String member_login_pro(MemberVO member, boolean remember_me,
+				HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		// 1. 일반 로그인 시도
 		// MemberService - getPasswd()
@@ -91,48 +96,68 @@ public class MemberController {
 		} else {
 			// 로그인 성공 시
 			// 세션에 값 넣기
+			HttpSession session = request.getSession();
 			session.setAttribute("member_id", member.getMember_id());
+			
+//			System.out.println(remember_me);
+			
+			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
+			if(remember_me) {
+				// Cookie에 로그인 성공한 member_id 저장 (name : "member_id")
+				Cookie cookie = new Cookie("member_id", member.getMember_id());
+				// cookie 유지 시간 지정 (초 단위)
+				cookie.setMaxAge(60 * 60 * 24 * 15); // 15일 유지 (초 * 분 * 시 * 일)
+				response.addCookie(cookie);
+				
+			} else if (!remember_me) {
+				// "아이디 저장" 체크박스 버튼이 눌려져 있지 않을 때 => cookie에 member_id 제거
+				Cookie cookie = new Cookie("member_id", "");
+				// cookie 유지 시간 지정 (초 단위)
+				cookie.setMaxAge(0); // 15일 유지 (초 * 분 * 시 * 일)
+				response.addCookie(cookie);
+			}
+			
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
 			
 	}
 		
-		// 네이버/카카오 로그인 클릭 시 (네이버/카카오 로그인 성공)
-		// 넘어온 이메일 정보가 DB에 있는지 확인
+	// 네이버/카카오 로그인 클릭 시 (네이버/카카오 로그인 성공)
+	// 넘어온 이메일 정보가 DB에 있는지 확인
+	
+	// 2. 카카오 로그인 클릭
+	@PostMapping("/checkKakao")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkKakao(@RequestParam String email, @RequestParam String nickname, HttpSession session) {
+		// 카카오에서 받아온 데이터 출력
+		System.out.println("email : " + email + "name : " + nickname);
 		
-		// 2. 카카오 로그인 클릭
-		@PostMapping("/checkKakao")
-		@ResponseBody	// Json 형태의 응답을 반환하도록 지정
-		public String checkKakao(@RequestParam String email, @RequestParam String nickname, HttpSession session) {
-			// 카카오에서 받아온 데이터 출력
-			System.out.println("email : " + email + "name : " + nickname);
+		// DB에서 리턴받아 판별
+		// MemberService - idCheck()
+		// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
+		int idCheck = service.idCheck(email);
+		
+		// 카카오에서 전달받은 이메일 값으로 회원가입 여부 판별
+		if (idCheck > 0) {
+			// DB에 카카오에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
 			
-			// DB에서 리턴받아 판별
-			// MemberService - idCheck()
-			// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
-			int idCheck = service.idCheck(email);
-			
-			// 카카오에서 전달받은 이메일 값으로 회원가입 여부 판별
-			if (idCheck > 0) {
-				// DB에 카카오에서 전달받은 이메일이 아이디로 존재할 때
-				System.out.println("존재하는 회원");
-				
-				// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
-				session.setAttribute("member_id", email);
-				return "existing";
-			} else {
-				// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
-				return "new";
-			}
-			
+			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", email);
+			return "existing";
+		} else {
+			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			return "new";
 		}
 		
+	}
 		
 		
-		// 이메일 정보가 있을 때 (회원임)
 		
-		// 이메일이 회원정보에 없을 때(회원 아님)
-		// "아직 동백씨네마의 회원이 아닙니다. 회원가입 하시겠습니까?" => 회원가입 페이지로 넘어가기
+	// 이메일 정보가 있을 때 (회원임)
+	
+	// 이메일이 회원정보에 없을 때(회원 아님)
+	// "아직 동백씨네마의 회원이 아닙니다. 회원가입 하시겠습니까?" => 회원가입 페이지로 넘어가기
 //		return "member/member_join_step3";	// => 회원가입(3단계) 정보입력창으로 가기
 		
 	
@@ -161,7 +186,7 @@ public class MemberController {
 	// 회원가입 화면 1 인증 성공, 네이버/카카오 인증 성공하면 회원가입 화면 2페이지로 이동
 	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
 	public String member_join_step2(MemberVO member, Model model) {
-		System.out.println(member);
+//		System.out.println(member);
 		
 		// 약관 동의 하는 페이지로 이동
 		model.addAttribute("member", member);
@@ -173,6 +198,7 @@ public class MemberController {
 	@RequestMapping(value = "/member_join_step3", method = {RequestMethod.GET, RequestMethod.POST})
 	public String member_join_step3(MemberVO member, Model model) {
 		System.out.println(member);
+		
 		model.addAttribute("member", member);
 		
 		return "member/member_join_step3";

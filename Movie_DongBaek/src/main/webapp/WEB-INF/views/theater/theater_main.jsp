@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+
 <link rel="stylesheet" type="text/css">
 
 <meta charset="UTF-8">
@@ -17,6 +18,7 @@ footer{
 	background-color: #ef4f4f;
 }
 </style>
+
 </head>
 <body>
 
@@ -72,21 +74,13 @@ footer{
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row">
 				  <div class="col">
-				  	<h5>XXX지점</h5><br>
-				  	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1645890.219410453!2d126.72779374253922!3d36.32129450891771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568eb7a9ffb035f%3A0x8e030b4b8ef4a2dd!2z7JWE7J207Yuw7JyMIOu2gOyCsOq1kOycoeyEvO2EsA!5e0!3m2!1sko!2skr!4v1684826116604!5m2!1sko!2skr" width="350" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				  	<h5 id="theater_name">${theaterList[0].theater_name }</h5><br>
+				  	<span id="theater_map">${theaterList[0].theater_map}</span>
 				  	<br>
 				  </div>
 				  <div class="col" >
-				  	<h5>주차 / 교통안내</h5> 
-				  	<br>
-				  	▷ 주차안내<br>
-				  	  1.주차장<br>
-				  	  2.지원주차장<br><br>
-				  	▷ 주차확인<br>
-				  	  당일관람고객 한해 3시간 무료적용(주차도장)<br><br>
-				  	▷ 대중교통<br>
-				  	  - 버스 <br>
-				  	  - 지하철<br>
+				  	<h5>주소</h5> 
+				  	<span id ="theater_address">${theaterList[0].theater_address} </span>
 				  </div>
 				  <div class="col"> 
 				  	<h5>공지사항</h5>

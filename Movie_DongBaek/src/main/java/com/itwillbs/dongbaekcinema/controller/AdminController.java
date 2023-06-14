@@ -482,21 +482,8 @@ public class AdminController {
 	// 데이터넣고 주석풀고 확인하기 **완료X 0608 - 정의효
 	// 0609 완
 	@GetMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(HttpSession session, @RequestParam String id, Model model) {
-
-		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
-		
-		
-		
-		PaymentVO payment = payment_service.getPayment(id); 
+	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
+		PaymentVO payment = payment_service.getPayment(order_num); 
 //		
 		model.addAttribute("payment", payment);
 		

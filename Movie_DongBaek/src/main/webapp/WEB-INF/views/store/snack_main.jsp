@@ -93,7 +93,7 @@
 						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
 						      <div class="card-body">
 						        <h5 class="card-title">${snack.snack_name}</h5>
-						        	${snack.snack_price}
+						        	${snack.snack_price}원
 						        	<br>
 						        	${snack.snack_txt}<br>
 						      </div>

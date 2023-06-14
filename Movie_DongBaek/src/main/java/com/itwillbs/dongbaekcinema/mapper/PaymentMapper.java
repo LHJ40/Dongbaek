@@ -10,7 +10,7 @@ import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 public interface PaymentMapper {
 
 	// 결제 내역 상세 조회 id로 구별
-	PaymentVO selectPayment(String id);
+	PaymentVO selectPayment(int order_num);
 	
 	// 결제 내역 조회
 	List<PaymentVO> selectPaymentList();

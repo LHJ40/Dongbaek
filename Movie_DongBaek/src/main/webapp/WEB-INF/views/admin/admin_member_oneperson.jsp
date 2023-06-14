@@ -71,7 +71,7 @@ article {
 			    </tr>
 			    <tr>
 			    	<th>멤버십</th>
-			    	<td colspan="2">${member.member_grade_name}</td>
+			    	<td colspan="2">${member.grade_name}</td>
 			    </tr>
 			    <tr>
 			    	<th>아이디</th>
