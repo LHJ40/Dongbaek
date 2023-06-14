@@ -22,20 +22,20 @@ public class MovieService {
 
 	// 영화 정보 조회 요청을 위한 getMovieList() 메서드 정의 -(0613+정의효 
 	public MovieVO getMovie(int movie_num) {
-		System.out.println("ReservationService - getMovie()");
+		System.out.println(movie_num);
 		return mapper.selectMovie(movie_num);
 	}
 	
 	
 	// 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의 - 현재상영작? select_presentMovie
 	public List<MovieVO> getMovieList_present() {
-		System.out.println("ReservationService - getMovieList()");
+		System.out.println("getMovieList_present()");
 		return mapper.select_presentMovie();
 	}
 	
 	//영화목록조회  - 상영예정작? select_prepareMovie
 	public List<MovieVO> getMovieList_prepare() {
-		System.out.println("ReservationService - getMovieList()");
+		System.out.println("getMovieList_prepare()");
 		return mapper.select_prepareMovie();
 	}
 
