@@ -86,15 +86,20 @@ th{
 		
 	}
 	
-	// 하나로 합치기
-	/* function birth() {
-		var year = $("#birthYear").val();
-		var month = $("#birthMonth").val();
-		var day = $("#birthDay").val();
-		if(year != "" && month != "" && day != "") {
-			$("member_birth").val(year + month + day);
-		}
-	}; */
+	// 비밀번호 정규식
+    function checkPass(member_pass) {
+        let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+
+        if(regex.exec(member_pass)) {
+            document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
+            document.querySelector("#pass_check").style.color = "green";
+        } else {
+            document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
+            document.querySelector("#pass_check").style.color = "red";
+            alert("비밀번호를 다시 입력해주세요!");
+            $("#member_pass").val('');
+        }
+    }
 	
 	// email 주소 선택하면 앞 칸에 value 전달 함수
 	function email(address) {
@@ -195,30 +200,38 @@ th{
 								<span class="id_already">이미 사용중인 아이디 입니다.</span>
 					   		</div>
 					</div>	
-					
-					<div class="row mb-3">
-				    	<label for="inputPassword3" class="col-sm-5 "></label>
-					    	<div class="col-sm-12">
-								<span id="checkIdResult"></span>
-					   		</div>
-					</div>	
-			    
 				  	
 					<!-- 비밀번호 (필수)  -->
-				  	<div class="row mb-3">
-				    	<label for="inputPassword3" class="col-sm-5 ">비밀번호</label>
-				    	<div class="col-sm-12">
-				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required">
-				   		</div>
-				  	</div>
-				  	
-					<!-- 비밀번호 확인 (필수)  -->
-				  	<div class="row mb-3">
-				    	<label for="inputPassword3" class="col-sm-5">비밀번호 확인</label>
-				    	<div class="col-sm-12">
-				     	 	<input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required">
-				   		</div>
-				  	</div>
+                      <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-5 ">비밀번호</label>
+                        <div class="col-sm-12">
+                              <input type="password" class="form-control" id="member_pass" name="member_pass" required="required"  onchange="checkPass(this.value)">
+                           </div>
+                      </div>
+
+                      <!-- 비밀번호 정규식 : regex -->
+                    <div class="row mb-3">
+                        <label for="inputPasswordRegex_Result" class="col-sm-5 "></label>
+                            <div class="col-sm-12">
+                                <span id="pass_check"></span>
+                               </div>
+                    </div>
+
+                    <!-- 비밀번호 확인 (필수)  -->
+                      <div class="row mb-3">
+                        <label for="inputPasswordDupCheck" class="col-sm-5">비밀번호 확인</label>
+                        <div class="col-sm-12">
+                              <input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required">
+                           </div>
+                      </div>
+
+                      <!-- 비밀번호 확인 :  -->
+                    <div class="row mb-3">
+                        <label for="inputPassworDupCheck_Result" class="col-sm-5 "></label>
+                            <div class="col-sm-12">
+                                <span id="pass_check"></span>
+                               </div>
+                    </div>
 				    
 				    <!-- 이름 (필수)  -->
 				  	<div class="row mb-3">
@@ -274,6 +287,7 @@ th{
 						<div class="col-sm-12">
 							<div class="selectBox_movie">
 								<select name="member_like_genre" class="select">
+									<option value="선택 안함">선택 안함</option>
 									<option value="로맨스코미디">로맨스코미디</option>
 									<option value="스릴러">스릴러</option>
 									<option value="공포">공포</option>

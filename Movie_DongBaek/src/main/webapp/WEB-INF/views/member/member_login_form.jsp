@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+
 <!doctype html>
 <head>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -131,7 +136,9 @@ div {
 		    <div class="row mb-3 d-flext justify-content-center">
 		    	<%-- 네이버 --%>
 		    	<div class="col-2">
-			    	<a href="#"><img alt="naver" src="${pageContext.request.contextPath }/resources/img/naver.png" width="50px" height="50px"></a>
+		    		<%-- 네이버 로그인 버튼 노출 영역  --%>
+		    		<div id="naver_id_login"></div>
+					<br>
 		    	</div>
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
@@ -217,7 +224,26 @@ div {
 				}
 				</script>
 				<!-- 카카오 로그인 끝 -->
+				
+				<%-- 네이버 로그인 시작 --%>
+				<!-- 네이버 로그인 시작 -->
+				<%-- 서비스에 필요한 login.jsp 구현--%>
+				<script type="text/javascript">
+					// (클라이언트 번호, callback URL)
+			        var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8082/dongbaekcinema/member_join_step2");
+			        var state = naver_id_login.getUniqState();
+			        naver_id_login.setButton("white", 2,40);
+			        // service URL
+			        naver_id_login.setDomain("http://localhost:8082/dongbaekcinema/member_login_form");
+			        naver_id_login.setState(state);
+			        naver_id_login.setPopup();
+			        naver_id_login.init_naver_id_login();
+			    </script>
 
+
+				
+				<!-- 네이버 로그인 끝  -->
+				<%-- 네이버 로그인 끝  --%>
 		    	<%-- qr --%>
 <!-- 		    	<div class="col-2"> -->
 <%-- 			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a> --%>
