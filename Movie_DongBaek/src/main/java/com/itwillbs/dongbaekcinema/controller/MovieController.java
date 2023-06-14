@@ -9,6 +9,8 @@ public class MovieController {
 	//영화목록-상영예정작
 	@GetMapping("movie_list_prepare")
 	public String movie_list_prepare() {
+		
+		
 		return "movie/movie_list_prepare";
 	}
 	
@@ -18,7 +20,7 @@ public class MovieController {
 		return "movie/movie_list_present";
 	}
 	
-	//영화상세정보-
+	//영화상세정보-메인
 	@GetMapping("movie_detail_info")
 	public String movie_detail_info() {
 		return "movie/movie_detail_info";

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -24,28 +25,34 @@
   		<div class="mainTop">
 		  <h2>나의 예매내역</h2>
 				<hr>
-				<table class="table table-striped">
+				<table class="table">
 					<tr>
-						<th>번호</th>
-						<th>포스터</th>
+						<th>포스터</th> <%-- {param.board_ticket_num} --%>
 						<th>영화제목</th>
 						<th>상영일</th>
 						<th>예매 상태 변경</th>
 					</tr>
-					<tr>
-						<td>2</td><%-- {param.board_ticket_num} --%>
-						<td><img src="${pageContext.request.contextPath }/resources/img/ticketing_poster.jpg" alt="movie_ticketing_1" id="movie_ticketing"></td><%-- {param.movie.post} --%>
-						<td>신세계</td>
-						<td>XX-XX-XX ~ XX-XX-XX</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
-						<td>취소불가</td><%-- {param.iscdange??} --%>
-					</tr>
-					<tr>
-						<td>1</td><%-- {param.board_ticket_num} --%>
-						<td><img src="${pageContext.request.contextPath }/resources/img/ticketing_poster2.jpg" alt="movie_ticketing_2" id="movie_ticketing"></td>
-						<td>마약왕</td>
-						<td>XX-XX-XX ~ XX-XX-XX</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
-						<td><a href="취소하는곳">예매취소</a></td><%-- {param.ischange??} --%>
-					</tr>
+					
+					<c:forEach var="myTicket" items="${myTicketList }">
+						<tr>
+							<td><img src="${myTicket.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
+							<td>${myTicket.movie_name_kr }</td>
+							<td>${myTicket.play_date }</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
+							
+							<td>
+								<input type="button" value="${myTicket.play_change }" 
+										<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >
+							</td><%-- {param.iscdange??} --%>
+						</tr>
+					
+					</c:forEach>
+<!-- 					<tr> -->
+<%-- 						<td>1</td>{param.board_ticket_num} --%>
+<%-- 						<td><img src="${pageContext.request.contextPath }/resources/img/ticketing_poster2.jpg" alt="movie_ticketing_2" id="movie_ticketing"></td> --%>
+<!-- 						<td>마약왕</td> -->
+<%-- 						<td>XX-XX-XX ~ XX-XX-XX</td>{param.datetime_start} ~ {param.datetime_end} --%>
+<%-- 						<td><a href="취소하는곳">예매취소</a></td>{param.ischange??} --%>
+<!-- 					</tr> -->
 				</table>
 				<br>
 				<h2>나의 구매 내역</h2>

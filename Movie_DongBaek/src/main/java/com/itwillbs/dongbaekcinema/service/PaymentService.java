@@ -23,5 +23,10 @@ public class PaymentService {
 	public List<PaymentVO> getPaymentList() {
 		return mapper.selectPaymentList();
 	}
+	
+	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
+	public List<PaymentVO> getMyPaymentList(String member_id) {
+		return mapper.selectMyPaymentList(member_id);
+	}
 
 }

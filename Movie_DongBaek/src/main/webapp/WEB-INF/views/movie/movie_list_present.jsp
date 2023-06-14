@@ -91,9 +91,8 @@
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
 		  <select class="custom-select" name="movie_array">
-		    <option selected>정렬순</option>
-		    <option value="1">예매순</option>
-		    <option value="2">평점순</option>
+		    <option selected>예매순</option>
+		    <option value="1">평점순</option>
 		  </select>
 		</div>
 	</div>

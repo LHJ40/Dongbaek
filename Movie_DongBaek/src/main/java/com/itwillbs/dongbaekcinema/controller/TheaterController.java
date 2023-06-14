@@ -26,19 +26,12 @@ public class TheaterController {
 		List<TheaterVO> theaterList = service.getTheaterList();
 		System.out.println(theaterList);
 		
-		// student_list.jsp 페이지로 포워딩 시 전달할 List 객체 저장
+		
 		model.addAttribute("theaterList", theaterList);
 		
 		return "theater/theater_main";
 	}
-//	@ResponseBody
-//	@GetMapping(value="getTheater",produces = "application/json;charset=utf-8")
-//	public Object theater_tap(int theater_num) {
-//		System.out.println("theater_tap");
-//		System.out.println(theater_num);
-//		return "";
-//	}
-	
+
 	@ResponseBody
 	@GetMapping("getTheater")
 	public Object getTheater(int theater_num, Model model) {
@@ -58,12 +51,13 @@ public class TheaterController {
 		System.out.println(theaterList);
 		
 		LocalDate currentdate = LocalDate.now();
-	
+		LocalDate maxdate=currentdate.plusDays(7);
 
 		
-		// student_list.jsp 페이지로 포워딩 시 전달할 List 객체 저장
+		
 		model.addAttribute("theaterList", theaterList);
 		model.addAttribute("currentdate", currentdate);
+		model.addAttribute("maxdate", maxdate);
 		
 		return "theater/theater-runningtime_tap";
 	}
