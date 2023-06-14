@@ -56,76 +56,76 @@ article {
 <!-- 			    	<td width="550px" colspan="2"></td> -->
 <!-- 			    </tr> -->
 			    <tr>
-			    	<th>${movieList_num }</th>
-			    	<td colspan="2"></td>
+			    	<th width="250px">영화번호</th>
+			    	<td colspan="2">${movie.movie_num }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_name_kr }</th>
-			    	<td colspan="2"></td>
+			    	<th>영화제목(한글)</th>
+			    	<td colspan="2">${movie.movie_name_kr }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_name_en }</th>
-			    	<td colspan="2"></td>
+			    	<th>영화제목(영어)</th>
+			    	<td colspan="2">${movie.movie_name_en }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_director }</th>
-			    	<td colspan="2"></td>
+			    	<th>감독</th>
+			    	<td colspan="2">${movie.movie_director }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_cast }</th>
-			    	<td colspan="2"></td>
+			    	<th>출연진</th>
+			    	<td colspan="2">${movie.movie_cast }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_genre }</th>
-			    	<td colspan="2"></td>
+			    	<th>장르</th>
+			    	<td colspan="2">${movie.movie_genre }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_release_date }</th>
-			    	<td colspan="2"></td>
+			    	<th>개봉일</th>
+			    	<td colspan="2">${movie.movie_release_date }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_close_date }</th>
-			    	<td colspan="2"></td>
+			    	<th>종영일</th>
+			    	<td colspan="2">${movie.movie_close_date }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_running_time }</th>
-			    	<td colspan="2"></td>
+			    	<th>상영시간</th>
+			    	<td colspan="2">${movie.movie_running_time }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_audience_num }</th>
-			    	<td colspan="2"></td>
+			    	<th>관람객수</th>
+			    	<td colspan="2">${movie.movie_audience_num }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_content }</th>
-			    	<td colspan="2"></td>
+			    	<th>줄거리</th>
+			    	<td colspan="2">${movie.movie_content }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_grade }</th>
-			    	<td colspan="2"></td>
+			    	<th>관람등급</th>
+			    	<td colspan="2">${movie.movie_grade }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_poster }</th>
-			    	<td colspan="2"></td>
+			    	<th>포스터이미지</th>
+			    	<td colspan="2">${movie.movie_poster }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_preview }</th>
-			    	<td colspan="2"></td>
+			    	<th>예고영상</th>
+			    	<td colspan="2">${movie.movie_preview }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_photo1 }</th>
-			    	<td colspan="2"></td>
+			    	<th>스틸컷1</th>
+			    	<td colspan="2">${movie.movie_preview }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_photo2 }</th>
-			    	<td colspan="2"></td>
+			    	<th>스틸컷2</th>
+			    	<td colspan="2">${movie.movie_photo2 }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_photo3 }</th>
-			    	<td colspan="2"></td>
+			    	<th>스틸컷3</th>
+			    	<td colspan="2">${movie.movie_photo3 }</td>
 			    </tr>
 			    <tr>
-			    	<th>{movieList_booking_rate }</th>
-			    	<td colspan="2"></td>
+			    	<th>예매율</th>
+			    	<td colspan="2">${movie.movie_photo3 }</td>
 			    </tr>
 			</table>
 		</div>
@@ -134,26 +134,26 @@ article {
 	<%-- 버튼 --%>
 	<div class="row d-flex justify-content-center mt-3">
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#memberTypeChange">삭제</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#movieDelete">삭제</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list'">돌아가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_movie_management'">돌아가기</button>
 		</div>
 	</div>
   </div>
   
-	<%-- '결제취소' 모달 --%>
-	<div class="modal fade" id="memberTypeChange" tabindex="-1" role="dialog" aria-labelledby="memberDeleteTitle" aria-hidden="true">
+	<%-- '영화삭제' 모달 --%>
+	<div class="modal fade" id="movieDelete" tabindex="-1" role="dialog" aria-labelledby="MovieDeleteTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="memberDeleteTitle">회원 삭제확인</h5>
+	        <h5 class="modal-title" id="movieDeleteTitle">영화 삭제 확인</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        회원 정보를 삭제 하시겠습니까?
+	        등록된 영화를 삭제 하시겠습니까?
 	      </div>
 	      <div class="modal-footer justify-content-center">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>

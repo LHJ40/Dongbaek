@@ -16,5 +16,9 @@ public class TheaterService {
 		// TODO Auto-generated method stub
 		return mapper.selectTheaterList();
 	}
+	public TheaterVO getTheater(int theater_num) {
+		// TODO Auto-generated method stub
+		return mapper.selectTheater(theater_num);
+	}
 
 }

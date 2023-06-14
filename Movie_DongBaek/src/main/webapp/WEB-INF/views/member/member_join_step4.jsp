@@ -33,6 +33,17 @@ article {
 		margin: 2em auto;
 }
 </style>
+<script type="text/javascript">
+	
+	// 회원가입 전 로컬 세션스토리지에 저장한 값들 초기화시키기
+	$(function() {
+		sessionStorage.removeItem("member_email");
+		sessionStorage.removeItem("member_name");
+		sessionStorage.removeItem("member_phone");
+	});
+	
+	
+</script>
 </head>
 <body>
 	<%--네비게이션 바 영역 --%>
