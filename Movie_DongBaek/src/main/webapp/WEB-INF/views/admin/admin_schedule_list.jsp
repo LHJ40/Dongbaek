@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
 	crossorigin="anonymous"></script>
@@ -29,21 +31,42 @@
 <title>영화 예매 사이트</title>
 
 
-<%-- jqery DBN --%>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<%-- jquery DBN --%>
+<%-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --%> 
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> <!-- 추가 --%>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-$("#createScheduel").on("click", function() {
-    if($("theather_name").val() == "영화관") {
-        alert("영화관을 선택해주세요!");
-        $("#play_list").hide();
-    } else {
-        alert("영화관이 선택되었습니다");
-        $("#play_list").show();
-    }
+<%-- ajax를 이용한 목록 선택 --%>
+$(function(){
+    $("#createScheduel").on("click",function(){
+        let theater_name = $("#theater_name").val();
+        let play_date = $("#play_date").val();
+        alert(theater_name + ", " + play_date);
+   
+        
+        $.ajax({
+            url: "showSchedual",
+            type: "POST",
+            data : {
+        		"theater_name" : theater_name,
+        		"play_date" : play_date
+        	},
+            success: function(data){ // 목록데이터 출력 장소
+                $(data).each(function(){
+                    alert(this.play_num);
+                });
+            },
+            error: function(){
+                alert("request error!");
+            }
+        });
+    });
+});
 </script>
+
+
 
 <style>
 div {
@@ -92,18 +115,18 @@ background-color: transparent;
 	    	<div class="col col-md-10">
 	    	
 			    <form class="form-inline" action="showSchedual">
-			      <select class="form-control mr-sm-2" name="theater_name">
+			      <select class="form-control mr-sm-2" name="theater_name" id="theater_name">
 			      	<option value="영화관" checked="checked">영화관</option>
 			      	<option value="서면점">서면점</option>
 			      	<option value="사상점">사상점</option>
 			      </select>
 			      <div class="input-group">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text" id="play_date">상영날짜</span>
+					    <span class="input-group-text">상영날짜</span>
 					  </div>
-					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date">
+					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date" id="play_date">
 				  </div>
-			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="submit" id="createScheduel">확인</button>
+			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">확인</button>
 			    </form>
 			    
 		    </div>
@@ -111,9 +134,11 @@ background-color: transparent;
 
 		</nav>
   	</div>
-  	
+
+	<div class="row"><p id="play_list"></p></div>
   	<%-- 본문 테이블 --%>
-  	<div class="row" id="play_list">
+  	<div class="row">
+  	
   	<table class="table table-striped text-center align-middle">
 	  <%-- 테이블 헤드 --%>
 	  <thead>

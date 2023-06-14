@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
+import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
+import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 
@@ -22,6 +24,9 @@ public class ReservationController {
 
 	@Autowired
 	private ReservationService service;
+	
+	@Autowired
+	private StoreService service2;
 	
 	// 네비바의 [예매] 클릭 시
 	@GetMapping("reservation_main")
@@ -107,7 +112,11 @@ public class ReservationController {
 		return "reservation/reservation_seat";
 	}
 	@GetMapping("reservation_snack")
-	public String reservation_snack() {
+	public String reservation_snack(@RequestParam Map<String, String> map, Model model) {
+		
+		List<SnackVO> snackList = service2.getSnackList();
+		System.out.println(snackList);
+		model.addAttribute("snackList", snackList);
 		
 		return "reservation/reservation_snack";
 	}
