@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class PlayVO {
 
     private int play_num;
-    private Date play_date;
+    private String play_date;
     private int play_turn;
     private Time play_start_time;
     private Time play_end_time;
@@ -28,6 +28,8 @@ public class PlayVO {
     private String movie_name_kr; // MOVIES 테이블로부터 조인으로 가져오는 컬럼
     private String theater_name; // THEATERS 테이블로부터 조인으로 가져오는 컬럼
     private String room_name; // ROOMS 테이블로부터 조인으로 가져오는 컬럼
+    private String movie_release_date;
+    private String movie_close_date;
     
     
 //    private int playNum;
