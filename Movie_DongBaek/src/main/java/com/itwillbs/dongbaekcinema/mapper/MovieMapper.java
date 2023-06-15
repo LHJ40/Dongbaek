@@ -18,6 +18,10 @@ public interface MovieMapper {
 	// 영화 목록 조회 - 현재상영작
 	List<MovieVO> select_presentMovie();
 
+	// 영화 목록 조회 - 현재상영작 예매율 순 정렬
+	List<MovieVO> select_presentMovie_bookingRateDESC();
+	
+	
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
 

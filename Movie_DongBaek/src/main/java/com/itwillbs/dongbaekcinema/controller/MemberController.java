@@ -49,7 +49,7 @@ public class MemberController {
 		
 		// 회원 가입 성공/실패에 따른 페이지 포워딩
 		// => 성공 시 MemberJoinSuccess 로 리다이렉트
-		// => 실패 시 fail_back.jsp 로 포풔딩(model 객체의 "msg" 속성으로 "회원 가입 실패!" 저장)
+		// => 실패 시 fail_back.jsp 로 포워딩(model 객체의 "msg" 속성으로 "회원 가입 실패!" 저장)
 		if(insertCount > 0) {
 			// (카카오)회원 이메일, 이름 session에서 제거
 			session.removeAttribute("member_email");
@@ -88,14 +88,21 @@ public class MemberController {
 		// MemberService - getPasswd()
 		// member 테이블에서 id가 일치하는 레코드의 패스워드(passwd) 조회
 		// 파라미터 : MemberVO member	리턴타입 : String(passwd)
-		String passwd = service.getPasswd(member);
+//		String passwd = service.getPasswd(member);
+		MemberVO getMember = service.getMember(member.getMember_id());
 //		System.out.println(passwd);
-		
+		String passwd = getMember.getMember_pass();
 		// 로그인 성공/ 실패 여부 판별하여 포워딩
 		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
 		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
-		if(passwd == null || !passwd.equals(member.getMember_pass())) {
-			// 아이디로 조회 시 없는 아이디이거나 나온 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+		if(passwd == null) {
+			// 아이디로 조회 시 없는 아이디일 때
+			model.addAttribute("msg", "없는 아이디 입니다. "
+					+ "입력하신 내용을 다시 확인해주세요.");
+			return "fail_back";
+			
+		} else if (!passwd.equals(member.getMember_pass())) {
+			// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
 			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
 					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
@@ -104,24 +111,23 @@ public class MemberController {
 			// 세션에 값 넣기
 			HttpSession session = request.getSession();
 			session.setAttribute("member_id", member.getMember_id());
-			
+			session.setAttribute("member_type", getMember.getMember_type());
 //			System.out.println(remember_me);
 			
 			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
+//			Cookie cookie = new Cookie("member_id", member.getMember_id());
+			Cookie cookie = new Cookie("member_id", getMember.getMember_id());
+			
 			if(remember_me) {
 				// Cookie에 로그인 성공한 member_id 저장 (name : "member_id")
-				Cookie cookie = new Cookie("member_id", member.getMember_id());
 				// cookie 유지 시간 지정 (초 단위)
 				cookie.setMaxAge(60 * 60 * 24 * 15); // 15일 유지 (초 * 분 * 시 * 일)
-				response.addCookie(cookie);
-				
 			} else if (!remember_me) {
 				// "아이디 저장" 체크박스 버튼이 눌려져 있지 않을 때 => cookie에 member_id 제거
-				Cookie cookie = new Cookie("member_id", "");
 				// cookie 유지 시간 지정 (초 단위)
-				cookie.setMaxAge(0); // 15일 유지 (초 * 분 * 시 * 일)
-				response.addCookie(cookie);
+				cookie.setMaxAge(0); // 삭제
 			}
+			response.addCookie(cookie);
 			
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}

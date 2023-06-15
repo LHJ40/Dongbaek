@@ -28,6 +28,17 @@
 			AND r.room_num = #{pageNo}
           ORDER BY play_num
     </select>
+    
+    <!-- 상영날짜 별 영화 목록 조회 -->
+<!--     <select id="cerrentPlayMovie"> -->
+<!-- 		SELECT -->
+<!-- 		    movie_num, movie_name_kr -->
+<!-- 		FROM -->
+<!-- 		    MOVIES -->
+<!-- 		WHERE -->
+<!-- 		    movie_release_date <= #{play_date} -->
+<!-- 		AND movie_close_date >= #{play_date} -->
+<!--     </select> -->
    
     
 

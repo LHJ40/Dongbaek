@@ -103,9 +103,11 @@ div {
 		  		<%-- 뿌리기 코드 <c:forEach var="member" items="${member }">
 		  		한페이지에 몇개 나오고 밑에 1,2,3,4,5페이지 넘어가기 = jsp복습해보기 --%>
 						<tbody>
+						<c:set var="num" value="0" />
 						<c:forEach var="memberList" items="${memberList }" >
 							<tr>
-								<th scope="row">번호</th> 
+								<c:set var="num" value="${num + 1}" />
+								<th scope="row">${num}</th> 
 						    	<td>${memberList.member_name }</td>			
 						    	<td>${memberList.member_id }</td>			
 						    	<td>${memberList.grade_name }</td> 

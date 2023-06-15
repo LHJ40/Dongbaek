@@ -66,9 +66,9 @@
 			<%-- 카드1 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeA.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
@@ -80,9 +80,9 @@
 			<%-- 카드2 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeB.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
@@ -94,9 +94,9 @@
 			<%-- 카드3 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeC.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
@@ -126,9 +126,9 @@
 			<%-- 카드1 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeA.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
@@ -140,9 +140,9 @@
 			<%-- 카드2 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeB.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
@@ -154,9 +154,9 @@
 			<%-- 카드3 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeC.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
@@ -168,9 +168,9 @@
 			<%-- 카드4 --%>
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
+				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
 				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeD.png" class="img-rounded">영화명</h3>
+				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeD.png" class="img-rounded">영화명</h3>
 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
 				    <p class="d-flex justify-content-center">
 				    	<button type="button" class="btn btn-outline-danger mr-2" name="">♡찜하기</button>

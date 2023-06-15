@@ -18,6 +18,32 @@
 
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	let theater_num = $("#theater_num").val();
+	let play_date=$("#play_date").val();
+	
+
+    $.ajax({
+        type: "post",
+        url: "getSchedule",
+        data: {
+        	"theater_num" : theater_num,
+    		"play_date" : play_date
+        },
+        dataType : "text",
+    })
+ 		.done(function(res) {
+		$("#schedule-table").html(res);
+			
+ 			
+					
+ 		})
+ 		.fail(function() { // 요청 실패 시
+ 			alert("요청실패");
+ 		});
+});
+</script>
 </head>
 <body>
 <header id=pageHeader>
@@ -53,7 +79,7 @@
 		<nav>
 		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 		   <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" onclick="location.href='theater_main'">
-		    	극장정보
+		    	극장정보 
 		    </button>
 		    <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" onclick="location.href='theater-runningtime_tap'">
 		    	상영시간표
@@ -69,50 +95,15 @@
 		<div class="tab-content" id="nav-tabContent">
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
-					<input type="date" id="start" value="${currentdate}" min="${currentdate}" max="${maxdate}">
+					<input type="date" id="play_date" value="${currentdate}" min="${currentdate}" max="${maxdate}">
 					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name">${theaterList[0].theater_name }</span></b>
+					   <input type="hidden" id="theater_num" value="${theaterList[0].theater_num }">
 				</div>
+				
 				<div class="row container" align="center">
 				
-					<table class="table table-hover" style="width:50%" >
-						<tr>
-							<td colspan=3><a href="#">인어공주</a></td>
-						</tr>
-						<tr>
-							<td>1관</td>
-							<td>
-								<button style="height:4em">10:00</button>
-								<button style="height:4em">15:00</button>
-								<button style="height:4em">19:00</button>
-							</td>
-						</tr>
-						<tr>
-							<td>3관</td>
-							<td>
-								<button style="height:4em">13:00</button>
-								<button style="height:4em">15:00</button>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=3><a href="#">분노의질주</a></td>
-						</tr>
-						<tr>
-							<td>5관</td>
-							<td>
-								<button style="height:4em">11:00</button>
-								<button style="height:4em">17:00</button>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=3><a href="#">가디언즈 오브 갤럭시</a></td>
-						</tr>
-						<tr>
-							<td>2관</td>
-							<td>
-								<button style="height:4em">15:00</button>
-								<button style="height:4em">17:00</button>
-							</td>
-						</tr>
+				<table class="table table-hover" id="schedule-table"style="width:50%" >
+						
 					</table>	
 				
 

@@ -43,14 +43,19 @@ $(function(){
     $("#createScheduel").on("click", function(){
         let theater_num = $("#theater_num").val();
         let play_date = $("#play_date").val();
+<<<<<<< HEAD
       	   // 파라미터값 전달 확인
 //         alert(theater_num + ", " + play_date);
+=======
+        alert(theater_num + ", " + play_date);
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
         
         $.ajax({
             url: "showSchedual",
             type: "POST",
             data: {
                 "theater_num": theater_num,
+<<<<<<< HEAD
                 "play_date": play_date,
             },
             success: function(data, status, xhr){
@@ -78,6 +83,35 @@ $(function(){
 						
 							$("#play1").append(html);
 //                     alert(playList1_1);
+=======
+                "play_date": play_date
+            },
+            success: function(data, status, xhr){
+                console.log(data); // 응답 데이터 출력
+                $(data).each(function(index, item) {
+                	
+					 
+					
+                    console.log(item.play_num, item.play_turn, item.play_date, item.play_start_time, item.play_end_time, item.movie_name_kr);
+                    alert(item.play_num + ',' + item.play_turn + ',' + item.play_date +','+ item.play_start_time +',' + item.play_end_time + ',' + item.movie_name_kr);
+                    
+                    $(function() {
+                  	  let html = '<tr><td>1열</td>';
+
+                  	  for (let i = 0; i < item.length; i++) {
+                  		html += '<td>\
+                  		    <p id="' + i + '_0">' + item[i][0] + '</p>\
+                  		    <p id="' + i + '_1">' + item[i][1] + '</p>\
+                  		    <p id="' + i + '_2">' + item[i][3] + '</p>\
+                  		    <p id="' + i + '_3">' + item[i][4] + '</p>\
+                  		</td>';
+                  	  }
+						html+= '</tr>'
+						
+                  	  $("#play").html(html);
+                  	});
+                    
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
                     
                 });
             },
@@ -194,6 +228,7 @@ background-color: transparent;
 	  </thead>
 	  <%-- 테이블 바디--%>
 	  <tbody id="play_table">
+<<<<<<< HEAD
 	  
 		<tr><th>${pageNo}</th><div id="play1">
 			<td>
@@ -202,6 +237,10 @@ background-color: transparent;
 			<td>
 		<%-- 상영목록이 출력될 공간  --%>
 		</div></tr>
+=======
+		<%-- 상영목록이 출력될 공간  --%>
+		<div id="play1"></div>
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 <%-- 	    1행 1열 --%>
 <!-- 	    <tr> -->
 <!-- 		    <th scope="col"> -->
