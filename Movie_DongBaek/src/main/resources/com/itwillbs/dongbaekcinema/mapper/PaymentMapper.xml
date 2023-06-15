@@ -30,4 +30,19 @@
 			LIMIT 3 -- 후에 pageNum으로 조절
 	</select>
 	
+	<!-- 페이징처리중 -->
+	<select id="getPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+		SELECT * 
+			FROM PAYMENTS p
+			JOIN ORDERS o
+			ON p.order_num = o.order_num
+			LIMIT #{start}, #{perPage}
+	</select>
+	
+	<!-- 페이징처리중 -->
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*)
+			FROM PAYMENTS
+	</select>
+	
 </mapper>

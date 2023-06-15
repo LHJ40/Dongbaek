@@ -44,6 +44,9 @@ public class AdminController {
 	@Autowired
 	private AdminService admin_service;
 	
+
+	
+	
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
@@ -337,11 +340,17 @@ public class AdminController {
 	
 	// 관리자페이지 회원관리 메인(리스트) 회원목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
+
 	@GetMapping("admin_member_list")
 	public String adminMemberList(HttpSession session, Model model) {
+		
+		// --------------------원본---------------
 		List<MemberVO> memberList = member_service.getMemberList();
 		model.addAttribute("memberList", memberList);
 		System.out.println(memberList);
+		// --------------------원본---------------
+		
+		
 		return "admin/admin_member_list";
 	}
 	
@@ -432,9 +441,35 @@ public class AdminController {
 	// 관리자페이지 결제관리 메인(리스트) 결제목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 	// 0609 완
+	// 페이징관리 시작 0615-13:41-정의효
+	// 처음 페이지 요청 = 1페이지
+	
+	//--------------------------------------------------원본
+//	@GetMapping("admin_payment_list")
+//	public String adminPaymentList(HttpSession session, Model model) {
+//		
+//		
+////		// 직원 세션이 아닐 경우 잘못된 접근 처리
+////		String member_type = (String)session.getAttribute("member_type");
+////		System.out.println(member_type);
+////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+////
+////            model.addAttribute("msg", "잘못된 접근입니다!");
+////            return "fail_back";
+////        }		
+//		
+//		
+//		List<PaymentVO> paymentList = payment_service.getPaymentList();
+//		
+//		model.addAttribute("paymentList", paymentList);
+//		
+//		return "admin/admin_payment_list";
+//	}
+	//--------------------------------------------------원본
+	// -- 페이징처리 테스트
 	@GetMapping("admin_payment_list")
-	public String adminPaymentList(HttpSession session, Model model) {
-
+	public String adminPaymentList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
+		
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -445,14 +480,23 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
+		int pageSize = 1;
 		
-		List<PaymentVO> paymentList = payment_service.getPaymentList();
+		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageSize);
+		int totalPageCount = payment_service.getTotalPageCount(pageSize);
+		int startIndex = payment_service.getStartIndex(pageNo, pageSize);
+		int endIndex = payment_service.getEndIndex(pageNo, pageSize);
 		
 		model.addAttribute("paymentList", paymentList);
-		
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("startIndex", startIndex);
+		model.addAttribute("endIndex", endIndex);
+		System.out.println(paymentList);
 		return "admin/admin_payment_list";
 	}
 	
+
 	// 관리자페이지 회원(1명) 정보 조회
 	//  ?=member_id(이름은 중복될수있으니까 X)
 	// 포워딩 페이지 : admin/admin_member_oneperson

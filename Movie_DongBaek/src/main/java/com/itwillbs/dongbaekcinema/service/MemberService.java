@@ -43,6 +43,8 @@ public class MemberService {
 		return mapper.selectMemberList();
 	}
 
+	
+
 
 	
 
