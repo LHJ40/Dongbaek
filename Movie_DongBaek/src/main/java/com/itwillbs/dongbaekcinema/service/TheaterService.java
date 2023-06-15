@@ -25,6 +25,6 @@ public class TheaterService {
 		// TODO Auto-generated method stub
 		return mapper.selectSchedule(theater_num,play_date);
 	}
-	
+
 
 }

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class PlayVO {
 
     private int play_num;
-    private Date play_date;
+    private String play_date;
     private int play_turn;
     private Time play_start_time;
     private Time play_end_time;
