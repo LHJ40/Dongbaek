@@ -70,7 +70,7 @@
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
 					<input type="date" id="start" value="${currentdate}" min="${currentdate}" max="${maxdate}">
-					 &nbsp; &nbsp; &nbsp;<span id="theater_name"><b>${theaterList[0].theater_name }</b></span>
+					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name">${theaterList[0].theater_name }</span></b>
 				</div>
 				<div class="row container" align="center">
 				
