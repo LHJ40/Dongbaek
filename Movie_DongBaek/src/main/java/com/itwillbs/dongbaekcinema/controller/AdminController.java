@@ -133,13 +133,10 @@ public class AdminController {
 //		String play_date = params.get("play_date");
 		
 		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
-<<<<<<< HEAD
+
 		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
 		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
-=======
-		System.out.println(theater_num + ", " + play_date);
-		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date);
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
+
 		
 		System.out.println(playList);
 		
