@@ -102,6 +102,7 @@ public class AdminController {
 		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
 		List<HashMap<String, String>> theaterInfo = admin_service.getTheater();
 //		System.out.println(theaterInfo);		
+				
 		model.addAttribute("theaterInfo",theaterInfo);
 		
 		
@@ -126,39 +127,19 @@ public class AdminController {
 //		String theater_name = params.get("theater_name");
 //		String play_date = params.get("play_date");
 		
-		// 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
+		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
 		System.out.println(theater_num + ", " + play_date);
 		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date);
 		
 		System.out.println(playList);
-		model.addAttribute("playList", playList);	
+		
+		model.addAttribute("playList", playList);
+		
 		return playList;	
 //		return null;	
 	}
 
 	
-    // 관리자페이지 상영스케줄 상단 버튼 클릭2
-//    @GetMapping("showSchedual2")
-//    public String showSchedual(HttpSession session, @RequestParam String theater_name, @RequestParam Date play_date, Model model) {
-////   	public String showSchedual(@RequestParam String theater_name, @RequestParam String play_date, Model model) {
-		
-	
-//	// 직원 세션이 아닐 경우 잘못된 접근 처리
-//	String member_type = (String)session.getAttribute("member_type");
-//	System.out.println(member_type);
-//	if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//        model.addAttribute("msg", "잘못된 접근입니다!");
-//        return "fail_back";
-//    }
-
-//        System.out.println(theater_name + ", "+ play_date);
-//        
-//       
-//        List<PlayVO> playList = admin_service.showSchedual(theater_name, play_date);
-//        System.out.println(playList);
-//        return "admin/admin_schedule_list";
-//    }
 	
 	// 관리자페이지 결제관리
 //	@GetMapping("")
