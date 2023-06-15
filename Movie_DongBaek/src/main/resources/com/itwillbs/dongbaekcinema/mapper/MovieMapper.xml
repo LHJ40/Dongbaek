@@ -78,13 +78,14 @@
 <!-- 		<result property="review_date" column="review_date"/> -->
 <!-- 	</resultMap>	 -->
 	
-	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지-->
-<!-- 	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM MOVIES -->
-<!-- 		WHERE now() >= movie_release_date -->
-<!-- 			AND movie_release_date > subdate(now(), INTERVAL 15 DAY); -->
-<!-- 	</select> -->
+	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지 ==> 기본 : 예매율순-->
+	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE now() >= movie_release_date
+			AND movie_release_date > subdate(now(), INTERVAL 15 DAY)
+		ORDER BY movie_booking_rate DESC;
+	</select>
 	<!-- 상영예정작 - 예매율순/  -->
 <!-- 	<select id="select_presentMovie_bookingrateDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">  -->
 <!--  		SELECT *  -->
@@ -94,14 +95,7 @@
 <!-- 			AND movie_close_date >= now()  -->
 <!-- 		ORDER BY movie_booking_rate DESC -->
 <!-- 	</select> -->
-<!-- 	<select id="select_presentMovie_reviewratingDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">  -->
-<!--  		SELECT *  -->
-<!--  		FROM MOVIES  -->
-<!--  		WHERE  -->
-<!--  			now() >= movie_release_date   -->
-<!-- 			AND movie_close_date >= now() -->
-<!-- 		ORDER BY review_rating DESC -->
-<!-- 	</select> -->
+
 	
 	
 	
