@@ -92,24 +92,25 @@ public class MyPageController {
 	
 	// 마이페이지 - 구매내역 - 상세내역 조회
 	@GetMapping("myPayment_detail")
-//	public String myPayment_detail(int payment_num, Model model) {
-//		
-//		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
-//		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
-//		PaymentVO payment = paymentService.getPayment(payment_num);
-//		System.out.println(payment);
-//		
-//		//받아온 구매 상세내역 전달
-//		model.addAttribute("payment", payment);
-	public String myPayment_detail(PaymentVO payment, Model model) {
+	public String myPayment_detail(int order_num, Model model) {
 		
 		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
 		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
-//		PaymentVO payment = paymentService.getPayment(payment_num);
+		System.out.println(order_num);
+		PaymentVO payment = paymentService.getPayment(order_num);
 		System.out.println(payment);
 		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("payment", payment);
+//	public String myPayment_detail(PaymentVO payment, Model model) {
+//		
+//		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
+//		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
+////		PaymentVO payment = paymentService.getPayment(payment_num);
+//		System.out.println(payment);
+//		
+//		//받아온 구매 상세내역 전달
+//		model.addAttribute("payment", payment);
 		
 		return "myPage/myPage_buy_history_detail";
 	}

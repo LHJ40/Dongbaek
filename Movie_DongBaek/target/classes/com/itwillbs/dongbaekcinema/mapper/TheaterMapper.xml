@@ -11,7 +11,7 @@
   </select>
   
   <select id="selectSchedule" resultType="com.itwillbs.dongbaekcinema.vo.ScheduleVO">
-	SELECT  movie_name_kr,room_num,play_start_time,
+	SELECT movie_name_kr,room_num,play_start_time,
 	DATE_ADD( play_start_time, INTERVAL (movie_running_time)MINUTE) AS end_time, 
 	play_time_type,  movie_name_en  FROM PLAYS p
 	JOIN MOVIES m ON m.movie_num=p.movie_num
