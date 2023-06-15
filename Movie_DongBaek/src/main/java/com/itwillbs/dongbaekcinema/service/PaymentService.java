@@ -1,6 +1,8 @@
 package com.itwillbs.dongbaekcinema.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,40 @@ public class PaymentService {
 	public List<PaymentVO> getMyPaymentList(String member_id) {
 		return mapper.selectMyPaymentList(member_id);
 	}
+	
+	// 페이징처리 테스트 - 현재페이지? 0615정의효
+	public List<PaymentVO> getPaymentList(int pageNo, int pageSize) {
+		int start = (pageNo - 1) * pageSize;
+		return mapper.getPaymentList(start, pageSize);
+	}
+	
+	// 페이징처리 테스트 - 총 몇페이진지 0615정의효
+//	public int getTotalPageCount(int pageSize) {
+//		int totalCount = mapper.getCount();
+//		return (int) Math.ceil((double) totalCount / pageSize);
+//	}
+	public int getTotalPageCount(int pageSize) {
+		int totalCount = mapper.getCount();
+		int totalPageCount = (int) Math.ceil((double) totalCount / pageSize);
+		return totalPageCount;
+	}
 
+	//페이징처리테스트 -10페이지 까지나오게 0615 정의효
+	public int getStartIndex(int pageNo, int pageSize) {
+		return (pageNo - 1) * pageSize + 1;
+	}
+		
+	//페이징처리테스트 -10페이지 까지나오게 0615 정의효
+	public int getEndIndex(int pageNo, int pageSize) {
+		return pageNo * pageSize;
+	}
 }
+
+
+
+
+
+
+
+
+

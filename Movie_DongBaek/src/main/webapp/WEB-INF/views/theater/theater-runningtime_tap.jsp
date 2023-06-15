@@ -18,6 +18,35 @@
 
 }
 </style>
+<script type="text/javascript">
+
+$(function(){
+	let theater_num = $("#theater_num").val();
+	let play_date=$("#play_date").val();
+	
+	alert("eee");
+    $.ajax({
+        type: "get",
+        url: "getSchedule",
+        data: {
+        	"theater_num" : theater_num,
+    		"play_date" : play_date
+        },
+        dataType : "json",
+    })
+ 		.done(function(schedule) {
+		
+			
+ 			
+					
+ 		})
+ 		.fail(function() { // 요청 실패 시
+ 			alert("요청실패");
+ 		});
+});
+
+
+</script>
 </head>
 <body>
 <header id=pageHeader>
@@ -40,7 +69,7 @@
 	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
 	  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
 	</svg>
-	My 영화관
+	My 영화관 
 </a>
 <br>
 </div>
@@ -63,13 +92,16 @@
 		    </button>
 		  </div>
 		</nav>
-	</div>	
+	</div>
+	<div>${schedule[0].movie_name_kr}</div>	
 	<%-- 탭 내용 - collpse --%>
 	<div class="row-col-my-5" >
 		<div class="tab-content" id="nav-tabContent">
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
-					<input type="date" id="start" value="${currentdate}" min="2018-01-01" max="2023-12-31">
+					<input type="date" id="play_date" value="${currentdate}" min="${currentdate}" max="${maxdate}">
+					 &nbsp; &nbsp; &nbsp;<b><span  >${theaterList[0].theater_name }</span></b>
+					  <input type="hidden" id="theater_num" value="${theaterList[0].theater_num }">
 				</div>
 				<div class="row container" align="center">
 				

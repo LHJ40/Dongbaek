@@ -33,8 +33,8 @@
 		</c:otherwise>
 	</c:choose>
 		<a href="cs_main">고객센터</a> &nbsp;
-		<%-- 만약, 세션 아이디가 "admin" 일 경우 관리자페이지(admin_main) 링크 표시 --%>
-		<c:if test="${member_id eq 'admin' }">
+		<%-- 만약, 세션 member_type이 "직원" 일 경우 관리자페이지(admin_main) 링크 표시 --%>
+		<c:if test="${member_type eq '직원' }">
 			 <a href="admin_main">관리자페이지</a>
 		</c:if>
 </span>

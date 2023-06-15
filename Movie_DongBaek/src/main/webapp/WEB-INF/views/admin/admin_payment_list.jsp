@@ -73,12 +73,12 @@ div {
 			    </tr>
 			  </thead>
 			  <tbody>
-			  <c:forEach var="payment" items="${paymentList }">
+			  <c:forEach var="paymentList" items="${paymentList }">
 				    <tr>
-				      <th scope="row">1</th>
-				      <td>${payment.member_id }</td>
-				      <td>${payment.payment_datetime }</td>
-				      <td><a href="admin_payment_list_detail?order_num=${payment.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
+				      <th scope="row">${paymentList.payment_num }</th>
+				      <td>${paymentList.member_id }</td>
+				      <td>${paymentList.payment_datetime }</td>
+				      <td><a href="admin_payment_list_detail?order_num=${paymentList.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 				    </tr>
 			    </c:forEach>
@@ -88,25 +88,67 @@ div {
 	</div>
 	
 	<%-- 페이징 처리 --%>
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-12"> -->
+<!-- 			    <div> -->
+<%--         <c:if test="${currentPage > 1}"> --%>
+<%--             <a href="admin_payment_list?pageNo=${currentPage - 1}">이전</a> --%>
+<%--         </c:if> --%>
+<%--         <c:forEach begin="${startIndex }" end="${endIndex}" var="page"> --%>
+<%--             <a href="admin_payment_list?pageNo=${page}">${page}</a> --%>
+<%--         </c:forEach> --%>
+<%--         <c:if test="${currentPage < totalPageCount}"> --%>
+<%--             <a href="admin_payment_list?pageNo=${currentPage + 1}">다음</a> --%>
+<%--         </c:if> --%>
+<!--     </div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 	<div class="row">
 		<div class="col-md-12">
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination justify-content-center">
-			    <li class="page-item disabled">
-			      <a class="page-link">&laquo;</a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item"><a class="page-link" href="#">4</a></li>
-			    <li class="page-item"><a class="page-link" href="#">5</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#">&raquo;</a>
-			    </li>
-			  </ul>
-			</nav>
+			    <div>
+        <c:if test="${currentPage > 1}">
+            <a href="admin_payment_list?pageNo=${currentPage - 1}">이전</a>
+        </c:if>
+        <c:forEach begin="1" end="${totalPageCount}" var="page">
+        	<c:choose>
+        		<c:when test="${page >= totalPageCount -5 && page <= currentPage +4}">
+        			<c:if test="${page <= totalPageCount }">
+		            	<a href="admin_payment_list?pageNo=${page}">${page}</a>
+	            	</c:if>
+        		</c:when>
+        	</c:choose>
+        </c:forEach>
+        <c:if test="${currentPage < totalPageCount}">
+            <a href="admin_payment_list?pageNo=${currentPage + 1}">다음</a>
+        </c:if>
+    </div>
 		</div>
 	</div>
+    
+    <%-- 원본 --%>
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-12"> -->
+<!-- 			<nav aria-label="Page navigation example"> -->
+<!-- 			  <ul class="pagination justify-content-center"> -->
+<!-- 			    <li class="page-item disabled"> -->
+<!-- 			      <a class="page-link">&laquo;</a> -->
+<!-- 			    </li> -->
+<!-- 			    <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+<!-- 			    <li class="page-item"><a class="page-link" href="#">2</a></li> -->
+<!-- 			    <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+<!-- 			    <li class="page-item"><a class="page-link" href="#">4</a></li> -->
+<!-- 			    <li class="page-item"><a class="page-link" href="#">5</a></li> -->
+<!-- 			    <li class="page-item"> -->
+<!-- 			      <a class="page-link" href="#">&raquo;</a> -->
+<!-- 			    </li> -->
+<!-- 			  </ul> -->
+<!-- 			</nav> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	
+	
+	
+	
   </div>
  
   

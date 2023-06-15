@@ -24,7 +24,7 @@
 $(function() {
 	$(document).on("click", "#theater_button", function(){
 	    let val = $(this).val();
-	    let theater_num=val
+	    
 	    
 	    $.ajax({
 	        type: "get",

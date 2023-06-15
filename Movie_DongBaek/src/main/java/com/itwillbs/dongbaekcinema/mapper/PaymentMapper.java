@@ -1,8 +1,10 @@
 package com.itwillbs.dongbaekcinema.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 
@@ -18,4 +20,7 @@ public interface PaymentMapper {
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
 	List<PaymentVO> selectMyPaymentList(String member_id);
 
+	//페이징처리중
+	List<PaymentVO> getPaymentList(@Param("start") int start, @Param("perPage") int pageSize);
+	int getCount();
 }

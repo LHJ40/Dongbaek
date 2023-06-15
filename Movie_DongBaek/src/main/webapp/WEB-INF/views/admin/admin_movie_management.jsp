@@ -97,7 +97,7 @@ div {
 						<tbody>
 						<c:forEach var="movieList" items="${movieList }">
 								<tr>
-									<th scope="row">번호</th>
+									<th scope="row">${movieList.movie_num }</th>
 									<td>${movieList.movie_name_kr}</td>
 									<td>${movieList.movie_release_date}</td>
 									<td>${movieList.movie_close_date}</td>
