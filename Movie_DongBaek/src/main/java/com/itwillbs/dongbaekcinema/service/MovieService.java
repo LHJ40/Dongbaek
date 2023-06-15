@@ -33,14 +33,15 @@ public class MovieService {
 		return mapper.select_presentMovie();
 	}
 	
-	// 현재상영작 예매율순 영화목록 조회 요청 select_presentMovie_bookingRateDESC
-	
-	//영화목록조회  - 상영예정작
-//	public List<MovieVO> getMovieList_prepare() {
-//		System.out.println("getMovieList_prepare()");
-//		return mapper.select_presentMovie_bookingRateDESC();
-//	}
+	// 현재상영작 예매율순 영화목록 조회 요청 
+	public List<MovieVO> getMovieList_present_bookrate(){
+		System.out.println("getMovieList_present_bookrate()");
+		return mapper.select_presentMovie_bookingRateDESC();
+	}
 
+	
+	
+	
 	// 영화 목록 전부 조회
 	public List<MovieVO> getMovieList() {
 		return mapper.selectMovieList();
