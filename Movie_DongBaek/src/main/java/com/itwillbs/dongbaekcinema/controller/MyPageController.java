@@ -70,16 +70,18 @@ public class MyPageController {
 	
 	// 마이페이지 - 구매내역 - 상세내역 조회
 	@GetMapping("myPayment_detail")
-	public String myPayment_detail(int order_num, Model model) {
+	public String myPayment_detail(HttpSession session, Model model) {
+		
+		int order_num = (int)session.getAttribute("order_num");
 		
 		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
 		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
 		System.out.println(order_num);
-		PaymentVO payment = paymentService.getPayment(order_num);
-		System.out.println(payment);
+		MyReservationDetailVO myPayment = paymentService.getMyPayment(order_num);
+		System.out.println(myPayment);
 		
 		//받아온 구매 상세내역 전달
-		model.addAttribute("payment", payment);
+		model.addAttribute("myPayment", myPayment);
 //	public String myPayment_detail(PaymentVO payment, Model model) {
 //		
 //		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기

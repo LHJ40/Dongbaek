@@ -33,27 +33,23 @@
 			<table class="table table-bordered text-center">
 			    <tr>
 			      <th>주문자명</th>
-			      <td>${payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
+			      <td>${myPayment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
 			    </tr>
 			    <tr>
 			      <th>결제일</th>
-			      <td>${payment.datetime}</td>
+			      <td>${myPayment.payment_datetime}</td>
 			    </tr>
 				<tr>
 			      <th>결제수단</th> <%-- 우리는 카드 --%>
-			      <td>${payment.card_name }</td> <%-- 카드회사명 --%>
+			      <td>${myPayment.payment_card_name }</td> <%-- 카드회사명 --%>
 				</tr>
 			     <tr>
 			     	<th>총결제 금액</th>
-			     	<td>${payment.total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
+			     	<td>${myPayment.payment_total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
 			     </tr>
 			     <tr>
 			     	<th>결제 상태</th>
-			     	<td>${payment.payment_status }</td>
-			     </tr>
-			     <tr>
-			     	<th>총결제 금액</th>
-			     	<td>${payment.total_price }</td>
+			     	<td>${myPayment.payment_status }</td>
 			     </tr>
 			</table>
 		</div>

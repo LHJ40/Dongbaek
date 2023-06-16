@@ -71,6 +71,13 @@
 			LIMIT #{pageNum} -- 후에 pageNum으로 조절
 	</select>
 	
+	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회(지영) -->
+<!-- 	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReservationDetailVO"> -->
+<!-- 		SELECT * -->
+<!-- 			FROM BUY_DETAIL -->
+<!-- 			WHERE order_num = #{order_num} -->
+<!-- 	</select> -->
+	
 	<!-- 페이징처리중 - 0615 정의효 -->
 	<select id="getPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		SELECT * 
