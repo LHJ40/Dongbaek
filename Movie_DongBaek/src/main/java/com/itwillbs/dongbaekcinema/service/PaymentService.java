@@ -17,7 +17,13 @@ public class PaymentService {
 	private PaymentMapper mapper;
 	
 	// 결제 상세 조회를 위한 메서드(id로 구분)
-	public PaymentVO getPayment(int order_num) {
+	// 0616 페이먼트 상세 여러개 테스트중 0616정의효
+//	-----------------원본------------------
+//	public PaymentVO getPayment(int order_num) {
+//		return mapper.selectPayment(order_num);
+//	}
+	
+	public List<PaymentVO> getPayment(int order_num) {
 		return mapper.selectPayment(order_num);
 	}
 	

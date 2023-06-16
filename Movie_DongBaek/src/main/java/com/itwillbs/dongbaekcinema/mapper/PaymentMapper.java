@@ -12,7 +12,10 @@ import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 public interface PaymentMapper {
 
 	// 결제 내역 상세 조회 id로 구별
-	PaymentVO selectPayment(int order_num);
+	//0616 수정중 
+//	--------------------원본--------------------------
+//	PaymentVO selectPayment(int order_num);
+	List<PaymentVO> selectPayment(int order_num);
 	
 //	// 결제 내역 조회 - 0615정의효 페이징처리로 이거없어도됨
 //	List<PaymentVO> selectPaymentList();

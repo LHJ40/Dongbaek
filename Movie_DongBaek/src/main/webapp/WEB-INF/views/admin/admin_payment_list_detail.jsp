@@ -50,32 +50,32 @@ article {
 		<div class="col-md-12">
 			<table class="table table-bordered text-center">
 			    <tr>
-			      <th>주문번호</th> <%-- 결제번호? order_num? --%>
-			      <td>$.{payment.num}</td>
+			      <th>결제번호</th> <%-- 결제번호? order_num? --%>
+			      <td>${payment.payment_num}</td>
 			    </tr>
 			    <tr>
 			      <th>주문자명</th>
-			      <td>$.{payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
+			      <td>${payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
 			    </tr>
 			    <tr>
 			      <th>결제일</th>
-			      <td>$.{payment.datetime}</td>
+			      <td>${payment.payment_datetime}</td>
 			    </tr>
 			    <tr>
 			      <th>영화명</th>
-			      <td>$.{payment.movie_name}</td> <%-- 조인(fk) : order_num을 참조하는 payments, ordertickets을
+			      <td>${payment.movie_name_kr}</td> <%-- 조인(fk) : order_num을 참조하는 payments, ordertickets을
 			      									   			  조인?하고 ordertickets join play_num join movie_num 해서 
 			      									   			  movie_name 가져오기--%>
 			    </tr>
 			    <tr>
 			      <th>극장명</th>
-			      <td>$.{payment.theater_name}</td> <%-- 조인(fk) : payments join order_num(에서 member_id 가져와서) 
+			      <td>${payment.theater_name}</td> <%-- 조인(fk) : payments join order_num(에서 member_id 가져와서) 
 			      									   join member_id(에서 theater_num 가져와서) 
 			      									   join theaters_num 에서 theater_name 가져오기 --%>
 			    </tr>
 			    <tr>
 			      <th>인원수</th>
-			      <td>$.{payment.headcount }</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고 
+			      <td>${payment.headcount }</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고 
 			      										  ORDER_TICKETS join ticket_type_num,  count(*) as headcount from ticket_type_num --%>
 			    </tr>
 				<tr>
