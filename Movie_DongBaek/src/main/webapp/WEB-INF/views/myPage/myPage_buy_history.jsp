@@ -43,12 +43,15 @@
 								<th>상세내역</th>
 							</tr>
 							<c:forEach var="myPayment" items="${myPaymentList }">
-<%-- 							<c:set var="myPayment" value="${myPayment}"/> --%>
 								<tr>
-									<td><fmf:formatDate value="${myPayment.payment_datetime}"/></td> <%-- {param.datetime_buy} - XX XX XX 형태 xx-yy-mm? --%>
+									
+									<td>
+									<fmf:formatDate value="${myPayment.payment_datetime}"/>
+									</td>
 									<td>${myPayment.payment_total_price}</td><%-- {param.order_total} --%>
 									<td>${myPayment.payment_status}</td>
-									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+<%-- 									<td><a href="myPayment_detail?payment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+									<td><a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a></td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 <%-- 									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 								</tr>
 							</c:forEach>

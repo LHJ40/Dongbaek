@@ -46,13 +46,40 @@
 				member_id = #{member_id}
 	</select>
 	
+
+<!-- 	 관리자페이지 - 회원 전체 조회해서 뿌리기 - 0616정의효 페이징메서드로인해 없어도됨 -->
+<!-- 	<select id="selectMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO"> -->
+<!-- 		SELECT * -->
+<!-- 			FROM MEMBERS -->
+<!-- 	</select> -->
 	
-	<!-- 관리자페이지 - 회원 전체 조회해서 뿌리기 -->
-	<select id="selectMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
-		SELECT *
+	<!-- 페이징처리중 - 0616 정의효 -->
+	<select id="getMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+		SELECT * 
 			FROM MEMBERS
+			ORDER BY member_date DESC
+			LIMIT #{start}, #{perPage}
 	</select>
 	
-	
+	<!-- 페이징처리중 - 0616 정의효 -->
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*)
+			FROM MEMBERS
+	</select>	
 	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

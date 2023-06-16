@@ -42,6 +42,17 @@ public class MemberService {
 	public List<MemberVO> getMemberList() {
 		return mapper.selectMemberList();
 	}
+	
+	//페이징처리 테스트 -0616정의효
+	public List<MemberVO> getMembertList(int pageNo, int pageSize) {
+		int start = (pageNo - 1) * pageSize;
+		return mapper.getMemberList(start, pageSize);
+	}
+
+	public int getTotalPageCount(int pageSize) {
+		int totalCount = mapper.getCount();
+		return (int) Math.ceil((double) totalCount / pageSize);
+	}
 
 	
 
