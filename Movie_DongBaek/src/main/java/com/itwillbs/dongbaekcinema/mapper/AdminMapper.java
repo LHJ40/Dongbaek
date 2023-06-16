@@ -15,7 +15,7 @@ public interface AdminMapper {
 	public List<HashMap<String, String>> getTeater();
 
 	//  버튼 클릭 시 스케줄 목록 가져오기
-	public List<PlayVO> selectScheduleList(@Param("theater_num") String theater_num, @Param("play_date") String play_date);
+	public List<PlayVO> selectScheduleList(@Param("theater_num") String theater_num, @Param("play_date") String play_date,@Param("pageNo") int pageNo);
 
 	
 }

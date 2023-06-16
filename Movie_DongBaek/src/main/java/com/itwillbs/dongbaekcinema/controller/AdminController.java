@@ -102,6 +102,8 @@ public class AdminController {
 //	        return "fail_back";
 //	    }
 		
+		System.out.println("테스트");
+		
 		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
 		List<HashMap<String, String>> theaterInfo = admin_service.getTheater();
 //		System.out.println(theaterInfo);		
@@ -115,7 +117,7 @@ public class AdminController {
     // 관리자페이지 상영스케줄 상단 확인 클릭시 상영스케줄 목록 조회- json
 	@ResponseBody
 	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, Model model) throws Exception {
+	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -131,8 +133,10 @@ public class AdminController {
 //		String play_date = params.get("play_date");
 		
 		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
-		System.out.println(theater_num + ", " + play_date);
-		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date);
+
+		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
+		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
+
 		
 		System.out.println(playList);
 		
@@ -319,26 +323,75 @@ public class AdminController {
 		return "admin/admin_cs_faq_list";
 	}
 	
+	
+	
 	// 관리자페이지 회원관리 메인(리스트) 회원목록 다 가져와서 뿌리기
 	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
 
+//	---------------------원본 -------------------------------------------------
+//	@GetMapping("admin_member_list")
+//	public String adminMemberList(HttpSession session, Model model) {
+//		
+//		// --------------------원본---------------
+//		List<MemberVO> memberList = member_service.getMemberList();
+//		model.addAttribute("memberList", memberList);
+//		System.out.println(memberList);
+//		// --------------------원본---------------
+//		
+//		
+//		return "admin/admin_member_list";
+//	}
+//	---------------------원본 -------------------------------------------------
+	
+//	admin_member_list 페이징처리 테스트 - 0616 정의효
 	@GetMapping("admin_member_list")
-	public String adminMemberList(HttpSession session, Model model) {
+	public String adminMemberList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
 		
-		// --------------------원본---------------
-		List<MemberVO> memberList = member_service.getMemberList();
+		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		
+		List<MemberVO> memberList = member_service.getMembertList(pageNo, pageSize);
+		int totalPageCount = member_service.getTotalPageCount(pageSize);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPageCount", totalPageCount);
+		
 		System.out.println(memberList);
-		// --------------------원본---------------
 		
 		
 		return "admin/admin_member_list";
 	}
 	
+	
+	
 	// 관리자페이지 영화관리 메인
 	// 영화 가져와서 뿌리기
+	// admin_movie_management 원본---------------------------------------
+//	@GetMapping("admin_movie_management")
+//	public String adminMovieManagement(HttpSession session, Model model) {
+//
+//		
+////		// 직원 세션이 아닐 경우 잘못된 접근 처리
+////		String member_type = (String)session.getAttribute("member_type");
+////		System.out.println(member_type);
+////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+////
+////            model.addAttribute("msg", "잘못된 접근입니다!");
+////            return "fail_back";
+////        }		
+//		
+//		
+//		List<MovieVO> movieList = movie_service.getMovieList();
+//		model.addAttribute("movieList", movieList);
+//		return "admin/admin_movie_management";
+//	}
+	// admin_movie_management 원본---------------------------------------
+	
+//	 admin_movie_management 페이징 처리 테스트 0616 정의효-----------------------------
 	@GetMapping("admin_movie_management")
-	public String adminMovieManagement(HttpSession session, Model model) {
+	public String adminMovieManagement(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -349,12 +402,22 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }		
+		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
 		
+		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageSize);
+		int totalPageCount = movie_service.getTotalPageCount(pageSize);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
-		List<MovieVO> movieList = movie_service.getMovieList();
 		model.addAttribute("movieList", movieList);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPageCount", totalPageCount);
+		
 		return "admin/admin_movie_management";
 	}
+	
+//	---------------------------------------------------------------------------
+	
 	
 	// 영화 상세정보 조회
 	//  ?=movie_num
@@ -447,7 +510,7 @@ public class AdminController {
 //		return "admin/admin_payment_list";
 //	}
 	//--------------------------------------------------원본
-	// -- 페이징처리 테스트
+	// -- 페이징처리 테스트 - 일단 초안완 0616 정의효
 	@GetMapping("admin_payment_list")
 	public String adminPaymentList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
 		
@@ -461,18 +524,18 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		int pageSize = 1;
+		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
 		
 		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageSize);
 		int totalPageCount = payment_service.getTotalPageCount(pageSize);
-		int startIndex = payment_service.getStartIndex(pageNo, pageSize);
-		int endIndex = payment_service.getEndIndex(pageNo, pageSize);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPageCount", totalPageCount);
-		model.addAttribute("startIndex", startIndex);
-		model.addAttribute("endIndex", endIndex);
+//		model.addAttribute("startIndex", startIndex);	찾아서 1~10뜨고 11~20뜨고 해보기
+//		model.addAttribute("endIndex", endIndex);	찾아서 1~10뜨고 11~20뜨고 해보기
 		System.out.println(paymentList);
 		return "admin/admin_payment_list";
 	}
@@ -517,20 +580,6 @@ public class AdminController {
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

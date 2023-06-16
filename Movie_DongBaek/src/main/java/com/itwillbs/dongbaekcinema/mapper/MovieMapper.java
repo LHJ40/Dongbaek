@@ -3,6 +3,7 @@ package com.itwillbs.dongbaekcinema.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 
@@ -24,6 +25,12 @@ public interface MovieMapper {
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
 
-	// 영화 정보 모두 조회
-	List<MovieVO> selectMovieList();
+	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
+//	List<MovieVO> selectMovieList();
+
+	// 페이징처리 0616 정의효
+	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageSize);
+
+	// 페이징처리 0616 정의효
+	int getCount();
 }

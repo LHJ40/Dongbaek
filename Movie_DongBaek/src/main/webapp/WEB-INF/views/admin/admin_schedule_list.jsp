@@ -43,13 +43,47 @@ $(function(){
     $("#createScheduel").on("click", function(){
         let theater_num = $("#theater_num").val();
         let play_date = $("#play_date").val();
+<<<<<<< HEAD
+      	   // 파라미터값 전달 확인
+//         alert(theater_num + ", " + play_date);
+=======
         alert(theater_num + ", " + play_date);
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
         
         $.ajax({
             url: "showSchedual",
             type: "POST",
             data: {
                 "theater_num": theater_num,
+<<<<<<< HEAD
+                "play_date": play_date,
+            },
+            success: function(data, status, xhr){
+                console.log(data); // 응답 데이터 출력
+                $(data).each(function(index, item) {
+                	
+
+					  let playList = data;
+//                     console.log(item.play_num, item.play_turn, item.play_date, item.play_start_time, item.play_end_time, item.movie_name_kr);
+//                     alert(item.play_num + ',' + item.play_turn + ',' + item.play_date +','+ item.play_start_time +',' + item.play_end_time + ',' + item.movie_name_kr);
+                    
+                    
+                  	  let html = '<td scope="col">' + index + '회차</td>';
+
+                  	  
+	                  	html += '<td>\
+	                  	    <div id="' + item.play_num + index + '_0">' + item.play_num + '</div>\
+	                  	    <div id="' + item.movie_release_date + index + '_1">' + item.movie_release_date + '</div>\
+	                  	    <div id="' + item.movie_close_date + index + '_2">' + item.movie_close_date + '</div>\
+	                  	    <div id="' + item.play_start_time + index + '_3">' + item.play_start_time + '</div>\
+	                  	    <div id="' + item.play_end_time + index + '_4">' + item.play_end_time + '</div>\
+	                  	    <div id="' + item.movie_name_kr + index + '_5">' + item.movie_name_kr + '</div>\
+	                  	</td>';
+                  	  
+						
+							$("#play1").append(html);
+//                     alert(playList1_1);
+=======
                 "play_date": play_date
             },
             success: function(data, status, xhr){
@@ -77,6 +111,7 @@ $(function(){
                   	  $("#play").html(html);
                   	});
                     
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
                     
                 });
             },
@@ -193,8 +228,19 @@ background-color: transparent;
 	  </thead>
 	  <%-- 테이블 바디--%>
 	  <tbody id="play_table">
+<<<<<<< HEAD
+	  
+		<tr><th>${pageNo}</th><div id="play1">
+			<td>
+				<input type="button" value="생성" onclick="createSelect()">
+			    <input type="button" value="수정" onclick="createSelect()">
+			<td>
+		<%-- 상영목록이 출력될 공간  --%>
+		</div></tr>
+=======
 		<%-- 상영목록이 출력될 공간  --%>
 		<div id="play1"></div>
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 <%-- 	    1행 1열 --%>
 <!-- 	    <tr> -->
 <!-- 		    <th scope="col"> -->
