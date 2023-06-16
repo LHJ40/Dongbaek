@@ -100,11 +100,25 @@
 	
 	
 	
-	<!-- 영화 목록 전부 조회 -->
-	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+	<!-- 영화 목록 전부 조회 페이징처리로 필요없음 - 0616 정의효 -->
+<!-- 	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM MOVIES -->
+<!-- 	</select> -->
+	
+	<!-- 페이징처리 - 0616정의효 -->
+	<select id="getMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
 		SELECT *
-		FROM MOVIES
+			FROM MOVIES
+			ORDER BY movie_num DESC
 	</select>
+	
+	<!-- 페이징처리 - 0616정의효 -->
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*)
+			FROM MOVIES
+	</select>	
+	
 
 	<!-- 영화목록 상세 조회 -->
 	<select id="selectMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">

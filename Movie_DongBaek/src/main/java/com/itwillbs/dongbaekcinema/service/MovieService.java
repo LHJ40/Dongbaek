@@ -42,9 +42,22 @@ public class MovieService {
 	
 	
 	
-	// 영화 목록 전부 조회
-	public List<MovieVO> getMovieList() {
-		return mapper.selectMovieList();
+	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
+//	public List<MovieVO> getMovieList() {
+//		return mapper.selectMovieList();
+//	}
+
+	//페이징처리 - 0616 정의효
+	public List<MovieVO> getMovieList(int pageNo, int pageSize) {
+		int start = (pageNo - 1) * pageSize;
+		return mapper.getMovieList(start, pageSize);
+	}
+
+
+	//페이징처리 - 0616 정의효
+	public int getTotalPageCount(int pageSize) {
+		int totalCount = mapper.getCount();
+		return (int) Math.ceil((double) totalCount / pageSize);
 	}
 
 	
