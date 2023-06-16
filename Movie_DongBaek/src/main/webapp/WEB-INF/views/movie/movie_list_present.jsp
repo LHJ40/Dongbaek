@@ -75,7 +75,7 @@
 		<c:forEach var="movie" items="${movieList}" >
 				<div class="col-lg-3 col-mid-4">
 					<div class="card border-0 shadow-sm" style="width: 18rem;">
-					  <a href="movie_detail_info">
+					  <a href="movie_detail_info?movie_num=${movie.movie_num}">
 					  	<img src="${movie.movie_poster}" class="card-img-top" alt="...">
 					  </a><%-- 해당영화의 포스터출력 --%>
 						<div class="card-body">
@@ -86,7 +86,7 @@
 							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
 							<p class="d-flex justify-content-center">
 						    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
-						    	<a href="reservation_main?movie_num=${movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
+						    	<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
 					    	</p>
 						</div>
 					</div>

@@ -120,7 +120,7 @@
     <td></td>
       <td></td>
       <td></td>
-      <td><a href="#">개인정보 수정</a></td>
+      <td><a href="myPage_modify_member">개인정보 수정</a></td>
       </tr>
       <td></td>
       <td></td>

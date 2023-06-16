@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -22,51 +25,86 @@
   <%--본문내용 --%>
   	<div class="container">
 		<div class="mainTop">
-	 		<h2>개인정보 수정</h2>
-			* 회원님의 정보를 정확히 입력해주세요.
-			<form action="" method="post">
-<!-- 				<table border="1"> -->
-<%-- 					프로필 사진 항목 삭제 --%>
-<%-- 					
-<%-- 						<tr> --%>
-<%-- 							<td>프로필 사진</td> --%>
-<%-- 							<td><img src="profile"><input type="button" value="이미지 등록">※개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.<input type="button" value="회원탈퇴"></td> --%>
-<%-- 						</tr> --%>
-<%-- 					--%>
-<!-- 				</table> -->
-
-				<table border="1">
-					<tr>
-						<td>아이디</td>
-						<td>{param.Idx}</td>
-					</tr>
-					<tr>
-						<td>이름</td>
-						<td>{param.member.name} </td>
-					</tr>
-					<tr>
-						<td>비밀번호</td>
-						<td>{param.member.password}</td>
-					</tr>
-					<tr>
-						<td>비밀번호 확인</td>
-						<td>{param.member.password}<input type="button" value="비밀번호 변경"></td>
-					</tr>
-					<tr>
-						<td>생년월일</td>
-						<td>{param.birth} OOOO-OO-OO일</td>
-					</tr>
-					<tr>
-						<td>휴대폰</td>
-						<td>{parm.phoneNum} <input type="button" value="휴대폰번호 변경"></td>
-					</tr>
-					<tr>
-						<td>이메일</td>
-						<td><input type="email" placeholder="이메일을 적어주세요" value="{param.}"></td>
-					</tr>
-				</table>
-			<input type="button" value="취소" onclick="history.back()"> <input type="button" value="등록 / 변경" onclick="location.href='myPage_modify_member_pro'">
-			</form>
+			<c:choose>
+				<c:when test ="${empty member_id}">
+					<h1> 로그인이 필요합니다! </h1>
+				</c:when>
+				<c:otherwise>
+				 	<c:forEach var="myInfo" items="${myInfoList }">
+				 		<h2>개인정보 수정</h2>
+						* 회원님의 정보를 정확히 입력해주세요.
+						<form action="myPage_modify_member" method="post">
+							<table border="1">
+								<tr>
+									<td>아이디</td>
+									<td>${myInfo.member_id }</td>
+								</tr>
+								<tr>
+									<td>이름</td>
+									<td>${myInfo.member_name } </td>
+								</tr>
+								<tr>
+									<td>비밀번호</td>
+									<td>${myInfo.member_pass } </td>
+								</tr>
+								<tr>
+									<td>비밀번호 확인</td>
+									<td>${myInfo.member_pass }
+										<input type="button" value="비밀번호 변경">
+									</td>
+								</tr>
+								<tr>
+									<td>생년월일</td>
+									<td>${myInfo.member_birth }</td>
+								</tr>
+								<tr>
+									<td>휴대폰</td>
+									<td>${myInfo.member_phone }
+										<input type="button" value="휴대폰번호 변경" >
+									</td>
+								</tr>
+								<tr>
+									<td>이메일</td>
+									<td>${myInfo.member_email }
+										<input type="email" placeholder="이메일을 적어주세요" value="">
+									</td>
+								</tr>
+								<tr>
+									<td>좋아하는 장르</td>
+									<td>${myInfo.member_like_genre } / 변경할 거 구현
+<!-- 										<input type="email" placeholder="이메일을 적어주세요" value=""> -->
+									</td>
+<!-- 										<td> -->
+<!-- 											<select name="member_like_genre" class="select"> -->
+<%-- 												<option value="선택 안함" <c:if test="${myInfo.member_like_genre eq '선택 안함'} }">selected</c:if>>선택 안함</option> --%>
+<%-- 												<option value="로맨스코미디" <c:if test="${myInfo.member_like_genre eq '로맨스코미디'} }">selected</c:if>>로맨스코미디</option> --%>
+<%-- 												<option value="스릴러" <c:if test="${myInfo.member_like_genre eq '스릴러'} }">selected</c:if>>스릴러</option> --%>
+<%-- 												<option value="공포" <c:if test="${myInfo.member_like_genre eq '공포'} }">selected</c:if>>공포</option> --%>
+<%-- 												<option value="SF" <c:if test="${myInfo.member_like_genre eq 'SF'} }">selected</c:if>>SF</option> --%>
+<%-- 												<option value="범죄" <c:if test="${myInfo.member_like_genre eq '범죄'} }">selected</c:if>>범죄</option> --%>
+<%-- 												<option value="액션" <c:if test="${myInfo.member_like_genre eq '액션'} }">selected</c:if>>액션</option> --%>
+<%-- 												<option value="코미디" <c:if test="${myInfo.member_like_genre eq '코미디'} }">selected</c:if>>코미디</option> --%>
+<%-- 												<option value="판타지" <c:if test="${myInfo.member_like_genre eq '판타지'} }">selected</c:if>>판타지</option> --%>
+<%-- 												<option value="음악" <c:if test="${myInfo.member_like_genre eq '음악'} }">selected</c:if>>음악</option> --%>
+<%-- 												<option value="멜로" <c:if test="${myInfo.member_like_genre eq '멜로'} }">selected</c:if>>멜로</option> --%>
+<%-- 												<option value="뮤지컬" <c:if test="${myInfo.member_like_genre eq '뮤지컬'} }">selected</c:if>>뮤지컬</option> --%>
+<%-- 												<option value="스포츠" <c:if test="${myInfo.member_like_genre eq '스포츠'} }">selected</c:if>>스포츠</option> --%>
+<%-- 												<option value="애니메이션" <c:if test="${myInfo.member_like_genre eq '애니메이션'} }">selected</c:if>>애니메이션</option> --%>
+<%-- 												<option value="다큐멘터리" <c:if test="${myInfo.member_like_genre eq '다큐멘터리'} }">selected</c:if>>다큐멘터리</option> --%>
+<%-- 												<option value="기타" <c:if test="${myInfo.member_like_genre eq '기타'} }">selected</c:if>>기타</option> --%>
+<!-- 											</select> -->
+<!-- 										</td> -->
+											<td>
+												
+											</td>
+								</tr>
+							</table>
+							<br>
+							<input type="button" value="취소" onclick="history.back()"> <input type="button" value="등록 / 변경" onclick="location.href='myPage_modify_member_pro'">
+						</form>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
   		</div>
 	</div>
   </article>
