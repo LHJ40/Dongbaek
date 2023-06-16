@@ -48,11 +48,6 @@ div{
 	border: 1px solid #aaa;
 }
 
-/* 영화 목록, 극장 목록 앞의 모양 제거 */
-#selectMovie ul, #selectTheater ul, #selectDate ul {
-	list-style: none;
-	padding-left: 0;
-}
 /* 극장 파트 좌우 배치 */
 #region{
 /* 	border: 1px solid #000; */
@@ -78,6 +73,11 @@ div{
 	margin: 3px;
 }
 
+/* 영화 목록, 극장 목록 앞의 모양 제거 */
+#selectMovie ul, #selectTheater ul, #selectDate ul, #selectRoom ul {
+	list-style: none;
+	padding-left: 0;
+}
 #selectMovie a, #selectTheater a, #selectDate a {
 	display: block;
 	white-space: nowrap;
@@ -115,9 +115,59 @@ a {
 
 #selectDate .selected a {
 	background-color: #333;
-    width: 124px;
+    width: 51px;
     height: 33px;
     line-height: 33px;
+    border: 1px solid #000;
+    color:#fff;
+}
+
+#selectRoom a {
+    width: 270px;
+    height: 66px;
+/*     border: 1px solid #000; */
+    color:#333;
+    margin: 1px;
+    flex-wrap: nowrap;
+}
+#selectRoom hr {
+	padding: 0;
+	margin: 0;
+}
+
+
+#selectRoom a .col-1, #selectRoom a .col-2, #selectRoom a .col-3, #selectRoom a .col-4 {
+	padding-left: 5px;
+	padding-right: 5px;
+} 
+
+
+#selectRoom .time{
+	text-align: left;
+	vertical-align: top;
+	font-weight: 300;
+}
+
+#selectRoom strong {
+	display: block;
+	font-weight: 700;
+	font-size: 1.2em;
+	height: 33px;
+	padding: 0;
+}
+
+#selectRoom em {
+	display: block;
+	font-size: .8667em;
+	font-weight: 300;
+	height: 33px;
+	padding: 0;
+} 
+
+#selectRoom .selected a {
+	background-color: #333;
+    width: 270px;
+    height: 66px;
     border: 1px solid #000;
     color:#fff;
 }
