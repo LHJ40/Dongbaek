@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.mapper.PaymentMapper;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class PaymentService {
@@ -21,14 +22,14 @@ public class PaymentService {
 		return mapper.selectPayment(order_num);
 	}
 	
-	// (모든) 결제 내역을 조회후 리스트게 아겨조기위한 메서드
-	public List<PaymentVO> getPaymentList() {
-		return mapper.selectPaymentList();
-	}
+//	// (모든) 결제 내역을 조회후 리스트게 아겨조기위한 메서드 - 페이징처리메서드로인해 없어도됨 0615정의효
+//	public List<PaymentVO> getPaymentList() {
+//		return mapper.selectPaymentList();
+//	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	public List<PaymentVO> getMyPaymentList(String member_id) {
-		return mapper.selectMyPaymentList(member_id);
+	public List<MyReservationDetailVO> getMyPaymentList(String member_id, int pageNum) {
+		return mapper.selectMyPaymentList(member_id, pageNum);
 	}
 	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
@@ -38,25 +39,20 @@ public class PaymentService {
 	}
 	
 	// 페이징처리 테스트 - 총 몇페이진지 0615정의효
-//	public int getTotalPageCount(int pageSize) {
-//		int totalCount = mapper.getCount();
-//		return (int) Math.ceil((double) totalCount / pageSize);
-//	}
 	public int getTotalPageCount(int pageSize) {
 		int totalCount = mapper.getCount();
-		int totalPageCount = (int) Math.ceil((double) totalCount / pageSize);
-		return totalPageCount;
+		return (int) Math.ceil((double) totalCount / pageSize);
 	}
 
-	//페이징처리테스트 -10페이지 까지나오게 0615 정의효
-	public int getStartIndex(int pageNo, int pageSize) {
-		return (pageNo - 1) * pageSize + 1;
-	}
+	//페이징처리테스트 -10페이지 까지나오게 0615 정의효 -찾아서 1~10뜨고 11~20뜨고 해보기
+//	public int getStartIndex(int pageNo, int pageSize) {
+//		return (pageNo - 1) * pageSize + 1;
+//	}
 		
-	//페이징처리테스트 -10페이지 까지나오게 0615 정의효
-	public int getEndIndex(int pageNo, int pageSize) {
-		return pageNo * pageSize;
-	}
+	//페이징처리테스트 -10페이지 까지나오게 0615 정의효  - 찾아서 1~10뜨고 11~20뜨고 해보기
+//	public int getEndIndex(int pageNo, int pageSize) {
+//		return pageNo * pageSize;  
+//	}
 }
 
 

@@ -27,27 +27,48 @@
 			<h2>나의 구매 내역</h2>
 			<br>
 				<hr>
-				<table class="table">
-					<tr>
-						<th>결제일시</th>
-						<td><fmf:formatDate value="${payment.payment_datetime}"/></td> <%-- {param.datetime_buy} - XX XX XX 형태 xx-yy-mm? --%>
-					</tr>
-					<tr>
-						<th>결제한금액</th>
-						<td>${payment.payment_total_price}</td><%-- {param.order_total} --%>
-					</tr>
-					<tr>
-						<th>결제상태</th>
-						<td>${payment.payment_status}</td>
-					</tr>
-					<tr>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<input type="button" value="돌아가기" onclick="history.back()">
-						</td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
-					</tr>
-				</table>
+				<%-- 상세보기 테이블 --%>
+  	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered text-center">
+			    <tr>
+			      <th>주문자명</th>
+			      <td>${payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
+			    </tr>
+			    <tr>
+			      <th>결제일</th>
+			      <td>${payment.datetime}</td>
+			    </tr>
+				<tr>
+			      <th>결제수단</th> <%-- 우리는 카드 --%>
+			      <td>${payment.card_name }</td> <%-- 카드회사명 --%>
+				</tr>
+			     <tr>
+			     	<th>총결제 금액</th>
+			     	<td>${payment.total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
+			     </tr>
+			     <tr>
+			     	<th>결제 상태</th>
+			     	<td>${payment.payment_status }</td>
+			     </tr>
+			     <tr>
+			     	<th>총결제 금액</th>
+			     	<td>${payment.total_price }</td>
+			     </tr>
+			</table>
+		</div>
+	</div>
+	
+	<%-- 버튼 --%>
+	<div class="row d-flex justify-content-center mt-3">
+		<div class="col-3">
+			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#paymentCancel">결제취소</button>
+		</div>
+		<div class="col-3">
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_payment_list'">뒤로가기</button>
+		</div>
+	</div>
+  </div>
 			</div>
 	  </div>
   </article>

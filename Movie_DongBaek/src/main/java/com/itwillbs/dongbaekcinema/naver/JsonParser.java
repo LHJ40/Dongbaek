@@ -13,7 +13,7 @@ public class JsonParser {
 //		JsonParser jsonParser = new JsonParser();
 //		MemberVO vo = new MemberVO();
 //		
-//		JSONObject jsonObject = (JSONObject)jsonParser.parse(string);
+//		JSONObject jsonObject = (JSONObject)jsonParser.parse(res.tostring());
 //		jsonObject = (JSONObject) jsonObject.get("response");
 //		
 //		map.put("member_phone", jsonObject.get("mobile"));

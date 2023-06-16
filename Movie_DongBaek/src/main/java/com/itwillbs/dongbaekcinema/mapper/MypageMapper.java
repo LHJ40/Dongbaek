@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.dongbaekcinema.vo.*;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Mapper
 public interface MypageMapper {

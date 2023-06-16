@@ -87,42 +87,45 @@ div {
 		</div>
 	</div>
 	
-	<%-- 페이징 처리 --%>
+	<%-- 0616 정의효 - 페이징 처리 --%>
+			<div class="row">
+				<div class="col-md-12">
+				    <div>
+				        <c:if test="${currentPage > 1}">
+				            <a href="admin_payment_list?pageNo=${currentPage - 1}">이전</a>
+				        </c:if>
+				        <c:forEach begin="1" end="${totalPageCount}" var="page">
+				            <a href="admin_payment_list?pageNo=${page}">${page}</a>
+				        </c:forEach>
+				        <c:if test="${currentPage < totalPageCount}">
+				            <a href="admin_payment_list?pageNo=${currentPage + 1}">다음</a>
+				        </c:if>
+	    			</div>
+				</div>
+			</div>
+		<%-- 0616 정의효 - 페이징 처리 끝--%>
+			
+			
 <!-- 	<div class="row"> -->
 <!-- 		<div class="col-md-12"> -->
 <!-- 			    <div> -->
 <%--         <c:if test="${currentPage > 1}"> --%>
 <%--             <a href="admin_payment_list?pageNo=${currentPage - 1}">이전</a> --%>
 <%--         </c:if> --%>
-<%--         <c:forEach begin="${startIndex }" end="${endIndex}" var="page"> --%>
-<%--             <a href="admin_payment_list?pageNo=${page}">${page}</a> --%>
+<%--         <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
+<%--         	<c:choose> --%>
+<%--         		<c:when test="${page >= totalPageCount -5 && page <= currentPage +4}"> --%>
+<%--         			<c:if test="${page <= totalPageCount }"> --%>
+<%-- 		            	<a href="admin_payment_list?pageNo=${page}">${page}</a> --%>
+<%-- 	            	</c:if> --%>
+<%--         		</c:when> --%>
+<%--         	</c:choose> --%>
 <%--         </c:forEach> --%>
 <%--         <c:if test="${currentPage < totalPageCount}"> --%>
 <%--             <a href="admin_payment_list?pageNo=${currentPage + 1}">다음</a> --%>
 <%--         </c:if> --%>
 <!--     </div> -->
 <!-- 		</div> -->
-<!-- 	</div> -->
-	<div class="row">
-		<div class="col-md-12">
-			    <div>
-        <c:if test="${currentPage > 1}">
-            <a href="admin_payment_list?pageNo=${currentPage - 1}">이전</a>
-        </c:if>
-        <c:forEach begin="1" end="${totalPageCount}" var="page">
-        	<c:choose>
-        		<c:when test="${page >= totalPageCount -5 && page <= currentPage +4}">
-        			<c:if test="${page <= totalPageCount }">
-		            	<a href="admin_payment_list?pageNo=${page}">${page}</a>
-	            	</c:if>
-        		</c:when>
-        	</c:choose>
-        </c:forEach>
-        <c:if test="${currentPage < totalPageCount}">
-            <a href="admin_payment_list?pageNo=${currentPage + 1}">다음</a>
-        </c:if>
-    </div>
-		</div>
 	</div>
     
     <%-- 원본 --%>

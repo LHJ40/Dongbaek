@@ -1,4 +1,4 @@
-package com.itwillbs.dongbaekcinema.vo;
+package com.itwillbs.dongbaekcinema.voNew;
 
 import lombok.*;
 

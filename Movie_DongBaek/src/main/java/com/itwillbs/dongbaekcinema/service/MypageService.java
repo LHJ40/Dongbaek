@@ -7,6 +7,7 @@ import org.springframework.stereotype.*;
 
 import com.itwillbs.dongbaekcinema.mapper.*;
 import com.itwillbs.dongbaekcinema.vo.*;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class MypageService {
@@ -23,6 +24,10 @@ public class MypageService {
 	public List<MemberVO> getMyInfo(String member_id) {
 		return mapper.getMyInfoList(member_id);
 	}
+
+
+
+
 	
 	
 	

@@ -12,34 +12,39 @@
 		where member_id = #{member_id}
 	</select>
 	
-	<select id="selectPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
-		SELECT *
-		FROM PAYMENTS p
-		JOIN ORDERS o
-		ON p.order_num = o.order_num
+	<!-- 페이징처리로 없어도 됨 -->
+<!-- 	<select id="selectPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM PAYMENTS p -->
+<!-- 		JOIN ORDERS o -->
+<!-- 		ON p.order_num = o.order_num -->
 		
-	</select>
+<!-- 	</select> -->
 	
-	<!-- 마이페이지 - 회원의 나의 구매내역 조회 -->
-	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+	<!-- 마이페이지 - 회원의 나의 구매내역 조회(지영) -->
+	<!--
+	뷰 사용 : BUY_DETAIL 
+		(결제번호, 결제이름, 결제 카드, 결제카드번호, 결제 금액, 결제상태,
+		  영화이름, 티켓타입(일반/일반)
+	리턴타입 : List<> -->
+	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReservationDetailVO">
 		SELECT *
-			FROM PAYMENTS p
-			JOIN ORDERS o
-				ON p.order_num = o.order_num
+			FROM BUY_DETAIL
 			WHERE member_id = #{member_id}
-			LIMIT 3 -- 후에 pageNum으로 조절
+			LIMIT #{pageNum} -- 후에 pageNum으로 조절
 	</select>
 	
-	<!-- 페이징처리중 -->
+	<!-- 페이징처리중 - 0615 정의효 -->
 	<select id="getPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		SELECT * 
 			FROM PAYMENTS p
 			JOIN ORDERS o
 			ON p.order_num = o.order_num
+			ORDER BY o.order_num DESC
 			LIMIT #{start}, #{perPage}
 	</select>
 	
-	<!-- 페이징처리중 -->
+	<!-- 페이징처리중 - 0615 정의효 -->
 	<select id="getCount" resultType="int">
 		SELECT COUNT(*)
 			FROM PAYMENTS

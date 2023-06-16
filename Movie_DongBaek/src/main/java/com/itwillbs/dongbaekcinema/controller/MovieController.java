@@ -19,10 +19,10 @@ public class MovieController {
 	@Autowired
 	private MovieService service;
 	
-	//영화목록-현재상영작탭 클릭시(영화목록 디폴트)
+	//영화목록-현재상영작탭 클릭시(예매율순.기본)
 	@GetMapping("movie_list_present")
 	public String movie_list_present(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("controller-movie_list_present");
+		System.out.println("Moviecontroller-movie_list_present");
 		
 		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
@@ -31,9 +31,18 @@ public class MovieController {
 		return "movie/movie_list_present";
 	}
 	
-	//영화목록-상영예정작
+	//영화목록-현재상영작 평점순정렬
+	
+	
+	
+	//영화목록-상영예정작탭 클릭시
 	@GetMapping("movie_list_prepare")
-	public String movie_list_prepare() {
+	public String movie_list_prepare(@RequestParam Map<String, String> map, Model model) {
+		System.out.println("Moviecontroller-movie_list_prepare");
+		
+		List<MovieVO> movieList = service.getMovieList_present_bookrate();
+		model.addAttribute("movieList", movieList);
+		System.out.println(movieList);
 		
 		return "movie/movie_list_prepare";
 	}
@@ -41,7 +50,13 @@ public class MovieController {
 	
 	//영화상세정보-메인
 	@GetMapping("movie_detail_info")
-	public String movie_detail_info() {
+	public String movie_detail_info(MovieVO movie) {
+		System.out.println("Moviecontroller-movie_detail_info");
+		// 각 영화의 상세정보 출력 getMovie()메서드
+		// 파라미터: 리턴타입:MemberVO
+//		movie = service.getMovie(movie.getMovie_num());
+//		System.out.println(movie.getMovie_num());
+		
 		return "movie/movie_detail_info";
 	}
 	

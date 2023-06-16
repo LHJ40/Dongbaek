@@ -92,7 +92,7 @@ div {
 					<table class="table table-striped text-center">
 						<thead>
 							<tr>
-						    	<th scope="col">번호</th>
+<!-- 						    	<th scope="col">번호</th> -->
 						    	<th scope="col">이름</th>
 						    	<th scope="col">아이디</th>
 						    	<th scope="col">멤버십</th>
@@ -104,10 +104,10 @@ div {
 		  		한페이지에 몇개 나오고 밑에 1,2,3,4,5페이지 넘어가기 = jsp복습해보기 --%>
 						<tbody>
 						<c:set var="num" value="0" />
-						<c:forEach var="memberList" items="${memberList }" >
+						<c:forEach var="memberList" items="${memberList }" > 
 							<tr>
-								<c:set var="num" value="${num + 1}" />
-								<th scope="row">${num}</th> 
+<%-- 								<c:set var="num" value="${num + 1}" /> --%> <%--없애고 역순으로 출력되게 해놨음 0616 정의효 --%>
+<%-- 								<th scope="row">${num}</th>  --%>
 						    	<td>${memberList.member_name }</td>			
 						    	<td>${memberList.member_id }</td>			
 						    	<td>${memberList.grade_name }</td> 
@@ -121,24 +121,45 @@ div {
 					</div>
 			</div>
 
-			<%-- 페이징 처리 --%>
+			<%-- 0616 정의효 - 페이징 처리 --%>
 			<div class="row">
 				<div class="col-md-12">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center">
-							<li class="page-item disabled"><a class="page-link">&laquo;</a>
-							</li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">&raquo;</a>
-							</li>
-						</ul>
-					</nav>
+				    <div>
+				        <c:if test="${currentPage > 1}">
+				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a>
+				        </c:if>
+				        <c:forEach begin="1" end="${totalPageCount}" var="page">
+				            <a href="admin_member_list?pageNo=${page}">${page}</a>
+				        </c:forEach>
+				        <c:if test="${currentPage < totalPageCount}">
+				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a>
+				        </c:if>
+	    			</div>
 				</div>
 			</div>
+			<%-- 0616 정의효 - 페이징 처리 끝--%>
+			
+			<%-- 원본 페이징 처리 --%>
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-12"> -->
+<!-- 					<nav aria-label="Page navigation example"> -->
+<!-- 						<ul class="pagination justify-content-center"> -->
+<!-- 							<li class="page-item disabled"><a class="page-link">&laquo;</a> -->
+<!-- 							</li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">1</a></li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">2</a></li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">3</a></li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">4</a></li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">5</a></li> -->
+<!-- 							<li class="page-item"><a class="page-link" href="#">&raquo;</a> -->
+<!-- 							</li> -->
+<!-- 						</ul> -->
+<!-- 					</nav> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<%-- 페이징 처리 끝--%>
+			
+			
 		</div>
 
 

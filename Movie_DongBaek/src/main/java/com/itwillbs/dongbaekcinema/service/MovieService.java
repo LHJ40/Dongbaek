@@ -27,7 +27,7 @@ public class MovieService {
 	}
 	
 	
-	// 영화 목록 조회 요청을 위한 getMovieList() 메서드 정의 - 현재상영작
+	// 영화 목록 조회 요청을 위한 getMovieList_present() 메서드 정의 - 현재상영작
 	public List<MovieVO> getMovieList_present() {
 		System.out.println("getMovieList_present()");
 		return mapper.select_presentMovie();
@@ -40,11 +40,28 @@ public class MovieService {
 	}
 
 	
+	// 영화 목록 조회 요청을 위한 getMovieList_prepare() 메서드 정의 - 현재상영작
+	public List<MovieVO> getMovieList_prepare() {
+		System.out.println("getMovieList_prepare()");
+		return mapper.select_prepareMovie();
+	}
 	
-	
-	// 영화 목록 전부 조회
-	public List<MovieVO> getMovieList() {
-		return mapper.selectMovieList();
+	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
+//	public List<MovieVO> getMovieList() {
+//		return mapper.selectMovieList();
+//	}
+
+	//페이징처리 - 0616 정의효
+	public List<MovieVO> getMovieList(int pageNo, int pageSize) {
+		int start = (pageNo - 1) * pageSize;
+		return mapper.getMovieList(start, pageSize);
+	}
+
+
+	//페이징처리 - 0616 정의효
+	public int getTotalPageCount(int pageSize) {
+		int totalCount = mapper.getCount();
+		return (int) Math.ceil((double) totalCount / pageSize);
 	}
 
 	

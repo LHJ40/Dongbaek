@@ -25,8 +25,4 @@ public class MemberVO {
 	private String grade_name;
 	
 	
-//  myBatis Enum 타입 사용법 공부(기본 EnumTypeHandler 사용하면될지
-//	커스텀typeHandler만들어야할지 ..	
-//	데이터넣고 주석풀고 확인하기 0608 - 정의효
-	
 }
