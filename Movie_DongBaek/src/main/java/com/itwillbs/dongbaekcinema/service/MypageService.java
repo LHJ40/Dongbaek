@@ -20,6 +20,14 @@ public class MypageService {
 		return mapper.selectMyTicket(member_id);
 	}
 
+	// 나의 개인정보 조회  - 회원 아이디로 레코드 조회 , myPage_modify_form.jsp 
+	public List<MemberVO> getMyInfo(String member_id) {
+		return mapper.getMyInfoList(member_id);
+	}
+
+
+
+
 	
 	
 	

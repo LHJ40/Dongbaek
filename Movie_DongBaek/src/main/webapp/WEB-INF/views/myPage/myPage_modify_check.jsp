@@ -25,7 +25,7 @@
 			<table class="table table-striped">
 				<tr>
 					<td>아이디</td>
-					<td>{param.getId]</td>
+					<td>${member_id}</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
