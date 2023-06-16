@@ -102,6 +102,8 @@ public class AdminController {
 //	        return "fail_back";
 //	    }
 		
+		System.out.println("테스트");
+		
 		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
 		List<HashMap<String, String>> theaterInfo = admin_service.getTheater();
 //		System.out.println(theaterInfo);		
@@ -115,7 +117,7 @@ public class AdminController {
     // 관리자페이지 상영스케줄 상단 확인 클릭시 상영스케줄 목록 조회- json
 	@ResponseBody
 	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, Model model) throws Exception {
+	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -131,8 +133,10 @@ public class AdminController {
 //		String play_date = params.get("play_date");
 		
 		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
-		System.out.println(theater_num + ", " + play_date);
-		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date);
+
+		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
+		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
+
 		
 		System.out.println(playList);
 		
@@ -517,20 +521,6 @@ public class AdminController {
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

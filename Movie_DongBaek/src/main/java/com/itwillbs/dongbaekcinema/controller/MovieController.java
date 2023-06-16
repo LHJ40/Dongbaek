@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
@@ -20,13 +21,12 @@ public class MovieController {
 	
 	//영화목록-현재상영작탭 클릭시(영화목록 디폴트)
 	@GetMapping("movie_list_present")
-	public String movie_list_present(Model model) {
+	public String movie_list_present(@RequestParam Map<String, String> map, Model model) {
 		System.out.println("controller-movie_list_present");
 		
-		List<MovieVO> movieList = service.getMovieList_present();
+		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
 		System.out.println(movieList);
-		
 		
 		return "movie/movie_list_present";
 	}
