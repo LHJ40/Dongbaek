@@ -91,7 +91,7 @@ public class AdminController {
 	
 	// 관리자페이지 상영스케줄 관리
 	@GetMapping("admin_schedule_list")
-	public String adminScheduleList(HttpSession session, Model model) {
+	public String adminScheduleList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -102,7 +102,6 @@ public class AdminController {
 //	        return "fail_back";
 //	    }
 		
-		System.out.println("테스트");
 		
 		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
 		List<HashMap<String, String>> theaterInfo = admin_service.getTheater();
@@ -114,10 +113,11 @@ public class AdminController {
 		return "admin/admin_schedule_list";
 	}
 	
-    // 관리자페이지 상영스케줄 상단 확인 클릭시 상영스케줄 목록 조회- json
+    // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
 	@ResponseBody
 	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
 	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+//		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -129,24 +129,37 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
-//		String theater_name = params.get("theater_name");
-//		String play_date = params.get("play_date");
+
 		
 		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
 
-		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
 		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
 
-		
 		System.out.println(playList);
 		
 		model.addAttribute("playList", playList);
 		
-		return playList;	
-//		return null;	
+		return playList;
 	}
-
 	
+	
+	
+	// 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 현재 상영중인 영화 목록 조회- json 
+	@ResponseBody
+	@RequestMapping(value = "findMovieList", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	public List<MovieVO> findMovieList(HttpSession session, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+		System.out.println("findMovieList : " + play_date);
+		
+		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
+		List<MovieVO> movieList = admin_service.findMovieList(play_date);
+		
+		
+		System.out.println(movieList);
+		
+		model.addAttribute("movieList",movieList);
+		
+		return movieList;
+	}
 	
 	// 관리자페이지 결제관리
 //	@GetMapping("")
