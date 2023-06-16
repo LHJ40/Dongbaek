@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -7,6 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+
 <title>영화 예매 사이트</title>
 <style>
 	<%-- 페이징 색상변경 --%>
@@ -53,134 +56,181 @@
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
 		  <select class="custom-select" name="movie_array">
-		    <option selected>정렬순</option>
-		    <option value="1">예매순</option>
-		    <option value="2">평점순</option>
+		    <option selected>예매순</option>
+		    <option value="1">평점순</option><%--가나다순? --%>
 		  </select>
 		</div>
 	</div>
+	
 	<%-- 영화정보 --%>
+	<%-- 한 열당 영화4개출력 => 한 페이지 당 2열 => 총 8개영화출력--%>
 	<div class="m-3">
-	<%-- 1열 --%>
+	
+		 <%-- 1열 --%>
+		<%-- <input type="hidden" value="movie_num=${movieList.movie_num }"> --%>
 		<div class="row"  align="left">
-			<%-- 카드1 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
+		<c:forEach var="movie" items="${movieList}" >
+				<div class="col-lg-3 col-mid-4">
+					<div class="card border-0 shadow-sm" style="width: 18rem;">
+					   <a href="movie_detail_info?movie_num=${movie.movie_num}">
+					  	<img src="${movie.movie_poster}" class="card-img-top" alt="...">
+					  </a><%-- 해당영화의 포스터출력 --%>
+						<div class="card-body">
+							<h6 class="card-title">
+							<img src="${pageContext.request.contextPath}/resources/img/gradeB.png" class="img-rounded" onclick="location.href='movie_detail_info?movie_num=${movie.movie_num}'">
+							<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
+							${movie.movie_name_kr}</h6>
+							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
+							<p class="d-flex justify-content-center">
+						    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
+						    	<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
+					    	</p>
+						</div>
+					</div>
 				</div>
-			</div>
-			<%-- 카드2 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-			<%-- 카드3 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-			<%-- 카드4 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="/resources/img/gradeD.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
+		</c:forEach>
 		</div>
 		<br>
-		<%-- 2열 --%>
-		<div class="row"  align="left">
-			<%-- 카드1 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-			<%-- 카드2 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-			<%-- 카드3 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-			<%-- 카드4 --%>
-			<div class="col-lg-3 col-mid-4">
-				<div class="card border-0 shadow-sm" style="width: 18rem;">
-				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeD.png" class="img-rounded">영화명</h3>
-				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p>
-				    <p class="d-flex justify-content-center">
-				    	<button type="button" class="btn btn-outline-danger mr-2" name="">♡찜하기</button>
-				    	<a href="#" class="btn btn-danger">개봉예정</a>
-				    </p>
-				  </div>
-				</div>
-			</div>
-		</div>
-	</div>
+		
+		
+<!-- 	<div class="m-3"> -->
+<%-- 	<%-- 1열 --%> 
+<!-- 		<div class="row"  align="left"> -->
+<%-- 			<%-- 카드1 --%> 
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드2 --%>
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드3 --%>
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드4 --%>
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<!-- 				  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> -->
+<!-- 				  <div class="card-body"> -->
+<!-- 				    <h3 class="card-title"><img src="/resources/img/gradeD.png" class="img-rounded">영화명</h3> -->
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<br> -->
+<%-- 		<%-- 2열 --%>
+<!-- 		<div class="row"  align="left"> -->
+<%-- 			<%-- 카드1 --%> 
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeA.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드2 --%>
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeB.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드3 --%> 
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeC.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2	">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 			<%-- 카드4 --%> 
+<!-- 			<div class="col-lg-3 col-mid-4"> -->
+<!-- 				<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="..."> --%>
+<!-- 				  <div class="card-body"> -->
+<%-- 				    <h3 class="card-title"><img src="${pageContext.request.contextPath }/resources/img/gradeD.png" class="img-rounded">영화명</h3> --%>
+<!-- 				    <p class="card-text">예매율: 45.2% 개봉일: 2023.05.12</p> -->
+<!-- 				    <p class="d-flex justify-content-center"> -->
+<!-- 				    	<button type="button" class="btn btn-outline-danger mr-2" name="">♡찜하기</button> -->
+<!-- 				    	<a href="reservation_main" class="btn btn-danger">개봉예정</a> -->
+<!-- 				    </p> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+	</div> <%--container 끝 --%>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<%-- 하단 페이지 바 --%>
 	<nav aria-label="Page navigation example">
