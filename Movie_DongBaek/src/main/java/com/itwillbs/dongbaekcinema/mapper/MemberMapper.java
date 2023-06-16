@@ -3,6 +3,7 @@ package com.itwillbs.dongbaekcinema.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 
@@ -26,6 +27,12 @@ public interface MemberMapper {
 
 	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
 	int idCheck(String member_id);
+	
+	// 페이징처리중 - 0616 정의효
+	List<MemberVO> getMemberList(@Param("start") int start, @Param("perPage") int pageSize);
+	
+	// 페이징처리중 - 0616 정의효
+	int getCount();
 
 
 	
