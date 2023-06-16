@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Mapper
 public interface PaymentMapper {
@@ -18,7 +19,7 @@ public interface PaymentMapper {
 	List<PaymentVO> selectPaymentList();
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	List<PaymentVO> selectMyPaymentList(String member_id);
+	List<MyReservationDetailVO> selectMyPaymentList(@Param("member_id") String member_id, @Param("pageNum") int pageNum);
 
 	//페이징처리중
 	List<PaymentVO> getPaymentList(@Param("start") int start, @Param("perPage") int pageSize);

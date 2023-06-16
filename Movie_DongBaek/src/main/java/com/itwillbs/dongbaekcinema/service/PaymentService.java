@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.mapper.PaymentMapper;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class PaymentService {
@@ -27,8 +28,8 @@ public class PaymentService {
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	public List<PaymentVO> getMyPaymentList(String member_id) {
-		return mapper.selectMyPaymentList(member_id);
+	public List<MyReservationDetailVO> getMyPaymentList(String member_id, int pageNum) {
+		return mapper.selectMyPaymentList(member_id, pageNum);
 	}
 	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
