@@ -3,6 +3,7 @@ package com.itwillbs.dongbaekcinema.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,22 +93,24 @@ public class ReservationController {
 			return roomList;
 		}
 		
-		// reservation_main.jsp의 [날짜] 클릭 시 상영관 정보 출력
-		@ResponseBody
-		@RequestMapping(value = "ReservationStep3Servlet", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
-		public List<Map<String, Object>> reservationStep3Servlet(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
-			System.out.println("ReservationController - reservationStep3Servlet");
-			
-			TheaterVO theater = service.getTheater(theater_num);
-			model.addAttribute("theater", theater);
-			
-			
-			List<Map<String, Object>> playList = service.getPlayList(movie_num, theater_num, play_date);
-			model.addAttribute("playList", playList);		
-			System.out.println(playList);		
+	// reservation_main.jsp의 [날짜] 클릭 시 상영관 정보 출력
+	@ResponseBody
+	@RequestMapping(value = "ReservationStep3Servlet", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
+	public String reservationStep3Servlet(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
+		System.out.println("ReservationController - reservationStep3Servlet");
+		
+		TheaterVO theater = service.getTheater(theater_num);
+		model.addAttribute("theater", theater);
+		
+		
+		List<Map<String, Object>> playList = service.getPlayList(movie_num, theater_num, play_date);
+		model.addAttribute("playList", playList);		
+		System.out.println(playList);		
 
-			return playList;
-		}
+		JSONArray ja = new JSONArray(playList);
+		System.out.println(ja);
+		return ja.toString();
+	}
 	
 	@GetMapping("reservation_ing")
 	public String reservation_ing() {
