@@ -297,8 +297,6 @@ public class MemberController {
 		return "member/no_member_reservation_check_form";
 	}
 	
-	
-
 }
 
 

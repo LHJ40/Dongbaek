@@ -15,6 +15,21 @@
 <style>
 
 </style>
+<script type="text/javascript">
+	
+	// 공통 이동 처리 함수
+	function getCode(url, param) {
+
+		switch(url) {
+		
+			case 'myPayment_detail' : 
+				session.setAttribute("order_num", param);
+				location.href = 'myPayment_detail';
+				break;
+		}
+	}
+
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -45,11 +60,18 @@
 							<c:forEach var="myPayment" items="${myPaymentList }">
 								<tr>
 									
-									<td><fmf:formatDate value="${myPayment.payment_datetime}"/></td> <%-- {param.datetime_buy} - XX XX XX 형태 xx-yy-mm? --%>
-									<td>${myPayment.payment_total_price}</td><%-- {param.order_total} --%>
+									<td>
+										<fmf:formatDate value="${myPayment.payment_datetime}"/>
+									</td>
+									<td>
+										<fmf:formatNumber value="${myPayment.payment_total_price}" pattern="#,###,###" />
+									</td><%-- {param.order_total} --%>
 									<td>${myPayment.payment_status}</td>
 <%-- 									<td><a href="myPayment_detail?payment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
-									<td><a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a></td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+									<td>
+										<input type="button" value="상세내역보기" onclick="getCode('myPayment_detail', ${myPayment.order_num})">
+<%-- 										<a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a> --%>
+									</td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 <%-- 									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 								</tr>
 							</c:forEach>

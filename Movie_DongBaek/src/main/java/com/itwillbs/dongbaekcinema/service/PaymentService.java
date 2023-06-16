@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.mapper.PaymentMapper;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class PaymentService {
@@ -17,7 +18,13 @@ public class PaymentService {
 	private PaymentMapper mapper;
 	
 	// 결제 상세 조회를 위한 메서드(id로 구분)
-	public PaymentVO getPayment(int order_num) {
+	// 0616 페이먼트 상세 여러개 테스트중 0616정의효
+//	-----------------원본------------------
+//	public PaymentVO getPayment(int order_num) {
+//		return mapper.selectPayment(order_num);
+//	}
+	
+	public List<PaymentVO> getPayment(int order_num) {
 		return mapper.selectPayment(order_num);
 	}
 	
@@ -27,9 +34,15 @@ public class PaymentService {
 //	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	public List<PaymentVO> getMyPaymentList(String member_id) {
-		return mapper.selectMyPaymentList(member_id);
+	public List<MyReservationDetailVO> getMyPaymentList(String member_id, int pageNum) {
+		return mapper.selectMyPaymentList(member_id, pageNum);
 	}
+	
+	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
+	public MyReservationDetailVO getMyPayment(int order_num) {
+		return mapper.selectMyPaymentList(order_num);
+	}
+	
 	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
 	public List<PaymentVO> getPaymentList(int pageNo, int pageSize) {
@@ -42,6 +55,7 @@ public class PaymentService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
 
 	//페이징처리테스트 -10페이지 까지나오게 0615 정의효 -찾아서 1~10뜨고 11~20뜨고 해보기
 //	public int getStartIndex(int pageNo, int pageSize) {
