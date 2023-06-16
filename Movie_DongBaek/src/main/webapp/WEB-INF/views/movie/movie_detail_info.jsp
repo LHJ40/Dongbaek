@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -13,73 +14,74 @@
 </style>
 </head>
 <body>
- <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
- 
-  <article id="mainArticle">
-  <%--본문내용 --%>
-
-		<div class="container">
-		
-			<section id="movie-head"> <%-- 첫번째 섹션 --%>
-			<div class="row bg-secondary p-5">
-		 	 <div class=" col-md-8 d-flex"><%-- 왼쪽 창 --%>
+<%--네비게이션 바 영역 --%>
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
+<article id="mainArticle">
+	<%--본문내용 --%>
+	
+	<%-- 첫번째 섹션 --%>
+	<div class="container">
+		<section id="movie-head">
+			<div class="row">
+		 	 <div class="col-md-8 d-flex"><%-- 왼쪽 창 --%>
 			  <div class="col float-left" >
-			  	  <div class="row">
-			  	  <br><br><br>
-			  	  </div>
-				  <div class="row">
-				     <div class="col-md-8 justify-content-start h3 p-0">영화명</div>
+				  <div class="row" style="margin-top: 30px">
+				     <div class="col-md-8 justify-content-start h3 p-0">${movie.movie_name_kr }</div>
 				  </div> 
-				  <div class="row">
-				    	<div class="col-ml-8">		  			
-				    	그들이 나를 배신했을 때,<br>
-						그는 나를 형제라 불러주었다!
+				  <div class="row" style="margin-top: 30px">
+				    	<div class="col-ml-5">		  			
+							${movie.movie_content }
 						</div>
 				  </div>
 				  <br>
-				  <div class="row">
-				    	<div class="col-md-2"><button type="button" class="btn btn-primary">찜♡</button>
-				    	</div>
-				    	<div class="col-md-3">
-				    		<div class="card" style="width: 18rem;">
-							  <div class="card-body">
-							    <h5 class="card-title">닉네임</h5>
-							    <p class="card-text">리뷰하는 내용 어쩌구 저쩌구 어쨋든 재미있다는 내용</p>
-							  </div>
-							</div>
+				  
+			  <div class="row" style="margin-bottom: 50px">
+			    	<div class="col mx-4 my-2" style="width:80px"><button class="btn btn-danger"> 찜♡ </button></div>
+					<div class="col mx-4 my-2">
+<!-- 			    	<div class="col-md-3"> -->
+			    		<div class="card" style="width: 24rem">
+						  <div class="card-body">
+							    <h5 class="card-title">아이디 : ${review.member_id }</h5>
+							    <p class="card-text">${review.review_content }</p>
+						  </div>
 						</div>
-				  </div>
+					</div>
+			  </div>
+				 
+				  
 				  <%-- 평점 --%>
-				  <br>
-				  <br>
+				  
 				  <div class="row">
-				  	<div class="col col-md-3 h5">
-						<br>
-				  		평점 : 5.0
-				  		<br>
+				  	<div class="col mx-7 my-5">
+						<h7>평점 : ${review.movie_review_rating } </h7>
 				  	</div>
-				  	<div class="col col-md-6 h5">
-				  		<br>
-				  		실제 관람객 수 : 1000만명
-				  		<br>
+				  	<div class="col mx-5 my-5">
+				  		
+				  		<h7>실제 관람객 수 : ${movie.movie_audience_num } 명</h7>
+				  		
 				  	</div>
 				  </div>
 			  </div>
 			 </div>
+			 
+			
 			 <%-- 포스트 부분 --%>
 			    <div class ="col float-right col-md-3">
 					<div class="row">
-						<div class="card" style="width: 18rem;">
-						  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-						  <div class="card-body justify-content-end">
-						    <a href="#" class="btn btn-primary">예매하기</a>
+						<div class="card" style="width: 18rem">
+						  <img src="${movie.movie_poster }" class="card-img-top" alt="...">
+						  <div class="card-body justify-content-end" style="align-content: center">
+						    <a href="reservation_main?movie_num=${movie.movie_num }" class="btn btn-danger" style="align-content: center">예매하기</a>
 						  </div>
 						</div>
 					</div>
 				</div> <%-- 오른쪽 창 끝 --%>		
 			</div>
-		  	</section><%-- 첫번째 섹션 끝 --%>
+		</section><%-- 첫번째 섹션 끝 --%>
+		  	
+		  	
+		  	
+		  	
 		  	
 		  	<section id=""> <%-- 두번째 섹션 --%>
 		  	  <div class="row">
@@ -127,14 +129,19 @@
 		  	</section><%-- 세번째 섹션 끝--%>
 		
 			
-		</div> <%-- 컨테이너 끝 --%>
+	</div> <%-- 컨테이너 끝 --%>  
+</article>
   
-  </article>
+  
+  
+  
+  
+  
+  
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
