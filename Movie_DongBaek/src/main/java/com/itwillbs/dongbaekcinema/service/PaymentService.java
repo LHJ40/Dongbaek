@@ -32,6 +32,12 @@ public class PaymentService {
 		return mapper.selectMyPaymentList(member_id, pageNum);
 	}
 	
+	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
+	public MyReservationDetailVO getMyPayment(int order_num) {
+		return mapper.selectMyPaymentList(order_num);
+	}
+	
+	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
 	public List<PaymentVO> getPaymentList(int pageNo, int pageSize) {
 		int start = (pageNo - 1) * pageSize;
@@ -43,6 +49,7 @@ public class PaymentService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
 
 	//페이징처리테스트 -10페이지 까지나오게 0615 정의효 -찾아서 1~10뜨고 11~20뜨고 해보기
 //	public int getStartIndex(int pageNo, int pageSize) {
