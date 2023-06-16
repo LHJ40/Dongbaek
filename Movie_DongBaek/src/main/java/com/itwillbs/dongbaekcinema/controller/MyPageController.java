@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
@@ -145,14 +147,35 @@ public class MyPageController {
 	}
 	
 	// 마이페이지 - 개인정보 수정 비밀번호 확인 페이지로 이동
+	// 로그인 한 상태와 로그인하지 않은 상태를 구분해서 페이지이동
+	// => 로그인 한 상태 : modify_check.jsp 화면으로 이동
+	// => 비로그인 상태 : 로그인해야한다는 메세지를 띄우고, 로그인 화면으로 이동
 	@GetMapping("myPage_modify_check")
-	public String myPage_modify_check() {
+	public String myPage_modify_check(@RequestParam(required = false) String member_id, HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String sId = (String)session.getAttribute("member_id");
+		if(sId == null) {
+			return "member/member_login_form";
+		}
+		
 		return "myPage/myPage_modify_check";
 	}
 	
 	// 마이페이지 - 개인정보 수정 폼페이지로 이동
 	@GetMapping("myPage_modify_member")
-	public String myPage_modify_member() {
+	public String myPage_modify_member(MemberVO member, Model model, HttpSession session) {
+		// 세션아이디로 개인정보 내역 보여주기
+		String member_id = (String) session.getAttribute("member_id");
+		
+		// 나의 개인정보 조회
+		// MypageService - getMyInfo()
+		// 파라미터 : member_id		리턴타입 : List<MemberVO>(myInfoList)
+		List<MemberVO> myInfoList = service.getMyInfo(member_id);
+		System.out.println(myInfoList);
+
+		//받아온 개인정보 전달
+		model.addAttribute("myInfoList", myInfoList);
+		
 		return "myPage/myPage_modify_member";
 	}
 }

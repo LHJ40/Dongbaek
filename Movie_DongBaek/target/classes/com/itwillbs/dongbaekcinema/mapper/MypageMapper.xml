@@ -10,6 +10,12 @@
 			LIMIT 3 -- 후에 pageNum으로 조절할 예정
   </select>
   
+  <!-- 나의 개인정보 조회 -->
+  <select id="getMyInfoList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+  		SELECT *
+  			FROM MEMBERS
+  			WHERE member_id = #{member_id}
+  </select>
   
   
 </mapper>
