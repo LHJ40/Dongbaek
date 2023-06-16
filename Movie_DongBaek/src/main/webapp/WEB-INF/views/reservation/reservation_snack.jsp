@@ -76,7 +76,27 @@
 	}
 </style>
 <script type="text/javascript">
-
+$(function() {
+	let totalprice=0;
+	let quantity1=0;
+	let quantity2=0;
+	$(document).on("click", "#addsnack", function(){
+		
+// 		let quantity=($("#quantity"+$(this).val()).val());
+		
+		let price=Number(($("#eee"+$(this).val()).val()));
+		
+		$("#snackquantity"+$(this).val()).html(quantity++);
+		$("#snackprice"+$(this).val()).html(quantity1*price);
+		
+		
+		$("#snackCart"+$(this).val()).css("display", "");
+		
+// 		alert(totalprice);
+		
+	});
+	
+});
 
 </script>
 </head>
@@ -101,8 +121,8 @@
 						        <h5 class="card-title">${snack.snack_name}</h5>
 						        	${snack.snack_price}원
 						        <p class="card-text">
-						        	<input type="number" value=1>
-						        	<button type="button" class="btn btn-outline-danger" id="addsnack" >담기</button><br>
+						        	<input type="number" id="quantity${snack.snack_num}"value=1>
+						        	<button type="button" class="btn btn-outline-danger" value="${snack.snack_num}" id="addsnack" >담기</button><br>
 						        	${snack.snack_txt}<br>
 						        </p>
 						      </div>
@@ -138,22 +158,29 @@
 	                <h5>주문 정보</h5>
 	                <hr>
 	                <%-- (상품 담기 시 입력되는 창) --%>
-	                <table border="1" id="snackCart" >
+	                <c:forEach var="snack" items="${snackList}" >
+	                <table border="1" id="snackCart${snack.snack_num}"style=display:none>
 	                	<tr>
-	                		<td>1</td>
-	                		<td width="150px">상품명 x n </td>
+	                		
+	                		<td width="150px">${snack.snack_name} x <span id="snackquantity${snack.snack_num}">0</span> </td>
 	                	</tr>
 	                	<tr>
 	                		<td colspan="2" class="right_side">
-	                			10,000 <button class="btn btn-secondary">x</button>
+	                	
+	                	<input type="hidden" id="eee${snack.snack_num}" value="${snack.snack_price}">
+	                	
+	                			<span id="snackprice${snack.snack_num}" >0</span> <button class="btn btn-secondary">x</button>
 	                		</td>
 	                	</tr>
 	                </table>
+	                </c:forEach>
+	                
+	               
 	                
 	                <div class="bottom">
 	                	<hr>
-		                총 금액 : (10,000)원
-		                <button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button>
+		                	총 금액 :(<span id="totalprice" >0</span>)원
+		                <button class="btn btn-secondary"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
 	                </div>
 	               </div>
 	           </div>
