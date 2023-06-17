@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -77,6 +78,56 @@
 </style>
 <script type="text/javascript">
 
+	
+ 	//스낵 담기
+	$(document).on("click", "#addsnack", function(){
+		let totalprice=0;
+		let snacknum=$(this).val();
+ 		let quantity=($("#quantity"+snacknum).val());
+		let snackprice=Number(($("#snackprice"+snacknum).val()));
+		if(quantity<=0){
+			alert("잘못된 입력");
+		}else{
+		$("#snackquantity"+snacknum).html(quantity);
+		$("#snackpriceview"+snacknum).html(quantity*snackprice);
+		
+		//총가격
+		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+			totalprice+=Number($("#snackpriceview"+i).html());
+			}
+		
+		$("#totalprice").html(totalprice);
+		
+		$("#snackCart"+snacknum).css("display", "");
+		}
+
+		
+	});
+	//다시 선택하기
+	$(document).on("click", "#snackreset", function(){
+		$("#totalprice").html(0);
+		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+			$("#snackpriceview"+i).html(0);
+			$("#snackquantity"+i).html(0);
+			$("#snackCart"+i).css("display", "none");
+			}
+		$(".snackquantity").val(1);
+	
+	});
+	
+	//카트 X
+	$(document).on("click", "#snackcancel", function(){
+		let snacknum=$(this).val();
+		let totalprice=$("#totalprice").html();
+ 		let snackview=Number($("#snackpriceview"+snacknum).html());
+ 		$("#totalprice").html(totalprice-snackview);
+		$("#snackpriceview"+snacknum).html(0);
+		$("#snackquantity"+snacknum).html(0);
+		$("#snackCart"+snacknum).css("display", "none");
+		
+	});
+	
+
 
 </script>
 </head>
@@ -101,8 +152,8 @@
 						        <h5 class="card-title">${snack.snack_name}</h5>
 						        	${snack.snack_price}원
 						        <p class="card-text">
-						        	<input type="number" value=1>
-						        	<button type="button" class="btn btn-outline-danger" id="addsnack" >담기</button><br>
+						        	<input type="number" class="snackquantity" id="quantity${snack.snack_num}"value=1>
+						        	<button type="button" class="btn btn-outline-danger" value="${snack.snack_num}" id="addsnack" >담기</button><br>
 						        	${snack.snack_txt}<br>
 						        </p>
 						      </div>
@@ -138,22 +189,29 @@
 	                <h5>주문 정보</h5>
 	                <hr>
 	                <%-- (상품 담기 시 입력되는 창) --%>
-	                <table border="1" id="snackCart" >
+	                <c:forEach var="snack" items="${snackList}" >
+	                <table border="1" id="snackCart${snack.snack_num}"style=display:none>
 	                	<tr>
-	                		<td>1</td>
-	                		<td width="150px">상품명 x n </td>
+	                		
+	                		<td width="150px">${snack.snack_name} x <span id="snackquantity${snack.snack_num}">0</span> </td>
 	                	</tr>
 	                	<tr>
 	                		<td colspan="2" class="right_side">
-	                			10,000 <button class="btn btn-secondary">x</button>
+	                	
+	                	<input type="hidden" id="snackprice${snack.snack_num}" value="${snack.snack_price}">
+             	
+	                			<span id="snackpriceview${snack.snack_num}" >0</span> <button class="btn btn-secondary" value="${snack.snack_num}"  id="snackcancel">x</button>
 	                		</td>
 	                	</tr>
 	                </table>
+	                </c:forEach>
+	                
+	               
 	                
 	                <div class="bottom">
 	                	<hr>
-		                총 금액 : (10,000)원
-		                <button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button>
+		                	총 금액 :(<span id="totalprice" >0</span>)원
+		                <button class="btn btn-secondary" id="snackreset"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
 	                </div>
 	               </div>
 	           </div>

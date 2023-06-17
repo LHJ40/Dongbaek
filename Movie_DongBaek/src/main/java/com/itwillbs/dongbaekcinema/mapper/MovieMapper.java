@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
+import com.itwillbs.dongbaekcinema.vo.ReviewVO;
 
 @Mapper
 public interface MovieMapper {
@@ -24,9 +25,14 @@ public interface MovieMapper {
 	
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
+	
+	//-------------------------------------------
+	// 리뷰 정보 조회
+	ReviewVO selectReviewRating(int movie_num);
 
+	
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
-//	List<MovieVO> selectMovieList();
+	//	List<MovieVO> selectMovieList();
 
 	// 페이징처리 0616 정의효
 	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageSize);

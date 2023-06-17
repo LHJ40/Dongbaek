@@ -36,19 +36,33 @@
 			AND movie_close_date >= now() 
 		ORDER BY movie_booking_rate DESC
 	</select>
-	<!-- 현재상영작 - 셀렉트박스: 평점순 --> 
-	
-<!-- 	<select id="select_presentMovie_reviewRatingDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">  -->
-<!--  		SELECT *  -->
-<!--  		FROM MOVIES  -->
-<!--  		WHERE  -->
-<!--  			now() >= movie_release_date   -->
-<!-- 			AND movie_close_date >= now() -->
-<!-- 		ORDER BY review_rating DESC -->
-<!-- 	</select> -->
-	
-	
-	
+
+	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지 ==> 기본 : 예매율순-->
+	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM MOVIES
+		WHERE now() >= movie_release_date
+			AND movie_release_date > subdate(now(), INTERVAL 15 DAY)
+		ORDER BY movie_booking_rate DESC;
+	</select>
+
+
+	<!-- 현재상영작 - 셀렉트박스: 평점순 --> <!-- resultType -> newVO에 VO생성하고(뷰정보담을) 새로저장 -->
+<!-- 	<select id="select_presentMovie_reviewRatingDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM  -->
+<!-- 			MOVIES m  -->
+<!-- 		JOIN  -->
+<!-- 			MOVIE_REVIEWS r -->
+<!-- 		ON -->
+<!-- 			m.movie_num = r.movie_num -->
+<!-- 		WHERE -->
+<!-- 			now() >= m.movie_release_date AND m.movie_close_date >= now() -->
+<!-- 		ORDER BY  -->
+<!-- 			r.movie_review_rating DESC; -->
+<!-- 	</select>  -->
+
+
 	<!-- REVIEW테이블, MOVIE테이블 조인 필요 -->
 	<resultMap type="com.itwillbs.dongbaekcinema.vo.MovieVO" id="MovieVO">
 		<result property="movie_num" column="movie_num"/>
@@ -78,27 +92,28 @@
 		<result property="review_date" column="review_date"/>
 	</resultMap>	
 	
-	<!-- 상영예정작 조회 : 현재날짜 15일전 ~ 개봉일까지 ==> 기본 : 예매율순-->
-	<select id="select_prepareMovie" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
-		SELECT *
-		FROM MOVIES
-		WHERE now() >= movie_release_date
-			AND movie_release_date > subdate(now(), INTERVAL 15 DAY)
-		ORDER BY movie_booking_rate DESC;
-	</select>
-	<!-- 상영예정작 - 예매율순/  -->
-<!-- 	<select id="select_presentMovie_bookingrateDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">  -->
-<!--  		SELECT *  -->
-<!--  		FROM MOVIES  -->
-<!--  		WHERE  -->
-<!--  			now() >= movie_release_date   -->
-<!-- 			AND movie_close_date >= now()  -->
-<!-- 		ORDER BY movie_booking_rate DESC -->
-<!-- 	</select> -->
-
-	
-	
-	
+<!-- 영화당 평점 불러오기 -->
+<select id="selectReviewRating" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
+	SELECT 
+		review_num 
+		, AVG(review_rating) as movie_review_rating
+		, review_content
+		, review_date
+		, movie_num
+		, member_id
+	FROM 
+		REVIEWS
+	WHERE
+		movie_num = ${movie_num}
+	GROUP BY 
+		review_num
+		, review_content
+		, review_date
+		, movie_num
+		, member_id
+	ORDER BY
+		review_num DESC
+</select>
 	
 	<!-- 영화 목록 전부 조회 페이징처리로 필요없음 - 0616 정의효 -->
 <!-- 	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> -->

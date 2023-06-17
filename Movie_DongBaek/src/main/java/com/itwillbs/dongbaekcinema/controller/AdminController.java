@@ -784,12 +784,27 @@ public class AdminController {
 	// 포워딩페이지 : admin/admin_payment_list_detai
 	// 데이터넣고 주석풀고 확인하기 **완료X 0608 - 정의효
 	// 0609 완
+//	--원본-----------------------------
+//	@GetMapping("admin_payment_list_detail")
+//	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
+//		
+//		PaymentVO payment = payment_service.getPayment(order_num); 
+//		model.addAttribute("payment", payment);
+//		System.out.println(payment);
+//		return "admin/admin_payment_list_detail";
+//	}
+//	--원본-----------------------------
+	//List로 수정중 0616정의효
 	@GetMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
-		PaymentVO payment = payment_service.getPayment(order_num); 
-//		
+		
+		List<PaymentVO> payment = payment_service.getPayment(order_num);
 		model.addAttribute("payment", payment);
 		
+		
+//		PaymentVO payment = payment_service.getPayment(order_num); 
+//		model.addAttribute("payment", payment);
+//		System.out.println(payment);
 		return "admin/admin_payment_list_detail";
 	}
 	

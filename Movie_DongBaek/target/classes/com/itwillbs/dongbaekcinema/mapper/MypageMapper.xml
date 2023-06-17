@@ -6,9 +6,26 @@
   <select id="selectMyTicket" resultType="com.itwillbs.dongbaekcinema.voNew.MyTicketVO">
 		SELECT *
 			FROM ORDER_MY_TICKET
-			WHERE ORDER_MY_TICKET.member_id = #{member_id}
+			WHERE 
+				ORDER_MY_TICKET.member_id = #{member_id}
+<!-- 				AND payment_datetime &gt;= SUBDATE(now(), INTERVAL 3 MONTH) -->
+<!-- 				AND payment_datetime &lt;= now() -->
 			LIMIT 3 -- 후에 pageNum으로 조절할 예정
   </select>
+  
+  <!-- 나의 멤버십 등급 조회 -->
+  <select id="selectMyGrade" resultType="com.itwillbs.dongbaekcinema.voNew.GradeNextVO">
+		SELECT
+			G.grade_name
+			, grade_discount
+			, grade_max
+			, next_grade_name
+			, next_grade_discount
+			FROM GRADE_NEXT G
+			JOIN MEMBERS M ON G.grade_name = M.grade_name
+			WHERE member_id = #{member_id}
+  </select>
+  
   
   <!-- 나의 개인정보 조회 -->
   <select id="getMyInfoList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">

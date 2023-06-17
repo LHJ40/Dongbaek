@@ -74,6 +74,9 @@
 		position: absolute;
 	}
 </style>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>

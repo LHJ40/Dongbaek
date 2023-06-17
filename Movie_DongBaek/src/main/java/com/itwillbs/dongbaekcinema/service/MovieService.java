@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.mapper.MovieMapper;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
+import com.itwillbs.dongbaekcinema.vo.ReviewVO;
 
 @Service
 public class MovieService {
@@ -28,12 +29,12 @@ public class MovieService {
 	
 	
 	// 영화 목록 조회 요청을 위한 getMovieList_present() 메서드 정의 - 현재상영작
-	public List<MovieVO> getMovieList_present() {
-		System.out.println("getMovieList_present()");
-		return mapper.select_presentMovie();
-	}
+//	public List<MovieVO> getMovieList_present() {
+//		System.out.println("getMovieList_present()");
+//		return mapper.select_presentMovie();
+//	}
 	
-	// 현재상영작 예매율순 영화목록 조회 요청 
+	// 현재상영작 예매율순 영화목록 조회 요청 - 기본
 	public List<MovieVO> getMovieList_present_bookrate(){
 		System.out.println("getMovieList_present_bookrate()");
 		return mapper.select_presentMovie_bookingRateDESC();
@@ -45,6 +46,14 @@ public class MovieService {
 		System.out.println("getMovieList_prepare()");
 		return mapper.select_prepareMovie();
 	}
+	
+	// 리뷰 정보 조회 요청을 위한 getReviewRating()메서드 정의
+	// 파라미터:movie_num 리턴타입:ReviewVO 
+	public ReviewVO getReviewRating(int movie_num) {
+		System.out.println("Service - getReviewRating()");
+		return mapper.selectReviewRating(movie_num);
+	}
+	
 	
 	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
 //	public List<MovieVO> getMovieList() {
