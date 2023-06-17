@@ -21,5 +21,6 @@ public class CsVO {
 	private String cs_reply;
 	private String cs_phone;
 	private int cs_type_list_num;
+	private String member_id;
 	
 }

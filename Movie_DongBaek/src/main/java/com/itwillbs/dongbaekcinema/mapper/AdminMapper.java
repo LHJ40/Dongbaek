@@ -6,8 +6,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.dongbaekcinema.vo.CsVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
+import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
+import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
 @Mapper
 public interface AdminMapper {
@@ -21,5 +24,21 @@ public interface AdminMapper {
 	// 확인 버튼 클릭 시 선택가능한 영화 정보 가져오기
 	public List<MovieVO> findMovieList(@Param("play_date") String play_date);
 
+	// 영화 목록 셀렉트 박스 클릭시 선택 가능한 영화 정보 가져오기
+	public List<PlayScheduleVO> getTurnInfo(@Param("theater_num") int theater_num, @Param("movie_num") int movie_num, @Param("pageNo") int pageNo);
+
+    // CS 게시판 목록 가져오기
+    List<CsVO> getCsWithPaging(@Param("start") int start, @Param("pageSize") int pageSize, @Param("condition") String condition);
+
+    // CS 게시판 총 목록 수 가져오기
+	public int getCsCount(@Param("condition") String condition);
+
+	// CS 게시판 글수정& 답글 달기시 정보 가져오기
+	public CsInfoVO getCsInfo(@Param("condition")String condition, @Param("cs_type_list_num") int cs_type_list_num);
+	
+	// CS 게시판 1:1 게시판 답글 쓰기
+	public int updateReply(@Param("condition")String condition, @Param("qnaInfo")CsInfoVO qnaInfo);
+	
+	
 	
 }

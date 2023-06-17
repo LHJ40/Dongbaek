@@ -38,6 +38,11 @@
 div {
 background-color: transparent;
 }
+
+a {
+	text-decoration: none;
+	
+}
 </style>
 
 </head>
@@ -52,9 +57,6 @@ background-color: transparent;
   
    <div class="container-fluid w-900" >
   
-
-
-		
 		<form action="admin_cs_notice_pro" method="post">
 			<h1>공지사항 관리자</h1>
 	
@@ -62,24 +64,24 @@ background-color: transparent;
 				
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">24</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value=""></td>
+			      <td scope="col" class="align-middle" width="100">글번호</th>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">제목</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="cs_name"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content"></textarea></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" name="cs_content"></td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
@@ -88,23 +90,7 @@ background-color: transparent;
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
 					</td>
 			    </tr>
-			 
-<!-- 			    <td class="tg-fymr">제목<textarea rows="1" cols="20" name="title"></textarea></td> -->
-			   
-<!-- 			  </tr> -->
-<!-- 			  <tr> -->
-<!-- 			    <td class="tg-fymr">내용<textarea rows="5" cols="50" name="content" ></textarea></td> -->
-			    
-<!-- 			  </tr> -->
-<!-- 			  <tr> -->
-<!-- 			    <td class="tg-fymr">사진첨부 <input type="file" value="사진첨부"></td> -->
-			    
-<!-- 			  </tr> -->
-			 
-<!-- 			  <tr> -->
-<!-- 					<button class="btn btn-danger" type="submit">등록</button>	 -->
-<!-- 					<button class="btn btn-outline-danger" type="button" onclick="location.href='history.back()'">돌아가기</button>	 -->
-<!-- 			  </tr> -->
+
 			</table>
 			
 		</form>

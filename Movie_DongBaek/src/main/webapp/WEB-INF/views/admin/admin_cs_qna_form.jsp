@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -41,14 +44,22 @@ background-color: transparent;
 
 </style>
 
+<%-- jquery 태그 --%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	let type = "${csQna.cs_type}";
+// 	alert('출력 :' + type ); // 출력 :일반 문의
+	$("#cs_type").val(type); // 셀렉트박스 cs_type 값 중 cs_type이 같은 값이 있으면 선택됨
+	
+});
+
 <%-- 이메일 자동 넣기 --%>
 function selectDomain(domain) {
 	// 직접입력의 경우 널스트링("") 값이 할당되어 있으므로
 	// 모든 값을 email2 영역에 표시하면 직접입력 선택 시 널스트링이 표시됨
 	document.fr.email2.value = domain;
 }
-
 </script>
 
 </head>
@@ -68,33 +79,33 @@ function selectDomain(domain) {
 		<h1>1:1게시판 관리자 답글쓰기</h1>
 
 		<table class="table table-striped text-center">
-			
+			<input type="hidden" name="pageNo" value="${param.pageNo }">				
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value=""></td>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csQna.cs_type_list_num }"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
-				       <select class="form-control" name="keyword">
-							<option value="">전체</option>
-							<option value="서면">영화정보문의</option>
-							<option value="사상">회원 문의</option>
-							<option value="사상">예매 결제 관련 문의</option>
-							<option value="사상">일반 문의</option>
-						</select>	      	
+				       <select class="form-control" id="cs_type" name="cs_type">
+							<option value="">문의 유형</option>
+							<option value="영화정보문의">영화정보문의</option>
+							<option value="회원 문의">회원 문의</option>
+							<option value="예매 결제 관련 문의">예매 결제 관련 문의</option>
+							<option value="일반 문의">일반 문의</option>
+						</select>
 			      </td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이름</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csQna.member_name }"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이메일</th>
 			      <td scope="col" class="align-middle d-flex justify-content-start">
-   					<input type="text" name="email1">
-					@ <input type="text" name="email2" >
+   					<input type="text" name="email1" value="${fn:split(csQna.member_email,'@')[0]}">
+					@ <input type="text" name="email2" value="${fn:split(csQna.member_email,'@')[1]} ">
 						<select name="emailDomain" onchange="selectDomain(this.value)">
 							<option value="">직접입력</option>
 							<option value="naver.com">naver.com</option>
@@ -105,23 +116,26 @@ function selectDomain(domain) {
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">휴대전화</th>
-			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" pattern="(010)-\d{3,4}-\d{4}" 
-                placeholder="형식 010-0000-0000" required="required" ></td>
+<!-- 			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" pattern="(010)-\d{3,4}-\d{4}"  -->
+			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" 
+                placeholder="형식 010-0000-0000" required="required" name="cs_phone"
+                value="${csQna.cs_phone}">
+                  </td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content">${csQna.cs_content}</textarea></td>
 			    </tr>
 			    <!-- cs_reply 값이 널이 아닐경수 활성화될 텍스트박스 위치 -->
 				<tr>
 			      <td scope="col" class="align-middle" width="100">답변</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_reply">${csQna.cs_reply}</textarea></td>
 			    </tr>
 			    
 			    
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value="">${csQna.cs_file}</td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
