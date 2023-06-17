@@ -105,13 +105,26 @@ background-color: transparent;
 	  </thead>
 	  <%-- 테이블 바디--%>
 	  <tbody>
+	  	    <tr>
+	  <%-- CS 목록 출력 --%>
+	  <c:forEach var="faq" items="${CsFaqList }">
 	    <tr>
-	      <td scope="col" class="align-middle">24</th>
-	      <td scope="col" class="align-middle">예매</td>
-	      <td scope="col" class="align-middle">안녕하세요</td>
-	      <td scope="col" class="align-middle">관리자</td>
-	      <td scope="col" class="align-middle">2022-02-02</td>
+	      <td scope="col" class="align-middle">${faq.cs_type_list_num }</td>
+	      <td scope="col" class="align-middle">${faq.cs_type }</td>
+	      <td scope="col" class="align-middle text-left"><a href="admin_cs_faq_modify_form?cs_type_list_num=${faq.cs_type_list_num }&pageNo=${pageNo}" class="mb-5">${faq.cs_subject }</a></td>
+	      <td scope="col" class="align-middle">${faq.member_name }</td>
+	      <td scope="col" class="align-middle">
+	      	<fmt:formatDate value="${faq.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      </td>
 	    </tr>
+	  </c:forEach>
+<!-- 	    <tr> -->
+<!-- 	      <td scope="col" class="align-middle">24</th> -->
+<!-- 	      <td scope="col" class="align-middle">예매</td> -->
+<!-- 	      <td scope="col" class="align-middle">안녕하세요</td> -->
+<!-- 	      <td scope="col" class="align-middle">관리자</td> -->
+<!-- 	      <td scope="col" class="align-middle">2022-02-02</td> -->
+<!-- 	    </tr> -->
 
 	    <%-- 밑줄 용 빈칸 --%>
 	    <tr>

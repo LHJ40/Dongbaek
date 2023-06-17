@@ -116,23 +116,23 @@ background-color: transparent;
 	  <tbody>
 	    <tr>
 	  <%-- CS 목록 출력 --%>
-	  <c:forEach var="faq" items="${CsQnaList }">
+	  <c:forEach var="qna" items="${CsQnaList }">
 	    <tr>
-	      <td scope="col" class="align-middle">${faq.cs_type_list_num }</th>
-	      <td scope="col" class="align-middle text-left">${faq.cs_subject }</td>
-	      <td scope="col" class="align-middle">${faq.member_id }</td>
+	      <td scope="col" class="align-middle">${qna.cs_type_list_num }</th>
+	      <td scope="col" class="align-middle text-left">${qna.cs_subject }</td>
+	      <td scope="col" class="align-middle">${qna.member_name }</td>
 	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${faq.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      	<fmt:formatDate value="${qna.cs_date }" pattern="yy-MM-dd HH:mm" />
 	      </td>
 	      
 		<%-- 관리자 답변이 없을 경우 답변 등록 버튼이 나오고 답변이 있을 경우 답변완료 버튼 뜸  --%>	      
 		<td scope="col" class="align-middle">
 	      	<c:choose>
-	      		<c:when test="${empty faq.cs_reply }">
-		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${faq.cs_type_list_num}&pageNo=${param.pageNo}'">답변등록</button></div>
+	      		<c:when test="${empty qna.cs_reply }">
+		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${qna.cs_type_list_num}&pageNo=${param.pageNo}'">답변등록</button></div>
 		  		</c:when>
 		  		<c:otherwise>
-		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-outline-secondary" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${faq.cs_type_list_num}&pageNo=${param.pageNo}'">답변완료</button></div>
+		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-outline-secondary" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${qna.cs_type_list_num}&pageNo=${param.pageNo}'">답변완료</button></div>
 		  		</c:otherwise>
 		  	</c:choose>
 		  </td>

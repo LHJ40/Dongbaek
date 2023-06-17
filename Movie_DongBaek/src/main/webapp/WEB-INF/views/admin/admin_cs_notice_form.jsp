@@ -86,7 +86,7 @@ a {
 				<tr>
 					<td scope="col" class="align-middle"></td>
 					<td scope="col" class="align-middle">
-						<button class="btn btn-danger" type="submit">등록</button>
+						<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
 					</td>
 			    </tr>

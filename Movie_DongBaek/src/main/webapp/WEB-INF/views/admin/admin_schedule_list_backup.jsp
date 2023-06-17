@@ -67,6 +67,14 @@ function ajaxHtml(data){
 	  <tbody>";
 }
 
+//function converDate(milliSecond){
+//const play_date = new Date(milliSecond);
+//const year = play_date.getFullYear();
+//const month=play_date.getMonth() + 1;
+//const date=play_date.getDate();
+//return  `${year}-${month}-${date}`;
+//}
+
 </script>
 
 <style>

@@ -72,7 +72,7 @@ public class AdminService {
 
 	
     // CS 게시판 목록 가져오기
-	public List<CsVO> getCsList(int pageNo, int pageSize, int startRow, int csType) {
+	public List<CsInfoVO> getCsList(int pageNo, int pageSize, int startRow, int csType) {
 	
 		// CS 게시판 구분용 contiodion 변수
 		String condition = distinctType(csType);

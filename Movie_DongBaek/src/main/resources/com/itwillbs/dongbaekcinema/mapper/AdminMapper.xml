@@ -87,11 +87,14 @@
 	</select>
 	
 	<!-- CS 게시판 condition 변수에 따라 목록List<CsVO> 출력 -->
-    <select id="getCsWithPaging" resultType="com.itwillbs.dongbaekcinema.vo.CsVO">
+    <select id="getCsWithPaging" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
     	SELECT
     		 * 
     		 FROM 
-    		 	CS 
+    		 	CS c
+    		 	JOIN
+    		 		MEMBERS m
+    		 		ON c.member_id = m.member_id
     		 WHERE 
     		 	cs_type IN(${condition}) 
     		 	ORDER BY cs_type_list_num  DESC 

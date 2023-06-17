@@ -28,7 +28,7 @@ public interface AdminMapper {
 	public List<PlayScheduleVO> getTurnInfo(@Param("theater_num") int theater_num, @Param("movie_num") int movie_num, @Param("pageNo") int pageNo);
 
     // CS 게시판 목록 가져오기
-    List<CsVO> getCsWithPaging(@Param("start") int start, @Param("pageSize") int pageSize, @Param("condition") String condition);
+    List<CsInfoVO> getCsWithPaging(@Param("start") int start, @Param("pageSize") int pageSize, @Param("condition") String condition);
 
     // CS 게시판 총 목록 수 가져오기
 	public int getCsCount(@Param("condition") String condition);
@@ -40,5 +40,9 @@ public interface AdminMapper {
 	public int updateReply(@Param("condition")String condition, @Param("qnaInfo")CsInfoVO qnaInfo);
 	
 	
-	
+//	// 상영 스케줄 목록 가져오기
+//	List<PlayScheduleVO> getObjectsWithPaging(@Param("startPage") int startPage, @Param("pageSize") int pageSize);
+//
+//	// 총 목록 개수 카운트
+//    int getCountCsNotice();
 }

@@ -1,40 +1,29 @@
 package com.itwillbs.dongbaekcinema.controller;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MovieService;
-import com.itwillbs.dongbaekcinema.service.PageService;
 import com.itwillbs.dongbaekcinema.service.PaymentService;
-import com.itwillbs.dongbaekcinema.vo.CsVO;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
-import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -246,7 +235,7 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsVO> CsNoticeList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
 		
 		// 페이징 정보 저장
 		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
@@ -274,6 +263,8 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //      }
+		
+		model.addAttribute("pageNo", pageNo);
 		
 		return "admin/admin_cs_notice_form";
 	}
@@ -310,7 +301,22 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
-		return "admin/admin_cs_notice_form";
+		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 1;
+		
+		
+		// 1:1 질문 정보 가져오기
+		// 파라미터값 : cs_type_list_num
+		CsInfoVO notice = admin_service.getCsInfo(csType, cs_type_list_num);
+//		System.out.println("어드민컨트롤러 csQna" + csQna );
+		
+		// 페이지번호와 
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("notice", notice);
+		
+		
+		
+		return "admin/admin_cs_notice_modify_form";
 	}
 	
 	// 관리자페이지 글쓰기 수정 후 게시판 이동
@@ -328,7 +334,7 @@ public class AdminController {
 //        }
 		
 		
-		return "admin/admin_cs_notice_list";
+		return "redirect:/admin_cs_notice_list";
 	}
 	
 	// 관리자페이지 1:1 질문관리
@@ -367,8 +373,8 @@ public class AdminController {
 //		System.out.println("어드민 컨트롤러 공지사항 스타트페이지" + startPage +", 엔드 페이지:"+ endPage);
 		// --------------------------------------------------------------------------
 		
-		// 공지사항 목록 조회
-		List<CsVO> CsQnaList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		// 1:1 게시판 목록 조회
+		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
 		
 		// 페이징 정보 저장
 		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
@@ -485,7 +491,7 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsVO> CsFaqList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
 		
 		// 페이징 정보 저장
 		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
@@ -537,6 +543,56 @@ public class AdminController {
 		
 		return "admin/admin_cs_faq_list";
 	}
+
+	
+	
+	// 관리자페이지 자주묻는 질문 글수정 폼 이동
+	@GetMapping("admin_cs_faq_modify_form")
+	public String adminCsFaqModifyForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam int cs_type_list_num) {
+
+		
+//		// 직원 세션이 아닐 경우 잘못된 접근 처리
+//		String member_type = (String)session.getAttribute("member_type");
+//		System.out.println(member_type);
+//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+//
+//            model.addAttribute("msg", "잘못된 접근입니다!");
+//            return "fail_back";
+//        }
+		
+		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 3;
+		
+		
+		// 1:1 질문 정보 가져오기
+		// 파라미터값 : cs_type_list_num
+		CsInfoVO faq = admin_service.getCsInfo(csType, cs_type_list_num);
+//		System.out.println("어드민컨트롤러 csQna" + csQna );
+		
+		// 페이지번호와 
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("faq", faq);
+		
+		return "admin/admin_cs_faq_modify_form";
+	}
+	
+	// 관리자페이지 자주묻는 질문 글수정 등록 후 게시판 이동
+	@PostMapping("admin_cs_faq_modify_pro")
+	public String adminCsFaqModifyPro(HttpSession session, Model model) {
+
+		
+//		// 직원 세션이 아닐 경우 잘못된 접근 처리
+//		String member_type = (String)session.getAttribute("member_type");
+//		System.out.println(member_type);
+//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+//
+//            model.addAttribute("msg", "잘못된 접근입니다!");
+//            return "fail_back";
+//        }		
+		
+		return "admin/admin_cs_faq_list";
+	}	
+	
 	
 	
 	
