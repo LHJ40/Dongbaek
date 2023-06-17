@@ -220,18 +220,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<%-- 하단 페이지 바 --%>
 	<nav aria-label="Page navigation example">
 	  <ul class="pagination justify-content-center">
