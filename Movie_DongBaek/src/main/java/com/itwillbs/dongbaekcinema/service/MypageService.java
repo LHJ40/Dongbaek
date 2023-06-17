@@ -24,6 +24,11 @@ public class MypageService {
 	public List<MemberVO> getMyInfo(String member_id) {
 		return mapper.getMyInfoList(member_id);
 	}
+	
+	// 나의 멤버십 등급 조회 - 회원 아이디로 레코드 조회
+	public GradeNextVO getMyGrade(String member_id) {
+		return mapper.selectMyGrade(member_id);
+	}
 
 
 
