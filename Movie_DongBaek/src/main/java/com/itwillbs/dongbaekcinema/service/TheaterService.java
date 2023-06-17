@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dongbaekcinema.mapper.TheaterMapper;
 import com.itwillbs.dongbaekcinema.vo.ScheduleVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 
 @Service
 public class TheaterService {
@@ -24,6 +25,10 @@ public class TheaterService {
 	public List<ScheduleVO> getSchedule(int theater_num, String play_date) {
 		// TODO Auto-generated method stub
 		return mapper.selectSchedule(theater_num,play_date);
+	}
+	public List<TicketTypeVO> getTicketList() {
+		// TODO Auto-generated method stub
+		return mapper.selectTicketTypeList();
 	}
 
 

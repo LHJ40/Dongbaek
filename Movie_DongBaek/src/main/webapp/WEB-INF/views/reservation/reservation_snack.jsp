@@ -77,7 +77,7 @@
 	}
 </style>
 <script type="text/javascript">
-$(function() {
+
 	
  	//스낵 담기
 	$(document).on("click", "#addsnack", function(){
@@ -85,7 +85,9 @@ $(function() {
 		let snacknum=$(this).val();
  		let quantity=($("#quantity"+snacknum).val());
 		let snackprice=Number(($("#snackprice"+snacknum).val()));
-		
+		if(quantity<=0){
+			alert("잘못된 입력");
+		}else{
 		$("#snackquantity"+snacknum).html(quantity);
 		$("#snackpriceview"+snacknum).html(quantity*snackprice);
 		
@@ -97,8 +99,8 @@ $(function() {
 		$("#totalprice").html(totalprice);
 		
 		$("#snackCart"+snacknum).css("display", "");
-		
-// 		alert(totalprice);
+		}
+
 		
 	});
 	//다시 선택하기
@@ -125,7 +127,7 @@ $(function() {
 		
 	});
 	
-});
+
 
 </script>
 </head>
