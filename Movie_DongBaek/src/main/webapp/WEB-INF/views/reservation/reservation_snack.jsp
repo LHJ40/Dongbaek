@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -77,20 +78,22 @@
 </style>
 <script type="text/javascript">
 $(function() {
-	let totalprice=0;
-	let quantity1=0;
-	let quantity2=0;
+	
+	 
 	$(document).on("click", "#addsnack", function(){
+		let totalprice=0;
+		let snacknum=$(this).val();
+ 		let quantity=($("#quantity"+snacknum).val());
+		let snackprice=Number(($("#snackprice"+snacknum).val()));
+		$("#snackquantity"+snacknum).html(quantity);
+		$("#snackpriceview"+snacknum).html(quantity*snackprice);
+		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+		totalprice+=Number($("#snackpriceview"+i).html());
+		}
 		
-// 		let quantity=($("#quantity"+$(this).val()).val());
+		$("#totalprice").html(totalprice);
 		
-		let price=Number(($("#eee"+$(this).val()).val()));
-		
-		$("#snackquantity"+$(this).val()).html(quantity++);
-		$("#snackprice"+$(this).val()).html(quantity1*price);
-		
-		
-		$("#snackCart"+$(this).val()).css("display", "");
+		$("#snackCart"+snacknum).css("display", "");
 		
 // 		alert(totalprice);
 		
@@ -167,9 +170,9 @@ $(function() {
 	                	<tr>
 	                		<td colspan="2" class="right_side">
 	                	
-	                	<input type="hidden" id="eee${snack.snack_num}" value="${snack.snack_price}">
-	                	
-	                			<span id="snackprice${snack.snack_num}" >0</span> <button class="btn btn-secondary">x</button>
+	                	<input type="hidden" id="snackprice${snack.snack_num}" value="${snack.snack_price}">
+             	
+	                			<span id="snackpriceview${snack.snack_num}" >0</span> <button class="btn btn-secondary">x</button>
 	                		</td>
 	                	</tr>
 	                </table>
