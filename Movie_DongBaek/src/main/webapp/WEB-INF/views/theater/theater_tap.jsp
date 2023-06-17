@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +23,8 @@
 <script type="text/javascript">
 $(function() {
 	$(document).on("click", "#theater_button", function(){
+
+		
 	    let val = $(this).val();
 	    let theater_num=val
 	    
@@ -36,11 +38,12 @@ $(function() {
 	    })
  		.done(function(theater) {
 			
- 			
  			$("#theater_name").html(theater.theater_name);
  			$("#theater_address").html(theater.theater_address);
  			$("#theater_map").html(theater.theater_map);
-						
+ 			$("#theater_num").val(theater.theater_num);
+ 			$("#hidden").html(theater.theater_num);
+ 					
  		})
  		.fail(function() { // 요청 실패 시
  			alert("요청실패");
@@ -50,6 +53,31 @@ $(function() {
 	
 	
 });
+function timetable(){
+	let theater_num = $("#theater_num").val();
+	let play_date=$("#play_date").val();
+	
+
+    $.ajax({
+        type: "post",
+        url: "getSchedule",
+        data: {
+        	"theater_num" : theater_num,
+    		"play_date" : play_date
+        },
+        dataType : "text",
+    })
+ 		.done(function(res) {
+		$("#schedule-table").html(res);
+			
+ 			
+					
+ 		})
+ 		.fail(function() { // 요청 실패 시
+ 			alert("요청실패");
+ 		});
+		
+}
 
 </script>
 </head>

@@ -20,6 +20,18 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	
+	timetable();
+	
+	 $("#play_date").on('change', function(){
+		 timetable();
+	 });
+	
+	 $("#hidden").on('DOMSubtreeModified', function() {
+		 timetable();
+	 });
+});
+function timetable(){
 	let theater_num = $("#theater_num").val();
 	let play_date=$("#play_date").val();
 	
@@ -42,7 +54,8 @@ $(function(){
  		.fail(function() { // 요청 실패 시
  			alert("요청실패");
  		});
-});
+		
+}
 </script>
 </head>
 <body>
@@ -96,8 +109,9 @@ $(function(){
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
 					<input type="date" id="play_date" value="${currentdate}" min="${currentdate}" max="${maxdate}">
-					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name">${theaterList[0].theater_name }</span></b>
+					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name" >${theaterList[0].theater_name }</span></b>
 					   <input type="hidden" id="theater_num" value="${theaterList[0].theater_num }">
+					   <span id=hidden style="display:none"></span>
 				</div>
 				
 				<div class="row container" align="center">
