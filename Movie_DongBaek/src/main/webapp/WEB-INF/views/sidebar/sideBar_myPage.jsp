@@ -28,7 +28,7 @@
     		</li>
     		<hr>
     		<li class="nav-item">
-      			<a class="nav-link" href="myPage_grade">등급별혜택<span class="sr-only">(current)</span></a>
+      			<a class="nav-link" href="myPage_grade">나의 멤버십 등급<span class="sr-only">(current)</span></a>
     		</li>
     		<hr>
     		<li class="nav-item">

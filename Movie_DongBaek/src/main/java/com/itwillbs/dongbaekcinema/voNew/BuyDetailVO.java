@@ -1,14 +1,13 @@
 package com.itwillbs.dongbaekcinema.voNew;
 
-import java.sql.*;
 import java.util.Date;
 
 import lombok.*;
 
 @Data
-public class MyReservationDetailVO {
+public class BuyDetailVO {
 	// 마이페이지 - 나의 구매내역 중 
-	private int order_num;
+//	private int order_num;
 	private String member_id;
 	private int payment_num;
 	private String payment_name;
@@ -19,4 +18,5 @@ public class MyReservationDetailVO {
 	private String payment_status;
 	private String movie_name_kr;
 	private String ticket_type;
+	private String snack_name;
 }

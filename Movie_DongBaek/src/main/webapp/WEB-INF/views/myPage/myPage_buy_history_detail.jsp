@@ -30,26 +30,53 @@
 				<%-- 상세보기 테이블 --%>
   	<div class="row">
 		<div class="col-md-12">
+			myPaymentDetailList
 			<table class="table table-bordered text-center">
 			    <tr>
 			      <th>주문자명</th>
-			      <td>${myPayment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
+			      <td>${myPaymentDetailList[0].payment_name}</td> 
 			    </tr>
 			    <tr>
+			    	<th>예매 내역</th>
+			    	<td>
+					    <c:forEach var="myPaymentDetail" items="${myPaymentDetailList }">
+							&lt; ${myPaymentDetail.movie_name_kr} &gt; :
+							${myPaymentDetail.ticket_type}
+							<br>
+					    </c:forEach>
+		      		</td> 
+			    </tr>
+			    <c:forEach var="myPaymentDetail" items="${myPaymentDetailList }">
+		    		<c:if test="${not empty myPaymentDetail.snack_name}">
+					    <tr>
+					    	<th>주문 내역</th>
+					    		<td>
+									${myPaymentDetail.snack_name}
+				      			</td> 
+					    </tr>
+		    		</c:if>
+			    </c:forEach>
+			    <tr>
 			      <th>결제일</th>
-			      <td>${myPayment.payment_datetime}</td>
+			      <td>
+			      	<fmf:formatDate value="${myPaymentDetailList[0].payment_datetime}" pattern="yyyy년 MM월 dd일 HH:mm"/>
+			      </td>
 			    </tr>
 				<tr>
 			      <th>결제수단</th> <%-- 우리는 카드 --%>
-			      <td>${myPayment.payment_card_name }</td> <%-- 카드회사명 --%>
+			      <td>
+			      ${myPaymentDetailList[0].payment_card_name } / ${myPaymentDetailList[0].payment_card_num }
+			      </td> <%-- 카드회사명 --%>
 				</tr>
 			     <tr>
 			     	<th>총결제 금액</th>
-			     	<td>${myPayment.payment_total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
+			     	<td>
+			     		<fmf:formatNumber value="${myPaymentDetailList[0].payment_total_price}" pattern="#,###,###" />
+			     	</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
 			     </tr>
 			     <tr>
 			     	<th>결제 상태</th>
-			     	<td>${myPayment.payment_status }</td>
+			     	<td>${myPaymentDetailList[0].payment_status }</td>
 			     </tr>
 			</table>
 		</div>

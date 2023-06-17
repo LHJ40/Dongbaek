@@ -34,15 +34,19 @@ public class PaymentService {
 //	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	public List<MyReservationDetailVO> getMyPaymentList(String member_id, int pageNum) {
+	public List<BuyDetailVO> getMyPaymentList(String member_id, int pageNum) {
 		return mapper.selectMyPaymentList(member_id, pageNum);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
-	public MyReservationDetailVO getMyPayment(int order_num) {
-		return mapper.selectMyPaymentList(order_num);
+	public List<BuyDetailVO> getMyPaymentDetail(int payment_num) {
+		return mapper.selectMyPaymentDetail(payment_num);
 	}
 	
+	// 마이페이지 - 나의 멤버십. 올해 누적 실적 조회 (지영)
+	public int getYearPayment(String member_id) {
+		return mapper.selectYearPayment(member_id);
+	}
 	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
 	public List<PaymentVO> getPaymentList(int pageNo, int pageSize) {
@@ -55,6 +59,7 @@ public class PaymentService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
 
 
 	//페이징처리테스트 -10페이지 까지나오게 0615 정의효 -찾아서 1~10뜨고 11~20뜨고 해보기
