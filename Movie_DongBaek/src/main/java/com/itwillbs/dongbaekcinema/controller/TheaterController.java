@@ -65,7 +65,7 @@ public class TheaterController {
 		System.out.println(theaterList);
 		
 		LocalDate currentdate = LocalDate.now();
-		LocalDate maxdate=currentdate.plusDays(9);
+		LocalDate maxdate=currentdate.plusDays(10);
 
 		
 		
