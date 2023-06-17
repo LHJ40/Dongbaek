@@ -102,11 +102,21 @@
 							</span>
 						</td>
 					</tr>
-					<tr>
-						<td>다음 등급 : ${myGrade.next_grade_name}</td>
-						<td>할인율 : 영화 결제금액 <span class="sale">${myGrade.next_grade_discount * 100} %</span> 할인<br>
-						선정 기준 및 유지 기준 : 1년간 <fmf:formatNumber value="${myGrade.grade_max}" pattern="#,###,###" /> 원 달성 시 다음해 승급 </td>
-					</tr>
+					<c:choose>
+						<c:when test="${myGrade.next_grade_discount * 100 eq 0}" >
+							현재 최고등급입니다.
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td>다음 등급 : ${myGrade.next_grade_name}</td>
+								<td>
+									할인율 : 영화 결제금액 <br>
+									<span class="sale">${myGrade.next_grade_discount * 100} %</span> 할인<br>
+									선정 기준 및 유지 기준 : 1년간 <fmf:formatNumber value="${myGrade.grade_max}" pattern="#,###,###" /> 원 달성 시 다음해 승급
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
 				</table>
 			</div>
 		</div>
