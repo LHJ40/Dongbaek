@@ -34,13 +34,13 @@
 			 <div class="col">
 		  		<ul class="nav nav-tabs">
 					<li class="nav-item">
-				    	<a class="nav-link active" href="movie_detail_info?movie_num=${movie.movie_num }">주요정보</a>
+				    	<a class="nav-link active" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰</a>
+				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }"> 리뷰</a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }">포토</a>
+				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px"> 예고편 / 스틸컷</a>
 				  	</li>
 				</ul>
 			</div>
