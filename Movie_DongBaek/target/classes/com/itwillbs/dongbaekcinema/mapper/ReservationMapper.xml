@@ -109,6 +109,7 @@
 		WHERE p.movie_num = #{movie_num}
 			AND p.theater_num = #{theater_num}
 			AND p.play_date = #{play_date}
+			AND p.play_start_time >= SUBTIME(SYSDATE(), '00:20:00')
 		ORDER BY play_start_time
 	</select>
 	
