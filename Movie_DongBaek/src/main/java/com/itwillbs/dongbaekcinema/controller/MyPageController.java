@@ -26,7 +26,17 @@ public class MyPageController {
 	
 	//  마이페이지 메인화면
 	@GetMapping("myPage")
-	public String myPage() {
+	public String myPage(HttpSession session, Model model) {
+		
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
+		}
+		
 		return "myPage/myPage";
 	}
 	
@@ -37,7 +47,10 @@ public class MyPageController {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			return "member/member_login_form";
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
 		}
 		
 		// 나의 예매내역 조회
@@ -58,7 +71,10 @@ public class MyPageController {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			return "member/member_login_form";
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
 		}
 		
 		// 세션아이디로 나의 예매/구매 내역 보여주기
@@ -83,7 +99,10 @@ public class MyPageController {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			return "member/member_login_form";
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
 		}
 		
 		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
@@ -130,7 +149,10 @@ public class MyPageController {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			return "member/member_login_form";
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
 		}
 		
 		// 세션 아이디로 현재등급과 다음 등급 조회(현등급,다음등급 정보)
