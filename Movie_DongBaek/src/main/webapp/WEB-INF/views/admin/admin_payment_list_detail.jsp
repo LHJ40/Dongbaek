@@ -80,22 +80,22 @@ article {
 			    </tr>
 				<tr>
 			      <th>좌석번호</th>
-			      <td>$.{payment.seatnum}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고
+			      <td>${payment.seat_num}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고
 			      												order_tickets 에서 seat_num 가져오기 --%>
 				</tr>
 				<tr>
 			      <th>주문한 스낵</th>
-			      <td>$.{payment.snack_name}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_SNACKS를 조인하고 
+			      <td>${payment.snack_name}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_SNACKS를 조인하고 
 			      										   ORDER_SNACKS JOIN SNACKS 에서 snack_name 가져오기 
 			      									  	   *snack_quantity 개수 가져와서 어떻게뿌릴지  --%>
 				</tr>
 				<tr>
 			      <th>결제방법</th> <%-- 우리는 카드 --%>
-			      <td>$.{payment.card_name }</td> <%-- 카드회사명 --%>
+			      <td>${payment.payment_card_name }</td> <%-- 카드회사명 --%>
 				</tr>
 			     <tr>
 			      <th>총결제 금액</th>
-			      <td>$.{payment.total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
+			      <td>${payment.payment_total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
 			     </tr>
 			</table>
 		</div>

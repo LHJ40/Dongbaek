@@ -20,7 +20,7 @@
 			<th colspan=6>${schedule.movie_name_kr }</th>
 		</tr>
 		<tr>
-			<td>${schedule.room_num }</td>
+			<td>${schedule.room_name }</td>
 			<td>
 				<button style="height:5em">
 				<c:if test="${schedule.play_start_time eq '08:00:00'}">${morning}</c:if>
@@ -32,10 +32,10 @@
 		<c:when test="${status.index > 0 }" >
 		
 		<c:if test="${scheduleList[status.index-1].movie_name_kr eq schedule.movie_name_kr}">
-			<c:if test="${scheduleList[status.index-1].room_num ne schedule.room_num }">
+			<c:if test="${scheduleList[status.index-1].room_name ne schedule.room_name }">
 			</tr>
 			<tr>
-				<td>${schedule.room_num }</td>
+				<td>${schedule.room_name }</td>
 				
 			</c:if>
 			<td>
@@ -49,7 +49,7 @@
 		<c:if test="${scheduleList[status.index-1].movie_name_kr ne schedule.movie_name_kr }">
 		</tr>
 		<tr><th colspan=6>${schedule.movie_name_kr }<th></tr>
-		<tr><td>${schedule.room_num }</td>
+		<tr><td>${schedule.room_name }</td>
 		<td><button style="height:5em">
 		<c:if test="${schedule.play_start_time eq '08:00:00'}">${morning}</c:if>
 		<c:if test="${schedule.play_start_time eq '21:30:00'}">${night}</c:if>

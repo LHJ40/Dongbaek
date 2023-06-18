@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,7 @@ public class CsInfoVO {
 	private String cs_content;
 	private Timestamp cs_date;
 	private String cs_type;
-	private String cs_file;
+	private MultipartFile cs_file; // 첨부파일 등록을 위해 데이터타입 변경
 	private String cs_file_real;
 	private String cs_reply;
 	private String cs_phone;
