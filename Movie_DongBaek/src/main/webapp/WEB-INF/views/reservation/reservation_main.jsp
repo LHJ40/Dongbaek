@@ -34,7 +34,7 @@
 			if($("#descBookingRate").hasClass("active")){
 				$.ajax({
 					type : "get", 
-					url : "descBookingRate", 
+					url : "DescBookingRate", 
 					dataType : "json", 
 				})
 				.done(function(movie) {
@@ -54,7 +54,7 @@
 			}else{	// [가나다순] 클릭 시
 				$.ajax({
 					type : "get", 
-					url : "ascMovieName", 
+					url : "AscMovieName", 
 					dataType : "json", 
 				})
 				.done(function(movie) {
