@@ -83,7 +83,7 @@ function selectDomain(domain) {
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csQna.cs_type_list_num }"></td>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csQna.cs_type_list_num }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">유형</th>
@@ -99,19 +99,19 @@ function selectDomain(domain) {
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이름</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csQna.member_name }"></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csQna.member_name }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이메일</th>
 			      <td scope="col" class="align-middle d-flex justify-content-start">
-   					<input type="text" name="email1" value="${fn:split(csQna.member_email,'@')[0]}">
-					@ <input type="text" name="email2" value="${fn:split(csQna.member_email,'@')[1]} ">
-						<select name="emailDomain" onchange="selectDomain(this.value)">
-							<option value="">직접입력</option>
-							<option value="naver.com">naver.com</option>
-							<option value="gmail.com">gmail.com</option>
-							<option value="nate.com">nate.com</option>
-						</select>
+   					<input type="text" name="email1" value="${fn:split(csQna.member_email,'@')[0]}" readonly>
+					@ <input type="text" name="email2" value="${fn:split(csQna.member_email,'@')[1]} " readonly>
+<!-- 						<select name="emailDomain" onchange="selectDomain(this.value)"> -->
+<!-- 							<option value="">직접입력</option> -->
+<!-- 							<option value="naver.com">naver.com</option> -->
+<!-- 							<option value="gmail.com">gmail.com</option> -->
+<!-- 							<option value="nate.com">nate.com</option> -->
+<!-- 						</select> -->
 			      </td>
 			    </tr>
 				<tr>
@@ -119,12 +119,12 @@ function selectDomain(domain) {
 <!-- 			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" pattern="(010)-\d{3,4}-\d{4}"  -->
 			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" 
                 placeholder="형식 010-0000-0000" required="required" name="cs_phone"
-                value="${csQna.cs_phone}">
+                value="${csQna.cs_phone}" readonly>
                   </td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content">${csQna.cs_content}</textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content" readonly>${csQna.cs_content}</textarea></td>
 			    </tr>
 			    <!-- cs_reply 값이 널이 아닐경수 활성화될 텍스트박스 위치 -->
 				<tr>
@@ -135,7 +135,17 @@ function selectDomain(domain) {
 			    
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value="">${csQna.cs_file}</td>
+			      <td scope="col" class="align-middle">
+			      	<%-- 
+					첨부파일 다운로드를 위해 하이퍼링크 생성
+					=> download 속성 지정 시 다운로드 가능
+					   (단, 다운로드 시 파일명 변경하여 다운하려면 download="변경할 파일명" 형식으로 지정 
+					--%>
+				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
+						<a href="upload/${csQna.cs_file_real }" download="${csQna.cs_file }">
+							${csQna.cs_file }
+						</a>
+			      </td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>

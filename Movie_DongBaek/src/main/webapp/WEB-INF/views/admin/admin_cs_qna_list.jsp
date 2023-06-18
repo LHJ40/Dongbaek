@@ -119,7 +119,7 @@ background-color: transparent;
 	  <c:forEach var="qna" items="${CsQnaList }">
 	    <tr>
 	      <td scope="col" class="align-middle">${qna.cs_type_list_num }</th>
-	      <td scope="col" class="align-middle text-left">${qna.cs_subject }</td>
+	      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${qna.cs_subject }</td>
 	      <td scope="col" class="align-middle">${qna.member_name }</td>
 	      <td scope="col" class="align-middle">
 	      	<fmt:formatDate value="${qna.cs_date }" pattern="yy-MM-dd HH:mm" />

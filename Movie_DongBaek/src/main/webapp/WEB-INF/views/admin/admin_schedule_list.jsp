@@ -116,10 +116,15 @@ $(function(){
 
               $(data).each(function(index, item) {
                 // 각 영화에 대한 옵션 요소를 생성하고 select 요소에 추가합니다.
+                
+                
+                
                 let option = $("<option>")
                   .val(item.movie_num)
                   .text(item.movie_name_kr);
                 $("#movieSelect").append(option);
+                
+                
               });
             },
             error: function() {
@@ -254,7 +259,7 @@ background-color: transparent;
 			<th><div class="row" id="room_name">${roomInfo.room_name}</div>
 				<div class="row">
 					<%-- 영화목록이 출력될 셀렉트박스 --%>
-					<select id="movieSelect" onchange="changeMovie(this.val)">
+					<select id="movieSelect"  style="width:150px; onchange="changeMovie(this.val)">
 						<option value="5"></option>
 						<option value="6"></option>
 						<option value="7"></option>

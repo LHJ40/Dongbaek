@@ -112,7 +112,7 @@ background-color: transparent;
 	  <c:forEach var="notice" items="${CsNoticeList }">
 	    <tr>
 	      <td scope="col" class="align-middle">${notice.cs_type_list_num }</th>
-	      <td scope="col" class="align-middle text-left"><a href="admin_cs_notice_modify_form?cs_type_list_num=${notice.cs_type_list_num }&pageNo=${pageNo}" class="mb-5">${notice.cs_subject }</a></td>
+	      <td scope="col" class="align-middle text-left"><a href="admin_cs_notice_modify_form?cs_type_list_num=${notice.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${notice.cs_subject }</a></td>
 	      <td scope="col" class="align-middle">${notice.member_id }</td>
 	      <td scope="col" class="align-middle">
 	      	<fmt:formatDate value="${notice.cs_date }" pattern="yy-MM-dd HH:mm" />

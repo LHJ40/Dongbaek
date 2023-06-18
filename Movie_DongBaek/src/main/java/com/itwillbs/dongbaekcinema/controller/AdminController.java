@@ -1,8 +1,12 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
@@ -41,12 +46,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService admin_service;
-	
-//	@Autowired
-//	private PageService page_service;
 
-	
-	
+
+
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
@@ -201,7 +203,7 @@ public class AdminController {
 	// 관리자페이지 공지사항관리 목록 출력
 	@GetMapping("admin_cs_notice")
 	public String adminCsNotice(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
-		System.out.println("pageNO : " + pageNo);
+//		System.out.println("pageNO : " + pageNo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -240,8 +242,8 @@ public class AdminController {
 		// 페이징 정보 저장
 		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
 		
-		System.out.println("CsNoticeList : " + CsNoticeList);
-		System.out.println("pageInfo : " + pageInfo);
+//		System.out.println("CsNoticeList : " + CsNoticeList);
+//		System.out.println("pageInfo : " + pageInfo);
 			model.addAttribute("CsNoticeList", CsNoticeList);
 			model.addAttribute("pageNo", pageNo);
 			model.addAttribute("pageInfo", pageInfo);
@@ -250,10 +252,9 @@ public class AdminController {
 		return "admin/admin_cs_notice_list";
 	}
 	
-	// 관리자페이지 공지사항 글쓰기 폼
+	// 관리자페이지 공지사항 글쓰기 폼 이동
 	@GetMapping("admin_cs_notice_form")
-	public String adminCsNoticeForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo ) {
-
+	public String adminCsNoticeForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -269,10 +270,11 @@ public class AdminController {
 		return "admin/admin_cs_notice_form";
 	}
 	
-	// 관리자페이지 글쓰기 등록 후 게시판 이동
+	// 관리자페이지 공지사항 글쓰기 등록 후 게시판 이동
+	// fileUploadPost
 	@PostMapping("admin_cs_notice_pro")
-	public String adminCsNoticePro(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
-		
+	public String adminCsNoticePro(HttpSession session, Model model, @RequestParam( defaultValue = "1", name = "pageNo") int pageNo, @ModelAttribute("noticeInfo") CsInfoVO noticeInfo,  @RequestParam(required = false, value = "cs_multi_file" ) MultipartFile files) {
+		System.out.println("notice_form pageNo: " + pageNo + ", noticeInfo: " + noticeInfo + ", files: " + files);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -282,12 +284,32 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }
+
+		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 1;
 		
 		
-		return "admin/admin_cs_notice_list";
+		
+	
+		// 공지사항 글쓰기 등록을 위한 함수 호출
+		int insertCount = admin_service.registCs(csType, noticeInfo, files);
+		if(insertCount > 0) { //글쓰기 성공
+			
+			return "redirect:/admin_cs_notice"; // 공지사항으로 리다이렉트
+		} else { // 글쓰기 실패
+			model.addAttribute("msg", "등록이 실패했습니다!");
+			
+			return "fail_back"; // 실패 창 띄우기
+		}
+
+		
+
 	}
 	
+	
+	
 	// 관리자페이지 공지사항 글수정 폼
+	// 이전 등록된 정보 가져오기
 	@GetMapping("admin_cs_notice_modify_form")
 	public String adminCsNoticeModifyForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam int cs_type_list_num) {
 
@@ -319,9 +341,9 @@ public class AdminController {
 		return "admin/admin_cs_notice_modify_form";
 	}
 	
-	// 관리자페이지 글쓰기 수정 후 게시판 이동
+	// 관리자페이지 글쓰기 수정 작업 후 게시판 이동
 	@PostMapping("admin_cs_notice_modify_pro")
-	public String adminCsNoticeModifyPro(HttpSession session, Model model) {
+	public String adminCsNoticeModifyPro(HttpSession session, Model model, @RequestParam(defaultValue = "1")int pageNo, @ModelAttribute("noticeInfo") CsInfoVO noticeInfo,  @RequestParam(required = false, value = "cs_multi_file" ) MultipartFile files) {
 		
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -333,13 +355,30 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
+		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 1;
 		
-		return "redirect:/admin_cs_notice_list";
+		// 공지사항 글정보 변경
+		int updateCount = admin_service.updateCs(csType, noticeInfo, files);
+		
+		
+		if(updateCount > 0 ) { // 답변 등록 성공 시
+			// 페이지 정보 저장
+			model.addAttribute("pageNo", pageNo);
+			// 공지사항 게시판으로 이동
+			return "redirect:/admin_cs_notice_list";
+		} else {
+			System.out.println("notice - update 실패!");
+			model.addAttribute("msg", "답변 등록이 실패하였습니다!");
+			return "fail_back"; // 실패 시 이동할 페이지
+		}
+		
+		
 	}
 	
 	// 관리자페이지 1:1 질문관리
 	@GetMapping("admin_cs_qna")
-	public String adminCsQna(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
+	public String adminCsQna(HttpSession session, Model model, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -455,7 +494,7 @@ public class AdminController {
 
 	}	
 	
-	// 관리자페이지 자주묻는 질문 관리
+	// 관리자페이지 자주묻는 질문 관리 게시판 목록
 	@GetMapping("admin_cs_faq")
 	public String adminCsFaq(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
 
@@ -512,7 +551,7 @@ public class AdminController {
 	
 	// 관리자페이지 자주묻는 질문 글쓰기 폼 이동
 	@GetMapping("admin_cs_faq_form")
-	public String adminCsFaqForm(HttpSession session, Model model) {
+	public String adminCsFaqForm(HttpSession session, Model model, @RequestParam(name="pageNo", defaultValue = "1") int pageNo) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -524,12 +563,15 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
+		// 페이지 정보 저장
+		model.addAttribute("pageNo", pageNo);
+		
 		return "admin/admin_cs_faq_form";
 	}
 	
 	// 관리자페이지 자주묻는 질문 글쓰기 등록 후 게시판 이동
 	@PostMapping("admin_cs_faq_pro")
-	public String adminCsFaqPro(HttpSession session, Model model) {
+	public String adminCsFaqPro(HttpSession session, Model model, @RequestParam( defaultValue = "1", name = "pageNo") int pageNo, @ModelAttribute("faqInfo") CsInfoVO faqInfo,  @RequestParam(required = false, value = "cs_multi_file" ) MultipartFile files) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -541,12 +583,31 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		return "admin/admin_cs_faq_list";
+		// 자주 묻는 질문 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 3;
+		
+		
+		
+	
+		// 자주묻는 질문 글쓰기 등록을 위한 함수 호출
+		int insertCount = admin_service.registCs(csType, faqInfo, files);
+
+		if(insertCount > 0) { //글쓰기 성공
+			
+			return "redirect:/admin_cs_faq"; // 자주 묻는 질문으로 리다이렉트
+		} else { // 글쓰기 실패
+			model.addAttribute("msg", "등록이 실패했습니다!");
+			
+			return "fail_back"; // 실패 창 띄우기
+		}
+		
+
 	}
 
 	
 	
 	// 관리자페이지 자주묻는 질문 글수정 폼 이동
+	// 이전 등록된 정보 가져오기
 	@GetMapping("admin_cs_faq_modify_form")
 	public String adminCsFaqModifyForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam int cs_type_list_num) {
 
@@ -563,22 +624,21 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 		
-		
 		// 1:1 질문 정보 가져오기
 		// 파라미터값 : cs_type_list_num
-		CsInfoVO faq = admin_service.getCsInfo(csType, cs_type_list_num);
+		CsInfoVO csFaq = admin_service.getCsInfo(csType, cs_type_list_num);
 //		System.out.println("어드민컨트롤러 csQna" + csQna );
 		
 		// 페이지번호와 
 		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("faq", faq);
+		model.addAttribute("csFaq", csFaq);
 		
 		return "admin/admin_cs_faq_modify_form";
 	}
 	
 	// 관리자페이지 자주묻는 질문 글수정 등록 후 게시판 이동
 	@PostMapping("admin_cs_faq_modify_pro")
-	public String adminCsFaqModifyPro(HttpSession session, Model model) {
+	public String adminCsFaqModifyPro(HttpSession session, Model model, @RequestParam( defaultValue = "1", name = "pageNo") int pageNo, @ModelAttribute("noticeInfo") CsInfoVO faqInfo, @RequestParam(required = false, value = "cs_multi_file" ) MultipartFile files) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -590,7 +650,26 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		return "admin/admin_cs_faq_list";
+		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
+		int csType = 3;
+
+		System.out.println("faq_modify_pro csType :" + csType + ", faqInfo" + faqInfo + ", files" + files);
+		// 공지사항 글정보 변경
+		int updateCount = admin_service.updateCs(csType, faqInfo, files);
+		
+		
+		if(updateCount > 0 ) { // 답변 등록 성공 시
+			// 페이지 정보 저장
+			model.addAttribute("pageNo", pageNo);
+			// 자주묻는 질문 게시판으로 이동
+			return "redirect:/admin_cs_faq";
+		} else {
+			System.out.println("Faq - update 실패!");
+			model.addAttribute("msg", "답변 등록이 실패하였습니다!");
+			return "fail_back"; // 실패 시 이동할 페이지
+		}
+		
+
 	}	
 	
 	

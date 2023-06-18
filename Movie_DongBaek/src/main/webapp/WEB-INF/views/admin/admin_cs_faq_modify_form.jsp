@@ -45,11 +45,13 @@ background-color: transparent;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	let type = "${csQna.cs_type}";
+	let type = "${csFaq.cs_type}";
 // 	alert('출력 :' + type ); // 출력 :일반 문의
 	$("#cs_type").val(type); // 셀렉트박스 cs_type 값 중 cs_type이 같은 값이 있으면 선택됨
 	
 });
+
+
 </script>
 
 
@@ -66,20 +68,20 @@ $(function(){
    <div class="container-fluid w-900" >
   
 
-	<form action="admin_cs_faq_modify_pro" method="post">
+	<form action="admin_cs_faq_modify_pro" method="post" enctype="multipart/form-data">
 		<h1>자주묻는질문 관리자</h1>
 
 		<table class="table table-striped text-center align-middle">
 			<input type="hidden" name="pageNo" value="${param.pageNo }">
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">24</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value="${faq.cs_type_list_num }"></td>
+			      <td scope="col" class="align-middle" width="100">번호</th>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csFaq.cs_type_list_num }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
-				       <select class="form-control" name="keyword" id="cs_type">
+				       <select class="form-control" name="cs_type" id="cs_type">
 							<option value="">전체</option>
 							<option value="예매">예매</option>
 							<option value="멤버십">멤버십</option>
@@ -91,20 +93,36 @@ $(function(){
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">제목</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" id="cs_subject" value="${faq.cs_subject }"></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" id="cs_subject" name="cs_subject" value="${csFaq.cs_subject }"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" id="member_name" value="${faq.member_name }"></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" id="member_id" name="member_id" value="${csFaq.member_id }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content">${faq.cs_content }</textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content">${csFaq.cs_content }</textarea></td>
 			    </tr>
+                <tr>
+                	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>
+                    <td scope="col" class="align-middle">
+                    	
+                    	<%-- 첨부파일 다운로드 구현 아직 --%>
+                    	
+                    	<c:choose>
+                    		<c:when test="${csFaq.cs_file } != ''">
+                     		<a href="/WEB-INF/views/upload/${csFaq.cs_file_real }" download="${csFaq.cs_file }" class="form-control" aria-label="cs_file"></a>
+                    		</c:when>
+                    		<c:otherwise>
+                     		<span id="cs_file_old_span">첨부파일이 없습니다</span>
+                    		</c:otherwise>
+                    	</c:choose>
+                    </td>	
+				</tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" id="cs_file" value="${faq.cs_file }"></td>
-			    </tr>
+                    <td scope="col" class="align-middle" width="100">사진첨부(변경)</td>
+                    <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"></td>
+                </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
 					<td scope="col" class="align-middle">
