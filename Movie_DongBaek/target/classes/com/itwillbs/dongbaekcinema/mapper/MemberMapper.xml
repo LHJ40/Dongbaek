@@ -30,7 +30,9 @@
 				, 'BRONZE'
 			)
 	</insert>
-
+	
+	
+	
 	<!-- 로그인, 관리자 페이지 - 회원 한명 id 조회   -->
 	<select id="selectMember" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
 		SELECT * 
@@ -46,6 +48,38 @@
 				member_id = #{member_id}
 	</select>
 	
+	<!-- 비회원 로그인(가입) 작업을 위한 메서드 -->
+	<insert id="insertNoMember">
+		INSERT
+			INTO MEMBERS
+			VALUES (
+				#{member_phone}
+				, #{member_pass}
+				, #{member_name}
+				, #{member_email}
+				, #{member_birth}
+				, now() 			-- {member_date}
+				, #{member_phone}
+				, '활동'
+				, 0					-- 0이 뭐였지
+				, #{member_withdrawl}
+				, '비회원'
+				, '선택 안함' -- NULL
+				, 1
+				, 'NONE'
+			)
+	</insert>
+
+	
+	<!-- 비회원 로그인(정보조회) 작업 -->
+	<select id="selectNoMemberPasswd">
+		SELECT member_pass
+			FROM MEMBERS
+			WHERE member_name = #{member_name}
+				AND member_id = #{member_phone}
+	</select>
+
+
 
 <!-- 	 관리자페이지 - 회원 전체 조회해서 뿌리기 - 0616정의효 페이징메서드로인해 없어도됨 -->
 <!-- 	<select id="selectMemberList" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO"> -->

@@ -28,6 +28,12 @@ public interface MemberMapper {
 	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
 	int idCheck(String member_id);
 	
+	// 비회원 로그인(가입) 작업을 위한 메서드
+	int insertNoMember(MemberVO noMember);
+	
+	// 비회원 로그인(정보조회) 작업을 위한 메서드
+	String selectNoMemberPasswd(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
+	
 	// 페이징처리중 - 0616 정의효
 	List<MemberVO> getMemberList(@Param("start") int start, @Param("perPage") int pageSize);
 	

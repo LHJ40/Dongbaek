@@ -5,14 +5,14 @@
 	<!-- 예매율순 영화 목록 조회 -->
 	<select id="selectMovieListDescBookinRate" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
 		SELECT * FROM MOVIES 
-		WHERE  SYSDATE() >= movie_release_date AND movie_close_date >= SYSDATE() 
+		WHERE  ADDDATE(SYSDATE(), INTERVAL 10 DAY) >= movie_release_date AND movie_close_date >= SYSDATE() 
 		ORDER BY movie_booking_rate DESC
 	</select>
 
 	<!-- 가나다순 영화 목록 조회 -->
 	<select id="selectMovieListAscMovieName" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
 		SELECT * FROM MOVIES 
-		WHERE SYSDATE() >= movie_release_date AND movie_close_date >= SYSDATE()
+		WHERE  ADDDATE(SYSDATE(), INTERVAL 10 DAY) >= movie_release_date AND movie_close_date >= SYSDATE() 
 		ORDER BY movie_name_kr
 	</select>
 	
@@ -64,14 +64,6 @@
 		<result property="play_time_type" column="play_time_type"/>
 	</resultMap>
 	
-	<resultMap type="com.itwillbs.dongbaekcinema.vo.RoomVO" id="RoomVO">
-		<result property="room_num" column="room_num"/>
-		<result property="room_name" column="room_name"/>
-		<result property="theater_num" column="theater_num"/>
-		<result property="room_start_time" column="room_start_time"/>
-		<result property="room_end_time" column="room_end_time"/>
-	</resultMap>
-	
 	<select id="selectTheaterList" parameterType="int" resultType="com.itwillbs.dongbaekcinema.vo.TheaterVO">
 		SELECT DISTINCT t.theater_name, t.theater_num FROM THEATERS t
 		JOIN PLAYS p ON t.theater_num = p.theater_num 
@@ -85,7 +77,15 @@
 		WHERE theater_num = #{theater_num};
 	</select>
 	
-	<!-- 날짜 목록 조회 -->
+	<!-- 날짜 목록 조회 -->	
+	<resultMap type="com.itwillbs.dongbaekcinema.vo.RoomVO" id="RoomVO">
+		<result property="room_num" column="room_num"/>
+		<result property="room_name" column="room_name"/>
+		<result property="theater_num" column="theater_num"/>
+		<result property="room_start_time" column="room_start_time"/>
+		<result property="room_end_time" column="room_end_time"/>
+	</resultMap>
+	
 	<select id="selectPlayList" resultType="map">
 		SELECT p.play_num
 				, p.movie_num
@@ -109,6 +109,7 @@
 		WHERE p.movie_num = #{movie_num}
 			AND p.theater_num = #{theater_num}
 			AND p.play_date = #{play_date}
+			AND p.play_start_time >= SUBTIME(SYSDATE(), '00:20:00')
 		ORDER BY play_start_time
 	</select>
 	

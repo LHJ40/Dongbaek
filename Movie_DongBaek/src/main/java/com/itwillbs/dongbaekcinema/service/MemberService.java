@@ -43,6 +43,16 @@ public class MemberService {
 		return mapper.selectMemberList();
 	}
 	
+	// 비회원 로그인(가입) 작업을 위한 메서드
+	public int noMemberLogin(MemberVO noMember) {
+		return mapper.insertNoMember(noMember);
+	}
+	
+	// 비회원 로그인(정보조회) 작업을 위한 메서드
+	public String getNoMemberPasswd(String member_name, String member_phone) {
+		return mapper.selectNoMemberPasswd(member_name, member_phone);
+	}
+	
 	//페이징처리 테스트 -0616정의효
 	public List<MemberVO> getMembertList(int pageNo, int pageSize) {
 		int start = (pageNo - 1) * pageSize;
@@ -53,6 +63,7 @@ public class MemberService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
 
 	
 
