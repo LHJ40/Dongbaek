@@ -4,11 +4,6 @@ import java.sql.*;
 
 import lombok.*;
 
-/*
-
-
- */
-
 @Data	// lombok -> Getter/Setter, 기본생성자, toString() 오버라이딩
 public class CsVO {
 	private int cs_num;
