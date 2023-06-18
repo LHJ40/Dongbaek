@@ -854,13 +854,13 @@ public class AdminController {
 	@GetMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
 		
-		List<PaymentVO> payment = payment_service.getPayment(order_num);
-		model.addAttribute("payment", payment);
-		
-		
-//		PaymentVO payment = payment_service.getPayment(order_num); 
+//		List<PaymentVO> payment = payment_service.getPayment(order_num);
 //		model.addAttribute("payment", payment);
-//		System.out.println(payment);
+		//0618 정의효 밑에꺼 되있었음 확인
+		PaymentVO payment = payment_service.getPayment(order_num); 
+		model.addAttribute("payment", payment);
+		System.out.println(payment);
+		
 		return "admin/admin_payment_list_detail";
 	}
 	
