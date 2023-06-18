@@ -14,14 +14,18 @@
 
 </style>
 <script type="text/javascript">
-$(function() {
+
+$(function() {		
 	// [영화선택] 영역의 네비바 클릭 시
 	$(".nav-link").on("click", function(){
-		$(".nav-link").removeClass("active");
-		$(this).addClass("active");
-		$("#selectMovie li").removeClass("selected");
-		$("#selectTheater li").empty();
-		$("#selectDate").css("display", "none");
+		$(".nav-link").removeClass("active");	// 기존에 선택된 네바바 선택 해제
+		$(this).addClass("active");				// 선택한 네비바 표시
+		
+		$("#selectMovie li").removeClass("selected");	// 선택된 영화 선택 해제
+		$("#selectTheater li").empty();					// 극장 목록 영역 초기화(없애기)
+		$("#selectTheater li").css("display", "none");	// 극장 목록 안 보이게 하기
+		$("#selectDate").css("display", "none");		// 날짜 목록  보 이게 하기
+		
 		
 		// [예매율순] 클릭 시
 		if($("#descBookingRate").hasClass("active")){
@@ -44,17 +48,22 @@ $(function() {
 				alert("요청 실패!");
 			});
 			
-		}else{	// [가나다순] 클릭 시			
+		}else{	// [가나다순] 클릭 시
 			$.ajax({
 				type : "get", 
 				url : "ascMovieName", 
 				dataType : "json", 
 			})
 			.done(function(movie) {
-				let res = "<ul>";
+				let res = "";
+				res += "<ul>";
 				for(let i = 0; i < movie.length; i++) {
-					res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
-					res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span></a></li>"
+					res += "<li>" + 
+								"<a href='#'>" + 
+									"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
+									"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+								"</a>" + 
+							"</li>"
 				}
 				res += "</ul>";
 				
@@ -67,21 +76,23 @@ $(function() {
 	});
 	
 	
-	// [영화명] 클릭시
+	// [영화명] 클릭시 ==============================================================================================================
 	$(document).on("click", "#selectMovie li", function(){
-		$("#selectMovie li").removeClass("selected");
-		$(this).addClass("selected");
+		$("#selectMovie li").removeClass("selected");	// 기존에 선택된 영화 선택 해제
+		$(this).addClass("selected");					// 선택한 영화 표시
+		$("#selectDate").css("display", "none");		// 날짜 선택 영역 안 보이게 하기
 		
-		let movieNum = $(".selected span").attr("data-movie-num");
-		let movieName = $(".selected span").attr("data-movie-name");
-		let moviePoster = $(".selected span").attr("data-movie-poster");
-
+		let movieNum = $(".selected span").attr("data-movie-num");		// 선택한 영화 번호
+		let movieName = $(".selected span").attr("data-movie-name");	// 선택한 영화명
+		let moviePoster = $(".selected span").attr("data-movie-poster");// 선택한 영화의 포스터
+		
+		// [선택정보] 출력
 		$("#movieInfo").css("display", "flex");
-		$(".movie_name_kr").html(movieName);	// [선택정보] 영역에 영화명 출력
-		$(".movie_poster img").attr("src", moviePoster);	// [선택정보] 영역에 영화포스터 출력
+		$(".movie_name_kr").html("<b>" + movieName + "</b>");	// 영화명 출력
+		$(".movie_poster img").attr("src", moviePoster);	// 영역에 영화포스터 출력
 		
 		// 극장명 출력
-		$("#selectTheater").css("display", "flex");
+		$("#selectTheater").css("display", "block");
 		$.ajax({
 			type : "post", 
 			url : "ReservationStep1Servlet", 
@@ -89,9 +100,14 @@ $(function() {
 			dataType : "json", 
 		})
 		.done(function(theater) {
-			let res = "<ul>";
+			let res = "";
+			res += "<ul>";
 			for(let i = 0; i < theater.length; i++) {
-				res += "<li><a href='#'><span class='text' data-theater-num=" + theater[i].theater_num + " data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span></a></li>"
+				res += "<li>" + 
+							"<a href='#'>" + 
+								"<span class='text' data-theater-num=" + theater[i].theater_num + " data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span>" + 
+							"</a>" + 
+						"</li>"
 			}
 			res += "</ul>";
 			
@@ -103,18 +119,18 @@ $(function() {
 	});
 	
 	
-	// [극장명] 클릭 시
+	// [극장명] 클릭 시 ============================================================================================================
 	$(document).on("click", "#selectTheater li", function() {
-		$("#selectTheater li").removeClass("selected");
-		$(this).addClass("selected");
+		$("#selectTheater li").removeClass("selected");		// 기존에 선택된 극장 선택 해제
+		$(this).addClass("selected");	// 선택된 극장 표시
 		
 		let theaterName = $("#selectTheater .selected span").text();
-		$("#theaterInfo").html("극장 (" + theaterName + ")");	// [선택정보] 영역에 극장명 출력
+		
+		// [선택정보] 출력
+		$("#theaterInfo span").eq(1).html("<b>" + theaterName  + "</b>");	// 극장명 출력
 		
 		// 날짜 출력
 		$("#selectDate").css("display", "flex");
-// 		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
-// 		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
 
 		const now = new Date();
 		let year = now.getFullYear();
@@ -132,127 +148,137 @@ $(function() {
 
 		let res = "";
 		if(dateDiff > showDateRange){	// dateDiff(오늘과 달의 마지막 날의 차이)가 10보다 클 때
-			// 년
+			// 년도 출력
 			res += "<div class='col-12'>" + 
 						"<div class='row'>" + 
 							"<div class='col-12 playYear'>" + year + "년</div>" + 
 						"</div>";
-				// 월
-				res += "<div class='row'>" + 
-							"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
+				// 월 출력
+				res += "<div class='month'>" + 
+							"<span class='playMonth'><h4>" + thisMonth + "</h4></span><span style='display:table-cell;'>월</span>" + 
 						"</div>" + 
-						"<div class='row col text-center day'><ul>";
+						"<div class='day'><ul>";
 						
-			for(let j = date; j <= date + showDateRange; j++){
-				today = new Date(year, month, j);	// 오늘 날짜 넣기
+			for(let i = date; i <= date + showDateRange; i++){
+				today = new Date(year, month, i);	// 오늘 날짜 넣기
 				dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
 				todayLabel = weekDay[dayLabel];
 		
-				// 요일 & 일
+				// 요일 & 일 출력
 				res += "<li><a href='#'>" + 
-							"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-							"<span class='playDate'>" +  j + "</span><br>" + 	// 일
-						"</a></li>";
+							"<span class='playTodayLabel'>" + todayLabel + "</span>" + // 요일
+							"<span class='playDate'>" +  i + "</span><br>" + 	// 일
+						"</a>";
+				let selectedDate = new Date(year, month, i);
+				res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
 			}
 			res += "</ul></div></div>";
 			
-		}else {	// dateDiff(오늘과 달의 마지막 날의 차이)가 10보다 작을 때
+		}else {	// dateDiff(오늘과 달의 마지막 날의 차이)가 10보다 작을 때 -----------------------------------------------------------------
 			if(month != 11){	// 12월이 아닐 때
 			
-				// 년
+				// 년도 출력
 				res += "<div class='col-12'>" + 
 							"<div class='row'>" + 
 								"<div class='col-12 playYear'>" + year + "년</div>" + 
 							"</div>";
-					// 월
-					res += "<div class='row'>" + 
-								"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
+					// 월 출력
+					res += "<div class='month'>" + 
+								"<span class='playMonth'><h4>" + thisMonth + "</h4></span><span>월</span>" + 
 							"</div>" + 
-							"<div class='row col text-center day'><ul>";
+							"<div class='day'><ul>";
 							
-				for(let j = date; j <= lastDate; j++){
+				for(let i = date; i <= lastDate; i++){
+					today = new Date(year, month, i);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일 출력
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>" + // 요일
+								"<span class='playDate'>" +  i + "</span><br>" + 	// 일
+							"</a>";
+					selectedDate = new Date(year, month, i);
+					res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
+				}
+				res += "</ul></div></div>";
+				
+				// 년도 출력
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + year + "년</div>" + 
+							"</div>";
+					// 월 출력
+					res += "<div class='month'>" + 
+								"<span class=playMonth'><h4>" + (thisMonth + 1) + "</h4></span><span>월</span>" + 
+							"</div>" + 
+							"<div class='day'><ul>";
+							
+				for(let i = 1; i <= showDateRange - dateDiff; i++){
+					today = new Date(year, month + 1, i);	// 오늘 날짜 넣기
+					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
+					todayLabel = weekDay[dayLabel];
+			
+					// 요일 & 일 출력
+					res += "<li><a href='#'>" + 
+								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
+								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
+							"</a>";
+					selectedDate = new Date(year, month + 1, i);
+					res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
+				}
+				res += "</ul></div></div>";
+				
+			}else{	// 12월일 때 ---------------------------------------------------------------------------------------------------------
+			// 년도 출력
+				res += "<div class='col-12'>" + 
+							"<div class='row'>" + 
+								"<div class='col-12 playYear'>" + year + "년</div>" + 
+							"</div>";
+					// 월 출력
+					res += "<div class='month'>" + 
+								"<span class='playMonth'><h4>" + thisMonth + "</h4></span><span>월</span>" + 
+							"</div>" + 
+							"<div class='day'><ul>";
+							
+				for(let i = date; i <= lastDate; i++){
 					today = new Date(year, month, j);	// 오늘 날짜 넣기
 					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
 					todayLabel = weekDay[dayLabel];
 			
-					// 요일 & 일
+					// 요일 & 일 출력
 					res += "<li><a href='#'>" + 
 								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
-							"</a></li>";
+								"<span class='playDate'>" +  i + "</span><br>" + 	// 일
+							"</a>";
+					selectedDate = new Date(year, month, i);
+					res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
 				}
 				res += "</ul></div></div>";
 				
-				// 년
-				res += "<div class='col-12'>" + 
-							"<div class='row'>" + 
-								"<div class='col-12 playYear'>" + year + "년</div>" + 
-							"</div>";
-					// 월
-					res += "<div class='row'>" + 
-								"<span class='col-4 playMonth'><h4>" + (thisMonth + 1) + "</h4></span><span class='col-2 p-0'>월</span>" + 
-							"</div>" + 
-							"<div class='row col text-center day'><ul>";
-							
-				for(let j = 1; j <= showDateRange - dateDiff; j++){
-					today = new Date(year, month + 1, j);	// 오늘 날짜 넣기
-					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
-					todayLabel = weekDay[dayLabel];
-			
-					// 요일 & 일
-					res += "<li><a href='#'>" + 
-								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
-							"</a></li>";
-				}
-				res += "</ul></div></div>";
-				
-			}else{	// 12월일 때
-			// 년
-				res += "<div class='col-12'>" + 
-							"<div class='row'>" + 
-								"<div class='col-12 playYear'>" + year + "년</div>" + 
-							"</div>";
-					// 월
-					res += "<div class='row'>" + 
-								"<span class='col-4 playMonth'><h4>" + thisMonth + "</h4></span><span class='col-2 p-0'>월</span>" + 
-							"</div>" + 
-							"<div class='row col text-center day'><ul>";
-							
-				for(let j = date; j <= lastDate; j++){
-					today = new Date(year, month, j);	// 오늘 날짜 넣기
-					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
-					todayLabel = weekDay[dayLabel];
-			
-					// 요일 & 일
-					res += "<li><a href='#'>" + 
-								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
-							"</a></li>";
-				}
-				res += "</ul></div></div>";
-				
-				// 년
+				// 년도 출력
 				res += "<div class='col-12'>" + 
 							"<div class='row'>" + 
 								"<div class='col-12 playYear'>" + (year + 1) + "년</div>" + 
 							"</div>";
-					// 월
-					res += "<div class='row'>" + 
-								"<span class='col-4 playMonth'><h4>" + (thisMonth - 11) + "</h4></span><span class='col-2 p-0'>월</span>" + 
+					// 월 출력
+					res += "<div class='month'>" + 
+								"<span class='playMonth'><h4>" + (thisMonth - 11) + "</h4></span><span class='col-2 p-0'>월</span>" + 
 							"</div>" + 
-							"<div class='row col text-center day'><ul>";
+							"<div class='day'><ul>";
 							
-				for(let j = 1; j <= showDateRange - dateDiff; j++){
-					today = new Date(year + 1, month - 11, j);	// 오늘 날짜 넣기
+				for(let i = 1; i <= showDateRange - dateDiff; i++){
+					today = new Date(year + 1, month - 11, i);	// 오늘 날짜 넣기
 					dayLabel = today.getDay();			// 오늘 날짜의 요일 인덱스
 					todayLabel = weekDay[dayLabel];
 			
-					// 요일 & 일
+					// 요일 & 일 출력
 					res += "<li><a href='#'>" + 
 								"<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-								"<span class='playDate'>" +  j + "</span><br>" + 	// 일
-							"</a></li>";
+								"<span class='playDate'>" +  i + "</span><br>" + 	// 일
+							"</a>";
+					selectedDate = new Date(year + 1, month - 12, i);
+					res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
 				}
 				res += "</ul></div></div>";
 												
@@ -261,32 +287,137 @@ $(function() {
 		res += "<br>";
 		$("#selectDate").html(res);	
 		
+		
+		// 상영관 정보 가져오기(해당영화, 해당극장) ------------------------------------------------------------------------------------------
+		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
+		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
+		$("#selectTime").css("display", "flex");
+		 
+			$.ajax({
+				type : "post", 
+				url : "ReservationStep2Servlet", 
+				data : {"theater_num" : theaterNum}, 
+				dataType : "json", 
+	       })
+			.done(function(room) {
+				let res = "";
+				for(let i = 0; i < room.length; i++){
+					res += "<div class='col-12'>" + 
+								"<div class='row'>" + 
+									"<div class='col-12 room'><b class=" + room[i].room_name + " data-room-num=" + room[i].room_num + " data-room-name=" + room[i].room_name + " style='border: 1px solid red;'>" + room[i].room_name + "</b></div>" +
+									"<div class='row " + room[i].room_num + " text-center'>" + 
+										"<div class='col-12 play_time'></div>" + 
+									"</div>" +
+								"</div>" + 
+							"</div>"
+					
+				}
+				$("#selectTime>div").html(res);
+				
+			})
+	       .fail(function() { // 요청 실패 시
+				$("#selectTime").html("요청 실패!");
+			});
+		
+		});
+	
+	
+	// [날짜] 클릭 시 ==============================================================================================================
+	$(document).on("click", "#selectDate li", function() {
+		$("#selectDate li").removeClass("selected");
+		$(this).addClass("selected");
+		
+		// [선택정보] 출력
+		$("#dateInfo").css("display", "flex");
+		let date = $("#selectDate .selected .selectedDate").val();
+		let selectedDate = new Date(date);
+		let playDate = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate();	// String 형태로 ReservationController에 보내기 위해 형태지정
+		$("#dateInfo span").eq(1).html("<b>" + playDate  + "</b>");	// 날짜 출력
+		
+		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");
+		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");
+		
+		$.ajax({
+			type : "post", 
+			url : "ReservationStep3Servlet", 
+			data : {"movie_num" : movieNum, "theater_num" : theaterNum, "play_date" : playDate}, 
+			dataType : "json", 
+		})
+		.done(function(play) {
+			
+			$("#selectTime").css("display", "flex");
+			
+			let res ="";
+			res += "<hr>";
+			for(let i = 0; i < play.length; i++){
+				let playStartTime = new Date(play[i].play_start_time);
+				let playStartHour = playStartTime.getHours();
+				let playStartMin = playStartTime.getMinutes();
+				
+				let playEndTime = new Date(play[i].play_end_time);
+				let playEndHour = playEndTime.getHours();
+				let playEndMin = playEndTime.getMinutes();				
+								
+				res += "<li>" + 
+				"<a style='display: table;' data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
+					"<span class='playTimeType'>" + play[i].paly_time_type + "</span>" +
+					"<span class='time'>" + 
+						"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
+						"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+					"</span>" +
+					"<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
+					"<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
+				"</a>" + 
+			"</li><hr>"
+			}
+			$("#selectTime>ul").html(res);
+					
+		})
+		.fail(function() { // 요청 실패 시
+			$("#selectTime").html("요청 실패!");
+		});
+		
 	});
+	
+	// [시간] 클릭 시 ===========================================================================================================================
+	$(document).on("click", "#selectTime li", function() {
+		$("#selectTime li").removeClass("selected");
+		$(this).addClass("selected");
+		
+		// [선택정보] 출력
+		let roomName = $(".selected a span p.room").text();
+		let playStartTime = $(".selected a span.time strong").text();
+		$("#roomInfo").css("display", "flex");
+		$("#roomInfo span").eq(1).html("<b>" + roomName  + "</b>");	// 상영관명 출력
+		$("#dateInfo span").eq(2).html("<b>( " + playStartTime  + ")</b>");	// 상영시작시간 출력
+	});
+		
 });
 </script>
 </head>
 <body>
- <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
+  <%--네비게이션 바 영역 --%>
+  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
-  <%--본문내용 --%>
-		<h2>영화 예매</h2>
-		<div class="container-fluid reservation_con" >
-	            <div class="row row1">
-	            	<%-- 영화목록 파트 --%>
-	                <div class="col-4">
-	                	<h5>영화</h5>
+	<%--본문내용 --%>
+	<h2>영화 예매</h2>
+		<div class="container-fluid" >
+            <div class="row row1">
+            	<%-- 영화목록 파트 --%>
+                <div class="col-4 p-0">
+					<div class="title-area">영화</div>
+					<div class="list-area p-2">
 	                	<ul class="nav nav-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" href="#">예매율순</a>
+								<a class="nav-link active" id="descBookingRate" href="#">예매율순</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">가나다순</a>
+								<a class="nav-link" id="ascMovieName" href="#">가나다순</a>
 							</li>
 						</ul>
-					 	<br>
-					 	<div id="selectMovie">
+					 	
+					 	<div class="mt-3" id="selectMovie">
 					 		<ul>
 					 			<c:forEach var="movie" items="${movieList }">
 						 			<li>
@@ -298,95 +429,82 @@ $(function() {
 					 			</c:forEach>
 					 		</ul>
 				 		</div>
-	                </div>
-	                
-	                <%-- 극장목록 파트 --%>
-	               <div class="col-2">
-		                <h5>극장</h5>
-					 	<br>
-					 	<div id="selectTheater" style="display: none;">
-					 	</div>	
-	               </div>
-	                
-	                <%-- 날짜목록 파트 --%>
-	                <div class="col-1">
-						<h5>날짜</h5>
-						<br>
-						<div id="selectDate" style="display: none;">
-							<div class="playMonth"></div>
-							<div class="day">
-								<span class="playWeekday"></span>
-								<span class="playDate"></span>								
-							</div>
+				 	</div>
+                </div>
+                
+                <%-- 극장목록 파트 --%>
+                <div class="col-2 p-0">
+	                <div class="title-area">극장</div>
+	                <div class="list-area p-2">
+				 		<div class="mt-3" id="selectTheater" style="display: none;">
+				 		
+				 		</div>
+				 	</div>
+                </div>
+                
+				<%-- 날짜목록 파트 --%>
+				<div class="col-2 p-0">
+               		<div class="title-area">날짜</div>
+               		<div class="list-area p-2">
+						<div class="row mt-3" id="selectDate" style="display: none;">
+						
 						</div>
 					</div>
-					
-					<%-- 상영목록 파트 --%>
-	                <div class="col-4">
-	                	<h5>시간</h5>
+				</div>
+				
+				<%-- 상영목록 파트 --%>
+				<div class="col-4 p-0">
+                	<div class="title-area">시간</div>
+                	<div class="list-area p-2">
 				  		<div id="playType">
 				  			<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조
 				  			<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야
 				  		</div>
-				  		<div id="playTable">
-					  		<table>
-					  			<tr>
-					  				<th>1관 (총 60석)</th>
-					  			</tr>
-					  			<tr>
-					  				<td>
-					  					<button>12:10</button> n석 &nbsp;&nbsp;
-					  					<button>15:25</button> n석 &nbsp;&nbsp;<br>
-					  					<button>18:52</button> n석 &nbsp;&nbsp;
-					  				</td>
-					  			</tr>
-					  			<tr>
-				  					<th>동백관 (총 60석)</th>
-					  			</tr>
-					  			<tr>
-					  				<td>
-					  					<button>09:00</button>
-					  						<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> n석 &nbsp;&nbsp;
-					  					<button>14:10</button> n석 &nbsp;&nbsp;
-					  				</td>
-					  			</tr>
-					  		</table>
+				  		<div class="mt-3" id="selectTime" style="display: none;">
+				  			<ul></ul>
 				  		</div>
-                	</div>
-            	</div>
+				  	</div>
+               	</div>
+           	</div>
 	            
-	            <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
-	            <div class="row row2">
-	            	<%-- 선택한 영화 포스터와 영화명 노출 --%>
-	                <div class="col-3">
-						<h5>선택 정보</h5>
-						<div class="row p-0" id="movieInfo"  style="display: none;">
-							<div class="col-4 movie_poster"><img src="" alt="선택영화포스터" height="90px"></div>
-					  		<div class="col-8 movie_name_kr"></div><br>
-						</div>
+			<%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
+			<div class="row row2">
+				<%-- 선택한 영화 포스터와 영화명 노출 --%>
+				<div class="col-3">
+					<h5>선택 정보</h5>
+					<div class="row p-0" id="movieInfo" style="display: none;">
+						<div class="col-4 movie_poster"><img src="" alt="선택영화포스터" height="90px"></div>
+					  	<div class="col-8 movie_name_kr"></div><br>
 					</div>
-					<%-- 선택한 상영스케줄 노출 --%>
-	                <div class="col-3">
-<%-- 	                	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!-- 				  			<tr><td id="theaterInfo"></td></tr> -->
-<!-- 				  			<tr><td>일시 (yyyy.mm.dd(k) hh:jj)</td></tr> -->
-<!-- 				  			<tr><td>상영관 (n관 m층)</td></tr> -->
-<!-- 				  		</table> -->
-						<div id="theaterInfo"></div>
-						<div id="dateInfo"></div>
-						<div id="roomInfo"></div>
-	                </div>
-	                <%-- 미선택 사항 노출 --%>
-	                <div class="col-3">
-	                	<b>좌석 선택 &nbsp;&nbsp;> &nbsp;결제</b>
-	                </div>
-	                <%-- 다음 페이지 이동 버튼 --%>
-	                <div class="col-3">
-			  			<button class="btn btn-danger" id="nextBtn" onclick="location.href='reservation_seat'"> next ></button>
-	                </div>
-	            </div>
-	        </div>
-  
+				</div>
+				
+				<%-- 선택한 상영스케줄 노출 --%>
+				<div class="col-3">
+					<div id="theaterInfo" style="display: table;">
+						<span style="display: table-cell;">극장&nbsp;</span>
+						<span style="display: table-cell;"></span>
+					</div>
+					<div id="dateInfo" style="display: table;">
+						<span style="display: table-cell;">날짜&nbsp;</span>
+						<span style="display: table-cell;"></span>
+						<span style="display: table-cell;"></span>
+					</div>
+					<div id="roomInfo" style="display: table;">
+						<span style="display: table-cell;">상영관&nbsp;</span>
+						<span style="display: table-cell;"></span>
+					</div>
+				</div>
+				<%-- 미선택 사항 노출 --%>
+				<div class="col-3">
+					<b>좌석 선택 &nbsp;&nbsp;> &nbsp;결제</b>
+				</div>
+				
+				<%-- 다음 페이지 이동 버튼 --%>
+				<div class="col-3">
+					<button class="btn btn-danger" id="nextBtn" onclick="location.href='reservation_seat'"> next ></button>
+				</div>
+			</div>
+		</div>
   </article>
   
   <nav id="mainNav">
