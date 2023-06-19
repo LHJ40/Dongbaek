@@ -101,6 +101,34 @@
 			FROM MEMBERS
 	</select>	
 	
+	<!-- 0619정의효 멤버 grade 변경 -->
+	<update id="changeMemberGrade">
+	    UPDATE MEMBERS
+	    SET 
+	        grade_name = #{grade_name}
+	    WHERE
+	        member_id = #{member_id}
+	</update>
+	
+	<!-- 0619정의효 멤버 status변경 -->
+	<update id="changeMemberStatus">
+		UPDATE MEMBERS
+		SET
+			member_status = #{member_status}
+		WHERE
+			member_id = #{member_id}
+	</update>
+	
+	<!-- 0619정의효 멤버 삭제 -->
+	<delete id="memberDelete">
+		DELETE 
+			FROM
+				MEMBERS
+			WHERE 
+				member_id = #{member_id} 
+	</delete>
+	
+	
 </mapper>
 
 

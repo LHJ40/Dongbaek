@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
-<script>
-	function reservation_main(this.value){
-		location.href="reservation_main";
+<!-- <script> -->
+<!--  	function reservation_main(this.value){ -->
+<!--  		location.href="reservation_main"; -->
 		
-	}
-</script>
+<!--  	} -->
+<!-- </script> -->
 
 <title>영화 예매 사이트</title>
 <style>
@@ -26,6 +26,7 @@
 <article id="mainArticle">
 <%--본문내용 --%>
 	<%--top 섹션 include --%>
+<div class="container">
 	<%@include file="movieDetail_top.jsp" %>
 	
 	<%-- 2. 두번째 섹션 - 탭 --%>
@@ -34,13 +35,13 @@
 			 <div class="col">
 		  		<ul class="nav nav-tabs">
 					<li class="nav-item">
-				    	<a class="nav-link active" href="movie_detail_info?movie_num=${movie.movie_num }">주요정보</a>
+				    	<a class="nav-link active" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰</a>
+				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }"> 리뷰</a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }">포토</a>
+				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px"> 예고편 / 스틸컷</a>
 				  	</li>
 				</ul>
 			</div>

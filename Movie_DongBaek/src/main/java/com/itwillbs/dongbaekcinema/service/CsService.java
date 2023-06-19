@@ -23,6 +23,9 @@ public class CsService {
 	public List<CsVO> getCsFaq(String cs_type) {
 		return mapper.selectCsFaq(cs_type);
 	}
+//	public List<CsVO> getCsFaq(String cs_type, int startNum, int pageNum) {
+//		return mapper.selectCsFaq(cs_type, startNum, pageNum);
+//	}
 	
 	
 	

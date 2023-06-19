@@ -18,6 +18,8 @@
 		 			WHERE cs_type = #{cs_type}
  				</otherwise>
  			</choose>
+<!--  			LIMIT #{startNum} -->
+<!--  				, #{pageNum} -->
   
   </select>
   

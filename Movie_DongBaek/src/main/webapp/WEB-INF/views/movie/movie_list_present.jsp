@@ -8,6 +8,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
+<script>
+  $(function(){
+	  
+	 
+  })
+</script>
+
 <title>영화 예매 사이트</title>
 <style>
 	<%-- 페이징 색상변경 --%>
@@ -41,11 +50,12 @@
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
+ 
   <article id="mainArticle">
   <%--본문내용 --%>
 <%-- 상영작 구분 --%>
 	<div class="container">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" style="margin-top: 20px; margin-bottom: 20px">
 		  <li class="nav-item">
 		    <a class="nav-link active" aria-current="page" href="movie_list_present">현재상영작</a>
 		  </li>
@@ -54,12 +64,12 @@
 		  </li>
 		</ul>
 <%-- 정렬 기준 --%>
-	<div class="row"  align="left">
+	<div class="row"  align="left" style="margin-bottom: 20px">
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
 		  <select class="custom-select" name="movie_array">
-		    <option selected>예매순</option>
-		    <option value="1">평점순</option>
+		    <option value="1" selected >예매순</option>
+		    <option value="2">평점순</option>
 		  </select>
 		</div>
 	</div>
@@ -79,9 +89,21 @@
 					  	<img src="${movie.movie_poster}" class="card-img-top" alt="...">
 					  </a><%-- 해당영화의 포스터출력 --%>
 						<div class="card-body">
-							<h6 class="card-title">
-							<img src="${pageContext.request.contextPath}/resources/img/gradeB.png" class="img-rounded" onclick="location.href='movie_detail_info'">
+							<h6 class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 							<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
+							<c:if test="${movie.movie_grade eq '전체관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_all.png" alt="전체" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '12세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_12.png" alt="12" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '15세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '청소년관람불가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
+							</c:if>
+							
 							${movie.movie_name_kr}</h6>
 							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
 							<p class="d-flex justify-content-center">

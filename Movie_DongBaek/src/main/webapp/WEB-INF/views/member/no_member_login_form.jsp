@@ -52,6 +52,22 @@ div {
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
+	// ------[인증 요청 시 사용되는 버튼 변경]-------------
+	// 인증요청 버튼 클릭 시 재전송으로 value 변경
+	$(function() {
+		$("#phoneChk").on("click", function() {
+			$("#phoneChk").attr("value", "재전송");			
+		});
+	});
+	
+	// 확인 버튼 클릭 시 확인완료로 value 변경
+	$(function() {
+		$("#phoneChk2").on("click", function() {
+			$("#phoneChk2").attr("value", "확인완료");			
+		});
+	});
+	
+	// ------[입력값 유효성 검사] --------------------
 	// 이름 체크
 	function checkName(value) {
 		let getName = RegExp(/^[A-Za-z가-힣]{2,15}$/);
@@ -61,6 +77,7 @@ div {
 			$(this).focus();
 		} else {
 			$("#namecheck").attr("disabled", true);
+			$("#namefeedback").text("");
 		}
 	}
 	
@@ -72,7 +89,7 @@ div {
 			$("#birthfeedback").text("생일을 입력해주세요.");
 			$(this).focus();
 		} else {
-			alert(value);
+// 			alert(value);
 			$("#birthcheck").attr("disabled", true);
 			$("#birthfeedback").text("");
 		}
@@ -86,7 +103,7 @@ div {
 			$("#phonefeedback").text("올바른 전화번호를 입력하세요");
 			$(this).focus();
 		} else {
-			alert(value);
+// 			alert(value);
 			$("#phoneChk").attr("disabled", false);
 			$("#phonefeedback").text("");
 		}
@@ -96,37 +113,37 @@ div {
 	// 비밀번호 체크
 	function checkPasswd(value) {
 		let getPass = RegExp(/^[\d]{4}/);
-		if(!getPass.test(value)) {
-			$("#passwdfeedback").text("비밀번호를 입력해주세요.");
+		if(!getPass.test(value)) {	// 맞지 않을 때
+			$("#passwdfeedback").text("비밀번호 4자리를 입력해주세요.");
 			$(this).focus();
 		} else {
-			if($("#passwd").val() == $("#passwdCheck").val() ){
-				$("#passwdcheck").attr("disabled", true);
+			if($("#passwd").val() === $("#passwdCheck").val() ){	// 두 칸에 들어간 값이 같으면
+				$("#passcheck").attr("disabled", true);
 				$("#passwdfeedback").text();
-				alert(value);
+// 				alert(value);
 			} else {
 				$("#passwdfeedback").text("비밀번호와 일치하지 않습니다.");
 			}
 		}
 	}
-
-	// 확인 버튼 활성화
+	
+	// ------[확인 버튼 클릭 시 정보확인 모달창 내용 관리]-------------
 	$(function() {
 		
 		$("#infoBtn").on("click", function() {
-			
 			let nameck = $("#namecheck").prop("disabled");
 			let birthck = $("#birthcheck").prop("disabled");
 			let phoneck = $("#phoneDoubleChk").prop("disabled");
-			let passwdck = $("#passwdcheck").prop("disabled");
+			let passwdck = $("#passcheck").prop("disabled");
 			
 			let member_name = $("#name").val();
 			let member_birth = $("#birth").val();
 			let member_phone = $("#phone").val();
 			let member_pass = $("#passwd").val();
 			
-// 			if( $("#agree").prop("checked") && nameck &&
-// 					birthck && phoneck && passwdck) {
+			// 동의 버튼 클릭, 정상적으로 입력값 입력 시
+			// 입력정보 안내와 로그인 확인버튼 보이게 하기
+			if($("#agree").is(':checked') && nameck && birthck && phoneck && passwdck) {	
 				// 모달창에 값 넣기
 				$("#member_name").val(member_name);
          		$("#member_birth").val(member_birth);
@@ -136,16 +153,20 @@ div {
          		$("#nameSpace").text(member_name);
          		$("#birthSpace").text(member_birth);
          		$("#phoneSpace").text(member_phone);
-// 			} else {
+         		
+				$("#modelcheck").show();
+				$("#modelcheck2").hide();
+				$("#submitBtn").show();
 				
-// 				alert(nameck);
-// 				$("#modelcheck").text("올바른 값을 입력 후 동의버튼을 눌러주세요.");
-// 				$("#submitBtn").attr("disabled", true);
-// 			}
+			} else {
+				// 입력값 유효성 검사 실패 상태나 동의 버튼 미선택 시 보이는 창
+				$("#modelcheck2").show();
+				$("#modelcheck").hide();
+				$("#submitBtn").hide();
+			}
 		});
-		
 	});
-	
+		
 	
 </script>
 
@@ -211,7 +232,7 @@ div {
 	              <label for="checkNum" class="col-3 text-nowrap">인증번호</label>
 	              <div class="col-9">
 		              <div class="input-group">
-					  	<input type="text" class="form-control" id="checkNum" name="checkNum" required="required" aria-describedby="button-addon2">
+					  	<input type="text" class="form-control" id="checkNum" name="checkNum" required="required" aria-describedby="button-addon2" maxlength="4">
 					  	<input class="btn btn-outline-red" type="button" value="    확인    " id="phoneChk2" disabled="disabled" data-toggle="modal" data-target="#sendCheckNum">
 					  </div>
 		              <div class="invalid-feedback">
@@ -258,7 +279,8 @@ div {
 											$("#modalMsg").html("휴대폰 인증 완료!<br>나머지 정보를 입력해주세요.");
 // 											$(".invalid-feedback").css("color","green");
 											$("#phoneDoubleChk").attr("disabled", true);
-// 											$("#DoneBtn").attr("disabled",false);
+							        		$("#checkNum").attr("readonly",true);
+// 											$("#phoneChk2").attr("disabled", true);
 											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
 											// 로컬의 세션 스토리지에 이메일 저장
 										}else{
@@ -364,68 +386,6 @@ div {
 		</div>		
 	</div>
   </div>
-  <%-- 모달에 입력 정보 전송 영역 --%>
-  <script type="text/javascript">
-  	// 모달에 입력 정보를 전송, 비회원 회원가입하기 위한 함수
-		
-//  		$("#infoBtn").click(function(){
-// 			// 입력정보 변수에 넣기
-// 			let member_name = $("#name").val();
-// 			let member_birth = $("#birth").val();
-// 			let member_phone = $("#phone").val();
-// 			let member_pass = $("#passwd").val();
-// 			let agree = $("#agree").prop("checked");
-			
-// 			console.log("1");
-			
-// 			$.ajax({
-// 		        type:"POST",
-// 		        url: '<c:url value="/noMemberCheck"/>',
-// 		        data: {"member_name" : member_name
-// 		        		, "member_birth" : member_birth
-// 		        		, "member_phone" : member_phone
-// 		        		, "member_pass" : member_pass
-// 		        		, "agree" : agree
-// 		        		},
-// // 		        dataType: "json",
-// 		        success : function(data){
-		        	
-// 		         	console.log("2");
-// 		         	let member = data;
-// 		         	alert('member: ' + member);
-		         	
-// 		        	if(data == "error"){
-// 		        		console.log("3");
-// 		        		alert("정보 입력 오류.")
-// 		        	}else{
-// 		        		if(agree) {
-// 			        		console.log("4");
-// 			        		// 개인정보 처리 방침에 '동의' 시
-// 			         		$("#member_name").val(member_name);
-// 			         		$("#member_birth").val(member_birth);
-// 			         		$("#member_phone").val(member_phone);
-// 			         		$("#member_pass").val(member_pass);
-			         			
-// 			         		$("#nameSpace").text(member_name);
-// 			         		$("#birthSpace").text(member_birth);
-// 			         		$("#phoneSpace").text(member_phone);
-		        			
-// 		        		} else {
-// 		        			// 개인정보 처리 방침에 동의하지 않은 경우
-// 		        			console.log("5");
-// 		        			$("#modelcheck").text("개인정보 방침에 동의해주세요.")
-// 		        		}
-// 		        	}
-// 		        },
-// 		        error: function() {
-// 		        	alert("에러")
-// 		        }
-// 		    });
-// 		});
- 		
- 		
-  	
-  </script>
   
 	<%-- 인증요청 모달 영역 --%>
 	<div class="modal fade" id="sendCheckNum" tabindex="-1" role="dialog" aria-labelledby="sendCheckNumTitle" aria-hidden="true">
@@ -460,7 +420,10 @@ div {
 	      </div>
 	      <%-- 비회원 회원가입, 로그인 정보 --%>
 	      <form action="no_member_login_pro" method="post">
-		      <div class="modal-body text-center" id="modelcheck">
+		      <div class="modal-body text-center">
+		      
+		      <%-- 정상정보 입력 시 보여지는 영역 --%>
+		      <div id="modelcheck">
 		        티켓발권을 위한 입력정보를 확인해 주세요.
 		        <table class="table table-bordered">
 				  <tbody>
@@ -489,6 +452,9 @@ div {
 				  </tbody>
 				</table>
 		      </div>
+		      <%-- 정보가 정상적으로 입력되지 않았을 때 보여지는 영역 --%>
+		      <div id="modelcheck2">올바른 값을 입력 후 동의버튼을 눌러주세요.</div>
+		      </div>
 		      <div class="modal-footer justify-content-center">
 		      <input type="submit" class="btn btn-red" id="submitBtn" value="확인">
 		      <button type="button" class="btn btn-red" data-dismiss="modal" aria-label="Close">돌아가기
@@ -499,8 +465,8 @@ div {
 	    </div>
 	  </div>
 	</div>
-<!-- </form> -->
-<!-- </div> -->
+	
+	
   </article>
   
   <nav id="mainNav" class="d-none d-md-block sidebar">

@@ -29,13 +29,13 @@
 			 <div class="col">
 		  		<ul class="nav nav-tabs">
 					<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }">주요정보</a>
+				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰</a>
+				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link active" href="movie_detail_photo?movie_num=${movie.movie_num }">포토</a>
+				    	<a class="nav-link active" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px"> 예고편 / 스틸컷</a>
 				  	</li>
 				</ul>
 			</div>
@@ -44,7 +44,7 @@
 	
 	<%-- 세번째 섹션 --%>
 	<section id="movie-end">
-		<div class="container p-3">
+		<div class="container p-3" style="padding:50px; margin: 50px;">
 	  	  	
  		<%-- 썸네일 이미지 --%>
 			<%-- 	<c:forEach var="photo" items="${movie }"> --%>
@@ -56,6 +56,15 @@
 			<%-- 			</c:forEach> --%>
 			<!-- 		</div> -->
 			<%-- 	</c:forEach> --%>
+			
+			<%-- 프리뷰 영상 --%>
+			<div class="row" >
+	  	  		<div class="col">
+	  	  			<iframe src="${movie.movie_preview }"  width="800" height="500" style="margin-left: 30px;"></iframe>
+	  	  		</div>
+	  	  	</div>
+	  	  	
+	  	  	<%-- 스틸컷 --%>
 	  	  	<div class="row row-md-12">
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo1 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo1 }' ,'pop01','width=900 height=600');">
@@ -66,26 +75,18 @@
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo3 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo3 }' ,'pop01','width=900 height=600');">
 	  	  		</div>
-	  	  	</div>
-	  	  	<div class="row">
-	  	  		<div class="col">
-	  	  		
-	  	  		</div>
-	  	  	</div>
-		  	  	  	
+	  	  	</div>	  	  	
 		</div>
 	</section>
 	<%-- 세번째 섹션 끝--%>
 		
 			
-		</div> <%-- 컨테이너 끝 --%>
-  
+  </div> <%-- 컨테이너 끝 --%>
   </article>
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>

@@ -56,22 +56,42 @@ article {
 			    	<td width="550px" colspan="2">${member.member_name }</td>
 			    </tr>
 			    <tr>
+			    	<th width="250px">계정</th>
+			    	<td width="550px" colspan="2">${member.member_type }</td>
+			    </tr>
+			    <tr>
 			    	<%-- 회원상태 : selectBox , 상태변경 확인버튼 --%>
 			    	<%-- --%>
 			    	<th>회원상태</th>
-			    	<td width="350px">${member.member_type}</td>
+			    	<td width="350px">${member.member_status}</td>
 			    	<td>
-				  		<select>
-				  			<option>활동중(회원)</option>
-				  			<option>탈퇴</option>
-				  		</select>
-				     
-				  		<button type="button" class="btn btn-danger">상태 변경확인</button> 
+			    		<form action="admin_changeMemberStatus" method="post">
+			    			<input type="hidden" name="member_id" value="${member.member_id}">
+					  		<select name="member_status">
+					  			<option>현재상태 : ${member.member_status}</option>
+					  			<option>활동</option>
+					  			<option>탈퇴</option>
+					  		</select>
+					  		<button type="submit" class="btn btn-danger">상태 변경하기</button> 
+				  		</form>
 			    	</td>
 			    </tr>
 			    <tr>
 			    	<th>멤버십</th>
-			    	<td colspan="2">${member.grade_name}</td>
+			    	<td width="350px">${member.grade_name}</td>
+			    	<td>
+			    		<form action="admin_changeMemberGrade" method="post">
+			    			<input type="hidden" name="member_id" value="${member.member_id}">
+					  		<select name="grade_name">
+					  			<option>현재멤버십 : ${member.grade_name}</option>
+					  			<option value="BRONZE">BRONZE</option>
+					  			<option value="SILVER">SILVER</option>
+					  			<option value="GOLD">GOLD</option>
+					  			<option value="PLATINUM">PLATINUM</option>
+					  		</select><br>
+				  			<button type="submit" class="btn btn-danger">등급 변경하기</button> 
+				  		</form>
+			    	</td>
 			    </tr>
 			    <tr>
 			    	<th>아이디</th>
@@ -119,7 +139,11 @@ article {
 	      </div>
 	      <div class="modal-footer justify-content-center">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
-	        <button type="button" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	        <!-- 0619 정의효 -->
+	        <form action="admin_memberDelete" method="post">
+	        <input type="hidden" name="member_id" value="${member.member_id}">
+	        	<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	        </form>
 	      </div>
 	    </div>
 	  </div>

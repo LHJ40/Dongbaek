@@ -39,23 +39,25 @@
 			    <tr>
 			    	<th>예매 내역</th>
 			    	<td>
-					    <c:forEach var="myPaymentDetail" items="${myPaymentDetailList }">
-							&lt; ${myPaymentDetail.movie_name_kr} &gt; :
-							${myPaymentDetail.ticket_type}
+					    <c:forEach var="ticket" items="${myTicket }">
+							&lt; ${ticket.movie_name_kr} &gt; :
+							${ticket.ticket_type}
+							${ticket.ticket_quantity } 개
 							<br>
 					    </c:forEach>
 		      		</td> 
 			    </tr>
-			    <c:forEach var="myPaymentDetail" items="${myPaymentDetailList }">
-		    		<c:if test="${not empty myPaymentDetail.snack_name}">
-					    <tr>
-					    	<th>주문 내역</th>
-					    		<td>
-									${myPaymentDetail.snack_name}
-				      			</td> 
-					    </tr>
-		    		</c:if>
-			    </c:forEach>
+	    		<c:if test="${not empty mySnack}">
+				    <c:forEach var="snack" items="${mySnack }">
+						    <tr>
+						    	<th>주문 내역</th>
+						    		<td>
+										${snack.snack_name}
+										${snack.snack_quantity} 개
+					      			</td> 
+						    </tr>
+				    </c:forEach>
+	    		</c:if>
 			    <tr>
 			      <th>결제일</th>
 			      <td>

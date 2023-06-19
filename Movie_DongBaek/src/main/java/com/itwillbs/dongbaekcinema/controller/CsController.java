@@ -45,12 +45,16 @@ public class CsController {
 	// cs 부분 자주묻는질문 DB 조회하는 메서드
 	@GetMapping("/faq_data")
 	@ResponseBody	// CsVO -> json으로 리턴
-	public List<CsVO> fag_data(@RequestParam("cs_type") String cs_type) {
+	public List<CsVO> fag_data(@RequestParam("cs_type") String cs_type
+//			, @RequestParam("pageNum") int pageNum
+			) {
 		
+//		int startNum = pageNum * 5 - 4;
 		// 받아온 값으로(cs_type) 레코드 조회
 		// CsService - getFaq()
-		// 파라미터 : String(cs_type)		리턴타입 : CsVO(faq)
+		// 파라미터 : String(cs_type), int (startNum, pageNum)		리턴타입 : CsVO(faq)
 		List<CsVO> faq = service.getCsFaq(cs_type);
+//		List<CsVO> faq = service.getCsFaq(cs_type, startNum, pageNum);
 //		System.out.println(faq);
 		
 		return faq;
