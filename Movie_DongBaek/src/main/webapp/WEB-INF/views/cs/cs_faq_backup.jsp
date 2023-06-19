@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -56,73 +55,15 @@
 	.clear {
 		clear: both;
 	}
-	.Qpart:hover {
-		background-color: #eee;
-	}
- 	.checkbox {display:none;} 
-	.target {
-		display: none;
-	}
 	
 </style>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
 	$(function() {
 		// 카테고리별 질문 & 답변 들고오기
 		// 화면 처음 로딩 시 전체 질문, 답변 들고오기
-		let isDataAppended = false;	// 추가 여부를 나타내는 변수
-		$("#faqReserv").click(function() {
-			if(!isDataAppended) {	// 추가되지 않았을 경우에만 실행
-				
-				let cs_type = $("#faqReserv").val();
-				$.ajax({
-					type: 'GET',
-					url: '<c:url value="/faq_data"/>',
-					data: {'cs_type': cs_type},
-					dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
-					success: function(result) {	// 요청 성공 시
-						// 1. CsVO 객체 추출(result)
-						// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
-						// cs_type, cs_subject, cs_content 추출 및 출력
-						let i = 0;
-						for(let faq of result) {
-							i++;
-							$("#faqContents").append(
-									"<input type='checkbox' class='checkbox' id='checkbox" + i + "' data-target='target" + i + "'>" 
-									+ "<label id='checkbox" + i + "'>"
-									+ (i < 6 ? i + ". " : "")
-									+ "[" + faq.cs_type + "] <br>"
-									+ " Q. " + faq.cs_subject + "</label><br>"
-									+ "<div id='target" + i + "' class='target'> A. " + faq.cs_content + "</div>"
-									
-									);
-						}
-						$("#totalCnt").text(i);	// 총 몇 건인지 안내
-						isDataAppended = true; // 데이터 추가 완료
-					},
-					error: function() {
-						alert('에러');
-					}
-					
-				});
-			
-			
-			}
-		});
 		
-	});
-	$(document).ready(function() {
-		$(".checkbox").on("change", function() {
-			let targetId = $(this).data('target');
-			let target = $("#" + targetId);
-			
-			if($(this).prop("checked")) {
-				target.show();
-			} else {
-				target.hide();
-			}
-		});
 		
 	});
 	
@@ -158,12 +99,13 @@
 		</div>
 		<br>
 		<div class="btn-group " role="group" aria-label="Basic example">
-		  <button type="button" id="faqAll" class="btn btn-outline-secondary">전체</button>
-		  <button type="button" id="faqReserv" value="예매" class="btn btn-outline-secondary">예매</button>
-		  <button type="button" id="faqMemship" value="멤버십" class="btn btn-outline-secondary">멤버십</button>
-		  <button type="button" id="faqPayment" value="결제수단" class="btn btn-outline-secondary">결제수단</button>
-		  <button type="button" id="faqTheater" value="극장" class="btn btn-outline-secondary">극장</button>
-		  <button type="button" id="faqDiscount" value="할인혜택" class="btn btn-outline-secondary">할인혜택</button>
+		  <button type="button" class="btn btn-outline-secondary">전체</button>
+		  <button type="button" class="btn btn-outline-secondary">예매</button>
+		  <button type="button" class="btn btn-outline-secondary">멤버십</button>
+		  <button type="button" class="btn btn-outline-secondary">결제수단</button>
+		  <button type="button" class="btn btn-outline-secondary">극장</button>
+		  <button type="button" class="btn btn-outline-secondary">스토어</button>
+		  <button type="button" class="btn btn-outline-secondary">할인혜택</button>
 		  <hr>
 		</div>
 		<hr>
@@ -172,7 +114,7 @@
 				<p class="reset mb10">
 					<strong>
 						<span id="totalTitle">전체</span>
-						<span class="font-green" id="totalCnt"></span>건
+						<span class="font-green" id="totalCnt">0</span>건
 					</strong>
 				</p>
 				
@@ -181,8 +123,47 @@
 					</ul>
 				</div>
 			</div>
-   		<div id="faqContents">
-   		</div>
+	<table  class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">번호</th>
+	      <th scope="col">유형</th>
+	      <th scope="col">제목</th>
+	      <th scope="col">등록</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+  
+  <%--   	<c:forEach var="i" items="DB에서 게시글 불러오기"> --%>
+	<!--   		<tr> -->
+	<!--   			<td><a>극장</a></td> -->
+	<!--   			<td><a>제목</a></td> -->
+	<!--   			<td><a>등록일</a></td> -->
+	<!--   		</tr> -->
+	<%--   	</c:forEach> --%>
+  
+  
+    <tr>
+      <th scope="row">1</th>
+      <td>유형유형</td>
+      <td>제목제목제목제목제목</td>
+      <td>등록일등록일</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
 
        
 		

@@ -7,7 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
 	.container-top{
@@ -34,26 +36,9 @@
 		text-align: center;
 		font-weight: bold;
 	}
-	/* 각 파트 구별을 위한 색상 조절, 여백 */
-	.row1>div{
-		height: 300px;
-		margin: 0.5rem;
-		padding: 10px;
-		background-color: white;
-	}
-	/* 페이지 이름 잘보이게 설정 */
-	#mainArticle>h2{
-		font-weight: bold;
-		padding-left: 1rem;
-	}
 	
 	/* 선택사항 안내 구간 */
 	/* 위 파트와 구별을 위한 색상 부여 */
-	.row2{
-		padding-top: 0.5rem;
-		height: 150px;
-		background-color: #aaa;
-	}
 	
 	#seat-part{
 		text-align: center;
@@ -63,11 +48,6 @@
 		height: 3px;
 		background-color: #ccc;
 		width: 400px;
-	}
-	.seat{	/* 좌석 버튼 조절 */
-		width: 0.8rem;
-		height: 0.8rem;
-		color: gray;
 	}
 	.border {
 		border: 3px solid #aaa;
@@ -126,13 +106,6 @@
 	
 </style>
 <script type="text/javascript">
-	let seatArr = new Array(6);	// 행을 6으로 지정
-	
-	for(let i = 0; i < seatArr.length; i++) {
-		seatArr[i] = new Array(10);
-	}
-	
-// 	alert(seatArr[0].toString()); // => ,,,,,,,,,
 	
 	$(function() {
 		$(".seatRow > button").on("click", function() {
@@ -141,6 +114,69 @@
 			$(this).css("background-color", "blue");
 		});
 	});
+	
+	$(function(){
+		let res = "";
+		let row = ["A", "B", "C", "D", "E", "F"];
+		for(let i = 0; i < 6; i++){
+			for(let j = 1; j <= 10; j++){
+				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
+			}
+			res += "<br>";
+		}
+		$("#seat-part").html(res);
+	});
+	
+	$(function() {
+		$("#selectPeople button").on("click", function() {
+			$("#seat-part").removeClass("disabled");
+			$("button").removeClass("selected");
+			$(this).addClass("selected");	
+			
+			let playNum = $(".roomInfo2").attr("data-play-num");
+			$.ajax({
+				type : "post", 
+				url : "SelectPeople", 
+				data : {"play_num" : playNum}, 
+				dataType : "json", 
+			})
+			.done(function(orderTicketList) {
+				for(let i = 0; i <orderTicketList.length; i++) {
+					
+					for(let j = 0; j < 60; j++){							
+						let seatNum = $("#seat-part button").eq(j).attr("data-seat-num");
+						
+						if(orderTicketList[i].seat_num == seatNum){
+							$("#seat-part button").eq(j).addClass("disabled")
+						}
+					}
+				}
+				
+			})
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
+		});
+	});
+		
+// 		$.ajax({
+// 			type : "get", 
+// 			url : "SelectTicketType", 
+// 			dataType : "json", 
+// 		})
+// 		.done(function(movie) {
+// 			let res = "<ul>";
+// 			for(let i = 0; i < movie.length; i++) {
+// 				res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
+// 				res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr + ">" + movie[i].movie_name_kr + "</span></a></li>"
+// 			}
+// 			res += "</ul>";
+			
+// 			$("#selectMovie").html(res);
+// 		})
+// 		.fail(function() { // 요청 실패 시
+// 			alert("요청 실패!");
+// 		});
 	
 </script>
 </head>
@@ -151,109 +187,139 @@
   <article id="mainArticle">
   <%--본문내용 --%>
  		<h2>영화 예매</h2>
-		<div class="container-fluid reservation_con" >
+		<div class="container-fluid" >
             <div class="row row1">
-            	<%-- 좌석 선택 파트 --%>
-                <div class="col-9 border" id="seat-part">
-                	<hr>
-                	<b>SCREEN 화면</b> <span class="door align-right">출구</span>
-                	<br>
-                	<div class="seatArea">
-<%-- 						<c:forEach var="i" begin="1" end="6"> --%>
-<%-- 							<c:forEach var="j" begin="1" end="10"> --%>
-<!-- 								<button></button> -->
-<%-- 							</c:forEach> --%>
-<!-- 							<br> -->
-<%-- 						</c:forEach> --%>
-						<c:forEach var="i" begin="1" end="3">
-							<div class="seatRow">
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<span class="space">&nbsp;</span>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="unable"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-							</div>
-						</c:forEach>
-						<span class="door align-left">입구</span><br>
-							<div class="seatRow">
-									<button class="handi"></button>
-									<button class="handi"></button>
-									<button class="seat"></button>
-									<button class="seat"></button>
-									<button class="seat"></button>
-									<span class="space">&nbsp;</span>
-									<button class="seat"></button>
-									<button class="seat"></button>
-									<button class="unable"></button>
-									<button class="seat"></button>
-									<button class="seat"></button>
+            	<div class="col-12">
+	            	<div class="row title-area">
+	            		<div class="col-12">
+	            			<div class="row">
+				            	<div class="col-12">
+				            		<h5>관람인원선택</h5>
+				            	</div>	            			
+	            			</div>
+            			</div>
+            		</div>
+            		
+	            	<%-- 좌석 선택 파트 --%>
+					<div class="row">
+		                <div class="col-12 border">
+		            		<div class="row mt-3">
+		            			<div class="col-12" id="selectPeople">
+									<div class="row mt-1">
+										<label for="adult" class="col-2 col-form-label">성인</label>
+			            				<div class="col-8 btn-toolbar" id="adult" role="toolbar" aria-label="Toolbar with button groups">
+										  <div class="btn-group me-2" role="group" aria-label="First group">
+										    <button type="button" class="btn btn-secondary">0</button>
+										    <button type="button" class="btn btn-secondary">1</button>
+										    <button type="button" class="btn btn-secondary">2</button>
+										    <button type="button" class="btn btn-secondary">3</button>
+										    <button type="button" class="btn btn-secondary">4</button>
+										    <button type="button" class="btn btn-secondary">5</button>
+										    <button type="button" class="btn btn-secondary">6</button>
+										    <button type="button" class="btn btn-secondary">7</button>
+										    <button type="button" class="btn btn-secondary">8</button>
+										  </div>
+										</div>
+									</div>
+									<div class="row m-1">
+										<label for="teenager" class="col-2 col-form-label">청소년</label>
+			            				<div class="col-8 btn-toolbar" id="teenager" role="toolbar" aria-label="Toolbar with button groups">
+										  <div class="btn-group me-2" role="group" aria-label="First group">
+										    <button type="button" class="btn btn-secondary">0</button>
+										    <button type="button" class="btn btn-secondary ">1</button>
+										    <button type="button" class="btn btn-secondary">2</button>
+										    <button type="button" class="btn btn-secondary">3</button>
+										    <button type="button" class="btn btn-secondary">4</button>
+										    <button type="button" class="btn btn-secondary">5</button>
+										    <button type="button" class="btn btn-secondary">6</button>
+										    <button type="button" class="btn btn-secondary">7</button>
+										    <button type="button" class="btn btn-secondary">8</button>
+										  </div>
+										</div>
+									</div>
+									<div class="row m-1">
+										<label for="child" class="col-2 col-form-label">우대</label>
+			            				<div class="col-8 btn-toolbar" id="child" role="toolbar" aria-label="Toolbar with button groups">
+										  <div class="btn-group me-2" role="group" aria-label="First group">
+										    <button type="button" class="btn btn-secondary">0</button>
+										    <button type="button" class="btn btn-secondary">1</button>
+										    <button type="button" class="btn btn-secondary">2</button>
+										    <button type="button" class="btn btn-secondary">3</button>
+										    <button type="button" class="btn btn-secondary">4</button>
+										    <button type="button" class="btn btn-secondary">5</button>
+										    <button type="button" class="btn btn-secondary">6</button>
+										    <button type="button" class="btn btn-secondary">7</button>
+										    <button type="button" class="btn btn-secondary">8</button>
+										  </div>
+										</div>
+									</div>
 								</div>
-						<c:forEach var="i" begin="1" end="2">
-							<div class="seatRow">
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<span class="space">&nbsp;</span>
-								<button class="seat"></button>
-								<button class="seat"></button>
-								<button class="unable"></button>
-								<button class="seat"></button>
-								<button class="seat"></button>
 							</div>
-						</c:forEach>
-						
-						
-                	</div>
-					<div id="beforeBtnArea">	<%-- 영역왼쪽하단에 위치시키고 싶음 --%>
-						<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
+							<div class="row">
+								<div class="col-12 disabled" id="seat-part">
+				                	<hr>
+				                	<b>SCREEN 화면</b> <span class="door align-right">출구</span>
+				                	<br>
+				                	<div class="seatArea">
+										
+				                	</div>
+									<div id="beforeBtnArea">	<%-- 영역왼쪽하단에 위치시키고 싶음 --%>
+										<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-                </div>
-                
                 <%-- 관람 인원 선택 파트 --%>
-                <div class="col-2.5 border selectPart">
-	                <h5>관람 인원 선택</h5>
-	                <hr>
-	                <div id="personType">
-	                	성인 &nbsp;&nbsp;&nbsp;&nbsp;<input type="number"> <br>
-	                	청소년 &nbsp;&nbsp;<input type="number"> <br> <%-- 만 7세 초과 ~ 만 18세 미만 --%>
-	                	경로/어린이 <input type="number"> <br> <%-- 만 65세 이상 --%>
-	                </div>
-	                <div id="seatType">
-	                	<button class="seat"></button> 예매가능 <br>
-	                	<button class="check"></button> 선택좌석 <br>
-	                	<button class="unable"></button> 예매완료 <br>
-	                	<button class="handi"></button> 장애인석
-	                </div>
-	                <hr>
-	                <button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button>
-                </div>
+<!--                 <div class="col-2.5 border selectPart"> -->
+<!-- 	                <h5>관람 인원 선택</h5> -->
+<!-- 	                <hr> -->
+<!-- 	                <div id="personType"> -->
+<!-- 	                	성인 &nbsp;&nbsp;&nbsp;&nbsp;<input type="number"> <br> -->
+<%-- 	                	청소년 &nbsp;&nbsp;<input type="number"> <br> 만 7세 초과 ~ 만 18세 미만 --%>
+<%-- 	                	경로/어린이 <input type="number"> <br> 만 65세 이상 --%>
+<!-- 	                </div> -->
+<!-- 	                <div id="seatType"> -->
+<!-- 	                	<button class="seat"></button> 예매가능 <br> -->
+<!-- 	                	<button class="check"></button> 선택좌석 <br> -->
+<!-- 	                	<button class="unable"></button> 예매완료 <br> -->
+<!-- 	                	<button class="handi"></button> 장애인석 -->
+<!-- 	                </div> -->
+<!-- 	                <hr> -->
+<!-- 	                <button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button> -->
+<!--                 </div> -->
+				</div>
             </div>
             
             <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
             <div class="row row2">
             	<%-- 선택한 영화 포스터와 영화명 노출 --%>
-                <div class="col-3">
+				<div class="col-3">
 					<h5>선택 정보</h5>
-			  		<img src="" alt="선택영화포스터" height="200px">
-			  		<span>영화명</span><br>
+					<div class="row p-0" id="movieInfo">
+						<div class="col-4 movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
+					  	<div class="col-8 movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
+					</div>
 				</div>
+				
 				<%-- 선택한 상영스케줄 노출 --%>
-                <div class="col-3">
-                <br>
-                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 --%>
-			  			<tr><td>극장 극장명</td></tr>
-			  			<tr><td>일시 yyyy.mm.dd(k) hh:jj</td></tr>
-			  			<tr><td>상영관 n관 m층</td></tr>
-			  		</table>
-                </div>
+				<div class="col-3">
+					<div id="theaterInfo" style="display: table;">
+						<span style="display: table-cell;">극장&nbsp;</span>
+						<span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
+					</div>
+					<div id="dateInfo" style="display: table;">
+						<span style="display: table-cell;">날짜&nbsp;</span>
+<%-- 						<span style="display: table-cell;"><b>${reservation.play_date }</b></span> --%>
+						
+						<span style="display: table-cell;"><b><fmt:parseDate  value="${reservation.play_start_time }" pattern="yyyy-MM-dd HH:mm"/> </b></span>
+<%-- 						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
+					</div>
+					<div id="roomInfo" style="display: table;">
+						<span style="display: table-cell;">상영관&nbsp;</span>
+						<span " class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+					</div>
+				</div>
                 <%-- 미선택 사항 노출 --%>
                 <div class="col-2">
                 	<h5>좌석 선택</h5>

@@ -3,10 +3,7 @@ package com.itwillbs.dongbaekcinema.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,6 @@ import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
-import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -321,6 +317,7 @@ public class AdminController {
 	
 		// 공지사항 글쓰기 등록을 위한 함수 호출
 		int insertCount = admin_service.registCs(csType, noticeInfo, files);
+
 		if(insertCount > 0) { //글쓰기 성공
 			
 			return "redirect:/admin_cs_notice"; // 공지사항으로 리다이렉트
@@ -977,6 +974,7 @@ public class AdminController {
 	
     
 }
+
 
 
 

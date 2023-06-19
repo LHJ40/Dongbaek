@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
+import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.mapper.ReservationMapper;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
@@ -66,5 +68,18 @@ public class ReservationService {
 		
 		return mapper.selectRoomList(theater_num);
 	}
+	
+	// 상영 정보 조회를 위해 getPlay() 정의
+	public ReservationVO getPlay(int play_num) {
+		System.out.println("ReservationService - getPlay()");
+		
+		return mapper.selectPlay(play_num);
+	}
 
+	// 좌석 사용 여부 조회를 위해 getOrderTicket() 정의
+	public List<OrderTicketVO> getOrderTicket(int play_num) {
+		System.out.println("ReservationService - getOrderTicket()");
+		
+		return mapper.selectOrderTicket(play_num);
+	}
 }

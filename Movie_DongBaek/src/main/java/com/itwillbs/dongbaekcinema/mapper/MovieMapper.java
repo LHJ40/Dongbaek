@@ -28,8 +28,14 @@ public interface MovieMapper {
 	
 	//-------------------------------------------
 	// 리뷰 정보 조회
-	ReviewVO selectReviewRating(int movie_num);
+	ReviewVO selectReview(int movie_num);
+	
+	// 리뷰 개수 정보 조회
+	ReviewVO selectReviewCounting(int movie_num);
 
+	// 리뷰 목록 조회
+	List<ReviewVO> selectReviewList(int movie_num);
+	
 	
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
 	//	List<MovieVO> selectMovieList();
@@ -39,4 +45,6 @@ public interface MovieMapper {
 
 	// 페이징처리 0616 정의효
 	int getCount();
+
+	
 }

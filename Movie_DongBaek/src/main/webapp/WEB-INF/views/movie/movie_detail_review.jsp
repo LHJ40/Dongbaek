@@ -41,13 +41,12 @@
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
- 
-  <article id="mainArticle">
-  <%--본문내용 --%>
+ <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header> 
+ <article id="mainArticle">
+ <%--본문내용 --%>
+ <div class="container">
 	<%--top 섹션 include --%>
 	<%@include file="movieDetail_top.jsp" %>
-		
 		  	
 	<%-- 2. 두번째 섹션 - 탭 --%>
 	<section id="tap">
@@ -55,194 +54,233 @@
 			 <div class="col">
 		  		<ul class="nav nav-tabs">
 					<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }">주요정보</a>
+				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link active" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰</a>
+				    	<a class="nav-link active" href="movie_detail_review?movie_num=${movie.movie_num }"> 리뷰 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }">포토</a>
+				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px">예고편/스틸컷</a>
 				  	</li>
 				</ul>
 			</div>
 		</div>
 	</section>
 
-	 <%-- 세번째 섹션 --%>
-		  	<section id="movie-end">
+	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
+	 <section id="review_content" style="margin: 80px">
+	 	<div class="row">
+     		${movie.movie_name_kr} 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
+         	<%-- 리뷰개수카운팅 전달필요 => movie_num(movie_name_kr)에 해당하는 review_num 카운팅--%>
+      	</div>
+      	<div class="row h6" id="review_count">
+            전체 리뷰 개수 : ${reviewCount.review_count}개
+      	</div>
+      	
+	    <%-- 리뷰컨텐츠 --%>
+	      <c:forEach var="review" items="${reviewList}">
+	         <div class="row" style="margin-top: 20px">
+	            <%-- 아이콘,아이디 --%>
+	            <div class="col sm-2">
+	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px">
+	               <p>${review.member_id} 님</p>
+	            </div>
+	            <%-- 평점 --%>
+	            <div class="col sm-2">
+	               <h4>평점</h4>
+	               <p> ${review.review_rating} 점</p>
+	            </div>
+	            <%-- 리뷰내용 --%>
+	            <div class="col sm-5">
+	               ${review.review_content}
+	            </div>
+	            <%-- 공감버튼,공감수? --%>
+	            <div class="col sm-3">
+	               <button><img src="${pageContext.request.contextPath }/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></button>
+	            </div>
+	         </div>
+	      </c:forEach>
 
-<%-- 			  		리뷰페이지 --%>
-		  	  <div class="p-3">
-		  		<div class="row">
-			  		<div class="h5" id="review_head">영화명에 대한 리뷰 NN개가 등록되어 있습니다!</div>
-		  		</div>
-		  		<br>
-		  		<div class="row h6" id="review_count">
-		  			전체 리뷰 개수 : NN개
-		  		</div>
-		  		<br>
-		  		<%-- 리뷰 본문 --%>
-		  		<div id="review01">
-			  		<div class="row">
-			  		<%-- 프로필 사진& 아이디 --%>
-					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
-					    <p class="row ">사용자 아이디</p>
-					  </div>
-					<%-- 평점 --%>
-					  <div class="col col-md-2">
-					    <p class="row h4 container-md">평점</p>
-					    <p class="row">
-							<i class="bi bi-star-fill"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
- 						  	<i class="bi bi-star"></i>	
- 						</p>
-					  </div>
-					<%-- 리뷰 --%>
-					  	<p class="col col-md-6 text-left">
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	</p>
-					<%-- 공감 --%>
-					  <div class="col col-md-2">
-					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div>
-					  	 <p class="row">공감수</p>
-					  </div>
-			  		</div>
-		  		</div>
-		  		<%-- 리뷰 본문 --%>
-		  		<div id="review02">
-			  		<div class="row">
-			  		<%-- 프로필 사진& 아이디 --%>
-					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
-					    <p class="row">사용자 아이디</p>
-					  </div>
-					<%-- 평점 --%>
-					  <div class="col col-md-2">
-					    <p class="row h4 container-md">평점</p>
-					    <p class="row">
-							<i class="bi bi-star-fill"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
- 						  	<i class="bi bi-star"></i>	
- 						</p>
-					  </div>
-					<%-- 리뷰 --%>
-					  	<p class="col col-md-6 text-left">
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	</p>
-					<%-- 공감 --%>
-					  <div class="col col-md-2">
-					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div>
-					  	 <p class="row">공감수</p>
-					  </div>
-			  		</div>
-		  		</div>
-		  		<%-- 리뷰 본문 --%>
-		  		<div id="review03">
-			  		<div class="row">
-			  		<%-- 프로필 사진& 아이디 --%>
-					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
-					    <p class="row">사용자 아이디</p>
-					  </div>				
-					<%-- 평점 --%>
-					  <div class="col col-md-2">
-					    <p class="row h4 container-md">평점</p>
-					    <p class="row">
-							<i class="bi bi-star-fill"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
- 						  	<i class="bi bi-star"></i>	
- 						</p>
-					  </div>
-					<%-- 리뷰 --%>
-					  	<p class="col col-md-6 text-left">
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	</p>
-					<%-- 공감 --%>
-					  <div class="col col-md-2">
-					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div>
-					  	 <p class="row">공감수</p>
-					  </div>
-			  		</div>
-		  		</div>
-		  		<%-- 리뷰 본문 --%>
-		  		<div id="review04">
-			  		<div class="row">
-			  		<%-- 프로필 사진& 아이디 --%>
-					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
-					    <p class="row">사용자 아이디</p>
-					  </div>
-					<%-- 평점 --%>
-					  <div class="col col-md-2">
-					    <p class="row h4 container-md">평점</p>
-					    <p class="row">
-							<i class="bi bi-star-fill"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
- 						  	<i class="bi bi-star"></i>	
- 						</p>
-					  </div>
-					<%-- 리뷰 --%>
-					  	<p class="col col-md-6 text-left">
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	</p>
-					<%-- 공감 --%>
-					  <div class="col col-md-2">
-					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div>
-					  	 <p class="row">공감수</p>
-					  </div>
-			  		</div>
-		  		</div>
-		  		<%-- 리뷰 본문 --%>
-		  		<div id="review05">
-			  		<div class="row">
-			  		<%-- 프로필 사진& 아이디 --%>
-					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
-					    <p class="row">사용자 아이디</p>
-					  </div>
-					<%-- 평점 --%>
-					  <div class="col col-md-2">
-					    <p class="row h4 container-md">평점</p>
-					    <p class="row">
-							<i class="bi bi-star-fill"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
-						  	<i class="bi bi-star"></i>
- 						  	<i class="bi bi-star"></i>	
- 						</p>
-					  </div>
-					<%-- 리뷰 --%>
-					  	<p class="col col-md-6 text-left">
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	리뷰 내용<br>
-					  	</p>
-					<%-- 공감 --%>
-					  <div class="col col-md-2">
-					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div>
-					  	 <p class="row">공감수</p>
-					  </div>
-			  		</div>
-		  		</div>
+      </section>
+      
+      
+      
+<!-- 		 <div class="p-3"> -->
+<!-- 		  		<div class="row"> -->
+<!-- 			  		<div class="h5" id="review_head">영화명에 대한 리뷰 NN개가 등록되어 있습니다!</div> -->
+<!-- 		  		</div> -->
+<!-- 		  		<br> -->
+<!-- 		  		<div class="row h6" id="review_count"> -->
+<!-- 		  			전체 리뷰 개수 : NN개 -->
+<!-- 		  		</div> -->
+<!-- 		  		<br> -->
+<%-- 		  		리뷰 본문 --%>
+<!-- 		  		<div id="review01"> -->
+<!-- 			  		<div class="row"> -->
+<%-- 			  		프로필 사진& 아이디 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
+<!-- 					    <p class="row ">사용자 아이디</p> -->
+<!-- 					  </div> -->
+<%-- 					평점 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <p class="row h4 container-md">평점</p> -->
+<!-- 					    <p class="row"> -->
+<!-- 							<i class="bi bi-star-fill"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!--  						  	<i class="bi bi-star"></i>	 -->
+<!--  						</p> -->
+<!-- 					  </div> -->
+<%-- 					리뷰 --%>
+<!-- 					  	<p class="col col-md-6 text-left"> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	</p> -->
+<%-- 					공감 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
+<!-- 					  	 <p class="row">공감수</p> -->
+<!-- 					  </div> -->
+<!-- 			  		</div> -->
+<!-- 		  		</div> -->
+<%-- 		  		리뷰 본문 --%>
+<!-- 		  		<div id="review02"> -->
+<!-- 			  		<div class="row"> -->
+<%-- 			  		프로필 사진& 아이디 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<%-- 					    <div class="row container-md"><img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> --%>
+<!-- 					    <p class="row">사용자 아이디</p> -->
+<!-- 					  </div> -->
+<%-- 					평점 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <p class="row h4 container-md">평점</p> -->
+<!-- 					    <p class="row"> -->
+<!-- 							<i class="bi bi-star-fill"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!--  						  	<i class="bi bi-star"></i>	 -->
+<!--  						</p> -->
+<!-- 					  </div> -->
+<%-- 					리뷰 --%>
+<!-- 					  	<p class="col col-md-6 text-left"> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	</p> -->
+<%-- 					공감 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
+<!-- 					  	 <p class="row">공감수</p> -->
+<!-- 					  </div> -->
+<!-- 			  		</div> -->
+<!-- 		  		</div> -->
+<%-- 		  		리뷰 본문 --%>
+<!-- 		  		<div id="review03"> -->
+<!-- 			  		<div class="row"> -->
+<%-- 			  		프로필 사진& 아이디 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
+<!-- 					    <p class="row">사용자 아이디</p> -->
+<!-- 					  </div>				 -->
+<%-- 					평점 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <p class="row h4 container-md">평점</p> -->
+<!-- 					    <p class="row"> -->
+<!-- 							<i class="bi bi-star-fill"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!--  						  	<i class="bi bi-star"></i>	 -->
+<!--  						</p> -->
+<!-- 					  </div> -->
+<%-- 					리뷰 --%>
+<!-- 					  	<p class="col col-md-6 text-left"> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	</p> -->
+<%-- 					공감 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
+<!-- 					  	 <p class="row">공감수</p> -->
+<!-- 					  </div> -->
+<!-- 			  		</div> -->
+<!-- 		  		</div> -->
+<%-- 		  		리뷰 본문 --%>
+<!-- 		  		<div id="review04"> -->
+<!-- 			  		<div class="row"> -->
+<%-- 			  		프로필 사진& 아이디 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
+<!-- 					    <p class="row">사용자 아이디</p> -->
+<!-- 					  </div> -->
+<%-- 					평점 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <p class="row h4 container-md">평점</p> -->
+<!-- 					    <p class="row"> -->
+<!-- 							<i class="bi bi-star-fill"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!--  						  	<i class="bi bi-star"></i>	 -->
+<!--  						</p> -->
+<!-- 					  </div> -->
+<%-- 					리뷰 --%>
+<!-- 					  	<p class="col col-md-6 text-left"> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	</p> -->
+<%-- 					공감 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
+<!-- 					  	 <p class="row">공감수</p> -->
+<!-- 					  </div> -->
+<!-- 			  		</div> -->
+<!-- 		  		</div> -->
+<%-- 		  		리뷰 본문 --%>
+<!-- 		  		<div id="review05"> -->
+<!-- 			  		<div class="row"> -->
+<%-- 			  		프로필 사진& 아이디 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
+<!-- 					    <p class="row">사용자 아이디</p> -->
+<!-- 					  </div> -->
+<%-- 					평점 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					    <p class="row h4 container-md">평점</p> -->
+<!-- 					    <p class="row"> -->
+<!-- 							<i class="bi bi-star-fill"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!-- 						  	<i class="bi bi-star"></i> -->
+<!--  						  	<i class="bi bi-star"></i>	 -->
+<!--  						</p> -->
+<!-- 					  </div> -->
+<%-- 					리뷰 --%>
+<!-- 					  	<p class="col col-md-6 text-left"> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	리뷰 내용<br> -->
+<!-- 					  	</p> -->
+<%-- 					공감 --%>
+<!-- 					  <div class="col col-md-2"> -->
+<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
+<!-- 					  	 <p class="row">공감수</p> -->
+<!-- 					  </div> -->
+<!-- 			  		</div> -->
+<!-- 		  		</div> -->
 
-		  	  <%-- 페이징 --%>
+
+
+
+
+<!-- 		  	  페이징 -->
+			<section id="paging">
 		  	   <nav aria-label="...">
 				  <ul class="pagination pagination-md justify-content-center">
 				    <li class="page-item disabled">
@@ -260,17 +298,16 @@
 				</nav>
 		  	  
 		  	  </div>
-		  	  
-		  	  
-		  	  
-		  	  
-		  	</section><%-- 세번째 섹션 끝--%>
-		
-			
-		</div> <%-- 컨테이너 끝 --%>
-  
-  </article>
-  
+		  	</section><%-- 세번째 섹션 끝--%>			
+		  	
+		  	
+ </div>
+ </article>
+ <%-- 컨테이너 끝 --%> 
+	 
+	 
+	 
+	 
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
+import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
@@ -42,7 +44,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일 기준 10일이내에 상영하는 영화목록을 예매율순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
 		
 		return "reservation/reservation_main";
@@ -60,7 +62,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일 기준 10일이내에 상영하는 영화목록을 예매율순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
 		
 		return movieList;
@@ -78,7 +80,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일에 상영중인 영화목록을 가나다순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListAscMovieName();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 
 		model.addAttribute("movieList", movieList);
 		
@@ -127,6 +129,42 @@ public class ReservationController {
 		return ja.toString();
 	}
 
+	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
+	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
+	@RequestMapping(value = "reservation_seat", method= {RequestMethod.GET, RequestMethod.POST})
+	public String reservation_seat(@RequestParam int play_num, Model model) {
+		System.out.println("ReservationController - Play()");
+		System.out.println(play_num);
+		
+		// ReservationService - getPlay() 메서드를 호출하여
+		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
+		// => 파라미터 : play_num  리턴타입 : PlayVO(play)
+		ReservationVO reservation = service.getPlay(play_num);
+		model.addAttribute("reservation", reservation);
+		System.out.println(reservation);
+		
+		return "reservation/reservation_seat";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "SelectPeople", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
+	public String SelectPeople(@RequestParam String play_num, Model model) {
+		System.out.println("ReservationController - SelectPeople()");
+		System.out.println(play_num);
+		
+		// ReservationService - getOrderTicket() 메서드를 호출하여
+		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
+		// => 파라미터 : play_num  리턴타입 : List<OrderTicketVO>(orderticketList)
+		int playNum = Integer.parseInt(play_num);
+		List<OrderTicketVO> orderTicketList = service.getOrderTicket(playNum);
+		model.addAttribute("orderTicketList", orderTicketList);
+		System.out.println(orderTicketList);
+		
+		JSONArray ja = new JSONArray(orderTicketList);
+		System.out.println(ja);
+		return ja.toString();
+	}
+	
 	@GetMapping("reservation_ing")
 	public String reservation_ing() {
 		return "reservation/reservation_ing";
@@ -138,11 +176,6 @@ public class ReservationController {
 		return "reservation/reservation_check";
 	}
 	
-	@GetMapping("reservation_seat")
-	public String reservation_seat() {
-		
-		return "reservation/reservation_seat";
-	}
 	@GetMapping("reservation_snack")
 	public String reservation_snack(@RequestParam Map<String, String> map, Model model) {
 		
