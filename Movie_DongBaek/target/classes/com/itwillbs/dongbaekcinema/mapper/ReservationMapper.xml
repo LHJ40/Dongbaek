@@ -119,4 +119,35 @@
 		WHERE theater_num = #{theater_num}
 	</select>
 	
+	<!-- reservation_seat.jsp 페이지 포워딩 후 화면에 출력할 정보를 가져오기 위함 -->
+	<select id="selectPlay" resultType="com.itwillbs.dongbaekcinema.voNew.ReservationVO">
+		SELECT p.play_num
+				, p.movie_num
+				, p.theater_num
+				, p.play_date
+				, p.play_turn
+				, p.room_num
+				, p.play_start_time
+				, p.play_end_time
+				, p.play_time_type
+				, m.movie_name_kr
+				, m.movie_poster
+				, t.theater_name 
+				, r.room_name
+		FROM PLAYS p
+			JOIN THEATERS t 
+				ON t.theater_num = p.theater_num
+			JOIN MOVIES m 
+				ON m.movie_num = p.movie_num
+			JOIN ROOMS r
+				ON r.room_num = p.room_num
+		WHERE p.play_num = #{play_num}
+	</select>
+	
+	<!-- 좌석 사용 여부 조회를 위한 오더티켓 조회 -->
+	<select id="selectOrderTicket" resultType="com.itwillbs.dongbaekcinema.vo.OrderTicketVO">
+		SELECT * FROM ORDER_TICKETS
+		WHERE play_num = #{play_num}
+	</select>
+	
 </mapper>

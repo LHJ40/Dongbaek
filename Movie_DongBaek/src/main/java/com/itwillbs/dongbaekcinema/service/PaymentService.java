@@ -21,14 +21,12 @@ public class PaymentService {
 	// 0616 페이먼트 상세 여러개 테스트중 0616정의효
 //	-----------------원본------------------ 0618 원본이 주석풀려있음
 //	public PaymentVO getPayment(int order_num) {
-<<<<<<< HEAD
-=======
+
 //		return mapper.selectPayment(order_num);
 //	}
 	
 	//0618정의효 - 밑에꺼 수정하거나 삭제해서 List값 다시확인
 //	public List<PaymentVO> getPayment(int order_num) {
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 //		return mapper.selectPayment(order_num);
 //	}
 	
