@@ -67,7 +67,10 @@
 		margin: 10px 1em;
 		padding: 5px;
 	}
-	
+	#pageBtn-group {
+		text-align: center;
+		margin: 1em auto;
+	}
 	
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
@@ -76,38 +79,48 @@
 	$(function() {
 		// 화면 처음 로딩 시 전체 질문, 답변 들고오기
 		let cs_type = '전체';
+		let pageNum = 1;
 		$.ajax({
 				type: 'GET',
 				url: '<c:url value="/faq_data"/>',
 				data: {'cs_type': cs_type},
 				dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
 				success: function(result) {	// 요청 성공 시
-					// 1. CsVO 객체 추출(result)
-					// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
-					// cs_type, cs_subject, cs_content 추출 및 출력
-					let i = 0;
+					// 눌린 버튼 비활성화, 아닌 버튼 활성화
+// 					$(".btn-group>button").attr("disabled", false);
+// 					$(this).attr("disabled", true);
 					
-					$("#faqAll").removeClass(".btn-outline-danger");
-					$("#faqAll").addClass(".btn-danger");
+					// 총 몇 건인지 안내
+					$("#totalCnt").text(result.length);
 					
-					for(let faq of result) {
-						i++;
+					let start = pageNum * 5 - 4;
+					let limit = pageNum * 5;
+					
+					for(let i = 0; i <= (limit - start); i++) {
+// 						console.log(limit);
 						$("#faqContents").append(
 								"<div class='qPart'>"
-								+ (i < 6 ? i + ". " : "")
-								+ "[" + faq.cs_type + "] <br>" + " Q. " + faq.cs_subject + "</label></div>"
+								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
 								);
 						$("#faqContents").append(
-								"<div class='target' id='target" + i + "' > A. " + faq.cs_content + "</div>"
+								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 								);
 					}
-					$("#totalCnt").text(i);	// 총 몇 건인지 안내
-// 					isDataAppended = true; // 데이터 추가 완료
+					
+					// 페이지(버튼) 갯수
+					let pageCount = Math.ceil(result.length / 5);
+					console.log(pageCount);
+					
+					for(let i = 1; i <= pageCount; i++) {
+// 						console.log(i);
+						$("#pageBtn-group").append(
+								"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+								);
+					}
 				},
 				error: function() {
 					alert('에러');
 				}
-				
 			});
 		
 		// 카테고리별 질문 & 답변 들고오기
@@ -117,39 +130,62 @@
 			let cs_type = $(this).val();
 			let pageNum = 1;
 			if(!isDataAppended) {	// 추가되지 않았을 경우에만 실행
-// 				console.log(cs_type);
+				console.log(cs_type);
 				
 				$.ajax({
 					type: 'GET',
 					url: '<c:url value="/faq_data"/>',
-					data: {'cs_type': cs_type, 'pageNum': pageNum },
+					data: {'cs_type': cs_type},
 					dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
 					success: function(result) {	// 요청 성공 시
+						
+						// 눌린 버튼 비활성화, 아닌 버튼 활성화
+						$(".btn-group>button").attr("disabled", false);
+						$("button[value='" + cs_type +"']").attr("disabled", true);
+						
+						$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
+						
+						// 페이징 처리를 위한 변수 정의
+						let start = pageNum * 5 - 4;
+						let limit = pageNum * 5;
+						
+						if(result.length <= limit){
+							limit = result.length;
+						}
+					
 						// 1. CsVO 객체 추출(result)
 						// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
 						// cs_type, cs_subject, cs_content 추출 및 출력
-						let i = 0;
-					
 						// 카테고리 버튼 클래스를 바꿔주기(클릭된 버튼 색채우기)
 						$(this).removeClass(".btn-outline-danger");
 						$(this).addClass(".btn-danger");
 // 						console.log("받아오기 성공!");
 
 						$("#faqContents").empty();
-						for(let faq of result) {
-							i++;
+						for(let i = (start - 1); i < limit; i++) {
+// 							console.log(limit);
 							$("#faqContents").append(
-									"<div class='qPart'><input type='checkbox' class='checkbox' id='checkbox" + i + "' data-target='target" + i + "'>" 
-									+ "<label id='checkbox" + i + "'>"
-									+ (i < 6 ? i + ". " : "")
-									+ "[" + faq.cs_type + "] <br>" + " Q. " + faq.cs_subject + "</label></div>"
+									"<div class='qPart'>"
+									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
 									);
 							$("#faqContents").append(
-									"<div class='target' id='target" + i + "' > A. " + faq.cs_content + "</div>"
+									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 									);
 						}
-						$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
-// 						isDataAppended = true; // 데이터 추가 완료
+						
+						// 전 페이지 버튼들 삭제
+						$("#pageBtn-group").empty();
+						// 페이지(버튼) 갯수
+						let pageCount = Math.ceil(result.length / 5);
+// 						console.log(pageCount);
+						
+						for(let i = 1; i <= pageCount; i++) {
+							console.log(i);
+							$("#pageBtn-group").append(
+									"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+									);
+						}
+						
 					},
 					error: function() {
 						alert('에러');
@@ -160,6 +196,14 @@
 			
 			}
 		});
+		
+
+		
+		
+		
+		
+		
+		
 		
 	});
 	
@@ -209,7 +253,7 @@
 		</div>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
-		  <button type="button" id="faqAll" value="전체" class="btn btn-outline-danger">전체</button>
+		  <button type="button" id="faqAll" value="전체" class="btn btn-outline-danger" disabled>전체</button>
 		  <button type="button" id="faqReserv" value="예매" class="btn btn-outline-danger">예매</button>
 		  <button type="button" id="faqMemship" value="멤버십" class="btn btn-outline-danger">멤버십</button>
 		  <button type="button" id="faqPayment" value="결제수단" class="btn btn-outline-danger">결제수단</button>
@@ -234,8 +278,78 @@
 			</div>
    		<div id="faqContents">
    		</div>
-
-       
+   		<hr>
+		<div id="pageBtn-group">
+		</div>
+	<script type="text/javascript">
+		
+//	 		$("#pageBtn-group").append(
+//				"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+//				);
+		$(document).on("click", ".pageBtn", function() {
+			// 페이지 버튼 클릭 시 값 뿌리기
+// 			$(".pageBtn").click(function() {
+				// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
+				console.log("페이지버튼클릭");
+				let cs_type = $("button[disabled]").val();
+				let pageNum = $(this).text();
+				
+				console.log(cs_type);
+				console.log(pageNum);
+				
+				$.ajax({
+					type: 'GET',
+					url: '<c:url value="/faq_data"/>',
+					data: {'cs_type': cs_type},
+					dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
+					success: function(result) {	// 요청 성공 시
+						
+						// 눌린 버튼 비활성화, 아닌 버튼 활성화
+						$(".btn-group>button").attr("disabled", false);
+						$("button[value='" + cs_type +"']").attr("disabled", true);
+						
+						$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
+						
+						// 페이징 처리를 위한 변수 정의
+						let start = pageNum * 5 - 4;
+						let limit = pageNum * 5;
+						
+						if(result.length <= limit){
+							limit = result.length;
+						}
+					
+						// 1. CsVO 객체 추출(result)
+						// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
+						// cs_type, cs_subject, cs_content 추출 및 출력
+						// 카테고리 버튼 클래스를 바꿔주기(클릭된 버튼 색채우기)
+						console.log("받아오기 성공!");
+		
+						$("#faqContents").empty();
+						for(let i = (start - 1); i < limit; i++) {
+							console.log(limit);
+							$("#faqContents").append(
+									"<div class='qPart'>"
+									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+									);
+							$("#faqContents").append(
+									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+									);
+						}
+						
+						
+					},
+					error: function() {
+						alert('에러');
+					}
+					
+				});
+				
+				
+			});
+	
+		
+		
+	</script>
 		
 
   </div>
