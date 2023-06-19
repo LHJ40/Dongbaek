@@ -101,6 +101,7 @@ article {
 <script type="text/javascript">
 	
  	$(function() {
+ 		
  		$("#check_module").click(function () {
  	        var IMP = window.IMP; // 생략가능
  	        IMP.init('imp85027310'); 
@@ -136,7 +137,7 @@ article {
  	            amount: 1000, 
  	            //가격 
  	            buyer_email: 'willbeok5.1@gmail.com',
- 	            buyer_name: 'user1',
+ 	            buyer_name: '${sessionScope.member_id}',
  	            buyer_tel: '010-1234-5678',
  	            buyer_addr: '부산광역시 부산진구 동천로 ',
  	            buyer_postcode: '123-456',
@@ -151,10 +152,10 @@ article {
  	            if (rsp.success) {
  	                var msg = '결제가 완료되었습니다.';
  	              	 location.href='reservation_check'
-//  	                msg += '고유ID : ' + rsp.imp_uid;
-//  	                msg += '상점 거래ID : ' + rsp.merchant_uid;
-//  	                msg += '결제 금액 : ' + rsp.paid_amount;
-//  	                msg += '카드 승인번호 : ' + rsp.apply_num;
+ 	                msg += '고유ID : ' + rsp.imp_uid;
+ 	                msg += '상점 거래ID : ' + rsp.merchant_uid;
+ 	                msg += '결제 금액 : ' + rsp.paid_amount;
+ 	                msg += '카드 승인번호 : ' + rsp.apply_num;
  	            } else {
  	                var msg = '결제에 실패하였습니다.';
  	                msg += '에러내용 : ' + rsp.error_msg;

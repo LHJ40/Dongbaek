@@ -3,6 +3,8 @@ package com.itwillbs.dongbaekcinema.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -177,8 +179,16 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_snack")
-	public String reservation_snack(@RequestParam Map<String, String> map, Model model) {
-		
+	public String reservation_snack(@RequestParam Map<String, String> map,HttpServletRequest request, Model model) {
+		String beforePage =(String)request.getHeader("REFERER");
+		//잘못된 접근처리
+		if(beforePage==null) {
+			model.addAttribute("msg", "잘못된 접근");
+			model.addAttribute("url", "./");
+			
+			return "fail_location";
+		}
+		System.out.println(beforePage);
 		List<SnackVO> snackList = service2.getSnackList();
 		System.out.println(snackList);
 		model.addAttribute("snackList", snackList);
