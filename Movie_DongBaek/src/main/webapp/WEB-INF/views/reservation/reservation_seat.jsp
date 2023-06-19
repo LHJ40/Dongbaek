@@ -108,30 +108,40 @@
 </style>
 <script type="text/javascript">
 	
-	$(function() {
-		$(".seatRow > button").on("click", function() {
-// 			$(this).removeClass(".seat");
-// 			$(this).addClass(".check");
-			$(this).css("background-color", "blue");
-		});
-	});
+// 	$(function() {
+// 		$(".seatRow > button").on("click", function() {
+// // 			$(this).removeClass(".seat");
+// // 			$(this).addClass(".check");
+// 			$(this).css("background-color", "blue");
+// 		});
+// 	});
 	
-	$(function(){
+	$(function(){	// 페이지 로딩 시 좌석 출력
 		let res = "";
 		let row = ["A", "B", "C", "D", "E", "F"];
 		for(let i = 0; i < 6; i++){
 			for(let j = 1; j <= 10; j++){
+// 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " onclick='seatSelect(this, " + (row[i] + j) + ")'" + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 			}
 			res += "<br>";
 		}
-		$("#seat-part").html(res);
+		$("#seat-part .seatArea").html(res);
 	});
 	
+// 	function seatSelect(seat){
+// 		let seatName = $(".seatArea button").attr("data-seat-name")
+// 		let selectedSeat = $(seat).partents("div").find(seatName == seat);
+// 		$("#seatInfo table").append(selectedSeat);
+// 	}
+	
 	$(function() {
+		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
+		// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
+		// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
 		$("#selectPeople button").on("click", function() {
 			$("#seat-part").removeClass("disabled");
-			$("button").removeClass("selected");
+			$("#selectPeople button").removeClass("selected");
 			$(this).addClass("selected");	
 			
 			let playNum = $(".roomInfo2").attr("data-play-num");
@@ -144,9 +154,11 @@
 			.done(function(orderTicketList) {
 				for(let i = 0; i <orderTicketList.length; i++) {
 					
-					for(let j = 0; j < 60; j++){							
+					for(let j = 0; j < 60; j++){					
 						let seatNum = $("#seat-part button").eq(j).attr("data-seat-num");
 						
+						// 예약된 좌석 정보와 상영관의 좌석 번호를 비교하여 
+						// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
 						if(orderTicketList[i].seat_num == seatNum){
 							$("#seat-part button").eq(j).addClass("disabled")
 						}
@@ -158,26 +170,47 @@
 				alert("요청 실패!");
 			});
 		});
+		
+		// [관람인원] 선택 영역에 변화가 생길 때마다
+// 		$("#selectPeople .#adult button").on("click", function() {
+			
+// 		});
+		
+		// [좌석] 선택 시 ======================================================================================================================================================	
+		$("#seat-part button").on("click", function() {
+			let countAdult = $("#selectPeople #adult button.result").text();
+			let countTeeager = $("#selectPeople #teenager button.result").text();
+			let countChild = $("#selectPeople #child button.result").text();
+			let countHandi = $("#selectPeople #handi button.result").text();
+			let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
+// 			alert(countPeople);
+
+			if(countPeople > 1){
+				alert("인원 선택은 총 1명까지 가능합니다");	
+			}else if(countPeople == 0){
+				alert("관람인원을 선택해 주세요");
+				$("#seat-part button").removeClass("selected");
+				$("#seat-part button").addClass("disabled");
+				$("#selectPeople button").on("click", function() {
+					$("#seat-part button").removeClass("disabled");				
+				});
+			}else{
+				$("#seat-part button").removeClass("selected");	
+				$(this).addClass("selected");
+				let selectedSeat = $("#seat-part button.selected").attr("data-seat-name");
+				$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
+// 				$("#seatInfo .seat_name").append(selectedSeat);	
+				
+				let totalPrice = Number(countAdult) * 14000 + Number(countTeeager) * 10000 + Number(countChild) * 7000 + Number(countHandi) * 5000
+				$("#paymentInfo .totalPrice").html(totalPrice);
+				
+				
+			}
+		});
+		
+		
 	});
 		
-// 		$.ajax({
-// 			type : "get", 
-// 			url : "SelectTicketType", 
-// 			dataType : "json", 
-// 		})
-// 		.done(function(movie) {
-// 			let res = "<ul>";
-// 			for(let i = 0; i < movie.length; i++) {
-// 				res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
-// 				res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr + ">" + movie[i].movie_name_kr + "</span></a></li>"
-// 			}
-// 			res += "</ul>";
-			
-// 			$("#selectMovie").html(res);
-// 		})
-// 		.fail(function() { // 요청 실패 시
-// 			alert("요청 실패!");
-// 		});
 	
 </script>
 </head>
@@ -185,7 +218,7 @@
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
-  <article id="mainArticle">
+<article id="mainArticle">
   <%--본문내용 --%>
  		<h2>영화 예매</h2>
 		<div class="container-fluid" >
@@ -206,53 +239,117 @@
 		                <div class="col-12 border">
 		            		<div class="row mt-3">
 		            			<div class="col-12" id="selectPeople">
-									<div class="row mt-1">
-										<label for="adult" class="col-2 col-form-label">성인</label>
-			            				<div class="col-8 btn-toolbar" id="adult" role="toolbar" aria-label="Toolbar with button groups">
-										  <div class="btn-group me-2" role="group" aria-label="First group">
-										    <button type="button" class="btn btn-secondary">0</button>
-										    <button type="button" class="btn btn-secondary">1</button>
-										    <button type="button" class="btn btn-secondary">2</button>
-										    <button type="button" class="btn btn-secondary">3</button>
-										    <button type="button" class="btn btn-secondary">4</button>
-										    <button type="button" class="btn btn-secondary">5</button>
-										    <button type="button" class="btn btn-secondary">6</button>
-										    <button type="button" class="btn btn-secondary">7</button>
-										    <button type="button" class="btn btn-secondary">8</button>
-										  </div>
+									<div class="row">
+										<div class="col-2"  id="adult">
+											<span>성인</span>
+											<div>
+												<button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
+											</div>
 										</div>
-									</div>
-									<div class="row m-1">
-										<label for="teenager" class="col-2 col-form-label">청소년</label>
-			            				<div class="col-8 btn-toolbar" id="teenager" role="toolbar" aria-label="Toolbar with button groups">
-										  <div class="btn-group me-2" role="group" aria-label="First group">
-										    <button type="button" class="btn btn-secondary">0</button>
-										    <button type="button" class="btn btn-secondary ">1</button>
-										    <button type="button" class="btn btn-secondary">2</button>
-										    <button type="button" class="btn btn-secondary">3</button>
-										    <button type="button" class="btn btn-secondary">4</button>
-										    <button type="button" class="btn btn-secondary">5</button>
-										    <button type="button" class="btn btn-secondary">6</button>
-										    <button type="button" class="btn btn-secondary">7</button>
-										    <button type="button" class="btn btn-secondary">8</button>
-										  </div>
+										<div class="col-2"  id="teenager">
+												<span>청소년</span><div><button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button></div>
 										</div>
-									</div>
-									<div class="row m-1">
-										<label for="child" class="col-2 col-form-label">우대</label>
-			            				<div class="col-8 btn-toolbar" id="child" role="toolbar" aria-label="Toolbar with button groups">
-										  <div class="btn-group me-2" role="group" aria-label="First group">
-										    <button type="button" class="btn btn-secondary">0</button>
-										    <button type="button" class="btn btn-secondary">1</button>
-										    <button type="button" class="btn btn-secondary">2</button>
-										    <button type="button" class="btn btn-secondary">3</button>
-										    <button type="button" class="btn btn-secondary">4</button>
-										    <button type="button" class="btn btn-secondary">5</button>
-										    <button type="button" class="btn btn-secondary">6</button>
-										    <button type="button" class="btn btn-secondary">7</button>
-										    <button type="button" class="btn btn-secondary">8</button>
-										  </div>
+										<div class="col-2"  id="child">
+												<span>우대</span><div><button class="down" onclick="childDown()"> - </button><button class="result">0</button><button class="up" onclick="childUp()"> + </button></div>
 										</div>
+										<div class="col-2"  id="handi">
+												<span>장애인</span><div><button class="down" onclick="handiDown()"> - </button><button class="result">0</button><button class="up" onclick="handiUp()"> + </button></div>
+										</div>
+										<script type="text/javascript">
+											let adultResult = $("#selectPeople #adult button.result").text();
+											let adultCount = Number(adultResult);
+											function adultDown() {
+												if(adultCount <= 0){
+													$("#selectPeople #adult button.down").addClass("disabled");
+												}else {
+													adultCount = adultCount - 1;
+													$("#selectPeople #adult button.up").removeClass("disabled");
+													$("#selectPeople #adult button.result").html(adultCount);													
+												}
+											}	
+											
+											function adultUp() {
+												if(adultCount >= 1){
+													$("#selectPeople #adult button.up").addClass("disabled");
+												}else {
+													adultCount = adultCount + 1;
+													$("#selectPeople #adult button.down").removeClass("disabled");
+													$("#selectPeople #adult button.result").html(adultCount);													
+												}
+											}	
+											
+											// ------------------------------------------------------------------------------
+											let teenagerResult = $("#selectPeople #teenager button.result").text();
+											let teenagerCount = Number(teenagerResult);
+											function teenagerDown() {
+												if(teenagerCount <= 0){
+													$("#selectPeople #teenager button.down").addClass("disabled");
+												}else {
+													teenagerCount = teenagerCount - 1;
+													$("#selectPeople #teenager button.up").removeClass("disabled");
+													$("#selectPeople #teenager button.result").html(teenagerCount);													
+												}
+											}	
+											
+											function teenagerUp() {
+												if(teenagerCount >= 1){
+													$("#selectPeople #teenager button.up").addClass("disabled");
+												}else {
+													teenagerCount = teenagerCount + 1;
+													$("#selectPeople #teenager button.down").removeClass("disabled");
+													$("#selectPeople #teenager button.result").html(teenagerCount);													
+												}
+											}	
+																						
+											// ------------------------------------------------------------------------------
+											let childResult = $("#selectPeople #child button.result").text();
+											let childCount = Number(childResult);
+											function childDown() {
+												if(childCount <= 0){
+													$("#selectPeople #child button.down").addClass("disabled");
+												}else {
+													childCount = childCount - 1;
+													$("#selectPeople #child button.up").removeClass("disabled");
+													$("#selectPeople #child button.result").html(childCount);													
+												}
+											}	
+											
+											function childUp() {
+												if(childCount >= 1){
+													$("#selectPeople #child button.up").addClass("disabled");
+												}else {
+													childCount = childCount + 1;
+													$("#selectPeople #child button.down").removeClass("disabled");
+													$("#selectPeople #child button.result").html(childCount);													
+												}
+											}	
+											
+											// ------------------------------------------------------------------------------
+											let handiResult = $("#selectPeople #handi button.result").text();
+											let handiCount = Number(handiResult);
+											function handiDown() {
+												if(handiCount <= 0){
+													$("#selectPeople #handi button.down").addClass("disabled");
+												}else {
+													handiCount = handiCount - 1;
+													$("#selectPeople #handi button.up").removeClass("disabled");
+													$("#selectPeople #handi button.result").html(handiCount);													
+												}
+											}	
+											
+											function handiUp() {
+												if(handiCount >= 1){
+													$("#selectPeople #handi button.up").addClass("disabled");
+												}else {
+													handiCount = handiCount + 1;
+													$("#selectPeople #handi button.down").removeClass("disabled");
+													$("#selectPeople #handi button.result").html(handiCount);													
+												}
+											}	
+											
+											
+											// ------------------------------------------------------------------------------
+										</script>
 									</div>
 								</div>
 							</div>
@@ -311,23 +408,26 @@
 					</div>
 					<div id="dateInfo" style="display: table;">
 						<span style="display: table-cell;">날짜&nbsp;</span>
-						<span style="display: table-cell;"><b>${reservation.play_date }</b></span>
-<%-- 						<span style="display: table-cell;"><b><fmt:parseDate  value="${reservation.play_start_time }" pattern="yyyy-MM-dd HH:mm"/> </b></span> --%>
-						<span style="display: table-cell;"><b>( ${reservation.play_start_time } )</b></span>
+<%-- 						<span style="display: table-cell;"><b>${reservation.play_date }</b></span> --%>
+						
+						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
+<%-- 						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
 					</div>
 					<div id="roomInfo" style="display: table;">
 						<span style="display: table-cell;">상영관&nbsp;</span>
-						<span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+						<span " class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
 					</div>
 				</div>
+				
                 <%-- 미선택 사항 노출 --%>
                 <div class="col-2">
-                	<h5>좌석 선택</h5>
-                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>좌석명 (일반석)</td></tr>
-			  			<tr><td>좌석번호<br> (H8, H10)</td></tr>
-			  		</table>
-                </div>
+					<h5>좌석 선택</h5>
+					<div id="seatInfo">
+						<div>좌석명(일반석)</div>
+					  	<div class="seat_name"><b></b></div>
+					</div>
+				</div>
+				
                 <%-- 미선택 사항(결제) 노출 --%>
                 <div class="col-2.5">
                 	<h5>결제</h5>
@@ -335,6 +435,11 @@
 			  			<tr><td>일반 (10,000 x 2)</td></tr>
 			  			<tr><td>총 금액 (20,000)</td></tr>
 			  		</table>
+			  		<h5>결제</h5>
+					<div id="paymentInfo">
+						<div>일반</div>
+					  	<div class="totalPrice"><b></b></div>
+					</div>
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
@@ -344,7 +449,6 @@
         </div>
   
   </article>
-  
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
