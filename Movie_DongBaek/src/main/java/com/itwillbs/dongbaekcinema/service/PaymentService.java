@@ -20,14 +20,14 @@ public class PaymentService {
 	// 결제 상세 조회를 위한 메서드(id로 구분)
 	// 0616 페이먼트 상세 여러개 테스트중 0616정의효
 //	-----------------원본------------------ 0618 원본이 주석풀려있음
-	public PaymentVO getPayment(int order_num) {
-		return mapper.selectPayment(order_num);
-	}
-	
-	//0618정의효 - 밑에꺼 수정하거나 삭제해서 List값 다시확인
-//	public List<PaymentVO> getPayment(int order_num) {
+//	public PaymentVO getPayment(int order_num) {
 //		return mapper.selectPayment(order_num);
 //	}
+	
+	//0618정의효 - 밑에꺼 수정하거나 삭제해서 List값 다시확인
+	public List<PaymentVO> getPayment(int order_num) {
+		return mapper.selectPayment(order_num);
+	}
 	
 //	// (모든) 결제 내역을 조회후 리스트게 아겨조기위한 메서드 - 페이징처리메서드로인해 없어도됨 0615정의효
 //	public List<PaymentVO> getPaymentList() {
