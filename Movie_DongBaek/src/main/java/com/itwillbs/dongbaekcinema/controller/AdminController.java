@@ -935,10 +935,10 @@ public class AdminController {
 		
 //		List<PaymentVO> payment = payment_service.getPayment(order_num);
 //		model.addAttribute("payment", payment);
-		//0618 정의효 밑에꺼 되있었음 확인
-		PaymentVO payment = payment_service.getPayment(order_num); 
-		model.addAttribute("payment", payment);
-		System.out.println(payment);
+		//0618 정의효 밑에꺼 되있었음 확인 수정중 0619
+//		PaymentVO payment = payment_service.getPayment(order_num); 
+//		model.addAttribute("payment", payment);
+//		System.out.println(payment);
 		
 		return "admin/admin_payment_list_detail";
 	}
