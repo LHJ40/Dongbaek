@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.TheaterService;
 import com.itwillbs.dongbaekcinema.vo.ScheduleVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
@@ -24,6 +27,9 @@ public class TheaterController {
 	
 	@Autowired
 	private TheaterService service;
+	
+	@Autowired
+	private ReservationService service2;
 	
 	@GetMapping("theater_main")
 	public String theater_main(Model model) {
@@ -80,4 +86,19 @@ public class TheaterController {
 		
 		return "theater/theater-runningtime_tap";
 	}
+	
+	//극장별예매?movie_num=1&theater_num=1&play_date=2023-06-28->reservation_seat 
+//	@GetMapping("Theater-reservation")
+//	public String Theater_reservation(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
+//		System.out.println("ReservationController - PlayList");
+//		
+//
+//		List<Map<String, Object>> playList = service2.getPlayList(movie_num, theater_num, play_date);
+//		model.addAttribute("playList", playList);		
+//		System.out.println(playList);		
+//
+//		JSONArray ja = new JSONArray(playList);
+//		System.out.println(ja);
+//		return "reservation/reservation_seat";
+//	}
 }

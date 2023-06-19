@@ -341,16 +341,18 @@
 	
 					// 예매할 당시의 시간이 상영 시작 시간보다 20분 전인 경우만 선택 가능하도록 설정
 					let reservationTime = new Date();	// 예매 진행하고 있는 시간
-	//					let reservationTime = new Date("2023-06-18T16:45:00");	// 예매 진행하고 있는 시간
+// 						let reservationTime = new Date("2023-06-18T16:45:00");	// 예매 진행하고 있는 시간
 					let gap = playStartTime.getTime() - reservationTime.getTime();	//  (영화 상영 시작 시간) - (예매 진행하고 있는 시간)
 					let convertTime = Math.round(gap / 1000 / 60);
 					if(convertTime < 20){
 						res += "<li class='disabled'>" + 
 						"<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
-							"<span class='playTimeType'>" + play[i].play_turn + "</span>" +
+							"<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
 							"<span class='time'>" + 
-								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
-								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+								"<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+								"<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
+// 								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
+// 								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
 							"</span>" +
 							"<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
 							"<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -359,10 +361,10 @@
 					}else {
 						res += "<li>" + 
 						"<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
-							"<span class='playTimeType'>" + play[i].play_turn + "</span>" +
+							"<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
 							"<span class='time'>" + 
-								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
-								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+								"<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+								"<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
 							"</span>" +
 							"<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
 							"<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -395,16 +397,32 @@
 			
 	});
 	
-	// ===============================================================================================================================================
+	// [next] 버튼 클릭 시 ===============================================================================================================================================
 	// 로그인하지 않은 상태에서 [next] 버튼 클릭시
 	// member_login_form 서블릿 요청을 통해 로그인 페이지(member/member_login_form.jsp)으로 이동
 	function login(){
-		location.href = "member_login_form";
+		location.href = "member_login_form";		
 	}
 	
 	// 로그인 상태에서 [next] 버튼 클릭시
 	// reservation_seat 서블릿 요청을 통해 좌석예매 페이지(reservation.reservation_seat.jsp)로 이동
 	function reservationSeat() {
+		let playNum = $("#selectTime .selected a").attr("data-play-num");		// 선택한 상영 번호
+		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");		// 선택한 영화 번호
+		let movieName = $("#selectMovie .selected span").attr("data-movie-name");	// 선택한 영화명
+		let moviePoster = $("#selectMovie .selected span").attr("data-movie-poster");// 선택한 영화의 포스터
+		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");	// 선택한 극장 번호
+		let theaterName = $("#selectTheater .selected span").attr("data-theater-name");	// 선택한 극장 이름
+		let playDate = $("#selectTime .selected a").attr("data-play-date");	// 선택한 날짜
+// 		let playStartTime = $("#selectTime .selected a span.time").attr("data-play-start-time");	// 선택한 상영시작 시간
+			
+		$("input[name=play_num]").attr("value",playNum);
+		$("input[name=movie_num]").attr("value",movieNum);
+		$("input[name=movie_name_kr]").attr("value",movieName);
+		$("input[name=theater_num]").attr("value",theaterNum);
+		$("input[name=theater_name]").attr("value", theaterName)
+		$("input[name=play_date]").attr('value',playDate);
+// 		$("input[name=play_start_time]").attr('value',playStartTime);
 		location.href = "reservation_seat";
 	}
 	</script>
@@ -515,45 +533,53 @@
 				
 				<%-- 다음 페이지 이동 버튼 --%>
 				<div class="col-3">
-					<%-- 
-					로그인 여부 확인하여 
-					로그인 시 reservation_seat() 페이지로 이동
-					미로그인 시 lonin() 함수 실행하여 모달창으로 '로그인 필요' 출력 후 로그인 페이지(member_login_form.jsp)로 이동
-					 --%>
-					<%-- 로그인 여부 확인하여 로그인 시 reservation_seat() 페이지로 이동 --%>
-					<c:choose>
-						<c:when test="${empty member_id }">						
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#needLogin">next</button>
-						</c:when>
-						<c:when test="">
+					<form action="reservation_seat" method="post">
+						<input type="hidden" name="play_num" value="" />
+						<input type="hidden" name="movie_num" value="" />
+						<input type="hidden" name="movie_name_kr" value="" />
+				      	<input type="hidden" name="theater_num" value="" />
+				      	<input type="hidden" name="theater_name" value="" />
+				      	<input type="hidden" name="play_date" value="" />
+				      	<input type="hidden" name="room_num" value="" />
+<!-- 				      	<input type="hidden" name="play_start_time" value="" /> -->
+<!-- 						<button type="submit" class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button> -->
 						
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button>
-						</c:otherwise>
-					</c:choose>
+						<%-- 
+						로그인 여부 확인하여 
+						로그인 시 reservation_seat() 함수를 실행하여 reservation_seat.jsp 페이지로 이동
+						미로그인 시 lonin() 함수 실행하여 모달창으로 '로그인 필요' 출력 후 로그인 페이지(member_login_form.jsp)로 이동
+						 --%>
+						<c:choose>
+							<c:when test="${empty member_id }">						
+								<button type="button" class="btn btn-danger" id="emptyMemberId" data-toggle="modal" data-target="#needLogin">next ></button>
+							</c:when>
+							<c:otherwise>
+								<button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button>
+							</c:otherwise>
+						</c:choose>
 					
-					<%-- 미로그인시 보여줄 모달창 --%>
-					<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needLoginTitle" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered" role="document">
-							<div class="modal-content">
-								 <div class="modal-header">
-									<h5 class="modal-title" id="needLoginTitle">로그인 필요</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									로그인이 필요한 서비스입니다.<br>
-									로그인 페이지로 이동하시겠습니까?
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-danger"  onclick="login()">확인</button>
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<%-- 미로그인시 보여줄 모달창 --%>
+						<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needLoginTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									 <div class="modal-header">
+										<h5 class="modal-title" id="needLoginTitle">로그인 필요</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										로그인이 필요한 서비스입니다.<br>
+										로그인 페이지로 이동하시겠습니까?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger"  onclick="login()">확인</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div><!-- 모달 영역 끝 -->
+						</div><!-- 모달 영역 끝 -->
+					</form>
 				</div>	<!-- [다음 페이지 이동 버튼] 끝  -->
 			</div> <!-- [선택사항 안내 구간, 다음으로 넘어가기 영역] 끝 -->
 		</div>	<!-- container-fluid 영역 끝 -->

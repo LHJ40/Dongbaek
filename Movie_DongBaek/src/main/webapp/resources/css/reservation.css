@@ -54,8 +54,9 @@ div .title-area {
 }
 
 /* 극장 파트 좌우 배치 */
+/*
 #region{
-/* 	border: 1px solid #000; */
+	border: 1px solid #000;
 	width: 70px;
 	display: inline-block;
 }
@@ -64,10 +65,11 @@ div .title-area {
 }
 #room{
 	vertical-align: top;
-/* 	border: 1px solid #000; */
+	border: 1px solid #000;
 	width: 120px;
 	display: inline-block;
 }
+*/
 #playType{
 	text-align: right;
 }
@@ -78,6 +80,8 @@ div .title-area {
 	margin: 3px;
 }
 
+
+/* --------------------------------------- reservation_main.jsp ---------------------------------------- */
 /* --------- [영화]선택, [극장]선택, [날짜]선택, [시간]선택 영역 ul 앞의 모양 제거 --------- */
 #selectMovie ul, #selectTheater ul, #selectDate ul, #selectTime ul {
 	list-style: none;
@@ -94,7 +98,8 @@ div .title-area {
 }
 
 a:link, a:hover {
-	text-decoration: none;}
+	text-decoration: none;
+}
 
 a {
 	color: #333;
@@ -167,12 +172,12 @@ li .selected a span.text {
 
 /* ----------------- [시간] 선택 영역 ------------- */
 #selectTime a {
-/*     width: 270px; */
     height: 66px;
 /*     border: 1px solid #000; */
     color:#333;
     margin: 1px;
     flex-wrap: nowrap;
+    display: table
 }
 
 #selectTime a span.playTimeType {
@@ -232,13 +237,21 @@ li .selected a span.text {
     color:#fff;
 }
 
-#selectTime li a:hover, #selectTime li a:link {
+#selectTime li a:hover {
 	background-color: #dfdfdf;
 }
-#selectTime .selected a, #selectTime .selected a {
+
+#selectTime .selected a {
 	background-color: #333!important;
     border: 1px solid #000!important;
     color:#fff!important;
+}
+
+.disabled {
+	color: #666;
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
 }
 /* ---------- [영화]선택, [극장]선택, [날짜]선택, [시간]선택 영역 스크롤바 설정 --------- */
 #selectMovie {
@@ -288,3 +301,46 @@ li .selected a span.text {
 /* 	background: #dfdfdf;  */
 }
 
+
+/* --------------------------------------- reservation_seat.jsp ---------------------------------------- */
+
+/* 좌석 영역 */
+#seat-part button{
+	margin: 1px;
+	border: 1px solid #aaa;
+	background-color: #aaa;
+	color: #fff;
+	
+}
+
+#seat-part button:hover {
+	background-color: #ef4f4f;
+}
+
+#seat-part button .selected {
+	border: 1px solid #fff;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+}
+
+#seat-part button#A5, 
+#seat-part button#B5, 
+#seat-part button#C5, 
+#seat-part button#D5, 
+#seat-part button#E5, 
+#seat-part button#F5 {
+	margin-right: 20px;
+}
+
+#seat-part button#C1, 
+#seat-part button#C2, 
+#seat-part button#C3, 
+#seat-part button#C4, 
+#seat-part button#C5, 
+#seat-part button#C6, 
+#seat-part button#C7, 
+#seat-part button#C8, 
+#seat-part button#C9, 
+#seat-part button#C10 {
+	margin-bottom: 20px;
+}
