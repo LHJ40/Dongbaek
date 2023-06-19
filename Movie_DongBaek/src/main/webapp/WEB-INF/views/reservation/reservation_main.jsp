@@ -341,7 +341,7 @@
 	
 					// 예매할 당시의 시간이 상영 시작 시간보다 20분 전인 경우만 선택 가능하도록 설정
 					let reservationTime = new Date();	// 예매 진행하고 있는 시간
-	//					let reservationTime = new Date("2023-06-18T16:45:00");	// 예매 진행하고 있는 시간
+// 						let reservationTime = new Date("2023-06-18T16:45:00");	// 예매 진행하고 있는 시간
 					let gap = playStartTime.getTime() - reservationTime.getTime();	//  (영화 상영 시작 시간) - (예매 진행하고 있는 시간)
 					let convertTime = Math.round(gap / 1000 / 60);
 					if(convertTime < 20){
@@ -349,8 +349,10 @@
 						"<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
 							"<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
 							"<span class='time'>" + 
-								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
-								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+								"<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+								"<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
+// 								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
+// 								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
 							"</span>" +
 							"<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
 							"<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -361,8 +363,8 @@
 						"<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
 							"<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
 							"<span class='time'>" + 
-								"<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
-								"<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+								"<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+								"<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
 							"</span>" +
 							"<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
 							"<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -412,7 +414,7 @@
 		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");	// 선택한 극장 번호
 		let theaterName = $("#selectTheater .selected span").attr("data-theater-name");	// 선택한 극장 이름
 		let playDate = $("#selectTime .selected a").attr("data-play-date");	// 선택한 날짜
-		let playStartTime = $("#selectTime .selected a span.time").attr("data-play-start-time");	// 선택한 상영시작 시간
+// 		let playStartTime = $("#selectTime .selected a span.time").attr("data-play-start-time");	// 선택한 상영시작 시간
 			
 		$("input[name=play_num]").attr("value",playNum);
 		$("input[name=movie_num]").attr("value",movieNum);
@@ -420,7 +422,7 @@
 		$("input[name=theater_num]").attr("value",theaterNum);
 		$("input[name=theater_name]").attr("value", theaterName)
 		$("input[name=play_date]").attr('value',playDate);
-		$("input[name=play_start_time]").attr('value',playStartTime);
+// 		$("input[name=play_start_time]").attr('value',playStartTime);
 		location.href = "reservation_seat";
 	}
 	</script>
@@ -539,7 +541,7 @@
 				      	<input type="hidden" name="theater_name" value="" />
 				      	<input type="hidden" name="play_date" value="" />
 				      	<input type="hidden" name="room_num" value="" />
-				      	<input type="hidden" name="play_start_time" value="" />
+<!-- 				      	<input type="hidden" name="play_start_time" value="" /> -->
 <!-- 						<button type="submit" class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button> -->
 						
 						<%-- 

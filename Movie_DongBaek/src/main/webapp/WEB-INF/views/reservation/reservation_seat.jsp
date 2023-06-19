@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -310,14 +311,13 @@
 					</div>
 					<div id="dateInfo" style="display: table;">
 						<span style="display: table-cell;">날짜&nbsp;</span>
-<%-- 						<span style="display: table-cell;"><b>${reservation.play_date }</b></span> --%>
-						
-						<span style="display: table-cell;"><b><fmt:parseDate  value="${reservation.play_start_time }" pattern="yyyy-MM-dd HH:mm"/> </b></span>
-<%-- 						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
+						<span style="display: table-cell;"><b>${reservation.play_date }</b></span>
+<%-- 						<span style="display: table-cell;"><b><fmt:parseDate  value="${reservation.play_start_time }" pattern="yyyy-MM-dd HH:mm"/> </b></span> --%>
+						<span style="display: table-cell;"><b>( ${reservation.play_start_time } )</b></span>
 					</div>
 					<div id="roomInfo" style="display: table;">
 						<span style="display: table-cell;">상영관&nbsp;</span>
-						<span " class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+						<span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
 					</div>
 				</div>
                 <%-- 미선택 사항 노출 --%>
