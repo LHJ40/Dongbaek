@@ -2,20 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.MovieMapper">
 <!--   <cache-ref namespace=""/> -->
+
+	<!-- 0620정의효 영화 등록 -->
 	<insert id="insertMovie">
 		INSERT 
 			INTO MOVIES
 			VALUES (
-				#{movie_name}
-				, #{movie_director}
-				, #{movie_genre}
-				, #{movie_running_time}
-				, #{movie_grade}
-				, #{movie_release_date}
-				, #{movie_close_date}
-				, #{movie_cast}
-				, #{movie_post}
-				, #{movie_content}
+				movie_name_kr = ${movieName}
+				, movie_name_en = ${movieNameEn}
+				, movie_director = ${movieDirector}
+				, movie_genre = ${repGenre}
+				, movie_running_time = ${showTm}
+				, movie_grade = ${watchGradeNm}
+				, movie_cast = ${peopleNm}
+				, movie_release_date = ${openDt}
+				, movie_close_date = ${movie_release_date}
+				, movie_audience_num = ${movie_audience_num}
+				, movie_poster = ${movie_poster}
+				, movie_preview = ${movie_preview}
+				, movie_photo1 = ${movie_photo1}
+				, movie_photo2 = ${movie_photo2}
+				, movie_photo3 = ${movie_photo3}
+				, movie_content = ${movie_content}
+				, movie_booking_rate = 0
+	
 			) 
 	</insert>
 	
@@ -172,6 +182,7 @@
 		SELECT *
 			FROM MOVIES
 			ORDER BY movie_num DESC
+			LIMIT #{start}, #{perPage}
 	</select>
 	
 	<!-- 페이징처리 - 0616정의효 -->

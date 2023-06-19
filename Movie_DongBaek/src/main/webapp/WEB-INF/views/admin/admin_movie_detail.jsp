@@ -61,71 +61,106 @@ article {
 			    </tr>
 			    <tr>
 			    	<th>영화제목(한글)</th>
-			    	<td colspan="2">${movie.movie_name_kr }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_name_kr }">
+			    	</td>
 			    </tr>
 			    <tr>
 			    	<th>영화제목(영어)</th>
-			    	<td colspan="2">${movie.movie_name_en }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_name_en }">
+			   		</td>
+			   		
 			    </tr>
 			    <tr>
 			    	<th>감독</th>
-			    	<td colspan="2">${movie.movie_director }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_director }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>출연진</th>
-			    	<td colspan="2">${movie.movie_cast }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_cast }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>장르</th>
-			    	<td colspan="2">${movie.movie_genre }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_genre }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>개봉일</th>
-			    	<td colspan="2">${movie.movie_release_date }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_release_date }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>종영일</th>
-			    	<td colspan="2">${movie.movie_close_date }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_close_date }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>상영시간</th>
-			    	<td colspan="2">${movie.movie_running_time }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_running_time }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>관람객수</th>
-			    	<td colspan="2">${movie.movie_audience_num }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_audience_num }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>줄거리</th>
-			    	<td colspan="2">${movie.movie_content }</td>
+			    	<td colspan="2">
+			    		<textarea rows="5" cols="50" name="">${movie.movie_content }</textarea>
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>관람등급</th>
-			    	<td colspan="2">${movie.movie_grade }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_grade }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>포스터이미지</th>
-			    	<td colspan="2">${movie.movie_poster }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_poster }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>예고영상</th>
-			    	<td colspan="2">${movie.movie_preview }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_preview }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>스틸컷1</th>
-			    	<td colspan="2">${movie.movie_preview }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_photo1 }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>스틸컷2</th>
-			    	<td colspan="2">${movie.movie_photo2 }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_photo2 }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>스틸컷3</th>
-			    	<td colspan="2">${movie.movie_photo3 }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_photo3 }">
+			   		</td>
 			    </tr>
 			    <tr>
 			    	<th>예매율</th>
-			    	<td colspan="2">${movie.movie_photo3 }</td>
+			    	<td colspan="2">
+			    		<input type="text" name="" value="${movie.movie_booking_rate }">
+			   		</td>
 			    </tr>
 			</table>
 		</div>

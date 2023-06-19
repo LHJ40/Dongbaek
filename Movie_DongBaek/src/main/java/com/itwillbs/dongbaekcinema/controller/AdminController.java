@@ -724,7 +724,7 @@ public class AdminController {
 		
 		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MemberVO> memberList = member_service.getMembertList(pageNo, pageSize);
+		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageSize);
 		int totalPageCount = member_service.getTotalPageCount(pageSize);
 //		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
 //		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
@@ -853,6 +853,8 @@ public class AdminController {
 		
 		
 		int insertCount = movie_service.registMovie(movie);
+		
+		
 		
 		return "redirect:/admin_movie_management";
 	}
@@ -984,6 +986,7 @@ public class AdminController {
 		return "redirect:/admin_member_list";
 	}
     
+	//0619정의효 관리자페이지 - 회원삭제
 	@PostMapping("admin_memberDelete")
 	public String adminMemberDelete(HttpSession session, @RequestParam String member_id) {
 		member_service.memberDelete(member_id);
