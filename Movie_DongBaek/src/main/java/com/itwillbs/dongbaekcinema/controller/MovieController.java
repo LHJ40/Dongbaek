@@ -27,7 +27,7 @@ public class MovieController {
 		
 		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		return "movie/movie_list_present";
 	}
@@ -42,7 +42,7 @@ public class MovieController {
 		
 		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		return "movie/movie_list_prepare";
 	}
@@ -62,7 +62,7 @@ public class MovieController {
 		
 		// 각 영화의 리뷰정보 출력 getReviewRating
 		ReviewVO review = service.getReviewRating(movie_num);
-		System.out.println(review);
+//		System.out.println(review);
 		model.addAttribute("review", review);
 
 		return "movie/movie_detail_info";
