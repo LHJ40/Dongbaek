@@ -77,91 +77,98 @@
 <script type="text/javascript">
 	
 	$(function() {
-		// 화면 처음 로딩 시 전체 질문, 답변 들고오기
+		// 화면 처음 로딩 시 '전체' 질문, 답변 들고오기
+		// 카테고리 : '전체'면 모두 들고 오게 mapper에서 설정
 		let cs_type = '전체';
+		// pageNum은 1로 설정
 		let pageNum = 1;
-		$.ajax({
-				type: 'GET',
-				url: '<c:url value="/faq_data"/>',
-				data: {'cs_type': cs_type},
-				dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
-				success: function(result) {	// 요청 성공 시
-					// 눌린 버튼 비활성화, 아닌 버튼 활성화
-// 					$(".btn-group>button").attr("disabled", false);
-// 					$(this).attr("disabled", true);
-					
-					// 총 몇 건인지 안내
-					$("#totalCnt").text(result.length);
-					
-					let start = pageNum * 5 - 4;
-					let limit = pageNum * 5;
-					
-					for(let i = 0; i <= (limit - start); i++) {
-// 						console.log(limit);
-						$("#faqContents").append(
-								"<div class='qPart'>"
-								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
-								);
-						$("#faqContents").append(
-								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
-								);
-					}
-					
-					// 페이지(버튼) 갯수
-					let pageCount = Math.ceil(result.length / 5);
-					console.log(pageCount);
-					
-					for(let i = 1; i <= pageCount; i++) {
-// 						console.log(i);
-						$("#pageBtn-group").append(
-								"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
-								);
-					}
-				},
-				error: function() {
-					alert('에러');
-				}
-			});
 		
-		// 카테고리별 질문 & 답변 들고오기
-		let isDataAppended = false;	// 추가 여부를 나타내는 변수
+		$.ajax({
+			// 요청타입, 요청할 주소, 요청시 파라미터(배열타입), 리턴타입
+			type: 'GET',
+			url: '<c:url value="/faq_data"/>',
+			data: {'cs_type': cs_type},
+			dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
+			success: function(result) {	// 요청 성공 시(파라미터 : 요청 응답 데이터)
+				
+				// 총 몇 건인지 안내
+				$("#totalCnt").text(result.length);
+				
+				// 페이지 당 첫 글 번호, 마지막 글 번호
+				let start = pageNum * 5 - 4;
+				let limit = pageNum * 5;
+				
+				// 한 페이지에 들어가는 글 수 만큼 반복(글 내용)
+				for(let i = 0; i <= (limit - start); i++) {
+// 					console.log(limit);
+					// 지정한 div안에 내용 추가([카테고리] Q. 질문)
+					// 결과값이 List타입으로 배열 안 데이터에 접근하듯 사용
+					$("#faqContents").append(
+							"<div class='qPart'>"
+							+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+							);
+					// 지정한 div안에 내용 추가(A. 답변)
+					$("#faqContents").append(
+							"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+							);
+				}
+				
+				// 페이지(버튼) 갯수
+				// 올림(가져온 결과값 / 한 페이지당 글 수)
+				let pageCount = Math.ceil(result.length / 5);
+// 				console.log(pageCount);
+				
+				// 페이지(버튼) 개수만큼 버튼 생성
+				for(let i = 1; i <= pageCount; i++) {
+// 					console.log(i);
+					$("#pageBtn-group").append(
+							"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+							);
+				}
+			},
+			// ajax로 값을 가져오지 못했을 경우 alert창 띄우기
+			error: function() {
+				alert('에러');
+			}
+		});
+		
+		// 카테고리 버튼 클릭 시 카테고리별 질문 & 답변 들고오기, 페이지 버튼 생성
 		$(".btn-group>button").click(function() {
 			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
-			let cs_type = $(this).val();
-			let pageNum = 1;
-			if(!isDataAppended) {	// 추가되지 않았을 경우에만 실행
+			let cs_type = $(this).val();	// 클릭한 버튼의 value값을 가져와 변수에 저장
+			let pageNum = 1;	// 카테고리 클릭 시 첫 페이지 보여주기
 				console.log(cs_type);
 				
 				$.ajax({
 					type: 'GET',
 					url: '<c:url value="/faq_data"/>',
 					data: {'cs_type': cs_type},
-					dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
+					dataType: 'JSON',
 					success: function(result) {	// 요청 성공 시
+// 						console.log("받아오기 성공!");
 						
-						// 눌린 버튼 비활성화, 아닌 버튼 활성화
+						// 눌린 버튼 비활성화, 아닌 버튼 활성화(다른 페이지 선택시 사용하기 위한 장치)
 						$(".btn-group>button").attr("disabled", false);
 						$("button[value='" + cs_type +"']").attr("disabled", true);
 						
-						$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
+						// 총 몇 건인지 안내
+						$("#totalCnt").text(result.length);	
 						
 						// 페이징 처리를 위한 변수 정의
 						let start = pageNum * 5 - 4;
 						let limit = pageNum * 5;
 						
+						// 만약 가져온 글 갯수가 지정 페이지의 예상 마지막 글번호보다 작을 경우
+						// 가져온 글 갯수를 마지막 글번호로 지정
+						// ex. 13개 -> 3페이지 15까지 X, 3페이지 13개까지 반복
 						if(result.length <= limit){
 							limit = result.length;
 						}
-					
-						// 1. CsVO 객체 추출(result)
-						// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
-						// cs_type, cs_subject, cs_content 추출 및 출력
-						// 카테고리 버튼 클래스를 바꿔주기(클릭된 버튼 색채우기)
-						$(this).removeClass(".btn-outline-danger");
-						$(this).addClass(".btn-danger");
-// 						console.log("받아오기 성공!");
-
+						
+						// 기존에 div에 있던 내용 비우기
 						$("#faqContents").empty();
+						
+						// 1페이지 시작(1)~끝(5)까지 반복하면서 지정 div에 값 추가
 						for(let i = (start - 1); i < limit; i++) {
 // 							console.log(limit);
 							$("#faqContents").append(
@@ -173,7 +180,7 @@
 									);
 						}
 						
-						// 전 페이지 버튼들 삭제
+						// 전 페이지(다른 카테고리) 버튼들 삭제
 						$("#pageBtn-group").empty();
 						// 페이지(버튼) 갯수
 						let pageCount = Math.ceil(result.length / 5);
@@ -185,41 +192,16 @@
 									"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
 									);
 						}
-						
 					},
 					error: function() {
 						alert('에러');
 					}
 					
 				});
-			
-			
-			}
 		});
-		
-
-		
-		
-		
-		
-		
-		
 		
 	});
 	
-// 	$(document).ready(function() {
-// 		$(".checkbox").on("change", function() {
-// 			console.log("클릭됨");
-// 			let targetId = $(this).data('target');
-// 			let target = $("#" + targetId);
-			
-// 			if($(this).prop("checked")) {
-// 				target.removeClass(".d-none");
-// 			} else {
-// 				target.addClass(".d-none");
-// 			}
-// 		});
-// 	});
 	
 </script>
 </head>
@@ -283,69 +265,65 @@
 		</div>
 	<script type="text/javascript">
 		
-//	 		$("#pageBtn-group").append(
-//				"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
-//				);
+		// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
+		// 버튼 클릭 시 안의 내용이 실행되도록 on()메서드에
+		// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
+		// 페이지 버튼 클릭 시 ajax 실행
 		$(document).on("click", ".pageBtn", function() {
-			// 페이지 버튼 클릭 시 값 뿌리기
-// 			$(".pageBtn").click(function() {
-				// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
-				console.log("페이지버튼클릭");
-				let cs_type = $("button[disabled]").val();
-				let pageNum = $(this).text();
+			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
+			// 카테고리 버튼이 클릭되면 disabled 활성화 시킴
+			// disabled가 지정된 버튼의 value값을 가져옴
+			let cs_type = $("button[disabled]").val();
+			let pageNum = $(this).text();	// <button>안 글자를 페이지 변수로 사용
 				
-				console.log(cs_type);
-				console.log(pageNum);
-				
-				$.ajax({
-					type: 'GET',
-					url: '<c:url value="/faq_data"/>',
-					data: {'cs_type': cs_type},
-					dataType: 'JSON',	// 응답데이터 json형식으로 전달받음
-					success: function(result) {	// 요청 성공 시
-						
-						// 눌린 버튼 비활성화, 아닌 버튼 활성화
-						$(".btn-group>button").attr("disabled", false);
-						$("button[value='" + cs_type +"']").attr("disabled", true);
-						
-						$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
-						
-						// 페이징 처리를 위한 변수 정의
-						let start = pageNum * 5 - 4;
-						let limit = pageNum * 5;
-						
-						if(result.length <= limit){
-							limit = result.length;
-						}
+// 			console.log(cs_type);
+// 			console.log(pageNum);
+			
+			$.ajax({
+				type: 'GET',
+				url: '<c:url value="/faq_data"/>',
+				data: {'cs_type': cs_type},
+				dataType: 'JSON',
+				success: function(result) {	// 요청 성공 시
 					
-						// 1. CsVO 객체 추출(result)
-						// 2. 추출된 CsVO 목록(배열)을 반복문을 통해 반복하면서
-						// cs_type, cs_subject, cs_content 추출 및 출력
-						// 카테고리 버튼 클래스를 바꿔주기(클릭된 버튼 색채우기)
-						console.log("받아오기 성공!");
-		
-						$("#faqContents").empty();
-						for(let i = (start - 1); i < limit; i++) {
-							console.log(limit);
-							$("#faqContents").append(
-									"<div class='qPart'>"
-									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
-									);
-							$("#faqContents").append(
-									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
-									);
-						}
-						
-						
-					},
-					error: function() {
-						alert('에러');
+					// 눌린 버튼 비활성화, 아닌 버튼 활성화
+// 					$(".btn-group>button").attr("disabled", false);
+// 					$("button[value='" + cs_type +"']").attr("disabled", true);
+					
+// 					$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
+					
+					// 페이징 처리를 위한 변수 정의
+					let start = pageNum * 5 - 4;
+					let limit = pageNum * 5;
+					
+					if(result.length <= limit){
+						limit = result.length;
+					}
+				
+// 					console.log("받아오기 성공!");
+	
+					$("#faqContents").empty();
+					for(let i = (start - 1); i < limit; i++) {
+						console.log(limit);
+						$("#faqContents").append(
+								"<div class='qPart'>"
+								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+								);
+						$("#faqContents").append(
+								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+								);
 					}
 					
-				});
-				
+					
+				},
+				error: function() {
+					alert('에러');
+				}
 				
 			});
+			
+			
+		});
 	
 		
 		
