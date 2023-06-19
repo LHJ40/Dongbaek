@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.PageMapper">
+
+<!-- 페이징 처리를 위한 스케줄 목록 가져오기 --> 
+<!-- <select id="getObjectsWithPaging" resultType="com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO"> -->
+<!--         SELECT  -->
+<!--         	*  -->
+<!-- 	        FROM  -->
+<!--               PLAYS p -->
+<!-- 	          JOIN THEATERS t -->
+<!-- 	          ON p.theater_num = t.theater_num -->
+<!-- 	          JOIN MOVIES m -->
+<!-- 	          ON p.movie_num = m.movie_num -->
+<!-- 	          Join ROOMS r -->
+<!-- 	          ON p.room_num = r.room_num -->
+<!-- 	        	WHERE theater_num = {theater_num} -->
+<!-- 	        	ORDER BY room_num ASC -->
+<!-- 	        	LIMIT  -->
+<!-- 	        		#{start} -->
+<!-- 	        		, #{perPage} -->
+<!--     </select> -->
+
+<!--     <select id="getCount" resultType="int"> -->
+<!--         SELECT  -->
+<!--         	COUNT(*)  -->
+<!--         	FROM  -->
+<!--         		#{tableName} -->
+<!--         	WHERE -->
+<!--         		theater_num = #{theater_num} -->
+<!--     </select> -->
+    
+
+    
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.dongbaekcinema.mapper.CsMapper">
+  
+  <!-- cs게시판 중 Faq 레코드 조회(지영) -->
+  <select id="selectCsFaq" resultType="com.itwillbs.dongbaekcinema.vo.CsVO">
+ 		SELECT 
+ 			cs_subject
+ 			, cs_content
+<!--  			, cs_date -->
+ 			, cs_type
+ 			FROM CS
+ 			<choose>
+ 				<when test="cs_type eq '전체'">
+ 					WHERE cs_type IN ('예매', '멤버십', '결제수단', '극장', '할인혜택')
+ 				</when>
+ 				<otherwise>
+		 			WHERE cs_type = #{cs_type}
+ 				</otherwise>
+ 			</choose>
+  
+  </select>
+  
+  
+</mapper>

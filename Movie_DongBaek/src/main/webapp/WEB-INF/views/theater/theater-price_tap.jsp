@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,33 +68,36 @@
 					<table class="table table-striped" >
 						<tr>
 							<td></td>
+							
 							<td>일반</td>
 							<td>조조</td>
 							<td>심야</td>
+							
+							
 						</tr>
 						<tr>
 							<td>일반</td>
-							<td>14,000</td>
-							<td>10,000</td>
-							<td>10,000</td>
+							<td>${ticketList[0].ticket_type_price}</td>
+							<td>${ticketList[1].ticket_type_price}</td>
+							<td>${ticketList[2].ticket_type_price}</td>
 						</tr>
 						<tr>
 							<td>청소년</td>
-							<td>12,000</td>
-							<td>8,000</td>
-							<td>8,000</td>
+							<td>${ticketList[3].ticket_type_price}</td>
+							<td>${ticketList[4].ticket_type_price}</td>
+							<td>${ticketList[5].ticket_type_price}</td>
 						</tr>
 						<tr>
 							<td>경로/어린이</td>
-							<td>7,000</td>
-							<td>7,000</td>
-							<td>7,000</td>
+							<td>${ticketList[6].ticket_type_price}</td>
+							<td>${ticketList[7].ticket_type_price}</td>
+							<td>${ticketList[8].ticket_type_price}</td>
 						</tr>
 						<tr>
 							<td>장애인</td>
-							<td>7,000</td>
-							<td>7,000</td>
-							<td>7,000</td>
+							<td>${ticketList[9].ticket_type_price}</td>
+							<td>${ticketList[10].ticket_type_price}</td>
+							<td>${ticketList[11].ticket_type_price}</td>
 						</tr>
 
 					</table>	

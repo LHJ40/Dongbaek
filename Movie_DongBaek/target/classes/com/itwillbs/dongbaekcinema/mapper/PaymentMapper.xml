@@ -64,19 +64,44 @@
 		(결제번호, 결제이름, 결제 카드, 결제카드번호, 결제 금액, 결제상태,
 		  영화이름, 티켓타입(일반/일반)
 	리턴타입 : List<> -->
-	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReservationDetailVO">
-		SELECT *
-			FROM BUY_DETAIL
-			WHERE member_id = #{member_id}
-			LIMIT #{pageNum} -- 후에 pageNum으로 조절
+	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
+		SELECT 
+			payment_num
+			, payment_datetime
+<!-- 			, IFNULL( -->
+			payment_total_price
+<!-- 			, 0) -->
+			, payment_status
+		FROM BUY_DETAIL
+		WHERE
+			member_id = #{member_id}
+			AND payment_datetime &gt;= SUBDATE(now(), INTERVAL 3 MONTH)
+			AND payment_datetime &lt;= now()
+			GROUP BY 
+				payment_num
+				, payment_datetime
+				, payment_total_price
+				, payment_status
+		LIMIT
+			#{pageNum}  -- 후에 pageNum으로 조절
 	</select>
 	
 	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회(지영) -->
-<!-- 	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReservationDetailVO"> -->
-<!-- 		SELECT * -->
-<!-- 			FROM BUY_DETAIL -->
-<!-- 			WHERE order_num = #{order_num} -->
-<!-- 	</select> -->
+	<select id="selectMyPaymentDetail" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
+		SELECT *
+			FROM BUY_DETAIL
+			WHERE payment_num = #{payment_num}
+	</select>
+	
+	<!-- 마이페이지 - 나의 멤버십. 올해 누적 실적 조회(지영) -->
+	<select id="selectYearPayment">
+		SELECT
+			IFNULL(sum(payment_total_price), 0)
+			FROM BUY_DETAIL
+			WHERE
+				member_id = #{member_id}
+				AND payment_datetime >= CONCAT(YEAR(now()), '-01-01')
+	</select>
 	
 	<!-- 페이징처리중 - 0615 정의효 -->
 	<select id="getPaymentList" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">

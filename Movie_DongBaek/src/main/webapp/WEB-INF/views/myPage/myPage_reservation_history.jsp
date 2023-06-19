@@ -25,7 +25,7 @@
   		<div class="mainTop">
 		  <h2>나의 예매내역</h2>
 		  <br>
-		  <span>지난 <b>X개월</b>까지의 예매내역을 확인하실 수 있습니다</span><br>
+		  <span>지난 <b>1개월</b>까지의 예매내역을 확인하실 수 있습니다</span><br>
 				<hr>
 				<table class="table">
 					<c:choose>

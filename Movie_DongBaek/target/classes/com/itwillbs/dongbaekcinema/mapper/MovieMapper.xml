@@ -92,7 +92,9 @@
 		<result property="review_date" column="review_date"/>
 	</resultMap>	
 	
-<!-- 영화당 평점 불러오기 -->
+<!-- 영화당 리뷰,평점평균 불러오기 -->
+<!-- 영화당 리뷰개수(COUNT) 불러오기 -->
+<!-- 전달받은 movie_num 파라미터값과 일치하는 리뷰카운팅정보 전달 -->
 <select id="selectReviewRating" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
 	SELECT 
 		review_num 
@@ -114,6 +116,21 @@
 	ORDER BY
 		review_num DESC
 </select>
+	
+
+<select id="selectReviewCounting" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
+	SELECT
+		movie_num
+		,COUNT(review_num) as 'review_count'
+	FROM 
+		REVIEWS
+	WHERE 
+		movie_num = ${movie_num}
+	GROUP BY
+		movie_num
+</select>
+	
+	
 	
 	<!-- 영화 목록 전부 조회 페이징처리로 필요없음 - 0616 정의효 -->
 <!-- 	<select id="selectMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> -->

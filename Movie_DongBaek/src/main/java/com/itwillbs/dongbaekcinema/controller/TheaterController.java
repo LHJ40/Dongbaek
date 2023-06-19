@@ -2,6 +2,7 @@ package com.itwillbs.dongbaekcinema.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import com.itwillbs.dongbaekcinema.service.TheaterService;
 import com.itwillbs.dongbaekcinema.vo.ScheduleVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 
 @Controller
 public class TheaterController {
@@ -56,7 +58,10 @@ public class TheaterController {
 		return "theater/runningtime_tap_ajax";
 	}
 	@GetMapping("theater-price_tap")
-	public String theater_price_tap() {
+	public String theater_price_tap(Model model) {
+		List<TicketTypeVO> ticketList = service.getTicketList();
+		System.out.println(ticketList);
+		model.addAttribute("ticketList", ticketList);
 		return "theater/theater-price_tap";
 	}
 	@GetMapping("theater-runningtime_tap")
@@ -65,7 +70,7 @@ public class TheaterController {
 		System.out.println(theaterList);
 		
 		LocalDate currentdate = LocalDate.now();
-		LocalDate maxdate=currentdate.plusDays(9);
+		LocalDate maxdate=currentdate.plusDays(10);
 
 		
 		

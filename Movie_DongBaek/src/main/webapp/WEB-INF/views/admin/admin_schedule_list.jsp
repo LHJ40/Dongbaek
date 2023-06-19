@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 
@@ -40,94 +41,114 @@
 <script type="text/javascript">
 <%-- ajax를 이용한 목록 선택 --%>
 $(function(){
+	let theater_num = "";
     $("#createScheduel").on("click", function(){
-        let theater_num = $("#theater_num").val();
+        theater_num = $("#theater_num").val();
         let play_date = $("#play_date").val();
-<<<<<<< HEAD
-      	   // 파라미터값 전달 확인
-//         alert(theater_num + ", " + play_date);
-=======
-        alert(theater_num + ", " + play_date);
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
+        let html = ""; // 초기화된 빈 문자열로 시작합니다.
         
         $.ajax({
             url: "showSchedual",
-            type: "POST",
+            type: "GET",
             data: {
                 "theater_num": theater_num,
-<<<<<<< HEAD
                 "play_date": play_date,
             },
-            success: function(data, status, xhr){
-                console.log(data); // 응답 데이터 출력
+            success: function(data){
+//                 console.log(data); // 응답 데이터 출력
+
                 $(data).each(function(index, item) {
                 	
-
-					  let playList = data;
-//                     console.log(item.play_num, item.play_turn, item.play_date, item.play_start_time, item.play_end_time, item.movie_name_kr);
-//                     alert(item.play_num + ',' + item.play_turn + ',' + item.play_date +','+ item.play_start_time +',' + item.play_end_time + ',' + item.movie_name_kr);
-                    
-                    
-                  	  let html = '<td scope="col">' + index + '회차</td>';
-
-                  	  
-	                  	html += '<td>\
-	                  	    <div id="' + item.play_num + index + '_0">' + item.play_num + '</div>\
-	                  	    <div id="' + item.movie_release_date + index + '_1">' + item.movie_release_date + '</div>\
-	                  	    <div id="' + item.movie_close_date + index + '_2">' + item.movie_close_date + '</div>\
-	                  	    <div id="' + item.play_start_time + index + '_3">' + item.play_start_time + '</div>\
-	                  	    <div id="' + item.play_end_time + index + '_4">' + item.play_end_time + '</div>\
-	                  	    <div id="' + item.movie_name_kr + index + '_5">' + item.movie_name_kr + '</div>\
-	                  	</td>';
-                  	  
-						
-							$("#play1").append(html);
-//                     alert(playList1_1);
-=======
-                "play_date": play_date
-            },
-            success: function(data, status, xhr){
-                console.log(data); // 응답 데이터 출력
-                $(data).each(function(index, item) {
-                	
-					 
+                	roomInfo = item.room_num + ' : ' +item.room_name;
+                    // item 값을 html 변수에 추가합니다.
+//                     html += '<div>' + index + '회차</div>';
+                    html += '<div id="' + item.play_num + index + '_0"> 상영번호 : ' + item.play_num + '</div>\
+                        <div id="' + item.movie_release_date + index + '_1"> 개봉일자 : ' + item.movie_release_date + '</div>\
+                        <div id="' + item.movie_close_date + index + '_2"> 종영일자 : ' + item.movie_close_date + '</div>\
+                        <div id="' + item.play_start_time + index + '_3"> 상영시작시간 : ' + item.play_start_time + '</div>\
+                        <div id="' + item.play_end_time + index + '_4"> 상영종료시간 : ' + item.play_end_time + '</div>\
+                        <div id="' + item.movie_name_kr + index + '_5"> 영화명 : ' + item.movie_name_kr + '</div>?';
 					
-                    console.log(item.play_num, item.play_turn, item.play_date, item.play_start_time, item.play_end_time, item.movie_name_kr);
-                    alert(item.play_num + ',' + item.play_turn + ',' + item.play_date +','+ item.play_start_time +',' + item.play_end_time + ',' + item.movie_name_kr);
-                    
-                    $(function() {
-                  	  let html = '<tr><td>1열</td>';
-
-                  	  for (let i = 0; i < item.length; i++) {
-                  		html += '<td>\
-                  		    <p id="' + i + '_0">' + item[i][0] + '</p>\
-                  		    <p id="' + i + '_1">' + item[i][1] + '</p>\
-                  		    <p id="' + i + '_2">' + item[i][3] + '</p>\
-                  		    <p id="' + i + '_3">' + item[i][4] + '</p>\
-                  		</td>';
-                  	  }
-						html+= '</tr>'
-						
-                  	  $("#play").html(html);
-                  	});
-                    
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
-                    
+                    // movieInfo 배열에 movie_num과 movie_name_kr을 객체 형태로 저장합니다.
+//                     movieInfo += item.movie_num + ': ' item.movie_name_kr + '?';
+                	
                 });
+
+//                 console.log(html);
+                let htmlArray = html.split('?'); // ?를 기준으로 배열로 분할합니다.
+                $("#turn1").html(htmlArray[0]);
+                $("#turn2").html(htmlArray[1]);
+                $("#turn3").html(htmlArray[2]);
+                $("#turn4").html(htmlArray[3]);
+                $("#turn5").html(htmlArray[4]);
+                $("#room_name").html(roomInfo);
+                
+                // movieInfo 배열을 출력합니다.
+//                 console.log(movieInfo);
+//                 let movieInfoArray = html.split('?');
+                
+                
+
             },
             error: function() {
                 alert("request error!");
             }
         });
-    });
+
+    
+    
+    
+    // 셀렉트박스 영화목록 출력
+
+        let movieList = ""; // 초기화된 빈 문자열로 시작합니다.
+        
+        $.ajax({
+            url: "findMovieList",
+            type: "GET",
+            data: {
+              "play_date": play_date
+            },
+            success: function(data) {
+              console.log(data); // 응답 데이터 출력
+
+              // 기존의 옵션을 제거합니다.
+              $("#movieSelect").empty();
+
+              $(data).each(function(index, item) {
+                // 각 영화에 대한 옵션 요소를 생성하고 select 요소에 추가합니다.
+                
+                
+                
+                let option = $("<option>")
+                  .val(item.movie_num)
+                  .text(item.movie_name_kr);
+                $("#movieSelect").append(option);
+                
+                
+              });
+            },
+            error: function() {
+              alert("요청 오류!");
+            }
+          });
+        });
+        
+
 });
-// function converDate(milliSecond){
-// const play_date = new Date(milliSecond);
-// const year = play_date.getFullYear();
-// const month=play_date.getMonth() + 1;
-// const date=play_date.getDate();
-// return  `${year}-${month}-${date}`;
-// }
+
+
+
+
+$(function() {
+	$("#theater_num").on("change", function(){
+		let change = $("#theater_num").val();
+		$("input type[hidden]").val(change);
+
+	});
+});
+
+
+
 
 </script>
 
@@ -180,6 +201,9 @@ background-color: transparent;
 	    	<div class="col col-md-10">
 	    	
 			    <form class="form-inline" action="showSchedual">
+			    
+			    	<input type="hidden" name="theater" val="">
+			    
 			      <select class="form-control mr-sm-2" name="theater_num" id="theater_num">
 			      	<option value="" checked="checked">영화관</option>
 			      	<c:forEach var="theater" items="${theaterInfo }">
@@ -194,6 +218,8 @@ background-color: transparent;
 				  </div>
 			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">확인</button>
 			    </form>
+			    
+
 			    
 		    </div>
 		  </div>
@@ -228,385 +254,34 @@ background-color: transparent;
 	  </thead>
 	  <%-- 테이블 바디--%>
 	  <tbody id="play_table">
-<<<<<<< HEAD
 	  
-		<tr><th>${pageNo}</th><div id="play1">
-			<td>
-				<input type="button" value="생성" onclick="createSelect()">
-			    <input type="button" value="수정" onclick="createSelect()">
-			<td>
+		<tr>
+			<th><div class="row" id="room_name">${roomInfo.room_name}</div>
+				<div class="row">
+					<%-- 영화목록이 출력될 셀렉트박스 --%>
+					<select id="movieSelect"  style="width:150px; onchange="changeMovie(this.val)">
+						<option value="5"></option>
+						<option value="6"></option>
+						<option value="7"></option>
+<%-- 						<c:forEach var="movie" items="${movieList }"> --%>
+<%-- 			      		<option value="${movie.movie_num }">${movie.movie_name }</option> --%>
+<%-- 			      		</c:forEach> --%>
+					</select>
+				</div>
+			</th>
+		<div id="play1">
 		<%-- 상영목록이 출력될 공간  --%>
+			<td><div id="turn1">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_1"></td>
+			<td><div id="turn2">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_2"></td>
+			<td><div id="turn3">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_3"></td>
+			<td><div id="turn4">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_4"></td>
+			<td><div id="turn5">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_5"></td>
+			<td>
+			<div class="row mb-2"><button type="button" class="btn btn-outline-danger" onclick="createSchedule">생성</button></div>
+			<div class="row"><button type="button" class="btn btn-danger" onclick="rewriteSchedule">수정</button></div>
+			<td>
 		</div></tr>
-=======
-		<%-- 상영목록이 출력될 공간  --%>
-		<div id="play1"></div>
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
-<%-- 	    1행 1열 --%>
-<!-- 	    <tr> -->
-<!-- 		    <th scope="col"> -->
-<!-- 		    	<div class="">동백관</div> -->
-<!-- 		    	<div class=""> -->
-<!-- 		    	  <select class="form-control mr-sm-2" name="movie_room"> -->
-<!-- 			      	<option value="">영화명</option> -->
-<!-- 			      	<option value="영화명1">영화명1</option> -->
-<!-- 			      	<option value="영화명2">영화명2</option> -->
-<!-- 			      </select> -->
-<!-- 		    	</div> -->
-<!-- 		    	<button type="button" class="btn btn-secondary m-2" onclick="">생성</button> -->
-<!-- 		    </th> -->
-<%-- 	      	1행 2열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck1_1"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck1_1"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        1행 3열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck1_2"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck1_2"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        1행 4열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck1_3"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck1_3"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        1행 5열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck1_4"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck1_4"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        1행 6열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck1_5"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck1_5"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        1행 7열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<div class="ml-3 mr-3"> -->
-<!-- 	        	<div class="row"><button type="button" class="btn btn-danger mt-3 mb-2" onclick="">등록</button></div> -->
-<!-- 				<div class="row"><button type="button" class="btn btn-outline-danger" onclick="">수정</button></div> -->
-<!-- 	        	</div> -->
-<!-- 	        </th> -->
-<!-- 		</tr> -->
-		
-<%-- 	    2행 1열 --%>
-<!-- 	    <tr> -->
-<!-- 		    <th scope="col"> -->
-<!-- 		    	<div class="">1관</div> -->
-<!-- 		    	<div class=""> -->
-<!-- 		    	  <select class="form-control mr-sm-2" name="movie_room"> -->
-<!-- 			      	<option value="">영화명</option> -->
-<!-- 			      	<option value="영화명1">영화명1</option> -->
-<!-- 			      	<option value="영화명2">영화명2</option> -->
-<!-- 			      </select> -->
-<!-- 		    	</div> -->
-<!-- 		    	<button type="button" class="btn btn-secondary m-2" onclick="">생성</button> -->
-<!-- 		    </th> -->
-<%-- 	      	2행 2열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck2_1"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck2_1"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        2행 3열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck2_2"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck2_2"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        2행 4열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck2_3"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck2_3"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        2행 5열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck2_4"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck2_4"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        2행 6열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck2_5"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck2_5"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        2행 7열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<div class="ml-3 mr-3"> -->
-<!-- 	        		<div class="row"><button type="button" class="btn btn-danger mt-3 mb-2" onclick="">등록</button></div> -->
-<!-- 					<div class="row"><button type="button" class="btn btn-outline-danger" onclick="">수정</button></div> -->
-<!-- 				</div> -->
-<!-- 	        </th> -->
-<!-- 		</tr> -->
-		
-		
-<%-- 	    3행 1열 --%>
-<!-- 	    <tr> -->
-<!-- 		    <th scope="col"> -->
-<!-- 		    	<div class="">1관</div> -->
-<!-- 		    	<div class=""> -->
-<!-- 		    	  <select class="form-control mr-sm-2" name="movie_room"> -->
-<!-- 			      	<option value="">영화명</option> -->
-<!-- 			      	<option value="영화명1">영화명1</option> -->
-<!-- 			      	<option value="영화명2">영화명2</option> -->
-<!-- 			      </select> -->
-<!-- 		    	</div> -->
-<!-- 		    	<button type="button" class="btn btn-secondary m-2" onclick="">생성</button> -->
-<!-- 		    </th> -->
-<%-- 	      	3행 2열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck3_1"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck3_1"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        3행 3열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<label for="scheduelCheck3_2"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck3_2"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        3행 4열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 		      	<label for="scheduelCheck3_3"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck3_3"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        3행 5열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 		      	<label for="scheduelCheck3_4"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck3_4"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        3행 6열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 		      	<label for="scheduelCheck3_5"> -->
-<!-- 		      	<div class="row" id="play_detail_num"> -->
-<!-- 		      		상영번호: 21 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_start_time"> -->
-<!-- 		      		상영기간: 05-21 ~ 06-05 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="paly_end_time"> -->
-<!-- 		      		상영시간: 07:00 ~ 08:30 -->
-<!-- 		      	</div> -->
-<!-- 		      	<div class="row" id="movie_name"> -->
-<!-- 		      		영화명: 신세계 -->
-<!-- 		      	</div> -->
-<!-- 		      	</label> -->
-<!-- 		      	<div class="row m-2 d-flex justify-content-center" aria-label="Checkbox for following text input"> -->
-<!-- 		      		<input type="checkbox" id="scheduelCheck3_5"> -->
-<!-- 		      	</div> -->
-<!-- 	        </th> -->
-<%-- 	        3행 7열 --%>
-<!-- 	        <th scope="col"> -->
-<!-- 	        	<div class="ml-3 mr-3"> -->
-<!-- 	        		<div class="row"><button type="button" class="btn btn-danger mt-3 mb-2" onclick="">등록</button></div> -->
-<!-- 					<div class="row"><button type="button" class="btn btn-outline-danger" onclick="">수정</button></div> -->
-<!-- 				</div> -->
-<!-- 	        </th> -->
-<!-- 		</tr> -->
+
 		
 
 	    <%-- 밑줄 용 빈칸 --%>
@@ -622,6 +297,15 @@ background-color: transparent;
 	  </tbody>
 	</table>
   	</div>
+  	
+  				    
+	
+	<%-- 테스트 영역 --%>
+	<div id="tagtest"></div>
+			    
+			    
+			    
+			    
  <%-- 페이징 --%>
  
  <nav aria-label="...">
@@ -630,12 +314,12 @@ background-color: transparent;
       <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
     </li>
     <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+      <a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">1 <span class="sr-only">(current)</span></a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">4</a></li>
-    <li class="page-item"><a class="page-link" href="#">5</a></li>
+    <li class="page-item"><a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">2</a></li>
+    <li class="page-item"><a class="page-link" href="listPaging?pageNo=3&&theater_num=${theater_num }">3</a></li>
+    <li class="page-item"><a class="page-link" href="listPaging?pageNo=4&&theater_num=${theater_num }">4</a></li>
+    <li class="page-item"><a class="page-link" href="listPaging?pageNo=5&&theater_num=${theater_num }">5</a></li>
     <li class="page-item">
       <a class="page-link" href="#">&raquo;</a>
     </li>
@@ -650,17 +334,6 @@ background-color: transparent;
   <%--왼쪽 사이드바 --%>
 	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
-
-<!-- 	  <div class="h3">관리자 페이지</div> -->
-<!-- 	  <div class="btn-group btn-group-vertical" role="group" aria-label="Basic example" > -->
-<!-- 	  <br> -->
-<!-- 	  <button type="button" class="btn btn-light btn-lg border">회원관리</button> -->
-<!-- 	  <button type="button" class="btn btn-light btn-lg border">영화관리</button> -->
-<!-- 	  <button type="button" class="btn btn-danger btn-lg border">상영스케쥴 관리</button> -->
-<!-- 	  <button type="button" class="btn btn-light btn-lg border">결제 관리</button> -->
-<!-- 	  <button type="button" class="btn btn-light btn-lg border">CS 관리</button> -->
-<!-- 	  <button type="button" class="btn btn-light btn-lg border">혜택관리</button> -->
-<!-- 	</div> -->
   </nav>
   
   <div id="siteAds"></div>
@@ -707,5 +380,73 @@ background-color: transparent;
   </div>
 </div>
 
+
+<script type="text/javascript">
+
+//좌측 영화 목록 변경시 새로운 회차 정보 생성
+function changeMovie(movie_num){
+// 	$("#createTurn").on("change", function(){
+
+        
+		let theater_num = $("#theater_num").val(); // 영화관 정보를 가져오기 위한 파라미터 값
+		let pageNo = $("#pageNo").val(); // 상영관 정보를 가져오기 위한 파라미터 값(page값이 상영관 정보와 같으므로 같이 씀)
+//         let movie_num = $("#movieSelect").val(); // 영화명 정보를 가져오기 위한 파라미터값
+        alert(theater_num+ ', ' + pageNo + ', ' + movie_num);
+
+        let html = ""; // 초기화된 빈 문자열로 시작합니다.
+        
+        $.ajax({
+            url: "createTurn",
+            type: "GET",
+            data: {
+                "theater_num": theater_num,
+            	"pageNo": pageNo,
+            	"movie_num": movie_num
+            	
+            },
+            success: function(data){
+                console.log(data); // 응답 데이터 출력
+
+                $(data).each(function(index, item) {
+                	
+                	
+                    // item 값을 html 변수에 추가합니다.
+//                     html += '<div>' + index + '회차</div>';
+//                     html += '<div id="' + item.play_num + index + '_0"> 상영번호 : ' + item.play_num + '</div>\
+//                         <div id="' + item.movie_release_date + index + '_1"> 개봉일자 : ' + item.movie_release_date + '</div>\
+//                         <div id="' + item.movie_close_date + index + '_2"> 종영일자 : ' + item.movie_close_date + '</div>\
+//                         <div id="' + item.play_start_time + index + '_3"> 상영시작시간 : ' + item.play_start_time + '</div>\
+//                         <div id="' + item.play_end_time + index + '_4"> 상영종료시간 : ' + item.play_end_time + '</div>\
+//                         <div id="' + item.movie_name_kr + index + '_5"> 영화명 : ' + item.movie_name_kr + '</div>?';
+					
+                    // movieInfo 배열에 movie_num과 movie_name_kr을 객체 형태로 저장합니다.
+//                     movieInfo += item.movie_num + ': ' item.movie_name_kr + '?';
+                	
+                });
+
+//                 console.log(html);
+//                 let htmlArray = html.split('?'); // ?를 기준으로 배열로 분할합니다.
+//                 $("#turn1").html(htmlArray[0]);
+//                 $("#turn2").html(htmlArray[1]);
+//                 $("#turn3").html(htmlArray[2]);
+//                 $("#turn4").html(htmlArray[3]);
+//                 $("#turn5").html(htmlArray[4]);
+//                 $("#room_name").html(roomInfo);
+                
+                // movieInfo 배열을 출력합니다.
+//                 console.log(movieInfo);
+//                 let movieInfoArray = html.split('?');
+                
+                
+
+            },
+            error: function() {
+                alert("request error!");
+            }
+        });
+
+}
+
+</script>
 
 </body>

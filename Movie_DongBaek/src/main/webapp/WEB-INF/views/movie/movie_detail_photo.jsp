@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -14,129 +15,69 @@
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
- 
-  <article id="mainArticle">
-  <%--본문내용 --%>
-
-		<div class="container">
-		
-			<section id="movie-head"> <%-- 첫번째 섹션 --%>
-			<div class="row bg-secondary p-5">
-		 	 <div class=" col-md-8 d-flex"><%-- 왼쪽 창 --%>
-			  <div class="col float-left" >
-			  	  <div class="row">
-			  	  <br><br><br>
-			  	  </div>
-				  <div class="row">
-				     <div class="col-md-8 justify-content-start h3 p-0">영화명</div>
-				  </div> 
-				  <div class="row">
-				    	<div class="col-ml-8">		  			
-				    	그들이 나를 배신했을 때,<br>
-						그는 나를 형제라 불러주었다!
-						</div>
-				  </div>
-				  <br>
-				  <div class="row">
-				    	<div class="col-md-2"><button type="button" class="btn btn-primary">찜♡</button>
-				    	</div>
-				    	<div class="col-md-3">
-				    		<div class="card" style="width: 18rem;">
-							  <div class="card-body">
-							    <h5 class="card-title">닉네임</h5>
-							    <p class="card-text">리뷰하는 내용 어쩌구 저쩌구 어쨋든 재미있다는 내용</p>
-							  </div>
-							</div>
-						</div>
-				  </div>
-				  <%-- 평점 --%>
-				  <br>
-				  <br>
-				  <div class="row">
-				  	<div class="col col-md-3 h5">
-						<br>
-				  		평점 : 5.0
-				  		<br>
-				  	</div>
-				  	<div class="col col-md-6 h5">
-				  		<br>
-				  		실제 관람객 수 : 1000만명
-				  		<br>
-				  	</div>
-				  </div>
-			  </div>
-			 </div>
-			 <%-- 포스트 부분 --%>
-			    <div class ="col float-right col-md-3">
-					<div class="row">
-						<div class="card" style="width: 18rem;">
-						  <img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-						  <div class="card-body">
-						    <a href="#" class="btn btn-primary">예매하기</a>
-						  </div>
-						</div>
-					</div>
-				</div> <%-- 오른쪽 창 끝 --%>		
-			</div>
-		  	</section><%-- 첫번째 섹션 끝 --%>
-		  	
-		  	<section id=""> <%-- 두번째 섹션 --%>
-		  	  <div class="row">
-		  	   <div class="col">
+<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
+<article id="mainArticle">
+<%--본문내용 --%>
+<%-- 첫번째 섹션 --%>
+<div class="container">
+	<%--top 섹션 include --%>
+	<%@include file="movieDetail_top.jsp" %>
+	
+	<%-- 2. 두번째 섹션 - 탭 --%>
+	<section id="tap">
+		 <div class="row">
+			 <div class="col">
 		  		<ul class="nav nav-tabs">
-				  <li class="nav-item">
-				     <a class="nav-link active" href="movie_detail_info">주요정보</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_review">리뷰</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_photo">포토</a>
-				  </li>
+					<li class="nav-item">
+				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰 </a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link active" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px"> 예고편 / 스틸컷</a>
+				  	</li>
 				</ul>
-			   </div>
-			  </div>
-		  	</section><%-- 두번째 섹션 끝 --%>
-		  	
-		  	<section id="movie-end"> <%-- 세번째 섹션 --%>
-		  	  <div class="container p-3">
-		  	  	
-		  	  	<%-- 썸네일 이미지 --%>
-		  	  	<%-- 1열 --%>
-		  	  	<div class="row row-md-12">
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  	</div>
-		  	  	<br>
-		  	  	<%-- 2열 --%>
-		  	  	<div class="row row-md-12">
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  		<div class="col col-md-3">
-				  	  	<img src="${pageContext.request.contextPath }/resources/img/poster02@2.jpg" alt="..." class="img-thumbnail" onclick="window.open('${pageContext.request.contextPath }/resources/img/poster02@2.jpg','pop01','top=200 left=600 width=900 height=600');">
-		  	  		</div>
-		  	  	</div>
-		  	  	<br>  	  	
-		  	  </div>
-		  	</section><%-- 세번째 섹션 끝--%>
+			</div>
+		</div>
+	</section>
+	
+	<%-- 세번째 섹션 --%>
+	<section id="movie-end">
+		<div class="container p-3" style="padding:50px; margin: 50px;">
+	  	  	
+ 		<%-- 썸네일 이미지 --%>
+			<%-- 	<c:forEach var="photo" items="${movie }"> --%>
+			<!-- 		<div class="row row-md-12"> -->
+			<%-- 			<c:forEach var="i" begin="1" end="3" step="i++" > --%>
+			<!-- 				<div class="col col-md-3"> -->
+			<%-- 					<img src="${movie_photo[i] }"> --%>
+			<!-- 				</div> -->
+			<%-- 			</c:forEach> --%>
+			<!-- 		</div> -->
+			<%-- 	</c:forEach> --%>
+			<div class="row" >
+	  	  		<div class="col">
+	  	  			<iframe src="${movie.movie_preview }"  width="800" height="500" style="margin-left: 30px;"></iframe>
+	  	  		</div>
+	  	  	</div>
+	  	  	
+	  	  	<div class="row row-md-12">
+	  	  		<div class="col col-md-3">
+			  	  	<img src="${movie.movie_photo1 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo1 }' ,'pop01','width=900 height=600');">
+	  	  		</div>
+	  	  		<div class="col col-md-3">
+			  	  	<img src="${movie.movie_photo2 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo2 }' ,'pop01','width=900 height=600');">
+	  	  		</div>
+	  	  		<div class="col col-md-3">
+			  	  	<img src="${movie.movie_photo3 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo3 }' ,'pop01','width=900 height=600');">
+	  	  		</div>
+	  	  	</div>
+	  	  	
+		  	  	  	
+		</div>
+	</section>
+	<%-- 세번째 섹션 끝--%>
 		
 			
 		</div> <%-- 컨테이너 끝 --%>

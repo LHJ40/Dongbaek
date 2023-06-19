@@ -1,5 +1,7 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -12,8 +14,8 @@ import com.itwillbs.dongbaekcinema.vo.*;
 public class CsController {
 	
 	// Service와 연결하기
-//	@Autowired
-//	private CsService service;
+	@Autowired
+	private CsService service;
 	
 	// cs 부분 main으로 가는 매핑
 	@GetMapping("cs_main")
@@ -38,6 +40,20 @@ public class CsController {
 	@GetMapping("cs_faq")
 	public String cs_faq() {
 		return "cs/cs_faq";
+	}
+	
+	// cs 부분 자주묻는질문 DB 조회하는 메서드
+	@GetMapping("/faq_data")
+	@ResponseBody	// CsVO -> json으로 리턴
+	public List<CsVO> fag_data(@RequestParam("cs_type") String cs_type) {
+		
+		// 받아온 값으로(cs_type) 레코드 조회
+		// CsService - getFaq()
+		// 파라미터 : String(cs_type)		리턴타입 : CsVO(faq)
+		List<CsVO> faq = service.getCsFaq(cs_type);
+//		System.out.println(faq);
+		
+		return faq;
 	}
 	
 	// cs 부분 공지사항(cs_cs_notice.jsp)으로 가는 매핑

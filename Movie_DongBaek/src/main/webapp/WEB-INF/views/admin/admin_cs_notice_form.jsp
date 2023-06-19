@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -38,7 +39,14 @@
 div {
 background-color: transparent;
 }
+
+a {
+	text-decoration: none;
+	
+}
 </style>
+
+<
 
 </head>
 <body>
@@ -52,59 +60,41 @@ background-color: transparent;
   
    <div class="container-fluid w-900" >
   
-
-
-		
-		<form action="admin_cs_notice_pro" method="post">
+		<form action="admin_cs_notice_pro" method="post" enctype="multipart/form-data">
 			<h1>공지사항 관리자</h1>
 	
 			<table class="table table-striped text-center align-middle">
-				
+				<input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
+				<input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">24</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value=""></td>
+			      <td scope="col" class="align-middle" width="100">번호</th>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">제목</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value=""></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content"></textarea></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"></td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
 					<td scope="col" class="align-middle">
-						<button class="btn btn-danger" type="submit">등록</button>
+						<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
 					</td>
 			    </tr>
-			 
-<!-- 			    <td class="tg-fymr">제목<textarea rows="1" cols="20" name="title"></textarea></td> -->
-			   
-<!-- 			  </tr> -->
-<!-- 			  <tr> -->
-<!-- 			    <td class="tg-fymr">내용<textarea rows="5" cols="50" name="content" ></textarea></td> -->
-			    
-<!-- 			  </tr> -->
-<!-- 			  <tr> -->
-<!-- 			    <td class="tg-fymr">사진첨부 <input type="file" value="사진첨부"></td> -->
-			    
-<!-- 			  </tr> -->
-			 
-<!-- 			  <tr> -->
-<!-- 					<button class="btn btn-danger" type="submit">등록</button>	 -->
-<!-- 					<button class="btn btn-outline-danger" type="button" onclick="location.href='history.back()'">돌아가기</button>	 -->
-<!-- 			  </tr> -->
+
 			</table>
 			
 		</form>

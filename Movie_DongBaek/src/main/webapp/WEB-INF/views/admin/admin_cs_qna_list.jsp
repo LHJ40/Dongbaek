@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -63,6 +65,12 @@ background-color: transparent;
 
 </style>
 
+<script type="text/javascript">
+
+
+
+</script>
+
 </head>
 <body>
  <header id="pageHeader">
@@ -107,21 +115,29 @@ background-color: transparent;
 	  <%-- 테이블 바디--%>
 	  <tbody>
 	    <tr>
-	      <td scope="col" class="align-middle">24</th>
-	      <td scope="col" class="align-middle">안녕하세요</td>
-	      <td scope="col" class="align-middle">홍길동</td>
-	      <td scope="col" class="align-middle">2022-02-02</td>
+	  <%-- CS 목록 출력 --%>
+	  <c:forEach var="qna" items="${CsQnaList }">
+	    <tr>
+	      <td scope="col" class="align-middle">${qna.cs_type_list_num }</th>
+	      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${qna.cs_subject }</td>
+	      <td scope="col" class="align-middle">${qna.member_name }</td>
 	      <td scope="col" class="align-middle">
-	<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=1'">답변등록</button></div>
-<!-- 	      <td  class="align-middle"> -->
-<!-- 		  	<select class="form-control mr-sm-2 text-center" name="movie_play"> -->
-<!-- 		      	<option value="play1">1회차: 07:00 ~ 08:30</option> -->
-<!-- 		      	<option value="paly2">2회차: 11:30 ~ 13:00</option> -->
-<!-- 		      	<option value="play3">3회차: 16:30 ~ 15:30</option> -->
-<!-- 		      	<option value="play4">4회차: 19:00 ~ 20:30</option> -->
-<!-- 		      	<option value="play5">5회차: 21:30 ~ 23:00</option> -->
-<!-- 			</select> -->
+	      	<fmt:formatDate value="${qna.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      </td>
+	      
+		<%-- 관리자 답변이 없을 경우 답변 등록 버튼이 나오고 답변이 있을 경우 답변완료 버튼 뜸  --%>	      
+		<td scope="col" class="align-middle">
+	      	<c:choose>
+	      		<c:when test="${empty qna.cs_reply }">
+		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${qna.cs_type_list_num}&pageNo=${param.pageNo}'">답변등록</button></div>
+		  		</c:when>
+		  		<c:otherwise>
+		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-outline-secondary" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${qna.cs_type_list_num}&pageNo=${param.pageNo}'">답변완료</button></div>
+		  		</c:otherwise>
+		  	</c:choose>
 		  </td>
+	    </tr>
+	  </c:forEach>
 	    </tr>
 
 	    <%-- 밑줄 용 빈칸 --%>
@@ -141,19 +157,50 @@ background-color: transparent;
  
  <nav aria-label="...">
   <ul class="pagination pagination-md justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-    </li>
-    <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">4</a></li>
-    <li class="page-item"><a class="page-link" href="#">5</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">&raquo;</a>
-    </li>
+  <%-- 페이지가 1이상일때 클릭시 이전 페이지로 이동 --%>
+	<c:choose>
+		<c:when test="${pageNo > 1 }">
+			<li class="page-item">
+		      <a class="page-link" href="admin_cs_qna?pageNo=${pageNo - 1}'" tabindex="-1" aria-disabled="flase">&laquo;</a>
+		    </li>
+		</c:when>
+		<c:otherwise>
+		    <li class="page-item disabled">
+		      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+		    </li>
+		</c:otherwise>
+	</c:choose>
+	<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
+		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+			<c:choose>
+			    <%-- 현재 페이지 --%>
+				<c:when test="${pageNo eq i }">
+				    <li class="page-item active" aria-current="page">
+				      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+				    </li>
+				</c:when>
+				<c:otherwise>
+				    <%-- 다른 페이지 --%>
+    				<li class="page-item">
+    				  <a class="page-link" href="admin_cs_qna?pageNo=${i }">${i }</a>
+    				</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+
+
+	<%-- 다음페이지로 이동 --%>
+		<c:choose>
+			<c:when test="${pageNo < pageInfo.maxPage }">
+				<li class="page-item">
+				 <a class="page-link" href="admin_cs_qna?pageNo=${pageNo + 1}'">&raquo;</a>
+			    </li>
+			</c:when>
+			<c:otherwise>
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#" tabindex="+1" aria-disabled="true">&raquo;</a>
+			</c:otherwise>
+		</c:choose>	
   </ul>
 </nav>
     

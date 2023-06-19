@@ -69,23 +69,44 @@ public class MovieController {
 	}
 	
 
-	
-
-	
-	
-	
-	
 	//영화상세정보-포토탭
 	@GetMapping("movie_detail_photo")
-	public String movie_detail_photo() {
+	public String movie_detail_photo(int movie_num, Model model) {
+		
+		// 각 영화의 상세정보 출력 getMovie()메서드
+		// 파라미터: 리턴타입:MemberVO
+		MovieVO movie = service.getMovie(movie_num);
+		System.out.println(movie);
+		model.addAttribute("movie", movie);
+		
+		// 각 영화의 리뷰정보 출력 getReviewRating
+		ReviewVO review = service.getReviewRating(movie_num);
+		System.out.println(review);
+		model.addAttribute("review", review);
+		
 		return "movie/movie_detail_photo";
 	}
 	
 	//영화상세정보-리뷰탭
 	@GetMapping("movie_detail_review")
-	public String movie_detail_review() {
+	public String movie_detail_review(int movie_num, Model model) {
+		
+		// 각 영화의 상세정보 출력 getMovie()메서드
+		// 파라미터: 리턴타입:MemberVO
+		MovieVO movie = service.getMovie(movie_num);
+		System.out.println(movie);
+		model.addAttribute("movie", movie);
+		
+		// 각 영화의 리뷰정보 출력 getReviewRating
+		ReviewVO review = service.getReviewRating(movie_num);
+		System.out.println(review);
+		model.addAttribute("review", review);
+		
 		return "movie/movie_detail_review";
 	}
 	
+	
+
+
 	
 }

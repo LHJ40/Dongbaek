@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	
 </script>
@@ -23,18 +24,20 @@
       			<a class="nav-link" href="myPage_moviefourcut">영화네컷<span class="sr-only">(current)</span></a>
     		</li>
     		<hr>
-    		<li class="nav-item">
-      			<a class="nav-link" href="myPage_inquiry">문의내역<span class="sr-only">(current)</span></a>
-    		</li>
-    		<hr>
-    		<li class="nav-item">
-      			<a class="nav-link" href="myPage_grade">등급별혜택<span class="sr-only">(current)</span></a>
-    		</li>
-    		<hr>
-    		<li class="nav-item">
-      			<a class="nav-link" href="myPage_modify_check">개인정보 수정<span class="sr-only">(current)</span></a>
-    		</li>
-    		<hr>
+    			<c:if test="${member_type != '비회원'}">
+		    		<li class="nav-item">
+		      			<a class="nav-link" href="myPage_inquiry">문의내역<span class="sr-only">(current)</span></a>
+		    		</li>
+		    		<hr>
+		    		<li class="nav-item">
+		      			<a class="nav-link" href="myPage_grade">나의 멤버십 등급<span class="sr-only">(current)</span></a>
+		    		</li>
+		    		<hr>
+		    		<li class="nav-item">
+		      			<a class="nav-link" href="myPage_modify_check">개인정보 수정<span class="sr-only">(current)</span></a>
+		    		</li>
+		    		<hr>
+    			</c:if>
 
   		</ul>
 </div>

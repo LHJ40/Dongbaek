@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -43,90 +45,33 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
-
-		<div class="container">
+	<%--top 섹션 include --%>
+	<%@include file="movieDetail_top.jsp" %>
 		
-			<section id="movie-head"> <%-- 첫번째 섹션 --%>
-			<div class="row bg-secondary p-5">
-		 	 <div class=" col-md-8 d-flex"><%-- 왼쪽 창 --%>
-			  <div class="col float-left" >
-			  	  <div class="row">
-			  	  <br><br><br>
-			  	  </div>
-				  <div class="row">
-				     <div class="col-md-8 d-flex justify-content-start h3">영화명</div>
-				  </div> 
-				  <div class="row">
-				    	<div class="col col-ml-8">		  			
-				    	그들이 나를 배신했을 때,<br>
-						그는 나를 형제라 불러주었다!
-						</div>
-				  </div>
-				  <br>
-				  <div class="row">
-				    	<div class="col-md-3 d-flex justify-content-center"><button type="button" class="btn-lg btn-danger">찜하기<br>♡</button>
-				    	</div>
-				    	<div class="col-md-4">
-				    		<div class="card" style="width: 18rem;">
-							  <div class="card-body">
-							    <h5 class="card-title">아이디</h5>
-							    <p class="card-text">리뷰하는 내용 어쩌구 저쩌구 어쨋든 재미있다는 내용</p>
-							  </div>
-							</div>
-						</div>
-				  </div>
-				  <%-- 평점 --%>
-				  <br>
-				  <br>
-				  <div class="row">
-				  	<div class="col col-md-3 h5">
-				  		<p class="row h5">평점</p>
-				  		<p class="row h4">5.0</p> 
-				  		<br>
-				  	</div>
-				  	<div class="col col-md-6 h5">
-				  		<p class="row h5">실제 관람객 수</p>
-				  		<p class="row h4">1000만명</p> 
-				  		<br>
-				  	</div>
-				  </div>
-			  </div>
-			 </div>
-			 <%-- 포스트 부분 --%>
-			    <div class ="col float-right col-md-3">
-					<div class="row">
-						<div class="card" style="width: 18rem;">
-						  <img src="/resources/img/poster02@2.jpg" class="card-img-top" alt="...">
-						  <div class="card-body d-flex justify-content-center">
-						    <a href="#" class="btn-lg btn-danger">&nbsp;&nbsp;&nbsp;&nbsp;예매하기&nbsp;&nbsp;&nbsp;&nbsp;</a>
-						  </div>
-						</div>
-					</div>
-				</div> <%-- 오른쪽 창 끝 --%>		
-			</div>
-		  	</section><%-- 첫번째 섹션 끝 --%>
 		  	
-		  	<section id=""> <%-- 두번째 섹션 --%>
-		  	  <div class="row">
-		  	   <div class="col">
+	<%-- 2. 두번째 섹션 - 탭 --%>
+	<section id="tap">
+		 <div class="row">
+			 <div class="col">
 		  		<ul class="nav nav-tabs">
-				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_info">주요정보</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link active" href="movie_detail_review">&nbsp;&nbsp;&nbsp;&nbsp;리뷰&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="movie_detail_photo">&nbsp;&nbsp;&nbsp;&nbsp;포토&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				  </li>
+					<li class="nav-item">
+				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link active" href="movie_detail_review?movie_num=${movie.movie_num }"> 리뷰 </a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px">예고편/스틸컷</a>
+				  	</li>
 				</ul>
-			   </div>
-			  </div>
-		  	</section><%-- 두번째 섹션 끝 --%>
-		  	
-		  	<section id="movie-end"> <%-- 세번째 섹션 --%>
+			</div>
+		</div>
+	</section>
 
-<%-- 			  		리뷰페이지 --%>
+	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
+	 <section id="movie-end">
+
+
 		  	  <div class="p-3">
 		  		<div class="row">
 			  		<div class="h5" id="review_head">영화명에 대한 리뷰 NN개가 등록되어 있습니다!</div>
@@ -173,7 +118,7 @@
 			  		<div class="row">
 			  		<%-- 프로필 사진& 아이디 --%>
 					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
+					    <div class="row container-md"><img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
 					    <p class="row">사용자 아이디</p>
 					  </div>
 					<%-- 평점 --%>

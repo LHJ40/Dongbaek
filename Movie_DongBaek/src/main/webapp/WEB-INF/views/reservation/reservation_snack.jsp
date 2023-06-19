@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -76,27 +77,57 @@
 	}
 </style>
 <script type="text/javascript">
-$(function() {
-	let totalprice=0;
-	let quantity1=0;
-	let quantity2=0;
+
+	
+ 	//스낵 담기
 	$(document).on("click", "#addsnack", function(){
+		let totalprice=0;
+		let snacknum=$(this).val();
+ 		let quantity=($("#quantity"+snacknum).val());
+		let snackprice=Number(($("#snackprice"+snacknum).val()));
+		if(quantity<=0){
+			alert("잘못된 입력");
+		}else{
+		$("#snackquantity"+snacknum).html(quantity);
+		$("#snackpriceview"+snacknum).html(quantity*snackprice);
 		
-// 		let quantity=($("#quantity"+$(this).val()).val());
+		//총가격
+		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+			totalprice+=Number($("#snackpriceview"+i).html());
+			}
 		
-		let price=Number(($("#eee"+$(this).val()).val()));
+		$("#totalprice").html(totalprice);
 		
-		$("#snackquantity"+$(this).val()).html(quantity++);
-		$("#snackprice"+$(this).val()).html(quantity1*price);
+		$("#snackCart"+snacknum).css("display", "");
+		}
+
 		
-		
-		$("#snackCart"+$(this).val()).css("display", "");
-		
-// 		alert(totalprice);
+	});
+	//다시 선택하기
+	$(document).on("click", "#snackreset", function(){
+		$("#totalprice").html(0);
+		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+			$("#snackpriceview"+i).html(0);
+			$("#snackquantity"+i).html(0);
+			$("#snackCart"+i).css("display", "none");
+			}
+		$(".snackquantity").val(1);
+	
+	});
+	
+	//카트 X
+	$(document).on("click", "#snackcancel", function(){
+		let snacknum=$(this).val();
+		let totalprice=$("#totalprice").html();
+ 		let snackview=Number($("#snackpriceview"+snacknum).html());
+ 		$("#totalprice").html(totalprice-snackview);
+		$("#snackpriceview"+snacknum).html(0);
+		$("#snackquantity"+snacknum).html(0);
+		$("#snackCart"+snacknum).css("display", "none");
 		
 	});
 	
-});
+
 
 </script>
 </head>
@@ -121,7 +152,7 @@ $(function() {
 						        <h5 class="card-title">${snack.snack_name}</h5>
 						        	${snack.snack_price}원
 						        <p class="card-text">
-						        	<input type="number" id="quantity${snack.snack_num}"value=1>
+						        	<input type="number" class="snackquantity" id="quantity${snack.snack_num}"value=1>
 						        	<button type="button" class="btn btn-outline-danger" value="${snack.snack_num}" id="addsnack" >담기</button><br>
 						        	${snack.snack_txt}<br>
 						        </p>
@@ -167,9 +198,9 @@ $(function() {
 	                	<tr>
 	                		<td colspan="2" class="right_side">
 	                	
-	                	<input type="hidden" id="eee${snack.snack_num}" value="${snack.snack_price}">
-	                	
-	                			<span id="snackprice${snack.snack_num}" >0</span> <button class="btn btn-secondary">x</button>
+	                	<input type="hidden" id="snackprice${snack.snack_num}" value="${snack.snack_price}">
+             	
+	                			<span id="snackpriceview${snack.snack_num}" >0</span> <button class="btn btn-secondary" value="${snack.snack_num}"  id="snackcancel">x</button>
 	                		</td>
 	                	</tr>
 	                </table>
@@ -180,7 +211,7 @@ $(function() {
 	                <div class="bottom">
 	                	<hr>
 		                	총 금액 :(<span id="totalprice" >0</span>)원
-		                <button class="btn btn-secondary"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
+		                <button class="btn btn-secondary" id="snackreset"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
 	                </div>
 	               </div>
 	           </div>

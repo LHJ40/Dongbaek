@@ -3,6 +3,8 @@ package com.itwillbs.dongbaekcinema.vo;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
  
 @Data

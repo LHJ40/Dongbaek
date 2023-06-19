@@ -3,21 +3,26 @@
 .container-top{
 	margin: 3rem;
 }
-aside{
-	margin: 10px;
-	background-color: #d5b59c;
-}
 
 /* 예매 선택 구간 */
 /* 크기 조절 */
 .container-fluid{
 	width: 900px;
-	padding-left: 2rem;
-	border: 2px solid #aaa;
+/* 	padding-left: 2rem; */
+	border: 1px solid #aaa;
 /* 	background-color: #d5b59c; */
 }
 div{
 	background-color: transparent;
+}
+div .title-area {
+	background-color: #ef4f4f;
+	height: 44px;
+	text-align: center;
+	line-height: 44px;
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: #fff;
 }
 .container-fluid h5{
 	text-align: center;
@@ -25,9 +30,9 @@ div{
 }
 /* 각 파트 구별을 위한 색상 조절, 여백 */
 .row1>div{
-	height: 300px;
-	margin: 0.5rem;
-	padding: 10px;
+	height: 500px;
+/* 	margin: 0.5rem; */
+/* 	padding: 10px; */
 	background-color: white;
 }
 /* 페이지 이름 잘보이게 설정 */
@@ -73,12 +78,14 @@ div{
 	margin: 3px;
 }
 
-/* 영화 목록, 극장 목록 앞의 모양 제거 */
-#selectMovie ul, #selectTheater ul, #selectDate ul, #selectRoom ul {
+/* --------- [영화]선택, [극장]선택, [날짜]선택, [시간]선택 영역 ul 앞의 모양 제거 --------- */
+#selectMovie ul, #selectTheater ul, #selectDate ul, #selectTime ul {
 	list-style: none;
 	padding-left: 0;
 }
-#selectMovie a, #selectTheater a, #selectDate a {
+
+/* --------- [영화]선택, [극장]선택, [날짜]선택, [시간]선택 영역 <a> 설정 ----------- */
+#selectMovie a, #selectTheater a, #selectDate a, #selectTime a {
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -87,68 +94,121 @@ div{
 }
 
 a:link, a:hover {
-	text-decoration: none;
-}
+	text-decoration: none;}
 
 a {
 	color: #333;
 	margin: 1px;
 }
 
+/* ------------ li 의 span 영역 text의 설정 ----------  */
+li .selected a span.text {
+	color:#fff;
+	font-weight: bold;
+   	padding-right: 5px;
+}
+
+/* ----------------- [영화] 선택 영역 ------------- */
 #selectMovie .selected a {
 	background-color: #333;
-    width: 270px;
+/*     width: 270px; */
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;
     color:#fff;
 }
 
+/* ----------------- [극장] 선택 영역 ------------- */
 #selectTheater .selected a {
 	background-color: #333;
-    width: 124px;
+/*     width: 124px; */
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;
     color:#fff;
 }
 
+/* ----------------- [날짜] 선택 영역 ------------- */
 #selectDate .selected a {
 	background-color: #333;
-    width: 51px;
+/*     width: 51px; */
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;
     color:#fff;
 }
 
-#selectRoom a {
-    width: 270px;
+#selectDate .month {
+	display: table;
+	text-align: center;
+}
+
+#selectDate .month>#playMonth {
+	display: table-cell;
+}
+
+#selectDate .day ul li a {
+	display: table;
+}
+
+#selectDate .day ul li a .playTodayLabel{
+	display: table-cell;
+	width: 60px;
+	text-align: center;
+}
+
+#selectDate .day ul li a .playDate{
+	display: table-cell;
+	width: 60px;
+	text-align: center;
+}
+
+
+
+/* ----------------- [시간] 선택 영역 ------------- */
+#selectTime a {
+/*     width: 270px; */
     height: 66px;
 /*     border: 1px solid #000; */
     color:#333;
     margin: 1px;
     flex-wrap: nowrap;
 }
-#selectRoom hr {
+
+#selectTime a span.playTimeType {
+	display: table-cell;
+	width: 50px;
+}
+
+#selectTime a span.time {
+	display: table-cell;
+	width: 80px;
+}
+
+#selectTime a span.movie {
+	display: table-cell;
+	width: 80px;
+}
+
+#selectTime a span.theater {
+	display: table-cell;
+	width: 80px;
+	text-align: right;
+	padding-right: 5%
+}
+
+#selectTime hr {
 	padding: 0;
 	margin: 0;
 }
 
-
-#selectRoom a .col-1, #selectRoom a .col-2, #selectRoom a .col-3, #selectRoom a .col-4 {
-	padding-left: 5px;
-	padding-right: 5px;
-} 
-
-
-#selectRoom .time{
+#selectTime .time{
 	text-align: left;
 	vertical-align: top;
 	font-weight: 300;
 }
 
-#selectRoom strong {
+#selectTime strong {
 	display: block;
 	font-weight: 700;
 	font-size: 1.2em;
@@ -156,7 +216,7 @@ a {
 	padding: 0;
 }
 
-#selectRoom em {
+#selectTime em {
 	display: block;
 	font-size: .8667em;
 	font-weight: 300;
@@ -164,16 +224,67 @@ a {
 	padding: 0;
 } 
 
-#selectRoom .selected a {
+#selectTime .selected a {
 	background-color: #333;
-    width: 270px;
+/*     width: 270px; */
     height: 66px;
     border: 1px solid #000;
     color:#fff;
 }
 
-li .selected a span.text {
-	color:#fff;
-	font-weight: bold;
-   	padding-right: 5px;
+#selectTime li a:hover, #selectTime li a:link {
+	background-color: #dfdfdf;
 }
+#selectTime .selected a, #selectTime .selected a {
+	background-color: #333!important;
+    border: 1px solid #000!important;
+    color:#fff!important;
+}
+/* ---------- [영화]선택, [극장]선택, [날짜]선택, [시간]선택 영역 스크롤바 설정 --------- */
+#selectMovie {
+	height: 370px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#selectTheater, #selectDate {
+	height: 415px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#selectTime {
+	height: 390px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#selectMovie::-webkit-scrollbar, 
+#selectTheater::-webkit-scrollbar, 
+#selectDate::-webkit-scrollbar, 
+#selectTime::-webkit-scrollbar {
+    width: 10px;  /* 세로축 스크롤바 폭 너비 */
+    height: 20px;  /* 가로축 스크롤바 폭 너비 */
+}
+/* 스크롤바 막대 */
+#selectMovie::-webkit-scrollbar-thumb, 
+#selectTheater::-webkit-scrollbar-thumb, 
+#selectDate::-webkit-scrollbar-thumb, 
+#selectTime::-webkit-scrollbar-thumb {
+    background: #aaa; /* 스크롤바 막대 색상 */
+    border: 2px solid #dfdfdf; /* 스크롤바 막대 테두리 설정  */
+    border-radius: 12px 12px 12px 12px;
+    width: 6px;
+}
+#selectMovie::-webkit-scrollbar-thumb:hover, 
+#selectTheater::-webkit-scrollbar-thumb:hover, 
+#selectDate::-webkit-scrollbar-thumb:hover, 
+#selectTime::-webkit-scrollbar-thumb:hover {
+	background-color:#777;
+}
+/* 스크롤이 움직이는 뒷 배경 */
+#selectMovie::-webkit-scrollbar-track, 
+#selectTheater::-webkit-scrollbar-track, 
+#selectDate::-webkit-scrollbar-track,
+#selectTime::-webkit-scrollbar-track {
+/* 	background: #dfdfdf;  */
+}
+

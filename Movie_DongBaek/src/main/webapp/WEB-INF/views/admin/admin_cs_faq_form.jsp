@@ -61,13 +61,13 @@ background-color: transparent;
 			
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">24</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value=""></td>
+			      <td scope="col" class="align-middle" width="100">번호</th>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" value="" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
-				       <select class="form-control" name="keyword">
+				       <select class="form-control" name="cs_type" id="cs_type">
 							<option value="">전체</option>
 							<option value="예매">예매</option>
 							<option value="멤버십">멤버십</option>
@@ -79,24 +79,24 @@ background-color: transparent;
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">제목</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" id="cs_subject" name="cs_subject"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" id="member_id" name="member_id" value="${sessionScope.member_id}" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content"></textarea></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" value=""></td>
+			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" name="cs_multi_file"></td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
 					<td scope="col" class="align-middle">
-						<button class="btn btn-danger" type="submit">등록</button>
+						<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
 					</td>
 			    </tr>
