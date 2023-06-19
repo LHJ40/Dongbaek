@@ -101,6 +101,7 @@ article {
 <script type="text/javascript">
 	
  	$(function() {
+ 		
  		$("#check_module").click(function () {
  	        var IMP = window.IMP; // 생략가능
  	        IMP.init('imp85027310'); 
@@ -136,7 +137,7 @@ article {
  	            amount: 1000, 
  	            //가격 
  	            buyer_email: 'willbeok5.1@gmail.com',
- 	            buyer_name: 'user1',
+ 	            buyer_name: '${sessionScope.member_id}',
  	            buyer_tel: '010-1234-5678',
  	            buyer_addr: '부산광역시 부산진구 동천로 ',
  	            buyer_postcode: '123-456',
