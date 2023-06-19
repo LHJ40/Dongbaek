@@ -11,7 +11,7 @@ import com.itwillbs.dongbaekcinema.vo.ReviewVO;
 @Mapper
 public interface MovieMapper {
 
-	
+	// 영화 등록 0620정의효
 	int insertMovie(MovieVO movie);
 
 	// 영화 정보 조회

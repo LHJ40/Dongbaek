@@ -196,10 +196,8 @@
 					error: function() {
 						alert('에러');
 					}
-					
 				});
 		});
-		
 	});
 	
 	
@@ -313,16 +311,11 @@
 								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 								);
 					}
-					
-					
 				},
 				error: function() {
 					alert('에러');
 				}
-				
 			});
-			
-			
 		});
 	
 		
