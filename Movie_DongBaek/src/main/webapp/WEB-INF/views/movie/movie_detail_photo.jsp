@@ -72,22 +72,18 @@
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo3 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo3 }' ,'pop01','width=900 height=600');">
 	  	  		</div>
-	  	  	</div>
-	  	  	
-		  	  	  	
+	  	  	</div>	  	  	
 		</div>
 	</section>
 	<%-- 세번째 섹션 끝--%>
 		
 			
-		</div> <%-- 컨테이너 끝 --%>
-  
+  </div> <%-- 컨테이너 끝 --%>
   </article>
   
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
