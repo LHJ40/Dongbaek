@@ -50,6 +50,7 @@
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
+ 
   <article id="mainArticle">
   <%--본문내용 --%>
 <%-- 상영작 구분 --%>
@@ -88,9 +89,21 @@
 					  	<img src="${movie.movie_poster}" class="card-img-top" alt="...">
 					  </a><%-- 해당영화의 포스터출력 --%>
 						<div class="card-body">
-							<h6 class="card-title">
-							<img src="${pageContext.request.contextPath}/resources/img/gradeB.png" class="img-rounded" onclick="location.href='movie_detail_info'">
+							<h6 class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 							<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
+							<c:if test="${movie.movie_grade eq '전체관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_all.png" alt="전체" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '12세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_12.png" alt="12" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '15세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '청소년관람불가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
+							</c:if>
+							
 							${movie.movie_name_kr}</h6>
 							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
 							<p class="d-flex justify-content-center">

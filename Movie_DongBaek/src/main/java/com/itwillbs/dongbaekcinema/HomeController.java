@@ -33,7 +33,7 @@ public class HomeController {
 		//영화 목록 조회(현재상영작.예매율순)
 		List<MovieVO> movieList = service.getMovieList_top4();
 		model.addAttribute("movieList", movieList);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		return "home";
 	}

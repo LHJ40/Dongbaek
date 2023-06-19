@@ -40,7 +40,7 @@ public class MovieController {
 	public String movie_list_prepare(Model model) {
 //		System.out.println("Moviecontroller-movie_list_prepare");
 		
-		List<MovieVO> movieList = service.getMovieList_present_bookrate();
+		List<MovieVO> movieList = service.getMovieList_prepare();
 		model.addAttribute("movieList", movieList);
 //		System.out.println(movieList);
 		

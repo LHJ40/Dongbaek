@@ -59,7 +59,7 @@
 			MOVIES
 		WHERE 
 			now() >= movie_release_date
-			AND movie_release_date > subdate(now(), INTERVAL 15 DAY)
+			AND movie_release_date > DATE_SUB(now(), INTERVAL 15 DAY)
 		ORDER BY 
 			movie_booking_rate DESC;
 	</select>

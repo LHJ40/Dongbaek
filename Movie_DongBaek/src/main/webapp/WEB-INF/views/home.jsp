@@ -19,6 +19,7 @@
  	text-decoration: overline;
 	margin: auto;
 }
+a:link,a:visited { color:gray; }
 </style>
 </head>
 <body>
@@ -39,18 +40,23 @@
 		<!-- 		</li> -->
 		<!-- 	</ul> -->
   	</div>
- 	<div class="d-flex justify-content-end"><a href="movie_list_present" ><b>더 많은 영화보기</b></a> +</div>
+ 	
+ 	<div class="d-flex justify-content-end" style="color: #ccc;">
+ 		<a href="movie_list_present" >
+ 			<b>더 많은 영화보기</b>
+ 		</a> +
+ 	</div>
  
  	<%-- 영화목록 4개출력(예매율순?) --%>
   <div class="tab-content" id="pills-tabContent">
-<!--   <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> -->
+	<!--   <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> -->
 
-<%-- 	${movieList } --%>
+
 	<%-- 컨텐츠 forEach --%>
 	<div class="row" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 		<c:forEach var="movie" items="${movieList}">
 			<div class="col-3">
-				<div class="card h-100">
+				<div class="card border-0 shadow-sm">
 					<a href="movie_detail_info?movie_num=${movie.movie_num}">
 						<img src="${movie.movie_poster}" class="card-img-top" alt="...">
 					</a>
@@ -63,6 +69,7 @@
 			</div>
 		</c:forEach>
 	</div>
+  </div>
 	<%-- 컨텐츠 -- 주석처리 --%>
 <!-- 	<div class="row"> -->
 <!-- 			<div class="col-3"> -->
@@ -115,9 +122,8 @@
 <!-- 		 	</div> -->
 <!-- 	</div> -->
 <!-- 	</div> -->
-	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div>
- 
-	</div>
+<!-- 	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div> -->
+
 	
 	
 	
