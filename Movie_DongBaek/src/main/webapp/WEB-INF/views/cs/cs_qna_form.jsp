@@ -55,7 +55,7 @@ function selectDomain(domain) {
 	<table class="table" >
 		<tr>
 			<th>
-			  	문의 유형* 
+			  	문의 유형<em style="color: #EB323A;">*</em> 
 			</th>
 			<td>
 				<select>
@@ -69,7 +69,7 @@ function selectDomain(domain) {
  		</tr>
  		<tr>
 			<th>
-				이름*&nbsp;&nbsp;&nbsp;
+				이름<em style="color: #EB323A;">*</em>&nbsp;&nbsp;&nbsp;
 			</th>
 			<td>
 				<input type="text" name="name">
@@ -77,7 +77,7 @@ function selectDomain(domain) {
 		</tr>
 		<tr>
 			<th>
-				이메일*
+				이메일<em style="color: #EB323A;">*</em>
 			</th>
 			<td>
 				<input type="text" name="email1" style="width:150px">
@@ -92,7 +92,7 @@ function selectDomain(domain) {
 		</tr>
 		<tr>
 			<th>
-				휴대전화* 
+				휴대전화<em style="color: #EB323A;">*</em> 
 			</th>
 			<td>
 				<input type="text" name="phone-number1" width="3em" maxlength="3">
@@ -102,7 +102,7 @@ function selectDomain(domain) {
 		</tr>
   		<tr>
     		<th>
-    			제목* 
+    			제목<em style="color: #EB323A;">*</em>
     		</th>
     		<td>
     			<textarea rows="1" cols="20" name="title"></textarea>
@@ -110,7 +110,7 @@ function selectDomain(domain) {
   		</tr>
   		<tr>
     		<th>
-	    		내용*
+	    		내용<em style="color: #EB323A;">*</em>
 	    	</th>
 	    	<td>
 	    		<textarea rows="5" cols="50" name="content" 

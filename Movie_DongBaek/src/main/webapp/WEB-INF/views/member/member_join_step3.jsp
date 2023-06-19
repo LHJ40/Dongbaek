@@ -100,28 +100,7 @@ th{
 			$("#member_pass").val('');
 		}
 	}
-	
-	// email 주소 선택하면 앞 칸에 value 전달 함수
-	function email(address) {
-		document.fr.email2.value = address;
-	}
-	
-	// 이메일 가져오기
-	$("#email1").blur(function() {
-		email();
-	});
-	$("#email2").change(function() {
-		email();
-	});
-	
-	// 하나로 합치기
-	function email() {
-		var email1 = $("#email1").val();
-		var email2 = $("#email2").val();
-		if(year != "" && month != "" && day != "") {
-			$("member_email").val(email1 + "@" + email2);
-		}
-	};
+
 	
 	// 생년월일에 숫자만 입력하기
 	function inputNum(id) {
@@ -159,7 +138,7 @@ th{
 	});
 	
 	// ------------------------------
-	
+
 </script>
 </head>
 <body>
@@ -309,22 +288,22 @@ th{
 						<div class="col-sm-12">
 							<div class="selectBox_movie">
 								<select name="member_like_genre" class="select">
-									<option value="선택 안함">선택 안함</option>
-									<option value="로맨스코미디">로맨스코미디</option>
-									<option value="스릴러">스릴러</option>
-									<option value="공포">공포</option>
-									<option value="SF">SF</option>
-									<option value="범죄">범죄</option>
-									<option value="액션">액션</option>
-									<option value="코미디">코미디</option>
-									<option value="판타지">판타지</option>
-									<option value="음악">음악</option>
-									<option value="멜로">멜로</option>
-									<option value="뮤지컬">뮤지컬</option>
-									<option value="스포츠">스포츠</option>
-									<option value="애니메이션">애니메이션</option>
-									<option value="다큐멘터리">다큐멘터리</option>
-									<option value="기타">기타</option>
+									<option value="선택 안함" <c:if test="${member_like_genre=='선택 안함'}">${'selected' }</c:if>>선택 안함</option>
+									<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>>로맨스코미디</option>
+									<option value="스릴러"<c:if test="${member_like_genre=='스릴러'}">${'selected' }</c:if>>>스릴러</option>
+									<option value="공포"<c:if test="${member_like_genre=='공포'}">${'selected' }</c:if>>>공포</option>
+									<option value="SF"<c:if test="${member_like_genre=='SF'}">${'selected' }</c:if>>>SF</option>
+									<option value="범죄"<c:if test="${member_like_genre=='범죄'}">${'selected' }</c:if>>>범죄</option>
+									<option value="액션"<c:if test="${member_like_genre=='액션'}">${'selected' }</c:if>>>액션</option>
+									<option value="코미디"<c:if test="${member_like_genre=='코미디'}">${'selected' }</c:if>>>코미디</option>
+									<option value="판타지"<c:if test="${member_like_genre=='판타지'}">${'selected' }</c:if>>>판타지</option>
+									<option value="음악"<c:if test="${member_like_genre=='음악'}">${'selected' }</c:if>>>음악</option>
+									<option value="멜로"<c:if test="${member_like_genre=='멜로'}">${'selected' }</c:if>>>멜로</option>
+									<option value="뮤지컬"<c:if test="${member_like_genre=='뮤지컬'}">${'selected' }</c:if>>>뮤지컬</option>
+									<option value="스포츠"<c:if test="${member_like_genre=='스포츠'}">${'selected' }</c:if>>>스포츠</option>
+									<option value="애니메이션"<c:if test="${member_like_genre=='애니메이션'}">${'selected' }</c:if>>>애니메이션</option>
+									<option value="다큐멘터리"<c:if test="${member_like_genre=='다큐멘터리'}">${'selected' }</c:if>>>다큐멘터리</option>
+									<option value="기타"<c:if test="${member_like_genre=='기타'}">${'selected' }</c:if>>>기타</option>
 								</select>
 							</div>
 						</div>
