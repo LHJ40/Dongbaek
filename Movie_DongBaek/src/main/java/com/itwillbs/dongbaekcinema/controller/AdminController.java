@@ -3,10 +3,7 @@ package com.itwillbs.dongbaekcinema.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,6 @@ import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
-import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -118,7 +114,7 @@ public class AdminController {
     // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
 	@ResponseBody
 	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+	public List<PlayScheduleVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
 //		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
 
 		
@@ -135,7 +131,7 @@ public class AdminController {
 		
 		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
 
-		List<PlayVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
+		List<PlayScheduleVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
 
 		System.out.println(playList);
 		
@@ -175,13 +171,41 @@ public class AdminController {
 		List<PlayScheduleVO> playScheduleList = admin_service.createTurn(theater_num, movie_num, pageNo);
 		
 		
-//		System.out.println(playScheduleList);
+		System.out.println(playScheduleList);
 		
-//		model.addAttribute("playScheduleList",playScheduleList);
+		model.addAttribute("playScheduleList",playScheduleList);
 		
 //		return playScheduleList;
 		return null;
 	}
+	
+	
+	
+	// 생성 버튼 시 정보 넘어오는지 확인
+	// json 
+	@ResponseBody
+	@RequestMapping(value = "createSchedule", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	public String createSchedule(HttpSession session, @RequestParam String roomName, Model model) throws Exception {
+//		System.out.println("findMovieList : " + play_date);
+		
+		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
+//		List<MovieVO> movieList = admin_service.findMovieList(play_date);
+		
+		
+		System.out.println(roomName);
+		
+		roomName += "가공했습니다!";
+		
+//		model.addAttribute("roomName",roomName);
+		
+		return roomName;
+	}
+	
+	
+	
+	
+	
+	
 	
 	// 관리자페이지 결제관리
 //	@GetMapping("")
@@ -293,6 +317,7 @@ public class AdminController {
 	
 		// 공지사항 글쓰기 등록을 위한 함수 호출
 		int insertCount = admin_service.registCs(csType, noticeInfo, files);
+
 		if(insertCount > 0) { //글쓰기 성공
 			
 			return "redirect:/admin_cs_notice"; // 공지사항으로 리다이렉트
@@ -935,7 +960,7 @@ public class AdminController {
 		
 //		List<PaymentVO> payment = payment_service.getPayment(order_num);
 //		model.addAttribute("payment", payment);
-		//0618 정의효 밑에꺼 되있었음 확인 수정중 0619
+		//0618 정의효 밑에꺼 되있었음 확인
 //		PaymentVO payment = payment_service.getPayment(order_num); 
 //		model.addAttribute("payment", payment);
 //		System.out.println(payment);
@@ -949,6 +974,7 @@ public class AdminController {
 	
     
 }
+
 
 
 

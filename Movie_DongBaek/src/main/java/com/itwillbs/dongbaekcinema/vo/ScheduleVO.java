@@ -13,7 +13,10 @@ public class ScheduleVO {
 	private String play_time_type;
 	private String movie_name_en;
 	private int room_num;
-	
+	private String movie_grade;
+	private String movie_genre;
+	private Time movie_running_time;
+	private Time movie_release_date;
 	
 
 }

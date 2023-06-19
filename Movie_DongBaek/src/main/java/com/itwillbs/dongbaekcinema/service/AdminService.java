@@ -50,7 +50,7 @@ public class AdminService {
     
     
     // 상단 확인 버튼 클릭 시 상영 목록 검색
-    public List<PlayVO> showSchedual(String theater_num, String play_date, int pageNo) {
+    public List<PlayScheduleVO> showSchedual(String theater_num, String play_date, int pageNo) {
     	System.out.println("AdminService - showSchedual()");
     	System.out.println(theater_num + ", " + play_date);
         return mapper.selectScheduleList(theater_num, play_date, pageNo);
@@ -126,7 +126,7 @@ public class AdminService {
 		// 글쓰기 등록 전 cs_type_list_num 카운트
 		csInfo.setCs_type_list_num(mapper.countCsTypeListNum(condition) + 1); // 가장 많은 번호 + 1
 
-		if(files != null) { // 파일이 첨부된 상태
+		if(files.getOriginalFilename() != "") { // 파일이 첨부된 상태
 			
 			// 파일명 저장		
 			String cs_file = files.getOriginalFilename();
@@ -134,10 +134,10 @@ public class AdminService {
 			String cs_file_real = saveFile(files);
 
 			
-			System.out.println("registCs - csInfo :" + csInfo + "condition :" + condition + "cs_file_real :" + cs_file_real + "cs_file :" + cs_file);
 			
-			if(cs_file != null) { // 파일 저장 성공
+			if(cs_file != "") { // 파일 저장 성공
 				System.out.println("공지사항 파일 저장 성공");
+				System.out.println("registCs - csInfo :" + csInfo + "condition :" + condition + "cs_file_real :" + cs_file_real + "cs_file :" + cs_file);
 				
 				// DB에 글쓰기 저장
 				return mapper.registCs(condition, csInfo, cs_file, cs_file_real);
@@ -147,15 +147,15 @@ public class AdminService {
 					return 0;
 				}
 			
-			} else { // 파일이 첨부되지 않은 상태
-			System.out.println("공지사항 파일 미첨부");
-			
-			// 파일 미첨부시 이름에 "" 등록
-			String cs_file = "";
-			String cs_file_real = "";
-			
-			System.out.println("registCs - csInfo :" + csInfo + "condition :" + condition + "cs_file_real :" + cs_file_real + "cs_file :" + cs_file);
-			return mapper.registCs(condition, csInfo, cs_file, cs_file_real);
+		} else { // 파일이 첨부되지 않은 상태
+		System.out.println("공지사항 파일 미첨부");
+		
+		// 파일 미첨부시 이름에 "" 등록
+		String cs_file = "";
+		String cs_file_real = "";
+		
+		System.out.println("registCs - csInfo :" + csInfo + "condition :" + condition + "cs_file_real :" + cs_file_real + "cs_file :" + cs_file);
+		return mapper.registCs(condition, csInfo, cs_file, cs_file_real);
 		}
 	
 
@@ -169,7 +169,7 @@ public class AdminService {
 		String condition = distinctType(csType);
 		
 
-		if(files != null) { // 파일이 첨부된 상태
+		if(files.getOriginalFilename() != "") { // 파일이 첨부된 상태
 			
 			// 파일명 저장		
 			String cs_file = files.getOriginalFilename();
@@ -178,7 +178,7 @@ public class AdminService {
 			
 			
 			
-			if(cs_file != null) { // 파일 저장 성공
+			if(cs_file != "") { // 파일 저장 성공
 				System.out.println("CS 공지, 자주묻는 질문 수정 파일 저장 성공");
 				
 				System.out.println("updateCs - csInfo :" + csInfo + ", condition :" + condition + ", cs_file_real :" + cs_file_real + ", cs_file :" + cs_file);

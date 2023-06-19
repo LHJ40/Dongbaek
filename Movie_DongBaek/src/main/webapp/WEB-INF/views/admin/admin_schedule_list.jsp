@@ -40,114 +40,128 @@
 
 <script type="text/javascript">
 <%-- ajax를 이용한 목록 선택 --%>
-$(function(){
-	let theater_num = "";
-    $("#createScheduel").on("click", function(){
-        theater_num = $("#theater_num").val();
-        let play_date = $("#play_date").val();
-        let html = ""; // 초기화된 빈 문자열로 시작합니다.
-        
-        $.ajax({
-            url: "showSchedual",
-            type: "GET",
-            data: {
-                "theater_num": theater_num,
-                "play_date": play_date,
-            },
-            success: function(data){
-//                 console.log(data); // 응답 데이터 출력
+$(function() { // 페이지가 시작될 때 실행될 함수
+		// 변수 선언
+		let theater_num = "";
+		
+		// 상영스케줄 생성 버튼 클릭시 실행될 함수
+		$("#createScheduel").on("click", function() {
 
-                $(data).each(function(index, item) {
-                	
-                	roomInfo = item.room_num + ' : ' +item.room_name;
-                    // item 값을 html 변수에 추가합니다.
-//                     html += '<div>' + index + '회차</div>';
-                    html += '<div id="' + item.play_num + index + '_0"> 상영번호 : ' + item.play_num + '</div>\
-                        <div id="' + item.movie_release_date + index + '_1"> 개봉일자 : ' + item.movie_release_date + '</div>\
-                        <div id="' + item.movie_close_date + index + '_2"> 종영일자 : ' + item.movie_close_date + '</div>\
-                        <div id="' + item.play_start_time + index + '_3"> 상영시작시간 : ' + item.play_start_time + '</div>\
-                        <div id="' + item.play_end_time + index + '_4"> 상영종료시간 : ' + item.play_end_time + '</div>\
-                        <div id="' + item.movie_name_kr + index + '_5"> 영화명 : ' + item.movie_name_kr + '</div>?';
-					
-                    // movieInfo 배열에 movie_num과 movie_name_kr을 객체 형태로 저장합니다.
-//                     movieInfo += item.movie_num + ': ' item.movie_name_kr + '?';
-                	
-                });
+			theater_num = $("#theater_num").val();
+		    let play_date = $("#play_date").val();
+		    let html = "";
+		    let roomName = "";
+		    let roomArray = [];
+		    let htmlArray = [];
 
-//                 console.log(html);
-                let htmlArray = html.split('?'); // ?를 기준으로 배열로 분할합니다.
-                $("#turn1").html(htmlArray[0]);
-                $("#turn2").html(htmlArray[1]);
-                $("#turn3").html(htmlArray[2]);
-                $("#turn4").html(htmlArray[3]);
-                $("#turn5").html(htmlArray[4]);
-                $("#room_name").html(roomInfo);
-                
-                // movieInfo 배열을 출력합니다.
-//                 console.log(movieInfo);
-//                 let movieInfoArray = html.split('?');
-                
-                
+		    $("#hide_div").css("display", "block");
 
-            },
-            error: function() {
-                alert("request error!");
-            }
-        });
+		    $.ajax({
+		      url: "showSchedual",
+		      type: "GET",
+		      data: {
+		        "theater_num": theater_num,
+		        "play_date": play_date,
+		      },
+		      success: function(data) {
+		    	  
+			        $(data).each(function(index, item) {
+			          roomName += item.room_num + ' : ' + item.room_name + '?';
+	
+			          html += '<div id="' + item.play_num + index + '_1"> 상영번호 : ' + item.play_num + '</div>\
+			                       <div id="' + item.play_turn + index + '_2"> 회차 : ' + item.play_turn + '</div>\
+			                       <div id="' + item.movie_release_date + index + '_3"> 개봉일자 : ' + item.movie_release_date + '</div>\
+			                       <div id="' + item.movie_close_date + index + '_4"> 종영일자 : ' + item.movie_close_date + '</div>\
+			                       <div id="' + item.play_start_time + index + '_5"> 상영시간 : ' + item.play_start_time + ' ~ ' + item.play_end_time + '</div>\
+			                       <div id="' + item.movie_name_kr + index + '_6"> 영화명 : ' + item.movie_name_kr + '</div>?';
+			        }); // showSchedual ajax 상영정보 가져오는 반복문 끝
 
-    
-    
-    
-    // 셀렉트박스 영화목록 출력
+			        htmlArray = html.split('?');
+			        roomNameArray = roomName.split('?');
+	
+			        $("#turn0").html(roomNameArray[0]);
+			        $("#turn1").html(htmlArray[0]);
+			        $("#turn2").html(htmlArray[1]);
+			        $("#turn3").html(htmlArray[2]);
+			        $("#turn4").html(htmlArray[3]);
+			        $("#turn5").html(htmlArray[4]);
+	
+			        $("#turn6").html(roomNameArray[1]);
+			        $("#turn7").html(htmlArray[5]);
+			        $("#turn8").html(htmlArray[6]);
+			        $("#turn9").html(htmlArray[7]);
+			        $("#turn10").html(htmlArray[8]);
+			        $("#turn11").html(htmlArray[9]);
+	
+			        $("#turn6").html(roomNameArray[2]);
+			        $("#turn7").html(htmlArray[10]);
+			        $("#turn8").html(htmlArray[11]);
+			        $("#turn9").html(htmlArray[12]);
+			        $("#turn10").html(htmlArray[13]);
+			        $("#turn11").html(htmlArray[14]);
 
-        let movieList = ""; // 초기화된 빈 문자열로 시작합니다.
-        
-        $.ajax({
-            url: "findMovieList",
-            type: "GET",
-            data: {
-              "play_date": play_date
-            },
-            success: function(data) {
-              console.log(data); // 응답 데이터 출력
+			        $(".movieSelect").on("change", function() {
+			          alert($(".movieSelect").val());
+			        }); // movieSelect 메서드 끝
 
-              // 기존의 옵션을 제거합니다.
-              $("#movieSelect").empty();
+		       		let movieList = "";
 
-              $(data).each(function(index, item) {
-                // 각 영화에 대한 옵션 요소를 생성하고 select 요소에 추가합니다.
-                
-                
-                
-                let option = $("<option>")
-                  .val(item.movie_num)
-                  .text(item.movie_name_kr);
-                $("#movieSelect").append(option);
-                
-                
-              });
-            },
-            error: function() {
-              alert("요청 오류!");
-            }
-          });
-        });
-        
+		        $.ajax({
+		          url: "findMovieList",
+		          type: "GET",
+		          data: {
+		            "play_date": play_date
+		          },
+		          success: function(data) {
+		            $(".movieSelect").empty();
 
-});
+		            $(data).each(function(index, item) {
+		              let option = $("<option>")
+		                .val(item.movie_num)
+		                .text(item.movie_name_kr);
+		              $(".movieSelect").append(option);
+		            }); // data 반복 함수 끝
 
+		            $(".movieSelect").on("change", function() {
+		              alert($(this).val());
+		              let movieS = $(this).val();
+		              
+		              	  $("#createSchedule").on("click", function() {
+							$.ajax({
+				                url: "createSchedule",
+				                type: "GET",
+				                data: {
+				                  "roomName":roomName,
+				                  "movieS":movieS
+				                },
+				                success: function(result) {
+				                	alert('roomName' + this.val());
+				                }
+				                
+							}); // createSchedule ajax 끝
+		              
+		            	}); // createSchedule 온클릭 메서드 끝
 
+		            
+		            }); // movieSelect 온체인지 메서드 끝
+		            
+		           
+		          },
+		          error: function() {
+		            alert("요청 오류!");
+		          }
+		        }); // findMovieList ajax 끝
+		        
+		        
+		      }, // showSchedual ajax success 끝
+		      error: function() {
+		        alert("상영정보가 없습니다");
+		      }
+		    }); // showSchedual ajax 끝
+		    
+		}); // "#createScheduel" 온클릭 함수 끝
 
-
-$(function() {
-	$("#theater_num").on("change", function(){
-		let change = $("#theater_num").val();
-		$("input type[hidden]").val(change);
-
-	});
-});
-
-
+}); // onload 함수 끝
 
 
 </script>
@@ -229,7 +243,7 @@ background-color: transparent;
 
 	<div class="row"><p id="play_list"></p></div>
   	<%-- 본문 테이블 --%>
-  	<div class="row">
+  	<div id="hide_div" class="row" style="display: none;">
   	
 <!--   	<table class="table table-striped text-center align-middle"> -->
   	<table class="table" boarder="1">
@@ -243,50 +257,101 @@ background-color: transparent;
 <!-- 	      <th scope="col">4회차</th> -->
 <!-- 	      <th scope="col">5회차</th> -->
 <!-- 	      <th scope="col"></th> -->
-	      <th>상영관명</th>
-	      <th>1회차</th>
-	      <th>2회차</th>
-	      <th>3회차</th>
-	      <th>4회차</th>
-	      <th>5회차</th>
-	      <th></th>
+	      <th scope="col">상영관명</th>
+	      <th scope="col" style="width:150px;">1회차</th>
+	      <th scope="col" style="width:150px;">2회차</th>
+	      <th scope="col" style="width:150px;">3회차</th>
+	      <th scope="col" style="width:150px;">4회차</th>
+	      <th scope="col" style="width:150px;">5회차</th>
+	      <th width="100px"></th>
 	    </tr>
 	  </thead>
 	  <%-- 테이블 바디--%>
 	  <tbody id="play_table">
 	  
+	  
+	  <%-- 1번쨰 줄 --%>
+		<form action="makeSchedule">
+			<tr>
+				<th><div class="row" id="turn0">${roomInfo.room_name}</div>
+					<div class="row">
+						<%-- 영화목록이 출력될 셀렉트박스 --%>
+						<select class="movieSelect"  style="width:150px;" onchange="">
+							<option value=""></option>
+						</select>
+					</div>
+				</th>
+				<div id="play1">
+				<%-- 상영목록이 출력될 공간  --%>
+					<td><div id="turn1">상영정보 없음</div><input type="checkbox" id="schCheck1_1"></td>
+					<td><div id="turn2">상영정보 없음</div><input type="checkbox" id="schCheck1_2"></td>
+					<td><div id="turn3">상영정보 없음</div><input type="checkbox" id="schCheck1_3"></td>
+					<td><div id="turn4">상영정보 없음</div><input type="checkbox" id="schCheck1_4"></td>
+					<td><div id="turn5">상영정보 없음</div><input type="checkbox" id="schCheck1_5"></td>
+					<td>
+					<div class="row mb-2"><button type="button" class="btn btn-outline-danger" style="height:60px;" style="height:60px;" id="createSchedule">생성</button></div>
+					<div class="row"><button type="button" class="btn btn-danger" style="height:60px;" style="height:60px;" onclick="rewriteSchedule">수정</button></div>
+					<td>
+				</div>
+			</tr>
+		</form>
+	  <%-- 2번쨰 줄 --%>
+	  <form action="makeSchedule">
 		<tr>
-			<th><div class="row" id="room_name">${roomInfo.room_name}</div>
+			<th><div class="row" id="turn6">${roomInfo.room_name}</div>
 				<div class="row">
 					<%-- 영화목록이 출력될 셀렉트박스 --%>
-					<select id="movieSelect"  style="width:150px; onchange="changeMovie(this.val)">
-						<option value="5"></option>
-						<option value="6"></option>
-						<option value="7"></option>
-<%-- 						<c:forEach var="movie" items="${movieList }"> --%>
-<%-- 			      		<option value="${movie.movie_num }">${movie.movie_name }</option> --%>
-<%-- 			      		</c:forEach> --%>
+					<select class="movieSelect"  style="width:150px; onchange="">
+						<option value=""></option>
 					</select>
 				</div>
 			</th>
-		<div id="play1">
-		<%-- 상영목록이 출력될 공간  --%>
-			<td><div id="turn1">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_1"></td>
-			<td><div id="turn2">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_2"></td>
-			<td><div id="turn3">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_3"></td>
-			<td><div id="turn4">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_4"></td>
-			<td><div id="turn5">상영정보 없음</div><input type="checkbox" id="scheduelCheck1_5"></td>
-			<td>
-			<div class="row mb-2"><button type="button" class="btn btn-outline-danger" onclick="createSchedule">생성</button></div>
-			<div class="row"><button type="button" class="btn btn-danger" onclick="rewriteSchedule">수정</button></div>
-			<td>
-		</div></tr>
+			<div id="play2">
+			<%-- 상영목록이 출력될 공간  --%>
+				<td><div id="turn7">상영정보 없음</div><input type="checkbox" id="schCheck2_1"></td>
+				<td><div id="turn8">상영정보 없음</div><input type="checkbox" id="schCheck2_2"></td>
+				<td><div id="turn9">상영정보 없음</div><input type="checkbox" id="schCheck2_3"></td>
+				<td><div id="turn10">상영정보 없음</div><input type="checkbox" id="schCheck2_4"></td>
+				<td><div id="turn11">상영정보 없음</div><input type="checkbox" id="schCheck2_5"></td>
+				<td>
+				<div class="row mb-2"><button type="button" class="btn btn-outline-danger" style="height:60px;" id="createSchedule">생성</button></div>
+				<div class="row"><button type="button" class="btn btn-danger" style="height:60px;" onclick="rewriteSchedule">수정</button></div>
+				<td>
+			</div>
+		</tr>
+	  </form>	
+		
+	  <%-- 3번째 줄 --%>
+	  <form action="makeSchedule">
+		<tr>
+			<th><div class="row" id="turn12">${roomInfo.room_name}</div>
+				<div class="row">
+					<%-- 영화목록이 출력될 셀렉트박스 --%>
+					<select class="movieSelect"  style="width:150px; onchange="">
+						<option value=""></option>
+					</select>
+				</div>
+			</th>
+			<div id="play3">
+			<%-- 상영목록이 출력될 공간  --%>
+				<td><div id="turn13">상영정보 없음</div><input type="checkbox" id="schCheck3_1"></td>
+				<td><div id="turn14">상영정보 없음</div><input type="checkbox" id="schCheck3_2"></td>
+				<td><div id="turn15">상영정보 없음</div><input type="checkbox" id="schCheck3_3"></td>
+				<td><div id="turn16">상영정보 없음</div><input type="checkbox" id="schCheck3_4"></td>
+				<td><div id="turn17">상영정보 없음</div><input type="checkbox" id="schCheck3_5"></td>
+				<td>
+				<div class="row mb-2"><button type="button" class="btn btn-outline-danger" style="height:60px;" onclick="createSchedule()">생성</button></div>
+				<div class="row"><button type="button" class="btn btn-danger" style="height:60px;" onclick="rewriteSchedule">수정</button></div>
+				<td>
+			</div>
+		</tr>
+	   </form>
 
 		
 
 	    <%-- 밑줄 용 빈칸 --%>
 	    <tr>
-	     <th scope="row"></th>
+	     <th></th>
 	     <th></th>
 	     <th></th>
 	     <th></th>
@@ -308,23 +373,23 @@ background-color: transparent;
 			    
  <%-- 페이징 --%>
  
- <nav aria-label="...">
-  <ul class="pagination pagination-md justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-    </li>
-    <li class="page-item active" aria-current="page">
-      <a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">1 <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="page-item"><a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">2</a></li>
-    <li class="page-item"><a class="page-link" href="listPaging?pageNo=3&&theater_num=${theater_num }">3</a></li>
-    <li class="page-item"><a class="page-link" href="listPaging?pageNo=4&&theater_num=${theater_num }">4</a></li>
-    <li class="page-item"><a class="page-link" href="listPaging?pageNo=5&&theater_num=${theater_num }">5</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">&raquo;</a>
-    </li>
-  </ul>
-</nav>
+<!--  <nav aria-label="..."> -->
+<!--   <ul class="pagination pagination-md justify-content-center"> -->
+<!--     <li class="page-item disabled"> -->
+<!--       <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a> -->
+<!--     </li> -->
+<!--     <li class="page-item active" aria-current="page"> -->
+<%--       <a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">1 <span class="sr-only">(current)</span></a> --%>
+<!--     </li> -->
+<%--     <li class="page-item"><a class="page-link" href="listPaging?pageNo=2&&theater_num=${theater_num }">2</a></li> --%>
+<%--     <li class="page-item"><a class="page-link" href="listPaging?pageNo=3&&theater_num=${theater_num }">3</a></li> --%>
+<%--     <li class="page-item"><a class="page-link" href="listPaging?pageNo=4&&theater_num=${theater_num }">4</a></li> --%>
+<%--     <li class="page-item"><a class="page-link" href="listPaging?pageNo=5&&theater_num=${theater_num }">5</a></li> --%>
+<!--     <li class="page-item"> -->
+<!--       <a class="page-link" href="#">&raquo;</a> -->
+<!--     </li> -->
+<!--   </ul> -->
+<!-- </nav> -->
 
 
   	
@@ -384,68 +449,68 @@ background-color: transparent;
 <script type="text/javascript">
 
 //좌측 영화 목록 변경시 새로운 회차 정보 생성
-function changeMovie(movie_num){
-// 	$("#createTurn").on("change", function(){
+// function changeMovie(movie_num){
+// // 	$("#createTurn").on("change", function(){
 
         
-		let theater_num = $("#theater_num").val(); // 영화관 정보를 가져오기 위한 파라미터 값
-		let pageNo = $("#pageNo").val(); // 상영관 정보를 가져오기 위한 파라미터 값(page값이 상영관 정보와 같으므로 같이 씀)
-//         let movie_num = $("#movieSelect").val(); // 영화명 정보를 가져오기 위한 파라미터값
-        alert(theater_num+ ', ' + pageNo + ', ' + movie_num);
+// 		let theater_num = $("#theater_num").val(); // 영화관 정보를 가져오기 위한 파라미터 값
+// 		let pageNo = $("#pageNo").val(); // 상영관 정보를 가져오기 위한 파라미터 값(page값이 상영관 정보와 같으므로 같이 씀)
+// //         let movie_num = $("#movieSelect").val(); // 영화명 정보를 가져오기 위한 파라미터값
+//         alert(theater_num+ ', ' + pageNo + ', ' + movie_num);
 
-        let html = ""; // 초기화된 빈 문자열로 시작합니다.
+//         let html = ""; // 초기화된 빈 문자열로 시작합니다.
         
-        $.ajax({
-            url: "createTurn",
-            type: "GET",
-            data: {
-                "theater_num": theater_num,
-            	"pageNo": pageNo,
-            	"movie_num": movie_num
+//         $.ajax({
+//             url: "createTurn",
+//             type: "GET",
+//             data: {
+//                 "theater_num": theater_num,
+//             	"pageNo": pageNo,
+//             	"movie_num": movie_num
             	
-            },
-            success: function(data){
-                console.log(data); // 응답 데이터 출력
+//             },
+//             success: function(data){
+//                 console.log(data); // 응답 데이터 출력
 
-                $(data).each(function(index, item) {
+//                 $(data).each(function(index, item) {
                 	
                 	
-                    // item 값을 html 변수에 추가합니다.
-//                     html += '<div>' + index + '회차</div>';
-//                     html += '<div id="' + item.play_num + index + '_0"> 상영번호 : ' + item.play_num + '</div>\
-//                         <div id="' + item.movie_release_date + index + '_1"> 개봉일자 : ' + item.movie_release_date + '</div>\
-//                         <div id="' + item.movie_close_date + index + '_2"> 종영일자 : ' + item.movie_close_date + '</div>\
-//                         <div id="' + item.play_start_time + index + '_3"> 상영시작시간 : ' + item.play_start_time + '</div>\
-//                         <div id="' + item.play_end_time + index + '_4"> 상영종료시간 : ' + item.play_end_time + '</div>\
-//                         <div id="' + item.movie_name_kr + index + '_5"> 영화명 : ' + item.movie_name_kr + '</div>?';
+//                     // item 값을 html 변수에 추가합니다.
+// //                     html += '<div>' + index + '회차</div>';
+// //                     html += '<div id="' + item.play_num + index + '_0"> 상영번호 : ' + item.play_num + '</div>\
+// //                         <div id="' + item.movie_release_date + index + '_1"> 개봉일자 : ' + item.movie_release_date + '</div>\
+// //                         <div id="' + item.movie_close_date + index + '_2"> 종영일자 : ' + item.movie_close_date + '</div>\
+// //                         <div id="' + item.play_start_time + index + '_3"> 상영시작시간 : ' + item.play_start_time + '</div>\
+// //                         <div id="' + item.play_end_time + index + '_4"> 상영종료시간 : ' + item.play_end_time + '</div>\
+// //                         <div id="' + item.movie_name_kr + index + '_5"> 영화명 : ' + item.movie_name_kr + '</div>?';
 					
-                    // movieInfo 배열에 movie_num과 movie_name_kr을 객체 형태로 저장합니다.
-//                     movieInfo += item.movie_num + ': ' item.movie_name_kr + '?';
+//                     // movieInfo 배열에 movie_num과 movie_name_kr을 객체 형태로 저장합니다.
+// //                     movieInfo += item.movie_num + ': ' item.movie_name_kr + '?';
                 	
-                });
+//                 });
 
-//                 console.log(html);
-//                 let htmlArray = html.split('?'); // ?를 기준으로 배열로 분할합니다.
-//                 $("#turn1").html(htmlArray[0]);
-//                 $("#turn2").html(htmlArray[1]);
-//                 $("#turn3").html(htmlArray[2]);
-//                 $("#turn4").html(htmlArray[3]);
-//                 $("#turn5").html(htmlArray[4]);
-//                 $("#room_name").html(roomInfo);
+// //                 console.log(html);
+// //                 let htmlArray = html.split('?'); // ?를 기준으로 배열로 분할합니다.
+// //                 $("#turn1").html(htmlArray[0]);
+// //                 $("#turn2").html(htmlArray[1]);
+// //                 $("#turn3").html(htmlArray[2]);
+// //                 $("#turn4").html(htmlArray[3]);
+// //                 $("#turn5").html(htmlArray[4]);
+// //                 $("#room_name").html(roomInfo);
                 
-                // movieInfo 배열을 출력합니다.
-//                 console.log(movieInfo);
-//                 let movieInfoArray = html.split('?');
+//                 // movieInfo 배열을 출력합니다.
+// //                 console.log(movieInfo);
+// //                 let movieInfoArray = html.split('?');
                 
                 
 
-            },
-            error: function() {
-                alert("request error!");
-            }
-        });
+//             },
+//             error: function() {
+//                 alert("request error!");
+//             }
+//         });
 
-}
+// }
 
 </script>
 

@@ -21,7 +21,6 @@ public class PaymentService {
 	// 0616 페이먼트 상세 여러개 테스트중 0616정의효
 //	-----------------원본------------------ 0618 원본이 주석풀려있음
 //	public PaymentVO getPayment(int order_num) {
-
 //		return mapper.selectPayment(order_num);
 //	}
 	
