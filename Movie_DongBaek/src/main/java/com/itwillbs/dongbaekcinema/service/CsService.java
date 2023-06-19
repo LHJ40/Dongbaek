@@ -20,8 +20,8 @@ public class CsService {
 	}
 	
 	// cs게시판 중 Faq 레코드 조회(지영)
-	public List<CsVO> getCsFaq(String cs_type) {
-		return mapper.selectCsFaq(cs_type);
+	public List<CsVO> getCsFaq(String cs_type, int pageNum) {
+		return mapper.selectCsFaq(cs_type, pageNum);
 	}
 	
 	

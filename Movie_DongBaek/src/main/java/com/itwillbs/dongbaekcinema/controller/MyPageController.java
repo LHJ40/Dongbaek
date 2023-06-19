@@ -106,15 +106,22 @@ public class MyPageController {
 		}
 		
 		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
-		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
+		// 파라미터 : int(payment_num)		리턴타입 : List<BuyDetailVO>(myPaymentDetailList)
 //		System.out.println(payment_num);
 		List<BuyDetailVO> myPaymentDetailList = paymentService.getMyPaymentDetail(payment_num);
 //		System.out.println(myPaymentDetail);
 		
+		// 상세내역 클릭 시 payment_num으로 스낵, 영화 정보(갯수) 가져오기
+		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(tickets)
+		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(snacks)
+		List<BuyDetailVO> myTicket = paymentService.getMyTickets(payment_num);
+		List<BuyDetailVO> mySnack = paymentService.getMySnacks(payment_num);
 		
 		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);
+		model.addAttribute("myTicket", myTicket);
+		model.addAttribute("mySnack", mySnack);
 		
 		return "myPage/myPage_buy_history_detail";
 	}

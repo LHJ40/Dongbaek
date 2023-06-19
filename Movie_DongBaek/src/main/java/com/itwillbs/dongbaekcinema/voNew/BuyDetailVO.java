@@ -19,4 +19,6 @@ public class BuyDetailVO {
 	private String movie_name_kr;
 	private String ticket_type;
 	private String snack_name;
+	private int ticket_quantity;
+	private int snack_quantity;
 }
