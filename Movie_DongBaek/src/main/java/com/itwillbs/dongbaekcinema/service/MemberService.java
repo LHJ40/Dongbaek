@@ -64,6 +64,20 @@ public class MemberService {
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
 
+	// 0619정의효 멤버 등급 변경
+	public void changeMemberGrade(String grade_name, String member_id) {
+		mapper.changeMemberGrade(grade_name, member_id);
+	}
+
+	public void changeMemberStatus(String member_status, String member_id) {
+		mapper.changeMemberStatus(member_status, member_id);
+	}
+
+	public void memberDelete(String member_id) {
+		mapper.memberDelete(member_id);
+		
+	}
+
 
 	
 

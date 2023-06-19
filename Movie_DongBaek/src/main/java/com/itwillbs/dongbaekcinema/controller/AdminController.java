@@ -968,6 +968,28 @@ public class AdminController {
 		return "admin/admin_payment_list_detail";
 	}
 	
+	//0619정의효 관리자페이지 - 회원 등급 변경
+	@PostMapping("admin_changeMemberGrade")
+	public String adminChangeMemberGrade(HttpSession session, @RequestParam String grade_name, @RequestParam String member_id) {
+		System.out.println(grade_name);
+	    member_service.changeMemberGrade(grade_name, member_id);
+	    return "redirect:/admin_member_list";
+	}
+
+	//0619정의효 관리자페이지 - 회원 상태 변경
+	@PostMapping("admin_changeMemberStatus")
+	public String adminChangeMemberStatus(HttpSession session, @RequestParam String member_status, @RequestParam String member_id) {
+		System.out.println(member_status);
+		member_service.changeMemberStatus(member_status, member_id);
+		return "redirect:/admin_member_list";
+	}
+    
+	@PostMapping("admin_memberDelete")
+	public String adminMemberDelete(HttpSession session, @RequestParam String member_id) {
+		member_service.memberDelete(member_id);
+		return "redirect:/admin_member_list";
+	}
+	
 	
 	
 	

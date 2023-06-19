@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 
@@ -39,6 +40,16 @@ public interface MemberMapper {
 	
 	// 페이징처리중 - 0616 정의효
 	int getCount();
+
+	//0619정의효 - 멤버 등급 변경
+	void changeMemberGrade(@Param("grade_name") String grade_name, @Param("member_id") String member_id);
+
+	//0619정의효 - 멤버 상태 변경
+	void changeMemberStatus(@Param("member_status") String member_status, @Param("member_id") String member_id);
+
+	//0619정의효 - 멤버 삭제
+	void memberDelete(String member_id);
+
 
 
 	
