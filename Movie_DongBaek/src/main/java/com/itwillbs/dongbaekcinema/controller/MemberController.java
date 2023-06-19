@@ -82,7 +82,7 @@ public class MemberController {
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
 	public String member_login_pro(MemberVO member, boolean remember_me,
-				HttpServletRequest request, HttpServletResponse response, Model model) {
+				HttpSession session, HttpServletResponse response, Model model) {
 		
 		// 1. 일반 로그인 시도
 		// MemberService - getPasswd()
@@ -111,10 +111,8 @@ public class MemberController {
 		} else {
 			// 로그인 성공 시
 			// 세션에 값 넣기
-			HttpSession session = request.getSession();
 			session.setAttribute("member_id", member.getMember_id());
 			session.setAttribute("member_type", getMember.getMember_type());
-//			System.out.println(remember_me);
 			
 			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
 //			Cookie cookie = new Cookie("member_id", member.getMember_id());
@@ -130,6 +128,15 @@ public class MemberController {
 				cookie.setMaxAge(0); // 삭제
 			}
 			response.addCookie(cookie);
+			
+			// 만약, 다른 작업을 하다 로그인을 해야할 때
+			// 세션에 선택된 값, 다음으로 이동할 값을 저장해서 로그인 성공 시 세션에 저장된 주소("url")로 이동
+			if(session.getAttribute("url") != null) {
+				// 세션에 url이라는 이름을 가진 속성이 있으면 
+				// model에 값 넣어("msg") 원하는 주소로 이동("targetURL")
+				model.addAttribute("targetURL", session.getAttribute("url"));
+				return "success_forward";
+			}
 			
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
