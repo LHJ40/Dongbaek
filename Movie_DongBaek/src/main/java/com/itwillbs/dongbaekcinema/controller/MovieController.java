@@ -27,7 +27,7 @@ public class MovieController {
 		
 		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		return "movie/movie_list_present";
 	}
@@ -42,7 +42,7 @@ public class MovieController {
 		
 		List<MovieVO> movieList = service.getMovieList_present_bookrate();
 		model.addAttribute("movieList", movieList);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		return "movie/movie_list_prepare";
 	}
@@ -61,8 +61,8 @@ public class MovieController {
 		model.addAttribute("movie", movie);
 		
 		// 각 영화의 리뷰정보 출력 getReviewRating
-		ReviewVO review = service.getReviewRating(movie_num);
-		System.out.println(review);
+		ReviewVO review = service.getReview(movie_num);
+//		System.out.println(review);
 		model.addAttribute("review", review);
 
 		return "movie/movie_detail_info";
@@ -76,12 +76,12 @@ public class MovieController {
 		// 각 영화의 상세정보 출력 getMovie()메서드
 		// 파라미터: 리턴타입:MemberVO
 		MovieVO movie = service.getMovie(movie_num);
-		System.out.println(movie);
+//		System.out.println(movie);
 		model.addAttribute("movie", movie);
 		
 		// 각 영화의 리뷰정보 출력 getReviewRating
-		ReviewVO review = service.getReviewRating(movie_num);
-		System.out.println(review);
+		ReviewVO review = service.getReview(movie_num);
+//		System.out.println(review);
 		model.addAttribute("review", review);
 		
 		return "movie/movie_detail_photo";
@@ -94,13 +94,22 @@ public class MovieController {
 		// 각 영화의 상세정보 출력 getMovie()메서드
 		// 파라미터: 리턴타입:MemberVO
 		MovieVO movie = service.getMovie(movie_num);
-		System.out.println(movie);
 		model.addAttribute("movie", movie);
 		
 		// 각 영화의 리뷰정보 출력 getReviewRating
-		ReviewVO review = service.getReviewRating(movie_num);
-		System.out.println(review);
+		ReviewVO review = service.getReview(movie_num);
 		model.addAttribute("review", review);
+		
+		// 각 영화의 리뷰개수 출력 getReviewCounting
+		ReviewVO reviewCount = service.getReviewCounting(movie_num);
+		model.addAttribute("reviewCount", reviewCount);
+		System.out.println(reviewCount);
+		
+		// 리뷰목록출력(리뷰탭 컨텐츠영역) getReviewList
+		List<ReviewVO> reviewList = service.getReviewList(movie_num);
+		model.addAttribute("reviewList", reviewList);
+		System.out.println(reviewList);
+		
 		
 		return "movie/movie_detail_review";
 	}

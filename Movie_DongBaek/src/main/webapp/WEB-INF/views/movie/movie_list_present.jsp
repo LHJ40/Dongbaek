@@ -45,7 +45,7 @@
   <%--본문내용 --%>
 <%-- 상영작 구분 --%>
 	<div class="container">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" style="margin-top: 20px; margin-bottom: 20px">
 		  <li class="nav-item">
 		    <a class="nav-link active" aria-current="page" href="movie_list_present">현재상영작</a>
 		  </li>
@@ -54,7 +54,7 @@
 		  </li>
 		</ul>
 <%-- 정렬 기준 --%>
-	<div class="row"  align="left">
+	<div class="row"  align="left" style="margin-bottom: 20px">
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
 		  <select class="custom-select" name="movie_array">

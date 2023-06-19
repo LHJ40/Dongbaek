@@ -29,12 +29,6 @@ public class MovieService {
 	}
 	
 	
-	// 영화 목록 조회 요청을 위한 getMovieList_present() 메서드 정의 - 현재상영작
-//	public List<MovieVO> getMovieList_present() {
-//		System.out.println("getMovieList_present()");
-//		return mapper.select_presentMovie();
-//	}
-	
 	// 현재상영작 예매율순 영화목록 조회 요청 - 기본
 	public List<MovieVO> getMovieList_present_bookrate(){
 		System.out.println("getMovieList_present_bookrate()");
@@ -48,14 +42,15 @@ public class MovieService {
 		return mapper.select_prepareMovie();
 	}
 	
+	
+	//------------------------------------------------------------------------------
 	// 리뷰 정보 조회 요청을 위한 getReviewRating()메서드 정의
 	// 파라미터:movie_num 리턴타입:ReviewVO 
-	public ReviewVO getReviewRating(int movie_num) {
-		System.out.println("Service - getReviewRating()");
-		return mapper.selectReviewRating(movie_num);
+	public ReviewVO getReview(int movie_num) {
+		System.out.println("Service - getReview()");
+		return mapper.selectReview(movie_num);
 	}
-	
-	
+
 	// 영화당 리뷰 개수정보 조회요청을 위한 getReviewCounting()메서드 정의
 	// 파라미터 : movie_num, 리턴타입 : ReviewVO
 	public ReviewVO getReviewCounting(int movie_num) {
@@ -63,7 +58,14 @@ public class MovieService {
 		return mapper.selectReviewCounting(movie_num);
 	}
 	
+	//리뷰 목록 조회요청 - getReviewList
+	public List<ReviewVO> getReviewList(int movie_num) {
+		System.out.println("Service - getReviewList()");
+		return mapper.selectReviewList(movie_num);
+	}
 	
+	
+	//-------------------------------------------------------------------------
 	// 페이징처리 - (movie페이지)
 
 	
@@ -85,6 +87,8 @@ public class MovieService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
+
 
 	
 	
