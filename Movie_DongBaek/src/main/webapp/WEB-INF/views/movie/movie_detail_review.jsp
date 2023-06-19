@@ -276,30 +276,24 @@
 <!-- 		  		</div> -->
 
 
-
-
-
-<!-- 		  	  페이징 -->
-			<section id="paging">
-		  	   <nav aria-label="...">
-				  <ul class="pagination pagination-md justify-content-center">
-				    <li class="page-item disabled">
-				      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-				    </li>
-				    <li class="page-item active" aria-current="page">
-				      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#">&raquo;</a>
-				    </li>
-				  </ul>
-				</nav>
-		  	  
-		  	  </div>
-		  	</section><%-- 세번째 섹션 끝--%>			
-		  	
+	<!-- 		  	  페이징 -->
+		<section id="paging">
+	  	   <nav aria-label="...">
+			  <ul class="pagination pagination-md justify-content-center">
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+			    </li>
+			    <li class="page-item active" aria-current="page">
+			      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">2</a></li>
+			    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			    <li class="page-item">
+			      <a class="page-link" href="#">&raquo;</a>
+			    </li>
+			  </ul>
+			</nav>
+	  	</section><%-- 세번째 섹션 끝--%>			
 		  	
  </div>
  </article>

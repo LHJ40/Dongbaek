@@ -42,7 +42,11 @@ public class MovieService {
 		return mapper.select_prepareMovie();
 	}
 	
-	
+	// 메인페이지 탑4 영화목록 조회 요청
+	public List<MovieVO> getMovieList_top4() {
+		System.out.println("getMovieList_top4");
+		return mapper.select_movieListTop4();
+	}
 	//------------------------------------------------------------------------------
 	// 리뷰 정보 조회 요청을 위한 getReviewRating()메서드 정의
 	// 파라미터:movie_num 리턴타입:ReviewVO 
@@ -87,6 +91,9 @@ public class MovieService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+
+
+
 
 
 

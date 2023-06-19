@@ -10,6 +10,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
+<script>
+  
+</script>
+
 <title>영화 예매 사이트</title>
 <style>
 	<%-- 페이징 색상변경 --%>
@@ -55,9 +61,9 @@
 	<div class="row"  align="left" style="margin-bottom: 20px">
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
-		  <select class="custom-select" name="movie_array">
-		    <option selected>예매순</option>
-		    <option value="1">평점순</option><%--가나다순? --%>
+		  <select class="custom-select" name="movie_array" >
+		    <option value="1" selected="selected">예매순</option>
+		    <option value="2">평점순</option><%--가나다순? --%>
 		  </select>
 		</div>
 	</div>
