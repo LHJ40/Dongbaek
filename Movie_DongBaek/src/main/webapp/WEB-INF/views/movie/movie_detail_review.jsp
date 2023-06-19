@@ -55,23 +55,23 @@
 			 <div class="col">
 		  		<ul class="nav nav-tabs">
 					<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }">주요정보</a>
+				    	<a class="nav-link" href="movie_detail_info?movie_num=${movie.movie_num }"> 주요정보 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link active" href="movie_detail_review?movie_num=${movie.movie_num }">리뷰</a>
+				    	<a class="nav-link active" href="movie_detail_review?movie_num=${movie.movie_num }"> 리뷰 </a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }">포토</a>
+				    	<a class="nav-link" href="movie_detail_photo?movie_num=${movie.movie_num }"  style="width:150px">예고편/스틸컷</a>
 				  	</li>
 				</ul>
 			</div>
 		</div>
 	</section>
 
-	 <%-- 세번째 섹션 --%>
-		  	<section id="movie-end">
+	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
+	 <section id="movie-end">
 
-<%-- 			  		리뷰페이지 --%>
+
 		  	  <div class="p-3">
 		  		<div class="row">
 			  		<div class="h5" id="review_head">영화명에 대한 리뷰 NN개가 등록되어 있습니다!</div>
@@ -118,7 +118,7 @@
 			  		<div class="row">
 			  		<%-- 프로필 사진& 아이디 --%>
 					  <div class="col col-md-2">
-					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
+					    <div class="row container-md"><img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div>
 					    <p class="row">사용자 아이디</p>
 					  </div>
 					<%-- 평점 --%>

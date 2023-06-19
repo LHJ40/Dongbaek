@@ -42,7 +42,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일 기준 10일이내에 상영하는 영화목록을 예매율순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
 		
 		return "reservation/reservation_main";
@@ -60,7 +60,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일 기준 10일이내에 상영하는 영화목록을 예매율순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
 		
 		return movieList;
@@ -78,7 +78,7 @@ public class ReservationController {
 		// MOVIES 테이블에서 접속일에 상영중인 영화목록을 가나다순으로 조회
 		// => 파라미터 : 없음   리턴타입 : List<MovieVO>(movieList)
 		List<MovieVO> movieList = service.getMovieListAscMovieName();
-		System.out.println(movieList);
+//		System.out.println(movieList);
 
 		model.addAttribute("movieList", movieList);
 		

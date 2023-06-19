@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dongbaekcinema.mapper.MovieMapper;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.ReviewVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class MovieService {
@@ -53,6 +54,18 @@ public class MovieService {
 		System.out.println("Service - getReviewRating()");
 		return mapper.selectReviewRating(movie_num);
 	}
+	
+	
+	// 영화당 리뷰 개수정보 조회요청을 위한 getReviewCounting()메서드 정의
+	// 파라미터 : movie_num, 리턴타입 : ReviewVO
+	public ReviewVO getReviewCounting(int movie_num) {
+		System.out.println("service-getReviewCounting");
+		return mapper.selectReviewCounting(movie_num);
+	}
+	
+	
+	// 페이징처리 - (movie페이지)
+
 	
 	
 	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
