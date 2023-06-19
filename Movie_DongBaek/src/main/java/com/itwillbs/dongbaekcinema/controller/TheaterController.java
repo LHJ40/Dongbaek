@@ -47,8 +47,8 @@ public class TheaterController {
 	public Object getTheater(int theater_num, Model model) {
 		System.out.println(theater_num);
 		TheaterVO theater=service.getTheater(theater_num);
-		model.addAttribute("theater", theater);		
-		System.out.println(theater);
+			
+//		System.out.println(theater);
 		return theater;
 	}
 	

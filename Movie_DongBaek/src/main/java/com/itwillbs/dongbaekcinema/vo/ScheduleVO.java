@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.vo;
 
+import java.sql.Date;
 import java.sql.Time;
 
 import lombok.Data;
@@ -16,7 +17,7 @@ public class ScheduleVO {
 	private String movie_grade;
 	private String movie_genre;
 	private int movie_running_time;
-	private Time movie_release_date;
+	private Date movie_release_date;
 	
 
 }
