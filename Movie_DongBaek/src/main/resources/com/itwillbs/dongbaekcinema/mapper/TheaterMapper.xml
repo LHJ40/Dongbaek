@@ -15,12 +15,13 @@
   </select>
   
    <select id="selectSchedule" resultType="com.itwillbs.dongbaekcinema.vo.ScheduleVO">
-	SELECT movie_name_kr,room_name,play_start_time,movie_grade,p.room_num,movie_genre,movie_running_time, movie_release_date,
+	SELECT movie_name_kr,room_name,play_start_time,movie_grade,p.room_num,movie_genre,movie_running_time, movie_release_date,p.play_num,
 	DATE_ADD( play_start_time, INTERVAL (movie_running_time)MINUTE) AS end_time, 
 	play_time_type,  movie_name_en  FROM PLAYS p
 	JOIN MOVIES m ON m.movie_num=p.movie_num
 	JOIN ROOMS r ON r.room_num =p.room_num
 	WHERE play_date=#{play_date} AND p.theater_num=#{theater_num}
+	AND concat(p.play_date,' ',p.play_start_time) >= SUBTIME(SYSDATE(), '00:20:00')
 	ORDER BY movie_name_kr,p.room_num,play_start_time; 
 
    </select>
