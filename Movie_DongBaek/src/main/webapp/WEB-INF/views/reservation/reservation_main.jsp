@@ -17,14 +17,21 @@
 <script type="text/javascript">
 
 	$(function() {	
-		console.log(${param.movie_num});
-		for(let i = 0; i < 10000; i++) {
-					
-			let movieNum = $("#selectMovie li a span").eq(i).attr("data-movie-num");
+		
+		let movie_num = $("#movieNum").val();
+		
+		if(movie_num != undefined){
 			
-			if(movieNum == ${param.movie_num}){
-				$("#selectMovie li").eq(i).addClass("selected");
+			for(let i = 0; i < 10000; i++) {
+						
+				let movieNum = $("#selectMovie li a span").eq(i).attr("data-movie-num");
+				
+				if(movieNum == movie_num){
+					$("#selectMovie li").eq(i).addClass("selected");
+				}
 			}
+		} else {
+			alert("movie_num " + movie_num +"입니다");
 		}
 
 		// [영화선택] 영역의 네비바 클릭 시
@@ -497,6 +504,8 @@
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 	
+	
+	<input type="hidden" id="movieNum" value="${param.movie_num}">
 	<article id="mainArticle">
 	<%--본문내용 --%>
 	<h2>영화 예매</h2>

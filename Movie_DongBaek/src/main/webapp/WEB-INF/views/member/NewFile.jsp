@@ -34,7 +34,7 @@
 					<th>변경할 비밀번호</th>
 					<td>
 						<!-- 키 누를때마다 checkNewPasswd() 함수에 입력받은 패스워드 전달하여 호출 -->
-						<input type="text" name="member_pass" maxlength="4" placeholder="비밀번호 변경 시 입력">
+						<input type="text" name="member_pass" maxlength="15" placeholder="비밀번호 변경 시 입력">
 						<span id="checkNewPasswdResult"></span>
 					</td>
 				</tr>
