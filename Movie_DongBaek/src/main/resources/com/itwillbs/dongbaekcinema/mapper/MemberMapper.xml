@@ -129,6 +129,14 @@
 	</delete>
 	
 	
+	<!-- 비밀번호 수정 -->
+	<update id="updateMemeber">
+		UPDATE MEMBERS
+		SET member_pass = #{member_pass}
+		WHERE member_id = #{member_id}
+	</update>
+	
+	
 </mapper>
 
 

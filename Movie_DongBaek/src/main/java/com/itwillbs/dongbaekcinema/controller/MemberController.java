@@ -388,6 +388,59 @@ public class MemberController {
 		
 	}
 	
+	
+	@GetMapping("MemberModifyForm")
+	public String modifyForm() {
+		return "member/NewFile";
+	}
+	
+	@PostMapping("MemberModify")
+	public String modifyPro(MemberVO member, HttpSession session, Model model) {
+		
+		
+		// 패스워드 암호화(해싱)--------------
+		// => MyPasswordEncoder  클래스에 덮어쓰기
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPasswd(member.getMember_pass());
+		
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		member.setMember_pass(securePasswd);
+		// --------------------------------------
+		
+		// MemberService(registMember()) - MemberMapper(insertMember())
+		int updateCount = service.modifyMember(member);
+		
+		if (updateCount > 0) {
+			model.addAttribute("msg", "회원 정보 수정 성공!");
+			model.addAttribute("targetURL", "MemberModifyForm");
+			
+			return "success_forward";
+		} else {
+			model.addAttribute("msg", "회원 정보 수정 실패!");
+			model.addAttribute("targetURL", "MemberModifyForm");
+			
+			return "fail_location";
+		}
+		
+		// 일반 회원이 패스워드가 일치하거나, 관리자일 때
+		// MemberService - modifyMember() 메서드 호출하여 회원 정보 수정 요청
+		// => 단, 관리자일 때  
+		// => 파라미터 : MemberVO 객체, 새 패스워드(newPasswd)
+		// => 추가) BCryptPasswordEncoder 를 활용하여 새 패스워드 암호화
+//		service.modifyMember(member, newPasswd);
+		
+		// "회원 정보 수정 성공!" 메세지 출력 및 "MemberInfo" 서블릿 리다이렉트를 위해 데이터 저장 후
+		// success_forward.jsp 페이지로 포워딩
+		
+		
+		
+	}
+	
+	
+	
+	
 }
 
 
