@@ -1,4 +1,4 @@
-location.href='reservation_check'<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!doctype html>
 <head>
@@ -104,7 +104,7 @@ article {
  		
  		$("#check_module").click(function () {
  	        var IMP = window.IMP; // 생략가능
- 	        IMP.init('imp85027310'); 
+ 	        IMP.init('imp68416584'); 
  	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
  	        // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
  	        IMP.request_pay({
@@ -128,7 +128,7 @@ article {
  	                'vbank':가상계좌,
  	                'phone':휴대폰소액결제 
  	            */
- 	            merchant_uid: 'merchant_' + new Date().getTime(),
+ 	            merchant_uid: createOrderNum(),
  	          
  	            
  	            
@@ -136,26 +136,46 @@ article {
  	            //결제창에서 보여질 이름
  	            amount: 1000, 
  	            //가격 
- 	            buyer_email: 'willbeok5.1@gmail.com',
- 	            buyer_name: '${sessionScope.member_id}',
- 	            buyer_tel: '010-1234-5678',
- 	            buyer_addr: '부산광역시 부산진구 동천로 ',
- 	            buyer_postcode: '123-456',
- 	            m_redirect_url: 'reservation_check'
- 	            /*  
- 	                모바일 결제시,
- 	                결제가 끝나고 랜딩되는 URL을 지정 
- 	                (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐) 
- 	                */
+ 	            buyer_email: '${member.member_email}',
+ 	            buyer_name: '${member.member_name}',
+ 	            buyer_tel: '${member.member_phone}',
+ 	            
+ 	            
  	        }, function (rsp) {
  	            console.log(rsp);
  	            if (rsp.success) {
  	                var msg = '결제가 완료되었습니다.';
- 	              	 location.href='reservation_check'
+//  	              	 location.href='reservation_check'
  	                msg += '고유ID : ' + rsp.imp_uid;
  	                msg += '상점 거래ID : ' + rsp.merchant_uid;
  	                msg += '결제 금액 : ' + rsp.paid_amount;
  	                msg += '카드 승인번호 : ' + rsp.apply_num;
+ 	                //---------------------------
+//  	               jQuery.ajax({
+//                        url: "complete", 
+//                        type: "POST",
+//                         data:{
+//                        "imp_uid" : rsp.imp_uid,//고유ID
+//                        "orderNum" :  rsp.merchant_uid,//주문번호
+                  
+//                        "num" : '${member.member_num}', // 회원번호
+//                        "productName" : rsp.name,
+//                        "orderDate" : new Date().getTime(),
+//                        "totalPrice" : rsp.paid_amount,
+//                        }
+//                        dataType: 'json',
+//                    })
+//                    .done(function(res) {
+//                        if (res > 0) {
+//                            swal('주문정보 저장 성공')
+// //                            createPayInfo(uid);
+//                        }
+//                        else {
+//                            swal('주문정보 저장 실패');
+//                        }
+//                    })
+//            }
+ 	                
  	            } else {
  	                var msg = '결제에 실패하였습니다.';
  	                msg += '에러내용 : ' + rsp.error_msg;
@@ -165,6 +185,42 @@ article {
  	    });
 		
  	});
+ 	
+ 	function createOrderNum(){
+ 		const date = new Date();
+ 		const year = date.getFullYear();
+ 		const month = String(date.getMonth() + 1).padStart(2, "0");
+ 		const day = String(date.getDate()).padStart(2, "0");
+ 		
+ 		let orderNum = year + month + day;
+ 		for(let i=0;i<10;i++) {
+ 			orderNum += Math.floor(Math.random() * 8);	
+ 		}
+ 		return orderNum;
+ 	}
+ 	
+ 	function createPayInfo(uid) {
+ 	    // 결제정보 생성 및 테이블 저장 후 결제완료 페이지로 이동 
+ 	    $.ajax({
+ 	        type: 'get',
+ 	        url: '/order/pay_info',
+ 	        data: {
+ 	            'imp_uid': uid,
+ 	        },
+ 	        success: function(data) {
+ 	            
+ 	            swal('결제 성공 !',"결제완료 페이지로 이동합니다.","success").then(function(){
+ 	                
+ 	                // 결제완료 페이지로 이동
+ 	                location.replace('/order/complete?payNum='+data);
+
+ 	            })
+ 	        },
+ 	        error: function() {
+ 	            swal('결제정보 저장 통신 실패');
+ 	        }
+ 	    });
+ 	}
 	
 </script>
 
@@ -248,8 +304,8 @@ article {
 				  				</tr>
 				  				<tr>
 				  					<th>할인금액</th>
-				  					<td>멤버십</td>
-				  					<td> 5,000 원 </td>
+				  					<td>${member_grade.grade_name }</td>
+				  					<td>${member_grade.grade_discount } </td>
 				  				</tr>
 				  				<tr>
 				  					<th>결제금액</th>
