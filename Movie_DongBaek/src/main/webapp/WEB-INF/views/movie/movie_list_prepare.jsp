@@ -270,7 +270,6 @@
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>

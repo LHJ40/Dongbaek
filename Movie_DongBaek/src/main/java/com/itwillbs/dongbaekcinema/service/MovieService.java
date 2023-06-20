@@ -31,10 +31,17 @@ public class MovieService {
 	
 	// 현재상영작 예매율순 영화목록 조회 요청 - 기본
 	public List<MovieVO> getMovieList_present_bookrate(){
-		System.out.println("getMovieList_present_bookrate()");
+//		System.out.println("getMovieList_present_bookrate()");
 		return mapper.select_presentMovie_bookingRateDESC();
 	}
-
+	
+	// 현재상영작 평점순 영화목록 조회 요청
+	public List<MovieVO> getMovieList_present_reviewrate(){
+		System.out.println("getMovieList_present_reviewrate()");
+		return mapper.select_presentMovie_reviewRating();
+	}
+	
+	
 	
 	// 영화 목록 조회 요청을 위한 getMovieList_prepare() 메서드 정의 - 현재상영작
 	public List<MovieVO> getMovieList_prepare() {
@@ -71,7 +78,11 @@ public class MovieService {
 	
 	//-------------------------------------------------------------------------
 	// 페이징처리 - (movie페이지)
-
+//	@Override
+//	public List<MovieVO> getList(Criteria criteria){
+//		System.out.println(criteria);
+//		return mapper.getListWithPaging(criteria);
+//	}
 	
 	
 	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
@@ -94,14 +105,5 @@ public class MovieService {
 
 
 
-
-
-
-	
-	
-	
-	
-	//영화목록조회  - 현재상영작? select_presentMovie
-	//영화목록조회  - 상영예정작? select_prepareMovie
 
 }
