@@ -85,6 +85,11 @@ public class AdminService {
 		return playScheduleList;
 	}
 
+	// 영화관 번호로 상연관 번호와 이름 가져오기
+	public List<PlayScheduleVO> getRoomInfo(String theater_num) {
+		
+		return mapper.getRoom(theater_num);
+	}
 
 	private void getTurnInfo(int theater_num, int movie_num, int pageNo) {
 		// TODO Auto-generated method stub
@@ -206,6 +211,16 @@ public class AdminService {
 		
 	}
     
+	// CS게시판 공지사항, 자주묻는 질문 삭제
+	public int deleteCs(int csType, int cs_type_list_num) {
+
+		// CS 게시판 구분용 contiodion 변수
+		String condition = distinctType(csType);
+		
+		System.out.println("deleteCs_service condition:" + condition + ", cs_type_list_num :" + cs_type_list_num);
+
+		return mapper.deleteCs(condition, cs_type_list_num);
+	}
 
 
     // CS게시판 1:1 질문 관리 답변 화면 정보 가져오기
@@ -226,7 +241,6 @@ public class AdminService {
 		
 		return mapper.updateReply(condition, qnaInfo);
 	}
-	
 	
 
 
@@ -267,6 +281,9 @@ public class AdminService {
     	
     	return condition;
     }
+
+
+
 
 
 
