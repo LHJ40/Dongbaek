@@ -9,6 +9,9 @@
 	<h1> 마이페이지 </h1>
   		<ul class="nav flex-column">
     		<li class="nav-item">
+      			<a class="nav-link" href="myPage">마이페이지<span class="sr-only">(current)</span></a>
+    		</li>
+    		<li class="nav-item">
       			<a class="nav-link" href="myPage_reservation_history">나의 예매내역<span class="sr-only">(current)</span></a>
     		</li>
     		<hr>

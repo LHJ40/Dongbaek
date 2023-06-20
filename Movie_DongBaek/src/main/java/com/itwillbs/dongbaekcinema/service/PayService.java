@@ -92,5 +92,46 @@ public class PayService {
 		return amount;
 	}
 	
+	// 결제 취소
+	public void payMentCancle(String access_token, String imp_uid, int amount, String reason) throws IOException {
+		System.out.println("결제취소!");
+		
+		System.out.println(access_token);
+		
+		System.out.println(imp_uid);
+		
+		HttpsURLConnection conn = null;
+		URL url = new URL("https://api.iamport.kr/payments/cancel");
+ 
+		conn = (HttpsURLConnection) url.openConnection();
+ 
+		conn.setRequestMethod("POST");
+ 
+		conn.setRequestProperty("Content-type", "application/json");
+		conn.setRequestProperty("Accept", "application/json");
+		conn.setRequestProperty("Authorization", access_token);
+ 
+		conn.setDoOutput(true);
+		
+		JsonObject json = new JsonObject();
+ 
+		json.addProperty("reason", reason);
+		json.addProperty("imp_uid", imp_uid);
+		json.addProperty("amount", amount);
+		json.addProperty("checksum", amount);
+ 
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+ 
+		bw.write(json.toString());
+		bw.flush();
+		bw.close();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+ 
+		br.close();
+		conn.disconnect();
+		
+	}
+	
 }
 

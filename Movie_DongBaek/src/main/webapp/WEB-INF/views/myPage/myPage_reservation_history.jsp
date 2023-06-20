@@ -14,6 +14,9 @@
 <style>
 
 </style>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -48,8 +51,12 @@
 									<td>${myTicket.play_date }</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
 									
 									<td>
-										<input type="button" value="${myTicket.play_change }" 
+										<form action="myPayment_detail" method="post">
+										<input type="hidden" name="payment_num" value="${myTicket.order_num }">
+										<input type="hidden" name="play_change" value="${myTicket.play_change }">
+										<input type="submit" value="${myTicket.play_change }"
 												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >
+										</form>
 									</td><%-- {param.iscdange??} --%>
 								</tr>
 							
