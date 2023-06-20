@@ -92,6 +92,16 @@ public class MovieService {
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
 
+	//영화삭제 - 0620정의효
+	public void movieDelete(String movie_num) {
+		mapper.movieDelete(movie_num);
+	}
+
+	//영화수정 - 0620정의효 작성중
+	public void movieModify(MovieVO movie) {
+		 mapper.movieModify(movie);
+	}
+
 
 
 

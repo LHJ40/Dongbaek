@@ -1,11 +1,6 @@
 package com.itwillbs.dongbaekcinema.vo;
 
-import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -33,66 +35,129 @@
 		<%--본문내용 --%>
 		<div class="container">
 			<div class="mainTop">
-				<h1><img src="${pageContext.request.contextPath }/resources/img/membership_main_photo.png" id="myPage_GOLD"><span><b>{param.name}님</b></span></h1>
+				<%-- 마이페이지 환영멘트 --%>
+				<h1>
+					<img src="${pageContext.request.contextPath }/resources/img/membership_main_photo.png" id="myPage_GOLD">
+					<span>
+						<b>${member.member_name}님! 환영합니다!</b>
+					</span>
+				</h1>
 			</div>
 				<%-- 왼쪽 사이드바에 있으니 굳이 필요하지 않은듯 --%>	
 <!-- 			<a href="myPage_modify_check">회원정보수정</a> <br> -->
-			
+			<br>
+			<hr>
 			<br>
 			<div class="myTicketing">
-				<h1>나의예매내역</h1>
-				<hr class="my-4">
+				<h2>${member.member_name}님의 예매내역</h2>
+				<br>
+<!-- 				<hr class="my-4"> -->
 				<table class="table table-striped">
-					<tr>
-						<th>번호</th>
-						<th>영화제목</th>
-						<th>상영일</th>
-						<th>상태</th>
-						<th>변경</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>영화다</td>
-						<td>{param.date_start}~{param.date_end}</td>
-						<td><img src="${pageContext.request.contextPath }/resources/img/playBefore.png" alt="상영전이미지"></td>
-						<td><a href="ticketing_cancel">예매취소</a></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>하아..</td>
-						<td>{param.date_start}~{param.date_end}</td>
-						<td><img src="${pageContext.request.contextPath }/resources/img/playAfter.png" alt="상영완료이미지"></td>
-						<td>취소불가</td>
-					</tr>
+					<c:choose>
+						<c:when test="${empty myTicketList}">
+							<tr>
+								<td>고객님의 최근 예매내역이 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<th>번호</th>
+								<th>포스터</th> <%-- {param.board_ticket_num} --%>
+								<th>영화제목</th>
+								<th>상영일</th>
+								<th>예매 상태 변경</th>
+							</tr>
+							<c:forEach var="myTicket" items="${myTicketList }" begin="0" end="3" step="1" varStatus="status">
+								<tr>
+									<%-- 게시물 번호 처리, 1번부터 시작 --%>
+									<td>${status.index+1} </td>
+									<td><img src="${myTicket.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
+									<td>${myTicket.movie_name_kr }</td>
+									<td>${myTicket.play_date }</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
+									
+									<td>
+										<%-- 상영일 상영시간이 30분 이전이라면 취소 가능 --%>
+										<%-- 오늘 날짜 --%>
+<%-- 										<jsp:useBean id="now" class="java.util.Date" /> --%>
+<%-- 										<fmt:formatDate var="nowDate" value="${javaDate}" pattern="yyyy-MM-dd"/> --%>
+<%-- 										상영 날짜 --%>
+<%-- 										<fmt:parseDate value="${myTicketList.play_date }" var="play_date" pattern="yyyy-MM-dd" /> --%>
+<%-- 										<input type="button" value="${myTicketList.play_change }"> --%>
+										
+<%-- 												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> > --%>
+									</td><%-- {param.iscdange??} --%>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					
 				</table>
 			</div>
-
+	
+			<hr>
+			
 			<div class="grade">
-				<h1>등급별 혜택</h1>
-				<hr class="my-4">
-				<b>OOO님의 현재 등급 : </b><img src="${pageContext.request.contextPath }/resources/img/gold.png" id="myPage_nowGrade"><br>
-				<b>혜택</b> : 영화 금액 <b>{param.grade_discount}%할인</b>
+				<h2>등급별 혜택</h2>
+				<br>
+<!-- 				<hr class="my-4"> -->
+				<h3>${member.member_name} 님의 현재 등급 : </b>${myGrade.grade_name}</h3>
+				<b>혜택</b> : 영화 금액 <b>${myGrade.grade_discount * 100} % 할인</b>
 				<br> 
-				<b>다음 등급 : </b><img src="${pageContext.request.contextPath }/resources/img/gold.png" id="myPage_nowGrade"><br>
-				<b>혜택</b> :영화 금액의 <b>{param_grade_discount}%할인</b>
+				<c:choose>
+						<c:when test="${myGrade.next_grade_discount * 100 eq 0}" >
+							현재 최고등급입니다.
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td>다음 등급 : ${myGrade.next_grade_name}</td>
+								<td>
+									할인율 : 영화 결제금액 <br>
+									<span class="sale">${myGrade.next_grade_discount * 100} %</span> 할인<br>
+									선정 기준 및 유지 기준 : 1년간 <fmf:formatNumber value="${myGrade.grade_max}" pattern="#,###,###" /> 원 달성 시 다음해 승급
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+<%-- 				<b>다음 등급 : </b>${myGrade.next_grade_name}<br> --%>
+<%-- 				<b>혜택</b> :영화 금액의 <b>${myGrade.next_grade_discount * 100}% 할인</b> --%>
 				<br> 
 				<a href="grade">전체 등급 혜택 확인하러 가기 click</a>
 			</div>
-
+			
+			<hr>
+			
 			<div class="myQuest">
-				<h1>나의 문의 내역</h1>
-				<hr class="my-4">
+				<h2>나의 문의 내역</h2>
+				<br>
+<!-- 				<hr class="my-4"> -->
 				<table  class="table table-striped">
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>답변 상태</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>결제 관련</td>
-						<td>X</td>
-					</tr>
+					<c:choose>
+						<c:when test="${empty myInq}">
+							<tr>
+								<td>고객님의 최근 문의 내역이 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="myPayment" items="${myPaymentList }">
+								<tr>
+							 		<th>문의 번호 </th>
+							 		<th>문의 유형</th>
+							 		<th>문의 제목</th>
+							 		<th>문의 내용</th>
+							 		<th>답변 여부</th>
+							 		<th>문의내역 변경</th>
+							 	</tr>
+							 	<tr>
+							 		<td>{myInq.cs_num }</td><%--{param.inquiry_board_num} --%>
+							 		<td>{myInq.cs_type}</td><%--{param.inquiry-category} --%>
+							 		<td>{myInq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
+							 		<td>{myInq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
+							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
+							 	</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</table>
 			</div>
 		</div>

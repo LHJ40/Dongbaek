@@ -23,6 +23,9 @@ public class PaymentService {
 //	public PaymentVO getPayment(int order_num) {
 //		return mapper.selectPayment(order_num);
 //	}
+//	public PaymentVO getPayment(int order_num) {
+//		return mapper.selectPayment(order_num);
+//	}
 	
 	//0618정의효 - 밑에꺼 수정하거나 삭제해서 List값 다시확인
 //	public List<PaymentVO> getPayment(int order_num) {

@@ -81,9 +81,7 @@ th{
 			error:function(error) {
 				alert("error : " + error);
 			}
-		
-		})
-		
+		})		
 	}
 	
 	// 비밀번호 정규식
@@ -100,28 +98,7 @@ th{
 			$("#member_pass").val('');
 		}
 	}
-	
-	// email 주소 선택하면 앞 칸에 value 전달 함수
-	function email(address) {
-		document.fr.email2.value = address;
-	}
-	
-	// 이메일 가져오기
-	$("#email1").blur(function() {
-		email();
-	});
-	$("#email2").change(function() {
-		email();
-	});
-	
-	// 하나로 합치기
-	function email() {
-		var email1 = $("#email1").val();
-		var email2 = $("#email2").val();
-		if(year != "" && month != "" && day != "") {
-			$("member_email").val(email1 + "@" + email2);
-		}
-	};
+
 	
 	// 생년월일에 숫자만 입력하기
 	function inputNum(id) {
@@ -159,7 +136,7 @@ th{
 	});
 	
 	// ------------------------------
-	
+
 </script>
 </head>
 <body>
@@ -183,10 +160,27 @@ th{
 			<div class="row d-flex justify-content-center mt-3">
 				<div class="col-10">	<%-- 전체 12개의 col중에 가운데 10개의 col 사용 --%>
 					<form action="member_join_pro" method="post" name="fr">
+						<input type="hidden" name="member_status" value="활동">
+					 	<input type="hidden" name="member_type" value="회원">
+						<c:choose>
+							<c:when test="${member_agree_marketing eq false}">
+								<input type="hidden" name="member_agree_marketing" value="0">
+							</c:when>
+							<c:otherwise>
+								<input type="hidden" name="member_agree_marketing" value="1">
+							</c:otherwise>
+						</c:choose>
 					<%-- 회원 가입 폼 시작 --%>
 					<!--  아이디 (필수)  -->
 					<div class="row mb-3">
-				    	<label for="inputEmail3" class="col-sm-5 ">아이디</label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+				    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+					    	<div class="col-sm-12">
+					    		<h6><em style="color:red;">*</em> 는 필수 입력 항목입니다!</h6>
+					    	</div>
+					</div>
+					<!--  아이디 (필수)  -->
+					<div class="row mb-3">
+				    	<label for="inputEmail3" class="col-sm-5 ">아이디<em style="color:red;">*</em> </label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
 					    	<div class="col-sm-12">
 					    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
 						    			minlength="5" maxlength="20" onchange="checkId()">
@@ -196,14 +190,14 @@ th{
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>
 					    	<div class="col-sm-12">
-								<span class="id_ok">사용 가능한 아이디 입니다.</span>
-								<span class="id_already">이미 사용중인 아이디 입니다.</span>
+								<span class="id_ok" style="color:green;">사용 가능한 아이디 입니다.</span>
+								<span class="id_already" style="color:red;">이미 사용중인 아이디 입니다.</span>
 					   		</div>
 					</div>	
 				  	
 					<!-- 비밀번호 (필수)  -->
 				  	<div class="row mb-3">
-				    	<label for="inputPassword" class="col-sm-5 ">비밀번호</label>
+				    	<label for="inputPassword" class="col-sm-5 ">비밀번호<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required"  onchange="checkPass(this.value)">
 				   		</div>
@@ -219,45 +213,15 @@ th{
 				  	
 					<!-- 비밀번호 확인 (필수)  -->
 				  	<div class="row mb-3">
-				    	<label for="inputPasswordDupCheck" class="col-sm-5">비밀번호 확인</label>
+				    	<label for="inputPasswordDupCheck" class="col-sm-5">비밀번호 확인<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required">
 				   		</div>
 				  	</div>
-                      <div class="row mb-3">
-                        <label for="inputPassword" class="col-sm-5 ">비밀번호</label>
-                        <div class="col-sm-12">
-                              <input type="password" class="form-control" id="member_pass" name="member_pass" required="required"  onchange="checkPass(this.value)">
-                           </div>
-                      </div>
-
-                      <!-- 비밀번호 정규식 : regex -->
-                    <div class="row mb-3">
-                        <label for="inputPasswordRegex_Result" class="col-sm-5 "></label>
-                            <div class="col-sm-12">
-                                <span id="pass_check"></span>
-                               </div>
-                    </div>
-
-                    <!-- 비밀번호 확인 (필수)  -->
-                      <div class="row mb-3">
-                        <label for="inputPasswordDupCheck" class="col-sm-5">비밀번호 확인</label>
-                        <div class="col-sm-12">
-                              <input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required">
-                           </div>
-                      </div>
-
-                      <!-- 비밀번호 확인 :  -->
-                    <div class="row mb-3">
-                        <label for="inputPassworDupCheck_Result" class="col-sm-5 "></label>
-                            <div class="col-sm-12">
-                                <span id="pass_check"></span>
-                               </div>
-                    </div>
 				    
 				    <!-- 이름 (필수)  -->
 				  	<div class="row mb-3">
-				  		<label for="inputEmail3" class="col-sm-5 col-form-label">이름</label>
+				  		<label for="inputEmail3" class="col-sm-5 col-form-label">이름<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_name" name="member_name">
 				 		</div>
@@ -267,7 +231,7 @@ th{
 					<!-- 현재 입력 폼은 input type ="text" -->
 					<!-- DB의 데이터타입 : DATE -->
 				    <div class="row mb-3">
-				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일</label>
+				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_birth" name="member_birth" placeholder="생년월일 8자리를 입력하세요." maxlength="8"
 				  				   oninput="inputNum(this.id)">
@@ -276,7 +240,7 @@ th{
 				  	
 					<!-- 전화번호 (필수) -->
 					<div class="row mb-3">
-					    <label for="inputCity" class="col-sm-12">전화번호</label>
+					    <label for="inputCity" class="col-sm-12">전화번호<em style="color:red;">*</em></label>
 					    <div class="col-sm-12"> <!-- 여기의 숫자 : input 입력 박스의 길이 조절 -->
 						    <div class="input-group">
 						    	<c:choose>
@@ -309,22 +273,22 @@ th{
 						<div class="col-sm-12">
 							<div class="selectBox_movie">
 								<select name="member_like_genre" class="select">
-									<option value="선택 안함">선택 안함</option>
-									<option value="로맨스코미디">로맨스코미디</option>
-									<option value="스릴러">스릴러</option>
-									<option value="공포">공포</option>
-									<option value="SF">SF</option>
-									<option value="범죄">범죄</option>
-									<option value="액션">액션</option>
-									<option value="코미디">코미디</option>
-									<option value="판타지">판타지</option>
-									<option value="음악">음악</option>
-									<option value="멜로">멜로</option>
-									<option value="뮤지컬">뮤지컬</option>
-									<option value="스포츠">스포츠</option>
-									<option value="애니메이션">애니메이션</option>
-									<option value="다큐멘터리">다큐멘터리</option>
-									<option value="기타">기타</option>
+									<option value="선택 안함" <c:if test="${member_like_genre=='선택 안함'}">${'selected' }</c:if>>선택 안함</option>
+									<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>>로맨스코미디</option>
+									<option value="스릴러"<c:if test="${member_like_genre=='스릴러'}">${'selected' }</c:if>>스릴러</option>
+									<option value="공포"<c:if test="${member_like_genre=='공포'}">${'selected' }</c:if>>공포</option>
+									<option value="SF"<c:if test="${member_like_genre=='SF'}">${'selected' }</c:if>>SF</option>
+									<option value="범죄"<c:if test="${member_like_genre=='범죄'}">${'selected' }</c:if>>범죄</option>
+									<option value="액션"<c:if test="${member_like_genre=='액션'}">${'selected' }</c:if>>액션</option>
+									<option value="코미디"<c:if test="${member_like_genre=='코미디'}">${'selected' }</c:if>>코미디</option>
+									<option value="판타지"<c:if test="${member_like_genre=='판타지'}">${'selected' }</c:if>>판타지</option>
+									<option value="음악"<c:if test="${member_like_genre=='음악'}">${'selected' }</c:if>>음악</option>
+									<option value="멜로"<c:if test="${member_like_genre=='멜로'}">${'selected' }</c:if>>멜로</option>
+									<option value="뮤지컬"<c:if test="${member_like_genre=='뮤지컬'}">${'selected' }</c:if>>뮤지컬</option>
+									<option value="스포츠"<c:if test="${member_like_genre=='스포츠'}">${'selected' }</c:if>>스포츠</option>
+									<option value="애니메이션"<c:if test="${member_like_genre=='애니메이션'}">${'selected' }</c:if>>애니메이션</option>
+									<option value="다큐멘터리"<c:if test="${member_like_genre=='다큐멘터리'}">${'selected' }</c:if>>다큐멘터리</option>
+									<option value="기타"<c:if test="${member_like_genre=='기타'}">${'selected' }</c:if>>>기타</option>
 								</select>
 							</div>
 						</div>
@@ -335,9 +299,6 @@ th{
 				 		<input type="button" class="btn btn-secondary mr-3 btn-lg" onclick="location.href='./'" value="돌아가기">
 				  		<input type="submit" class="btn btn-danger ml-3 btn-lg" value="회원가입">
 				  	</div>
-				  	
-				  <input type="hidden" name="member_status" value="활동">
-				  <input type="hidden" name="member_type" value="회원">
 				</form>
 			</div>
 		</div>

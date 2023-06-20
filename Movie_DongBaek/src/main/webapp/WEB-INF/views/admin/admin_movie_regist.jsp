@@ -51,27 +51,27 @@ article {
           <table class="table table-bordered text-center">
             <tr>
               <th>영화제목(kr)</th> 
-              <td><input type="text" placeholder="영화제목(kr)을 입력해주세요" id="movieName"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
+              <td><input type="text" placeholder="영화제목(kr)을 입력해주세요" id="movie_name_kr" name="movie_name_kr"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
             </tr>
             <tr>
               <th>영화제목(en)</th> 
-              <td><input type="text" placeholder="영화제목(en)을 입력해주세요" id="movieNameEn"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
+              <td><input type="text" placeholder="영화제목(en)을 입력해주세요" id="movie_name_en" name="movie_name_en"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
             </tr>
             <tr>
               <th>감독명</th>
-              <td><input type="text" placeholder="감독명 입력해줘" id="movieDirector"></td> 
+              <td><input type="text" placeholder="감독명 입력해줘" id="movie_director" name="movie_director"></td> 
             </tr>
             <tr>
               <th>대표장르</th>
-              <td><input type="text" placeholder="대표 장르" id="repGenre"></td>
+              <td><input type="text" placeholder="대표 장르" id="movie_genre" name="movie_genre"></td>
             </tr>
             <tr>
               <th>러닝타임</th>
-              <td><input type="text" placeholder="러닝 타임" id="showTm"></td>
+              <td><input type="text" placeholder="러닝 타임" id="movie_running_time" name="movie_running_time"></td>
             </tr>
             <tr>
               <th>심의등급</th>
-              <td><input type="text" placeholder="심의등급" id="watchGradeNm"></td> <!-- audits.watchGradeNm 1개만가져오기 -->
+              <td><input type="text" placeholder="심의등급" id="movie_grade" name="movie_grade"></td> <!-- audits.watchGradeNm 1개만가져오기 -->
 <!--               <td> -->
 <!--                 <select name="movie_grade"> -->
 <!--                   <option value="none">선택해주세요</option> -->
@@ -85,43 +85,43 @@ article {
             </tr>
             <tr>
               <th>출연진</th>
-              <td><input type="text" placeholder="출연진" id="peopleNm"></td> <!--  actors.peopleNm 반복으로 가져오기 --> 
+              <td><input type="text" placeholder="출연진" id="movie_cast" name="movie_cast"></td> <!--  actors.peopleNm 반복으로 가져오기 --> 
             </tr>
             <tr>
               <th>개봉일</th>
-              <td><input type="text" placeholder="개봉일" id="openDt"></td> 
+              <td><input type="text" placeholder="개봉일(XXXX-XX-XX)" id="movie_release_date" name="movie_release_date"></td> 
             </tr>
             <tr>
               <th>종영일</th>
-              <td><input type="text" placeholder="종영일" id="movie_release_date"></td>  <!-- 개봉일과 같이 YYYYMMDD -> DATE? 로 변환후 DB에저장되게 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="종영일(XXXX-XX-XX)" id="movie_close_date" name="movie_close_date"></td>  <!-- 개봉일과 같이 YYYYMMDD -> DATE? 로 변환후 DB에저장되게 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>관람객수</th>
-              <td><input type="text" value="0" id="movie_audience_num"></td>  <!-- 영화 등록이니 처음 관람객수 : 0  -->
+              <td><input type="text" value="0" id="movie_audience_num" name="movie_audience_num"></td>  <!-- 영화 등록이니 처음 관람객수 : 0  -->
             </tr>
             <tr>
               <th>포스터</th> 
-              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_poster"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요(http://xxxx.xxx)" id="movie_poster" name="movie_poster"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>예고영상</th> 
-              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_preview"></td> <!-- 예고편 영화 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요(http://xxxx.xxx)" id="movie_preview" name="movie_preview"></td> <!-- 예고편 영화 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>스틸컷1</th> 
-              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo1"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요(http://xxxx.xxx)" id="movie_photo1" name="movie_photo1"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>스틸컷2</th> 
-              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo2"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요(http://xxxx.xxx)" id="movie_photo2" name="movie_photo2"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>스틸컷3</th> 
-              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo3"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요(http://xxxx.xxx)" id="movie_photo3" name="movie_photo3"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>줄거리</th>
-              <td><textarea rows="5" cols="50" placeholder="줄거리를 입력해주세요" id="movie_content"></textarea></td> <!-- 관리자가 직접 입력해야됨 api 없음 -->
+              <td><textarea rows="5" cols="50" placeholder="줄거리를 입력해주세요" id="movie_content" name="movie_content"></textarea></td> <!-- 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>검색할 영화 제목</th>
@@ -225,21 +225,25 @@ article {
 	              return actor.peopleNm;
 	            }).join(", ");
 	          }
-	          if (movieInfo.openDt) {
-	            openDt = movieInfo.openDt;
+	          
+	          var openDt = movieInfo.openDt;
+	          if (openDt) {
+	            // YYYYMMDD 형식을 YYYY-MM-DD 형식으로 변환
+	            var formattedOpenDt = openDt.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+	            openDt = formattedOpenDt; // 수정된 부분
 	          }
 
-	          $("#showTm").val(showTm);
-	          $("#watchGradeNm").val(watchGradeNm);
-	          $("#peopleNm").val(peopleNm);
-	          $("#openDt").val(openDt);
+	          $("#movie_running_time").val(showTm);
+	          $("#movie_grade").val(watchGradeNm);
+	          $("#movie_cast").val(peopleNm);
+	          $("#movie_release_date").val(openDt);
 
 	          // 수정: 영화 제목(en) 입력 필드에 값 설정
-	          $("#movieNameEn").val(movieNmEn);
+	          $("#movie_name_en").val(movieNmEn);
 
-	          $("#movieName").val($("#takeMovieAPI .modal-body select option:selected").text().trim());
-	          $("#movieDirector").val(directorNames);
-	          $("#repGenre").val(repGenreNm);
+	          $("#movie_name_kr").val($("#takeMovieAPI .modal-body select option:selected").text().trim());
+	          $("#movie_director").val(directorNames);
+	          $("#movie_genre").val(repGenreNm);
 	        },
 	        error: function(xhr, status, error) {
 	          console.log("AJAX 요청 실패:", error);

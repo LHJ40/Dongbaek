@@ -32,7 +32,8 @@
 				<c:otherwise>
 				 	<c:forEach var="myInfo" items="${myInfoList }">
 				 		<h2>개인정보 수정</h2>
-						* 회원님의 정보를 정확히 입력해주세요.
+						* ${myInfo.member_name } 님의 정보를 정확히 입력해주세요. <br>
+						현재 $ } 등급으로 동백시네마와 함께 하고 계십니다!
 						<form action="myPage_modify_member" method="post">
 							<table border="1">
 								<tr>

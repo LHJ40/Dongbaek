@@ -34,5 +34,24 @@
   			WHERE member_id = #{member_id}
   </select>
   
+  <!-- 나의 문의 내역 조회 -->
+  <select id="selectMyInq" resultType="com.itwillbs.dongbaekcinema.vo.CsVO">
+ 		SELECT *
+ 			FROM CS
+ 			WHERE member_id = #{member_id}
+  </select>
+  
+  <!-- 나의 회원정보 수정  -->
+  <!-- 수정 필요함  -->
+  <update id="updateMyInfo">
+  		UPDATE
+  			MEMBERS
+  			SET
+  				member_pass = #{member_pass }
+  				, member_phone = #{member_phone}
+  				, member_email = #{member_email}
+  				, member_like_genre = #{member_like_genre}
+  			WHERE member_id = {#member_id}
+  </update>
   
 </mapper>

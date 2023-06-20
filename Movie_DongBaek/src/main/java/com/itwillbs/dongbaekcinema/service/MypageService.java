@@ -30,6 +30,16 @@ public class MypageService {
 		return mapper.selectMyGrade(member_id);
 	}
 
+	public List<CsVO> getMyInq(String member_id) {
+		return mapper.selectMyInq(member_id);
+	}
+
+	public int updateMyInfo(String member_id) {
+		return mapper.updateMyInfo(member_id);
+	}
+
+
+
 
 
 

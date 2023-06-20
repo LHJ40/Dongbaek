@@ -34,7 +34,7 @@
 		<tr>
 			<td>${schedule.room_name }</td>
 			<td>
-				<button style="height:5em">
+				<button style="height:5em" onClick="location.href='reservation_seat?play_num=${schedule.play_num}'">
 				<c:if test="${schedule.play_time_type eq '조조'}">${morning}</c:if>
 				<c:if test="${schedule.play_time_type eq '심야'}">${night}</c:if>
 				${schedule.play_start_time}<br>~${schedule.end_time}</button>
@@ -51,7 +51,7 @@
 				
 			</c:if>
 			<td>
-				<button style="height:5em">
+				<button style="height:5em" onClick="location.href='reservation_seat?play_num=${schedule.play_num}'">
 				<c:if test="${schedule.play_time_type eq '조조'}">${morning}</c:if>
 				<c:if test="${schedule.play_time_type eq '심야'}">${night}</c:if>
 				${schedule.play_start_time }<br>~${schedule.end_time }</button>
@@ -69,7 +69,7 @@
 		
 		</tr>
 		<tr><td>${schedule.room_name }</td>
-		<td><button style="height:5em">
+		<td><button style="height:5em" onClick="location.href='reservation_seat?play_num=${schedule.play_num}'">
 		<c:if test="${schedule.play_time_type eq '조조'}">${morning}</c:if>
 		<c:if test="${schedule.play_time_type eq '심야'}">${night}</c:if>
 		${schedule.play_start_time }<br>~${schedule.end_time }</button></td>

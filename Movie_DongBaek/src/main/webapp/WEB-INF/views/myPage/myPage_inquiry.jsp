@@ -25,32 +25,43 @@
 		 <h2>문의 내역</h2>
 		 <hr>
 		 <form action="">
-			 <table class="table table-striped">
-			 	<tr>
-			 		<th>번호</th>
-			 		<th>문의유형</th>
-			 		<th>제목</th>
-			 		<th>문의내용</th>
-			 		<th>답변여부</th>
-			 		<th>문의내역변경</th>
-			 	</tr>
-			 	<tr>
-			 		<td>2</td><%--{param.inquiry_board_num} --%>
-			 		<td>문의유형1</td><%--{param.inquiry-category} --%>
-			 		<td>취소관련</td><%--{param.inquiry_board_subject} --%>
-			 		<td>취소언제쯤되는지<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-			 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-			 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-			 	</tr>
-			 	<tr>
-			 		<td>1</td><%--{param.inquiry_board_num} --%>
-			 		<td>문의유형2</td><%--{param.inquiry-category} --%>
-			 		<td>환불관련</td><%--{param.inquiry_board_subject} --%>
-			 		<td>환불언제쯤되나요<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-			 		<td><img alt="답변달렸을때사진" src="Y.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-			 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-			 	</tr>
-			 </table>
+		 	<table class="table table-striped">
+					<c:choose>
+						<c:when test="${empty myInq}">
+							<tr>
+								<td>고객님의 최근 문의 내역이 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="myPayment" items="${myPaymentList }">
+								<tr>
+							 		<th>문의 번호 </th>
+							 		<th>문의 유형</th>
+							 		<th>문의 제목</th>
+							 		<th>문의 내용</th>
+							 		<th>답변 여부</th>
+							 		<th>문의내역 변경</th>
+							 	</tr>
+							 	<tr>
+							 		<td>{myinq.cs_num }</td><%--{param.inquiry_board_num} --%>
+							 		<td>{myinq.cs_type}</td><%--{param.inquiry-category} --%>
+							 		<td>{myinq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
+							 		<td>{myinq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
+							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
+							 	</tr>
+							 	<tr>
+							 		<td>{myinq.cs_num }</td><%--{param.inquiry_board_num} --%>
+							 		<td>{myinq.cs_type}</td><%--{param.inquiry-category} --%>
+							 		<td>{myinq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
+							 		<td>{myinq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
+							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
+							 	</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</table>
 		 </form>
 	 </div>
   </div>

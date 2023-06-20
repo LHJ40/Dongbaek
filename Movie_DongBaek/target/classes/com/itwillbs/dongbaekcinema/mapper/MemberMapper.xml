@@ -25,7 +25,7 @@
 				, #{member_agree_marketing}
 				, #{member_withdrawl}
 				, #{member_type} -- CHECK 제약 조건 
-				, #{member_like_genre, jdbcType=VARCHAR} -- NULL
+				, #{member_like_genre} -- NULL
 				, 1
 				, 'BRONZE'
 			)
@@ -127,6 +127,14 @@
 			WHERE 
 				member_id = #{member_id} 
 	</delete>
+	
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updateMemeber">
+		UPDATE MEMBERS
+		SET member_pass = #{member_pass}
+		WHERE member_id = #{member_id}
+	</update>
 	
 	
 </mapper>
