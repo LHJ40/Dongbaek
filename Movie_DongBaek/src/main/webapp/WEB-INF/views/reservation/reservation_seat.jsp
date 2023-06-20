@@ -108,20 +108,12 @@
 </style>
 <script type="text/javascript">
 	
-// 	$(function() {
-// 		$(".seatRow > button").on("click", function() {
-// // 			$(this).removeClass(".seat");
-// // 			$(this).addClass(".check");
-// 			$(this).css("background-color", "blue");
-// 		});
-// 	});
 	
 	$(function(){	// 페이지 로딩 시 좌석 출력
 		let res = "";
 		let row = ["A", "B", "C", "D", "E", "F"];
 		for(let i = 0; i < 6; i++){
 			for(let j = 1; j <= 10; j++){
-// 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " onclick='seatSelect(this, " + (row[i] + j) + ")'" + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 			}
 			res += "<br>";
@@ -129,11 +121,6 @@
 		$("#seat-part .seatArea").html(res);
 	});
 	
-// 	function seatSelect(seat){
-// 		let seatName = $(".seatArea button").attr("data-seat-name")
-// 		let selectedSeat = $(seat).partents("div").find(seatName == seat);
-// 		$("#seatInfo table").append(selectedSeat);
-// 	}
 	
 	$(function() {
 		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
@@ -170,11 +157,6 @@
 				alert("요청 실패!");
 			});
 		});
-		
-		// [관람인원] 선택 영역에 변화가 생길 때마다
-// 		$("#selectPeople .#adult button").on("click", function() {
-			
-// 		});
 		
 		// [좌석] 선택 시 ======================================================================================================================================================	
 		$("#seat-part button").on("click", function() {
@@ -430,11 +412,11 @@
 				
                 <%-- 미선택 사항(결제) 노출 --%>
                 <div class="col-2.5">
-                	<h5>결제</h5>
-                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>일반 (10,000 x 2)</td></tr>
-			  			<tr><td>총 금액 (20,000)</td></tr>
-			  		</table>
+<!--                 	<h5>결제</h5> -->
+<%--                 	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
+<!-- 			  			<tr><td>일반 (10,000 x 2)</td></tr> -->
+<!-- 			  			<tr><td>총 금액 (20,000)</td></tr> -->
+<!-- 			  		</table> -->
 			  		<h5>결제</h5>
 					<div id="paymentInfo">
 						<div>일반</div>
