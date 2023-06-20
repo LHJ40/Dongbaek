@@ -1,26 +1,24 @@
 package com.itwillbs.dongbaekcinema.service;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletContext;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.dongbaekcinema.mapper.AdminMapper;
-import com.itwillbs.dongbaekcinema.vo.CsVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
-import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
@@ -30,16 +28,9 @@ public class AdminService {
     @Autowired
     private AdminMapper mapper;
     
+    @Autowired
+    private HttpSession session;
 
-	// 파일 경로 저장 변수 선언
-	private String realPath;
-
-	@Autowired
-	public void getRealPath(ServletContext servletContext) {
-	    this.realPath = servletContext.getRealPath("/WEB-INF/views/upload");
-	}
-	// 실제 경로: C:\\java\\workspace_sts\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\Movie_DongBaek\\WEB-INF\\views\\upload   
-    
 
     // 영화관 정보 불러오기
 	public List<HashMap<String, String>> getTheater() {
@@ -244,15 +235,54 @@ public class AdminService {
 	
 
 
-	
 	// 파입 업로드를 위한 클래스
-    private String saveFile(MultipartFile file){
-        
-        UUID uuid = UUID.randomUUID();
+    public String saveFile(MultipartFile file){
+    	// 실제 파일 경로 저장
+    	
+    	
+    	String saveDir = session.getServletContext().getRealPath("/resources/upload");
+
+        String uuid = UUID.randomUUID().toString();
         String saveName = uuid + "_" + file.getOriginalFilename(); // 저장할 파일 이름 변수
         
+        
+//        try {
+//			String subDir = ""; // 서브디렉토리(날짜 구분)
+			// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
+			// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
+			// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
+			// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
+//			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
+//		System.out.println(date);
+			// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
+			// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
+			// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
+//			subDir = "/" + sdf.format(date);
+//			saveDir += subDir;
+			
+			
+//			Path path = Paths.get(saveDir + subDir); // 아직 배우지않은 부분
+			// Files 클래스의 createDirectories() 메서드를 호출하여
+			// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
+
+//			Files.createDirectories(path);
+			
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}		
+		
+		
+		
+		
         // 저장할 File 객체를 생성(껍데기 파일)
-        File saveFile = new File(realPath, saveName); // 저장할 폴더 이름, 저장할 파일 이름
+        File saveFile = new File(saveDir, saveName); // 저장할 폴더 이름, 저장할 파일 이름
+        
+        
+        
+        
  
         try {
             file.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘

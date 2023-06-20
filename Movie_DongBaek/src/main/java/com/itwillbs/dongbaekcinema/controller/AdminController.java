@@ -49,6 +49,8 @@ public class AdminController {
 	private AdminService admin_service;
 
 
+	
+
 
 	// 0609 정의효
 	// 결제 관련 조회를 위한 PaymentService @Autowired
@@ -169,7 +171,7 @@ public class AdminController {
 			
 			jsonArray.put(jsonObject);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
         
