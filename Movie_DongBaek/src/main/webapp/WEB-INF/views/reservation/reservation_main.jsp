@@ -16,7 +16,24 @@
 </style>
 <script type="text/javascript">
 
-	$(function() {		
+	$(function() {	
+		
+		let movie_num = $("#movieNum").val();
+		
+		if(movie_num != undefined){
+			
+			for(let i = 0; i < 10000; i++) {
+						
+				let movieNum = $("#selectMovie li a span").eq(i).attr("data-movie-num");
+				
+				if(movieNum == movie_num){
+					$("#selectMovie li").eq(i).addClass("selected");
+				}
+			}
+		} else {
+			alert("movie_num " + movie_num +"입니다");
+		}
+
 		// [영화선택] 영역의 네비바 클릭 시
 		$(".nav-link").on("click", function(){
 			$(".nav-link").removeClass("active");	// 기존에 선택된 네바바 선택 해제
@@ -40,8 +57,38 @@
 				.done(function(movie) {
 					let res = "<ul>";
 					for(let i = 0; i < movie.length; i++) {
-						res += "<li><a href='#'><i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>"
-						res += "<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr + ">" + movie[i].movie_name_kr + "</span></a></li>"
+						if(movie[i].movie_grade == '전체관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_all.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '12세이상관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_12.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '15세이상관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_18.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '청소년관람불가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
 					}
 					res += "</ul>";
 					
@@ -61,12 +108,38 @@
 					let res = "";
 					res += "<ul>";
 					for(let i = 0; i < movie.length; i++) {
-						res += "<li>" + 
-									"<a href='#'>" + 
-										"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
-										"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-									"</a>" + 
-								"</li>"
+						if(movie[i].movie_grade == '전체관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_all.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '12세이상관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_12.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '15세이상관람가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_18.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
+						if(movie[i].movie_grade == '청소년관람불가'){
+							res += "<li>" + 
+										"<a href='#'>" + 
+											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
+											"<span class='text' data-movie-num='" + movie[i].movie_num + "' data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+										"</a>" + 
+									"</li>"
+						}
 					}
 					res += "</ul>";
 					
@@ -431,6 +504,8 @@
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 	
+	
+	<input type="hidden" id="movieNum" value="${param.movie_num}">
 	<article id="mainArticle">
 	<%--본문내용 --%>
 	<h2>영화 예매</h2>
@@ -454,7 +529,19 @@
 					 			<c:forEach var="movie" items="${movieList }">
 						 			<li>
 	 						 			<a href="#">
-						 					<i><img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15세"></i>
+						 					<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
+											<c:if test="${movie.movie_grade eq '전체관람가'}">
+												<img src="${pageContext.request.contextPath }/resources/img/grade_all.png" alt="전체" class="img-rounded" >
+											</c:if>
+											<c:if test="${movie.movie_grade eq '12세이상관람가'}">
+												<img src="${pageContext.request.contextPath }/resources/img/grade_12.png" alt="12" class="img-rounded" >
+											</c:if>
+											<c:if test="${movie.movie_grade eq '15세이상관람가'}">
+												<img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15" class="img-rounded" >
+											</c:if>
+											<c:if test="${movie.movie_grade eq '청소년관람불가'}">
+												<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
+											</c:if>
 						 					<span class="text" data-movie-num="${movie.movie_num }" data-movie-name="${movie.movie_name_kr}" data-movie-poster="${movie.movie_poster }">${movie.movie_name_kr }</span>
 						 				</a>
 						 			</li>					 				

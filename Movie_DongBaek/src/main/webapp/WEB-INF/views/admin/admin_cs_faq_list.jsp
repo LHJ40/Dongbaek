@@ -82,16 +82,16 @@ background-color: transparent;
   
 
 <br><h1>자주묻는 질문</h1>
-<div class="btn-group " role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-outline-secondary">전체</button>
-  <button type="button" class="btn btn-outline-secondary">예매</button>
-  <button type="button" class="btn btn-outline-secondary">멤버십</button>
-  <button type="button" class="btn btn-outline-secondary">결제수단</button>
-  <button type="button" class="btn btn-outline-secondary">극장</button>
-  <button type="button" class="btn btn-outline-secondary">스토어</button>
-  <button type="button" class="btn btn-outline-secondary">할인혜택</button>
-  <hr>
-  </div>
+<!-- <div class="btn-group " role="group" aria-label="Basic example"> -->
+<!--   <button type="button" class="btn btn-outline-secondary">전체</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">예매</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">멤버십</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">결제수단</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">극장</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">스토어</button> -->
+<!--   <button type="button" class="btn btn-outline-secondary">할인혜택</button> -->
+<!--   <hr> -->
+<!--   </div> -->
   <hr>
   	<%-- 본문 테이블 --%>
   	<div class="row">

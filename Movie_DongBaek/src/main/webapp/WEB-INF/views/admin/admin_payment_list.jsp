@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- jstl코드로 결제시간 yyyy-MM-dd HH:mm:ss -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -77,7 +80,7 @@ div {
 				    <tr>
 				      <th scope="row">${paymentList.payment_num }</th>
 				      <td>${paymentList.member_id }</td>
-				      <td>${paymentList.payment_datetime }</td>
+				      <td><fmt:formatDate value="${paymentList.payment_datetime }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				      <td><a href="admin_payment_list_detail?order_num=${paymentList.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 				    </tr>

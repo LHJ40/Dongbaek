@@ -1,7 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
 import java.io.IOException;
-import java.net.http.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -10,11 +9,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.itwillbs.dongbaekcinema.handler.MyPasswordEncoder;
 import com.itwillbs.dongbaekcinema.naver.NaverLoginBO;
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
@@ -39,13 +40,24 @@ public class MemberController {
 	// => 폼 파라미터로 전달되는 가입 정보를 파라미터로 전달받기 
 	// => 가입 완료 후 이동할 페이지 : member/member_join_step4.jsp 
 	// => 가입 실패 시 오류 페이지(fail_back) 을 통해 "회원 가입이 실패하였습니다." 출력 후 이전 페이지( )로 돌아가기!
+	// => 패스워드 암호화 기능(BCryptPasswordEncoder 활용)
 	@PostMapping("member_join_pro")
 	public String joinPro(MemberVO member, HttpSession session,  Model model) {
 		System.out.println(member);
 		
+		// 패스워드 암호화(해싱)--------------
+		// => MyPasswordEncoder  클래스에 덮어쓰기
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPasswd(member.getMember_pass());
+		
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		member.setMember_pass(securePasswd);
+		// --------------------------------------
+		
 		// MemberService(registMember()) - MemberMapper(insertMember())
 		int insertCount = service.registMember(member);
-		
 		
 		// 회원 가입 성공/실패에 따른 페이지 포워딩
 		// => 성공 시 MemberJoinSuccess 로 리다이렉트
@@ -89,21 +101,35 @@ public class MemberController {
 		// member 테이블에서 id가 일치하는 레코드의 패스워드(passwd) 조회
 		// 파라미터 : MemberVO member	리턴타입 : String(passwd)
 //		String passwd = service.getPasswd(member);
-		MemberVO getMember = service.getMember(member.getMember_id());
+//		MemberVO getMember = service.getMember(member.getMember_id());
 		
-		String passwd = getMember.getMember_pass();
+		// BcryptPasswordEncoder 객체를 활요한 로그인(해싱된 암호 필요)-----------------
+//		String passwd = getMember.getMember_pass();
 //		System.out.println(passwd);
+		// 1. MemberService - getPasswd() 메서드를 호출하여 
+		// member 테이블에서 id 가 일치하는 레코드 패스워드 조회 요청
+		// => 파라미터 : memberVO 객체		리턴타입 : String securePasswd
+		String securePasswd = service.getPasswd(member);
+			System.out.println(securePasswd);
+			System.out.println(member.getMember_pass());
 		
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		// => 파라미터 : 평문, 암호화 된 암호 		리턴타입 : boolean
 		// 로그인 성공/ 실패 여부 판별하여 포워딩
 		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
 		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
-		if(passwd == null) {
+		
+		System.out.println("securePasswd : " + securePasswd);
+
+		if(member.getMember_id() == null) {		
 			// 아이디로 조회 시 없는 아이디일 때
 			model.addAttribute("msg", "없는 아이디 입니다. "
 					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
-			
-		} else if (!passwd.equals(member.getMember_pass())) {
+		} else if (member.getMember_pass() ==  null || !passwordEncoder.matches(member.getMember_pass(), securePasswd)) {
 			// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
 			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
 					+ "입력하신 내용을 다시 확인해주세요.");
@@ -112,11 +138,11 @@ public class MemberController {
 			// 로그인 성공 시
 			// 세션에 값 넣기
 			session.setAttribute("member_id", member.getMember_id());
-			session.setAttribute("member_type", getMember.getMember_type());
+			session.setAttribute("member_type", member.getMember_type());
 			
 			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
 //			Cookie cookie = new Cookie("member_id", member.getMember_id());
-			Cookie cookie = new Cookie("member_id", getMember.getMember_id());
+			Cookie cookie = new Cookie("member_id", member.getMember_id());
 			
 			if(remember_me) {
 				// Cookie에 로그인 성공한 member_id 저장 (name : "member_id")
@@ -361,6 +387,59 @@ public class MemberController {
 		} 
 		
 	}
+	
+	
+	@GetMapping("MemberModifyForm")
+	public String modifyForm() {
+		return "member/NewFile";
+	}
+	
+	@PostMapping("MemberModify")
+	public String modifyPro(MemberVO member, HttpSession session, Model model) {
+		
+		
+		// 패스워드 암호화(해싱)--------------
+		// => MyPasswordEncoder  클래스에 덮어쓰기
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPasswd(member.getMember_pass());
+		
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		member.setMember_pass(securePasswd);
+		// --------------------------------------
+		
+		// MemberService(registMember()) - MemberMapper(insertMember())
+		int updateCount = service.modifyMember(member);
+		
+		if (updateCount > 0) {
+			model.addAttribute("msg", "회원 정보 수정 성공!");
+			model.addAttribute("targetURL", "MemberModifyForm");
+			
+			return "success_forward";
+		} else {
+			model.addAttribute("msg", "회원 정보 수정 실패!");
+			model.addAttribute("targetURL", "MemberModifyForm");
+			
+			return "fail_location";
+		}
+		
+		// 일반 회원이 패스워드가 일치하거나, 관리자일 때
+		// MemberService - modifyMember() 메서드 호출하여 회원 정보 수정 요청
+		// => 단, 관리자일 때  
+		// => 파라미터 : MemberVO 객체, 새 패스워드(newPasswd)
+		// => 추가) BCryptPasswordEncoder 를 활용하여 새 패스워드 암호화
+//		service.modifyMember(member, newPasswd);
+		
+		// "회원 정보 수정 성공!" 메세지 출력 및 "MemberInfo" 서블릿 리다이렉트를 위해 데이터 저장 후
+		// success_forward.jsp 페이지로 포워딩
+		
+		
+		
+	}
+	
+	
+	
 	
 }
 

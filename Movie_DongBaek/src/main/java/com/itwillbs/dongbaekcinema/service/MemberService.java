@@ -80,6 +80,12 @@ public class MemberService {
 		mapper.memberDelete(member_id);
 		
 	}
+	
+	// 회원정보 비밀번호 수정
+	public int modifyMember(MemberVO member) {
+		
+		return mapper.updateMemeber(member);
+	}
 
 
 	

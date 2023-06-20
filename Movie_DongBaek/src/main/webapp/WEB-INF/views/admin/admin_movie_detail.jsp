@@ -29,6 +29,16 @@ article {
 		margin: 2em auto;
 }
 </style>
+
+<script type="text/javascript">
+function submitForm() {
+	  // div1 안에 있는 form을 선택하여 값을 가져옵니다.
+	  var form = document.getElementById("movieForm");
+	  
+	  // form을 서버로 전송합니다.
+	  form.submit();
+	}
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -49,120 +59,123 @@ article {
   	<%-- 영화 상세정보 확인 테이블 시작 --%>
   	<div class="row">
 		<div class="col-md-12">
-			<table class="table table-bordered text-center">
-<!-- 			    <tr> -->
-<%-- 			    	가로 길이 고정(일시) --%>
-<!-- 			    	<th width="250px"></th> -->
-<!-- 			    	<td width="550px" colspan="2"></td> -->
-<!-- 			    </tr> -->
-			    <tr>
-			    	<th width="250px">영화번호</th>
-			    	<td colspan="2">${movie.movie_num }</td>
-			    </tr>
-			    <tr>
-			    	<th>영화제목(한글)</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_name_kr }">
-			    	</td>
-			    </tr>
-			    <tr>
-			    	<th>영화제목(영어)</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_name_en }">
-			   		</td>
-			   		
-			    </tr>
-			    <tr>
-			    	<th>감독</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_director }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>출연진</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_cast }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>장르</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_genre }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>개봉일</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_release_date }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>종영일</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_close_date }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>상영시간</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_running_time }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>관람객수</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_audience_num }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>줄거리</th>
-			    	<td colspan="2">
-			    		<textarea rows="5" cols="50" name="">${movie.movie_content }</textarea>
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>관람등급</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_grade }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>포스터이미지</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_poster }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>예고영상</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_preview }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>스틸컷1</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_photo1 }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>스틸컷2</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_photo2 }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>스틸컷3</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_photo3 }">
-			   		</td>
-			    </tr>
-			    <tr>
-			    	<th>예매율</th>
-			    	<td colspan="2">
-			    		<input type="text" name="" value="${movie.movie_booking_rate }">
-			   		</td>
-			    </tr>
-			</table>
+			<form action="admin_movie_modify" method="post" id="movieForm">
+			<input type="hidden" name="movie_num" value="${movie.movie_num}">
+				<table class="table table-bordered text-center">
+	<!-- 			    <tr> -->
+	<%-- 			    	가로 길이 고정(일시) --%>
+	<!-- 			    	<th width="250px"></th> -->
+	<!-- 			    	<td width="550px" colspan="2"></td> -->
+	<!-- 			    </tr> -->
+				    <tr>
+				    	<th width="250px">영화번호</th>
+				    	<td colspan="2">${movie.movie_num }</td>
+				    </tr>
+				    <tr>
+				    	<th>영화제목(한글)</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_name_kr" value="${movie.movie_name_kr }">
+				    	</td>
+				    </tr>
+				    <tr>
+				    	<th>영화제목(영어)</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_name_en" value="${movie.movie_name_en }">
+				   		</td>
+				   		
+				    </tr>
+				    <tr>
+				    	<th>감독</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_director" value="${movie.movie_director }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>출연진</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_cast" value="${movie.movie_cast }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>장르</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_genre" value="${movie.movie_genre }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>개봉일</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_release_date" value="${movie.movie_release_date }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>종영일</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_close_date" value="${movie.movie_close_date }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>상영시간</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_running_time" value="${movie.movie_running_time }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>관람객수</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_audience_num" value="${movie.movie_audience_num }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>줄거리</th>
+				    	<td colspan="2">
+				    		<textarea rows="5" cols="50" name="movie_content">${movie.movie_content }</textarea>
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>관람등급</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_grade" value="${movie.movie_grade }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>포스터이미지</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_poster" value="${movie.movie_poster }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>예고영상</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_preview" value="${movie.movie_preview }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>스틸컷1</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_photo1" value="${movie.movie_photo1 }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>스틸컷2</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_photo2" value="${movie.movie_photo2 }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>스틸컷3</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_photo3" value="${movie.movie_photo3 }">
+				   		</td>
+				    </tr>
+				    <tr>
+				    	<th>예매율</th>
+				    	<td colspan="2">
+				    		<input type="text" name="movie_booking_rate" value="${movie.movie_booking_rate }">
+				   		</td>
+				    </tr>
+				</table>
+		    </form>
 		</div>
 	</div>
 	
@@ -170,6 +183,9 @@ article {
 	<div class="row d-flex justify-content-center mt-3">
 		<div class="col-3">
 			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#movieDelete">삭제</button>
+		</div>
+		<div class="col-3">
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="submitForm()">수정</button>
 		</div>
 		<div class="col-3">
 			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_movie_management'">돌아가기</button>
@@ -192,7 +208,11 @@ article {
 	      </div>
 	      <div class="modal-footer justify-content-center">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
-	        <button type="button" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+	         <!-- 0620정의효 영화삭제-->
+          <form action="admin_movieDelete" method="post">
+          <input type="hidden" name="movie_num" value="${movie.movie_num}">
+          	<button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+          </form>
 	      </div>
 	    </div>
 	  </div>

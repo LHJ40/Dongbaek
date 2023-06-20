@@ -59,6 +59,11 @@ public class ReservationController {
 //		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
 		
+		// 네비 탭의 [영화]에서 영화 선택 후 [예매하기] 버튼 클릭 시
+//		MovieVO movie = service.getMovie(movie_num);
+//		System.out.println(movie);
+//		model.addAttribute("movie", movie);
+		
 		return "reservation/reservation_main";
 	}
 

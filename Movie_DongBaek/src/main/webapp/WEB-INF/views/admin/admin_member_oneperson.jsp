@@ -124,7 +124,7 @@ article {
 	</div>
   </div>
   
-	<%-- '결제취소' 모달 --%>
+	<%-- '회원삭제' 모달 --%>
 	<div class="modal fade" id="memberTypeChange" tabindex="-1" role="dialog" aria-labelledby="memberDeleteTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
@@ -139,7 +139,7 @@ article {
 	      </div>
 	      <div class="modal-footer justify-content-center">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
-	        <!-- 0619 정의효 -->
+	        <!-- 0619 정의효 회원삭제 -->
 	        <form action="admin_memberDelete" method="post">
 	        <input type="hidden" name="member_id" value="${member.member_id}">
 	        	<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
