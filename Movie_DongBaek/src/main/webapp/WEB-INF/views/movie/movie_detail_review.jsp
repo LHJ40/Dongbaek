@@ -70,10 +70,10 @@
 	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
 	 <section id="review_content" style="margin: 80px">
 	 	<div class="row">
-     		${movie.movie_name_kr} 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
+     		<b>${movie.movie_name_kr}</b> 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
          	<%-- 리뷰개수카운팅 전달필요 => movie_num(movie_name_kr)에 해당하는 review_num 카운팅--%>
       	</div>
-      	<div class="row h6" id="review_count">
+      	<div class="row h6" id="review_count" style="margin-bottom:10px; margin-top: 10px">
             전체 리뷰 개수 : ${reviewCount.review_count}개
       	</div>
       	
@@ -82,20 +82,20 @@
 	         <div class="row" style="margin-top: 20px">
 	            <%-- 아이콘,아이디 --%>
 	            <div class="col sm-2">
-	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px">
+	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px" style="margin:10px">
 	               <p>${review.member_id} 님</p>
 	            </div>
 	            <%-- 평점 --%>
 	            <div class="col sm-2">
-	               <h4>평점</h4>
+	               <h5>평점</h5>
 	               <p> ${review.review_rating} 점</p>
 	            </div>
 	            <%-- 리뷰내용 --%>
-	            <div class="col sm-5">
+	            <div class="col sm-6">
 	               ${review.review_content}
 	            </div>
 	            <%-- 공감버튼,공감수? --%>
-	            <div class="col sm-3">
+	            <div class="col sm-2">
 	               <button><img src="${pageContext.request.contextPath }/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></button>
 	            </div>
 	         </div>
@@ -276,30 +276,24 @@
 <!-- 		  		</div> -->
 
 
-
-
-
-<!-- 		  	  페이징 -->
-			<section id="paging">
-		  	   <nav aria-label="...">
-				  <ul class="pagination pagination-md justify-content-center">
-				    <li class="page-item disabled">
-				      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-				    </li>
-				    <li class="page-item active" aria-current="page">
-				      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#">&raquo;</a>
-				    </li>
-				  </ul>
-				</nav>
-		  	  
-		  	  </div>
-		  	</section><%-- 세번째 섹션 끝--%>			
-		  	
+	<!-- 		  	  페이징 -->
+		<section id="paging">
+	  	   <nav aria-label="...">
+			  <ul class="pagination pagination-md justify-content-center">
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+			    </li>
+			    <li class="page-item active" aria-current="page">
+			      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">2</a></li>
+			    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			    <li class="page-item">
+			      <a class="page-link" href="#">&raquo;</a>
+			    </li>
+			  </ul>
+			</nav>
+	  	</section><%-- 세번째 섹션 끝--%>			
 		  	
  </div>
  </article>

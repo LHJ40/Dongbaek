@@ -10,6 +10,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
+<script>
+  
+</script>
+
 <title>영화 예매 사이트</title>
 <style>
 	<%-- 페이징 색상변경 --%>
@@ -55,9 +61,9 @@
 	<div class="row"  align="left" style="margin-bottom: 20px">
 		<div class="col col-md-10"></div>
 		<div class="col col-md-2 d-flex justify-content-end">
-		  <select class="custom-select" name="movie_array">
-		    <option selected>예매순</option>
-		    <option value="1">평점순</option><%--가나다순? --%>
+		  <select class="custom-select" name="movie_array" >
+		    <option value="1" selected="selected">예매순</option>
+		    <option value="2">가나다순</option>
 		  </select>
 		</div>
 	</div>
@@ -70,24 +76,40 @@
 		<%-- <input type="hidden" value="movie_num=${movieList.movie_num }"> --%>
 		<div class="row"  align="left">
 		<c:forEach var="movie" items="${movieList}" >
-				<div class="col-lg-3 col-mid-4">
-					<div class="card border-0 shadow-sm" style="width: 18rem;">
-					   <a href="movie_detail_info?movie_num=${movie.movie_num}">
-					  	<img src="${movie.movie_poster}" class="card-img-top" alt="...">
-					  </a><%-- 해당영화의 포스터출력 --%>
-						<div class="card-body">
-							<h6 class="card-title">
-							<img src="${pageContext.request.contextPath}/resources/img/gradeB.png" class="img-rounded" onclick="location.href='movie_detail_info?movie_num=${movie.movie_num}'">
+			<div class="col-lg-3 col-mid-4">
+				<div class="card border-0 shadow-sm" style="width: 18rem;">
+					<%-- 해당영화의 포스터출력 -> 클릭시 상세페이지로 이동 --%>
+					<a href="movie_detail_info?movie_num=${movie.movie_num}">
+						<img src="${movie.movie_poster}" class="card-img-top" alt="...">
+					</a>
+					<%-- 해당영화의 등급에 해당하는 이미지 출력, 영화제목 출력--%>
+					<div class="card-body">
+						<h6 class="card-title">
 							<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
-							${movie.movie_name_kr}</h6>
-							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
-							<p class="d-flex justify-content-center">
-						    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
-						    	<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
-					    	</p>
-						</div>
+							<c:if test="${movie.movie_grade eq '전체관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_all.png" alt="전체" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '12세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_12.png" alt="12" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '15세이상관람가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_15.png" alt="15" class="img-rounded" >
+							</c:if>
+							<c:if test="${movie.movie_grade eq '청소년관람불가'}">
+								<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
+							</c:if>
+							${movie.movie_name_kr}
+						</h6>
+						<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
+						
+						<%--찜하기버튼, 예매버튼 --%>
+						<p class="d-flex justify-content-center">
+							<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
+							<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
+						</p>
 					</div>
 				</div>
+			</div>
 		</c:forEach>
 		</div>
 		<br>

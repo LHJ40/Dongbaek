@@ -50,8 +50,12 @@ article {
         <form action="admin_movie_regist_Pro" method="post">
           <table class="table table-bordered text-center">
             <tr>
-              <th>영화제목</th> 
-              <td><input type="text" placeholder="영화제목을 입력해주세요" id="movieName"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
+              <th>영화제목(kr)</th> 
+              <td><input type="text" placeholder="영화제목(kr)을 입력해주세요" id="movieName"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
+            </tr>
+            <tr>
+              <th>영화제목(en)</th> 
+              <td><input type="text" placeholder="영화제목(en)을 입력해주세요" id="movieNameEn"></td> <!-- 제목등 비롯하여 빈칸이 나오는 경우는 api에 값이 없는 경우이므로 직접 작성해야함 -->
             </tr>
             <tr>
               <th>감독명</th>
@@ -89,15 +93,35 @@ article {
             </tr>
             <tr>
               <th>종영일</th>
-              <td><input type="date"></td>  <!-- 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="종영일" id="movie_release_date"></td>  <!-- 개봉일과 같이 YYYYMMDD -> DATE? 로 변환후 DB에저장되게 / 관리자가 직접 입력해야됨 api 없음 -->
+            </tr>
+            <tr>
+              <th>관람객수</th>
+              <td><input type="text" value="0" id="movie_audience_num"></td>  <!-- 영화 등록이니 처음 관람객수 : 0  -->
             </tr>
             <tr>
               <th>포스터</th> 
-              <td><input type="file"></td> <!-- 관리자가 직접 입력해야됨 api 없음 -->
+              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_poster"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+            </tr>
+            <tr>
+              <th>예고영상</th> 
+              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_preview"></td> <!-- 예고편 영화 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+            </tr>
+            <tr>
+              <th>스틸컷1</th> 
+              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo1"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+            </tr>
+            <tr>
+              <th>스틸컷2</th> 
+              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo2"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
+            </tr>
+            <tr>
+              <th>스틸컷3</th> 
+              <td><input type="text" placeholder="주소를 입력해주세요" id="movie_photo3"></td> <!-- 이미지 주소 링크 가져오므로=text인듯 / 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>줄거리</th>
-              <td><textarea rows="5" cols="50" placeholder="줄거리를 입력해주세요"></textarea></td> <!-- 관리자가 직접 입력해야됨 api 없음 -->
+              <td><textarea rows="5" cols="50" placeholder="줄거리를 입력해주세요" id="movie_content"></textarea></td> <!-- 관리자가 직접 입력해야됨 api 없음 -->
             </tr>
             <tr>
               <th>검색할 영화 제목</th>
@@ -126,12 +150,12 @@ article {
 
   <!-- ------------------------- 안되면 지울것 -------------------------- -->
   <script>
-	$(document).ready(function() {
+  $(document).ready(function() {
 	  $("#getMovieApi").click(function() {
 	    var prdtStartYear = $("#prdtStartYear").val();
 	    var prdtEndYear = $("#prdtEndYear").val();
 	    var searchMovieNm = $("#searchMovieNm").val();
-	
+
 	    $.ajax({
 	      method: "GET",
 	      url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
@@ -143,18 +167,20 @@ article {
 	        itemPerPage: "20"
 	      },
 	      success: function(response) {
-	    	 console.log(response)
+	        console.log(response)
 	        var movieList = response.movieListResult.movieList;
 	        var selectOptions = "";
-	
+
 	        for (var i = 0; i < movieList.length; i++) {
 	          var movieNm = movieList[i].movieNm;
+	          var movieNmEn = movieList[i].movieNmEn; // 추가: 영화 제목(en) 가져오기
 	          var directors = movieList[i].directors;
 	          var repGenreNm = movieList[i].repGenreNm;
-	          var movieCd = movieList[i].movieCd; // 추가된 부분: 영화 코드 가져오기
-	          selectOptions += "<option value='" + movieCd + "' data-directors='" + JSON.stringify(directors) + "' data-genre='" + repGenreNm + "'>" + movieNm + "</option>";
+	          var movieCd = movieList[i].movieCd;
+
+	          selectOptions += "<option value='" + movieCd + "' data-directors='" + JSON.stringify(directors) + "' data-genre='" + repGenreNm + "' data-movieNmEn='" + movieNmEn + "'>" + movieNm + "</option>";
 	        }
-	
+
 	        $("#takeMovieAPI .modal-body select").html(selectOptions);
 	        $("#takeMovieAPI").modal("show");
 	      },
@@ -163,22 +189,19 @@ article {
 	      }
 	    });
 	  });
-	
-	  $("#takeMovieAPI").on('hidden.bs.modal', function() {
-	    $("#takeMovieAPI .modal-body select").val("");
-	  });
-	
+
 	  $("#takeMovieAPI .modal-footer .btn-primary").click(function() {
-	    var selectedMovieCd = $("#takeMovieAPI .modal-body select").val(); // 변경된 부분: 영화 코드 가져오기
+	    var selectedMovieCd = $("#takeMovieAPI .modal-body select").val();
 	    var directors = JSON.parse($("#takeMovieAPI .modal-body select option:selected").attr('data-directors'));
 	    var repGenreNm = $("#takeMovieAPI .modal-body select option:selected").attr('data-genre');
-	
+	    var movieNmEn = $("#takeMovieAPI .modal-body select option:selected").attr('data-movieNmEn'); // 추가: 영화 제목(en) 가져오기
+
 	    if (selectedMovieCd) {
 	      var directorNames = directors.map(function(director) {
 	        return director.peopleNm;
 	      }).join(", ");
-	
-	      // 새로운 API 요청
+
+	      // 영화 정보를 가져오기 위해 새로운 API 요청
 	      $.ajax({
 	        method: "GET",
 	        url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json",
@@ -187,43 +210,46 @@ article {
 	          movieCd: selectedMovieCd
 	        },
 	        success: function(response) {
-	        	var movieInfo = response.movieInfoResult.movieInfo;
+	          var movieInfo = response.movieInfoResult.movieInfo;
 
-	            var showTm = movieInfo.showTm;
-	            var watchGradeNm = "";
-	            var peopleNm = "";
-	            var openDt = "";
-	
-	            if (movieInfo.audits && movieInfo.audits.length > 0) {
-	                watchGradeNm = movieInfo.audits[0].watchGradeNm;
-	              }
-	              if (movieInfo.actors && movieInfo.actors.length > 0) {
-	                peopleNm = movieInfo.actors.map(function(actor) {
-	                  return actor.peopleNm;
-	                }).join(", ");
-	              }
-	              if (movieInfo.openDt) {
-	                openDt = movieInfo.openDt;
-	              }
+	          var showTm = movieInfo.showTm;
+	          var watchGradeNm = "";
+	          var peopleNm = "";
+	          var openDt = "";
 
-	              $("#showTm").val(showTm);
-	              $("#watchGradeNm").val(watchGradeNm);
-	              $("#peopleNm").val(peopleNm);
-	              $("#openDt").val(openDt);
+	          if (movieInfo.audits && movieInfo.audits.length > 0) {
+	            watchGradeNm = movieInfo.audits[0].watchGradeNm;
+	          }
+	          if (movieInfo.actors && movieInfo.actors.length > 0) {
+	            peopleNm = movieInfo.actors.map(function(actor) {
+	              return actor.peopleNm;
+	            }).join(", ");
+	          }
+	          if (movieInfo.openDt) {
+	            openDt = movieInfo.openDt;
+	          }
 
-	              $("#movieName").val($("#takeMovieAPI .modal-body select option:selected").text().trim());
-	              $("#movieDirector").val(directorNames);
-	              $("#repGenre").val(repGenreNm);
-	            },
-	            error: function(xhr, status, error) {
-	              console.log("AJAX 요청 실패:", error);
-	            }
-	          });
+	          $("#showTm").val(showTm);
+	          $("#watchGradeNm").val(watchGradeNm);
+	          $("#peopleNm").val(peopleNm);
+	          $("#openDt").val(openDt);
+
+	          // 수정: 영화 제목(en) 입력 필드에 값 설정
+	          $("#movieNameEn").val(movieNmEn);
+
+	          $("#movieName").val($("#takeMovieAPI .modal-body select option:selected").text().trim());
+	          $("#movieDirector").val(directorNames);
+	          $("#repGenre").val(repGenreNm);
+	        },
+	        error: function(xhr, status, error) {
+	          console.log("AJAX 요청 실패:", error);
 	        }
-
-	        $("#takeMovieAPI").modal("hide");
 	      });
-	    });
+	    }
+
+	    $("#takeMovieAPI").modal("hide");
+	  });
+	});
 </script>
 
 

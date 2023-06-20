@@ -11,7 +11,7 @@ import com.itwillbs.dongbaekcinema.vo.ReviewVO;
 @Mapper
 public interface MovieMapper {
 
-	
+	// 영화 등록 0620정의효
 	int insertMovie(MovieVO movie);
 
 	// 영화 정보 조회
@@ -26,6 +26,9 @@ public interface MovieMapper {
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
 	
+	// 영화 목록 조회 - 탑4(메인)
+	List<MovieVO> select_movieListTop4();
+	
 	//-------------------------------------------
 	// 리뷰 정보 조회
 	ReviewVO selectReview(int movie_num);
@@ -36,7 +39,7 @@ public interface MovieMapper {
 	// 리뷰 목록 조회
 	List<ReviewVO> selectReviewList(int movie_num);
 	
-	
+	//---------------------------------------------
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
 	//	List<MovieVO> selectMovieList();
 
@@ -45,6 +48,8 @@ public interface MovieMapper {
 
 	// 페이징처리 0616 정의효
 	int getCount();
+
+
 
 	
 }

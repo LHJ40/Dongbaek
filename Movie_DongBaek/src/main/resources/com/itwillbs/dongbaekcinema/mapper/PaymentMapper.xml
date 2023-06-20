@@ -69,7 +69,7 @@
 			payment_num
 			, payment_datetime
 <!-- 			, IFNULL( -->
-			payment_total_price
+			, payment_total_price
 <!-- 			, 0) -->
 			, payment_status
 		FROM BUY_DETAIL
@@ -91,6 +91,31 @@
 		SELECT *
 			FROM BUY_DETAIL
 			WHERE payment_num = #{payment_num}
+	</select>
+	
+	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회 - 티켓 (지영) -->
+	<select id="selectMyTickets" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
+		SELECT 
+			movie_name_kr
+			, ticket_type
+			, count(ticket_type) AS 'ticket_quantity'
+			FROM BUY_DETAIL
+			WHERE payment_num = #{payment_num}
+			GROUP BY movie_name_kr
+				, ticket_type
+			
+	</select>
+	
+	
+	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영) -->
+	<select id="selectMySnacks" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
+		SELECT 
+			snack_name
+			, count(snack_name) AS 'snack_quantity'
+			FROM BUY_DETAIL
+			WHERE payment_num = #{payment_num}
+			GROUP BY snack_name
+			
 	</select>
 	
 	<!-- 마이페이지 - 나의 멤버십. 올해 누적 실적 조회(지영) -->

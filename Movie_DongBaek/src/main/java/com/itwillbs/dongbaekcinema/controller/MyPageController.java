@@ -24,6 +24,9 @@ public class MyPageController {
 	@Autowired
 	private PaymentService paymentService;
 	
+	@Autowired
+	private MemberService memberService;
+	
 	//  마이페이지 메인화면
 	@GetMapping("myPage")
 	public String myPage(HttpSession session, Model model) {
@@ -36,6 +39,27 @@ public class MyPageController {
 			
 			return "fail_location";
 		}
+		
+		// 세션 아이디로 현재등급과 다음 등급 조회(현등급,다음등급 정보)
+		// myPageService - getGrade()
+		// 파라미터 : String(member_id)		리턴타입 : GradeNextVO(myGrade)
+		GradeNextVO myGrade = service.getMyGrade(member_id);
+//		System.out.println(myGrade);
+		
+		// 세션 아이디로 예매내역 받아오기
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id);
+		
+		// 세션 아이디로 회원 이름 받아오기
+		MemberVO member = memberService.getMember(member_id);
+		
+		// 세션 아이디로 나의 문의 내역 받아오기
+		List<CsVO> myInq = service.getMyInq(member_id);
+		
+		// 받아온 등급 정보와 예매내역 정보 저장
+		model.addAttribute("myGrade", myGrade);				                         
+		model.addAttribute("myTicketList", myTicketList);
+		model.addAttribute("member", member);
+		model.addAttribute("myInq", myInq);
 		
 		return "myPage/myPage";
 	}
@@ -58,6 +82,7 @@ public class MyPageController {
 		// 파라미터 : member_id		리턴타입 : List<MyTicketVO>(myTicketList)
 		List<MyTicketVO> myTicketList = service.getMyTicket(member_id);
 //		System.out.println(myTicketList);
+		
 		
 		// 받아온 예매내역 전달
 		model.addAttribute("myTicketList", myTicketList);
@@ -106,15 +131,22 @@ public class MyPageController {
 		}
 		
 		// 상세내역 클릭 시 payment_num 을 받아와 조회해 보여주기
-		// 파라미터 : int(payment_num)		리턴타입 : PaymentVO(payment)
+		// 파라미터 : int(payment_num)		리턴타입 : List<BuyDetailVO>(myPaymentDetailList)
 //		System.out.println(payment_num);
 		List<BuyDetailVO> myPaymentDetailList = paymentService.getMyPaymentDetail(payment_num);
 //		System.out.println(myPaymentDetail);
 		
+		// 상세내역 클릭 시 payment_num으로 스낵, 영화 정보(갯수) 가져오기
+		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(tickets)
+		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(snacks)
+		List<BuyDetailVO> myTicket = paymentService.getMyTickets(payment_num);
+		List<BuyDetailVO> mySnack = paymentService.getMySnacks(payment_num);
 		
 		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);
+		model.addAttribute("myTicket", myTicket);
+		model.addAttribute("mySnack", mySnack);
 		
 		return "myPage/myPage_buy_history_detail";
 	}
@@ -139,7 +171,23 @@ public class MyPageController {
 	
 	// 마이페이지 - 문의 내역 페이지로 이동
 	@GetMapping("myPage_inquiry")
-	public String myPage_inquiry() {
+	public String myPage_inquiry(HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
+		}
+		
+		// 세션에 저장된 아이디로 문의내역 조회
+		// myPageService - getMyInq(member_id)
+		// 파라미터(member_id)		리턴타입(CsVO)
+		List<CsVO> myInq = service.getMyInq(member_id);
+		System.out.println(myInq);
+		model.addAttribute("myInq", myInq);
+		
 		return "myPage/myPage_inquiry";
 	}
 	
@@ -205,6 +253,28 @@ public class MyPageController {
 		
 		return "myPage/myPage_modify_member";
 	}
+	
+	// 마이페이지 - 개인정보 수정 
+	@PostMapping("myPage_modify_member_pro")
+	public String myPage_modify_member_pro(MemberVO member, Model model, HttpSession session) {
+		// 세션 아이디로 개인정보 내역 보여주기
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// 나의 개인정보 업데이트 
+		// MypageService - updateMyInfo()
+		// 파라미터 : member_id	리턴타입 : int 
+		int updateCount = service.updateMyInfo(member_id);
+		
+		if(updateCount == 1) {
+			return "redirect:/myPage/myPage_modify_member";			
+		}
+		
+		model.addAttribute("msg", "개인정보 수정이 실패했습니다.");
+		model.addAttribute("url", "member_login_form");
+		
+		return "fail_location";
+	}
+	
 }
 
 

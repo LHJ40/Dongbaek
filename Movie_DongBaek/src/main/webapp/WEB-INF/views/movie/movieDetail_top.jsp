@@ -23,7 +23,7 @@
 				  </div>
 			  <%--찝버튼, 리뷰출력카드 --%>
 			  <div class="row" style="margin-bottom: 50px">
-				<div class="col mx-4 my-2" style="width:80px"><button class="btn btn-danger"> 찜♡ </button></div>
+				<div class="col mx-4 my-2" style="width:80px"><button class="btn btn-danger"> 찜하기♡ </button></div>
 					<div class="col mx-4 my-2">
 			    		<div class="card" style="width: 24rem">
 						<div class="card-body">
@@ -49,10 +49,10 @@
 		<%-- 1-1. 오른쪽 포스터 카드 섹션 --%>
 		<div class ="col float-right col-md-3" style="margin-top: 80px">
 			<div class="row">
-				<div class="card" style="width: 18rem">
+				<div class="card border-0 shadow-sm" style="width: 18rem">
 					<img src="${movie.movie_poster }" class="card-img-top" alt="..." onclick="reservation_main()">
-					<div class="card-body" style="align-content: center">
-						<a href="reservation_main?movie_num=${movie.movie_num }"><button class="btn btn-danger"> 예매하기 </button></a>
+					<div class="card-body" style="padding-left: 90px;">
+						<button class="btn btn-danger" onclick="location.href='reservation_main?movie_num=${movie.movie_num }'"> 예매하기 </button>
 					</div>
 				</div>
 			</div>

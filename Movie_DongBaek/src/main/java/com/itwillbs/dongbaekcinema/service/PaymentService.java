@@ -23,6 +23,9 @@ public class PaymentService {
 //	public PaymentVO getPayment(int order_num) {
 //		return mapper.selectPayment(order_num);
 //	}
+//	public PaymentVO getPayment(int order_num) {
+//		return mapper.selectPayment(order_num);
+//	}
 	
 	//0618정의효 - 밑에꺼 수정하거나 삭제해서 List값 다시확인
 //	public List<PaymentVO> getPayment(int order_num) {
@@ -49,6 +52,16 @@ public class PaymentService {
 		return mapper.selectMyPaymentDetail(payment_num);
 	}
 	
+	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 티켓 (지영)
+	public List<BuyDetailVO> getMyTickets(int payment_num) {
+		return mapper.selectMyTickets(payment_num);
+	}
+	
+	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
+	public List<BuyDetailVO> getMySnacks(int payment_num) {
+		return mapper.selectMySnacks(payment_num);
+	}
+	
 	// 마이페이지 - 나의 멤버십. 올해 누적 실적 조회 (지영)
 	public int getYearPayment(String member_id) {
 		return mapper.selectYearPayment(member_id);
@@ -65,6 +78,7 @@ public class PaymentService {
 		int totalCount = mapper.getCount();
 		return (int) Math.ceil((double) totalCount / pageSize);
 	}
+	
 
 
 

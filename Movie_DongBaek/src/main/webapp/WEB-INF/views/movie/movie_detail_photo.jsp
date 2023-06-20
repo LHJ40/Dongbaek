@@ -56,12 +56,15 @@
 			<%-- 			</c:forEach> --%>
 			<!-- 		</div> -->
 			<%-- 	</c:forEach> --%>
+			
+			<%-- 프리뷰 영상 --%>
 			<div class="row" >
 	  	  		<div class="col">
 	  	  			<iframe src="${movie.movie_preview }"  width="800" height="500" style="margin-left: 30px;"></iframe>
 	  	  		</div>
 	  	  	</div>
 	  	  	
+	  	  	<%-- 스틸컷 --%>
 	  	  	<div class="row row-md-12">
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo1 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo1 }' ,'pop01','width=900 height=600');">
