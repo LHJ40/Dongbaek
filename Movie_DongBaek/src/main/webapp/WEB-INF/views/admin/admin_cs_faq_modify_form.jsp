@@ -128,6 +128,7 @@ $(function(){
 					<td scope="col" class="align-middle">
 						<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
+                        <button class="btn btn-outline-danger" type="button" onclick="location.href='delete_cs?csType=3&cs_type_list_num=${csFaq.cs_type_list_num }'">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
 					</td>
 			    </tr>
 			</tbody>

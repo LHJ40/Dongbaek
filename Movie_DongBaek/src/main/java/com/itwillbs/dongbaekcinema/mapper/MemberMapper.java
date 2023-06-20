@@ -49,6 +49,9 @@ public interface MemberMapper {
 
 	//0619정의효 - 멤버 삭제
 	void memberDelete(String member_id);
+	
+	// 회원정보 비밀번호 수정
+	int updateMemeber(MemberVO member);
 
 
 

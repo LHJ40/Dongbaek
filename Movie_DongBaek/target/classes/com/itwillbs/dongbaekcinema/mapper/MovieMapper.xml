@@ -8,24 +8,24 @@
 		INSERT 
 			INTO MOVIES
 			VALUES (
-				movie_name_kr = ${movieName}
-				, movie_name_en = ${movieNameEn}
-				, movie_director = ${movieDirector}
-				, movie_genre = ${repGenre}
-				, movie_running_time = ${showTm}
-				, movie_grade = ${watchGradeNm}
-				, movie_cast = ${peopleNm}
-				, movie_release_date = ${openDt}
-				, movie_close_date = ${movie_release_date}
-				, movie_audience_num = ${movie_audience_num}
-				, movie_poster = ${movie_poster}
-				, movie_preview = ${movie_preview}
-				, movie_photo1 = ${movie_photo1}
-				, movie_photo2 = ${movie_photo2}
-				, movie_photo3 = ${movie_photo3}
-				, movie_content = ${movie_content}
-				, movie_booking_rate = 0
-	
+				null
+				, #{movie_name_kr}
+				, #{movie_name_en}
+				, #{movie_director}
+				, #{movie_cast}
+				, #{movie_genre}
+				, #{movie_release_date}
+				, #{movie_close_date}
+				, #{movie_running_time}
+				, #{movie_audience_num}
+				, #{movie_content}
+				, #{movie_grade}
+				, #{movie_poster}
+				, #{movie_preview}
+				, #{movie_photo1}
+				, #{movie_photo2}
+				, #{movie_photo3}
+				, null
 			) 
 	</insert>	
 	
@@ -148,7 +148,7 @@
 	FROM 
 		REVIEWS
 	WHERE
-		movie_num = ${movie_num}
+		movie_num = #{movie_num}
 	GROUP BY 
 		review_num
 		, review_content
@@ -173,7 +173,7 @@
 	FROM 
 		REVIEWS
 	WHERE 
-		movie_num = ${movie_num}
+		movie_num = #{movie_num}
 	GROUP BY
 		movie_num
 </select>
@@ -184,7 +184,7 @@
 	FROM 
 		REVIEWS
 	WHERE 
-		movie_num = ${movie_num}
+		movie_num = #{movie_num}
 	ORDER BY 
 		review_date DESC
 </select>
@@ -226,5 +226,36 @@
 		WHERE movie_num = #{movie_num}
 	</select>
 	
+	<!-- 0620정의효 영화삭제 -->
+	<delete id="movieDelete">
+		DELETE
+			FROM
+				MOVIES
+			WHERE
+				movie_num = #{movie_num}
+	</delete>
 	
+	<!-- 영화수정 0620정의효 -->
+	<update id="movieModify" parameterType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		UPDATE MOVIES 
+			SET
+			    movie_name_kr = #{movie_name_kr}
+			    , movie_name_en = #{movie_name_en}
+			    , movie_director = #{movie_director}
+			    , movie_cast = #{movie_cast}
+			    , movie_genre = #{movie_genre}
+			    , movie_release_date = #{movie_release_date}
+			    , movie_close_date = #{movie_close_date}
+			    , movie_running_time = #{movie_running_time}
+			    , movie_audience_num = #{movie_audience_num}
+			    , movie_content = #{movie_content}
+			    , movie_grade = #{movie_grade}
+			    , movie_poster = #{movie_poster}
+			    , movie_preview = #{movie_preview}
+			    , movie_photo1 = #{movie_photo1}
+			    , movie_photo2 = #{movie_photo2}
+			    , movie_photo3 = #{movie_photo3}
+			    , movie_booking_rate = #{movie_booking_rate}
+			WHERE movie_num = #{movie_num}
+	</update>
 </mapper>

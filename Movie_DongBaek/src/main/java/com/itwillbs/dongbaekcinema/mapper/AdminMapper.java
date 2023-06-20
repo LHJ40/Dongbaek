@@ -27,6 +27,8 @@ public interface AdminMapper {
 	// 영화 목록 셀렉트 박스 클릭시 선택 가능한 영화 정보 가져오기
 	public List<PlayScheduleVO> getTurnInfo(@Param("theater_num") int theater_num, @Param("movie_num") int movie_num, @Param("pageNo") int pageNo);
 
+	// 영화관 번호로 해당 상영관 정보 가져오기
+	public List<PlayScheduleVO> getRoom(@Param("theater_num") String theater_num);
 	
 	
     // CS 게시판 목록 가져오기
@@ -47,8 +49,13 @@ public interface AdminMapper {
 	// CS 게시판 공지사항, 자주묻는 질문 게시판 글 수정
 	public int updateCs(@Param("condition")String condition, @Param("csInfo")CsInfoVO csInfo, @Param("cs_file")String cs_file, @Param("cs_file_real")String cs_file_real);
 
+	// CS 게시판 공지사항, 자주묻는 질문 게시판 글 삭제
+	public int deleteCs(@Param("condition")String condition,  @Param("cs_type_list_num")int cs_type_list_num);
+
 	// CS 게시판 1:1 게시판 답변 추가
 	public int updateReply(@Param("condition")String condition, @Param("qnaInfo")CsInfoVO qnaInfo);
+
+
 
 
 

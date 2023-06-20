@@ -53,25 +53,52 @@
 /* 		width: 300px; */
 /* 		text-align: left; */
 	}
+	/* 검색버튼 */
+	#searchBtn {
+		outline: none;
+		width: 25px;
+		height: 25px;
+	}
+	/* 버튼안 아이콘 */
+	material-symbols-outlined {
+		line-height: 0;
+		font-size: 20px;
+	}
+	
+	/* 검색어없이 검색버튼 클릭 시 중앙에 값 표시하기 */
+	.none {
+		margin: 5em auto;
+	}
+	
 	.clear {
 		clear: both;
 	}
 	.qPart {
-		background-color: #ccc;
-		padding: 5px;
+		background-color: #eee;
+		border: 1px dotted #ddd;
+		margin: 0;
+		padding: 15px 10px;
+		width: 100%
 	}
-/* 	.qPart:hover {background-color: #eee; } */
- 	.checkbox {display:none;} 
+ 	.qPart:hover {background-color: #ddd; }
+  	.checkbox {display: none;}  
 	.target {
 /*  		display: none; */
-		margin: 10px 1em;
+		margin: 0 15px 0.5em;
 		padding: 5px;
 	}
 	#pageBtn-group {
 		text-align: center;
 		margin: 1em auto;
 	}
-	
+	.pageBtn {
+		margin: 2px;	/* 페이지 버튼 사이 간격 조절*/
+	}
+	/* 카테고리 글자 강조 */
+	strong {
+		padding-left: 0.5em;
+		color: #596757;
+	}
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -100,31 +127,36 @@
 				
 				// 한 페이지에 들어가는 글 수 만큼 반복(글 내용)
 				for(let i = 0; i <= (limit - start); i++) {
-// 					console.log(limit);
 					// 지정한 div안에 내용 추가([카테고리] Q. 질문)
 					// 결과값이 List타입으로 배열 안 데이터에 접근하듯 사용
 					$("#faqContents").append(
-							"<div class='qPart'>"
-							+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+							"<label class='qPart' id='check" + i + "'>"
+							+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+							+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+							+ "</label>"
 							);
 					// 지정한 div안에 내용 추가(A. 답변)
 					$("#faqContents").append(
 							"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 							);
 				}
+				// 답변 영역 사라지게하기
+				$(".target").hide();
 				
 				// 페이지(버튼) 갯수
 				// 올림(가져온 결과값 / 한 페이지당 글 수)
 				let pageCount = Math.ceil(result.length / 5);
-// 				console.log(pageCount);
 				
 				// 페이지(버튼) 개수만큼 버튼 생성
 				for(let i = 1; i <= pageCount; i++) {
-// 					console.log(i);
 					$("#pageBtn-group").append(
-							"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+							"<button class='pageBtn btn btn-outline-danger' id='btn" + i + "'>" + i + "</button>"
 							);
 				}
+				// 첫번째 버튼 색있는 버튼으로 만들기(클래스 변경)
+				$("button[id='btn1']").removeClass("btn-outline-danger");
+				$("button[id='btn1']").addClass("btn-danger");
+				
 			},
 			// ajax로 값을 가져오지 못했을 경우 alert창 띄우기
 			error: function() {
@@ -137,7 +169,7 @@
 			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
 			let cs_type = $(this).val();	// 클릭한 버튼의 value값을 가져와 변수에 저장
 			let pageNum = 1;	// 카테고리 클릭 시 첫 페이지 보여주기
-				console.log(cs_type);
+// 				console.log(cs_type);
 				
 				$.ajax({
 					type: 'GET',
@@ -148,8 +180,12 @@
 // 						console.log("받아오기 성공!");
 						
 						// 눌린 버튼 비활성화, 아닌 버튼 활성화(다른 페이지 선택시 사용하기 위한 장치)
-						$(".btn-group>button").attr("disabled", false);
-						$("button[value='" + cs_type +"']").attr("disabled", true);
+						$(".btn-group>button").addClass("btn-outline-danger");
+						$(".btn-group>button").removeClass("btn-danger");
+						$("button[value='" + cs_type +"']").addClass("btn-danger");
+						$("button[value='" + cs_type +"']").removeClass("btn-outline-danger");
+// 						$(".btn-group>button").attr("disabled", false);
+// 						$("button[value='" + cs_type +"']").attr("disabled", true);
 						
 						// 총 몇 건인지 안내
 						$("#totalCnt").text(result.length);	
@@ -172,13 +208,18 @@
 						for(let i = (start - 1); i < limit; i++) {
 // 							console.log(limit);
 							$("#faqContents").append(
-									"<div class='qPart'>"
-									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+									"<label class='qPart' id='check" + i + "'>"
+									+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+									+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+									+ "</label>"
 									);
+							// 지정한 div안에 내용 추가(A. 답변)
 							$("#faqContents").append(
 									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 									);
 						}
+						// 답변 영역 사라지게하기
+						$(".target").hide();
 						
 						// 전 페이지(다른 카테고리) 버튼들 삭제
 						$("#pageBtn-group").empty();
@@ -187,11 +228,14 @@
 // 						console.log(pageCount);
 						
 						for(let i = 1; i <= pageCount; i++) {
-							console.log(i);
+// 							console.log(i);
 							$("#pageBtn-group").append(
-									"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
+									"<button class='pageBtn btn btn-outline-danger' id='btn" + i + "'>" + i + "</button>"
 									);
 						}
+						// 첫번째 버튼 색있는 버튼으로 만들기(클래스 변경)
+						$("button[id='btn1']").removeClass("btn-outline-danger");
+						$("button[id='btn1']").addClass("btn-danger");
 					},
 					error: function() {
 						alert('에러');
@@ -200,6 +244,16 @@
 		});
 	});
 	
+	$(document).on("change", ".checkbox", function() {
+		let targetId = $(this).data('target');
+		
+		if( $(this).prop("checked") ) {
+			$("#" + targetId).show();
+		} else {
+			$("#" + targetId).hide();
+			
+		}
+	});
 	
 </script>
 </head>
@@ -225,15 +279,17 @@
 		
 		<%-- 검색기능 --%>
 		<div class="seachArea">
-			<b>빠른 검색</b> &nbsp;&nbsp;
-			<span class="board-search w460px">
-				<input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
-				<span class="material-symbols-outlined">search</span>
-			</span>
+<!-- 			<b>빠른 검색</b> &nbsp;&nbsp; -->
+<!-- 			<span class="board-search"> -->
+<!-- 				<input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15"> -->
+<!-- 				<button id="searchBtn"> -->
+<!-- 					<span class="material-symbols-outlined">search</span> -->
+<!-- 				</button> -->
+<!-- 			</span> -->
 		</div>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
-		  <button type="button" id="faqAll" value="전체" class="btn btn-outline-danger" disabled>전체</button>
+		  <button type="button" id="faqAll" value="전체" class="btn btn-danger" >전체</button>
 		  <button type="button" id="faqReserv" value="예매" class="btn btn-outline-danger">예매</button>
 		  <button type="button" id="faqMemship" value="멤버십" class="btn btn-outline-danger">멤버십</button>
 		  <button type="button" id="faqPayment" value="결제수단" class="btn btn-outline-danger">결제수단</button>
@@ -250,11 +306,10 @@
 						<span class="font-green" id="totalCnt"></span>건
 					</strong>
 				</p>
-				
-				<div class="faq-list">
-					<ul>
-					</ul>
-				</div>
+<!-- 				<div class="faq-list"> -->
+<!-- 					<ul> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
 			</div>
    		<div id="faqContents">
    		</div>
@@ -262,18 +317,21 @@
 		<div id="pageBtn-group">
 		</div>
 	<script type="text/javascript">
-		
 		// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
 		// 버튼 클릭 시 안의 내용이 실행되도록 on()메서드에
 		// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
 		// 페이지 버튼 클릭 시 ajax 실행
 		$(document).on("click", ".pageBtn", function() {
 			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
-			// 카테고리 버튼이 클릭되면 disabled 활성화 시킴
-			// disabled가 지정된 버튼의 value값을 가져옴
-			let cs_type = $("button[disabled]").val();
+			// 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
+			// btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
+			let cs_type = $(".btn-group>.btn-danger").val();
 			let pageNum = $(this).text();	// <button>안 글자를 페이지 변수로 사용
-				
+			
+			$("#pageBtn-group>button").removeClass("btn-danger");
+			$("#pageBtn-group>button").addClass("btn-outline-danger");
+			$(this).removeClass("btn-outline-danger");
+			$(this).addClass("btn-danger");
 // 			console.log(cs_type);
 // 			console.log(pageNum);
 			
@@ -284,12 +342,6 @@
 				dataType: 'JSON',
 				success: function(result) {	// 요청 성공 시
 					
-					// 눌린 버튼 비활성화, 아닌 버튼 활성화
-// 					$(".btn-group>button").attr("disabled", false);
-// 					$("button[value='" + cs_type +"']").attr("disabled", true);
-					
-// 					$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
-					
 					// 페이징 처리를 위한 변수 정의
 					let start = pageNum * 5 - 4;
 					let limit = pageNum * 5;
@@ -298,19 +350,23 @@
 						limit = result.length;
 					}
 				
-// 					console.log("받아오기 성공!");
 	
 					$("#faqContents").empty();
 					for(let i = (start - 1); i < limit; i++) {
-						console.log(limit);
+// 						console.log(limit);
 						$("#faqContents").append(
-								"<div class='qPart'>"
-								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+								"<label class='qPart' id='check" + i + "'>"
+								+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+								+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+								+ "</label>"
 								);
+						// 지정한 div안에 내용 추가(A. 답변)
 						$("#faqContents").append(
 								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 								);
 					}
+					// 답변 영역 사라지게하기
+					$(".target").hide();
 				},
 				error: function() {
 					alert('에러');

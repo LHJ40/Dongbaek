@@ -118,7 +118,7 @@
     </tr>
      <tr>
     <td></td>
-      <td></td>
+      <td><a href="theater-runningtime_tap">극장별예매</a></td>
       <td></td>
       <td><a href="myPage_modify_member">개인정보 수정</a></td>
       </tr>

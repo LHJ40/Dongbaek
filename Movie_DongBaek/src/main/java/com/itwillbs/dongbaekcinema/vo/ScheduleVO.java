@@ -18,6 +18,7 @@ public class ScheduleVO {
 	private String movie_genre;
 	private int movie_running_time;
 	private Date movie_release_date;
+	private int play_num;
 	
 
 }

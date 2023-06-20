@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,13 @@ import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.voNew.GradeNextVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
+import com.itwillbs.dongbaekcinema.service.MemberService;
+import com.itwillbs.dongbaekcinema.service.MypageService;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.StoreService;
+import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 
@@ -33,6 +38,11 @@ public class ReservationController {
 	
 	@Autowired
 	private StoreService service2;
+	
+	@Autowired
+	private MypageService service3;
+	@Autowired
+	private MemberService service4;
 	
 	// 네비바의 [예매] 클릭 시 
 	// reservation_main 요청에 의해 "reservation_main/reservation_main.jsp" 페이지로 포워딩
@@ -48,7 +58,7 @@ public class ReservationController {
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
 //		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
-		
+				
 		return "reservation/reservation_main";
 	}
 
@@ -107,7 +117,6 @@ public class ReservationController {
 		return theaterList;
 	}
 	
-	
 	// reservation_main.jsp의 [날짜] 클릭 시 시간 정보 출력
 	// PlayList 요청에 의해 reservation_main.jsp의 [시간선택] 영역에 
 	// 선택한 영화를 선택한 극장에서 선택한 날짜에 상영하는 시간과 상영관 목록 출력
@@ -130,6 +139,7 @@ public class ReservationController {
 		System.out.println(ja);
 		return ja.toString();
 	}
+	
 
 	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
 	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
@@ -168,20 +178,47 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_ing")
-	public String reservation_ing() {
+	public String reservation_ing(HttpSession session,HttpServletRequest request,Model model) {
+		//잘못된 접근처리
+		String beforePage =(String)request.getHeader("REFERER");
+		if(beforePage==null) {
+			model.addAttribute("msg", "잘못된 접근");
+			model.addAttribute("url", "./");
+					
+			return "fail_location";
+		}
+		String member_id=(String) session.getAttribute("member_id");
+		System.out.println(member_id);
+		MemberVO member=service4.getMember(member_id);
+		GradeNextVO member_grade=service3.getMyGrade(member_id);
+		model.addAttribute("member", member);
+		model.addAttribute("member_grade", member_grade);
+		System.out.println(member);
+		System.out.println(member_grade);
 		return "reservation/reservation_ing";
 	}
 	
 	@GetMapping("reservation_check")
-	public String reservation_check() {
+	public String reservation_check(HttpSession session,HttpServletRequest request,Model model) {
+		//잘못된 접근처리
+		String beforePage =(String)request.getHeader("REFERER");
+		if(beforePage==null) {
+			model.addAttribute("msg", "잘못된 접근");
+			model.addAttribute("url", "./");
+							
+			return "fail_location";
+		}
+		String member_id=(String) session.getAttribute("member_id");
+		MemberVO member=service4.getMember(member_id);
+		model.addAttribute("member", member);
 		
 		return "reservation/reservation_check";
 	}
 	
 	@GetMapping("reservation_snack")
 	public String reservation_snack(@RequestParam Map<String, String> map,HttpServletRequest request, Model model) {
-		String beforePage =(String)request.getHeader("REFERER");
 		//잘못된 접근처리
+		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
 			model.addAttribute("msg", "잘못된 접근");
 			model.addAttribute("url", "./");
@@ -195,4 +232,29 @@ public class ReservationController {
 		
 		return "reservation/reservation_snack";
 	}
+	@RequestMapping(value ="complete", method = RequestMethod.POST)
+	@ResponseBody
+	public int paymentComplete(String order_num, String imp_uid,int payment_total_price,HttpSession session
+			) throws Exception {
+		    System.out.println(order_num);
+		    System.out.println(imp_uid);
+		    System.out.println(payment_total_price);
+//		    String token = payService.getToken();
+//		    
+//		    // 결제 완료된 금액
+//		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
+		    
+		    int res = 1;
+		    
+//		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
+//				res = 0;
+//				// 결제 취소
+//				payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
+//				return res;
+//			}
+//			orderService.insert_pay(orderDTO);
+			return res;
+		 
+	}
 }
+

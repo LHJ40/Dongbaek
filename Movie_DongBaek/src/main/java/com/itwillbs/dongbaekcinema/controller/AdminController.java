@@ -1,15 +1,26 @@
 package com.itwillbs.dongbaekcinema.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +54,8 @@ public class AdminController {
 	@Autowired
 	private AdminService admin_service;
 
+
+	
 
 
 	// 0609 정의효
@@ -111,34 +124,68 @@ public class AdminController {
 		return "admin/admin_schedule_list";
 	}
 	
-    // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
-	@ResponseBody
-	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayScheduleVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-//		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
-
-		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+//    // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
+//	@ResponseBody
+//	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+//	public List<PlayScheduleVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+////		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
 //
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
-		
+//		
+////		// 직원 세션이 아닐 경우 잘못된 접근 처리
+////		String member_type = (String)session.getAttribute("member_type");
+////		System.out.println(member_type);
+////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+////
+////            model.addAttribute("msg", "잘못된 접근입니다!");
+////            return "fail_back";
+////        }
+//		
+//
+//		
+//		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
+//
+//		List<PlayScheduleVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
+//
+////		System.out.println(playList);
+//		
+//		model.addAttribute("playList", playList);
+//		
+//		return playList;
+//	}
 
-		
-		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
+	
+	// 상단 생성 버튼 클릭 시 해당 영화관의 스케줄 목록 가져옴
+	@ResponseBody
+    @GetMapping(value = "showSchedual", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+        // 상영 스케줄 정보 가져오기
+        List<PlayScheduleVO> scheduleList = admin_service.showSchedual(theater_num, play_date, pageNo);
+        
+        // 영화관 번호로 해당 상영관 번호와 이름 가져오기
+        List<PlayScheduleVO> roomList = admin_service.getRoomInfo(theater_num);
+        
+        System.out.println("1차 스케줄 생성 : " + scheduleList);
 
-		List<PlayScheduleVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
+        JSONArray jsonArray = null;
+        
+        try {
+			jsonArray = new JSONArray(); // JSONArray 객체 생성
+				
+			JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
+			jsonObject.put("scheduleList", scheduleList);
+			jsonObject.put("roomList", roomList);
+			
+			jsonArray.put(jsonObject);
+		} catch (JSONException e) {
 
-		System.out.println(playList);
-		
-		model.addAttribute("playList", playList);
-		
-		return playList;
-	}
+			e.printStackTrace();
+		}
+        
+        
+        return jsonArray.toString();
+    }
+	
+
 	
 	
 	
@@ -152,7 +199,7 @@ public class AdminController {
 		List<MovieVO> movieList = admin_service.findMovieList(play_date);
 		
 		
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		
 		model.addAttribute("movieList",movieList);
 		
@@ -163,17 +210,17 @@ public class AdminController {
 	// 관리자페이지 상영스케줄 영화목록 셀렉트 박스 클릭 시 새로운 회차 정보 생성- json 
 	// 파라미터 값 (theater_num, movie_num, pageNo)
 	@ResponseBody
-	@RequestMapping(value = "createTurn", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "calculateTime", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
 	public List<PlayScheduleVO> findMovieList(HttpSession session, @RequestParam int theater_num, @RequestParam int movie_num, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-		System.out.println("findMovieList : theater_num : " + theater_num + ", movie_num : " + movie_num + ", pageNo : " + pageNo);
+//		System.out.println("findMovieList : theater_num : " + theater_num + ", movie_num : " + movie_num + ", pageNo : " + pageNo);
 		
 		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
-		List<PlayScheduleVO> playScheduleList = admin_service.createTurn(theater_num, movie_num, pageNo);
+//		List<PlayScheduleVO> playScheduleList = admin_service.createTurn(theater_num, movie_num, pageNo);
 		
 		
-		System.out.println(playScheduleList);
+//		System.out.println(playScheduleList);
 		
-		model.addAttribute("playScheduleList",playScheduleList);
+//		model.addAttribute("playScheduleList",playScheduleList);
 		
 //		return playScheduleList;
 		return null;
@@ -184,21 +231,19 @@ public class AdminController {
 	// 생성 버튼 시 정보 넘어오는지 확인
 	// json 
 	@ResponseBody
-	@RequestMapping(value = "createSchedule", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public String createSchedule(HttpSession session, @RequestParam String roomName, Model model) throws Exception {
-//		System.out.println("findMovieList : " + play_date);
+	@RequestMapping(value = "rewriteSchedule", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	public String rewriteSchedule(HttpSession session, @RequestParam String room_num, Model model) throws Exception {
+		System.out.println("createSchedule : " + room_num);
 		
 		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
 //		List<MovieVO> movieList = admin_service.findMovieList(play_date);
+
 		
-		
-		System.out.println(roomName);
-		
-		roomName += "가공했습니다!";
+		room_num += "가공했습니다!";
 		
 //		model.addAttribute("roomName",roomName);
 		
-		return roomName;
+		return room_num;
 	}
 	
 	
@@ -401,7 +446,30 @@ public class AdminController {
 		
 	}
 	
-	// 관리자페이지 1:1 질문관리
+	
+	// 관리자 페이지 글 삭제(파라미터 csType=1일때 공지사항 삭제, csType=3일때 1:1질문 삭제)
+	@GetMapping("delete_cs")
+	public String deleteCs(HttpSession session, Model model, @RequestParam(defaultValue = "1")int pageNo, @RequestParam("csType") int csType, @RequestParam("cs_type_list_num") int cs_type_list_num) {
+		System.out.println("delete_cs, csType:" + csType + ", cs_type_list_num:" + cs_type_list_num);
+		
+		int deleteCount = admin_service.deleteCs(csType, cs_type_list_num);
+		
+		// 글삭제 작업 후 리턴할 페이지
+		if(deleteCount != 0 && csType == 1) { // 삭제 성공 시 공지사항 목록으로 리턴
+			
+			return "redirect:/admin_cs_notice";
+		} else if(deleteCount != 0 && csType == 3) { // 삭제 성공 시 자주묻는 질문 목록으로 리턴
+			
+			return "redirect:/admin_cs_faq";
+		} else {
+			
+			model.addAttribute("msg", "글 삭제 실패!");
+			return "fail_back";
+		}
+		
+	}
+	
+	// 관리자페이지 1:1 질문관리 게시판 목록
 	@GetMapping("admin_cs_qna")
 	public String adminCsQna(HttpSession session, Model model, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo) {
 
@@ -838,9 +906,17 @@ public class AdminController {
 	
 	// 영화등록페이지 에서 등록하기 클릭시(insert 구문) - 영화관리 메인으로 이동 - 0610 정의효
 	// POST => 폼 파라미터 데이터를 전송받아 저장할 MovieVO 타입 파라미터 설정
+	
+	@InitBinder //0620정의효 - 문자열을 DATE타임으로바꾸는거 안되면 삭제하기
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+	
+	
 	@PostMapping("admin_movie_regist_Pro")
-	public String adminMovieRegistPro(HttpSession session, MovieVO movie, Model model) {
-
+	public String adminMovieRegistPro(HttpSession session, @DateTimeFormat(pattern = "yyyy-MM-dd") MovieVO movie, Model model) {
+		System.out.println(movie);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -992,13 +1068,46 @@ public class AdminController {
 		member_service.memberDelete(member_id);
 		return "redirect:/admin_member_list";
 	}
-	
-	
-	
+		
+	//0620정의효 관리자페이지 - 영화삭제
+		@PostMapping("admin_movieDelete")
+		public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
+			movie_service.movieDelete(movie_num);
+			return "redirect:/admin_movie_management";
+		}
+		
+		//0620정의효 영화수정 완
+		@PostMapping("admin_movie_modify")
+		public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
+			movie_service.movieModify(movie);
+			
+			System.out.println(movie);
+			return "redirect:/admin_movie_management";
+		}
 	
 	
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
