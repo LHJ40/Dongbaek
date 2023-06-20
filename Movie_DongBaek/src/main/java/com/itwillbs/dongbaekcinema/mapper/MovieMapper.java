@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.ReviewVO;
@@ -48,6 +49,12 @@ public interface MovieMapper {
 
 	// 페이징처리 0616 정의효
 	int getCount();
+	
+	//영화삭제 0620-정의효
+	void movieDelete(String movie_num);
+
+	// 영화수정 0620-정의효
+	void movieModify(MovieVO movie);
 
 
 
