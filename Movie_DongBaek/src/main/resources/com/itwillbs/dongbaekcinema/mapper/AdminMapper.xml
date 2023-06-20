@@ -84,6 +84,18 @@
 				p.movie_num = #{movie_num}
 	</select>
 	
+	<!-- 영화관 번호로 상영관 정보 가져오기 -->
+	<select id="getRoom" resultType="com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO">
+		SELECT
+			r.room_num , room_name
+			FROM
+				ROOMS r
+				JOIN THEATERS t
+					ON r.theater_num = t.theater_num
+					WHERE r.theater_num = #{theater_num}
+	</select>
+	
+	
 	<!-- CS 게시판 condition 변수에 따라 목록List<CsVO> 출력 -->
     <select id="getCsWithPaging" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
     	SELECT
@@ -172,6 +184,15 @@
     		 	cs_type IN(${condition})
     		 	AND cs_type_list_num = #{csInfo.cs_type_list_num}
 	</update>
+	
+	<!-- CS-공지사항, 자주묻는 질문 게시글 삭제 -->
+	<delete id="deleteCs">
+		DELETE
+			FROM CS
+			WHERE
+    		 	cs_type IN(${condition})
+    		AND cs_type_list_num = #{cs_type_list_num}	
+	</delete>
     
     <!-- CS-1:1 게시판 관리자 답변 달기 -->
     <update id="updateReply">
