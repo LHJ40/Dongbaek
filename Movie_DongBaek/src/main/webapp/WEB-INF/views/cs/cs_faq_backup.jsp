@@ -75,16 +75,14 @@
 	}
 	.qPart {
 		background-color: #eee;
-		border: 1px dotted #ddd;
-		margin: 0;
-		padding: 15px 10px;
-		width: 100%
+		padding: 5px;
+		width: 90%
 	}
  	.qPart:hover {background-color: #ddd; }
   	.checkbox {display: none;}  
 	.target {
 /*  		display: none; */
-		margin: 0 15px 0.5em;
+		margin: 10px 0.5em;
 		padding: 5px;
 	}
 	#pageBtn-group {
@@ -93,11 +91,6 @@
 	}
 	.pageBtn {
 		margin: 2px;	/* 페이지 버튼 사이 간격 조절*/
-	}
-	/* 카테고리 글자 강조 */
-	strong {
-		padding-left: 0.5em;
-		color: #596757;
 	}
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
@@ -132,7 +125,7 @@
 					$("#faqContents").append(
 							"<label class='qPart' id='check" + i + "'>"
 							+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
-							+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+							+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
 							+ "</label>"
 							);
 					// 지정한 div안에 내용 추가(A. 답변)
@@ -210,7 +203,7 @@
 							$("#faqContents").append(
 									"<label class='qPart' id='check" + i + "'>"
 									+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
-									+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
 									+ "</label>"
 									);
 							// 지정한 div안에 내용 추가(A. 답변)
@@ -279,13 +272,13 @@
 		
 		<%-- 검색기능 --%>
 		<div class="seachArea">
-<!-- 			<b>빠른 검색</b> &nbsp;&nbsp; -->
-<!-- 			<span class="board-search"> -->
-<!-- 				<input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15"> -->
-<!-- 				<button id="searchBtn"> -->
-<!-- 					<span class="material-symbols-outlined">search</span> -->
-<!-- 				</button> -->
-<!-- 			</span> -->
+			<b>빠른 검색</b> &nbsp;&nbsp;
+			<span class="board-search">
+				<input type="search" id="searchTxt" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" value="" maxlength="15">
+				<button id="searchBtn">
+					<span class="material-symbols-outlined">search</span>
+				</button>
+			</span>
 		</div>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
@@ -317,6 +310,9 @@
 		<div id="pageBtn-group">
 		</div>
 	<script type="text/javascript">
+		
+
+	
 		// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
 		// 버튼 클릭 시 안의 내용이 실행되도록 on()메서드에
 		// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
@@ -357,7 +353,7 @@
 						$("#faqContents").append(
 								"<label class='qPart' id='check" + i + "'>"
 								+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
-								+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
 								+ "</label>"
 								);
 						// 지정한 div안에 내용 추가(A. 답변)
