@@ -150,33 +150,34 @@ article {
  	                msg += '상점 거래ID : ' + rsp.merchant_uid;
  	                msg += '결제 금액 : ' + rsp.paid_amount;
  	                msg += '카드 승인번호 : ' + rsp.apply_num;
- 	                //---------------------------
-//  	               jQuery.ajax({
-//                        url: "complete", 
-//                        type: "POST",
-//                         data:{
-//                        "imp_uid" : rsp.imp_uid,//고유ID
-//                        "orderNum" :  rsp.merchant_uid,//주문번호
-                  
-//                        "num" : '${member.member_num}', // 회원번호
-//                        "productName" : rsp.name,
-//                        "orderDate" : new Date().getTime(),
-//                        "totalPrice" : rsp.paid_amount,
-//                        }
-//                        dataType: 'json',
-//                    })
-//                    .done(function(res) {
-//                        if (res > 0) {
-//                            swal('주문정보 저장 성공')
-// //                            createPayInfo(uid);
-//                        }
-//                        else {
-//                            swal('주문정보 저장 실패');
-//                        }
-//                    })
-//            }
  	                
- 	            } else {
+ 	               jQuery.ajax({
+                       url: "complete", 
+                       type: "POST",
+                        data:{
+                       "order_num" :  rsp.merchant_uid,//주문번호
+                       "order_total_price": "2000", //할인전 총금액	
+                       "member_id" : '${member.member_id}', // 회원아이디
+                       "imp_uid" : rsp.imp_uid,//고유ID
+                       "productName" : rsp.name,
+                       "payment_datetime" : new Date().getTime(),
+                       "payment_total_price" : rsp.paid_amount
+                       },
+                       dataType: "json", 
+                   })
+                   .done(function(res) {
+                       if (res > 0) {
+                           alert('주문정보 저장 성공');
+//                            createPayInfo(uid);
+                           location.href='reservation_check';
+                       }
+                       else {
+                           swal('주문정보 저장 실패');
+                       }
+                   })
+           }
+ 	                
+ 	             else {
  	                var msg = '결제에 실패하였습니다.';
  	                msg += '에러내용 : ' + rsp.error_msg;
  	            }

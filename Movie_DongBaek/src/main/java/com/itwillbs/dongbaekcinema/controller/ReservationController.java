@@ -232,5 +232,29 @@ public class ReservationController {
 		
 		return "reservation/reservation_snack";
 	}
+	@RequestMapping(value ="complete", method = RequestMethod.POST)
+	@ResponseBody
+	public int paymentComplete(String order_num, String imp_uid,int payment_total_price,HttpSession session
+			) throws Exception {
+		    System.out.println(order_num);
+		    System.out.println(imp_uid);
+		    System.out.println(payment_total_price);
+//		    String token = payService.getToken();
+//		    
+//		    // 결제 완료된 금액
+//		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
+		    
+		    int res = 1;
+		    
+//		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
+//				res = 0;
+//				// 결제 취소
+//				payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
+//				return res;
+//			}
+//			orderService.insert_pay(orderDTO);
+			return res;
+		 
+	}
 }
 
