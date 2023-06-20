@@ -57,21 +57,24 @@
 		clear: both;
 	}
 	.qPart {
-		background-color: #ccc;
+		background-color: #eee;
 		padding: 5px;
+		width: 90%
 	}
-/* 	.qPart:hover {background-color: #eee; } */
- 	.checkbox {display:none;} 
+ 	.checkbox:hover {background-color: #ddd; }
+  	.checkbox {display: none;}  
 	.target {
 /*  		display: none; */
-		margin: 10px 1em;
+		margin: 10px 0.5em;
 		padding: 5px;
 	}
 	#pageBtn-group {
 		text-align: center;
 		margin: 1em auto;
 	}
-	
+	.pageBtn {
+		margin: 2px;	/* 페이지 버튼 사이 간격 조절*/
+	}
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -100,27 +103,28 @@
 				
 				// 한 페이지에 들어가는 글 수 만큼 반복(글 내용)
 				for(let i = 0; i <= (limit - start); i++) {
-// 					console.log(limit);
 					// 지정한 div안에 내용 추가([카테고리] Q. 질문)
 					// 결과값이 List타입으로 배열 안 데이터에 접근하듯 사용
 					$("#faqContents").append(
-							"<div class='qPart'>"
-							+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+							"<label class='qPart' id='check" + i + "'>"
+							+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+							+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
+							+ "</label>"
 							);
 					// 지정한 div안에 내용 추가(A. 답변)
 					$("#faqContents").append(
 							"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 							);
 				}
+				// 답변 영역 사라지게하기
+				$(".target").hide();
 				
 				// 페이지(버튼) 갯수
 				// 올림(가져온 결과값 / 한 페이지당 글 수)
 				let pageCount = Math.ceil(result.length / 5);
-// 				console.log(pageCount);
 				
 				// 페이지(버튼) 개수만큼 버튼 생성
 				for(let i = 1; i <= pageCount; i++) {
-// 					console.log(i);
 					$("#pageBtn-group").append(
 							"<button class='pageBtn btn btn-outline-danger'>" + i + "</button>"
 							);
@@ -137,7 +141,7 @@
 			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
 			let cs_type = $(this).val();	// 클릭한 버튼의 value값을 가져와 변수에 저장
 			let pageNum = 1;	// 카테고리 클릭 시 첫 페이지 보여주기
-				console.log(cs_type);
+// 				console.log(cs_type);
 				
 				$.ajax({
 					type: 'GET',
@@ -172,13 +176,18 @@
 						for(let i = (start - 1); i < limit; i++) {
 // 							console.log(limit);
 							$("#faqContents").append(
-									"<div class='qPart'>"
-									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+									"<label class='qPart' id='check" + i + "'>"
+									+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+									+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
+									+ "</label>"
 									);
+							// 지정한 div안에 내용 추가(A. 답변)
 							$("#faqContents").append(
 									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 									);
 						}
+						// 답변 영역 사라지게하기
+						$(".target").hide();
 						
 						// 전 페이지(다른 카테고리) 버튼들 삭제
 						$("#pageBtn-group").empty();
@@ -200,6 +209,16 @@
 		});
 	});
 	
+	$(document).on("change", ".checkbox", function() {
+		let targetId = $(this).data('target');
+		
+		if( $(this).prop("checked") ) {
+			$("#" + targetId).show();
+		} else {
+			$("#" + targetId).hide();
+			
+		}
+	});
 	
 </script>
 </head>
@@ -284,12 +303,6 @@
 				dataType: 'JSON',
 				success: function(result) {	// 요청 성공 시
 					
-					// 눌린 버튼 비활성화, 아닌 버튼 활성화
-// 					$(".btn-group>button").attr("disabled", false);
-// 					$("button[value='" + cs_type +"']").attr("disabled", true);
-					
-// 					$("#totalCnt").text(result.length);	// 총 몇 건인지 안내
-					
 					// 페이징 처리를 위한 변수 정의
 					let start = pageNum * 5 - 4;
 					let limit = pageNum * 5;
@@ -298,19 +311,23 @@
 						limit = result.length;
 					}
 				
-// 					console.log("받아오기 성공!");
 	
 					$("#faqContents").empty();
 					for(let i = (start - 1); i < limit; i++) {
-						console.log(limit);
+// 						console.log(limit);
 						$("#faqContents").append(
-								"<div class='qPart'>"
-								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject + "</label></div>"
+								"<label class='qPart' id='check" + i + "'>"
+								+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+								+ "[" + result[i].cs_type + "] <br>" + " Q. " + result[i].cs_subject 
+								+ "</label>"
 								);
+						// 지정한 div안에 내용 추가(A. 답변)
 						$("#faqContents").append(
 								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
 								);
 					}
+					// 답변 영역 사라지게하기
+					$(".target").hide();
 				},
 				error: function() {
 					alert('에러');

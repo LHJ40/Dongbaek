@@ -19,6 +19,6 @@ public class BuyDetailVO {
 	private String movie_name_kr;
 	private String ticket_type;
 	private String snack_name;
-	private int ticket_quantity;
-	private int snack_quantity;
+	private int ticket_quantity;	// 구매내역 중 영화, 티켓타입별 갯수
+	private int snack_quantity;		// 구매내역 중 스낵별 갯수
 }
