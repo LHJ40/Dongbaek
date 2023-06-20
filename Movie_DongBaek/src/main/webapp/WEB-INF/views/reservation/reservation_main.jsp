@@ -18,6 +18,9 @@
 
 	$(function() {	
 		
+		// 1) 메인페이지(home.jsp) 네비바의 [영화] 클릭 후 각 영화의 예매하기 버튼 클릭 시
+		// 2) 영화 상세정보의 [예매하기] 버튼 클릭 시
+		// => 파라미터로 넘어온 영화번호에 해당하는 영화를 찾아서 "selected" 클래스 추가하기
 		let movie_num = $("#movieNum").val();
 		
 		if(movie_num != undefined){
@@ -47,118 +50,64 @@
 			$("#selectTime li").empty();					// 시간 목록에서 선택된 시간 선택 해제
 			
 			
-			// [예매율순] 클릭 시
-			if($("#descBookingRate").hasClass("active")){
-				$.ajax({
-					type : "get", 
-					url : "DescBookingRate", 
-					dataType : "json", 
-				})
-				.done(function(movie) {
-					let res = "<ul>";
-					for(let i = 0; i < movie.length; i++) {
-						if(movie[i].movie_grade == '전체관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_all.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '12세이상관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_12.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '15세이상관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_18.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '청소년관람불가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-					}
-					res += "</ul>";
-					
-					$("#selectMovie").html(res);
-				})
-				.fail(function() { // 요청 실패 시
-					alert("요청 실패!");
-				});
+			let url = "";
+			
+			if($("#descBookingRate").hasClass("active")){	// [예매율순] 클릭 시
+				url = "DescBookingRate";
 				
 			}else{	// [가나다순] 클릭 시
-				$.ajax({
-					type : "get", 
-					url : "AscMovieName", 
-					dataType : "json", 
-				})
-				.done(function(movie) {
-					let res = "";
-					res += "<ul>";
-					for(let i = 0; i < movie.length; i++) {
-						if(movie[i].movie_grade == '전체관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_all.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '12세이상관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_12.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '15세이상관람가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_18.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num=" + movie[i].movie_num + " data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-						if(movie[i].movie_grade == '청소년관람불가'){
-							res += "<li>" + 
-										"<a href='#'>" + 
-											"<i><img src='${pageContext.request.contextPath }/resources/img/grade_15.png' alt='15세'></i>" + 
-											"<span class='text' data-movie-num='" + movie[i].movie_num + "' data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
-										"</a>" + 
-									"</li>"
-						}
-					}
-					res += "</ul>";
-					
-					$("#selectMovie").html(res);
-				})
-				.fail(function() { // 요청 실패 시
-					alert("요청 실패!");
-				});
+				url = "AscMovieName";
 			}
+			$.ajax({
+				type : "get", 
+				url : url,  
+				dataType : "json", 
+			})
+			.done(function(movie) {
+				let res = "";
+				res += "<ul>";
+				for(let i = 0; i < movie.length; i++) {
+					let movieGrade = "";
+					if(movie[i].movie_grade == '전체관람가'){
+						movieGrade = "all";
+					}
+					if(movie[i].movie_grade == '12세이상관람가'){
+						movieGrade = "12";
+					}
+					if(movie[i].movie_grade == '15세이상관람가'){
+						movieGrade = "15";
+					}
+					if(movie[i].movie_grade == '청소년관람불가'){
+						movieGrade = "18";
+					}
+					res += "<li>" + 
+								"<a href='#'>" + 
+									"<i><img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade + ".png' alt='15세'></i>" + 
+									"<span class='text' data-movie-num='" + movie[i].movie_num + "' data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
+								"</a>" + 
+							"</li>"
+				}
+				res += "</ul>";
+				
+				$("#selectMovie").html(res);
+			})
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
 		});
 		
 		
 		// [영화명] 클릭시 ==============================================================================================================
-		$(document).on("click", "#selectMovie li", movieSelectAction);
-// 		if($("#selectMovie li").hasClass("selected")){
-// 			movieSelectAction();
-// 		}
+		$(document).on("click", "#selectMovie li", function(){
+			$("#selectMovie li").removeClass("selected");	// 기존에 선택된 영화 선택 해제
+			$(this).addClass("selected");					// 선택한 영화 표시
+			selectMovieAction();
+		});	
 		
-		
+		if($("#selectMovie li").hasClass("selected")){
+			selectMovieAction();			
+		}
+					
 		
 		// [극장명] 클릭 시 ============================================================================================================
 		$(document).on("click", "#selectTheater li", function() {
@@ -177,7 +126,7 @@
 			// 날짜 출력
 			$("#selectDate").css("display", "flex");
 	
-			const now = new Date();
+			const now = new Date("2023-06-19");
 			let year = now.getFullYear();
 			let month = now.getMonth();
 			let thisMonth = month + 1;
@@ -441,22 +390,9 @@
 	// 로그인 상태에서 [next] 버튼 클릭시
 	// reservation_seat 서블릿 요청을 통해 좌석예매 페이지(reservation.reservation_seat.jsp)로 이동
 	function reservationSeat() {
-		let playNum = $("#selectTime .selected a").attr("data-play-num");		// 선택한 상영 번호
-		let movieNum = $("#selectMovie .selected span").attr("data-movie-num");		// 선택한 영화 번호
-		let movieName = $("#selectMovie .selected span").attr("data-movie-name");	// 선택한 영화명
-		let moviePoster = $("#selectMovie .selected span").attr("data-movie-poster");// 선택한 영화의 포스터
-		let theaterNum = $("#selectTheater .selected span").attr("data-theater-num");	// 선택한 극장 번호
-		let theaterName = $("#selectTheater .selected span").attr("data-theater-name");	// 선택한 극장 이름
-		let playDate = $("#selectTime .selected a").attr("data-play-date");	// 선택한 날짜
-// 		let playStartTime = $("#selectTime .selected a span.time").attr("data-play-start-time");	// 선택한 상영시작 시간
-			
-		$("input[name=play_num]").attr("value",playNum);
-		$("input[name=movie_num]").attr("value",movieNum);
-		$("input[name=movie_name_kr]").attr("value",movieName);
-		$("input[name=theater_num]").attr("value",theaterNum);
-		$("input[name=theater_name]").attr("value", theaterName)
-		$("input[name=play_date]").attr('value',playDate);
-// 		$("input[name=play_start_time]").attr('value',playStartTime);
+		let playNum = $("#selectTime .selected a").attr("data-play-num");		// 선택한 상영 번호	
+		$("input[name=play_num]").attr("value",playNum);	// 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+		
 		location.href = "reservation_seat";
 	}
 	
@@ -629,16 +565,7 @@
 				<%-- 다음 페이지 이동 버튼 --%>
 				<div class="col-3">
 					<form action="reservation_seat" method="post">
-						<input type="hidden" name="play_num" value="" />
-						<input type="hidden" name="movie_num" value="" />
-						<input type="hidden" name="movie_name_kr" value="" />
-				      	<input type="hidden" name="theater_num" value="" />
-				      	<input type="hidden" name="theater_name" value="" />
-				      	<input type="hidden" name="play_date" value="" />
-				      	<input type="hidden" name="room_num" value="" />
-<!-- 				      	<input type="hidden" name="play_start_time" value="" /> -->
-<!-- 						<button type="submit" class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button> -->
-						
+						<input type="hidden" name="play_num" value="" />						
 						<%-- 
 						로그인 여부 확인하여 
 						로그인 시 reservation_seat() 함수를 실행하여 reservation_seat.jsp 페이지로 이동

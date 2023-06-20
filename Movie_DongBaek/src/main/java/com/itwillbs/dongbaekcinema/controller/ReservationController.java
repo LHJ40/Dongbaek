@@ -58,12 +58,7 @@ public class ReservationController {
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
 //		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
-		
-		// 네비 탭의 [영화]에서 영화 선택 후 [예매하기] 버튼 클릭 시
-//		MovieVO movie = service.getMovie(movie_num);
-//		System.out.println(movie);
-//		model.addAttribute("movie", movie);
-		
+				
 		return "reservation/reservation_main";
 	}
 
@@ -122,7 +117,6 @@ public class ReservationController {
 		return theaterList;
 	}
 	
-	
 	// reservation_main.jsp의 [날짜] 클릭 시 시간 정보 출력
 	// PlayList 요청에 의해 reservation_main.jsp의 [시간선택] 영역에 
 	// 선택한 영화를 선택한 극장에서 선택한 날짜에 상영하는 시간과 상영관 목록 출력
@@ -145,6 +139,7 @@ public class ReservationController {
 		System.out.println(ja);
 		return ja.toString();
 	}
+	
 
 	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
 	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
@@ -236,6 +231,30 @@ public class ReservationController {
 		model.addAttribute("snackList", snackList);
 		
 		return "reservation/reservation_snack";
+	}
+	@RequestMapping(value ="complete", method = RequestMethod.POST)
+	@ResponseBody
+	public int paymentComplete(String order_num, String imp_uid,int payment_total_price,HttpSession session
+			) throws Exception {
+		    System.out.println(order_num);
+		    System.out.println(imp_uid);
+		    System.out.println(payment_total_price);
+//		    String token = payService.getToken();
+//		    
+//		    // 결제 완료된 금액
+//		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
+		    
+		    int res = 1;
+		    
+//		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
+//				res = 0;
+//				// 결제 취소
+//				payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
+//				return res;
+//			}
+//			orderService.insert_pay(orderDTO);
+			return res;
+		 
 	}
 }
 

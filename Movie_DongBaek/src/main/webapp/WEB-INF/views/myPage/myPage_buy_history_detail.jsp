@@ -32,100 +32,110 @@
 	
 	$(function() {
 		
-		$("#cancleCk").click(function(){
-// 			let pay = $("#payment_total_price").val();
-			let pay = 10;
-			console.log(pay);
+		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
+		if($("#play_change").val() == '취소가능') {
+			$("#cancleCk").show();
+		} else {
+			$("#cancleCk").hide();	// 나중에 풀기
+		}
+		
+		
+// 		$("#cancleCk").click(function(){
+// // 			let pay = $("#payment_total_price").val();
+// 			let pay = 10;
+// 			console.log(pay);
 		   	  
-			let IMP = window.IMP;
-			IMP.init('imp85027310'); 
- 	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
- 	        // 'import 관리자 페이지 -> 내정보 -> 가맹점식별코드
- 	        IMP.request_pay({
- 	            pg: 'html5_inicis', // version 1.1.0부터 지원.
- 	            /* 
- 	                'kakao':카카오페이, 
- 	                html5_inicis':이니시스(웹표준결제)
- 	                    'nice':나이스페이
- 	                    'jtnet':제이티넷
- 	                    'uplus':LG유플러스
- 	                    'danal':다날
- 	                    'payco':페이코
- 	                    'syrup':시럽페이
- 	                    'paypal':페이팔
- 	                */
- 	            pay_method: 'card',
- 	            /* 
- 	                'samsung':삼성페이, 
- 	                'card':신용카드, 
- 	                'trans':실시간계좌이체,
- 	                'vbank':가상계좌,
- 	                'phone':휴대폰소액결제 
- 	            */
- 	            merchant_uid: 'merchant_' + new Date().getTime(),
+// 			let IMP = window.IMP;
+// 			IMP.init('imp85027310'); 
+//  	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+//  	        // 'import 관리자 페이지 -> 내정보 -> 가맹점식별코드
+//  	        IMP.request_pay({
+//  	            pg: 'html5_inicis', // version 1.1.0부터 지원.
+//  	            /* 
+//  	                'kakao':카카오페이, 
+//  	                html5_inicis':이니시스(웹표준결제)
+//  	                    'nice':나이스페이
+//  	                    'jtnet':제이티넷
+//  	                    'uplus':LG유플러스
+//  	                    'danal':다날
+//  	                    'payco':페이코
+//  	                    'syrup':시럽페이
+//  	                    'paypal':페이팔
+//  	                */
+//  	            pay_method: 'card',
+//  	            /* 
+//  	                'samsung':삼성페이, 
+//  	                'card':신용카드, 
+//  	                'trans':실시간계좌이체,
+//  	                'vbank':가상계좌,
+//  	                'phone':휴대폰소액결제 
+//  	            */
+//  	            merchant_uid: 'merchant_' + new Date().getTime(),
  	            
- 	            name: '주문명:동백시네마',
- 	            //결제창에서 보여질 이름
- 	            amount: pay, 
- 	            //가격 
- 	            buyer_email: 'willbeok5.1@gmail.com',
- 	            buyer_name: '${myPaymentDetailList[0].payment_name}',
-//  	            buyer_name: '${sessionScope.member_id}',
- 	            buyer_tel: '010-1234-5678',
- 	            buyer_addr: '부산광역시 부산진구 동천로 ',
- 	            buyer_postcode: '123-456',
- 	            m_redirect_url: 'reservation_check'
- 	            /*  
- 	                모바일 결제시,
- 	                결제가 끝나고 랜딩되는 URL을 지정 
- 	                (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐) 
- 	                */
-	 	       }, function (rsp) {
-		            console.log(rsp);
-		            if (rsp.success) {
-		                var msg = '결제가 완료되었습니다.';
-		              	 location.href='reservation_check'
-		                msg += '고유ID : ' + rsp.imp_uid;
-		                msg += '상점 거래ID : ' + rsp.merchant_uid;
-		                msg += '결제 금액 : ' + rsp.paid_amount;
-		                msg += '카드 승인번호 : ' + rsp.apply_num;
-		            } else {
-		                var msg = '결제에 실패하였습니다.';
-		                msg += '에러내용 : ' + rsp.error_msg;
-		            }
-		            alert(msg);
-		        });
-		});
- 	        
-// 			$.ajax({
-// 					url: "/samsam/coupon_cancel.do",
-// 					type:"post",
-// 					//datatype:"json",
-// 					contentType : 'application/x-www-form-urlencoded; charset = utf-8',
-// 					data : {
-<%-- 						"biz_email" : '<%=email%>' // 주문번호 --%>
-// 						//"cancle_request_amount" : 2000, //환불금액
-// 						//"reason": "테스트 결제 환불", //환불사유
-// 						//"refund_holder": "홍길동", //[가상계좌 환불시 필수입력] 환불 가상계좌 예금주
-// 						//"refund_bank":"88", //[가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex Kg이니시스의 경우 신한은행 88)
-// 						//"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
-// 					}
-// 				}).done(function(result){ //환불 성공
-					
-// 					 $('#pay_coupon').html(pay);	
-// 					console.log("환불 성공 : "+ result);
-// 				}).fail(function(error){
-// 					console.log("환불 실패 : "+ error);
-// 				});//ajax
-// 			} else{
-// 				console.log("환불 실패 : 이유");
-// 			}
-// 		}); //cancleCk 클릭
-// 	}); //doc.ready
+//  	            name: '주문명:동백시네마',
+//  	            //결제창에서 보여질 이름
+//  	            amount: pay, 
+//  	            //가격 
+//  	            buyer_email: 'willbeok5.1@gmail.com',
+//  	            buyer_name: '${myPaymentDetailList[0].payment_name}',
+// //  	            buyer_name: '${sessionScope.member_id}',
+//  	            buyer_tel: '010-1234-5678',
+//  	            buyer_addr: '부산광역시 부산진구 동천로 ',
+//  	            buyer_postcode: '123-456',
+//  	            m_redirect_url: 'reservation_check'
+//  	            /*  
+//  	                모바일 결제시,
+//  	                결제가 끝나고 랜딩되는 URL을 지정 
+//  	                (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐) 
+//  	                */
+// 	 	       }, function (rsp) {
+// 		            console.log(rsp);
+// 		            if (rsp.success) {
+// 		                var msg = '결제가 완료되었습니다.';
+// 		              	 location.href='reservation_check'
+// 		                msg += '고유ID : ' + rsp.imp_uid;
+// 		                msg += '상점 거래ID : ' + rsp.merchant_uid;
+// 		                msg += '결제 금액 : ' + rsp.paid_amount;
+// 		                msg += '카드 승인번호 : ' + rsp.apply_num;
+// 		            } else {
+// 		                var msg = '결제에 실패하였습니다.';
+// 		                msg += '에러내용 : ' + rsp.error_msg;
+// 		            }
+// 		            alert(msg);
+// 		        });
+// 		});
 		
 		
 		
 	});	// function() 끝
+	
+	// ========== 취소 환불 요청하기 ===================
+	function cancelPay() {
+		let payment_num = $("#payment_num").val();
+		let payment_total_price = $("#payment_total_price").val();
+		
+	    jQuery.ajax({
+	      // 예: http://www.myservice.com/payments/cancel
+	      url: "/payCancel", // {환불정보를 수신할 가맹점 서비스 URL}
+	      type: "POST",
+	      contentType: "application/json",
+	      
+	      data: JSON.stringify({
+		        merchant_uid: payment_num, // "{결제건의 주문번호}" 예: ORD20180131-0000011
+		        cancel_request_amount: payment_total_price, // 2000, 환불금액
+		        reason: "테스트 결제 환불" // 환불사유
+		        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+	// 	        refund_holder: "홍길동", 
+		        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+	// 	        refund_bank: "88" 
+		        // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+	// 	        refund_account: "56211105948400" 
+	      }),
+	      
+	      dataType: "json"
+	    });
+	    
+  }	// cancelPay() 끝
 	
 	
 </script>
@@ -135,6 +145,8 @@
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
+  <input type="hidden" id="play_change" value="${play_change}">
+  <input type="hidden" id="payment_num" value="${myPaymentDetailList[0].payment_num}">
   <%--본문내용 --%>
   	<div class="container w-900">
   		<div class="mainTop">
@@ -198,35 +210,14 @@
 			
 			<%-- 버튼 --%>
 			<div class="row d-flex justify-content-center">
-					<button class="btn btn-outline-red" type="button" id="cancleCk">
-<!-- 					type="submit" data-toggle="modal" data-target="#paymentCancel"> -->
-					 결제취소</button>
-					<button class="btn btn-outline-red" type="button" onclick="history.back()">뒤로가기</button>
+				<%-- 결제취소버튼 --%>
+				<button class="btn btn-outline-red" type="button" id="cancleCk" onclick="cancelPay()">결제취소</button>
+				<button class="btn btn-outline-red" type="button" onclick="history.back()">뒤로가기</button>
 			</div>
   		</div>
 	</div>
   </article>
   
-  <%-- '결제취소' 모달 --%>
-<!-- 	<div class="modal fade" id="paymentCancel" tabindex="-1" role="dialog" aria-labelledby="paymentCancelTitle" aria-hidden="true"> -->
-<!-- 	  <div class="modal-dialog modal-dialog-centered" role="document"> -->
-<!-- 	    <div class="modal-content"> -->
-<!-- 	      <div class="modal-header"> -->
-<!-- 	        <h5 class="modal-title" id="paymentCancelTitle">결제취소 확인</h5> -->
-<!-- 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!-- 	          <span aria-hidden="true">&times;</span> -->
-<!-- 	        </button> -->
-<!-- 	      </div> -->
-<!-- 	      <div class="modal-body"> -->
-<!-- 	        결제를 취소하시겠습니까? -->
-<!-- 	      </div> -->
-<!-- 	      <div class="modal-footer justify-content-center"> -->
-<!-- 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button> -->
-<!-- 	        <button type="button" id="cancleCk" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
-<!-- 	      </div> -->
-<!-- 	    </div> -->
-<!-- 	  </div> -->
-<!-- 	</div> -->
   
   
   	<nav id="mainNav">
