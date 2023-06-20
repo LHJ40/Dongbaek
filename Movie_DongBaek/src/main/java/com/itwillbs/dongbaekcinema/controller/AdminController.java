@@ -784,7 +784,7 @@ public class AdminController {
 		
 		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MemberVO> memberList = member_service.getMembertList(pageNo, pageSize);
+		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageSize);
 		int totalPageCount = member_service.getTotalPageCount(pageSize);
 //		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
 //		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
