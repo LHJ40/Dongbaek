@@ -153,50 +153,11 @@
 		
 		
 		// [영화명] 클릭시 ==============================================================================================================
-		$(document).on("click", "#selectMovie li", function(){
-			$("#selectMovie li").removeClass("selected");	// 기존에 선택된 영화 선택 해제
-			$(this).addClass("selected");					// 선택한 영화 표시
-			$("#selectTheater li").css("display", "none");	// 극장 목록 안 보이게 하기
-			$("#selectDate").css("display", "none");		// 날짜 목록  안 보이게 하기
-			$("#selectTime").css("display", "none");		// 시간 목록  안 보이게 하기
-			$("#selectTime li").empty();					// 시간 목록에서 선택된 시간 선택 해제
-			
-			
-			let movieNum = $(".selected span").attr("data-movie-num");		// 선택한 영화 번호
-			let movieName = $(".selected span").attr("data-movie-name");	// 선택한 영화명
-			let moviePoster = $(".selected span").attr("data-movie-poster");// 선택한 영화의 포스터
-			
-			// [선택정보] 출력
-			$("#movieInfo").css("display", "flex");
-			$(".movie_name_kr").html("<b>" + movieName + "</b>");	// 영화명 출력
-			$(".movie_poster img").attr("src", moviePoster);	// 영역에 영화포스터 출력
-			
-			// 극장명 출력
-			$("#selectTheater").css("display", "block");
-			$.ajax({
-				type : "post", 
-				url : "TheaterList", 
-				data : {"movie_num" : movieNum}, 
-				dataType : "json", 
-			})
-			.done(function(theater) {
-				let res = "";
-				res += "<ul>";
-				for(let i = 0; i < theater.length; i++) {
-					res += "<li>" + 
-								"<a href='#'>" + 
-									"<span class='text' data-theater-num=" + theater[i].theater_num + " data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span>" + 
-								"</a>" + 
-							"</li>"
-				}
-				res += "</ul>";
-				
-				$("#selectTheater").html(res);
-			})
-			.fail(function() { // 요청 실패 시
-				$("#selectTheater").html("요청 실패!");
-			});
-		});
+		$(document).on("click", "#selectMovie li", movieSelectAction);
+// 		if($("#selectMovie li").hasClass("selected")){
+// 			movieSelectAction();
+// 		}
+		
 		
 		
 		// [극장명] 클릭 시 ============================================================================================================
@@ -498,6 +459,53 @@
 // 		$("input[name=play_start_time]").attr('value',playStartTime);
 		location.href = "reservation_seat";
 	}
+	
+	// [영화명] 선택시 실행되는 함수 ===================================================================================================================================
+	function movieSelectAction() {
+		$("#selectMovie li").removeClass("selected");	// 기존에 선택된 영화 선택 해제
+		$(this).addClass("selected");					// 선택한 영화 표시
+		$("#selectTheater li").css("display", "none");	// 극장 목록 안 보이게 하기
+		$("#selectDate").css("display", "none");		// 날짜 목록  안 보이게 하기
+		$("#selectTime").css("display", "none");		// 시간 목록  안 보이게 하기
+		$("#selectTime li").empty();					// 시간 목록에서 선택된 시간 선택 해제
+		
+		
+		let movieNum = $(".selected span").attr("data-movie-num");		// 선택한 영화 번호
+		let movieName = $(".selected span").attr("data-movie-name");	// 선택한 영화명
+		let moviePoster = $(".selected span").attr("data-movie-poster");// 선택한 영화의 포스터
+		
+		// [선택정보] 출력
+		$("#movieInfo").css("display", "flex");
+		$(".movie_name_kr").html("<b>" + movieName + "</b>");	// 영화명 출력
+		$(".movie_poster img").attr("src", moviePoster);	// 영역에 영화포스터 출력
+		
+		// 극장명 출력
+		$("#selectTheater").css("display", "block");
+		$.ajax({
+			type : "post", 
+			url : "TheaterList", 
+			data : {"movie_num" : movieNum}, 
+			dataType : "json", 
+		})
+		.done(function(theater) {
+			let res = "";
+			res += "<ul>";
+			for(let i = 0; i < theater.length; i++) {
+				res += "<li>" + 
+							"<a href='#'>" + 
+								"<span class='text' data-theater-num=" + theater[i].theater_num + " data-theater-name=" + theater[i].theater_name + ">" + theater[i].theater_name + "</span>" + 
+							"</a>" + 
+						"</li>"
+			}
+			res += "</ul>";
+			
+			$("#selectTheater").html(res);
+		})
+		.fail(function() { // 요청 실패 시
+			$("#selectTheater").html("요청 실패!");
+		});
+	}
+	
 	</script>
 	</head>
 	<body>

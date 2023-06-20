@@ -107,6 +107,7 @@
 	
 </style>
 <script type="text/javascript">
+	let seatList = new Array();
 	
 // 	$(function() {
 // 		$(".seatRow > button").on("click", function() {
@@ -185,8 +186,8 @@
 			let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
 // 			alert(countPeople);
 
-			if(countPeople > 1){
-				alert("인원 선택은 총 1명까지 가능합니다");	
+			if(countPeople > 8){
+				alert("인원 선택은 총 8명까지 가능합니다");	
 			}else if(countPeople == 0){
 				alert("관람인원을 선택해 주세요");
 				$("#seat-part button").removeClass("selected");
@@ -195,11 +196,17 @@
 					$("#seat-part button").removeClass("disabled");				
 				});
 			}else{
-				$("#seat-part button").removeClass("selected");	
+// 				$("#seat-part button").removeClass("selected");	
 				$(this).addClass("selected");
 				let selectedSeat = $("#seat-part button.selected").attr("data-seat-name");
-				$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
+// 				$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
 // 				$("#seatInfo .seat_name").append(selectedSeat);	
+
+				// 배열에 시트번호 추가
+				seatList.push(selectedSeat + "/" + "adult");
+				console.log(seatList);
+				console.log(seatList.length);
+				$("#seatInfo .seat_name").html("<b>"+ seatList + "</b>");					
 				
 				let totalPrice = Number(countAdult) * 14000 + Number(countTeeager) * 10000 + Number(countChild) * 7000 + Number(countHandi) * 5000
 				$("#paymentInfo .totalPrice").html(totalPrice);
@@ -269,7 +276,7 @@
 											}	
 											
 											function adultUp() {
-												if(adultCount >= 1){
+												if(adultCount >= 8){
 													$("#selectPeople #adult button.up").addClass("disabled");
 												}else {
 													adultCount = adultCount + 1;
@@ -292,7 +299,7 @@
 											}	
 											
 											function teenagerUp() {
-												if(teenagerCount >= 1){
+												if(teenagerCount >= 8){
 													$("#selectPeople #teenager button.up").addClass("disabled");
 												}else {
 													teenagerCount = teenagerCount + 1;
@@ -315,7 +322,7 @@
 											}	
 											
 											function childUp() {
-												if(childCount >= 1){
+												if(childCount >= 8){
 													$("#selectPeople #child button.up").addClass("disabled");
 												}else {
 													childCount = childCount + 1;
@@ -338,7 +345,7 @@
 											}	
 											
 											function handiUp() {
-												if(handiCount >= 1){
+												if(handiCount >= 8){
 													$("#selectPeople #handi button.up").addClass("disabled");
 												}else {
 													handiCount = handiCount + 1;
@@ -443,7 +450,7 @@
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
-		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack'"> next > </button>
+		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?seatList=' + seatList"> next > </button>
                 </div>
             </div>
         </div>
