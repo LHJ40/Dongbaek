@@ -283,6 +283,12 @@ public class ReservationController {
 //				return res;
 //			}
 //			orderService.insert_pay(orderDTO);
+		    int insertCount=service.registOrder(order);
+		    int insertCount2=service.registTicket(ticket);
+		    int insertCount3=service.registPayment(payment);
+		    System.out.println(insertCount);
+		    System.out.println(insertCount2);
+		    System.out.println(insertCount3);
 			return res;
 		 
 	}

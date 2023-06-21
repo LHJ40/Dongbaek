@@ -156,4 +156,40 @@
 		WHERE ticket_time_type = #{play_time_type};
 	</select>
 	
+	<insert id="insertOrder" parameterType="com.itwillbs.dongbaekcinema.vo.OrderVO">
+		INSERT
+			INTO ORDERS
+			VALUES (
+				#{order_num}
+				, #{order_total_price}
+				, #{member_id}
+				)
+	</insert>
+	<insert id="insertTicket" parameterType="com.itwillbs.dongbaekcinema.vo.OrderTicketVO">
+		INSERT
+			INTO ORDER_TICKETS
+			VALUES (
+				null
+				, #{order_num}
+				, #{member_id}
+				, #{play_num}
+				, #{seat_num}
+				, #{ticket_type_num}
+				)
+	</insert>
+	<insert id="insertPayment" parameterType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+		INSERT
+			INTO PAYMENTS
+			VALUES (
+				#{payment_num}
+				, #{payment_name}
+				, #{payment_datetime}
+				, #{payment_card_name}
+				, #{payment_card_num}
+				, #{payment_total_price}
+				, #{order_num}
+				, #{payment_status}
+				)
+	</insert>
+	
 </mapper>

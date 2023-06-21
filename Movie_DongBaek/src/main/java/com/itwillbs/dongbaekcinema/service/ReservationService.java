@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.vo.OrderVO;
+import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.mapper.ReservationMapper;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
@@ -89,5 +91,19 @@ public class ReservationService {
 		System.out.println("ReservationService - getTicketPriceList()");
 		
 		return mapper.selectTicketTypeList(play_time_type);
+	}
+	public int registOrder(OrderVO order) {
+		// TODO Auto-generated method stub
+		return mapper.insertOrder(order);
+	}
+
+	public int registTicket(OrderTicketVO ticket) {
+		// TODO Auto-generated method stub
+		return mapper.insertTicket(ticket);
+	}
+
+	public int registPayment(PaymentVO payment) {
+		// TODO Auto-generated method stub
+		return mapper.insertPayment(payment);
 	}
 }

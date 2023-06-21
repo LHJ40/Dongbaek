@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.vo.OrderVO;
+import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
@@ -46,4 +48,10 @@ public interface ReservationMapper {
 	
 	// 티켓 가격 조회
 	List<TicketTypeVO> selectTicketTypeList(String play_time_type);
+	
+	int insertOrder(OrderVO order);
+
+	int insertTicket(OrderTicketVO ticket);
+
+	int insertPayment(PaymentVO payment);
 }
