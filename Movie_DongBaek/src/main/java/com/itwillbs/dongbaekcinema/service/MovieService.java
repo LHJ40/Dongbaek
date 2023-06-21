@@ -100,16 +100,16 @@ public class MovieService {
 //	}
 
 	//페이징처리 - 0616 정의효
-	public List<MovieVO> getMovieList(int pageNo, int pageSize) {
-		int start = (pageNo - 1) * pageSize;
-		return mapper.getMovieList(start, pageSize);
+	public List<MovieVO> getMovieList(int pageNo, int pageListLimit) {
+		int start = (pageNo - 1) * pageListLimit;
+		return mapper.getMovieList(start, pageListLimit);
 	}
 
 
 	//페이징처리 - 0616 정의효
-	public int getTotalPageCount(int pageSize) {
+	public int getTotalPageCount(int pageListLimit) {
 		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageSize);
+		return (int) Math.ceil((double) totalCount / pageListLimit);
 	}
 
 	//영화삭제 - 0620정의효

@@ -3,32 +3,40 @@
 <mapper namespace="com.itwillbs.dongbaekcinema.mapper.PaymentMapper">
 <!--   <cache-ref namespace=""/> -->
 
-	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 결제상세내역 -->
-	<select id="selectPayment" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
+	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 결제상세내역 0621정의효 하는중 -->
+	<select id="getPaymentDetail" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		SELECT pm.payment_num
+				, pm.payment_name 			
 				, mb.member_name 
 				, pm.payment_datetime 
 				, mv.movie_name_kr
 				, t.theater_name
 				, s.seat_num
+				, sk.snack_name 
+				, pm.payment_card_name 
+				, pm.payment_total_price 
 				, count(o.order_num) AS headcount  
 		FROM PAYMENTS pm
-			JOIN ORDERS o
+			LEFT JOIN ORDERS o
 				ON o.order_num = pm.order_num
-			JOIN MEMBERS mb 
+			LEFT JOIN MEMBERS mb 
 				ON mb.member_id = o.member_id
-			JOIN ORDER_TICKETS ot 
+			LEFT JOIN ORDER_TICKETS ot 
 				ON ot.order_num = o.order_num 
-			JOIN PLAYS pa
+			LEFT JOIN PLAYS pa
 				ON pa.play_num = ot.play_num 
-			JOIN MOVIES mv
+			LEFT JOIN MOVIES mv
 				ON mv.movie_num = pa.movie_num 
-			JOIN THEATERS t
+			LEFT JOIN THEATERS t
 				ON t.theater_num = pa.theater_num 
-			JOIN TICKET_TYPES tt
+			LEFT JOIN TICKET_TYPES tt
 				ON tt.ticket_type_num = ot.ticket_type_num 
-			JOIN SEATS s
+			LEFT JOIN SEATS s
 				ON s.seat_num = ot.seat_num
+			LEFT JOIN ORDER_SNACKS os
+				ON os.order_num = o.order_num 
+			LEFT JOIN SNACKS sk
+				ON sk.snack_num = os.snack_num 
 		WHERE pm.order_num = #{order_num}
 		GROUP BY 
 			pm.payment_num
@@ -37,6 +45,7 @@
 			, mv.movie_name_kr
 			, t.theater_name
 			, s.seat_num
+			, sk.snack_name
 		
 	
 	<!-- 백업용 결제일까지 되는 구문 -->
@@ -144,4 +153,29 @@
 			FROM PAYMENTS
 	</select>
 	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

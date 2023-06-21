@@ -62,7 +62,7 @@ public interface MovieMapper {
 	//	List<MovieVO> selectMovieList();
 
 	// 페이징처리 0616 정의효
-	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageSize);
+	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageListLimit);
 
 	// 페이징처리 0616 정의효
 	int getCount();

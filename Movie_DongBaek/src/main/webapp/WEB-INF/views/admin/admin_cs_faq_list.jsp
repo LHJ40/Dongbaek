@@ -99,7 +99,7 @@ background-color: transparent;
 	  <%-- 테이블 헤드 --%>
 	  <thead>
 	    <tr>
-	      <th scope="col" width="50px">번호</th>
+	      <th scope="col" width="100px">번호</th>
 	      <th scope="col" width="100px">유형</th>
 	      <th scope="col" width="600px">제목</th>
 	      <th scope="col" width="100px">작성자</th>
@@ -115,7 +115,7 @@ background-color: transparent;
 	      <td scope="col" class="align-middle">${faq.cs_type_list_num }</td>
 	      <td scope="col" class="align-middle">${faq.cs_type }</td>
 	      <td scope="col" class="align-middle text-left"><a href="admin_cs_faq_modify_form?cs_type_list_num=${faq.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${faq.cs_subject }</a></td>
-	      <td scope="col" class="align-middle">${faq.member_name }</td>
+	      <td scope="col" class="align-middle">${faq.member_id }</td>
 	      <td scope="col" class="align-middle">
 	      	<fmt:formatDate value="${faq.cs_date }" pattern="yy-MM-dd HH:mm" />
 	      </td>
@@ -151,7 +151,7 @@ background-color: transparent;
 	<c:choose>
 		<c:when test="${pageNo > 1 }">
 			<li class="page-item">
-		      <a class="page-link" href="admin_cs_faq?pageNo=${pageNo - 1}'" tabindex="-1" aria-disabled="flase">&laquo;</a>
+		      <a class="page-link" href="admin_cs_faq?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
 		    </li>
 		</c:when>
 		<c:otherwise>
@@ -166,7 +166,7 @@ background-color: transparent;
 			    <%-- 현재 페이지 --%>
 				<c:when test="${pageNo eq i }">
 				    <li class="page-item active" aria-current="page">
-				      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+				      <a class="page-link" href="#">${i } <span class="sr-only">(current)</span></a>
 				    </li>
 				</c:when>
 				<c:otherwise>
@@ -183,12 +183,12 @@ background-color: transparent;
 		<c:choose>
 			<c:when test="${pageNo < pageInfo.maxPage }">
 				<li class="page-item">
-				 <a class="page-link" href="admin_cs_faq?pageNo=${pageNo + 1}'">&raquo;</a>
+				 <a class="page-link" href="admin_cs_faq?pageNo=${pageNo + 1}">&raquo;</a>
 			    </li>
 			</c:when>
 			<c:otherwise>
 			    <li class="page-item disabled">
-			      <a class="page-link" href="#" tabindex="+1" aria-disabled="true">&raquo;</a>
+			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
 			</c:otherwise>
 		</c:choose>	
   </ul>

@@ -240,7 +240,7 @@ article {
 	            <div class="row row1">
 	            	<%-- 예매 진행 중인 영화 포스터 파트  --%>
 	                <div class="col-3" align="center">
-	                	<img src="/resources/img/poster09.jpg" width="200" height="285">
+	                	<img src="${reservation.movie_poster }" width="200" height="285">
 	                </div>
 	                
 	                <%-- 예매 진행 중인 예매 정보 출력 파트 --%>
@@ -268,10 +268,10 @@ article {
 					 		</tr>
 					 		</thead>
 					 		<tbody>
-					 		<tr><td>문라이트</td></tr>
-					 		<tr><td>서면점 1 관</td></tr>
-					 		<tr><td>23년 6월 1일</td></tr>
-					 		<tr><td>G10, G11</td></tr>
+					 		<tr><td>${reservation.movie_name_kr }</td></tr>
+					 		<tr><td>${reservation.theater_name } ${reservation. room_name }</td></tr>
+					 		<tr><td>${reservation.play_date} ${reservation.play_start_time }</td></tr>
+					 		<tr><td>${param.seat_name }</td></tr>
 					 		</tbody>
 					 	</table>
 	                </div>

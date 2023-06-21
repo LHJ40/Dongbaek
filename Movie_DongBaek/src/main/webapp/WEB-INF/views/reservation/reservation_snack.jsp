@@ -87,6 +87,7 @@
 		let snackprice=Number(($("#snackprice"+snacknum).val()));
 		if(quantity<=0){
 			alert("잘못된 입력");
+			$(".snackquantity").val(1);
 		}else{
 		$("#snackquantity"+snacknum).html(quantity);
 		$("#snackpriceview"+snacknum).html(quantity*snackprice);
@@ -97,6 +98,7 @@
 			}
 		
 		$("#totalprice").html(totalprice);
+		$("#totalview").html(totalprice);
 		
 		$("#snackCart"+snacknum).css("display", "");
 		}
@@ -112,6 +114,8 @@
 			$("#snackCart"+i).css("display", "none");
 			}
 		$(".snackquantity").val(1);
+		
+		$("#totalview").html($("#totalprice").html());
 	
 	});
 	
@@ -125,9 +129,19 @@
 		$("#snackquantity"+snacknum).html(0);
 		$("#snackCart"+snacknum).css("display", "none");
 		
+		$("#totalview").html($("#totalprice").html());
 	});
 	
-
+function reservation_ing(){
+	let arr=[];
+	
+	for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
+		if($("#snackquantity"+i).html()!=0)
+			arr.push([i,$("#snackquantity"+i).html()]);
+		}
+	
+	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&snack='+arr
+}
 
 </script>
 </head>
@@ -204,6 +218,7 @@
 	                		</td>
 	                	</tr>
 	                </table>
+	                
 	                </c:forEach>
 	                
 	               
@@ -221,16 +236,16 @@
 	           	<%-- 선택한 영화 포스터와 영화명 노출 --%>
 	               <div class="col-3">
 					<h5>선택 정보</h5>
-			  		<img src="" alt="선택영화포스터" height="200px">
-			  		<span>영화명</span><br>
+			  		<img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px">
+			  		<span>${reservation.movie_name_kr }</span><br>
 				</div>
 				<%-- 선택한 상영스케줄 노출 --%>
 	               <div class="col-3">
 	               <br>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>극장 극장명</td></tr>
-			  			<tr><td>일시 yyyy.mm.dd(k) hh:jj</td></tr>
-			  			<tr><td>상영관 n관 m층</td></tr>
+			  			<tr><td>극장 ${reservation.theater_name }</td></tr>
+			  			<tr><td>일시 ${reservation.play_date} ${reservation.play_start_time }</td></tr>
+			  			<tr><td>상영관 ${reservation. room_name }</td></tr>
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항 노출 --%>
@@ -238,7 +253,7 @@
 	               	<h5>좌석 선택</h5>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 			  			<tr><td>좌석명 (일반석)</td></tr>
-			  			<tr><td>좌석번호<br> (H8, H10)</td></tr>
+			  			<tr><td>좌석번호<br> (${param.seat_name })</td></tr>
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항(결제) 노출 --%>
@@ -247,12 +262,12 @@
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 			  			<tr><td>일반 (10,000 x 2)</td></tr>
 			  			<tr><td>스낵 (10,000 x 1)</td></tr>
-			  			<tr><td>총 금액 (30,000)</td></tr>
+			  			<tr><td>총금액(<span id=totalview></span>)</td></tr>
 			  		</table>
 	               </div>
 	               <%-- 다음 페이지 이동 버튼 --%>
 	               <div class="col-2">
-		  			<button class="btn btn-danger" id="nextBtn" onclick="location.href='reservation_ing'"> next ></button>
+		  			<button class="btn btn-danger" id="nextBtn" onclick="reservation_ing()"> next ></button>
 	               </div>
 	           </div>
 	       </div>

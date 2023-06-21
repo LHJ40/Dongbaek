@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -49,54 +52,68 @@ article {
   	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-bordered text-center">
-			    <tr>
-			      <th>결제번호</th> <%-- 결제번호? order_num? --%>
-			      <td>${payment.payment_num}</td>
-			    </tr>
-			    <tr>
-			      <th>주문자명</th>
-			      <td>${payment.member_name}</td> <%-- 조인(fk) : payments join order_num join member_id 해서 member_name --%>
-			    </tr>
-			    <tr>
-			      <th>결제일</th>
-			      <td>${payment.payment_datetime}</td>
-			    </tr>
-			    <tr>
-			      <th>영화명</th>
-			      <td>${payment.movie_name_kr}</td> <%-- 조인(fk) : order_num을 참조하는 payments, ordertickets을
-			      									   			  조인?하고 ordertickets join play_num join movie_num 해서 
-			      									   			  movie_name 가져오기--%>
-			    </tr>
-			    <tr>
-			      <th>극장명</th>
-			      <td>${payment.theater_name}</td> <%-- 조인(fk) : payments join order_num(에서 member_id 가져와서) 
-			      									   join member_id(에서 theater_num 가져와서) 
-			      									   join theaters_num 에서 theater_name 가져오기 --%>
-			    </tr>
-			    <tr>
-			      <th>인원수</th>
-			      <td>${payment.headcount }</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고 
-			      										  ORDER_TICKETS join ticket_type_num,  count(*) as headcount from ticket_type_num --%>
-			    </tr>
+			
+			<c:set var="headcount" value="0" />
+			<c:set var="seat_nums" value="" />
+			<c:set var="snack_names" value="" />
+			
+			<c:forEach var="paymentDetail" items="${paymentDetail}">
+			    <c:set var="headcount" value="${headcount + paymentDetail.headcount}" />
+			    <c:set var="seat_nums" value="${seat_nums}${seat_nums != '' ? ',' : ''}${paymentDetail.seat_num}" />
+			    <c:set var="snack_names" value="${snack_names}${snack_names != '' ? ',' : ''}${paymentDetail.snack_name}" />
+			</c:forEach>
+			
+			<c:set var="last_paymentDetail" value="${paymentDetail[fn:length(paymentDetail) - 1]}" />
+				
 				<tr>
-			      <th>좌석번호</th>
-			      <td>${payment.seat_num}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_TICKETS를 조인하고
-			      												order_tickets 에서 seat_num 가져오기 --%>
+				    <th>결제번호</th>
+				    <td>${last_paymentDetail.payment_num}</td>
 				</tr>
 				<tr>
-			      <th>주문한 스낵</th>
-			      <td>${payment.snack_name}</td> <%-- 조인 (fk) : order_num을 참조하는 PAYMENTS, ORDER_SNACKS를 조인하고 
-			      										   ORDER_SNACKS JOIN SNACKS 에서 snack_name 가져오기 
-			      									  	   *snack_quantity 개수 가져와서 어떻게뿌릴지  --%>
+				    <th>주문자명</th>
+				    <td>${last_paymentDetail.member_name}</td>
 				</tr>
 				<tr>
-			      <th>결제방법</th> <%-- 우리는 카드 --%>
-			      <td>${payment.payment_card_name }</td> <%-- 카드회사명 --%>
+				    <th>결제일</th>
+				    <td><fmt:formatDate value="${last_paymentDetail.payment_datetime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				</tr>
-			     <tr>
-			      <th>총결제 금액</th>
-			      <td>${payment.payment_total_price }</td> <%-- 결제기능 구현시 최종금액 DB로 저장되니 가져오기만하면될듯? --%>
-			     </tr>
+				<tr>
+				    <th>영화명</th>
+				    <td>${last_paymentDetail.movie_name_kr}</td>
+				</tr>
+				<tr>
+				    <th>극장명</th>
+				    <td>${last_paymentDetail.theater_name}</td>
+				</tr>
+				<tr>
+				    <th>인원수</th>
+				    <td>${headcount}</td>
+				<tr>
+				<tr>
+				    <th>좌석번호</th>
+				    <td>${seat_nums}</td>
+				</tr>
+				<tr>
+				    <th>주문한 스낵</th>
+				    <td>
+				    	<c:choose>
+				            <c:when test="${empty snack_names}">
+				                없음
+				            </c:when>
+				            <c:otherwise>
+				                ${snack_names}
+				            </c:otherwise>
+				        </c:choose>
+				    </td>
+				</tr>
+				<tr>
+				    <th>결제방법</th>
+				    <td>${last_paymentDetail.payment_card_name}</td>
+				</tr>
+				<tr>
+				    <th>총결제 금액</th>
+				    <td>${last_paymentDetail.payment_total_price}</td>
+				</tr>
 			</table>
 		</div>
 	</div>
