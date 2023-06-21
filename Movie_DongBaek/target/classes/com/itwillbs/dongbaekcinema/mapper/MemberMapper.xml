@@ -89,13 +89,13 @@
 				WHERE
 				<choose>
 					<when test="memberSearchType.equals('member_name')">
-						member_name LIKE '%${memberSearchType}%'
+						member_name LIKE '%${memberSearchKeyword}%'
 					</when>
-					<when test="memberSearchType.equals('member_content')">
-						member_content LIKE '%${memberSearchType}%'
+					<when test="memberSearchType.equals('member_id')">
+						member_id LIKE '%${memberSearchKeyword}%'
 					</when>
-					<when test="memberSearchType.equals('member_grade')">
-						member_grade LIKE '%${memberSearchType}%'
+					<when test="memberSearchType.equals('grade_name')">
+						grade_name LIKE '%${memberSearchKeyword}%'
 					</when>
 				</choose>
 			</if>
@@ -108,23 +108,23 @@
 	
 	<!-- 전체 글 목록 갯수 조회 - SELECT  0621정의효- 페이징처리중-->
 	<select id="selectMemberListCount" resultType="int">
-		SELECT COUNT(*)
-			FROM MEMBERS
-			<if test="!memberSearchKeyword.equals('')">
-				WHERE
-					<choose>
-					<when test="memberSearchType.equals('member_name')">
-						member_name LIKE '%${memberSearchType}%'
-					</when>
-					<when test="memberSearchType.equals('member_content')">
-						member_content LIKE '%${memberSearchType}%'
-					</when>
-					<when test="memberSearchType.equals('member_grade')">
-						member_grade LIKE '%${memberSearchType}%'
-					</when>
-				</choose>
-			</if>
-	</select>
+    SELECT COUNT(*)
+    FROM MEMBERS
+    <if test="!memberSearchKeyword.equals('')">
+        WHERE
+        <choose>
+            <when test="memberSearchType.equals('member_name')">
+                member_name LIKE '%${memberSearchKeyword}%'
+            </when>
+            <when test="memberSearchType.equals('member_id')">
+                member_id LIKE '%${memberSearchKeyword}%'
+            </when>
+            <when test="memberSearchType.equals('grade_name')">
+                grade_name LIKE '%${memberSearchKeyword}%'
+            </when>
+        </choose>
+    </if>
+</select>
 	
 	
 	<!-- 0619정의효 멤버 grade 변경 -->
