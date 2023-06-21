@@ -105,11 +105,11 @@ background-color: transparent;
 	  <%-- 테이블 헤드 --%>
 	  <thead>
 	    <tr>
-	      <th scope="col">번호</th>
-	      <th scope="col" width="400">제목</th>
-	      <th scope="col">작성자</th>
-	      <th scope="col">등록일</th>
-	      <th scope="col"></th>
+	      <th scope="col" width="100px">번호</th>
+	      <th scope="col" width="400px">제목</th>
+	      <th scope="col" width="100px">작성자</th>
+	      <th scope="col" width="100px">등록일</th>
+	      <th scope="col" width="100px"></th>
 	    </tr>
 	  </thead>
 	  <%-- 테이블 바디--%>
@@ -118,7 +118,7 @@ background-color: transparent;
 	  <%-- CS 목록 출력 --%>
 	  <c:forEach var="qna" items="${CsQnaList }">
 	    <tr>
-	      <td scope="col" class="align-middle">${qna.cs_type_list_num }</th>
+	      <td scope="col" class="align-middle">${qna.cs_type_list_num }</td>
 	      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${qna.cs_subject }</td>
 	      <td scope="col" class="align-middle">${qna.member_name }</td>
 	      <td scope="col" class="align-middle">
@@ -161,7 +161,7 @@ background-color: transparent;
 	<c:choose>
 		<c:when test="${pageNo > 1 }">
 			<li class="page-item">
-		      <a class="page-link" href="admin_cs_qna?pageNo=${pageNo - 1}'" tabindex="-1" aria-disabled="flase">&laquo;</a>
+		      <a class="page-link" href="admin_cs_qna?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
 		    </li>
 		</c:when>
 		<c:otherwise>
@@ -176,7 +176,7 @@ background-color: transparent;
 			    <%-- 현재 페이지 --%>
 				<c:when test="${pageNo eq i }">
 				    <li class="page-item active" aria-current="page">
-				      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+				      <a class="page-link" href="#">${i }  <span class="sr-only">(current)</span></a>
 				    </li>
 				</c:when>
 				<c:otherwise>
@@ -193,12 +193,12 @@ background-color: transparent;
 		<c:choose>
 			<c:when test="${pageNo < pageInfo.maxPage }">
 				<li class="page-item">
-				 <a class="page-link" href="admin_cs_qna?pageNo=${pageNo + 1}'">&raquo;</a>
+				 <a class="page-link" href="admin_cs_qna?pageNo=${pageNo + 1}">&raquo;</a>
 			    </li>
 			</c:when>
 			<c:otherwise>
 			    <li class="page-item disabled">
-			      <a class="page-link" href="#" tabindex="+1" aria-disabled="true">&raquo;</a>
+			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
 			</c:otherwise>
 		</c:choose>	
   </ul>

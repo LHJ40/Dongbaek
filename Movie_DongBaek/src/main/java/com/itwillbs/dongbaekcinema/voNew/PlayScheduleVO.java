@@ -20,11 +20,13 @@ public class PlayScheduleVO {
     private String theater_name; 
     private int room_num;
     private String room_name; 
+    private String room_start_time; 
+    private String room_end_time;    
     private String play_date;
     private int play_num;
     private int play_turn;
-    private Time play_start_time;
-    private Time play_end_time;
+    private String play_start_time;
+    private String play_end_time;
     private String play_time_type;
 	
 }

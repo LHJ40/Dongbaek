@@ -16,21 +16,15 @@
     <select id="selectScheduleList" resultType="com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO">
         SELECT
 				*
-          FROM
-              PLAYS p
-          JOIN 
-          	THEATERS t
+          FROM PLAYS p
+          JOIN THEATERS t
          	 ON p.theater_num = t.theater_num
-          JOIN 
-          	MOVIES m
+          JOIN MOVIES m
        	   	ON p.movie_num = m.movie_num
-          JOIN 
-          	ROOMS r
+          JOIN ROOMS r
         	ON p.room_num = r.room_num
-			WHERE
-		    	play_date = #{play_date}
-		ORDER BY
-		    play_num
+			WHERE play_date = #{play_date}
+				ORDER BY play_num
     </select>
     
 
@@ -45,6 +39,16 @@
 				#{play_date} 
 			BETWEEN movie_release_date
 			AND movie_close_date
+	</select>
+	
+		<!-- 영화 번호로 러닝타임(상영시간) 조회 -->
+	<select id="findMovieRunningTime" resultType="int">
+		SELECT 
+			movie_running_time
+			FROM 
+				MOVIES
+			WHERE
+				movie_num = ${movie_num}
 	</select>
 
    
@@ -95,6 +99,63 @@
 					WHERE r.theater_num = #{theater_num}
 	</select>
 	
+	<!-- 특정 날짜 상영스케줄 정보 가져오기 -->
+	<select id="checkSchedule" resultType="int">	
+		SELECT count(*)
+			FROM PLAYS
+				WHERE play_date = #{play_date}
+					AND theater_num = #{theater_num}
+					AND room_num = #{room_num}
+	</select>
+	
+	<!-- 특정 날짜 상영스케줄 삭제 수행하기 -->
+	<delete id="deleteSchedule">
+		DELETE 
+			FROM PLAYS
+				WHERE play_date = #{play_date}
+					AND theater_num = #{theater_num}
+					AND room_num = #{room_num}
+	</delete>
+	
+	
+	<!-- 상영관별 시작시간 가져오기 -->
+	<select id="getRoomStartTime" resultType="com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO">
+		SELECT
+			r.room_num , room_name, room_start_time, room_end_time, t.theater_num 
+			FROM
+				ROOMS r
+				JOIN THEATERS t
+					ON r.theater_num = t.theater_num
+					WHERE r.theater_num = #{theater_num}
+					AND r.room_num = #{room_num}
+	</select>
+	
+	
+	<!-- 특정 날짜 상영스케줄 등록 -->
+	<insert id="insertSchedule">
+    INSERT INTO PLAYS (
+        play_date,
+        play_turn,
+        play_start_time,
+        play_end_time,
+        play_time_type,
+        movie_num,
+        theater_num,
+        room_num
+    ) VALUES (
+        #{play_date},
+        #{play_turn},
+        #{new_start_turn},
+        #{new_end_turn},
+        #{play_time_type},
+        #{movie_num},
+        #{theater_num},
+        #{room_num}
+    )
+</insert>
+	
+	
+	
 	
 	<!-- CS 게시판 condition 변수에 따라 목록List<CsVO> 출력 -->
     <select id="getCsWithPaging" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
@@ -108,7 +169,7 @@
     		 WHERE 
     		 	cs_type IN(${condition}) 
     		 	ORDER BY cs_type_list_num  DESC 
-    		 	LIMIT #{start}, #{pageSize}
+    		 	LIMIT #{start}, #{pageListLimit}
     </select>
     
     <!-- CS 게시판 condition 변수에 따라 총 게시물 수 출력 -->
