@@ -169,7 +169,7 @@
     		 WHERE 
     		 	cs_type IN(${condition}) 
     		 	ORDER BY cs_type_list_num  DESC 
-    		 	LIMIT #{start}, #{pageSize}
+    		 	LIMIT #{start}, #{pageListLimit}
     </select>
     
     <!-- CS 게시판 condition 변수에 따라 총 게시물 수 출력 -->

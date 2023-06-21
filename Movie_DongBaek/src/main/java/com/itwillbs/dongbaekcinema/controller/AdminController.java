@@ -838,12 +838,19 @@ public class AdminController {
 		
 		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
+<<<<<<< HEAD
 		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageSize);
 		int totalPageCount = member_service.getTotalPageCount(pageSize);
 		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageListLimit);
 		int totalPageCount = member_service.getTotalPageCount(pageListLimit);
 		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageListLimit);
 		int totalPageCount = member_service.getTotalPageCount(pageListLimit);
+=======
+		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageListLimit);
+		int totalPageCount = member_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("currentPage", pageNo);
