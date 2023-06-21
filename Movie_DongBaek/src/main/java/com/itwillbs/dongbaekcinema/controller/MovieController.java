@@ -24,15 +24,38 @@ public class MovieController {
 	@GetMapping("movie_list_present")
 	public String movie_list_present(Model model) {
 //		System.out.println("Moviecontroller-movie_list_present");
-		
-		List<MovieVO> movieList = service.getMovieList_present_bookrate();
-		model.addAttribute("movieList", movieList);
-//		System.out.println(movieList);
-		
+	
+//  @GetMapping("movie_list_present")
+//	public String movie_list_present(@RequestParam String param, Model model){	
+//		if(!param.equals("평점순")) { 		//셀렉트박스 선택값이 변하지 않았을 경우-예매율순 무비리스트 출력
+			List<MovieVO> movieList = service.getMovieList_present_bookrate();
+			model.addAttribute("movieList", movieList);
+			//System.out.println(movieList);
+//		} else { //셀렉트박스 선택값이 변했을 경우 - 평점순 무비리스트 출력
+//			List<MovieVO> movieList = service.getMovieList_present_reviewrate();
+//			model.addAttribute("movieList", movieList);
+//		}
+//		return "movie/movie_list_present";	
+//	}
 		return "movie/movie_list_present";
 	}
 	
-	//영화목록-현재상영작 평점순정렬
+	
+	//영화목록-현재상영작 평점순셀렉트박스 선택시
+	@ResponseBody
+	@GetMapping(value="movieListReviewRate", produces = "application/json;charset=utf-8")
+	public List<MovieVO> movieListReviewRate(Model model){
+		System.out.println("MovieController - movieListPresent()");
+		// 평점순 영화목록 movieList에저장
+		// 요청시 movieList 전달
+		List<MovieVO> movieList = service.getMovieList_present_reviewrate();
+		model.addAttribute("movieList", movieList);
+		return movieList ;
+	}
+	
+	
+	//---------------------------------------------------------------------
+	
 	
 	
 	//영화목록-상영예정작탭 클릭시
