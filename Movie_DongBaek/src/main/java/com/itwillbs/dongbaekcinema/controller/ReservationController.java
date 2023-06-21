@@ -20,6 +20,8 @@ import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.vo.OrderVO;
+import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.GradeNextVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.service.MemberService;
@@ -262,11 +264,11 @@ public class ReservationController {
 	}
 	@RequestMapping(value ="complete", method = RequestMethod.POST)
 	@ResponseBody
-	public int paymentComplete(String order_num, String imp_uid,int payment_total_price,HttpSession session
+	public int paymentComplete(OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
 			) throws Exception {
-		    System.out.println(order_num);
-		    System.out.println(imp_uid);
-		    System.out.println(payment_total_price);
+		    System.out.println(order);
+		    System.out.println(ticket);
+		    System.out.println(payment);
 //		    String token = payService.getToken();
 //		    
 //		    // 결제 완료된 금액
