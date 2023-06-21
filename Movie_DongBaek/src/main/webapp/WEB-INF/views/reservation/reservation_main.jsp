@@ -58,6 +58,7 @@
          }else{   // [가나다순] 클릭 시
             url = "AscMovieName";
          }
+         
          $.ajax({
             type : "get", 
             url : url,  
