@@ -87,18 +87,5 @@ public class TheaterController {
 		return "theater/theater-runningtime_tap";
 	}
 	
-	//극장별예매?movie_num=1&theater_num=1&play_date=2023-06-28->reservation_seat 
-//	@GetMapping("Theater-reservation")
-//	public String Theater_reservation(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
-//		System.out.println("ReservationController - PlayList");
-//		
-//
-//		List<Map<String, Object>> playList = service2.getPlayList(movie_num, theater_num, play_date);
-//		model.addAttribute("playList", playList);		
-//		System.out.println(playList);		
-//
-//		JSONArray ja = new JSONArray(playList);
-//		System.out.println(ja);
-//		return "reservation/reservation_seat";
-//	}
+
 }

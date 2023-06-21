@@ -119,7 +119,7 @@ article {
   <article id="mainArticle">
   <%--본문내용 --%>
 		<div class="container-fluid reservation_con" >
-			<h2 align="center">홍길동 회원님! 예매가 완료되었습니다.</h2>
+			<h2 align="center">${member.member_name} 회원님! 예매가 완료되었습니다.</h2>
 			<div class="col col1">
 	            <div class="row row1">
 	            	<%-- 예매 진행 중인 영화 포스터 파트  --%>

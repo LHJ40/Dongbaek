@@ -20,13 +20,12 @@
 	// 공통 이동 처리 함수
 	function getCode(url, param) {
 
-		switch(url) {
-		
-			case 'myPayment_detail' : 
-// 				session.setAttribute("order_num", param);
-				location.href = 'myPayment_detail?payment_num=' + param;
-				break;
-		}
+// 		switch(url) {
+// 			case 'myPayment_detail' : 
+// // 				session.setAttribute("order_num", param);
+// 				location.href = 'myPayment_detail?payment_num=' + param;
+// 				break;
+// 		}
 	}
 
 </script>
@@ -69,7 +68,10 @@
 									<td>${myPayment.payment_status}</td>
 <%-- 									<td><a href="myPayment_detail?payment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 									<td>
-										<input type="button" value="상세내역보기" onclick="getCode('myPayment_detail', ${myPayment.payment_num})">
+										<form action="myPayment_detail" method="post">
+											<input type="hidden" value="${myPayment.payment_num}" name="payment_num">
+											<input type="submit" value="상세내역보기" >
+										</form>
 <%-- 										<a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a> --%>
 									</td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 <%-- 									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>

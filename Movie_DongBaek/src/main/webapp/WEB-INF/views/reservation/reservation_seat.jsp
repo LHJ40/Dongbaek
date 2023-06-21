@@ -107,21 +107,15 @@
 	
 </style>
 <script type="text/javascript">
+	let seatList = new Array();
 	
-// 	$(function() {
-// 		$(".seatRow > button").on("click", function() {
-// // 			$(this).removeClass(".seat");
-// // 			$(this).addClass(".check");
-// 			$(this).css("background-color", "blue");
-// 		});
-// 	});
+	let seatList = [];
 	
 	$(function(){	// 페이지 로딩 시 좌석 출력
 		let res = "";
 		let row = ["A", "B", "C", "D", "E", "F"];
 		for(let i = 0; i < 6; i++){
 			for(let j = 1; j <= 10; j++){
-// 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " onclick='seatSelect(this, " + (row[i] + j) + ")'" + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 				res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";				
 			}
 			res += "<br>";
@@ -129,13 +123,8 @@
 		$("#seat-part .seatArea").html(res);
 	});
 	
-// 	function seatSelect(seat){
-// 		let seatName = $(".seatArea button").attr("data-seat-name")
-// 		let selectedSeat = $(seat).partents("div").find(seatName == seat);
-// 		$("#seatInfo table").append(selectedSeat);
-// 	}
 	
-	$(function() {
+	$(function() {		
 		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
 		// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
 		// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
@@ -169,15 +158,7 @@
 			.fail(function() { // 요청 실패 시
 				alert("요청 실패!");
 			});
-		});
-		
-		// [관람인원] 선택 영역에 변화가 생길 때마다
-// 		$("#selectPeople .#adult button").on("click", function() {
 			
-// 		});
-		
-		// [좌석] 선택 시 ======================================================================================================================================================	
-		$("#seat-part button").on("click", function() {
 			let countAdult = $("#selectPeople #adult button.result").text();
 			let countTeeager = $("#selectPeople #teenager button.result").text();
 			let countChild = $("#selectPeople #child button.result").text();
@@ -185,8 +166,12 @@
 			let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
 // 			alert(countPeople);
 
-			if(countPeople > 1){
-				alert("인원 선택은 총 1명까지 가능합니다");	
+			if(countPeople > 8){
+				alert("인원 선택은 총 8명까지 가능합니다");	
+<<<<<<< HEAD
+=======
+				$("#seat-part button").addClass("disabled");
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 			}else if(countPeople == 0){
 				alert("관람인원을 선택해 주세요");
 				$("#seat-part button").removeClass("selected");
@@ -195,17 +180,71 @@
 					$("#seat-part button").removeClass("disabled");				
 				});
 			}else{
-				$("#seat-part button").removeClass("selected");	
+<<<<<<< HEAD
+// 				$("#seat-part button").removeClass("selected");	
 				$(this).addClass("selected");
 				let selectedSeat = $("#seat-part button.selected").attr("data-seat-name");
-				$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
+// 				$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
 // 				$("#seatInfo .seat_name").append(selectedSeat);	
+
+				// 배열에 시트번호 추가
+				seatList.push(selectedSeat + "/" + "adult");
+				console.log(seatList);
+				console.log(seatList.length);
+				$("#seatInfo .seat_name").html("<b>"+ seatList + "</b>");					
 				
 				let totalPrice = Number(countAdult) * 14000 + Number(countTeeager) * 10000 + Number(countChild) * 7000 + Number(countHandi) * 5000
 				$("#paymentInfo .totalPrice").html(totalPrice);
 				
 				
+=======
+				$("#seat-part button").removeClass("disabled");				
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 			}
+		});
+		
+		// [좌석] 선택 시 ======================================================================================================================================================	
+		$("#seat-part button").on("click", function(e) {
+	
+			let resultAdult = $("#selectPeople #adult button.result").text();
+			let resultTeeager = $("#selectPeople #teenager button.result").text();
+			let resultChild = $("#selectPeople #child button.result").text();
+			let resultHandi = $("#selectPeople #handi button.result").text();
+			let countAdult = Number(resultAdult);
+			let countTeeager = Number(resultTeeager);
+			let countChild = Number(resultChild);
+			let countHandi = Number(resultHandi);
+			let countPeople = countAdult + countTeeager + countChild + countHandi;
+			
+			let seat = "";
+			
+			$("#seat-part button").removeClass("selected");	
+			$(this).addClass("selected");
+// 			if(e.target.className == "seat" ){
+// 				e.target.className = "selected";
+// 			}else if(e.target.className == "selected"){
+// 				e.target.className = "seat";
+// 			}
+			let selectedSeat = $("#seat-part button.selected").attr("data-seat-name");
+// 			$("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");					
+// 			$("#seatInfo .seat_name").append(selectedSeat);	
+			
+			seatList.push(selectedSeat);	// 배열에 선택된 좌석 넣기
+			
+			seat += seatList;
+			$("#seatInfo .seat_name").html("<b>"+ seat + "</b>");					
+			
+			if(seatList.length >= countPeople){
+				alert("좌석선택이 완료되었습니다");
+				$("#seat-part button").addClass("disabled");
+			}
+			console.log(seat);
+			console.log(seatList);
+			
+// 			let totalPrice = Number(countAdult) * 14000 + Number(countTeeager) * 10000 + Number(countChild) * 7000 + Number(countHandi) * 5000
+// 			$("#paymentInfo .totalPrice").html(totalPrice);
+			
+				
 		});
 		
 		
@@ -269,7 +308,7 @@
 											}	
 											
 											function adultUp() {
-												if(adultCount >= 1){
+												if(adultCount >= 8){
 													$("#selectPeople #adult button.up").addClass("disabled");
 												}else {
 													adultCount = adultCount + 1;
@@ -292,7 +331,7 @@
 											}	
 											
 											function teenagerUp() {
-												if(teenagerCount >= 1){
+												if(teenagerCount >= 8){
 													$("#selectPeople #teenager button.up").addClass("disabled");
 												}else {
 													teenagerCount = teenagerCount + 1;
@@ -315,7 +354,7 @@
 											}	
 											
 											function childUp() {
-												if(childCount >= 1){
+												if(childCount >= 8){
 													$("#selectPeople #child button.up").addClass("disabled");
 												}else {
 													childCount = childCount + 1;
@@ -338,7 +377,7 @@
 											}	
 											
 											function handiUp() {
-												if(handiCount >= 1){
+												if(handiCount >= 8){
 													$("#selectPeople #handi button.up").addClass("disabled");
 												}else {
 													handiCount = handiCount + 1;
@@ -359,7 +398,7 @@
 				                	<b>SCREEN 화면</b> <span class="door align-right">출구</span>
 				                	<br>
 				                	<div class="seatArea">
-										
+										<!-- 좌석 출력되는 부분 -->
 				                	</div>
 									<div id="beforeBtnArea">	<%-- 영역왼쪽하단에 위치시키고 싶음 --%>
 										<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
@@ -409,9 +448,7 @@
 					<div id="dateInfo" style="display: table;">
 						<span style="display: table-cell;">날짜&nbsp;</span>
 <%-- 						<span style="display: table-cell;"><b>${reservation.play_date }</b></span> --%>
-						
 						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
-<%-- 						<span style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
 					</div>
 					<div id="roomInfo" style="display: table;">
 						<span style="display: table-cell;">상영관&nbsp;</span>
@@ -430,11 +467,11 @@
 				
                 <%-- 미선택 사항(결제) 노출 --%>
                 <div class="col-2.5">
-                	<h5>결제</h5>
-                	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>일반 (10,000 x 2)</td></tr>
-			  			<tr><td>총 금액 (20,000)</td></tr>
-			  		</table>
+<!--                 	<h5>결제</h5> -->
+<%--                 	<table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
+<!-- 			  			<tr><td>일반 (10,000 x 2)</td></tr> -->
+<!-- 			  			<tr><td>총 금액 (20,000)</td></tr> -->
+<!-- 			  		</table> -->
 			  		<h5>결제</h5>
 					<div id="paymentInfo">
 						<div>일반</div>
@@ -443,7 +480,11 @@
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
-		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack'"> next > </button>
+<<<<<<< HEAD
+		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?seatList=' + seatList"> next > </button>
+=======
+		  			<button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?seat_name=' + seatList"> next > </button>
+>>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
                 </div>
             </div>
         </div>

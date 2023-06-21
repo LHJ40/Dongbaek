@@ -1,7 +1,9 @@
 package com.itwillbs.dongbaekcinema.controller;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,10 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -932,9 +938,17 @@ public class AdminController {
 	
 	// 영화등록페이지 에서 등록하기 클릭시(insert 구문) - 영화관리 메인으로 이동 - 0610 정의효
 	// POST => 폼 파라미터 데이터를 전송받아 저장할 MovieVO 타입 파라미터 설정
+	
+	@InitBinder //0620정의효 - 문자열을 DATE타임으로바꾸는거 안되면 삭제하기
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+	
+	
 	@PostMapping("admin_movie_regist_Pro")
-	public String adminMovieRegistPro(HttpSession session, MovieVO movie, Model model) {
-
+	public String adminMovieRegistPro(HttpSession session, @DateTimeFormat(pattern = "yyyy-MM-dd") MovieVO movie, Model model) {
+		System.out.println(movie);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -947,6 +961,8 @@ public class AdminController {
 		
 		
 		int insertCount = movie_service.registMovie(movie);
+		
+		
 		
 		return "redirect:/admin_movie_management";
 	}
@@ -1085,11 +1101,45 @@ public class AdminController {
 		return "redirect:/admin_member_list";
 	}
 		
-	
+	//0620정의효 관리자페이지 - 영화삭제
+		@PostMapping("admin_movieDelete")
+		public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
+			movie_service.movieDelete(movie_num);
+			return "redirect:/admin_movie_management";
+		}
+		
+		//0620정의효 영화수정 완
+		@PostMapping("admin_movie_modify")
+		public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
+			movie_service.movieModify(movie);
+			
+			System.out.println(movie);
+			return "redirect:/admin_movie_management";
+		}
 	
 	
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
