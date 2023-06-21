@@ -12,6 +12,6 @@ public class MyTicketVO {
 	private String play_date;
 	private String play_status;
 	private String play_change;
-	private int order_num;	// 파라미터 전달 시 사용하기 위해 order_num 추가
+	private String order_num;	// 파라미터 전달 시 사용하기 위해 order_num 추가
 	
 }

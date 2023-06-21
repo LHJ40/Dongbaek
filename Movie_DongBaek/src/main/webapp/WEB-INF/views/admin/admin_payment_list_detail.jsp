@@ -75,7 +75,7 @@ article {
 				</tr>
 				<tr>
 				    <th>결제일</th>
-				    <td><fmt:formatDate value="${last_paymentDetail.payment_datetime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				    <td>${last_paymentDetail.payment_datetime}</td>
 				</tr>
 				<tr>
 				    <th>영화명</th>

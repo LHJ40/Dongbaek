@@ -43,17 +43,17 @@ public class PaymentService {
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
-	public List<BuyDetailVO> getMyPaymentDetail(int payment_num) {
+	public List<BuyDetailVO> getMyPaymentDetail(String payment_num) {
 		return mapper.selectMyPaymentDetail(payment_num);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 티켓 (지영)
-	public List<BuyDetailVO> getMyTickets(int payment_num) {
+	public List<BuyDetailVO> getMyTickets(String payment_num) {
 		return mapper.selectMyTickets(payment_num);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
-	public List<BuyDetailVO> getMySnacks(int payment_num) {
+	public List<BuyDetailVO> getMySnacks(String payment_num) {
 		return mapper.selectMySnacks(payment_num);
 	}
 	
@@ -75,7 +75,7 @@ public class PaymentService {
 	}
 
 	// 0621 정의효 관리자-결제상세정보
-	public List<PaymentVO> getPaymentDetail(int order_num) {
+	public List<PaymentVO> getPaymentDetail(String order_num) {
 		return mapper.getPaymentDetail(order_num);
 	}
 

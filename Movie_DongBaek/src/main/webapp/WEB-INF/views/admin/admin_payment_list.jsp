@@ -80,7 +80,7 @@ div {
 				    <tr>
 				      <th scope="row">${paymentList.payment_num }</th>
 				      <td>${paymentList.member_id }</td>
-				      <td><fmt:formatDate value="${paymentList.payment_datetime }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				      <td>${paymentList.payment_datetime }</td>
 				      <td><a href="admin_payment_list_detail?order_num=${paymentList.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 				    </tr>

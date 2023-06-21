@@ -25,13 +25,13 @@ public interface PaymentMapper {
 	List<BuyDetailVO> selectMyPaymentList(@Param("member_id") String member_id, @Param("pageNum") int pageNum);
 
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회(지영)
-	List<BuyDetailVO> selectMyPaymentDetail(int payment_num);
+	List<BuyDetailVO> selectMyPaymentDetail(String payment_num);
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 티켓 (지영)
-	List<BuyDetailVO> selectMyTickets(int payment_num);
+	List<BuyDetailVO> selectMyTickets(String payment_num);
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
-	List<BuyDetailVO> selectMySnacks(int payment_num);
+	List<BuyDetailVO> selectMySnacks(String payment_num);
 	
 	// 마이페이지 - 나의 멤버십. 올해 누적 실적 조회 (지영)
 	int selectYearPayment(String member_id);
@@ -43,7 +43,7 @@ public interface PaymentMapper {
 	int getCount();
 
 	//0621 정의효 - 결제상세 list작성중
-	List<PaymentVO> getPaymentDetail(int order_num);
+	List<PaymentVO> getPaymentDetail(String order_num);
 	
 
 
