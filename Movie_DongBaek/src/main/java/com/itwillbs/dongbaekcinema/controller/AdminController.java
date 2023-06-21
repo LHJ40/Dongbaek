@@ -201,46 +201,78 @@ public class AdminController {
 	}
 	
 	
-	// 관리자페이지 상영스케줄 영화목록 셀렉트 박스 클릭 시 새로운 회차 정보 생성- json 
-	// 파라미터 값 (theater_num, movie_num, pageNo)
+	
+	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
 	@ResponseBody
-	@RequestMapping(value = "calculateTime", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayScheduleVO> findMovieList(HttpSession session, @RequestParam int theater_num, @RequestParam int movie_num, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-//		System.out.println("findMovieList : theater_num : " + theater_num + ", movie_num : " + movie_num + ", pageNo : " + pageNo);
+	@RequestMapping(value = "createUpdateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String createSchedule1(HttpSession session, @RequestParam String play_date, @RequestParam int theater_num, @RequestParam int row_num, @RequestParam int movie_num, Model model) {
+		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date + ", theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
-		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
-//		List<PlayScheduleVO> playScheduleList = admin_service.createTurn(theater_num, movie_num, pageNo);
-		
-		
-//		System.out.println(playScheduleList);
-		
-//		model.addAttribute("playScheduleList",playScheduleList);
-		
-//		return playScheduleList;
-		return null;
-	}
-	
-	
-	
-	// 생성 버튼 시 정보 넘어오는지 확인
-	// json 
-	@ResponseBody
-	@RequestMapping(value = "rewriteSchedule", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public String rewriteSchedule(HttpSession session, @RequestParam String room_num, Model model) throws Exception {
-		System.out.println("createSchedule : " + room_num);
-		
-		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
-//		List<MovieVO> movieList = admin_service.findMovieList(play_date);
+		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
+		int turnCount = admin_service.checkSchedule(play_date, theater_num, row_num);
+//		System.out.println("상영정보 존재(건):" + turnCount);
 
-		
-		room_num += "가공했습니다!";
-		
-//		model.addAttribute("roomName",roomName);
-		
-		return room_num;
+	        
+        try {
+			jsonArray = new JSONArray(); // JSONArray 객체 생성
+			JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
+			
+			
+			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
+				System.out.println("상영스케줄 이미 존재함");
+			
+//				// 상영스케줄 정보 삭제 수행
+				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
+//				
+//				
+				if(deleteTurnCount == 0) { // 상영스케줄이 다른 테이블에서 참조하는경우 삭제 실패(ex.예매가 진행되고있는 경우)
+					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
+					
+				} else { // 상영 스케줄 등록
+					
+					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
+					
+					
+					if(insertTurnCount == 0) {
+						System.out.println("상영 스케줄 등록을 시도했으나 실패");
+						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
+					} else {
+						System.out.println("상영등록 성공");
+						jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
+					}
+				}
+//				
+			} else { // 상영 스케줄이 없는 경우(insert 실행)
+				System.out.println("상영스케줄 없음");
+				
+//				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
+				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
+			
+				if(insertTurnCount == 0) {
+					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
+					jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
+				} else {
+					System.out.println("상영등록 성공");
+					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
+				}
+			}
+			
+	
+			
+//				jsonObject.put("roomList", roomList);
+			
+			jsonArray.put(jsonObject);
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+		}
+			
+
+
+
+		return jsonArray.toString();
 	}
-	
-	
 	
 	
 	
@@ -282,7 +314,7 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 1;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+		int pageSize = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * pageSize;
@@ -482,7 +514,7 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 2;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+		int pageSize = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * pageSize;
@@ -599,7 +631,7 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+		int pageSize = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * pageSize;

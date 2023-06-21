@@ -30,6 +30,26 @@ public interface AdminMapper {
 	// 영화관 번호로 해당 상영관 정보 가져오기
 	public List<PlayScheduleVO> getRoom(@Param("theater_num") String theater_num);
 	
+	// 특정 날짜 상영 스케줄 등록여부 확인
+	public int checkSchedule(@Param("play_date")String play_date, @Param("theater_num")int theater_num, @Param("room_num")int room_num);
+
+	// 특정 날짜 상영관별 스케줄 삭제 수행
+	public int deleteSchedule(@Param("play_date")String play_date, @Param("theater_num")int theater_num, @Param("room_num")int room_num);
+	
+	// 상영 스케줄 등록
+	public int insertSchedule(@Param("play_date")String play_date, @Param("theater_num")int theater_num, 
+						@Param("room_num")int room_num, @Param("movie_num")int movie_num, @Param("new_start_turn")String new_start_turn, 
+								@Param("new_end_turn")String new_end_turn, @Param("play_turn")int play_turn, @Param("play_time_type")String play_time_type);
+
+	// movie_num으로 해당 영화 러닝타임 가져오기
+	public int findMovieRunningTime(@Param("movie_num")int movie_num);
+
+	// 상영관별 시작시간 정보 가져오기
+	public PlayScheduleVO getRoomStartTime(@Param("theater_num")int theater_num, @Param("room_num")int room_num);	
+	
+	
+	
+	
 	
     // CS 게시판 목록 가져오기
     List<CsInfoVO> getCsWithPaging(@Param("start") int start, @Param("pageSize") int pageSize, @Param("condition") String condition);
@@ -54,6 +74,10 @@ public interface AdminMapper {
 
 	// CS 게시판 1:1 게시판 답변 추가
 	public int updateReply(@Param("condition")String condition, @Param("qnaInfo")CsInfoVO qnaInfo);
+
+
+
+
 
 
 
