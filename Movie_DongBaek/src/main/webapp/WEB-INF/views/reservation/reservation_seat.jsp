@@ -105,6 +105,114 @@
       vertical-align: middle;
    }
    
+   #seat-part button{
+	margin: 1px;
+	border: 1px solid #aaa;
+	background-color: #aaa;
+	color: #fff;
+	
+}
+
+#seat-part button:hover {
+	background-color: #777;
+}
+
+#seat-part button:click {
+	background-color: #ef4f4f;
+}
+
+
+#seat-part .seatArea button.seat.selected {
+	border: 1px solid #ef4f4f;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+}
+/*
+#seat-part .seatArea button.seat.on {
+	border: 1px solid #ef4f4f;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+}
+*/
+#seat-part .seatArea button.seat:visited {
+	border: 1px solid #ef4f4f;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+}
+
+#seat-part button#A5, 
+#seat-part button#B5, 
+#seat-part button#C5, 
+#seat-part button#D5, 
+#seat-part button#E5, 
+#seat-part button#F5 {
+	margin-right: 20px;
+}
+
+#seat-part button#C1, 
+#seat-part button#C2, 
+#seat-part button#C3, 
+#seat-part button#C4, 
+#seat-part button#C5, 
+#seat-part button#C6, 
+#seat-part button#C7, 
+#seat-part button#C8, 
+#seat-part button#C9, 
+#seat-part button#C10 {
+	margin-bottom: 20px;
+}
+   
+.selected-animation {
+  animation-name: seatSelected;
+  animation-duration: 0.5s;
+}
+
+@keyframes seatSelected {
+  0% {
+    background-color: #ff6961;
+    color: #fff;
+  }
+  50% {
+    background-color: #fff;
+    color: #000;
+  }
+  100% {
+    background-color: #ff6961;
+    color: #fff;
+  }
+}
+
+ .seat {
+      width: 50px;
+      height: 50px;
+      background-color: gray;
+      margin: 5px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: green;
+    }
+    
+    .seat {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      background-color: #e0e0e0;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+    
+    .selected {
+      background-color: #42b983;
+    }
+    
+    #seatInfo {
+      margin-top: 10px;
+    }
 </style>
 <script type="text/javascript">
    
@@ -112,6 +220,7 @@
    
    $(function(){   // 페이지 로딩 시 좌석 출력
       let res = "";
+   	  res += "<div id='seatMap'>";
       let row = ["A", "B", "C", "D", "E", "F"];
       for(let i = 0; i < 6; i++){
          for(let j = 1; j <= 10; j++){
@@ -119,14 +228,36 @@
          }
          res += "<br>";
       }
+      res += "</div>";
       $("#seat-part .seatArea").html(res);
    });
    
    
    $(function() {      
-      // [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
+	   
+	   // [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
       // play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
       // 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
+	   $("#selectPeople .minus, #selectPeople .plus").on("click", function() {
+	    	  let buttonType = $(this).attr("class");
+	    	  let target = $(this).parents(".input-group").children("button.result");
+	    	  let currentValue = Number(target.text());
+	    	  let nextValue;
+
+	    	  if (buttonType === "minus" && currentValue > 0) {
+	    	    nextValue = currentValue - 1;
+	    	  } else if (buttonType === "plus" && currentValue + seatList.length < maxSeats) {
+	    	    nextValue = currentValue + 1;
+	    	  } else {
+	    	    return;
+	    	  }
+
+	    	  if (nextValue + seatList.length <= maxSeats) {
+	    	    target.text(nextValue);
+	    	  } else {
+	    	    alert("인원 수를 줄이려면 선택된 좌석을 먼저 취소하세요.");
+	    	  }
+	    	});
       $("#selectPeople button").on("click", function() {
          $("#seat-part").removeClass("disabled");
          $("#selectPeople button").removeClass("selected");
@@ -181,55 +312,161 @@
             $("#seat-part button").removeClass("disabled");            
          }
       });
-      
-      // [좌석] 선택 시 ======================================================================================================================================================   
-      $("#seat-part button").on("click", function(e) {
+   });  
+
    
-         let resultAdult = $("#selectPeople #adult button.result").text();
-         let resultTeeager = $("#selectPeople #teenager button.result").text();
-         let resultChild = $("#selectPeople #child button.result").text();
-         let resultHandi = $("#selectPeople #handi button.result").text();
-         let countAdult = Number(resultAdult);
-         let countTeeager = Number(resultTeeager);
-         let countChild = Number(resultChild);
-         let countHandi = Number(resultHandi);
-         let countPeople = countAdult + countTeeager + countChild + countHandi;
-         
-         let seat = "";
-         
-         $("#seat-part button").removeClass("selected");   
-         $(this).addClass("selected");
-//          if(e.target.className == "seat" ){
-//             e.target.className = "selected";
-//          }else if(e.target.className == "selected"){
-//             e.target.className = "seat";
-//          }
-         let selectedSeat = $("#seat-part button.selected").attr("data-seat-name");
-//          $("#seatInfo .seat_name").html("<b>"+ selectedSeat + "</b>");               
-//          $("#seatInfo .seat_name").append(selectedSeat);   
-         
-         seatList.push(selectedSeat);   // 배열에 선택된 좌석 넣기
-         
-         seat += seatList;
-         $("#seatInfo .seat_name").html("<b>"+ seat + "</b>");               
-         
-         if(seatList.length >= countPeople){
-            alert("좌석선택이 완료되었습니다");
-            $("#seat-part button").addClass("disabled");
-         }
-         console.log(seat);
-         console.log(seatList);
-         
-//          let totalPrice = Number(countAdult) * 14000 + Number(countTeeager) * 10000 + Number(countChild) * 7000 + Number(countHandi) * 5000
-//          $("#paymentInfo .totalPrice").html(totalPrice);
-         
-            
+	// [좌석] 선택 시 ======================================================================================================================================================   
+$(function() {
+  $("#seat-part button").on("click", function() {
+    let resultAdult = $("#selectPeople #adult button.result").text();
+    let resultTeenager = $("#selectPeople #teenager button.result").text();
+    let resultChild = $("#selectPeople #child button.result").text();
+    let resultHandi = $("#selectPeople #handi button.result").text();
+    let countAdult = Number(resultAdult);
+    let countTeenager = Number(resultTeenager);
+    let countChild = Number(resultChild);
+    let countHandi = Number(resultHandi);
+    let countPeople = countAdult + countTeenager + countChild + countHandi;
+
+    let selectedSeatName = $(this).attr("data-seat-name");
+
+    if ($(this).hasClass("selected")) {
+      $(this).removeClass("selected");
+      const index = seatList.indexOf(selectedSeatName);
+      if (index > -1) {
+        seatList.splice(index, 1);
+      }
+    } else {
+      if (seatList.length >= countPeople) {
+        alert("최대 선택 가능한 좌석 수에 도달했습니다.");
+        return;
+      } else if (countPeople < seatList.length) {
+          alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+          return;
+        }
+      $(this).addClass("selected");
+      seatList.push(selectedSeatName);
+    }
+
+    console.log(seatList);
+  });
+});
+	
+	function updateSeatSelection(seatButton) {
+		  let seatNum = seatButton.dataset.seatNum;
+		  let seatName = seatButton.dataset.seatName;
+		  let seatInfoArea = document.getElementById("seat_info_area");
+
+		  if (seatButton.classList.contains("selected")) { // 좌석이 이미 선택된 경우
+		    seatButton.classList.remove("selected", "selected-animation"); // 선택된 클래스와 애니메이션을 좌석 버튼에서 제거
+		    const index = seatList.indexOf(seatName); // seatList 배열에서 좌석 이름의 인덱스를 찾습니다.
+		    if (index > -1) {
+		      seatList.splice(index, 1); // seatList 배열에서 좌석 이름을 제거합니다.
+		    }
+		    seatInfoArea.innerHTML = seatInfoArea.innerHTML.replace("," + seatName, ''); // seat_info_area에서 좌석 이름을 제거합니다.
+		  } else { // 좌석이 선택되지 않은 경우
+		    seatButton.classList.add("selected", "selected-animation"); // 선택된 클래스와 애니메이션을 좌석 버튼에 추가
+		    seatList.push(seatName); // seatList 배열에 좌석 이름을 추가합니다.
+		    if (seatInfoArea.innerHTML === "") {
+		      seatInfoArea.innerHTML += seatName;
+		    } else {
+		      seatInfoArea.innerHTML += "," + seatName; // 좌석 이름을 새로 추가하여 seat_info_area를 업데이트합니다.
+		    }
+		  }
+		}
+	
+    var maxSeats = 3; // 선택 가능한 최대 좌석 수
+    var selectedSeats = []; // 선택된 좌석들의 배열
+
+    function toggleSeat(seat) {
+      if (seat.classList.contains("selected")) {
+        // 이미 선택된 좌석인 경우, 선택 해제
+        seat.classList.remove("selected");
+        var index = selectedSeats.indexOf(seat);
+        if (index > -1) {
+          selectedSeats.splice(index, 1);
+        }
+      } else if (selectedSeats.length < maxSeats) {
+        // 선택 가능한 최대 좌석 수보다 적은 경우, 좌석 선택
+        seat.classList.add("selected");
+        selectedSeats.push(seat);
+      }
+
+      if (selectedSeats.length >= maxSeats) {
+        // 선택 가능한 최대 좌석 수에 도달한 경우, 나머지 좌석들의 클릭 이벤트 제거
+        var seats = document.getElementsByClassName("seat");
+        for (var i = 0; i < seats.length; i++) {
+          if (!seats[i].classList.contains("selected")) {
+            seats[i].onclick = null;
+          }
+        }
+      } else {
+        // 선택 가능한 최대 좌석 수에 도달하지 않은 경우, 모든 좌석들의 클릭 이벤트 활성화
+        var seats = document.getElementsByClassName("seat");
+        for (var i = 0; i < seats.length; i++) {
+          seats[i].onclick = function() {
+            toggleSeat(this);
+          };
+        }
+      }
+    }
+	
+    function deselectSeat(seatId) {
+    	  // 선택 해제된 좌석의 ID를 매개변수로 받아옵니다.
+
+    	  // 선택 해제된 좌석의 클래스를 변경합니다.
+    	  const seatElement = document.getElementById(seatId);
+    	  seatElement.classList.remove('selected');
+
+    	  // seatList 배열에서 선택 해제된 좌석을 제거합니다.
+    	  seatList = seatList.filter(seat => seat !== seatId);
+    	}
+   
+   
+    
+    // Function to handle seat selection
+    function selectSeat(seat) {
+      if (seatList.includes(seat)) {
+        // Seat already selected, remove it from the list
+        var index = seatList.indexOf(seat);
+        seatList.splice(index, 1);
+        document.getElementById('seat_name').textContent = '';
+      } else {
+        // Seat not selected, add it to the list
+        seatList.push(seat);
+        document.getElementById('seat_name').textContent = seat;
+      }
+      
+      // Update seat styling
+      updateSeatStyling();
+    }
+    
+    // Function to update seat styling based on selection
+    function updateSeatStyling() {
+      var seats = document.getElementsByClassName('seat');
+      for (var i = 0; i < seats.length; i++) {
+        var seat = seats[i].textContent;
+        if (seatList.includes(seat)) {
+          seats[i].classList.add('selected');
+        } else {
+          seats[i].classList.remove('selected');
+        }
+      }
+    }
+    
+    // Add click event listener to seats
+    var seats = document.getElementsByClassName('seat');
+    for (var i = 0; i < seats.length; i++) {
+      seats[i].addEventListener('click', function() {
+        selectSeat(this.textContent);
       });
       
-      
-   });
-      
-   
+    for (var i = 0; i < seatList.length; i++) {
+        var seatElement = document.createElement("div");
+        seatElement.innerText = seatList[i];
+        seatNameElement.appendChild(seatElement);
+      }
+    }
 </script>
 </head>
 <body>
@@ -440,7 +677,7 @@
                <h5>좌석 선택</h5>
                <div id="seatInfo">
                   <div>좌석명(일반석)</div>
-                    <div class="seat_name"><b></b></div>
+                    <div class="row" id="seat_name"></div>
                </div>
             </div>
             
