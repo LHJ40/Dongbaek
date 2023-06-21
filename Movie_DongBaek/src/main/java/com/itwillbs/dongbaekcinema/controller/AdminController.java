@@ -37,7 +37,7 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
-import com.itwillbs.dongbaekcinema.voNew.PageInfo;
+import com.itwillbs.dongbaekcinema.voNew.PageInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
 
@@ -344,7 +344,7 @@ public class AdminController {
 		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageInfo pageInfo = new PageInfo(listCount, listLimit, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsNoticeList : " + CsNoticeList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -547,7 +547,7 @@ public class AdminController {
 		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageInfo pageInfo = new PageInfo(listLimit, listLimit, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listLimit, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsQnaList : " + CsQnaList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -668,7 +668,7 @@ public class AdminController {
 		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageInfo pageInfo = new PageInfo(listCount, listLimit, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsFaqList : " + CsFaqList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -836,15 +836,38 @@ public class AdminController {
 			@RequestParam(defaultValue = "1") int pageNo, 
 			Model model) {
 		
-		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageListLimit);
-		int totalPageCount = member_service.getTotalPageCount(pageListLimit);
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
+		// 회원 목록 조회
+		List<MemberVO> memberList = member_service.getMemberList(memberSearchType, memberSearchKeyword, startRow, listLimit);
+		
+		int listCount = member_service.getMemberListCount(memberSearchType, memberSearchKeyword);
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 2;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+				if(endPage > maxPage) { 
+					endPage = maxPage;
+				}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("memberList", memberList);
-		model.addAttribute("currentPage", pageNo);
-		model.addAttribute("totalPageCount", totalPageCount);
-		
+		model.addAttribute("pageInfo", pageInfo);
 		System.out.println(memberList);
 		
 		
