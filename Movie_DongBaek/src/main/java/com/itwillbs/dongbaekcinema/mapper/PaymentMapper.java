@@ -37,10 +37,14 @@ public interface PaymentMapper {
 	int selectYearPayment(String member_id);
 	
 	//페이징처리중 - 0615 정의
-	List<PaymentVO> getPaymentList(@Param("start") int start, @Param("perPage") int pageSize);
+	List<PaymentVO> getPaymentList(@Param("start") int start, @Param("perPage") int pageListLimit);
 	
 	//페이징처리중 - 0615 정의
 	int getCount();
+
+	//0621 정의효 - 결제상세 list작성중
+	List<PaymentVO> getPaymentDetail(int order_num);
+	
 
 
 

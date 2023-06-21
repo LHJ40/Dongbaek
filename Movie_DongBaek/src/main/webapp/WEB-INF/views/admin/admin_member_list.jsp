@@ -71,13 +71,13 @@ div {
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<nav class="navbar navbar-light bg-light justify-content-end">
-					<form class="form-inline">
-						<select class="form-control mr-sm-s" name="movie_name">
-					    	<option value="1">이름</option>
-							<option value="영화명1">아이디</option>
-					    	<option value="영화명2">멤버십</option>
+					<form class="form-inline" action="admin_member_list">
+						<select class="form-control mr-sm-s" name="memberSearchType" id="memberSearchType">
+					    	<option value="member_name">이름</option>
+							<option value="member_content">아이디</option>
+					    	<option value="memebr_grade">멤버십</option>
 					    </select>
-				    	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				    	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="memberSearchKeyword">
 				    	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
 						</form>
 					</nav>
