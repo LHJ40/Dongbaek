@@ -158,6 +158,8 @@
             alert("요청 실패!");
          });
          
+         // 인원 선택 수 제한두기
+         // 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
          let countAdult = $("#selectPeople #adult button.result").text();
          let countTeeager = $("#selectPeople #teenager button.result").text();
          let countChild = $("#selectPeople #child button.result").text();
@@ -457,7 +459,7 @@
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
-                 <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?seat_name=' + seatList"> next > </button>
+                 <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList"> next > </button>
                 </div>
             </div>
         </div>
