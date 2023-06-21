@@ -150,4 +150,10 @@
 		WHERE play_num = #{play_num}
 	</select>
 	
+	<!-- 티켓의 가격 조회를 위한 티켓타입 조회 -->
+	<select id="selectTicketTypeList" resultType="com.itwillbs.dongbaekcinema.vo.TicketTypeVO">
+		SELECT * FROM TICKET_TYPES
+		WHERE ticket_time_type = #{play_time_type};
+	</select>
+	
 </mapper>

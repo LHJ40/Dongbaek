@@ -29,6 +29,7 @@ import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 
 @Controller
 public class ReservationController {
@@ -122,7 +123,7 @@ public class ReservationController {
 	// 선택한 영화를 선택한 극장에서 선택한 날짜에 상영하는 시간과 상영관 목록 출력
 	@ResponseBody
 	@RequestMapping(value = "PlayList", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
-	public String reservationStep3Servlet(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
+	public String PlayList(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
 		System.out.println("ReservationController - PlayList");
 		
 //			TheaterVO theater = service.getTheater(theater_num);
@@ -176,6 +177,26 @@ public class ReservationController {
 		System.out.println(ja);
 		return ja.toString();
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "GetTicketPrice", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
+	public String GetTicketPrice(@RequestParam String play_time_type, Model model, HttpSession session) {
+		System.out.println("ReservationController - GetTicketPrice()");
+		System.out.println(play_time_type);
+		
+		// ReservationService - getTicketPriceList() 메서드를 호출하여
+		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
+		// => 파라미터 : play_time_type  리턴타입 : List<OrderTicketVO>(ticketPriceList)
+		List<TicketTypeVO> ticketPriceList = service.getTicketPriceList(play_time_type);
+//		model.addAttribute("ticketPriceList", ticketPriceList);
+		session.setAttribute("ticketPriceList", ticketPriceList);
+		System.out.println(ticketPriceList);
+
+		JSONArray ja = new JSONArray(ticketPriceList);
+		System.out.println(ja);
+		return ja.toString();
+	}
+	
 	
 	@GetMapping("reservation_ing")
 	public String reservation_ing(int play_num,HttpSession session,HttpServletRequest request,Model model) {

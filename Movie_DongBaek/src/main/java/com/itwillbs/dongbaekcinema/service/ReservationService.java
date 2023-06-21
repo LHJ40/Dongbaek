@@ -11,6 +11,7 @@ import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.mapper.ReservationMapper;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
 
@@ -81,5 +82,12 @@ public class ReservationService {
 		System.out.println("ReservationService - getOrderTicket()");
 		
 		return mapper.selectOrderTicket(play_num);
+	}
+	
+	// 티켓 가격 조회를 위해 getTicketPriceList() 정의
+	public List<TicketTypeVO> getTicketPriceList(String play_time_type) {
+		System.out.println("ReservationService - getTicketPriceList()");
+		
+		return mapper.selectTicketTypeList(play_time_type);
 	}
 }
