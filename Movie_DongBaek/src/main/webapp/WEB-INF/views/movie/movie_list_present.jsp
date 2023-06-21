@@ -7,63 +7,61 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
-
-<script>
-
- $(function(){
-		$(".custom-select").on("change", function(){
-
+<script  type="text/javascript">
+ $(function() {
+	$(".custom-select").on("change", function(){
 			
-// 		$.ajax({
-// 			type : "get", 
-// 			url : "movie_list_present2",  
-// // 			dataType : "json", 
-// 		})
-// 		.done(function(movie) {
-// 			let res = "";
-			
-// 			for(let i = 0; i < movie.length; i++) {
-// 				let movieGrade = "";
-// 				if(movie[i].movie_grade == '전체관람가'){
-// 					movieGrade = "all";
-// 				}
-// 				if(movie[i].movie_grade == '12세이상관람가'){
-// 					movieGrade = "12";
-// 				}
-// 				if(movie[i].movie_grade == '15세이상관람가'){
-// 					movieGrade = "15";
-// 				}
-// 				if(movie[i].movie_grade == '청소년관람불가'){
-// 					movieGrade = "18";
-// 				}
-// 				res += "<div class='col-lg-3 col-mid-4'>" +
-// 				"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
-// 				  "<a href='movie_detail_info?movie_num=${movie.movie_num}'>" +
-// 				  	"<img src='${movie.movie_poster}' class='card-img-top' alt='...'>" +
-// 				  "</a>" +
-// 					"<div class='card-body'>" +
-// 						"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
+			$.ajax({
+				type : "get", 
+				url : "movie_list_present2",  
+				dataType : "json", 
+			})
+			.done(function(movie) {
+// 				alert("요청성공");
+					let res = "";
+					
+					for(let i = 0; i < movie.length; i++) {
+						let movieGrade = "";
+						if(movie[i].movie_grade == '전체관람가'){
+							movieGrade = "all";
+						}
+						if(movie[i].movie_grade == '12세이상관람가'){
+							movieGrade = "12";
+						}
+						if(movie[i].movie_grade == '15세이상관람가'){
+							movieGrade = "15";
+						}
+						if(movie[i].movie_grade == '청소년관람불가'){
+							movieGrade = "18";
+						}
 						
-// 							"<img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade +".png' alt='" + movieGrade +"' class='img-rounded' >"
-						
-// 						movie[i].movie_name_kr +"</h6>" +
-// 						"<p class='card-text'>예매율: "+ movie[i].movie_booking_rate + " 개봉일: " + movie[i].movie_release_date + "</p>" +
-// 						"<p class='d-flex justify-content-center'>" +
-// 					    	"<button type='button' class='btn btn-outline-danger mr-2'>♡찜하기</button>" +
-// 					    	"<a href='reservation_main?movie_num=" +  movie[i].movie_num + ' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>"
-// 				    	"</p>" +
-// 					"</div>" +
-// 				"</div>" +
-// 			"</div>" +
-// 			}
-// 			$("#moviearea").html(res);
-// 		})
-// 		.fail(function() { // 요청 실패 시
-// 			alert("요청 실패!");
-// 		});
+						res += "<div class='col-lg-3 col-mid-4'>" +
+						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
+						  "<a href='movie_detail_info?movie_num=$" + movie[i].movie_num + "'>" +
+						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...'>" +
+						  "</a>" +
+							"<div class='card-body'>" +
+								"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
+									"<img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade +".png' alt='" + movieGrade +"' class='img-rounded'>" +
+								movie[i].movie_name_kr +"</h6>" +
+								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + " 개봉일: " + movie[i].movie_release_date + "</p>" +
+								"<p class='d-flex justify-content-center'>" +
+							    	"<button type='button' class='btn btn-outline-danger mr-2'>♡찜하기</button>" +
+							    	"<a href='reservation_main?movie_num=" +  movie[i].movie_num + "' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>" +
+						    	"</p>" +
+							"</div>" +
+						"</div>" +
+					"</div>"
+					}
+					
+					$("#moviearea").html(res);
+			})
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
  	});
 
  });

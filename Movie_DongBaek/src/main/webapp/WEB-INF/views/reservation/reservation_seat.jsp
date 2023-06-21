@@ -166,7 +166,7 @@
   animation-name: seatSelected;
   animation-duration: 0.5s;
 }
-
+/*
 @keyframes seatSelected {
   0% {
     background-color: #ff6961;
@@ -194,25 +194,22 @@
     .selected {
       background-color: green;
     }
-    
+  */    
     .seat {
       display: inline-block;
-      width: 50px;
-      height: 50px;
+/*       width: 50px; */
+/*       height: 50px; */
       margin: 5px;
       background-color: #e0e0e0;
       text-align: center;
-      line-height: 50px;
+/*       line-height: 50px; */
       cursor: pointer;
     }
-    
+  
     .selected {
       background-color: #42b983;
     }
     
-    #seatInfo {
-      margin-top: 10px;
-    }
 </style>
 <script type="text/javascript">
    
@@ -233,87 +230,90 @@
    });
    
    
-   $(function() {      
-	   
-	   // [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
-      // play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
-      // 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
-	   $("#selectPeople .minus, #selectPeople .plus").on("click", function() {
-	    	  let buttonType = $(this).attr("class");
-	    	  let target = $(this).parents(".input-group").children("button.result");
-	    	  let currentValue = Number(target.text());
-	    	  let nextValue;
-
-	    	  if (buttonType === "minus" && currentValue > 0) {
-	    	    nextValue = currentValue - 1;
-	    	  } else if (buttonType === "plus" && currentValue + seatList.length < maxSeats) {
-	    	    nextValue = currentValue + 1;
-	    	  } else {
-	    	    return;
-	    	  }
-
-	    	  if (nextValue + seatList.length <= maxSeats) {
-	    	    target.text(nextValue);
-	    	  } else {
-	    	    alert("인원 수를 줄이려면 선택된 좌석을 먼저 취소하세요.");
-	    	  }
-	    	});
-      $("#selectPeople button").on("click", function() {
-         $("#seat-part").removeClass("disabled");
-         $("#selectPeople button").removeClass("selected");
-         $(this).addClass("selected");   
+   $(function() {
+		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
+		// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
+		// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기		
+		$("#selectPeople button").on("click", function() {
+			$("#seat-part").removeClass("disabled");
+			$("#selectPeople button").removeClass("selected");
+			$(this).addClass("selected");
+			
+			let playNum = $(".roomInfo2").attr("data-play-num");
+			$.ajax({
+				type : "post", 
+				url : "SelectPeople", 
+				data : {"play_num" : playNum}, 
+				dataType : "json", 
+			})
+			.done(function(orderTicketList) {
+			for(let i = 0; i <orderTicketList.length; i++) {
+			
+				for(let j = 0; j < 60; j++){               
+					let seatNum = $("#seat-part button").eq(j).attr("data-seat-num");
+					
+					// 예약된 좌석 정보와 상영관의 좌석 번호를 비교하여 
+					// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
+					if(orderTicketList[i].seat_num == seatNum){
+						$("#seat-part button").eq(j).addClass("disabled")
+					}
+				}
+			}
+            })
+			.fail(function() { // 요청 실패 시
+				alert("요청 실패!");
+			});
          
-         let playNum = $(".roomInfo2").attr("data-play-num");
-         $.ajax({
-            type : "post", 
-            url : "SelectPeople", 
-            data : {"play_num" : playNum}, 
-            dataType : "json", 
-         })
-         .done(function(orderTicketList) {
-            for(let i = 0; i <orderTicketList.length; i++) {
-               
-               for(let j = 0; j < 60; j++){               
-                  let seatNum = $("#seat-part button").eq(j).attr("data-seat-num");
-                  
-                  // 예약된 좌석 정보와 상영관의 좌석 번호를 비교하여 
-                  // 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
-                  if(orderTicketList[i].seat_num == seatNum){
-                     $("#seat-part button").eq(j).addClass("disabled")
-                  }
-               }
-            }
-            
-         })
-         .fail(function() { // 요청 실패 시
-            alert("요청 실패!");
-         });
-         
-         // 인원 선택 수 제한두기
-         // 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
-         let countAdult = $("#selectPeople #adult button.result").text();
-         let countTeeager = $("#selectPeople #teenager button.result").text();
-         let countChild = $("#selectPeople #child button.result").text();
-         let countHandi = $("#selectPeople #handi button.result").text();
-         let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
-//          alert(countPeople);
+			// 인원 선택 수 제한두기
+			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
+			let countAdult = $("#selectPeople #adult button.result").text();
+			let countTeeager = $("#selectPeople #teenager button.result").text();
+			let countChild = $("#selectPeople #child button.result").text();
+			let countHandi = $("#selectPeople #handi button.result").text();
+			let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
+// 			alert(countPeople);
 
-         if(countPeople > 8){
-            alert("인원 선택은 총 8명까지 가능합니다");   
-            $("#seat-part button").addClass("disabled");
-         }else if(countPeople == 0){
-            alert("관람인원을 선택해 주세요");
-            $("#seat-part button").removeClass("selected");
-            $("#seat-part button").addClass("disabled");
-            $("#selectPeople button").on("click", function() {
-               $("#seat-part button").removeClass("disabled");            
-            });
-         }else{
-            $("#seat-part button").removeClass("disabled");            
-         }
-      });
-   });  
+			if(countPeople > 8){	// 관람인원의 합이 8명 이상일 때
+				alert("인원 선택은 총 8명까지 가능합니다");   
+				$("#seat-part button").addClass("disabled");
+				
+			}else if(countPeople == 0){	// 관람인원의 합이 0일 때
+				alert("관람인원을 선택해 주세요");
+				$("#seat-part button").removeClass("selected");
+				$("#seat-part button").addClass("disabled");
+			
+				$("#selectPeople button").on("click", function() {
+					$("#seat-part button").removeClass("disabled");            
+				});
+			}else{
+				$("#seat-part button").removeClass("disabled");            
+			}
 
+// 		$("#selectPeople .down, #selectPeople .up").on("click", function() {	// (-)또는 (+) 버튼이 클릭될 때
+// 	    	let buttonType = $(this).attr("class");
+// 	    	let target = $(this).parents(".input-group").children("button.result");	// 클릭된 버튼의 result영역(숫자가 표시되는 버튼)
+// 	    	let currentValue = Number(target.text());
+// 	    	let nextValue;
+	    	
+// 	    	if (buttonType == "down" && currentValue > 0) {	// (-) 버튼 클릭하고, result 영역의 숫자가 0보다 크면
+// 	    		nextValue = currentValue - 1;
+// 	    	} else if (buttonType == "up" && currentValue + seatList.length < countPeople) {// (+) 버튼 클릭하고, result 영역의 숫자와 현재까지 만들어진 좌석 배열의 합이 countPeople보다 작으면 
+// 	    		nextValue = currentValue + 1;
+// 	    	} else {
+// 	    		return;
+// 	    	}
+
+// 			if (nextValue + seatList.length <= countPeople) {
+// 				target.text(nextValue);
+// 			} else {
+// 				alert("인원 수를 줄이려면 선택된 좌석을 먼저 취소하세요.");
+// 			}
+// 		});
+		});
+		
+	});  
+
+   
    
 	// [좌석] 선택 시 ======================================================================================================================================================   
 $(function() {

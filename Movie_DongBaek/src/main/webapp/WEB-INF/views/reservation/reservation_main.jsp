@@ -83,7 +83,7 @@
                }
                res += "<li>" + 
                         "<a href='#'>" + 
-                           "<i><img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade + ".png' alt='15세'></i>" + 
+                           "<i><img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade + ".png' alt='" + movieGrade + "세'></i>" + 
                            "<span class='text' data-movie-num='" + movie[i].movie_num + "' data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
                         "</a>" + 
                      "</li>"

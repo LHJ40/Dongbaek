@@ -90,12 +90,14 @@
 	GROUP BY r.movie_num
 	);	
 	-->
-	<select id="select_presentMovie_reviewRate">
-	SELECT DISTINCT m.*, r.*
+	<select id="select_presentMovie_reviewRate" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+	SELECT DISTINCT *
+<!-- 	SELECT DISTINCT m.*, r.* -->
 	FROM 
 		MOVIES m 
 	JOIN 
 		MOVIE_REVIEWS r
+	ON m.movie_num = r.movie_num
 	WHERE
 		now() >= movie_release_date 
 		AND movie_close_date >= now()

@@ -51,7 +51,7 @@ public class MovieController {
 		//jsp페이지에 전달 ( 영화목록, 페이징 정보)
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("pageInfo", pageInfo);
-		System.out.println(movieList);
+//		System.out.println(movieList);
 		return "movie/movie_list_present";
 	}
 	
