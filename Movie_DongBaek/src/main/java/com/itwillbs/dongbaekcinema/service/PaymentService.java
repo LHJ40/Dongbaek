@@ -68,28 +68,28 @@ public class PaymentService {
 	}
 	
 	// 페이징처리 테스트 - 현재페이지? 0615정의효
-	public List<PaymentVO> getPaymentList(int pageNo, int pageSize) {
-		int start = (pageNo - 1) * pageSize;
-		return mapper.getPaymentList(start, pageSize);
+	public List<PaymentVO> getPaymentList(int pageNo, int pageListLimit) {
+		int start = (pageNo - 1) * pageListLimit;
+		return mapper.getPaymentList(start, pageListLimit);
 	}
 	
 	// 페이징처리 테스트 - 총 몇페이진지 0615정의효
-	public int getTotalPageCount(int pageSize) {
+	public int getTotalPageCount(int pageListLimit) {
 		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageSize);
+		return (int) Math.ceil((double) totalCount / pageListLimit);
 	}
 	
 
 
 
 	//페이징처리테스트 -10페이지 까지나오게 0615 정의효 -찾아서 1~10뜨고 11~20뜨고 해보기
-//	public int getStartIndex(int pageNo, int pageSize) {
-//		return (pageNo - 1) * pageSize + 1;
+//	public int getStartIndex(int pageNo, int pageListLimit) {
+//		return (pageNo - 1) * pageListLimit + 1;
 //	}
 		
 	//페이징처리테스트 -10페이지 까지나오게 0615 정의효  - 찾아서 1~10뜨고 11~20뜨고 해보기
-//	public int getEndIndex(int pageNo, int pageSize) {
-//		return pageNo * pageSize;  
+//	public int getEndIndex(int pageNo, int pageListLimit) {
+//		return pageNo * pageListLimit;  
 //	}
 }
 

@@ -37,7 +37,7 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
-import com.itwillbs.dongbaekcinema.voNew.PageVO;
+import com.itwillbs.dongbaekcinema.voNew.PageInfo;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
 
@@ -320,15 +320,18 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 1;
 
-		int pageSize = 5;// 한 페이지에 보여줄 목록 수
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNo - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
-		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -338,10 +341,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfo pageInfo = new PageInfo(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsNoticeList : " + CsNoticeList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -520,15 +523,18 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 2;
 
-		int pageSize = 5;// 한 페이지에 보여줄 목록 수
+		int listLimit = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
+		int startRow = (pageNo - 1) * listLimit;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -538,10 +544,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 1:1 게시판 목록 조회
-		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfo pageInfo = new PageInfo(listLimit, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsQnaList : " + CsQnaList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -637,15 +643,19 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 
-		int pageSize = 5;// 한 페이지에 보여줄 목록 수
+
+		int listLimit = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
+		int startRow = (pageNo - 1) * listLimit;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -655,10 +665,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfo pageInfo = new PageInfo(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsFaqList : " + CsFaqList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -711,9 +721,7 @@ public class AdminController {
 		// 자주 묻는 질문 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 		
-		
-		
-	
+			
 		// 자주묻는 질문 글쓰기 등록을 위한 함수 호출
 		int insertCount = admin_service.registCs(csType, faqInfo, files);
 
@@ -822,12 +830,12 @@ public class AdminController {
 	@GetMapping("admin_member_list")
 	public String adminMemberList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
 		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageSize);
-		int totalPageCount = member_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageListLimit);
+		int totalPageCount = member_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("currentPage", pageNo);
@@ -877,12 +885,12 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageSize);
-		int totalPageCount = movie_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageListLimit);
+		int totalPageCount = movie_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("currentPage", pageNo);
@@ -1009,12 +1017,12 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageSize);
-		int totalPageCount = payment_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageListLimit);
+		int totalPageCount = payment_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("currentPage", pageNo);

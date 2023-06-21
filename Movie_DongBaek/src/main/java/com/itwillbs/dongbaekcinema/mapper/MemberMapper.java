@@ -36,7 +36,7 @@ public interface MemberMapper {
 	String selectNoMemberPasswd(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
 	
 	// 페이징처리중 - 0616 정의효
-	List<MemberVO> getMemberList(@Param("start") int start, @Param("perPage") int pageSize);
+	List<MemberVO> getMemberList(@Param("start") int start, @Param("perPage") int pageListLimit);
 	
 	// 페이징처리중 - 0616 정의효
 	int getCount();

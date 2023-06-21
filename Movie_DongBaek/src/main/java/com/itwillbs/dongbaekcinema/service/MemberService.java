@@ -54,15 +54,15 @@ public class MemberService {
 	}
 	
 	//페이징처리 테스트 -0616정의효
-	public List<MemberVO> getMemberList(int pageNo, int pageSize) {
-		int start = (pageNo - 1) * pageSize;
-		return mapper.getMemberList(start, pageSize);
+	public List<MemberVO> getMemberList(int pageNo, int pageListLimit) {
+		int start = (pageNo - 1) * pageListLimit;
+		return mapper.getMemberList(start, pageListLimit);
 	}
 
 	//페이징처리 테스트 -0616정의효
-	public int getTotalPageCount(int pageSize) {
+	public int getTotalPageCount(int pageListLimit) {
 		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageSize);
+		return (int) Math.ceil((double) totalCount / pageListLimit);
 	}
 
 	// 0619정의효 멤버 등급 변경
