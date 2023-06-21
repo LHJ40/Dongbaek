@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // 모든 프로퍼티를 변수로 갖는 생성자
 @NoArgsConstructor // 기본생성자
 @Data
-public class PageInfo {
+public class PageInfoVO {
 
 	private int listCount; // 총 게시물 수
 	private int pageListLimit; // 페이지 당 표시할 페이지 번호 갯수 (pageSize)

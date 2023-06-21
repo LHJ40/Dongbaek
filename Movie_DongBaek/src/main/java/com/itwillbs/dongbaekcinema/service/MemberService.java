@@ -38,10 +38,6 @@ public class MemberService {
 		return mapper.selectMember(member_id);
 	}
 
-	// 회원 목록 조회 요청을 위한 메서드
-	public List<MemberVO> getMemberList() {
-		return mapper.selectMemberList();
-	}
 	
 	// 비회원 로그인(가입) 작업을 위한 메서드
 	public int noMemberLogin(MemberVO noMember) {
@@ -53,17 +49,6 @@ public class MemberService {
 		return mapper.selectNoMemberPasswd(member_name, member_phone);
 	}
 	
-	//페이징처리 테스트 -0616정의효
-	public List<MemberVO> getMemberList(int pageNo, int pageListLimit) {
-		int start = (pageNo - 1) * pageListLimit;
-		return mapper.getMemberList(start, pageListLimit);
-	}
-
-	//페이징처리 테스트 -0616정의효
-	public int getTotalPageCount(int pageListLimit) {
-		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageListLimit);
-	}
 
 	// 0619정의효 멤버 등급 변경
 	public void changeMemberGrade(String grade_name, String member_id) {
@@ -86,6 +71,19 @@ public class MemberService {
 		
 		return mapper.updateMemeber(member);
 	}
+
+	// 회원 목록 조회 요청을 위한 메서드(페이징처리,검색하는중) 0621-정의효
+	public List<MemberVO> getMemberList(String memberSearchType, String memberSearchKeyword, int startRow,
+			int listLimit) {
+		return mapper.selectMemberList(memberSearchType, memberSearchKeyword, startRow, listLimit);
+	}
+	
+	//전체 글 목록 갯수 조회 요청 - 페이징처리중 0621 17:05 없어도되는지 확인 없어도되면 삭제하기
+	public int getMemberListCount(String memberSearchType, String memberSearchKeyword) {
+		return mapper.selectMemberListCount(memberSearchType, memberSearchKeyword);
+	}
+
+
 
 
 	

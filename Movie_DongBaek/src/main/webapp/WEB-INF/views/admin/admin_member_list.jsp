@@ -121,22 +121,70 @@ div {
 					</div>
 			</div>
 
-			<%-- 0616 정의효 - 페이징 처리 --%>
-			<div class="row">
-				<div class="col-md-12">
-				    <div>
-				        <c:if test="${currentPage > 1}">
-				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a>
-				        </c:if>
-				        <c:forEach begin="1" end="${totalPageCount}" var="page">
-				            <a href="admin_member_list?pageNo=${page}">${page}</a>
-				        </c:forEach>
-				        <c:if test="${currentPage < totalPageCount}">
-				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a>
-				        </c:if>
-	    			</div>
-				</div>
-			</div>
+		<nav aria-label="...">
+		  <ul class="pagination pagination-md justify-content-center">
+		  <%-- 페이지가 1이상일때 클릭시 이전 페이지로 이동 --%>
+			<c:choose>
+				<c:when test="${pageNo > 1 }">
+					<li class="page-item">
+				      <a class="page-link" href="admin_member_list?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
+				    </li>
+				</c:when>
+				<c:otherwise>
+				    <li class="page-item disabled">
+				      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+				    </li>
+				</c:otherwise>
+			</c:choose>
+			<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
+				<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+					<c:choose>
+					    <%-- 현재 페이지 --%>
+						<c:when test="${pageNo eq i }">
+						    <li class="page-item active" aria-current="page">
+						      <a class="page-link" href="#">${i } <span class="sr-only">(current)</span></a>
+						    </li>
+						</c:when>
+						<c:otherwise>
+						    <%-- 다른 페이지 --%>
+		    				<li class="page-item">
+		    				  <a class="page-link" href="admin_member_list?pageNo=${i }">${i }</a>
+		    				</li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+		
+		
+			<%-- 다음페이지로 이동 --%>
+				<c:choose>
+					<c:when test="${pageNo < pageInfo.maxPage }">
+						<li class="page-item">
+						 <a class="page-link" href="admin_member_list?pageNo=${pageNo + 1}">&raquo;</a>
+					    </li>
+					</c:when>
+					<c:otherwise>
+					    <li class="page-item disabled">
+					      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+					</c:otherwise>
+				</c:choose>	
+		  </ul>
+		</nav>
+<%-- 			<%-- 0616 정의효 - 페이징 처리 --%> 
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-12"> -->
+<!-- 				    <div> -->
+<%-- 				        <c:if test="${currentPage > 1}"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a> --%>
+<%-- 				        </c:if> --%>
+<%-- 				        <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${page}">${page}</a> --%>
+<%-- 				        </c:forEach> --%>
+<%-- 				        <c:if test="${currentPage < totalPageCount}"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a> --%>
+<%-- 				        </c:if> --%>
+<!-- 	    			</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<%-- 0616 정의효 - 페이징 처리 끝--%>
 			
 			<%-- 원본 페이징 처리 --%>
