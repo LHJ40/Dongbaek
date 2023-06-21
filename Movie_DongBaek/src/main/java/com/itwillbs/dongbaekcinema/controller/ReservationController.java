@@ -178,7 +178,7 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_ing")
-	public String reservation_ing(HttpSession session,HttpServletRequest request,Model model) {
+	public String reservation_ing(int play_num,HttpSession session,HttpServletRequest request,Model model) {
 		//잘못된 접근처리
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
@@ -191,10 +191,12 @@ public class ReservationController {
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
+		ReservationVO reservation = service.getPlay(play_num);
+		model.addAttribute("reservation", reservation);
 		model.addAttribute("member", member);
 		model.addAttribute("member_grade", member_grade);
-		System.out.println(member);
-		System.out.println(member_grade);
+//		System.out.println(member);
+//		System.out.println(member_grade);
 		return "reservation/reservation_ing";
 	}
 	
@@ -232,7 +234,7 @@ public class ReservationController {
 		
 		ReservationVO reservation = service.getPlay(play_num);
 		model.addAttribute("reservation", reservation);
-		System.out.println(reservation);
+		
 
 		
 		return "reservation/reservation_snack";
