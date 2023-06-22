@@ -42,9 +42,12 @@
         <div class="container-fluid w-900">
             <form action="admin_cs_notice_pro" method="post" enctype="multipart/form-data">
                 <h1>공지사항 관리자</h1>
+                <input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
+                <input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>
+                <input type="hidden" name="csTypeNo" value="1" ><%-- 공지사항 유형 정보 전송용 --%>
+
+
                 <table class="table table-striped text-center align-middle">
-                    <input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
-                    <input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>
                     <tbody>
                         <tr>
                             <td scope="col" class="align-middle" width="100">번호</td>
@@ -70,7 +73,7 @@
                             	
                             	<c:choose>
                             		<c:when test="${notice.cs_file } != ''">
-	                            		<a href="/WEB-INF/views/upload/${notice.cs_file_real }" download="${notice.cs_file }" class="form-control" aria-label="cs_file"></a>
+	                            		<a href="${pageContext.request.contextPath}/resources/upload/${notice.cs_file }" download="${notice.cs_file }" class="form-control" aria-label="cs_file"></a>
                             		</c:when>
                             		<c:otherwise>
 	                            		<span id="cs_file_old_span">첨부파일이 없습니다</span>
@@ -80,7 +83,9 @@
 						</tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">사진첨부(변경)</td>
-                            <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"></td>
+                            <td scope="col" class="align-middle">
+                            	<input type="file" class="form-control" aria-label="cs_file" name="file1" />
+                            </td>
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle"></td>

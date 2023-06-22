@@ -1,7 +1,5 @@
 package com.itwillbs.dongbaekcinema.voNew;
 
-import java.sql.Time;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

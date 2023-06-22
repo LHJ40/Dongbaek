@@ -77,9 +77,10 @@ function selectDomain(domain) {
 
 	<form action="admin_cs_qna_pro" method="post" name="fr">
 		<h1>1:1게시판 관리자 답글쓰기</h1>
+		<input type="hidden" name="pageNo" value="${param.pageNo }">
+		<input type="hidden" name="csTypeNo" value="2" ><%-- CS타입 유형 정보 전송용 --%>
 
 		<table class="table table-striped text-center">
-			<input type="hidden" name="pageNo" value="${param.pageNo }">				
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
