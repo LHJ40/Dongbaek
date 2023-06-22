@@ -330,7 +330,8 @@ public class MovieController {
 	}
 	
 	
-	
+	// "찜하기" 기능 - 찜버튼 클릭 시
+//	@GetMapping("likeMovie")
 	
 	
 	

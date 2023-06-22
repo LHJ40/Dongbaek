@@ -20,39 +20,7 @@
 	margin: auto;
 }
 a:link,a:visited { color:gray; }
-
-#needLogin, #needLogin>div {
-	background-color: #ffffff00;
-}
-
 </style>
-<script type="text/javascript">
-	
-	// 찜하기 기능
-// 	$(document).on("click", "#likeMovie", function() {
-// 		let sId = $("#sessionId").val();
-// // 		console.log(sId);	// 세션아이디 확인
-// 		let movie_num = $("#movie_num").val();
-		
-// 		$.ajax({
-// 			type: 'GET',
-// 			url: 'likeMovie',
-// 			data: {'member_id': member_id, 'movie_num': movie_num },
-// // 			dataType: 'JSON',
-// 			success : function(result) {
-				
-// 				$(this).removeClass("btn-outline-danger");
-// 				$(this).addClass("btn-danger");
-// 				$(this).val("♡찜");
-// 			}
-			
-// 		});	// ajax끝
-		
-		
-// 	}); // 찜하기 버튼 클릭 함수 끝
-	
-
-</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -94,27 +62,8 @@ a:link,a:visited { color:gray; }
 					</a>
 					<div class="card-body">
 						<h6 class="card-title"><b> ${movie.movie_name_kr}</b></h6>
-						<p class="card-text">
-							<%-- 찜하기 버튼 클릭 시 movie_num 파라미터로 받아 전달 --%>
-							<input type="hidden" value="${movie.movie_num}" id="movie_num">
-							<input type="hidden" value="${sessionScope.member_id }" id ="sessionId">
-							<c:choose>
-								<%--
-								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
-								세션 아이디가 있을 때(로그인o) 찜하기 기능
-								--%>
-								<c:when test="${member_type eq '비회원' || empty sessionScope.member_id }">
-									<button type="button" class="btn btn-outline-danger" id="likeMovieNo" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
-<%-- 								</c:when> --%>
-<%-- 								<c:when test="${ }"> --%>
-<!-- 									<button type="button" class="btn btn-outline-danger" id="likeMovieNo" data-toggle="modal" data-target="#needLogin">♡찜하기</button> -->
-								</c:when>
-								<c:otherwise>
-									<button type="button" class="btn btn-outline-danger" id="likeMovie">♡찜하기</button>
-								</c:otherwise>
-							</c:choose>
-							<button type="button" class="btn btn-danger" onclick="location.href='reservation_main?movie_num=${movie.movie_num}'">예매하기</button>
-						</p>
+						<p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button>
+						<button type="button" class="btn btn-danger" onclick="location.href='reservation_main?movie_num=${movie.movie_num}'">예매하기</button></p>
 					</div>
 				</div>
 			</div>
@@ -175,27 +124,7 @@ a:link,a:visited { color:gray; }
 <!-- 	</div> -->
 <!-- 	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div> -->
 
-	<%-- 찜하기 안내 모달 영역 --%>
-	<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="needSessionId">찜하기 - 로그인 필요</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body text-center" id="modalMsg">
-	      <%-- 메세지가 표시되는 부분 --%>
-	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
-	      </div>
-	      <div class="modal-footer justify-content-center">
-	        <button type="button" class="btn btn-danger" onclick="location='member_login_form'">로그인</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+	
 	
 	
 	
