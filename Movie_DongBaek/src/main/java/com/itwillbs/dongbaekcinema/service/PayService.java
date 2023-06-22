@@ -14,17 +14,22 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.itwillbs.dongbaekcinema.mapper.*;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 
 @Service
 public class PayService {
 
+	@Autowired
+	private PayMapper mapper;
+	
 	private String impKey="2836321062537518";
-
 	
 	private String impSecret="gDtR42HoIUGMBdqwjWpjtZsXqwv1CQYBV04n7CRKxEXzx5vkdBH4J9OYKqsdtSdjMXHEfHM7hJVe8Luo";
 
@@ -133,6 +138,26 @@ public class PayService {
 //		conn.disconnect();
 		
 	}
+	
+	// 결제 취소
+    public int orderCancle(BuyDetailVO buyDetail) throws Exception {
+		if(!buyDetail.getPayment_num().equals("")) {
+//			String token = payService.getToken(); 
+			String token = getToken(); 
+			int price = buyDetail.getPayment_total_price();
+//			payService.payMentCancle(token, buyDetail.getPayment_num(), price, buyDetail.getReason());
+			payMentCancle(token, buyDetail.getPayment_num(), price, buyDetail.getReason());
+		}
+		
+		// payment_num 으로 조회 후 결제 상태(payment_status) 변경
+		int updatePaymentCount = mapper.updatePayment(buyDetail.getPayment_num());
+		// 티켓예약 상태변경, 스낵결제 상태변경
+		int updateTicketCount = mapper.updateTicket(buyDetail.getOrder_num());
+		int updateSnackCount = mapper.updateSnack(buyDetail.getOrder_num());
+		System.out.println("updatePaymentCount: " + updatePaymentCount + ", updateTicketCount : " + updateTicketCount + ", updateSnackCount : " + updateSnackCount);
+		
+		return updatePaymentCount;
+    }
 	
 }
 

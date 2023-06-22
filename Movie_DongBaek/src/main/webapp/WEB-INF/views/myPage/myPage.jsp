@@ -73,9 +73,18 @@
 									<td>${status.index+1} </td>
 									<td><img src="${myTicket.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
 									<td>${myTicket.movie_name_kr }</td>
-									<td>${myTicket.play_date }</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
+									<td>
+										${myTicket.play_date }
+										<fmf:formatDate value="${myTicket.play_start_time }" pattern="HH:mm"/>
+									</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
 									
 									<td>
+									<form action="myPayment_detail" method="post">
+										<input type="hidden" name="payment_num" value="${myTicket.payment_num }">
+										<input type="hidden" name="play_change" value="${myTicket.play_change }">
+										<input type="submit" value="${myTicket.play_change }"
+												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >
+										</form>
 										<%-- 상영일 상영시간이 30분 이전이라면 취소 가능 --%>
 										<%-- 오늘 날짜 --%>
 <%-- 										<jsp:useBean id="now" class="java.util.Date" /> --%>

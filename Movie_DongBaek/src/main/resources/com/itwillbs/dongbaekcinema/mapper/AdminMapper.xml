@@ -267,11 +267,4 @@
 	
 	
 	
-	<!-- 결제 취소 - DELETE -->
-	<delete id="orderCancle">
-			DELETE 
-				FROM PAYMENTS
-			WHERE payment_num = #{payment_num}
-	</delete>
-	
 </mapper>
