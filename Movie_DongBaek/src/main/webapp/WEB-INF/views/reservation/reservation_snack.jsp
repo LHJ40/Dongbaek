@@ -148,7 +148,7 @@ function reservation_ing(){
 			arr2.push([$("#snackquantity"+i).html()]);
 		}
 	}
-	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&snack_num='+arr+'&snack_quantity='+arr2
+	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&ticket_type_num=${param.ticket_type_num}&snack_num='+arr+'&snack_quantity='+arr2
 }
 
 </script>
