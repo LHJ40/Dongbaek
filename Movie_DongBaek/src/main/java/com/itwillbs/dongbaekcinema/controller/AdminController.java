@@ -47,19 +47,13 @@ import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 public class AdminController {
 	
 	// 0608 정의효 - 데이터랑 없는상태에서는 오류떠서 주석처리 다해놓음
-	// 멤버 관련 회원가입, 조회를 위한 MemberService @Autowired 
 	@Autowired
 	private MemberService member_service;
 	
 	@Autowired
 	private AdminService admin_service;
 
-
-	
-
-
 	// 0609 정의효
-	// 결제 관련 조회를 위한 PaymentService @Autowired
 	@Autowired
 	private PaymentService payment_service;
 	
@@ -279,8 +273,6 @@ public class AdminController {
 
 		return jsonArray.toString();
 	}
-	
-	
 	
 	
 	
@@ -808,26 +800,7 @@ public class AdminController {
 	
 	
 	
-	// 관리자페이지 회원관리 메인(리스트) 회원목록 다 가져와서 뿌리기
-	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
-
-//	---------------------원본 -------------------------------------------------
-//	@GetMapping("admin_member_list")
-//	public String adminMemberList(HttpSession session, Model model) {
-//		
-//		// --------------------원본---------------
-//		List<MemberVO> memberList = member_service.getMemberList();
-//		model.addAttribute("memberList", memberList);
-//		System.out.println(memberList);
-//		// --------------------원본---------------
-//		
-//		
-//		return "admin/admin_member_list";
-//	}
-//	---------------------원본 -------------------------------------------------
-	
-//	admin_member_list 페이징처리 테스트 - 0616 정의효
-//	검색기능 추가중- 완료(0622) - 0621 정의효 
+//	관리자 - 회원관리 - 정의효 
 	@GetMapping("admin_member_list")
 	public String adminMemberList(
 			HttpSession session,
@@ -875,33 +848,7 @@ public class AdminController {
 	}
 	
 	
-	
-	// 관리자페이지 영화관리 메인
-	// 영화 가져와서 뿌리기
-	// admin_movie_management 원본---------------------------------------
-//	@GetMapping("admin_movie_management")
-//	public String adminMovieManagement(HttpSession session, Model model) {
-//
-//		
-////		// 직원 세션이 아닐 경우 잘못된 접근 처리
-////		String member_type = (String)session.getAttribute("member_type");
-////		System.out.println(member_type);
-////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-////
-////            model.addAttribute("msg", "잘못된 접근입니다!");
-////            return "fail_back";
-////        }		
-//		
-//		
-//		List<MovieVO> movieList = movie_service.getMovieList();
-//		model.addAttribute("movieList", movieList);
-//		return "admin/admin_movie_management";
-//	}
-	// admin_movie_management 원본---------------------------------------
-	
-//	 admin_movie_management 페이징 처리 테스트 0616 정의효-----------------------------
-//	0622 정의효 - 페이징처리중
-//	영화 제목으로 검색하니까 searchType 필요없음
+//	관리자 - 영화관리 - 정의효
 	@GetMapping("admin_movie_management")
 	public String adminMovieManagement(
 						HttpSession session,
@@ -957,13 +904,7 @@ public class AdminController {
 		return "admin/admin_movie_management";
 	}
 	
-//	---------------------------------------------------------------------------
-	
-	
-	// 영화 상세정보 조회
-	//  ?=movie_num
-	// 포워딩 페이지 : admin/admin_movie_detail
-	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
+//	관리자 - 영화상세 - 정의효
 	@GetMapping("admin_movie_detail")
 	public String adminMemberOneperson(HttpSession session, @RequestParam int movie_num, Model model) {
 
@@ -984,7 +925,7 @@ public class AdminController {
 		return "admin/admin_movie_detail";
 	}
 	
-	// 관리자페이지 영화관리 등록페이지로 이동 - 0609 정의효
+	// 관리자 - 영화관리 - 등록페이지 - 정의효
 	@GetMapping("admin_movie_regist")
 	public String adminMovieRegist(HttpSession session, Model model) {
 
@@ -1002,16 +943,7 @@ public class AdminController {
 		return "admin/admin_movie_regist";
 	}
 	
-	// 영화등록페이지 에서 등록하기 클릭시(insert 구문) - 영화관리 메인으로 이동 - 0610 정의효
-	// POST => 폼 파라미터 데이터를 전송받아 저장할 MovieVO 타입 파라미터 설정
-	
-	@InitBinder //0620정의효 - 문자열을 DATE타임으로바꾸는거 안되면 삭제하기
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
-	
-	
+	// 관리자 영화관리 - 등록페이지 - 등록하기 - 정의효
 	@PostMapping("admin_movie_regist_Pro")
 	public String adminMovieRegistPro(HttpSession session, @DateTimeFormat(pattern = "yyyy-MM-dd") MovieVO movie, Model model) {
 		System.out.println(movie);
@@ -1033,37 +965,7 @@ public class AdminController {
 		return "redirect:/admin_movie_management";
 	}
 	
-	// 관리자페이지 결제관리 메인(리스트) 결제목록 다 가져와서 뿌리기
-	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
-	// 0609 완
-	// 페이징관리 시작 0615-13:41-정의효
-	// 처음 페이지 요청 = 1페이지
-	
-	//--------------------------------------------------원본
-//	@GetMapping("admin_payment_list")
-//	public String adminPaymentList(HttpSession session, Model model) {
-//		
-//		
-////		// 직원 세션이 아닐 경우 잘못된 접근 처리
-////		String member_type = (String)session.getAttribute("member_type");
-////		System.out.println(member_type);
-////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-////
-////            model.addAttribute("msg", "잘못된 접근입니다!");
-////            return "fail_back";
-////        }		
-//		
-//		
-//		List<PaymentVO> paymentList = payment_service.getPaymentList();
-//		
-//		model.addAttribute("paymentList", paymentList);
-//		
-//		return "admin/admin_payment_list";
-//	}
-	//--------------------------------------------------원본
-	// -- 페이징처리 테스트 - 일단 초안완 0616 정의효
-	// 결제내역 검색 및 페이징처리시작  15:22 0622정의효
-	// 아이디로 검색하니까 searchtype 필요X
+	// 관리자 - 결제관리 - 정의효
 	@GetMapping("admin_payment_list")
 	public String adminPaymentList(
 						HttpSession session,
@@ -1118,10 +1020,7 @@ public class AdminController {
 	}
 	
 
-	// 관리자페이지 회원(1명) 정보 조회
-	//  ?=member_id(이름은 중복될수있으니까 X)
-	// 포워딩 페이지 : admin/admin_member_oneperson
-	// 데이터넣고 주석풀고 확인하기 0608 - 정의효
+	// 관리자 - 회원상세 - 정의효
 	@GetMapping("admin_member_oneperson")
 	public String adminMemberOneperson(HttpSession session, @RequestParam String member_id, Model model) {
 
@@ -1141,23 +1040,7 @@ public class AdminController {
 		return "admin/admin_member_oneperson";
 	}
 	
-	// 관리자페이지 결제관리메인 -> 상세보기 클릭시 주문내역상세
-	// 파라미터 id
-	// 포워딩페이지 : admin/admin_payment_list_detai
-	// 데이터넣고 주석풀고 확인하기 **완료X 0608 - 정의효
-	// 0609 완
-//	--원본-----------------------------
-//	@GetMapping("admin_payment_list_detail")
-//	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
-//		
-//		PaymentVO payment = payment_service.getPayment(order_num); 
-//		model.addAttribute("payment", payment);
-//		System.out.println(payment);
-//		return "admin/admin_payment_list_detail";
-//	}
-//	--원본-----------------------------
-	//List로 수정중 0616정의효
-	//수정중 0621정의효 14:00
+	// 관리자 - 결제상세 - 정의효
 	@GetMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
 		
@@ -1168,7 +1051,7 @@ public class AdminController {
 		return "admin/admin_payment_list_detail";
 	}
 	
-	//0619정의효 관리자페이지 - 회원 등급 변경
+	// 관리자 - 회원등급변경 - 정의효
 	@PostMapping("admin_changeMemberGrade")
 	public String adminChangeMemberGrade(HttpSession session, @RequestParam String grade_name, @RequestParam String member_id) {
 		System.out.println(grade_name);
@@ -1176,7 +1059,7 @@ public class AdminController {
 	    return "redirect:/admin_member_list";
 	}
 
-	//0619정의효 관리자페이지 - 회원 상태 변경
+	// 관리자 - 회원상태변경 - 정의효
 	@PostMapping("admin_changeMemberStatus")
 	public String adminChangeMemberStatus(HttpSession session, @RequestParam String member_status, @RequestParam String member_id) {
 		System.out.println(member_status);
@@ -1184,21 +1067,21 @@ public class AdminController {
 		return "redirect:/admin_member_list";
 	}
     
-	//0619정의효 관리자페이지 - 회원삭제
+	// 관리자 - 회원삭제 - 정의효
 	@PostMapping("admin_memberDelete")
 	public String adminMemberDelete(HttpSession session, @RequestParam String member_id) {
 		member_service.memberDelete(member_id);
 		return "redirect:/admin_member_list";
 	}
 		
-	//0620정의효 관리자페이지 - 영화삭제
+	// 관리자 - 영화삭제 - 정의효
 		@PostMapping("admin_movieDelete")
 		public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
 			movie_service.movieDelete(movie_num);
 			return "redirect:/admin_movie_management";
 		}
 		
-	//0620정의효 영화수정 완
+	// 관리자 - 영화수정 - 정의효
 	@PostMapping("admin_movie_modify")
 	public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
 		movie_service.movieModify(movie);
