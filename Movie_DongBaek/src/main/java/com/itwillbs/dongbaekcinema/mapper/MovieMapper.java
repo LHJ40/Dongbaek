@@ -24,38 +24,53 @@ public interface MovieMapper {
 
 	// 영화 목록 조회 - 현재상영작 예매율 순 정렬 - 검색X
 	List<MovieVO> select_presentMovie_bookingRateDESC(
-			@Param("startRow") int startRow, 
-			@Param("listLimit") int listLimit);
+								@Param("startRow") int startRow, 
+								@Param("listLimit") int listLimit);
 
 
 	// 전체 글 목록 갯수 조회 - 검색X
-	int selectBoardListCount();
+	int selectMovieListCount();
 	
 	
 	
 	//영화 목록 조회 - 현재상영작 평점 순 정렬
-	List<MovieVO> select_presentMovie_reviewRate();
+	List<MovieVO> select_presentMovie_reviewRate(@Param("startRow") int startRow, 
+						@Param("listLimit") int listLimit);
 	
 	// 영화 목록 조회 - 상영예정작
-	List<MovieVO> select_prepareMovie();
+	List<MovieVO> select_prepareMovie(
+						@Param("startRow") int startRow, 
+						@Param("listLimit") int listLimit);
+	
+	// 상영예정작 개수 조회 - 검색X
+	int selectMovieListCount_prepare();
 	
 	// 영화 목록 조회 - 탑4(메인)
 	List<MovieVO> select_movieListTop4();
 
+	// 영화 목록 조회 - 가나다순
+	List<MovieVO> select_movieList_prepareNameDESC(
+							@Param("startRow") int startRow, 
+							@Param("listLimit") int listLimit);
+	
 	
 	//-------------------------------------------
 	// 리뷰 정보 조회
 	ReviewVO selectReview(int movie_num);
 	
-	// 리뷰 개수 정보 조회
+	// 각 영화당 리뷰 개수 정보 조회
 	ReviewVO selectReviewCounting(int movie_num);
 
 	// 리뷰 목록 조회
-	List<ReviewVO> selectReviewList(int movie_num);
+	List<ReviewVO> selectReviewList(
+			@Param("movie_num") int movie_num,
+			@Param("startRow") int startRow, 
+			@Param("listLimit") int listLimit);
 
-	
-	// 페이징처리
-	
+
+	// 리뷰 총개수 조회(페이징용)
+	int selectReviewCounting_forPaging(int movie_num);
+
 	
 	//---------------------------------------------
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
@@ -72,6 +87,11 @@ public interface MovieMapper {
 
 	// 영화수정 0620-정의효
 	void movieModify(MovieVO movie);
+
+
+
+
+
 
 
 
