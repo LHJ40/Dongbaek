@@ -109,22 +109,22 @@
 	<!-- 전체 글 목록 갯수 조회 - SELECT  0621정의효- 페이징처리중-->
 	<select id="selectMemberListCount" resultType="int">
     SELECT COUNT(*)
-    FROM MEMBERS
-    <if test="!memberSearchKeyword.equals('')">
-        WHERE
-        <choose>
-            <when test="memberSearchType.equals('member_name')">
-                member_name LIKE '%${memberSearchKeyword}%'
-            </when>
-            <when test="memberSearchType.equals('member_id')">
-                member_id LIKE '%${memberSearchKeyword}%'
-            </when>
-            <when test="memberSearchType.equals('grade_name')">
-                grade_name LIKE '%${memberSearchKeyword}%'
-            </when>
-        </choose>
-    </if>
-</select>
+	    FROM MEMBERS
+	    <if test="!memberSearchKeyword.equals('')">
+	        WHERE
+	        <choose>
+	            <when test="memberSearchType.equals('member_name')">
+	                member_name LIKE '%${memberSearchKeyword}%'
+	            </when>
+	            <when test="memberSearchType.equals('member_id')">
+	                member_id LIKE '%${memberSearchKeyword}%'
+	            </when>
+	            <when test="memberSearchType.equals('grade_name')">
+	                grade_name LIKE '%${memberSearchKeyword}%'
+	            </when>
+	        </choose>
+	    </if>
+	</select>
 	
 	
 	<!-- 0619정의효 멤버 grade 변경 -->
@@ -162,6 +162,14 @@
 		WHERE member_id = #{member_id}
 	</update>
 	
+	<!-- 아이디 찾기 -->
+	<select id="findMemberId" resultType="String">
+		SELECT member_id
+			FROM MEMBERS
+			WHERE
+				member_name = #{member_name}
+				AND member_phone = #{member_phone}
+	</select>
 	
 </mapper>
 

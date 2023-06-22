@@ -119,7 +119,7 @@ div {
         <c:choose>
             <c:when test="${pageInfo.startPage > 1}">
                 <li class="page-item">
-                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
                 </li>
             </c:when>
             <c:otherwise>
@@ -141,7 +141,7 @@ div {
                 <c:otherwise>
                     <%-- 다른 페이지 --%>
                     <li class="page-item">
-                        <a class="page-link" href="admin_member_list?pageNo=${i}">${i}</a>
+                        <a class="page-link" href="admin_member_list?pageNo=${i}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -151,7 +151,7 @@ div {
         <c:choose>
             <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
                 <li class="page-item">
-                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
                 </li>
             </c:when>
             <c:otherwise>

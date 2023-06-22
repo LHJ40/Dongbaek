@@ -61,17 +61,25 @@ public interface MovieMapper {
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
 	//	List<MovieVO> selectMovieList();
 
-	// 페이징처리 0616 정의효
-	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageListLimit);
+	// 페이징처리 0616 정의효 - 0622페이징처리후 완료되면 지우기 
+//	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageListLimit);
 
-	// 페이징처리 0616 정의효
-	int getCount();
+	// 페이징처리 0616 정의효 - 0622페이징처리후 완료되면 지우기 
+//	int getCount();
 	
 	//영화삭제 0620-정의효
 	void movieDelete(String movie_num);
 
 	// 영화수정 0620-정의효
 	void movieModify(MovieVO movie);
+
+	// 영화 목록 조회 / 페이징- 0622정의효
+	List<MovieVO> selectMovieList(@Param("movieSearchKeyword") String movieSearchKeyword, 
+								  @Param("startRow") int startRow, 
+								  @Param("listLimit") int listLimit);
+	
+	// 전체 영화 목록 개수 조회 / 페이징 - 0622정의효
+	int selectMovieListCount(String movieSearchKeyword);
 
 
 
