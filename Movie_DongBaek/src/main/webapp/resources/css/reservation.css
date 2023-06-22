@@ -314,19 +314,26 @@ li .selected a span.text {
 }
 
 #seat-part button:hover {
-	background-color: #ef4f4f;
+	background-color: #777;
 }
 
 #seat-part button:click {
 	background-color: #ef4f4f;
 }
 
+
 #seat-part .seatArea button.seat.selected {
 	border: 1px solid #ef4f4f;
 	background-color: #ef4f4f; 
 	border-radius: 0;
 }
-
+/*
+#seat-part .seatArea button.seat.on {
+	border: 1px solid #ef4f4f;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+}
+*/
 #seat-part .seatArea button.seat:visited {
 	border: 1px solid #ef4f4f;
 	background-color: #ef4f4f; 

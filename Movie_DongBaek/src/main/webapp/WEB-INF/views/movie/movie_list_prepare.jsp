@@ -13,7 +13,7 @@
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script>
-  
+ 	
 </script>
 
 <title>영화 예매 사이트</title>
@@ -270,7 +270,6 @@
   <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>

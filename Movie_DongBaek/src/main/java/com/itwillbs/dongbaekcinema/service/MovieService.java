@@ -30,11 +30,27 @@ public class MovieService {
 	
 	
 	// 현재상영작 예매율순 영화목록 조회 요청 - 기본
-	public List<MovieVO> getMovieList_present_bookrate(){
-		System.out.println("getMovieList_present_bookrate()");
-		return mapper.select_presentMovie_bookingRateDESC();
+	public List<MovieVO> getMovieList_present_bookrate(int startRow, int listLimit){
+		//		System.out.println("getMovieList_present_bookrate()");
+		return mapper.select_presentMovie_bookingRateDESC(startRow, listLimit);
 	}
-
+	
+	// 전체 글 목록 갯수 조회 요청 - 검색X
+	public int getBoardListCount() {
+		return mapper.selectBoardListCount();
+	}
+	
+	
+	
+	
+	
+	// 현재상영작 평점순 영화목록 조회 요청
+	public List<MovieVO> getMovieList_present_reviewrate(){
+		System.out.println("getMovieList_present_reviewrate()");
+		return mapper.select_presentMovie_reviewRate();
+	}
+	
+	
 	
 	// 영화 목록 조회 요청을 위한 getMovieList_prepare() 메서드 정의 - 현재상영작
 	public List<MovieVO> getMovieList_prepare() {
@@ -71,7 +87,11 @@ public class MovieService {
 	
 	//-------------------------------------------------------------------------
 	// 페이징처리 - (movie페이지)
-
+//	@Override
+//	public List<MovieVO> getList(Criteria criteria){
+//		System.out.println(criteria);
+//		return mapper.getListWithPaging(criteria);
+//	}
 	
 	
 	// 영화 목록 전부 조회 페이징처리로 필요없음 - 0616정의효
@@ -80,16 +100,16 @@ public class MovieService {
 //	}
 
 	//페이징처리 - 0616 정의효
-	public List<MovieVO> getMovieList(int pageNo, int pageSize) {
-		int start = (pageNo - 1) * pageSize;
-		return mapper.getMovieList(start, pageSize);
+	public List<MovieVO> getMovieList(int pageNo, int pageListLimit) {
+		int start = (pageNo - 1) * pageListLimit;
+		return mapper.getMovieList(start, pageListLimit);
 	}
 
 
 	//페이징처리 - 0616 정의효
-	public int getTotalPageCount(int pageSize) {
+	public int getTotalPageCount(int pageListLimit) {
 		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageSize);
+		return (int) Math.ceil((double) totalCount / pageListLimit);
 	}
 
 	//영화삭제 - 0620정의효
@@ -104,14 +124,5 @@ public class MovieService {
 
 
 
-
-
-
-	
-	
-	
-	
-	//영화목록조회  - 현재상영작? select_presentMovie
-	//영화목록조회  - 상영예정작? select_prepareMovie
 
 }

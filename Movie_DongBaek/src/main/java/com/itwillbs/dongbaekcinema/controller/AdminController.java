@@ -37,7 +37,7 @@ import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
-import com.itwillbs.dongbaekcinema.voNew.PageVO;
+import com.itwillbs.dongbaekcinema.voNew.PageInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
 
@@ -207,46 +207,78 @@ public class AdminController {
 	}
 	
 	
-	// 관리자페이지 상영스케줄 영화목록 셀렉트 박스 클릭 시 새로운 회차 정보 생성- json 
-	// 파라미터 값 (theater_num, movie_num, pageNo)
+	
+	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
 	@ResponseBody
-	@RequestMapping(value = "calculateTime", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<PlayScheduleVO> findMovieList(HttpSession session, @RequestParam int theater_num, @RequestParam int movie_num, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-//		System.out.println("findMovieList : theater_num : " + theater_num + ", movie_num : " + movie_num + ", pageNo : " + pageNo);
+	@RequestMapping(value = "createUpdateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String createSchedule1(HttpSession session, @RequestParam String play_date, @RequestParam int theater_num, @RequestParam int row_num, @RequestParam int movie_num, Model model) {
+		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date + ", theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
-		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
-//		List<PlayScheduleVO> playScheduleList = admin_service.createTurn(theater_num, movie_num, pageNo);
-		
-		
-//		System.out.println(playScheduleList);
-		
-//		model.addAttribute("playScheduleList",playScheduleList);
-		
-//		return playScheduleList;
-		return null;
-	}
-	
-	
-	
-	// 생성 버튼 시 정보 넘어오는지 확인
-	// json 
-	@ResponseBody
-	@RequestMapping(value = "rewriteSchedule", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public String rewriteSchedule(HttpSession session, @RequestParam String room_num, Model model) throws Exception {
-		System.out.println("createSchedule : " + room_num);
-		
-		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
-//		List<MovieVO> movieList = admin_service.findMovieList(play_date);
+		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
+		int turnCount = admin_service.checkSchedule(play_date, theater_num, row_num);
+//		System.out.println("상영정보 존재(건):" + turnCount);
 
-		
-		room_num += "가공했습니다!";
-		
-//		model.addAttribute("roomName",roomName);
-		
-		return room_num;
+	        
+        try {
+			jsonArray = new JSONArray(); // JSONArray 객체 생성
+			JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
+			
+			
+			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
+				System.out.println("상영스케줄 이미 존재함");
+			
+//				// 상영스케줄 정보 삭제 수행
+				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
+//				
+//				
+				if(deleteTurnCount == 0) { // 상영스케줄이 다른 테이블에서 참조하는경우 삭제 실패(ex.예매가 진행되고있는 경우)
+					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
+					
+				} else { // 상영 스케줄 등록
+					
+					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
+					
+					
+					if(insertTurnCount == 0) {
+						System.out.println("상영 스케줄 등록을 시도했으나 실패");
+						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
+					} else {
+						System.out.println("상영등록 성공");
+						jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
+					}
+				}
+//				
+			} else { // 상영 스케줄이 없는 경우(insert 실행)
+				System.out.println("상영스케줄 없음");
+				
+//				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
+				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
+			
+				if(insertTurnCount == 0) {
+					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
+					jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
+				} else {
+					System.out.println("상영등록 성공");
+					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
+				}
+			}
+			
+	
+			
+//				jsonObject.put("roomList", roomList);
+			
+			jsonArray.put(jsonObject);
+		} catch (JSONException e) {
+
+			e.printStackTrace();
+		}
+			
+
+
+
+		return jsonArray.toString();
 	}
-	
-	
 	
 	
 	
@@ -288,15 +320,18 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 1;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNo - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
-		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -306,10 +341,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsNoticeList : " + CsNoticeList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -488,15 +523,18 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 2;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+		int listLimit = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
+		int startRow = (pageNo - 1) * listLimit;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -506,10 +544,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 1:1 게시판 목록 조회
-		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listLimit, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsQnaList : " + CsQnaList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -605,15 +643,19 @@ public class AdminController {
 		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 
-		int pageSize = 3;// 한 페이지에 보여줄 목록 수
+
+		int listLimit = 5;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
-		int startRow = (pageNo - 1) * pageSize;
+		int startRow = (pageNo - 1) * listLimit;
 		
-		int startPage = ((pageNo - 1) / pageSize) * pageSize + 1; // 시작할 페이지
+		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
-		int endPage = startPage + pageSize -1; // 끝페이지
-		int maxPage = admin_service.getCsTotalPageCount(pageSize, csType);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		int listCount = admin_service.getCsTotalPageCount(listLimit, csType);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -623,10 +665,10 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, pageSize, startRow, csType);
+		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, listLimit, startRow, csType);
 		
 		// 페이징 정보 저장
-		PageVO pageInfo = new PageVO(pageSize, maxPage, startPage, endPage);
+		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsFaqList : " + CsFaqList);
 //		System.out.println("pageInfo : " + pageInfo);
@@ -679,9 +721,7 @@ public class AdminController {
 		// 자주 묻는 질문 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 		int csType = 3;
 		
-		
-		
-	
+			
 		// 자주묻는 질문 글쓰기 등록을 위한 함수 호출
 		int insertCount = admin_service.registCs(csType, faqInfo, files);
 
@@ -787,20 +827,47 @@ public class AdminController {
 //	---------------------원본 -------------------------------------------------
 	
 //	admin_member_list 페이징처리 테스트 - 0616 정의효
+//	검색기능 추가중 - 0621 정의효 
 	@GetMapping("admin_member_list")
-	public String adminMemberList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
+	public String adminMemberList(
+			HttpSession session,
+			@RequestParam(defaultValue = "") String memberSearchType,
+			@RequestParam(defaultValue = "") String memberSearchKeyword,
+			@RequestParam(defaultValue = "1") int pageNo, 
+			Model model) {
 		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MemberVO> memberList = member_service.getMemberList(pageNo, pageSize);
-		int totalPageCount = member_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
+		// 회원 목록 조회
+		List<MemberVO> memberList = member_service.getMemberList(memberSearchType, memberSearchKeyword, startRow, listLimit);
+		
+		int listCount = member_service.getMemberListCount(memberSearchType, memberSearchKeyword);
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 2;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+				if(endPage > maxPage) { 
+					endPage = maxPage;
+				}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("memberList", memberList);
-		model.addAttribute("currentPage", pageNo);
-		model.addAttribute("totalPageCount", totalPageCount);
-		
+		model.addAttribute("pageInfo", pageInfo);
 		System.out.println(memberList);
 		
 		
@@ -845,12 +912,12 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageSize);
-		int totalPageCount = movie_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageListLimit);
+		int totalPageCount = movie_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("currentPage", pageNo);
@@ -977,12 +1044,12 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		int pageSize = 5; // 한 페이지에 보여줄 게시물 수
+		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageSize);
-		int totalPageCount = payment_service.getTotalPageCount(pageSize);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageSize);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageSize);	찾아서 1~10뜨고 11~20뜨고 해보기
+		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageListLimit);
+		int totalPageCount = payment_service.getTotalPageCount(pageListLimit);
+//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
+//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
 		
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("currentPage", pageNo);
@@ -1033,15 +1100,13 @@ public class AdminController {
 //	}
 //	--원본-----------------------------
 	//List로 수정중 0616정의효
+	//수정중 0621정의효 14:00
 	@GetMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
+	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
 		
-//		List<PaymentVO> payment = payment_service.getPayment(order_num);
-//		model.addAttribute("payment", payment);
-		//0618 정의효 밑에꺼 되있었음 확인
-//		PaymentVO payment = payment_service.getPayment(order_num); 
-//		model.addAttribute("payment", payment);
-//		System.out.println(payment);
+		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
+		model.addAttribute("paymentDetail", paymentDetail);
+		
 		
 		return "admin/admin_payment_list_detail";
 	}
@@ -1076,14 +1141,14 @@ public class AdminController {
 			return "redirect:/admin_movie_management";
 		}
 		
-		//0620정의효 영화수정 완
-		@PostMapping("admin_movie_modify")
-		public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
-			movie_service.movieModify(movie);
-			
-			System.out.println(movie);
-			return "redirect:/admin_movie_management";
-		}
+	//0620정의효 영화수정 완
+	@PostMapping("admin_movie_modify")
+	public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
+		movie_service.movieModify(movie);
+		
+		System.out.println(movie);
+		return "redirect:/admin_movie_management";
+	}
 	
 	
     

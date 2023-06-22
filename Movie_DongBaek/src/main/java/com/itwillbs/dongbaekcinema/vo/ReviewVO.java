@@ -17,5 +17,7 @@ public class ReviewVO {
 	private BigDecimal movie_review_rating;
 	//영화당 리뷰개수카운팅
 	private int review_count;
+	//영화당 평균평점순 정렬을 위한 앨리어스
+	
 
 }

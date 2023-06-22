@@ -20,6 +20,8 @@ import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.vo.OrderVO;
+import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.GradeNextVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.service.MemberService;
@@ -29,6 +31,7 @@ import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 
 @Controller
 public class ReservationController {
@@ -58,12 +61,7 @@ public class ReservationController {
 		List<MovieVO> movieList = service.getMovieListDescBookingRate();
 //		System.out.println(movieList);
 		model.addAttribute("movieList", movieList);
-		
-		// 네비 탭의 [영화]에서 영화 선택 후 [예매하기] 버튼 클릭 시
-//		MovieVO movie = service.getMovie(movie_num);
-//		System.out.println(movie);
-//		model.addAttribute("movie", movie);
-		
+				
 		return "reservation/reservation_main";
 	}
 
@@ -122,13 +120,12 @@ public class ReservationController {
 		return theaterList;
 	}
 	
-	
 	// reservation_main.jsp의 [날짜] 클릭 시 시간 정보 출력
 	// PlayList 요청에 의해 reservation_main.jsp의 [시간선택] 영역에 
 	// 선택한 영화를 선택한 극장에서 선택한 날짜에 상영하는 시간과 상영관 목록 출력
 	@ResponseBody
 	@RequestMapping(value = "PlayList", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
-	public String reservationStep3Servlet(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
+	public String PlayList(@RequestParam int movie_num, @RequestParam int theater_num, @RequestParam String play_date, Model model) {
 		System.out.println("ReservationController - PlayList");
 		
 //			TheaterVO theater = service.getTheater(theater_num);
@@ -145,6 +142,7 @@ public class ReservationController {
 		System.out.println(ja);
 		return ja.toString();
 	}
+	
 
 	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
 	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
@@ -182,8 +180,28 @@ public class ReservationController {
 		return ja.toString();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "GetTicketPrice", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=utf-8")
+	public String GetTicketPrice(@RequestParam String play_time_type, Model model, HttpSession session) {
+		System.out.println("ReservationController - GetTicketPrice()");
+		System.out.println(play_time_type);
+		
+		// ReservationService - getTicketPriceList() 메서드를 호출하여
+		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
+		// => 파라미터 : play_time_type  리턴타입 : List<OrderTicketVO>(ticketPriceList)
+		List<TicketTypeVO> ticketPriceList = service.getTicketPriceList(play_time_type);
+//		model.addAttribute("ticketPriceList", ticketPriceList);
+		session.setAttribute("ticketPriceList", ticketPriceList);
+		System.out.println(ticketPriceList);
+
+		JSONArray ja = new JSONArray(ticketPriceList);
+		System.out.println(ja);
+		return ja.toString();
+	}
+	
+	
 	@GetMapping("reservation_ing")
-	public String reservation_ing(HttpSession session,HttpServletRequest request,Model model) {
+	public String reservation_ing(int play_num,HttpSession session,HttpServletRequest request,Model model) {
 		//잘못된 접근처리
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
@@ -196,10 +214,12 @@ public class ReservationController {
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
+		ReservationVO reservation = service.getPlay(play_num);
+		model.addAttribute("reservation", reservation);
 		model.addAttribute("member", member);
 		model.addAttribute("member_grade", member_grade);
-		System.out.println(member);
-		System.out.println(member_grade);
+//		System.out.println(member);
+//		System.out.println(member_grade);
 		return "reservation/reservation_ing";
 	}
 	
@@ -221,7 +241,7 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_snack")
-	public String reservation_snack(@RequestParam Map<String, String> map,HttpServletRequest request, Model model) {
+	public String reservation_snack(int play_num, HttpServletRequest request, Model model) {
 		//잘못된 접근처리
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
@@ -230,12 +250,47 @@ public class ReservationController {
 			
 			return "fail_location";
 		}
-		System.out.println(beforePage);
+//		System.out.println(beforePage);
 		List<SnackVO> snackList = service2.getSnackList();
-		System.out.println(snackList);
+//		System.out.println(snackList);
 		model.addAttribute("snackList", snackList);
 		
+		ReservationVO reservation = service.getPlay(play_num);
+		model.addAttribute("reservation", reservation);
+		
+
+		
 		return "reservation/reservation_snack";
+	}
+	@RequestMapping(value ="complete", method = RequestMethod.POST)
+	@ResponseBody
+	public int paymentComplete(OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
+			) throws Exception {
+		    System.out.println(order);
+		    System.out.println(ticket);
+		    System.out.println(payment);
+//		    String token = payService.getToken();
+//		    
+//		    // 결제 완료된 금액
+//		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
+		    
+		    int res = 1;
+		    
+//		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
+//				res = 0;
+//				// 결제 취소
+//				payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
+//				return res;
+//			}
+//			orderService.insert_pay(orderDTO);
+		    int insertCount=service.registOrder(order);
+		    int insertCount2=service.registTicket(ticket);
+		    int insertCount3=service.registPayment(payment);
+		    System.out.println(insertCount);
+		    System.out.println(insertCount2);
+		    System.out.println(insertCount3);
+			return res;
+		 
 	}
 }
 

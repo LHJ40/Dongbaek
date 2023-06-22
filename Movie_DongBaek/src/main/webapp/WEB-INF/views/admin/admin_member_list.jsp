@@ -69,74 +69,117 @@ div {
 
 			<%-- 'search' 영역 --%>
 			<div class="row">
-				<div class="col-md-12 mt-3">
-					<nav class="navbar navbar-light bg-light justify-content-end">
-					<form class="form-inline">
-						<select class="form-control mr-sm-s" name="movie_name">
-					    	<option value="1">이름</option>
-							<option value="영화명1">아이디</option>
-					    	<option value="영화명2">멤버십</option>
-					    </select>
-				    	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				    	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-						</form>
-					</nav>
-				</div>
-			</div>
-  		<%-- 상단 이름, 검색 목록 코드 끝 --%>
+	<div class="col-md-12 mt-3">
+		<nav class="navbar navbar-light bg-light justify-content-end">
+			<form class="form-inline" action="admin_member_list" method="GET">
+				<select class="form-control mr-sm-2" name="memberSearchType" id="memberSearchType">
+					<option value="member_name" <c:if test="${param.memberSearchType eq 'member_name' }">selected</c:if>>이름</option>
+					<option value="member_id" <c:if test="${param.memberSearchType eq 'member_id' }">selected</c:if>>아이디</option>
+					<option value="grade_name" <c:if test="${param.memberSearchType eq 'grade_name' }">selected</c:if>>멤버십</option>
+				</select>
+				<input class="form-control mr-sm-2" type="text" value="${empty param.memberSearchKeyword ? '' : param.memberSearchKeyword}" placeholder="Search" aria-label="Search" id="memberSearchKeyword" name="memberSearchKeyword">
+				<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</nav>
+	</div>
+</div>
+<%-- 회원관리 테이블 시작 --%>
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-striped text-center">
+			<thead>
+				<tr>
+					<th scope="col">이름</th>
+					<th scope="col">아이디</th>
+					<th scope="col">멤버십</th>
+					<th scope="col">현재상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="member" items="${memberList}">
+					<tr>
+						<td>${member.member_name}</td>
+						<td>${member.member_id}</td>
+						<td>${member.grade_name}</td>
+						<td>
+							<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+		
+		<%--수정님 페이징 --%>
+<nav aria-label="...">
+    <ul class="pagination pagination-md justify-content-center">
+        <%-- 이전 페이지로 이동 --%>
+        <c:choose>
+            <c:when test="${pageInfo.startPage > 1}">
+                <li class="page-item">
+                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+
+        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+            <c:choose>
+                <%-- 현재 페이지 --%>
+                <c:when test="${pageNo eq i}">
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">${i} <span class="sr-only">(current)</span></a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <%-- 다른 페이지 --%>
+                    <li class="page-item">
+                        <a class="page-link" href="admin_member_list?pageNo=${i}">${i}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <%-- 다음 페이지로 이동 --%>
+        <c:choose>
+            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+                <li class="page-item">
+                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</nav>
 
 
-			<%-- 회원관리 테이블 시작 --%>
-			<div class="row">
-				<div class="col-md-12">
-					<table class="table table-striped text-center">
-						<thead>
-							<tr>
-<!-- 						    	<th scope="col">번호</th> -->
-						    	<th scope="col">이름</th>
-						    	<th scope="col">아이디</th>
-						    	<th scope="col">멤버십</th>
-						    	<th scope="col">현재상태</th>
-							</tr>
-						</thead>
-		  		<%-- 테이블에 채워지는 잉름, 아이디, 멤버십, 현재상태는 데이터베이스에서 가져오기--%>
-		  		<%-- 뿌리기 코드 <c:forEach var="member" items="${member }">
-		  		한페이지에 몇개 나오고 밑에 1,2,3,4,5페이지 넘어가기 = jsp복습해보기 --%>
-						<tbody>
-						<c:set var="num" value="0" />
-						<c:forEach var="memberList" items="${memberList }" > 
-							<tr>
-<%-- 								<c:set var="num" value="${num + 1}" /> --%> <%--없애고 역순으로 출력되게 해놨음 0616 정의효 --%>
-<%-- 								<th scope="row">${num}</th>  --%>
-						    	<td>${memberList.member_name }</td>			
-						    	<td>${memberList.member_id }</td>			
-						    	<td>${memberList.grade_name }</td> 
-						    	<td>
-						      	<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${memberList.member_id }'">${memberList.member_type }</button>
-				     			</td>
-					    	</tr>
-						</c:forEach>
-						</tbody>
-					</table>
-					</div>
-			</div>
-
-			<%-- 0616 정의효 - 페이징 처리 --%>
-			<div class="row">
-				<div class="col-md-12">
-				    <div>
-				        <c:if test="${currentPage > 1}">
-				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a>
-				        </c:if>
-				        <c:forEach begin="1" end="${totalPageCount}" var="page">
-				            <a href="admin_member_list?pageNo=${page}">${page}</a>
-				        </c:forEach>
-				        <c:if test="${currentPage < totalPageCount}">
-				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a>
-				        </c:if>
-	    			</div>
-				</div>
-			</div>
+<%-- 			<%-- 0616 정의효 - 페이징 처리 --%> 
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-12"> -->
+<!-- 				    <div> -->
+<%-- 				        <c:if test="${currentPage > 1}"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a> --%>
+<%-- 				        </c:if> --%>
+<%-- 				        <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${page}">${page}</a> --%>
+<%-- 				        </c:forEach> --%>
+<%-- 				        <c:if test="${currentPage < totalPageCount}"> --%>
+<%-- 				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a> --%>
+<%-- 				        </c:if> --%>
+<!-- 	    			</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<%-- 0616 정의효 - 페이징 처리 끝--%>
 			
 			<%-- 원본 페이징 처리 --%>

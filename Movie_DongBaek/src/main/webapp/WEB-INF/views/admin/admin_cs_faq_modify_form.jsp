@@ -75,11 +75,11 @@ $(function(){
 			<input type="hidden" name="pageNo" value="${param.pageNo }">
 			<tbody>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">번호</th>
+			      <th scope="col" class="align-middle" width="100">번호</th>
 			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csFaq.cs_type_list_num }" readonly></td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">유형</th>
+			      <th scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
 				       <select class="form-control" name="cs_type" id="cs_type">
 							<option value="">전체</option>
@@ -92,19 +92,19 @@ $(function(){
 			      </td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">제목</th>
+			      <th scope="col" class="align-middle" width="100">제목</th>
 			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" id="cs_subject" name="cs_subject" value="${csFaq.cs_subject }"></td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">작성자</th>
+			      <th scope="col" class="align-middle" width="100">작성자</th>
 			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" id="member_id" name="member_id" value="${csFaq.member_id }" readonly></td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">내용</th>
+			      <th scope="col" class="align-middle" width="100">내용</th>
 			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content">${csFaq.cs_content }</textarea></td>
 			    </tr>
                 <tr>
-                	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>
+                	<th scope="col" class="align-middle" width="100">사진첨부(이전)</td>
                     <td scope="col" class="align-middle">
                     	
                     	<%-- 첨부파일 다운로드 구현 아직 --%>
@@ -128,7 +128,7 @@ $(function(){
 					<td scope="col" class="align-middle">
 						<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
-                        <button class="btn btn-outline-danger" type="button" onclick="location.href='delete_cs?csType=3&cs_type_list_num=${csFaq.cs_type_list_num }'">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="location.href='delete_cs?csType=3&cs_type_list_num=${csFaq.cs_type_list_num }'">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
 					</td>
 			    </tr>
 			</tbody>

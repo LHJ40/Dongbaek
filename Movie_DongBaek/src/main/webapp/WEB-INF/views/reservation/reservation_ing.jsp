@@ -146,37 +146,44 @@ article {
  	            if (rsp.success) {
  	                var msg = '결제가 완료되었습니다.';
 //  	              	 location.href='reservation_check'
- 	                msg += '고유ID : ' + rsp.imp_uid;
+ 	                msg += '고유ID : ' + typeof(rsp.imp_uid);
  	                msg += '상점 거래ID : ' + rsp.merchant_uid;
  	                msg += '결제 금액 : ' + rsp.paid_amount;
  	                msg += '카드 승인번호 : ' + rsp.apply_num;
- 	                //---------------------------
-//  	               jQuery.ajax({
-//                        url: "complete", 
-//                        type: "POST",
-//                         data:{
-//                        "imp_uid" : rsp.imp_uid,//고유ID
-//                        "orderNum" :  rsp.merchant_uid,//주문번호
-                  
-//                        "num" : '${member.member_num}', // 회원번호
-//                        "productName" : rsp.name,
-//                        "orderDate" : new Date().getTime(),
-//                        "totalPrice" : rsp.paid_amount,
-//                        }
-//                        dataType: 'json',
-//                    })
-//                    .done(function(res) {
-//                        if (res > 0) {
-//                            swal('주문정보 저장 성공')
-// //                            createPayInfo(uid);
-//                        }
-//                        else {
-//                            swal('주문정보 저장 실패');
-//                        }
-//                    })
-//            }
  	                
- 	            } else {
+ 	               jQuery.ajax({
+                       url: "complete", 
+                       type: "POST",
+                        data:{
+                       "order_num" :  rsp.merchant_uid,//주문번호
+                       "order_total_price": 2000, //할인전 총금액 임시	
+                       "member_id" : '${member.member_id}', // 회원아이디
+                       "payment_num" : rsp.imp_uid,//고유ID
+                       "payment_name": '${member.member_name}',//주문자명
+                       "payment_datetime" : timestamp(),//결제시간
+                       "payment_total_price" : rsp.paid_amount,//총결제금액
+                       "payment_status":'결제완료',
+                       "play_num":'${param.play_num}',
+                       "seat_num":10,//임시
+                       "ticket_type_num":1,//임시
+                       "payment_card_num":11123, //임시
+                       "payment_card_name":"NH"//임시
+                       },
+                       dataType: "json", 
+                   })
+                   .done(function(res) {
+                       if (res > 0) {
+                           alert('주문정보 저장 성공');
+//                            createPayInfo(uid);
+                           location.href='reservation_check';
+                       }
+                       else {
+                    	   alert('주문정보 저장 실패');
+                       }
+                   })
+           }
+ 	                
+ 	             else {
  	                var msg = '결제에 실패하였습니다.';
  	                msg += '에러내용 : ' + rsp.error_msg;
  	            }
@@ -197,6 +204,11 @@ article {
  			orderNum += Math.floor(Math.random() * 8);	
  		}
  		return orderNum;
+ 	}
+ 	function timestamp(){
+ 	    var today = new Date();
+ 	    today.setHours(today.getHours() + 9);
+ 	    return today.toISOString().replace('T', ' ').substring(0, 19);
  	}
  	
  	function createPayInfo(uid) {
@@ -239,7 +251,7 @@ article {
 	            <div class="row row1">
 	            	<%-- 예매 진행 중인 영화 포스터 파트  --%>
 	                <div class="col-3" align="center">
-	                	<img src="/resources/img/poster09.jpg" width="200" height="285">
+	                	<img src="${reservation.movie_poster }" width="200" height="285">
 	                </div>
 	                
 	                <%-- 예매 진행 중인 예매 정보 출력 파트 --%>
@@ -267,10 +279,10 @@ article {
 					 		</tr>
 					 		</thead>
 					 		<tbody>
-					 		<tr><td>문라이트</td></tr>
-					 		<tr><td>서면점 1 관</td></tr>
-					 		<tr><td>23년 6월 1일</td></tr>
-					 		<tr><td>G10, G11</td></tr>
+					 		<tr><td>${reservation.movie_name_kr }</td></tr>
+					 		<tr><td>${reservation.theater_name } ${reservation. room_name }</td></tr>
+					 		<tr><td>${reservation.play_date} ${reservation.play_start_time }</td></tr>
+					 		<tr><td>${param.seat_name }</td></tr>
 					 		</tbody>
 					 	</table>
 	                </div>

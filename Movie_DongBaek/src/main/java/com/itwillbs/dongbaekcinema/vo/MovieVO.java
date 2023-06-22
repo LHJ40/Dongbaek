@@ -27,6 +27,9 @@ public class MovieVO {
 	private String movie_photo3;
 	private BigDecimal movie_booking_rate;
 	
+	//영화 당 평점평균출력 위한 앨리어스
+	private BigDecimal movie_review_rating;
+	
 	
 }
 

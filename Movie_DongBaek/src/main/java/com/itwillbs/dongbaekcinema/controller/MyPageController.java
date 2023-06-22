@@ -7,13 +7,13 @@ import javax.servlet.http.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
 import com.itwillbs.dongbaekcinema.voNew.*;
+
+import retrofit2.http.*;
 
 @Controller
 public class MyPageController {
@@ -119,8 +119,9 @@ public class MyPageController {
 	}
 	
 	// 마이페이지 - 구매내역 - 상세내역 조회
-	@GetMapping("myPayment_detail")
-	public String myPayment_detail(HttpSession session, int payment_num, Model model) {
+	@PostMapping("myPayment_detail")
+	public String myPayment_detail(String payment_num, @RequestParam(required = false) String play_change, 
+												HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
@@ -147,9 +148,20 @@ public class MyPageController {
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);
 		model.addAttribute("myTicket", myTicket);
 		model.addAttribute("mySnack", mySnack);
+		model.addAttribute("play_change", play_change);
 		
 		return "myPage/myPage_buy_history_detail";
 	}
+	
+	// 마이페이지 - 나의 예매내역에서 '결제취소'버튼 클릭 시 호출되는 메서드
+//	@PostMapping("/payCancel")
+//	@ResponseBody	// json 타입으로 받음
+//	public String payCancel() {
+//		
+//		
+//	}
+	
+	
 	
 	// 마이페이지 - 나의 리뷰 페이지로 이동
 	@GetMapping("myPage_myReview")
