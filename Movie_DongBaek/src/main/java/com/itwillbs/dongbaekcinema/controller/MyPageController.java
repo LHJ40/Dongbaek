@@ -123,7 +123,7 @@ public class MyPageController {
 	
 	// 마이페이지 - 구매내역 - 상세내역 조회
 	@PostMapping("myPayment_detail")
-	public String myPayment_detail(int payment_num, @RequestParam(required = false) String play_change, 
+	public String myPayment_detail(String payment_num, @RequestParam(required = false) String play_change, 
 												HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");

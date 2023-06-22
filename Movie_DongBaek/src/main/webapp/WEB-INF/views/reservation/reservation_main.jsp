@@ -58,6 +58,7 @@
          }else{   // [가나다순] 클릭 시
             url = "AscMovieName";
          }
+         
          $.ajax({
             type : "get", 
             url : url,  
@@ -82,7 +83,7 @@
                }
                res += "<li>" + 
                         "<a href='#'>" + 
-                           "<i><img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade + ".png' alt='15세'></i>" + 
+                           "<i><img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade + ".png' alt='" + movieGrade + "세'></i>" + 
                            "<span class='text' data-movie-num='" + movie[i].movie_num + "' data-movie-name=" + movie[i].movie_name_kr  + " data-movie-poster=" + movie[i].movie_poster + ">" + movie[i].movie_name_kr + "</span>" + 
                         "</a>" + 
                      "</li>"
@@ -126,7 +127,7 @@
          // 날짜 출력
          $("#selectDate").css("display", "flex");
    
-         const now = new Date("2023-06-19");
+         const now = new Date("2023-06-19T09:00:00");
          let year = now.getFullYear();
          let month = now.getMonth();
          let thisMonth = month + 1;

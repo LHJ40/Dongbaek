@@ -7,10 +7,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.dongbaekcinema.vo.OrderTicketVO;
+import com.itwillbs.dongbaekcinema.vo.OrderVO;
+import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
+import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 import com.itwillbs.dongbaekcinema.vo.RoomVO;
 
 @Mapper
@@ -42,4 +45,13 @@ public interface ReservationMapper {
 	
 	// 좌석 사용 여부 조회를 위한 오더티켓 조회
 	List<OrderTicketVO> selectOrderTicket(int play_num);
+	
+	// 티켓 가격 조회
+	List<TicketTypeVO> selectTicketTypeList(String play_time_type);
+	
+	int insertOrder(OrderVO order);
+
+	int insertTicket(OrderTicketVO ticket);
+
+	int insertPayment(PaymentVO payment);
 }

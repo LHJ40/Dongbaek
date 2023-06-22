@@ -17,7 +17,8 @@
 
 <title>영화 예매 사이트</title>
 <style>
-/* 	div{background-color: transparent;} */
+
+
 </style>
 </head>
 <body>

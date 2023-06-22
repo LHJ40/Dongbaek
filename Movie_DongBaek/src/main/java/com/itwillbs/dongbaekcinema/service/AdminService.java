@@ -180,6 +180,7 @@ public class AdminService {
             System.out.println("상영 스케줄 등록:" + insertCount);
             return insertCount;
         } else {
+        	
         	// 등록 날짜가 오늘 보다 과거일 경우 (return=0)
             System.out.println("insertSchedule - 주어진 날짜가 오늘과 같거나 이전입니다.");
             
@@ -193,27 +194,25 @@ public class AdminService {
 
 	
     // CS 게시판 목록 가져오기
-	public List<CsInfoVO> getCsList(int pageNo, int pageSize, int startRow, int csType) {
+	public List<CsInfoVO> getCsList(int pageNo, int pageListLimit, int startRow, int csType) {
 	
 		// CS 게시판 구분용 contiodion 변수
 		String condition = distinctType(csType);
 		
-//		System.out.println("getCsNoticeList - startPage, pageSize, condition:" + startRow + pageSize + condition);
+//		System.out.println("getCsNoticeList - startPage, pageListLimit, condition:" + startRow + pageListLimit + condition);
 		// 목록 시작지점 지정
-		return mapper.getCsWithPaging(startRow, pageSize, condition);
+		return mapper.getCsWithPaging(startRow, pageListLimit, condition);
 	}
 	
-	// CS게시판 총 필요한 페이지 개수 가져오기
-    public int getCsTotalPageCount(int pageSize, int csType) {
+	// CS게시판 총 목록 갯수 가져오기
+    public int getCsTotalPageCount(int pageListLimit, int csType) {
 
-		// CS 게시판 구분용 contiodion 변수
+		// CS 게시판 구분용 contiodion 변수(csType=1일경우 공지사항, cstype=2일경우 1:1질문 게시판, cstype=3경우 자주묻는 질문)
 		String condition = distinctType(csType);
 		
-		
-        int totalCount = mapper.getCsCount(condition);
         
-//        System.out.println("getCsTotalPageCount pageSize:" + pageSize + "csType:" + csType + "condition" + condition + "totalCount" + totalCount);
-        return (int) Math.ceil((double) totalCount / pageSize);
+//        System.out.println("getCsTotalPageCount pageListLimit:" + pageListLimit + "csType:" + csType + "condition" + condition + "totalCount" + totalCount);
+        return mapper.getCsCount(condition);
     }
     
     
@@ -415,6 +414,8 @@ public class AdminService {
     	
     	return condition;
     }
+
+
 
 
 

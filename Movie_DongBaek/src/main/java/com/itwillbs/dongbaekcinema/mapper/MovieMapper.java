@@ -18,20 +18,30 @@ public interface MovieMapper {
 	// 영화 정보 조회
 	MovieVO selectMovie(int movie_num);
 	
+	
 	// 영화 목록 조회 - 현재상영작
 	List<MovieVO> select_presentMovie();
 
-	// 영화 목록 조회 - 현재상영작 예매율 순 정렬
-	List<MovieVO> select_presentMovie_bookingRateDESC();
+	// 영화 목록 조회 - 현재상영작 예매율 순 정렬 - 검색X
+	List<MovieVO> select_presentMovie_bookingRateDESC(
+			@Param("startRow") int startRow, 
+			@Param("listLimit") int listLimit);
+
+
+	// 전체 글 목록 갯수 조회 - 검색X
+	int selectBoardListCount();
+	
+	
 	
 	//영화 목록 조회 - 현재상영작 평점 순 정렬
-	List<MovieVO> select_presentMovie_reviewRating();
+	List<MovieVO> select_presentMovie_reviewRate();
 	
 	// 영화 목록 조회 - 상영예정작
 	List<MovieVO> select_prepareMovie();
 	
 	// 영화 목록 조회 - 탑4(메인)
 	List<MovieVO> select_movieListTop4();
+
 	
 	//-------------------------------------------
 	// 리뷰 정보 조회
@@ -52,7 +62,7 @@ public interface MovieMapper {
 	//	List<MovieVO> selectMovieList();
 
 	// 페이징처리 0616 정의효
-	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageSize);
+	List<MovieVO> getMovieList(@Param("start") int start, @Param("perPage") int pageListLimit);
 
 	// 페이징처리 0616 정의효
 	int getCount();
