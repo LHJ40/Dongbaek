@@ -365,24 +365,35 @@
 				for(let i = 0; i < countPeople; i++){
 					let ticketUserType = ticketPrice[i].ticket_user_type;
 					let res = "";
+					let audltPrice = 0;
+					let teenagerPrice = 0;
+					let childPrice = 0;
+					let handiPrice = 0;
+					let totalPrice = 0;
+					
 					
 					if(countAdult !=0 && ticketUserType == "일반"){
-						res += "<span class='col-6 userType'>" + ticketPrice[i].ticket_user_type + "</span><span class='col-6 ticketPrice'>" + ticketPrice[i].ticket_type_price + " X " + countAdult + "</span>"
-// 						$("#paymentInfo").html(res);
+						adultPrice = (ticketPrice[i].ticket_type_price * countAdult);
+						$("#paymentInfo .adult").html("(일반)");
+						$("#paymentInfo .adultPrice").html(ticketPrice[i].ticket_type_price + " X " + countAdult + adultPrice);
 					
 					}else if(countTeenager != 0 && ticketUserType == "청소년"){
-						res += "<span class='col-6 userType'>" + ticketPrice[i].ticket_user_type + "</span><span class='col-6 ticketPrice'>" + ticketPrice[i].ticket_type_price + " X " + countTeenager + "</span>"
-// 						$("#paymentInfo").html(res);
+						teenagerPrice = (ticketPrice[i].ticket_type_price * countTeenager);
+						$("#paymentInfo .teenager").html("(청소년)");
+						$("#paymentInfo .teenagerPrice").html(ticketPrice[i].ticket_type_price + " X " + countTeenager + teenagerPrice);
 						
 					}else if(countChild != 0 && ticketUserType == "경로/어린이"){
-						res += "<span class='col-6 userType'>" + ticketPrice[i].ticket_user_type + "</span><span class='col-6 ticketPrice'>" + ticketPrice[i].ticket_type_price + " X " + countChild + "</span>"
-// 						$("#paymentInfo").html(res);
+						childPrice = (ticketPrice[i].ticket_type_price * countChild);
+						$("#paymentInfo .child").html("(경로/어린이)");
+						$("#paymentInfo .childPrice").html(ticketPrice[i].ticket_type_price + " X " + countChild + childPrice);
 						
 					}else if(countHandi != 0 && ticketUserType == "장애인"){
-						res += "<span class='col-6 userType'>" + ticketPrice[i].ticket_user_type + "</span><span class='col-6 ticketPrice'>" + ticketPrice[i].ticket_type_price + " X " + countHandi + "</span>"
-// 						$("#paymentInfo").html(res);
+						handiPrice = (ticketPrice[i].ticket_type_price * countHandi);
+						$("#paymentInfo .handi").html("(장애인)");
+						$("#paymentInfo .handiPrice").html(ticketPrice[i].ticket_type_price + " X " + countHandi + handiPrice);
 					}
-						$("#paymentInfo").html(res);
+					totalPrice = audltPrice + teenagerPrice + childPrice + handiPrice;
+					$("#paymentInfo .totalPrice").html(totalPrice);
 					
 // 					if(countAdult !=0 && ticketUserType == "일반"){
 // 						res += "<div class='row'><span class='col-6 userType'>" + ticketPrice[i].ticket_user_type + "</span><span class='col-6 ticketPrice'>" + ticketPrice[i].ticket_type_price + " X " + countAdult + "</span></div>"
@@ -610,7 +621,7 @@
             </div>
             
             <%-- 선택한 상영스케줄 노출 --%>
-            <div class="col-3">
+            <div class="col-2">
                <div id="theaterInfo" style="display: table;">
                   <span style="display: table-cell;">극장&nbsp;</span>
                   <span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
@@ -636,19 +647,24 @@
             </div>
             
                 <%-- 미선택 사항(결제) 노출 --%>
-                <div class="col-2.5">
+                <div class="col-3">
 <!--                    <h5>결제</h5> -->
 <%--                    <table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 <!--                     <tr><td>일반 (10,000 x 2)</td></tr> -->
 <!--                     <tr><td>총 금액 (20,000)</td></tr> -->
 <!--                  </table> -->
                  <h5>결제</h5>
-               <div id="paymentInfo">
-                  <div class="row">
-                  	<span class="col-6 userType"></span><span class="col-6 ticketPrice"></span>                  
-                  </div>
-                    <div class="totalPrice"><b></b></div>
-               </div>
+	               <div id="paymentInfo"  style="display: table;">
+	                  <div style="display: table-cell;">
+	                  	<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
+	                  	<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>           
+	                  	<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
+	                  	<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>            
+	                  </div>
+	                  <div style="display: table-cell;">
+	                    <div class="totalPrice"></div>
+	                  </div>
+	               </div>
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
