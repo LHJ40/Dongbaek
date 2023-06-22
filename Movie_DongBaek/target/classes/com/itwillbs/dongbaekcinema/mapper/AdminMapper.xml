@@ -208,6 +208,14 @@
     
 	<!-- CS-공지사항, 자주묻는 질문 관리자 글쓰기 -->
 	<insert id="registCs">
+		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">			
+			SELECT
+				IFNULL(MAX(cs_type_list_num), 0)
+					FROM
+		   				CS
+		   			WHERE
+		   				cs_type IN(${condition})
+		</selectKey>
 		INSERT
 			INTO
 				CS (
@@ -217,17 +225,15 @@
 					, cs_date
 					, member_id
 					, cs_type_list_num
-					, cs_file
-					, cs_file_real)
+					, cs_file)
 				VALUES (
 					#{csInfo.cs_subject}
 					, #{csInfo.cs_content}
 					, #{csInfo.cs_type}
 					, now()
 					, #{csInfo.member_id}
-					, #{csInfo.cs_type_list_num}
-					, #{cs_file}
-					, #{cs_file_real})
+					, #{csInfo.cs_type_list_num} + 1
+					, #{csInfo.cs_file})
 	</insert>
 	
 	<!-- CS-공지사항, 자주묻는 질문 글수정 -->
@@ -239,8 +245,7 @@
 				, cs_subject = #{csInfo.cs_subject}
 				, member_id = #{csInfo.member_id}
 				, cs_content = #{csInfo.cs_content}
-				, cs_file = #{cs_file}
-				, cs_file_real = #{cs_file_real}
+				, cs_file = #{csInfo.cs_file}
     		 WHERE
     		 	cs_type IN(${condition})
     		 	AND cs_type_list_num = #{csInfo.cs_type_list_num}

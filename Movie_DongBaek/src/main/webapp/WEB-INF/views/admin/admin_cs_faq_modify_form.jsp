@@ -70,9 +70,10 @@ $(function(){
 
 	<form action="admin_cs_faq_modify_pro" method="post" enctype="multipart/form-data">
 		<h1>자주묻는질문 관리자</h1>
+		<input type="hidden" name="pageNo" value="${param.pageNo }">
+		<input type="hidden" name="csTypeNo" value="3" ><%-- 공지사항 유형 정보 전송용 --%>
 
 		<table class="table table-striped text-center align-middle">
-			<input type="hidden" name="pageNo" value="${param.pageNo }">
 			<tbody>
 				<tr>
 			      <th scope="col" class="align-middle" width="100">번호</th>
@@ -111,17 +112,19 @@ $(function(){
                     	
                     	<c:choose>
                     		<c:when test="${csFaq.cs_file } != ''">
-                     		<a href="/WEB-INF/views/upload/${csFaq.cs_file_real }" download="${csFaq.cs_file }" class="form-control" aria-label="cs_file"></a>
+                     			<a href="${pageContext.request.contextPath}/resources/upload/${csFaq.cs_file }" download="${csFaq.cs_file }" class="form-control" aria-label="cs_file"></a>
                     		</c:when>
                     		<c:otherwise>
-                     		<span id="cs_file_old_span">첨부파일이 없습니다</span>
+                     			<span id="cs_file_old_span">첨부파일이 없습니다</span>
                     		</c:otherwise>
                     	</c:choose>
                     </td>	
 				</tr>
 				<tr>
                     <td scope="col" class="align-middle" width="100">사진첨부(변경)</td>
-                    <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"></td>
+                    <td scope="col" class="align-middle">
+                    	<input type="file" class="form-control" aria-label="cs_file" name="file1" />
+                    </td>
                 </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>
