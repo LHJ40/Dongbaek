@@ -54,11 +54,11 @@ background-color: transparent;
    <div class="container-fluid w-900" >
   
 
-	<form action="admin_cs_faq_pro" method="post">
+	<form action="admin_cs_faq_pro" method="post" enctype="multipart/form-data">
 		<h1>자주묻는질문 관리자</h1>
+		<input type="hidden" name="csTypeNo" value="3" ><%-- CS타입 유형 정보 전송용 --%>
 
 		<table class="table table-striped text-center align-middle">
-			
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
@@ -91,7 +91,9 @@ background-color: transparent;
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle"><input type="file" class="form-control" aria-label="cs_file_name" name="cs_multi_file"></td>
+			      <td scope="col" class="align-middle">
+			      <input type="file" class="form-control" aria-label="cs_file" name="file1" />
+			      </td>
 			    </tr>
 				<tr>
 					<td scope="col" class="align-middle"></td>

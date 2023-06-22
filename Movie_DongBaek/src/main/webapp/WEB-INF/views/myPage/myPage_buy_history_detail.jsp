@@ -34,7 +34,7 @@
 <script type="text/javascript">
 	
 	$(function() {
-// 		$("#cancleCk").hide();	// 나중에 풀기
+		$("#cancleCk").hide();	// 나중에 풀기
 		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
 		if($("#play_change").val() === '취소가능') {
 			$("#cancleCk").show();
@@ -46,6 +46,7 @@
 	// ========== 취소 환불 요청하기 ===================
 	function cancelPay() {
 		let payment_num = $("#payment_num").val();
+		let order_num = $("#order_num").val();
 		let payment_total_price = $("#payment_total_price").val();
 		console.log("payment_num : " + payment_num);
 	    
@@ -55,22 +56,23 @@
 	      type: "POST",
 	      
 	      data: {
+	    	'order_num': order_num, 
 	    	'payment_num': payment_num, // "{결제건의 주문번호}" 예: ORD20180131-0000011
 	    	'payment_total_price': payment_total_price, // 2000, 환불금액
 	        'reason': "테스트 결제 환불" // 환불사유
      		 },
-// 	      dataType: "json",
 	      success: function(data) {
 			console.log("가져오기 성공");
 	    	  
 	    	  // 환불 완료 swal창으로 안내
-	    	  swal({title: "환불 성공!", text: "예매가 성공적으로 취소되었습니다.", icon: "success", button: "확인"}).then(value) => {
-	    			  if(value) {
+	    	  swal({
+	    		  title: "환불 성공!",
+	    		  text: "예매가 성공적으로 취소되었습니다.",
+	    		  icon: "success",
+	    		  button: "확인"}, function() {
 						// 환불 완료 후 전 화면으로 이동
-						history.back();
-	    			  }
-				}
-			})
+						location.href = "myPage";
+					});
 	      },
 	      error: function(xhr, status, error) {
 	    	  swal("환불 실패!" + error);
@@ -89,6 +91,7 @@
   <article id="mainArticle">
   <input type="hidden" id="play_change" value="${play_change}">
   <input type="hidden" id="payment_num" value="${myPaymentDetailList[0].payment_num}">
+  <input type="hidden" id="order_num" value="${myPaymentDetailList[0].order_num}">
   <%--본문내용 --%>
   	<div class="container w-900">
   		<div class="mainTop">

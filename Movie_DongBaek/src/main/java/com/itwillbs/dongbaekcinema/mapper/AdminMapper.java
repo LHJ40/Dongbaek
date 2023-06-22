@@ -61,13 +61,13 @@ public interface AdminMapper {
 	public CsInfoVO getCsInfo(@Param("condition")String condition, @Param("cs_type_list_num") int cs_type_list_num);
 	
 	// CS 게시판 cs_type_list_num(타입별 글번호) 카운트
-	public int countCsTypeListNum(@Param("condition")String condition);
+//	public int countCsTypeListNum(@Param("condition")String condition);
 
 	// CS 게시판 공지사항, 자주묻는 질문 글쓰기
-	public int registCs(@Param("condition")String condition, @Param("csInfo")CsInfoVO csInfo, @Param("cs_file")String cs_file, @Param("cs_file_real")String cs_file_real);
+	public int registCs(@Param("condition")String condition, @Param("csInfo")CsInfoVO csInfo);
 
 	// CS 게시판 공지사항, 자주묻는 질문 게시판 글 수정
-	public int updateCs(@Param("condition")String condition, @Param("csInfo")CsInfoVO csInfo, @Param("cs_file")String cs_file, @Param("cs_file_real")String cs_file_real);
+	public int updateCs(@Param("condition")String condition, @Param("csInfo")CsInfoVO csInfo);
 
 	// CS 게시판 공지사항, 자주묻는 질문 게시판 글 삭제
 	public int deleteCs(@Param("condition")String condition,  @Param("cs_type_list_num")int cs_type_list_num);
@@ -77,22 +77,7 @@ public interface AdminMapper {
 	
 	
 	
-	// 결제 취소 (payment_num)으로 일치하는 레코드 삭제
-	public int orderCancle(String payment_num);
-
-
-
-
-
-
-
-
-
 	
-	
-//	// 상영 스케줄 목록 가져오기
-//	List<PlayScheduleVO> getObjectsWithPaging(@Param("startPage") int startPage, @Param("pageListLimit") int pageListLimit);
-//
-//	// 총 목록 개수 카운트
-//    int getCountCsNotice();
+
+
 }
