@@ -58,12 +58,6 @@ public interface MemberMapper {
 	// 아이디 찾기
 	String findMemberId(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
 	
-<<<<<<< HEAD
-
-=======
-	//전체 글 목록 갯수 조회 - 페이징처리중 0621 정의효
-	int selectMemberListCount(@Param("memberSearchType") String memberSearchType, @Param("memberSearchKeyword") String memberSearchKeyword);
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
 
 
 
