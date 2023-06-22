@@ -70,6 +70,7 @@
 									<td>
 										<form action="myPayment_detail" method="post">
 											<input type="hidden" value="${myPayment.payment_num}" name="payment_num">
+											<input type="hidden" value="${payment_change}" name="payment_change">
 											<input type="submit" value="상세내역보기" >
 										</form>
 <%-- 										<a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a> --%>

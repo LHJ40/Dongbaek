@@ -1,10 +1,12 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.io.*;
 import java.util.*;
 
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,12 @@ public class MyPageController {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	@Autowired
+	private PayService payService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@Autowired
 	private MemberService memberService;
@@ -143,7 +151,6 @@ public class MyPageController {
 		List<BuyDetailVO> myTicket = paymentService.getMyTickets(payment_num);
 		List<BuyDetailVO> mySnack = paymentService.getMySnacks(payment_num);
 		
-		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);
 		model.addAttribute("myTicket", myTicket);
@@ -153,14 +160,49 @@ public class MyPageController {
 		return "myPage/myPage_buy_history_detail";
 	}
 	
-	// 마이페이지 - 나의 예매내역에서 '결제취소'버튼 클릭 시 호출되는 메서드
+//	 마이페이지 - 나의 예매내역에서 '결제취소'버튼 클릭 시 호출되는 메서드
 //	@PostMapping("/payCancel")
 //	@ResponseBody	// json 타입으로 받음
-//	public String payCancel() {
+//	public BuyDetailVO payCancel(
+//			BuyDetailVO myPayment,
+//			String imp_uid,
+//			OrderTicketVO ticket,
+//			Model model,
+//			HttpSession session) throws Exception {
+//		
+//		// 파라미터 확인
+//		System.out.println(myPayment);
+//		
+//		// 토큰 받아오기
+//		String token = payService.getToken();
 //		
 //		
+//		// 결제 취소(api)
+////		payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
+//		payService.payMentCancle(token, imp_uid, myPayment.getPayment_total_price(), "환불!");
+//		
+//		// 결제 취소(DB 로직)
+//		
+//		
+//		
+//		return myPayment;
 //	}
 	
+	// 주문취소
+	@PostMapping("payCancel")
+	public ResponseEntity<String> orderCancle(BuyDetailVO buyDetail) throws Exception {
+//		System.out.println(orderCancelDto.toString());
+		System.out.println(buyDetail);
+	    if(!"".equals(buyDetail.getPayment_num())) {
+	        String token = payService.getToken();
+	        int amount = Integer.parseInt(payService.paymentInfo(buyDetail.getPayment_num(), token));
+	        payService.payMentCancle(token, buyDetail.getPayment_num(), amount, buyDetail.getReason());
+	    }
+		
+		adminService.orderCancle(buyDetail);
+
+		return ResponseEntity.ok().body("주문취소완료"); // <200 OK OK,주문취소완료,[]>
+	}
 	
 	
 	// 마이페이지 - 나의 리뷰 페이지로 이동

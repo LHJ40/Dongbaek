@@ -93,11 +93,12 @@ public class PayService {
 	}
 	
 	// 결제 취소
-	public void payMentCancle(String access_token, String imp_uid, int amount, String reason) throws IOException {
+	public void payMentCancle(String access_token, String imp_uid, int amount, String reason) throws IOException, ParseException {
+		System.out.println("imp_uid = " + imp_uid);
+		
+		// 확인
 		System.out.println("결제취소!");
-		
 		System.out.println(access_token);
-		
 		System.out.println(imp_uid);
 		
 		HttpsURLConnection conn = null;
@@ -128,8 +129,8 @@ public class PayService {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
  
-		br.close();
-		conn.disconnect();
+//		br.close();
+//		conn.disconnect();
 		
 	}
 	
