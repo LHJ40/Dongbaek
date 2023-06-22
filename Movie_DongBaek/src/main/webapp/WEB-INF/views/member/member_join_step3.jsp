@@ -66,7 +66,7 @@ th{
 		$.ajax({
 			url:'./idCheck', 			// Controller 에서 요청 받을 주소
 			type:'post', 	 			// POST 방식으로 전달
-			data:{id:id},
+			data:{id:id},				// 
 			success:function(cnt) {		// Controller 에서 넘어온 cnt 값을 받는다
 				if(cnt == 0) { 			//  cnt 가 1이 아니면(==0일 경우) => 사용 가능한 아이디
 					$('.id_already').css("display", "none");
@@ -84,6 +84,21 @@ th{
 		})		
 	}
 	
+	// 아이디 정규식
+	function checkIdRegex(member_id) {
+		let regex = /^[A-Za-z0-9]{5,10}$/;
+		
+		if(regex.exec(member_id)) {
+			document.querySelector(".id_ok").innerHTML = "사용 가능한 아이디입니다!"
+			document.querySelector(".id_ok").style.color = "green";
+		} else {
+			document.querySelector(".id_ok").innerHTML = "사용 불가능한 아이디입니다!"
+			document.querySelector(".id_ok").style.color = "red";
+			alert("아이디를 다시 입력해주세요!");
+			$("#member_id").val('');
+		}
+	}
+	
 	// 비밀번호 정규식
 	function checkPass(member_pass) {
 		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
@@ -96,9 +111,28 @@ th{
 			document.querySelector("#pass_check").style.color = "red";
 			alert("비밀번호를 다시 입력해주세요!");
 			$("#member_pass").val('');
+			$("#member_pass2").val('');
+		}
+	}
+	
+	// 비밀번호 와 비밀번호 확인 일치
+	function checkconfirmPasswd(passwdCheck) {
+		
+		let member_pass = document.fr.member_pass.value;
+		
+		if(member_pass == passwdCheck) {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
+			document.querySelector("#pass_confirm").style.color = "green";
+		} else {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
+			document.querySelector("#pass_confirm").style.color = "red";
+			alert("비밀번호를 다시 입력해주세요!");
+			$("#member_pass").val('');
+			$("#member_pass2").val('');
 		}
 	}
 
+	// 비밀번호 일치 여부 확인
 	
 	// 생년월일에 숫자만 입력하기
 	function inputNum(id) {
@@ -183,7 +217,7 @@ th{
 				    	<label for="inputEmail3" class="col-sm-5 ">아이디<em style="color:red;">*</em> </label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
 					    	<div class="col-sm-12">
 					    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
-						    			minlength="5" maxlength="20" onchange="checkId()">
+						    			minlength="5" maxlength="20" onchange="checkId(); checkIdRegex(this.value);">
 					    	</div>
 					</div>
 					<!-- 아이디 중복확인 : ajax -->
@@ -199,7 +233,8 @@ th{
 				  	<div class="row mb-3">
 				    	<label for="inputPassword" class="col-sm-5 ">비밀번호<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
-				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required"  onchange="checkPass(this.value)">
+				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required" 
+				     	 		   onchange="checkPass(this.value)">
 				   		</div>
 				  	</div>
 				  	
@@ -215,15 +250,24 @@ th{
 				  	<div class="row mb-3">
 				    	<label for="inputPasswordDupCheck" class="col-sm-5">비밀번호 확인<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
-				     	 	<input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required">
+				     	 	<input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required"
+				     	 		   onchange="checkconfirmPasswd(this.value)">
 				   		</div>
 				  	</div>
+				  	
+				  	<!-- 비밀번호 와 비밀번호 확인 일치 여부-->
+					<div class="row mb-3">
+				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="pass_confirm"></span>
+					   		</div>
+					</div>
 				    
 				    <!-- 이름 (필수)  -->
 				  	<div class="row mb-3">
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">이름<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
-				  			<input type="text" class="form-control" id="member_name" name="member_name">
+				  			<input type="text" class="form-control" id="member_name" name="member_name" required="required">
 				 		</div>
 				  	</div>
 				
@@ -234,7 +278,7 @@ th{
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_birth" name="member_birth" placeholder="생년월일 8자리를 입력하세요." maxlength="8"
-				  				   oninput="inputNum(this.id)">
+				  				   oninput="inputNum(this.id)" required="required">
 				 		</div>
 				  	</div>
 				  	
@@ -246,7 +290,7 @@ th{
 						    	<c:choose>
 						    	<c:when test="${empty member_phone }">
 									<input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="- 없이 전화번호를 입력하세요." maxlength="11"
-									   oninput="inputNum_phone(this.id)">
+									   oninput="inputNum_phone(this.id)" required="required">
 						    	
 						    	</c:when>
 						    	<c:otherwise>

@@ -22,6 +22,7 @@
   <%--본문내용 --%>
 	<div class="container">
 		<div class="mainTop">
+		<form action="myPage_modify_check_pro" method="POST">
 			<table class="table table-striped">
 				<tr>
 					<td>아이디</td>
@@ -29,10 +30,13 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<%-- 패스워드 서블릿에서 if로 맞는지안맞는지 --%>
-					<td><input type="password"><input type="button" value="확인" onclick="location.href='myPage_modify_member'"></td>
+					<td>
+						<input type="password" id="member_pass_check" name="member_pass_check">
+						<input type="submit" value="확인" required="required">
+					</td>
 				</tr>
 			</table>
+			</form>
 		</div>
 	</div>
   </article>

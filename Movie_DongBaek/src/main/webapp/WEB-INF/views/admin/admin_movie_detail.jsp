@@ -188,7 +188,7 @@ function submitForm() {
 			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="submitForm()">수정</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_movie_management'">돌아가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="window.history.back();">돌아가기</button>
 		</div>
 	</div>
   </div>

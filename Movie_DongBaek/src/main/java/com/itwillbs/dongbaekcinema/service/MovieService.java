@@ -113,18 +113,18 @@ public class MovieService {
 //		return mapper.selectMovieList();
 //	}
 
-	//페이징처리 - 0616 정의효
-	public List<MovieVO> getMovieList(int pageNo, int pageListLimit) {
-		int start = (pageNo - 1) * pageListLimit;
-		return mapper.getMovieList(start, pageListLimit);
-	}
+//	//페이징처리 - 0616 정의효 -  0622페이징처리후 완료되면 지우기 
+//	public List<MovieVO> getMovieList(int pageNo, int pageListLimit) {
+//		int start = (pageNo - 1) * pageListLimit;
+//		return mapper.getMovieList(start, pageListLimit);
+//	}
 
 
-	//페이징처리 - 0616 정의효
-	public int getTotalPageCount(int pageListLimit) {
-		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageListLimit);
-	}
+	//페이징처리 - 0616 정의효 -  0622페이징처리후 완료되면 지우기 
+//	public int getTotalPageCount(int pageListLimit) {
+//		int totalCount = mapper.getCount();
+//		return (int) Math.ceil((double) totalCount / pageListLimit);
+//	}
 
 	//영화삭제 - 0620정의효
 	public void movieDelete(String movie_num) {
@@ -134,6 +134,16 @@ public class MovieService {
 	//영화수정 - 0620정의효 작성중
 	public void movieModify(MovieVO movie) {
 		 mapper.movieModify(movie);
+	}
+
+	// 영화 목록 조회 요청 위한 메서드 / 페이징처리중 - 0622 정의효 
+	public List<MovieVO> getmovieList(String movierSearchKeyword, int startRow, int listLimit) {
+		return mapper.selectMovieList(movierSearchKeyword, startRow, listLimit);
+	}
+
+	// 전체 영화 목록 개수 조회 요청 / 페이징처리중 - 0622 정의효 
+	public int getMovieListCount(String movieSearchKeyword) {
+		return mapper.selectMovieListCount(movieSearchKeyword);
 	}
 
 

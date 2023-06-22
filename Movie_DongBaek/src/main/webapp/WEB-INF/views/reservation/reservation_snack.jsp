@@ -90,6 +90,7 @@
 			$(".snackquantity").val(1);
 		}else{
 		$("#snackquantity"+snacknum).html(quantity);
+		$("#quantityview"+snacknum).html(quantity);
 		$("#snackpriceview"+snacknum).html(quantity*snackprice);
 		
 		//총가격
@@ -101,6 +102,7 @@
 		$("#totalview").html(totalprice);
 		
 		$("#snackCart"+snacknum).css("display", "");
+		$("#snackview"+snacknum).css("display", "");
 		}
 
 		
@@ -111,9 +113,12 @@
 		for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
 			$("#snackpriceview"+i).html(0);
 			$("#snackquantity"+i).html(0);
+			$("#quantityview"+i).html(0);
 			$("#snackCart"+i).css("display", "none");
+			$("#snackview"+i).css("display", "none");
 			}
 		$(".snackquantity").val(1);
+		$(".quantityview").val(1);
 		
 		$("#totalview").html($("#totalprice").html());
 	
@@ -127,20 +132,23 @@
  		$("#totalprice").html(totalprice-snackview);
 		$("#snackpriceview"+snacknum).html(0);
 		$("#snackquantity"+snacknum).html(0);
+		$("#quantityview"+snacknum).html(0);
 		$("#snackCart"+snacknum).css("display", "none");
+		$("#snackview"+snacknum).css("display", "none");
 		
 		$("#totalview").html($("#totalprice").html());
 	});
 	
 function reservation_ing(){
 	let arr=[];
-	
+	let arr2=[];
 	for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
-		if($("#snackquantity"+i).html()!=0)
-			arr.push([i,$("#snackquantity"+i).html()]);
+		if($("#snackquantity"+i).html()!=0){
+			arr.push([i]);
+			arr2.push([$("#snackquantity"+i).html()]);
 		}
-	
-	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&snack='+arr
+	}
+	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&ticket_type_num=${param.ticket_type_num}&snack_num='+arr+'&snack_quantity='+arr2
 }
 
 </script>
@@ -234,13 +242,13 @@ function reservation_ing(){
 	           <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
 	           <div class="row row2">
 	           	<%-- 선택한 영화 포스터와 영화명 노출 --%>
-	               <div class="col-3">
+	               <div class="col-4">
 					<h5>선택 정보</h5>
 			  		<img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px">
 			  		<span>${reservation.movie_name_kr }</span><br>
 				</div>
 				<%-- 선택한 상영스케줄 노출 --%>
-	               <div class="col-3">
+	               <div class="col-1.5">
 	               <br>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 			  			<tr><td>극장 ${reservation.theater_name }</td></tr>
@@ -249,24 +257,32 @@ function reservation_ing(){
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항 노출 --%>
-	               <div class="col-2">
+	               <div class="col-1.5">
 	               	<h5>좌석 선택</h5>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>좌석명 (일반석)</td></tr>
+<!-- 			  			<tr><td>좌석명 (일반석)</td></tr> -->
 			  			<tr><td>좌석번호<br> (${param.seat_name })</td></tr>
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항(결제) 노출 --%>
-	               <div class="col-2.5">
+	               <div class="col-3">
 	               	<h5>결제</h5>
-	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-			  			<tr><td>일반 (10,000 x 2)</td></tr>
-			  			<tr><td>스낵 (10,000 x 1)</td></tr>
-			  			<tr><td>총금액(<span id=totalview></span>)</td></tr>
-			  		</table>
+	               	<%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
+<!-- 			  			<span>일반 (10,000 x 2)</span> -->
+			  			
+			  			<div style="list-style-type: none;">
+
+		                 	<c:forEach var="snack" items="${snackList}" >
+		               		<div id="snackview${snack.snack_num}" style="display:none">${snack.snack_name} x (${snack.snack_price}X<span id="quantityview${snack.snack_num}">0</span>)</div>
+		               		
+		               		</c:forEach>
+	               		</div>
+	               		
+			  			총금액(<span id=totalview></span>)
+			  		
 	               </div>
 	               <%-- 다음 페이지 이동 버튼 --%>
-	               <div class="col-2">
+	               <div class="col-0.5">
 		  			<button class="btn btn-danger" id="nextBtn" onclick="reservation_ing()"> next ></button>
 	               </div>
 	           </div>

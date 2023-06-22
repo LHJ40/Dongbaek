@@ -69,9 +69,11 @@ div {
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<nav class="navbar navbar-light bg-light justify-content-end">
-						<form class="form-inline">
-							<input class="form-control mr-sm-2" type="search"
-								placeholder="Search" aria-label="Search">
+						<form class="form-inline" action="admin_movie_management" id="movieSearchKeyword" name="movieSearchKeyword" method="get">
+							<input class="form-control mr-sm-2" type="text"
+								placeholder="Search" aria-label="Search" 
+								name="movieSearchKeyword"
+								value="${not empty param.movieSearchKeyword ? param.movieSearchKeyword : ''}">
 							<button class="btn btn-outline-red my-2 my-sm-0" type="submit">Search</button>
 						</form>
 					</nav>
@@ -110,29 +112,82 @@ div {
 					</table>
 				</div>
 				
+  		
+	</div>
+	
+	<!-- 0622정의효 페이징처리 -->
+	
+	<nav aria-label="...">
+    <ul class="pagination pagination-md justify-content-center">
+        <%-- 이전 페이지로 이동 --%>
+        <c:choose>
+            <c:when test="${pageInfo.startPage > 1}">
+                <li class="page-item">
+                    <a class="page-link" href="admin_movie_management?pageNo=${pageInfo.startPage - 1}&movieSearchKeyword=${param.movieSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+
+        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+            <c:choose>
+                <%-- 현재 페이지 --%>
+                <c:when test="${pageNo eq i}">
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">${i} <span class="sr-only">(current)</span></a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <%-- 다른 페이지 --%>
+                    <li class="page-item">
+                        <a class="page-link" href="admin_movie_management?pageNo=${i}&movieSearchKeyword=${param.movieSearchKeyword}">${i}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <%-- 다음 페이지로 이동 --%>
+        <c:choose>
+            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+                <li class="page-item">
+                    <a class="page-link" href="admin_movie_management?pageNo=${pageInfo.endPage + 1}&movieSearchKeyword=${param.movieSearchKeyword}">&raquo;</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</nav>
+	
 		<div class="col-12 d-flex justify-content-center">
   			<button type="button" class="btn btn-primary btn-lg btn-danger mr-3" onclick="location.href='admin_movie_regist'">등록</button>
   		</div>
-  		
-	</div>
 			</div>
 
-	<%-- 0616 정의효 - 페이징 처리 --%>
-			<div class="row">
-				<div class="col-md-12">
-				    <div>
-				        <c:if test="${currentPage > 1}">
-				            <a href="admin_movie_management?pageNo=${currentPage - 1}">이전</a>
-				        </c:if>
-				        <c:forEach begin="1" end="${totalPageCount}" var="page">
-				            <a href="admin_movie_management?pageNo=${page}">${page}</a>
-				        </c:forEach>
-				        <c:if test="${currentPage < totalPageCount}">
-				            <a href="admin_movie_management?pageNo=${currentPage + 1}">다음</a>
-				        </c:if>
-	    			</div>
-				</div>
-			</div>
+<%-- 	<%-- 0616 정의효 - 페이징 처리 --%>
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-12"> -->
+<!-- 				    <div> -->
+<%-- 				        <c:if test="${currentPage > 1}"> --%>
+<%-- 				            <a href="admin_movie_management?pageNo=${currentPage - 1}">이전</a> --%>
+<%-- 				        </c:if> --%>
+<%-- 				        <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
+<%-- 				            <a href="admin_movie_management?pageNo=${page}">${page}</a> --%>
+<%-- 				        </c:forEach> --%>
+<%-- 				        <c:if test="${currentPage < totalPageCount}"> --%>
+<%-- 				            <a href="admin_movie_management?pageNo=${currentPage + 1}">다음</a> --%>
+<%-- 				        </c:if> --%>
+<!-- 	    			</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 		<%-- 0616 정의효 - 페이징 처리 끝--%>
 
 			<%-- 원본 페이징 처리 --%>
