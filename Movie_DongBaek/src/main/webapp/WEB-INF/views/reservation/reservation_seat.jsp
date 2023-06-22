@@ -489,6 +489,16 @@
 		
 	});
 	
+	// [next] 버튼 클릭 시 ============================================================================================================================================================ 
+	// 1) 선택한 좌석 수 == 0
+	//    => alert("좌석을 선택해주세요");
+	// 2) 선택한 좌석의 수 < 관람인원수 
+	//    => alert("좌석 선택이 완료되지 않았습니다");
+	// 3) 선택한 좌석의 수 > 관람인원수
+	//    => alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
+	//	     location.reload();
+	// 4) 선택한 좌석 수 != ticketTypeNum[] 
+	//    => alert("오류발생")
 	function reservationSnack() {
 		let resultAdult = $("#selectPeople #adult button.result").text();
 		let resultTeenager = $("#selectPeople #teenager button.result").text();
@@ -499,7 +509,11 @@
 		let childCount = Number(resultChild);
 		let handiCount = Number(resultHandi);
 		let countPeople = adultCount + teenagerCount + childCount + handiCount;
-		if(seatList.length == countPeople){
+		
+		if(seatList.length == 0){
+			alert("좌석을 선택해주세요");
+			
+		}else if(seatList.length == countPeople){
 			if(seatList.length == ticketTypeNum.length){
 				location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum				
 			}else{
@@ -509,6 +523,7 @@
 			
 		}else if(seatList.length < countPeople){
 			alert("좌석 선택이 완료되지 않았습니다");
+			
 		}else if(seatList.length > countPeople){
 			alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
 			location.reload();
