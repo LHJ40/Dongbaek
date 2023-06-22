@@ -229,6 +229,49 @@
       }
       res += "</div>";
       $("#seat-part .seatArea").html(res);
+      
+      
+      
+		let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+		
+		$.ajax({
+			type : "post", 
+			url : "GetTicketPrice", 
+			data : {"play_time_type" : playTimeType}, 
+			dataType : "json", 
+		})
+		.done(function(ticketPrice) {
+			for(let i = 0; i < ticketPrice.length; i++){
+				let ticketUserType = ticketPrice[i].ticket_user_type;
+				let res = "";
+				
+				
+				if(ticketUserType == "일반"){
+					adultTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);		
+				}
+				
+				if(ticketUserType == "청소년"){
+					teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);	
+				}
+				
+				if(ticketUserType == "경로/어린이"){
+					childTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);	
+				}
+				
+				if(ticketUserType == "장애인"){
+					handiTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
+				}
+			}
+																
+		})
+		.fail(function() { // 요청 실패 시
+			alert("요청 실패!");
+		});
+      
    });
    
    
@@ -288,60 +331,61 @@
 			let childTicketTypeNum = "";
 			let handiTicketTypeNum = "";
 			
-			let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+// 			let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
 			
 			
-			$.ajax({
-				type : "post", 
-				url : "GetTicketPrice", 
-				data : {"play_time_type" : playTimeType}, 
-				dataType : "json", 
-			})
-			.done(function(ticketPrice) {
-				for(let i = 0; i < countPeople; i++){
-					let ticketUserType = ticketPrice[i].ticket_user_type;
-					let res = "";
+// 			$.ajax({
+// 				type : "post", 
+// 				url : "GetTicketPrice", 
+// 				data : {"play_time_type" : playTimeType}, 
+// 				dataType : "json", 
+// 			})
+// 			.done(function(ticketPrice) {
+// 				for(let i = 0; i < countPeople; i++){
+// 					let ticketUserType = ticketPrice[i].ticket_user_type;
+// 					let res = "";
 					
 					
-					if(countAdult !=0 && ticketUserType == "일반"){
-						adultTicketTypeNum = ticketPrice[i].ticket_type_num;
-						adultPrice = (ticketPrice[i].ticket_type_price * countAdult);
-						$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);
-						$("#paymentInfo .adult").html("(일반)");
-						$("#paymentInfo .adultPrice").html(ticketPrice[i].ticket_type_price + " X " + countAdult + adultPrice);
+// 					if(countAdult !=0 && ticketUserType == "일반"){
+// 						adultTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						adultPrice = (ticketPrice[i].ticket_type_price * countAdult);
+// 						$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);
+// 						$("#paymentInfo .adult").html("(일반)");
+// 						$("#paymentInfo .adultPrice").html(ticketPrice[i].ticket_type_price + " X " + countAdult + adultPrice);
 							
-					}
-					if(countTeenager != 0 && ticketUserType == "청소년"){
-						teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
-						teenagerPrice = (ticketPrice[i].ticket_type_price * countTeenager);
-						$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);
-						$("#paymentInfo .teenager").html("(청소년)");
-						$("#paymentInfo .teenagerPrice").html(ticketPrice[i].ticket_type_price + " X " + countTeenager + teenagerPrice);
+// 					}
+// 					if(countTeenager != 0 && ticketUserType == "청소년"){
+// 						teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						teenagerPrice = (ticketPrice[i].ticket_type_price * countTeenager);
+// 						$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);
+// 						$("#paymentInfo .teenager").html("(청소년)");
+// 						$("#paymentInfo .teenagerPrice").html(ticketPrice[i].ticket_type_price + " X " + countTeenager + teenagerPrice);
 						
-					}
-					if(countChild != 0 && ticketUserType == "경로/어린이"){
-						childTicketTypeNum = ticketPrice[i].ticket_type_num;
-						childPrice = (ticketPrice[i].ticket_type_price * countChild);
-						$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);
-						$("#paymentInfo .child").html("(경로/어린이)");
-						$("#paymentInfo .childPrice").html(ticketPrice[i].ticket_type_price + " X " + countChild + childPrice);
+// 					}
+// 					if(countChild != 0 && ticketUserType == "경로/어린이"){
+// 						childTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						childPrice = (ticketPrice[i].ticket_type_price * countChild);
+// 						$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);
+// 						$("#paymentInfo .child").html("(경로/어린이)");
+// 						$("#paymentInfo .childPrice").html(ticketPrice[i].ticket_type_price + " X " + countChild + childPrice);
 						
-					}
-					if(countHandi != 0 && ticketUserType == "장애인"){
-						handiTicketTypeNum = ticketPrice[i].ticket_type_num;
-						handiPrice = (ticketPrice[i].ticket_type_price * countHandi);
-						$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
-						$("#paymentInfo .handi").html("(장애인)");
-						$("#paymentInfo .handiPrice").html(ticketPrice[i].ticket_type_price + " X " + countHandi + handiPrice);
-					}
-					totalPrice = adultPrice + teenagerPrice + childPrice + handiPrice;
-					$("#paymentInfo .totalPrice").html(totalPrice);
-				}
+// 					}
+// 					if(countHandi != 0 && ticketUserType == "장애인"){
+// 						handiTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						handiPrice = (ticketPrice[i].ticket_type_price * countHandi);
+// 						$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
+// 						$("#paymentInfo .handi").html("(장애인)");
+// 						$("#paymentInfo .handiPrice").html(ticketPrice[i].ticket_type_price + " X " + countHandi + handiPrice);
+// 					}
+					
+// 					totalPrice = adultPrice + teenagerPrice + childPrice + handiPrice;
+// 					$("#paymentInfo .totalPrice").html(totalPrice);
+// 				}
 																	
-			})
-			.fail(function() { // 요청 실패 시
-				alert("요청 실패!");
-			});
+// 			})
+// 			.fail(function() { // 요청 실패 시
+// 				alert("요청 실패!");
+// 			});
 			// ------------------------------------------------------------------------------------------------------------------------------------
 	
          
