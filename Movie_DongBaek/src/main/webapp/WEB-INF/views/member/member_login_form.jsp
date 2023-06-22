@@ -117,14 +117,18 @@ div {
 		
 			<%-- 아래 버튼들... --%>
 		    <div class="row checkbox mb-3">
-		      <label class="col-4" >
+		      <label class="col-6" >
 		      	<%-- 쿠키에 member_id가 있는 경우 check 상태로 보이게 하기  --%>
+		      	<input type="checkbox" name="remember_me" <c:if test="${not empty cookie.member_id}">checked</c:if> > 아이디 저장
 		      </label>
-		      <span class="col-4 d-flex justify-content-end">
-		        <a href="#">회원가입</a>
+		      <span class="col-2 d-flex justify-content-end">
+		        <a href="member_join_step1">회원가입</a>
 		      </span>
-		      <span class="col-4 d-flex justify-content-end">
-		        <a href="MemberModifyForm" >아이디, 비밀번호 찾기</a>
+		      <span class="col-2 d-flex justify-content-end">
+		        <a href="MemberModifyFormId" >아이디 찾기</a>
+		      </span>
+		      <span class="col-2 d-flex justify-content-end">
+		        <a href="MemberFindPasswd" >비밀번호 찾기</a>
 		      </span>
 		    </div>
 		    

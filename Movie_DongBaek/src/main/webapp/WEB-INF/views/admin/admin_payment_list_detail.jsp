@@ -75,7 +75,7 @@ article {
 				</tr>
 				<tr>
 				    <th>결제일</th>
-				    <td><fmt:formatDate value="${last_paymentDetail.payment_datetime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				    <td>${last_paymentDetail.payment_datetime}</td>
 				</tr>
 				<tr>
 				    <th>영화명</th>
@@ -124,7 +124,7 @@ article {
 			<button class="w-100 btn btn-outline-red mb-3" type="submit" data-toggle="modal" data-target="#paymentCancel">결제취소</button>
 		</div>
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_payment_list'">뒤로가기</button>
+			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="window.history.back();">뒤로가기</button>
 		</div>
 	</div>
   </div>

@@ -10,4 +10,5 @@ public class OrderVO {
 //	private BigDecimal order_total_price;
 	private String order_num;	// 아임포트 결제번호
 	private int order_total_price;
+	private String member_id;
 }

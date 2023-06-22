@@ -1282,7 +1282,7 @@ public class AdminController {
 //	---------------------원본 -------------------------------------------------
 	
 //	admin_member_list 페이징처리 테스트 - 0616 정의효
-//	검색기능 추가중 - 0621 정의효 
+//	검색기능 추가중- 완료(0622) - 0621 정의효 
 	@GetMapping("admin_member_list")
 	public String adminMemberList(
 			HttpSession session,
@@ -1355,9 +1355,14 @@ public class AdminController {
 	// admin_movie_management 원본---------------------------------------
 	
 //	 admin_movie_management 페이징 처리 테스트 0616 정의효-----------------------------
+//	0622 정의효 - 페이징처리중
+//	영화 제목으로 검색하니까 searchType 필요없음
 	@GetMapping("admin_movie_management")
-	public String adminMovieManagement(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
-
+	public String adminMovieManagement(
+						HttpSession session,
+						@RequestParam(defaultValue = "") String movieSearchKeyword,
+						@RequestParam(defaultValue = "1") int pageNo, 
+						Model model) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -1367,16 +1372,42 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }		
-		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<MovieVO> movieList = movie_service.getMovieList(pageNo, pageListLimit);
-		int totalPageCount = movie_service.getTotalPageCount(pageListLimit);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
+		
+		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
+		
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
+		// 회원 목록 조회
+		List<MovieVO> movieList = movie_service.getmovieList(movieSearchKeyword, startRow, listLimit);
+		
+		int listCount = movie_service.getMovieListCount(movieSearchKeyword);
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 2;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+				if(endPage > maxPage) { 
+					endPage = maxPage;
+				}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("movieList", movieList);
-		model.addAttribute("currentPage", pageNo);
-		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("pageInfo", pageInfo);
+		System.out.println(movieList);
+		
 		
 		return "admin/admin_movie_management";
 	}
@@ -1486,8 +1517,14 @@ public class AdminController {
 //	}
 	//--------------------------------------------------원본
 	// -- 페이징처리 테스트 - 일단 초안완 0616 정의효
+	// 결제내역 검색 및 페이징처리시작  15:22 0622정의효
+	// 아이디로 검색하니까 searchtype 필요X
 	@GetMapping("admin_payment_list")
-	public String adminPaymentList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
+	public String adminPaymentList(
+						HttpSession session,
+						@RequestParam(defaultValue = "") String paymentSearchKeyword,
+						@RequestParam(defaultValue = "1") int pageNo, 
+						Model model) {
 		
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -1499,18 +1536,38 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		int pageListLimit = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
 		
-		List<PaymentVO> paymentList = payment_service.getPaymentList(pageNo, pageListLimit);
-		int totalPageCount = payment_service.getTotalPageCount(pageListLimit);
-//		int startIndex = payment_service.getStartIndex(pageNo, pageListLimit);  찾아서 1~10뜨고 11~20뜨고 해보기
-//		int endIndex = payment_service.getEndIndex(pageNo, pageListLimit);	찾아서 1~10뜨고 11~20뜨고 해보기
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
+		// 회원 목록 조회
+		List<PaymentVO> paymentList = payment_service.getPaymentList(paymentSearchKeyword, startRow, listLimit);
+		
+		int listCount = payment_service.getPaymentListCount(paymentSearchKeyword);
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 2;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+				if(endPage > maxPage) { 
+					endPage = maxPage;
+				}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("currentPage", pageNo);
-		model.addAttribute("totalPageCount", totalPageCount);
-//		model.addAttribute("startIndex", startIndex);	찾아서 1~10뜨고 11~20뜨고 해보기
-//		model.addAttribute("endIndex", endIndex);	찾아서 1~10뜨고 11~20뜨고 해보기
+		model.addAttribute("pageInfo", pageInfo);
 		System.out.println(paymentList);
 		return "admin/admin_payment_list";
 	}
@@ -1557,7 +1614,7 @@ public class AdminController {
 	//List로 수정중 0616정의효
 	//수정중 0621정의효 14:00
 	@GetMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(@RequestParam int order_num, Model model) {
+	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
 		
 		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
 		model.addAttribute("paymentDetail", paymentDetail);

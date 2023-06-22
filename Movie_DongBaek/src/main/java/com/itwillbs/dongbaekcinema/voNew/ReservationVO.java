@@ -15,6 +15,7 @@ public class ReservationVO {
 	private String play_date;
 	private String play_start_time;
 	private String play_end_time;
+	private String play_time_type;
 	private int room_num;
 	private String room_name;
 	private int ticket_type_num;

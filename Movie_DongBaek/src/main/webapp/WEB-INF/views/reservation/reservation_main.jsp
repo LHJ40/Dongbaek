@@ -127,7 +127,7 @@
          // 날짜 출력
          $("#selectDate").css("display", "flex");
    
-         const now = new Date("2023-06-19");
+         const now = new Date("2023-06-19T09:00:00");
          let year = now.getFullYear();
          let month = now.getMonth();
          let thisMonth = month + 1;

@@ -72,6 +72,16 @@ public class MemberService {
 		return mapper.updateMemeber(member);
 	}
 
+	// 아이디 찾기
+		public String findId(String member_name, String member_phone) {
+
+			return mapper.findMemberId(member_name, member_phone);
+		}
+
+
+	
+	
+
 	// 회원 목록 조회 요청을 위한 메서드(페이징처리,검색하는중) 0621-정의효
 	public List<MemberVO> getMemberList(String memberSearchType, String memberSearchKeyword, int startRow,
 			int listLimit) {

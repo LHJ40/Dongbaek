@@ -13,30 +13,31 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
 <title>영화 예매 사이트</title>
+
+<%--페이징css --%>
 <style>
-	div{background-color: transparent;}
+	#pageList{
+	  align-content: center;
+	  font-size: large; 
+	  margin: auto;
+	  margin-bottom:50px;
+/* 	  width: 1024px; */
+	  text-align: center;
+	}
+	#nowPage{
+		color:#dc3545;
+		size: 20px;
+		margin: auto;
+/* 		width: 1024px; */
+		text-align: right;
+	}
+	#anotherPage{
+		color:graytext;
+		margin: auto;
+/* 		width: 1024px; */
+		text-align: right;
+	}
 	
-	<%-- 페이징 색상변경 --%>
-	.page-link {
-	  color: #000; 
-	  background-color: #fff;
-	  border: 1px solid #ccc; 
-	}
-
-	.page-item.active .page-link {
-	 z-index: 1;
-	 color: #555;
-	 font-weight:bold;
-	 background-color: #f1f1f1;
-	 border-color: #ccc;
- 
-	}
-
-	.page-link:focus, .page-link:hover {
-  	color: #000;
-  	background-color: #fafafa; 
-  	border-color: #ccc;
-	}
 </style>
 </head>
 <body>
@@ -100,200 +101,56 @@
 	            </div>
 	         </div>
 	      </c:forEach>
-
       </section>
       
+    <%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
+		
+	<%-- 페이징처리 ========================================== --%>
+	<section id="pageList">
+		<%-- 1. 현재페이지>1 =>[이전]버튼 동작 => 버튼클릭시 : BoardList서블릿요청(파라미터:현재pg-1) --%>
+		<c:choose>
+			<c:when test="${pageNum > 1 }">
+				<input type="button" class="btn-sm btn-outline-danger mr-2" value="이전" onclick="location.href='movie_detail_review?pageNum=${pageNum - 1}'">
+			</c:when>
+			<c:otherwise>
+				<input type="button" class="btn-sm btn-outline-danger mr-2" value="이전" disabled="disabled">
+			</c:otherwise>
+		</c:choose>
+		<%--간소화 할시 --%>
+		<%-- 	<input type="button" value="이전" <c:if test="${pageNum > 1 }"> onclick="location.href='BoardList.bo?pageNum=${pageNum - 1}'"</c:if>> --%>
+	
+	
+		<%-- 2. 페이지번호 목록은 시작페이지(startPage) 부터 끝페이지(endPage) 까지 표시 --%>
+		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+			<%-- 각 페이지마다 하이퍼링크 설정(단, 현재 페이지는 하이퍼링크 제거) --%>
+			<c:choose>
+				<c:when test="${pageNum eq i }">
+					<b id="nowPage">${i }</b> <%--페이지번호=현재페이지번호 -> 글자만표시  --%>
+				</c:when>
+				<c:otherwise>
+					<a href="movie_detail_review?pageNum=${i }" id="anotherPage">${i }</a><%--하이퍼링크활성화 --%>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>	
+	
+		<%-- 3. 현재페이지<maxPage =>[다음]버튼 동작 => 버튼클릭시 : BoardList서블릿요청(파라미터:현재pg+1) --%>
+		<c:choose>
+			<c:when test="${pageNum < pageInfo.maxPage }">
+				<input type="button" value="다음" class="btn-sm btn-outline-danger mr-2" onclick="location.href='movie_detail_review?pageNum=${pageNum + 1}'">
+			</c:when>
+			<c:otherwise>
+				<input type="button" value="다음" class="btn-sm btn-outline-danger mr-2" disabled="disabled">
+			</c:otherwise>
+		</c:choose>
+	</section>
+	<%--페이징처리 끝 ==========================================--%>
+		
+		
       
-      
-<!-- 		 <div class="p-3"> -->
-<!-- 		  		<div class="row"> -->
-<!-- 			  		<div class="h5" id="review_head">영화명에 대한 리뷰 NN개가 등록되어 있습니다!</div> -->
-<!-- 		  		</div> -->
-<!-- 		  		<br> -->
-<!-- 		  		<div class="row h6" id="review_count"> -->
-<!-- 		  			전체 리뷰 개수 : NN개 -->
-<!-- 		  		</div> -->
-<!-- 		  		<br> -->
-<%-- 		  		리뷰 본문 --%>
-<!-- 		  		<div id="review01"> -->
-<!-- 			  		<div class="row"> -->
-<%-- 			  		프로필 사진& 아이디 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
-<!-- 					    <p class="row ">사용자 아이디</p> -->
-<!-- 					  </div> -->
-<%-- 					평점 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <p class="row h4 container-md">평점</p> -->
-<!-- 					    <p class="row"> -->
-<!-- 							<i class="bi bi-star-fill"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!--  						  	<i class="bi bi-star"></i>	 -->
-<!--  						</p> -->
-<!-- 					  </div> -->
-<%-- 					리뷰 --%>
-<!-- 					  	<p class="col col-md-6 text-left"> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	</p> -->
-<%-- 					공감 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
-<!-- 					  	 <p class="row">공감수</p> -->
-<!-- 					  </div> -->
-<!-- 			  		</div> -->
-<!-- 		  		</div> -->
-<%-- 		  		리뷰 본문 --%>
-<!-- 		  		<div id="review02"> -->
-<!-- 			  		<div class="row"> -->
-<%-- 			  		프로필 사진& 아이디 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<%-- 					    <div class="row container-md"><img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> --%>
-<!-- 					    <p class="row">사용자 아이디</p> -->
-<!-- 					  </div> -->
-<%-- 					평점 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <p class="row h4 container-md">평점</p> -->
-<!-- 					    <p class="row"> -->
-<!-- 							<i class="bi bi-star-fill"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!--  						  	<i class="bi bi-star"></i>	 -->
-<!--  						</p> -->
-<!-- 					  </div> -->
-<%-- 					리뷰 --%>
-<!-- 					  	<p class="col col-md-6 text-left"> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	</p> -->
-<%-- 					공감 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
-<!-- 					  	 <p class="row">공감수</p> -->
-<!-- 					  </div> -->
-<!-- 			  		</div> -->
-<!-- 		  		</div> -->
-<%-- 		  		리뷰 본문 --%>
-<!-- 		  		<div id="review03"> -->
-<!-- 			  		<div class="row"> -->
-<%-- 			  		프로필 사진& 아이디 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
-<!-- 					    <p class="row">사용자 아이디</p> -->
-<!-- 					  </div>				 -->
-<%-- 					평점 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <p class="row h4 container-md">평점</p> -->
-<!-- 					    <p class="row"> -->
-<!-- 							<i class="bi bi-star-fill"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!--  						  	<i class="bi bi-star"></i>	 -->
-<!--  						</p> -->
-<!-- 					  </div> -->
-<%-- 					리뷰 --%>
-<!-- 					  	<p class="col col-md-6 text-left"> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	</p> -->
-<%-- 					공감 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
-<!-- 					  	 <p class="row">공감수</p> -->
-<!-- 					  </div> -->
-<!-- 			  		</div> -->
-<!-- 		  		</div> -->
-<%-- 		  		리뷰 본문 --%>
-<!-- 		  		<div id="review04"> -->
-<!-- 			  		<div class="row"> -->
-<%-- 			  		프로필 사진& 아이디 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
-<!-- 					    <p class="row">사용자 아이디</p> -->
-<!-- 					  </div> -->
-<%-- 					평점 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <p class="row h4 container-md">평점</p> -->
-<!-- 					    <p class="row"> -->
-<!-- 							<i class="bi bi-star-fill"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!--  						  	<i class="bi bi-star"></i>	 -->
-<!--  						</p> -->
-<!-- 					  </div> -->
-<%-- 					리뷰 --%>
-<!-- 					  	<p class="col col-md-6 text-left"> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	</p> -->
-<%-- 					공감 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
-<!-- 					  	 <p class="row">공감수</p> -->
-<!-- 					  </div> -->
-<!-- 			  		</div> -->
-<!-- 		  		</div> -->
-<%-- 		  		리뷰 본문 --%>
-<!-- 		  		<div id="review05"> -->
-<!-- 			  		<div class="row"> -->
-<%-- 			  		프로필 사진& 아이디 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <div class="row container-md"><img src="/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px"></div> -->
-<!-- 					    <p class="row">사용자 아이디</p> -->
-<!-- 					  </div> -->
-<%-- 					평점 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					    <p class="row h4 container-md">평점</p> -->
-<!-- 					    <p class="row"> -->
-<!-- 							<i class="bi bi-star-fill"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!-- 						  	<i class="bi bi-star"></i> -->
-<!--  						  	<i class="bi bi-star"></i>	 -->
-<!--  						</p> -->
-<!-- 					  </div> -->
-<%-- 					리뷰 --%>
-<!-- 					  	<p class="col col-md-6 text-left"> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	리뷰 내용<br> -->
-<!-- 					  	</p> -->
-<%-- 					공감 --%>
-<!-- 					  <div class="col col-md-2"> -->
-<!-- 					  	 <div class="row"><img src="/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></div> -->
-<!-- 					  	 <p class="row">공감수</p> -->
-<!-- 					  </div> -->
-<!-- 			  		</div> -->
-<!-- 		  		</div> -->
-
-
-	<!-- 		  	  페이징 -->
-		<section id="paging">
-	  	   <nav aria-label="...">
-			  <ul class="pagination pagination-md justify-content-center">
-			    <li class="page-item disabled">
-			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-			    </li>
-			    <li class="page-item active" aria-current="page">
-			      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#">&raquo;</a>
-			    </li>
-			  </ul>
-			</nav>
-	  	</section><%-- 세번째 섹션 끝--%>			
 		  	
  </div>
  </article>

@@ -43,17 +43,17 @@ public class PaymentService {
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
-	public List<BuyDetailVO> getMyPaymentDetail(int payment_num) {
+	public List<BuyDetailVO> getMyPaymentDetail(String payment_num) {
 		return mapper.selectMyPaymentDetail(payment_num);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 티켓 (지영)
-	public List<BuyDetailVO> getMyTickets(int payment_num) {
+	public List<BuyDetailVO> getMyTickets(String payment_num) {
 		return mapper.selectMyTickets(payment_num);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
-	public List<BuyDetailVO> getMySnacks(int payment_num) {
+	public List<BuyDetailVO> getMySnacks(String payment_num) {
 		return mapper.selectMySnacks(payment_num);
 	}
 	
@@ -62,21 +62,31 @@ public class PaymentService {
 		return mapper.selectYearPayment(member_id);
 	}
 	
-	// 페이징처리 테스트 - 현재페이지? 0615정의효
-	public List<PaymentVO> getPaymentList(int pageNo, int pageListLimit) {
-		int start = (pageNo - 1) * pageListLimit;
-		return mapper.getPaymentList(start, pageListLimit);
-	}
+	// 페이징처리 테스트 - 현재페이지? 0615정의효 - 페이징처리 새로 완료후삭제예정 0622 정의효
+//	public List<PaymentVO> getPaymentList(int pageNo, int pageListLimit) {
+//		int start = (pageNo - 1) * pageListLimit;
+//		return mapper.getPaymentList(start, pageListLimit);
+//	}
 	
-	// 페이징처리 테스트 - 총 몇페이진지 0615정의효
-	public int getTotalPageCount(int pageListLimit) {
-		int totalCount = mapper.getCount();
-		return (int) Math.ceil((double) totalCount / pageListLimit);
-	}
+	// 페이징처리 테스트 - 총 몇페이진지 0615정의효  - 페이징처리 새로 완료후삭제예정 0622 정의효
+//	public int getTotalPageCount(int pageListLimit) {
+//		int totalCount = mapper.getCount();
+//		return (int) Math.ceil((double) totalCount / pageListLimit);
+//	}
 
 	// 0621 정의효 관리자-결제상세정보
-	public List<PaymentVO> getPaymentDetail(int order_num) {
+	public List<PaymentVO> getPaymentDetail(String order_num) {
 		return mapper.getPaymentDetail(order_num);
+	}
+	
+//	결제 목록 조회 0622 정의효
+	public List<PaymentVO> getPaymentList(String paymentSearchKeyword, int startRow, int listLimit) {
+		return mapper.selectPaymentList(paymentSearchKeyword, startRow, listLimit);
+	}
+
+//	전체 결제목록 개수 조회 0622정의효
+	public int getPaymentListCount(String paymentSearchKeyword) {
+		return mapper.selectPaymentListCount(paymentSearchKeyword);
 	}
 
 

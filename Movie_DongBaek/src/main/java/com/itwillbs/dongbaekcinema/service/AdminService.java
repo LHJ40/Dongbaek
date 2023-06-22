@@ -7,13 +7,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dongbaekcinema.mapper.AdminMapper;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
-import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
-import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
+import com.itwillbs.dongbaekcinema.voNew.*;
 
 @Service
 public class AdminService {
@@ -21,6 +22,12 @@ public class AdminService {
     @Autowired
     private AdminMapper mapper;
     
+    @Autowired
+    private HttpSession session;
+    
+    @Autowired
+    private PayService payService;
+
 
 
     // 영화관 정보 불러오기
@@ -276,8 +283,20 @@ public class AdminService {
     	
     	return condition;
     }
-
-
+    
+    
+    // 결제 취소
+    public int orderCancle(BuyDetailVO buyDetail) throws Exception {
+		if(!buyDetail.getPayment_num().equals("")) {
+			String token = payService.getToken(); 
+			int price = buyDetail.getPayment_total_price();
+			payService.payMentCancle(token, buyDetail.getPayment_num(), price, buyDetail.getReason());
+		}
+		
+//		return adminDAO.orderCancle((orderList.getOrderNum()));
+		// payment_num 으로 조회 후 삭제
+		return mapper.orderCancle(buyDetail.getPayment_num());
+    }
 
 
 

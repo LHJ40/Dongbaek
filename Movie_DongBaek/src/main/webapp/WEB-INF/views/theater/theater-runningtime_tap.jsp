@@ -118,8 +118,8 @@ function timetable(){
 				
 				<div class="row container" align="center">
 				
-				<table class="table table-hover" id="schedule-table"style="width:50%" >
-						
+				<table id="schedule-table"style="width:50%" >
+					<!-- runningtime_tap_ajax.jsp  표시영역-->
 					</table>	
 				
 

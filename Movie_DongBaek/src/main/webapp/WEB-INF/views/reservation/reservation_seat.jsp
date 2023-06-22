@@ -214,6 +214,8 @@
 <script type="text/javascript">
    
    let seatList = [];
+   let seatListForParam = [];
+   let ticketTypeNum = [];
    
    $(function(){   // 페이지 로딩 시 좌석 출력
       let res = "";
@@ -227,18 +229,62 @@
       }
       res += "</div>";
       $("#seat-part .seatArea").html(res);
+      
+      
+      
+		let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+		
+		$.ajax({
+			type : "post", 
+			url : "GetTicketPrice", 
+			data : {"play_time_type" : playTimeType}, 
+			dataType : "json", 
+		})
+		.done(function(ticketPrice) {
+			for(let i = 0; i < ticketPrice.length; i++){
+				let ticketUserType = ticketPrice[i].ticket_user_type;
+				let res = "";
+				
+				
+				if(ticketUserType == "일반"){
+					adultTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);		
+				}
+				
+				if(ticketUserType == "청소년"){
+					teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);	
+				}
+				
+				if(ticketUserType == "경로/어린이"){
+					childTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);	
+				}
+				
+				if(ticketUserType == "장애인"){
+					handiTicketTypeNum = ticketPrice[i].ticket_type_num;
+					$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
+				}
+			}
+																
+		})
+		.fail(function() { // 요청 실패 시
+			alert("요청 실패!");
+		});
+      
    });
    
    
    $(function() {
 		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
-		// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
-		// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기		
 		$("#selectPeople button").on("click", function() {
-			$("#seat-part").removeClass("disabled");
+			$("#seat-part").removeClass("disabled");	// 좌석 선택 영역 disable 클래스 제거
 			$("#selectPeople button").removeClass("selected");
 			$(this).addClass("selected");
 			
+			
+			// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
+			// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기		
 			let playNum = $(".roomInfo2").attr("data-play-num");
 			$.ajax({
 				type : "post", 
@@ -263,15 +309,89 @@
 			.fail(function() { // 요청 실패 시
 				alert("요청 실패!");
 			});
+			
+			
+			// ------------------------------------------------------------------------------------------------------------------------------------
+			// 인원별 티켓 가격을 계산하기 위해
+			// 상영시간(play_time_type)에 해당하는 티켓의 정보(ticket_type)을 TICKET_TYPES 테이블에서 가져오기
+			let countAdult = $("#selectPeople #adult button.result").text();
+			let countTeenager = $("#selectPeople #teenager button.result").text();
+			let countChild = $("#selectPeople #child button.result").text();
+			let countHandi = $("#selectPeople #handi button.result").text();
+			let countPeople = Number(countAdult) + Number(countTeenager) + Number(countChild) + Number(countHandi);
+// 			alert(countPeople);
+			
+			let adultPrice = 0;
+			let teenagerPrice = 0;
+			let childPrice = 0;
+			let handiPrice = 0;
+			let totalPrice = 0;
+			let adultTicketTypeNum = "";
+			let teenagerTicketTypeNum = "";
+			let childTicketTypeNum = "";
+			let handiTicketTypeNum = "";
+			
+// 			let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+			
+			
+// 			$.ajax({
+// 				type : "post", 
+// 				url : "GetTicketPrice", 
+// 				data : {"play_time_type" : playTimeType}, 
+// 				dataType : "json", 
+// 			})
+// 			.done(function(ticketPrice) {
+// 				for(let i = 0; i < countPeople; i++){
+// 					let ticketUserType = ticketPrice[i].ticket_user_type;
+// 					let res = "";
+					
+					
+// 					if(countAdult !=0 && ticketUserType == "일반"){
+// 						adultTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						adultPrice = (ticketPrice[i].ticket_type_price * countAdult);
+// 						$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);
+// 						$("#paymentInfo .adult").html("(일반)");
+// 						$("#paymentInfo .adultPrice").html(ticketPrice[i].ticket_type_price + " X " + countAdult + adultPrice);
+							
+// 					}
+// 					if(countTeenager != 0 && ticketUserType == "청소년"){
+// 						teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						teenagerPrice = (ticketPrice[i].ticket_type_price * countTeenager);
+// 						$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);
+// 						$("#paymentInfo .teenager").html("(청소년)");
+// 						$("#paymentInfo .teenagerPrice").html(ticketPrice[i].ticket_type_price + " X " + countTeenager + teenagerPrice);
+						
+// 					}
+// 					if(countChild != 0 && ticketUserType == "경로/어린이"){
+// 						childTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						childPrice = (ticketPrice[i].ticket_type_price * countChild);
+// 						$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);
+// 						$("#paymentInfo .child").html("(경로/어린이)");
+// 						$("#paymentInfo .childPrice").html(ticketPrice[i].ticket_type_price + " X " + countChild + childPrice);
+						
+// 					}
+// 					if(countHandi != 0 && ticketUserType == "장애인"){
+// 						handiTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						handiPrice = (ticketPrice[i].ticket_type_price * countHandi);
+// 						$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
+// 						$("#paymentInfo .handi").html("(장애인)");
+// 						$("#paymentInfo .handiPrice").html(ticketPrice[i].ticket_type_price + " X " + countHandi + handiPrice);
+// 					}
+					
+// 					totalPrice = adultPrice + teenagerPrice + childPrice + handiPrice;
+// 					$("#paymentInfo .totalPrice").html(totalPrice);
+// 				}
+																	
+// 			})
+// 			.fail(function() { // 요청 실패 시
+// 				alert("요청 실패!");
+// 			});
+			// ------------------------------------------------------------------------------------------------------------------------------------
+	
          
 			// 인원 선택 수 제한두기
 			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
-			let countAdult = $("#selectPeople #adult button.result").text();
-			let countTeeager = $("#selectPeople #teenager button.result").text();
-			let countChild = $("#selectPeople #child button.result").text();
-			let countHandi = $("#selectPeople #handi button.result").text();
-			let countPeople = Number(countAdult) + Number(countTeeager) + Number(countChild) + Number(countHandi);
-// 			alert(countPeople);
+			
 
 			if(countPeople > 8){	// 관람인원의 합이 8명 이상일 때
 				alert("인원 선택은 총 8명까지 가능합니다");   
@@ -288,185 +408,231 @@
 			}else{
 				$("#seat-part button").removeClass("disabled");            
 			}
+			
+			if (countPeople < seatList.length) {	// 배열의 길이가 countPeople 보다 작을 때
+				alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+				return;
+			}
 
-// 		$("#selectPeople .down, #selectPeople .up").on("click", function() {	// (-)또는 (+) 버튼이 클릭될 때
-// 	    	let buttonType = $(this).attr("class");
-// 	    	let target = $(this).parents(".input-group").children("button.result");	// 클릭된 버튼의 result영역(숫자가 표시되는 버튼)
-// 	    	let currentValue = Number(target.text());
-// 	    	let nextValue;
-	    	
-// 	    	if (buttonType == "down" && currentValue > 0) {	// (-) 버튼 클릭하고, result 영역의 숫자가 0보다 크면
-// 	    		nextValue = currentValue - 1;
-// 	    	} else if (buttonType == "up" && currentValue + seatList.length < countPeople) {// (+) 버튼 클릭하고, result 영역의 숫자와 현재까지 만들어진 좌석 배열의 합이 countPeople보다 작으면 
-// 	    		nextValue = currentValue + 1;
-// 	    	} else {
-// 	    		return;
-// 	    	}
+		});
+	}); 	
 
-// 			if (nextValue + seatList.length <= countPeople) {
-// 				target.text(nextValue);
-// 			} else {
-// 				alert("인원 수를 줄이려면 선택된 좌석을 먼저 취소하세요.");
+
+// 	$(document).ready(function() {
+// 		$("#selectPeople #adult button").on("click", selectPeopleOnClick);
+// 		$("#selectPeople #teenager  button").on("click", selectPeopleOnClick);
+// 		$("#selectPeople #child  button").on("click", selectPeopleOnClick);
+// 		$("#selectPeople #handi button").on("click", selectPeopleOnClick);
+    
+// 		function selectPeopleOnClick(){
+// 			$("#seat-part").removeClass("disabled");	// 좌석 선택 영역 disable 클래스 제거
+// 			$("#selectPeople button").removeClass("selected");
+// 			$(this).addClass("selected");
+			
+			
+// 			// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
+// 			// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기		
+// 			let playNum = $(".roomInfo2").attr("data-play-num");
+// 			$.ajax({
+// 				type : "post", 
+// 				url : "SelectPeople", 
+// 				data : {"play_num" : playNum}, 
+// 				dataType : "json", 
+// 			})
+// 			.done(function(orderTicketList) {
+// 			for(let i = 0; i <orderTicketList.length; i++) {
+			
+// 				for(let j = 0; j < 60; j++){               
+// 					let seatNum = $("#seat-part button").eq(j).attr("data-seat-num");
+					
+// 					// 예약된 좌석 정보와 상영관의 좌석 번호를 비교하여 
+// 					// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기
+// 					if(orderTicketList[i].seat_num == seatNum){
+// 						$("#seat-part button").eq(j).addClass("disabled")
+// 					}
+// 				}
 // 			}
-// 		});
+// 	        })
+// 			.fail(function() { // 요청 실패 시
+// 				alert("요청 실패!");
+// 			});
+			
+			
+// 			// ------------------------------------------------------------------------------------------------------------------------------------
+// 			// 인원별 티켓 가격을 계산하기 위해
+// 			// 상영시간(play_time_type)에 해당하는 티켓의 정보(ticket_type)을 TICKET_TYPES 테이블에서 가져오기
+// 			let countAdult = $("#selectPeople #adult button.result").text();
+// 			let countTeenager = $("#selectPeople #teenager button.result").text();
+// 			let countChild = $("#selectPeople #child button.result").text();
+// 			let countHandi = $("#selectPeople #handi button.result").text();
+// 			let countPeople = Number(countAdult) + Number(countTeenager) + Number(countChild) + Number(countHandi);
+// 	//			alert(countPeople);
+			
+// // 			let adultPrice = 0;
+// // 			let teenagerPrice = 0;
+// // 			let childPrice = 0;
+// // 			let handiPrice = 0;
+// // 			let totalPrice = 0;
+// 			let adultTicketTypeNum = "";
+// 			let teenagerTicketTypeNum = "";
+// 			let childTicketTypeNum = "";
+// 			let handiTicketTypeNum = "";
+			
+// 			let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+			
+			
+// 			$.ajax({
+// 				type : "post", 
+// 				url : "GetTicketPrice", 
+// 				data : {"play_time_type" : playTimeType}, 
+// 				dataType : "json", 
+// 			})
+// 			.done(function(ticketPrice) {
+// 				for(let i = 0; i < ticket.length; i++) {
+// 					let ticketUserType = ticketPrice[i].ticket_user_type;
+	
+// 					if(countAdult !== 0 && ticketUserType === "일반") {
+// 						let adultTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						let adultPrice = ticketPrice[i].ticket_type_price * countAdult;
+		
+// 						$("#selectPeople #adult button.result").attr("data-ticket-type-num", adultTicketTypeNum);
+// 						$("#paymentInfo .adult").html("(일반)");
+// 						$("#paymentInfo .adultPrice").html(ticketPrice[i].ticket_type_price + " X " + countAdult);
+	
+// 					}else if (countTeenager !== 0 && ticketUserType === "청소년") {
+// 						let teenagerTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						let teenagerPrice = ticketPrice[i].ticket_type_price * countTeenager;
+	
+// 						$("#selectPeople #teenager button.result").attr("data-ticket-type-num", teenagerTicketTypeNum);
+// 						$("#paymentInfo .teenager").html("(청소년)");
+// 						$("#paymentInfo .teenagerPrice").html(ticketPrice[i].ticket_type_price + " X " + countTeenager);
+	
+// 					}else if (countChild !== 0 && ticketUserType === "경로/어린이") {
+// 						let childTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						let childPrice = ticketPrice[i].ticket_type_price * countChild;
+	
+// 						$("#selectPeople #child button.result").attr("data-ticket-type-num", childTicketTypeNum);
+// 					 	$("#paymentInfo .child").html("(경로/어린이)");
+// 					 	$("#paymentInfo .childPrice").html(ticketPrice[i].ticket_type_price + " X " + countChild);
+	
+// 					}else if (countHandi !== 0 && ticketUserType === "장애인") {
+// 						let handiTicketTypeNum = ticketPrice[i].ticket_type_num;
+// 						let handiPrice = ticketPrice[i].ticket_type_price * countHandi;
+	
+// 						$("#selectPeople #handi button.result").attr("data-ticket-type-num", handiTicketTypeNum);
+// 					 	$("#paymentInfo .handi").html("(장애인)");
+// 					 	$("#paymentInfo .handiPrice").html(ticketPrice[i].ticket_type_price + " X " + countHandi);
+// 					}
+	
+// 					let totalPrice = adultPrice + teenagerPrice + childPrice + handiPrice;
+// 					$("#paymentInfo .totalPrice").html(totalPrice);
+// 				}
+																	
+// 			})
+// 			.fail(function() { // 요청 실패 시
+// 				alert("요청 실패!");
+// 			});
+// 			// ------------------------------------------------------------------------------------------------------------------------------------
+	
+	     
+// 			// 인원 선택 수 제한두기
+// 			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
+			
+	
+// 			if(countPeople > 8){	// 관람인원의 합이 8명 이상일 때
+// 				alert("인원 선택은 총 8명까지 가능합니다");   
+// 				$("#seat-part button").addClass("disabled");
+				
+// 			}else if(countPeople == 0){	// 관람인원의 합이 0일 때
+// 				alert("관람인원을 선택해 주세요");
+// 				$("#seat-part button").removeClass("selected");
+// 				$("#seat-part button").addClass("disabled");
+			
+// 				$("#selectPeople button").on("click", function() {
+// 					$("#seat-part button").removeClass("disabled");            
+// 				});
+				
+// 			}else{
+// 				$("#seat-part button").removeClass("disabled");            
+// 			}
+			
+// 			if (countPeople < seatList.length) {	// 배열의 길이가 countPeople 보다 작을 때
+// 				alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+// 				return;
+// 			}
+// 		}
+   
+// 	});
+	// [좌석] 선택 시 ======================================================================================================================================================   
+	$(function() {
+		$("#seat-part button").on("click", function() {
+			let resultAdult = $("#selectPeople #adult button.result").text();
+			let resultTeenager = $("#selectPeople #teenager button.result").text();
+			let resultChild = $("#selectPeople #child button.result").text();
+			let resultHandi = $("#selectPeople #handi button.result").text();
+			let countAdult = Number(resultAdult);
+			let countTeenager = Number(resultTeenager);
+			let countChild = Number(resultChild);
+			let countHandi = Number(resultHandi);
+			let countPeople = countAdult + countTeenager + countChild + countHandi;
+			
+			let selectedSeatName = $(this).attr("data-seat-name");
+	
+			// 클릭된 좌석이 selected 클래스를 가지고 있으면
+			// selecte 클래스를 제거하고, 해당 좌석명을 seatList 배열에서 찾아서 제거
+			// splice()를 사용하기 위해 indexOf()를 이용해 해당하는 좌석명이 배열의 몇번째 요소인지 찾아서 제거하기
+			if ($(this).hasClass("selected")) {	
+				$(this).removeClass("selected");	
+				const index = seatList.indexOf(selectedSeatName);
+				if (index > -1) {
+					seatList.splice(index, 1);
+				}
+			} else {
+				// 클릭된 좌석이 selected 클래스를 가지고 있지 않으면
+				if (seatList.length >= countPeople) {	// 배열의 길이가 countPeople 보다 크거나 같아지면
+					alert("좌석 선택이 완료되었습니다.");
+					return;
+				} else if (countPeople < seatList.length) {	// 배열의 길이가 countPeople 보다 작을 때
+					
+					alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+					return;
+				}
+				
+				$(this).addClass("selected");
+				seatList.push(selectedSeatName);
+			}
+	
+			console.log(seatList);
+			$("#seatInfo").html(seatList);
+			
+			
+			// TICKET_TYPES 테이블에서 가져온 티켓타입번호(ticket_type_num)을 
+			// seatList[]와 함께 파라미터로 전달하기 위해 ticketTypeNum[] 배열에 저장  
+			for (let i = 0; i < adultCount; i++) {
+				seatListForParam[i] = seatList[i] + "/adult";
+				ticketTypeNum[i] = $("#selectPeople #adult button.result").attr("data-ticket-type-num");
+			}
+			for (let i = adultCount; i < adultCount + teenagerCount; i++) {
+				seatListForParam[i] = seatList[i] + "/teenager";
+				ticketTypeNum[i] = $("#selectPeople #teenager button.result").attr("data-ticket-type-num");
+			}
+			for (let i = adultCount + teenagerCount; i < adultCount + teenagerCount + childCount; i++) {
+				seatListForParam[i] = seatList[i] + "/child";
+				ticketTypeNum[i] = $("#selectPeople #child button.result").attr("data-ticket-type-num");
+			}
+			for (let i = adultCount + teenagerCount + childCount; i < adultCount + teenagerCount + childCount + handiCount; i++) {
+				seatListForParam[i] = seatList[i] +  "/handi";
+				ticketTypeNum[i] = $("#selectPeople #handi button.result").attr("data-ticket-type-num");
+			}
+			console.log(seatListForParam);
+			console.log(ticketTypeNum);
+			
+			
 		});
 		
-	});  
-
-   
-   
-	// [좌석] 선택 시 ======================================================================================================================================================   
-$(function() {
-  $("#seat-part button").on("click", function() {
-    let resultAdult = $("#selectPeople #adult button.result").text();
-    let resultTeenager = $("#selectPeople #teenager button.result").text();
-    let resultChild = $("#selectPeople #child button.result").text();
-    let resultHandi = $("#selectPeople #handi button.result").text();
-    let countAdult = Number(resultAdult);
-    let countTeenager = Number(resultTeenager);
-    let countChild = Number(resultChild);
-    let countHandi = Number(resultHandi);
-    let countPeople = countAdult + countTeenager + countChild + countHandi;
-
-    let selectedSeatName = $(this).attr("data-seat-name");
-
-    if ($(this).hasClass("selected")) {
-      $(this).removeClass("selected");
-      const index = seatList.indexOf(selectedSeatName);
-      if (index > -1) {
-        seatList.splice(index, 1);
-      }
-    } else {
-      if (seatList.length >= countPeople) {
-        alert("최대 선택 가능한 좌석 수에 도달했습니다.");
-        return;
-      } else if (countPeople < seatList.length) {
-          alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
-          return;
-        }
-      $(this).addClass("selected");
-      seatList.push(selectedSeatName);
-    }
-
-    console.log(seatList);
-  });
-});
+	});
 	
-	function updateSeatSelection(seatButton) {
-		  let seatNum = seatButton.dataset.seatNum;
-		  let seatName = seatButton.dataset.seatName;
-		  let seatInfoArea = document.getElementById("seat_info_area");
 
-		  if (seatButton.classList.contains("selected")) { // 좌석이 이미 선택된 경우
-		    seatButton.classList.remove("selected", "selected-animation"); // 선택된 클래스와 애니메이션을 좌석 버튼에서 제거
-		    const index = seatList.indexOf(seatName); // seatList 배열에서 좌석 이름의 인덱스를 찾습니다.
-		    if (index > -1) {
-		      seatList.splice(index, 1); // seatList 배열에서 좌석 이름을 제거합니다.
-		    }
-		    seatInfoArea.innerHTML = seatInfoArea.innerHTML.replace("," + seatName, ''); // seat_info_area에서 좌석 이름을 제거합니다.
-		  } else { // 좌석이 선택되지 않은 경우
-		    seatButton.classList.add("selected", "selected-animation"); // 선택된 클래스와 애니메이션을 좌석 버튼에 추가
-		    seatList.push(seatName); // seatList 배열에 좌석 이름을 추가합니다.
-		    if (seatInfoArea.innerHTML === "") {
-		      seatInfoArea.innerHTML += seatName;
-		    } else {
-		      seatInfoArea.innerHTML += "," + seatName; // 좌석 이름을 새로 추가하여 seat_info_area를 업데이트합니다.
-		    }
-		  }
-		}
-	
-    var maxSeats = 3; // 선택 가능한 최대 좌석 수
-    var selectedSeats = []; // 선택된 좌석들의 배열
-
-    function toggleSeat(seat) {
-      if (seat.classList.contains("selected")) {
-        // 이미 선택된 좌석인 경우, 선택 해제
-        seat.classList.remove("selected");
-        var index = selectedSeats.indexOf(seat);
-        if (index > -1) {
-          selectedSeats.splice(index, 1);
-        }
-      } else if (selectedSeats.length < maxSeats) {
-        // 선택 가능한 최대 좌석 수보다 적은 경우, 좌석 선택
-        seat.classList.add("selected");
-        selectedSeats.push(seat);
-      }
-
-      if (selectedSeats.length >= maxSeats) {
-        // 선택 가능한 최대 좌석 수에 도달한 경우, 나머지 좌석들의 클릭 이벤트 제거
-        var seats = document.getElementsByClassName("seat");
-        for (var i = 0; i < seats.length; i++) {
-          if (!seats[i].classList.contains("selected")) {
-            seats[i].onclick = null;
-          }
-        }
-      } else {
-        // 선택 가능한 최대 좌석 수에 도달하지 않은 경우, 모든 좌석들의 클릭 이벤트 활성화
-        var seats = document.getElementsByClassName("seat");
-        for (var i = 0; i < seats.length; i++) {
-          seats[i].onclick = function() {
-            toggleSeat(this);
-          };
-        }
-      }
-    }
-	
-    function deselectSeat(seatId) {
-    	  // 선택 해제된 좌석의 ID를 매개변수로 받아옵니다.
-
-    	  // 선택 해제된 좌석의 클래스를 변경합니다.
-    	  const seatElement = document.getElementById(seatId);
-    	  seatElement.classList.remove('selected');
-
-    	  // seatList 배열에서 선택 해제된 좌석을 제거합니다.
-    	  seatList = seatList.filter(seat => seat !== seatId);
-    	}
-   
-   
-    
-    // Function to handle seat selection
-    function selectSeat(seat) {
-      if (seatList.includes(seat)) {
-        // Seat already selected, remove it from the list
-        var index = seatList.indexOf(seat);
-        seatList.splice(index, 1);
-        document.getElementById('seat_name').textContent = '';
-      } else {
-        // Seat not selected, add it to the list
-        seatList.push(seat);
-        document.getElementById('seat_name').textContent = seat;
-      }
-      
-      // Update seat styling
-      updateSeatStyling();
-    }
-    
-    // Function to update seat styling based on selection
-    function updateSeatStyling() {
-      var seats = document.getElementsByClassName('seat');
-      for (var i = 0; i < seats.length; i++) {
-        var seat = seats[i].textContent;
-        if (seatList.includes(seat)) {
-          seats[i].classList.add('selected');
-        } else {
-          seats[i].classList.remove('selected');
-        }
-      }
-    }
-    
-    // Add click event listener to seats
-    var seats = document.getElementsByClassName('seat');
-    for (var i = 0; i < seats.length; i++) {
-      seats[i].addEventListener('click', function() {
-        selectSeat(this.textContent);
-      });
-      
-    for (var i = 0; i < seatList.length; i++) {
-        var seatElement = document.createElement("div");
-        seatElement.innerText = seatList[i];
-        seatNameElement.appendChild(seatElement);
-      }
-    }
 </script>
 </head>
 <body>
@@ -512,7 +678,14 @@ $(function() {
                               </div>
                               <script type="text/javascript">
                                  let adultResult = $("#selectPeople #adult button.result").text();
+                                 let teenagerResult = $("#selectPeople #teenager button.result").text();
+                                 let childResult = $("#selectPeople #child button.result").text();
+                                 let handiResult = $("#selectPeople #handi button.result").text();
                                  let adultCount = Number(adultResult);
+                                 let teenagerCount = Number(teenagerResult);
+                                 let childCount = Number(childResult);
+                                 let handiCount = Number(handiResult);
+                                 let countPeople = adultCount + teenagerCount + childCount + handiCount;
                                  function adultDown() {
                                     if(adultCount <= 0){
                                        $("#selectPeople #adult button.down").addClass("disabled");
@@ -534,15 +707,18 @@ $(function() {
                                  }   
                                  
                                  // ------------------------------------------------------------------------------
-                                 let teenagerResult = $("#selectPeople #teenager button.result").text();
-                                 let teenagerCount = Number(teenagerResult);
                                  function teenagerDown() {
                                     if(teenagerCount <= 0){
                                        $("#selectPeople #teenager button.down").addClass("disabled");
                                     }else {
                                        teenagerCount = teenagerCount - 1;
                                        $("#selectPeople #teenager button.up").removeClass("disabled");
-                                       $("#selectPeople #teenager button.result").html(teenagerCount);                                       
+                                       $("#selectPeople #teenager button.result").html(teenagerCount);
+                                       
+//                                     if (countPeople < seatList.length) {	// 배열의 길이가 countPeople 보다 작을 때
+//                            				alert("인원 수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+//                            				return;
+//                            			}
                                     }
                                  }   
                                  
@@ -557,8 +733,6 @@ $(function() {
                                  }   
                                                                   
                                  // ------------------------------------------------------------------------------
-                                 let childResult = $("#selectPeople #child button.result").text();
-                                 let childCount = Number(childResult);
                                  function childDown() {
                                     if(childCount <= 0){
                                        $("#selectPeople #child button.down").addClass("disabled");
@@ -580,8 +754,6 @@ $(function() {
                                  }   
                                  
                                  // ------------------------------------------------------------------------------
-                                 let handiResult = $("#selectPeople #handi button.result").text();
-                                 let handiCount = Number(handiResult);
                                  function handiDown() {
                                     if(handiCount <= 0){
                                        $("#selectPeople #handi button.down").addClass("disabled");
@@ -656,19 +828,19 @@ $(function() {
             </div>
             
             <%-- 선택한 상영스케줄 노출 --%>
-            <div class="col-3">
+            <div class="col-2">
                <div id="theaterInfo" style="display: table;">
                   <span style="display: table-cell;">극장&nbsp;</span>
                   <span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
                </div>
                <div id="dateInfo" style="display: table;">
                   <span style="display: table-cell;">날짜&nbsp;</span>
-<%--                   <span style="display: table-cell;"><b>${reservation.play_date }</b></span> --%>
-                  <span style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
+<%--                   <span data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
+                  <span data-play-num="${reservation.play_num }" data-play-start-time="${reservation.play_start_time }" data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
                </div>
                <div id="roomInfo" style="display: table;">
                   <span style="display: table-cell;">상영관&nbsp;</span>
-                  <span " class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+                  <span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
                </div>
             </div>
             
@@ -682,21 +854,28 @@ $(function() {
             </div>
             
                 <%-- 미선택 사항(결제) 노출 --%>
-                <div class="col-2.5">
+                <div class="col-3">
 <!--                    <h5>결제</h5> -->
 <%--                    <table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 <!--                     <tr><td>일반 (10,000 x 2)</td></tr> -->
 <!--                     <tr><td>총 금액 (20,000)</td></tr> -->
 <!--                  </table> -->
                  <h5>결제</h5>
-               <div id="paymentInfo">
-                  <div>일반</div>
-                    <div class="totalPrice"><b></b></div>
-               </div>
+	               <div id="paymentInfo"  style="display: table;">
+	                  <div style="display: table-cell;">
+	                  	<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
+	                  	<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>           
+	                  	<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
+	                  	<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>            
+	                  </div>
+	                  <div style="display: table-cell;">
+	                    <div class="totalPrice"></div>
+	                  </div>
+	               </div>
                 </div>
                 <%-- 다음 페이지 이동 버튼 --%>
                 <div class="col-2 ">
-                 <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList"> next > </button>
+                 <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button>
                 </div>
             </div>
         </div>

@@ -15,6 +15,9 @@
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
+<!-- Sweet Alert 플러그인 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <title>영화 예매 사이트</title>
 <style>
 	
@@ -31,108 +34,47 @@
 <script type="text/javascript">
 	
 	$(function() {
-		
+// 		$("#cancleCk").hide();	// 나중에 풀기
 		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
-		if($("#play_change").val() == '취소가능') {
+		if($("#play_change").val() === '취소가능') {
 			$("#cancleCk").show();
-		} else {
-			$("#cancleCk").hide();	// 나중에 풀기
 		}
+	}); // function() 끝
+	
 		
-		
-// 		$("#cancleCk").click(function(){
-// // 			let pay = $("#payment_total_price").val();
-// 			let pay = 10;
-// 			console.log(pay);
-		   	  
-// 			let IMP = window.IMP;
-// 			IMP.init('imp85027310'); 
-//  	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-//  	        // 'import 관리자 페이지 -> 내정보 -> 가맹점식별코드
-//  	        IMP.request_pay({
-//  	            pg: 'html5_inicis', // version 1.1.0부터 지원.
-//  	            /* 
-//  	                'kakao':카카오페이, 
-//  	                html5_inicis':이니시스(웹표준결제)
-//  	                    'nice':나이스페이
-//  	                    'jtnet':제이티넷
-//  	                    'uplus':LG유플러스
-//  	                    'danal':다날
-//  	                    'payco':페이코
-//  	                    'syrup':시럽페이
-//  	                    'paypal':페이팔
-//  	                */
-//  	            pay_method: 'card',
-//  	            /* 
-//  	                'samsung':삼성페이, 
-//  	                'card':신용카드, 
-//  	                'trans':실시간계좌이체,
-//  	                'vbank':가상계좌,
-//  	                'phone':휴대폰소액결제 
-//  	            */
-//  	            merchant_uid: 'merchant_' + new Date().getTime(),
- 	            
-//  	            name: '주문명:동백시네마',
-//  	            //결제창에서 보여질 이름
-//  	            amount: pay, 
-//  	            //가격 
-//  	            buyer_email: 'willbeok5.1@gmail.com',
-//  	            buyer_name: '${myPaymentDetailList[0].payment_name}',
-// //  	            buyer_name: '${sessionScope.member_id}',
-//  	            buyer_tel: '010-1234-5678',
-//  	            buyer_addr: '부산광역시 부산진구 동천로 ',
-//  	            buyer_postcode: '123-456',
-//  	            m_redirect_url: 'reservation_check'
-//  	            /*  
-//  	                모바일 결제시,
-//  	                결제가 끝나고 랜딩되는 URL을 지정 
-//  	                (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐) 
-//  	                */
-// 	 	       }, function (rsp) {
-// 		            console.log(rsp);
-// 		            if (rsp.success) {
-// 		                var msg = '결제가 완료되었습니다.';
-// 		              	 location.href='reservation_check'
-// 		                msg += '고유ID : ' + rsp.imp_uid;
-// 		                msg += '상점 거래ID : ' + rsp.merchant_uid;
-// 		                msg += '결제 금액 : ' + rsp.paid_amount;
-// 		                msg += '카드 승인번호 : ' + rsp.apply_num;
-// 		            } else {
-// 		                var msg = '결제에 실패하였습니다.';
-// 		                msg += '에러내용 : ' + rsp.error_msg;
-// 		            }
-// 		            alert(msg);
-// 		        });
-// 		});
-		
-		
-		
-	});	// function() 끝
 	
 	// ========== 취소 환불 요청하기 ===================
 	function cancelPay() {
 		let payment_num = $("#payment_num").val();
 		let payment_total_price = $("#payment_total_price").val();
-		
-	    jQuery.ajax({
+		console.log("payment_num : " + payment_num);
+	    
+		$.ajax({
 	      // 예: http://www.myservice.com/payments/cancel
-	      url: "/payCancel", // {환불정보를 수신할 가맹점 서비스 URL}
+	      url: "payCancel", // {환불정보를 수신할 가맹점 서비스 URL}
 	      type: "POST",
-	      contentType: "application/json",
 	      
-	      data: JSON.stringify({
-		        merchant_uid: payment_num, // "{결제건의 주문번호}" 예: ORD20180131-0000011
-		        cancel_request_amount: payment_total_price, // 2000, 환불금액
-		        reason: "테스트 결제 환불" // 환불사유
-		        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-	// 	        refund_holder: "홍길동", 
-		        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-	// 	        refund_bank: "88" 
-		        // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-	// 	        refund_account: "56211105948400" 
-	      }),
-	      
-	      dataType: "json"
+	      data: {
+	    	'payment_num': payment_num, // "{결제건의 주문번호}" 예: ORD20180131-0000011
+	    	'payment_total_price': payment_total_price, // 2000, 환불금액
+	        'reason': "테스트 결제 환불" // 환불사유
+     		 },
+// 	      dataType: "json",
+	      success: function(data) {
+			console.log("가져오기 성공");
+	    	  
+	    	  // 환불 완료 swal창으로 안내
+	    	  swal({title: "환불 성공!", text: "예매가 성공적으로 취소되었습니다.", icon: "success", button: "확인"}).then(value) => {
+	    			  if(value) {
+						// 환불 완료 후 전 화면으로 이동
+						history.back();
+	    			  }
+				}
+			})
+	      },
+	      error: function(xhr, status, error) {
+	    	  swal("환불 실패!" + error);
+	      }
 	    });
 	    
   }	// cancelPay() 끝
@@ -212,6 +154,7 @@
 			<div class="row d-flex justify-content-center">
 				<%-- 결제취소버튼 --%>
 				<button class="btn btn-outline-red" type="button" id="cancleCk" onclick="cancelPay()">결제취소</button>
+<!-- 				<button class="btn btn-outline-red" type="button" id="cancleCk" >결제취소</button> -->
 				<button class="btn btn-outline-red" type="button" onclick="history.back()">뒤로가기</button>
 			</div>
   		</div>

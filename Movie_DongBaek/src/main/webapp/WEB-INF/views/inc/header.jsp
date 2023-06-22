@@ -21,13 +21,13 @@
 	<%-- JSTL과 EL을 사용하여 로그인여부 뷰화면에 보여주기 --%>
 	<%-- EL의 내장객체 sessionScope 에 접근하여 "sId" 속성값 판별 --%>
 	<c:choose>
-		<c:when test="${empty member_id }">
+		<c:when test="${empty sessionScope.member_id }">
 			<a href="member_login_form">로그인</a> &nbsp;
 			<a href="member_join_step1">회원가입</a> &nbsp;
 		</c:when>
 		<c:otherwise>
 			<%-- 아이디 클릭 시 회원 정보 조회를 위한 MemberInfo.me 요청(아이디 전달) --%>
-			 <a href="myPage?id=${member_id }">${member_id }님</a> &nbsp;
+			 <a href="myPage?id=${sessionScope.member_id }">${sessionScope.member_id }님</a> &nbsp;
 			<%-- 로그아웃하기전에 알림창띄우기 위해 javascript로 함수 한번 쓰기 --%>
 			 <a href="javascript:logout()">로그아웃</a> &nbsp;
 		</c:otherwise>

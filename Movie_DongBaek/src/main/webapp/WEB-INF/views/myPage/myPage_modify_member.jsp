@@ -46,13 +46,14 @@
 								</tr>
 								<tr>
 									<td>비밀번호</td>
-									<td>${myInfo.member_pass } </td>
+<%-- 									<td>${myInfo.member_pass } </td> --%>
+									<td><input type="password" name="passwd" onkeyup="checkPasswd(this.value)" placeholder="영어 대소문자, 숫자, @#$% 를 사용하여 8 ~ 16글자 사이 입력"> </td>
 								</tr>
 								<tr>
 									<td>비밀번호 확인</td>
-									<td>${myInfo.member_pass }
-										<input type="button" value="비밀번호 변경">
-									</td>
+<%-- 									<td>${myInfo.member_pass }</td> --%>
+									<td><input type="password" name="newPasswd" onkeyup="checkNewPasswd(this.value)" placeholder="비밀번호 변경 시 입력"></td>
+									
 								</tr>
 								<tr>
 									<td>생년월일</td>
@@ -72,36 +73,39 @@
 								</tr>
 								<tr>
 									<td>좋아하는 장르</td>
-									<td>${myInfo.member_like_genre } / 변경할 거 구현
-<!-- 										<input type="email" placeholder="이메일을 적어주세요" value=""> -->
-									</td>
-<!-- 										<td> -->
-<!-- 											<select name="member_like_genre" class="select"> -->
-<%-- 												<option value="선택 안함" <c:if test="${myInfo.member_like_genre eq '선택 안함'} }">selected</c:if>>선택 안함</option> --%>
-<%-- 												<option value="로맨스코미디" <c:if test="${myInfo.member_like_genre eq '로맨스코미디'} }">selected</c:if>>로맨스코미디</option> --%>
-<%-- 												<option value="스릴러" <c:if test="${myInfo.member_like_genre eq '스릴러'} }">selected</c:if>>스릴러</option> --%>
-<%-- 												<option value="공포" <c:if test="${myInfo.member_like_genre eq '공포'} }">selected</c:if>>공포</option> --%>
-<%-- 												<option value="SF" <c:if test="${myInfo.member_like_genre eq 'SF'} }">selected</c:if>>SF</option> --%>
-<%-- 												<option value="범죄" <c:if test="${myInfo.member_like_genre eq '범죄'} }">selected</c:if>>범죄</option> --%>
-<%-- 												<option value="액션" <c:if test="${myInfo.member_like_genre eq '액션'} }">selected</c:if>>액션</option> --%>
-<%-- 												<option value="코미디" <c:if test="${myInfo.member_like_genre eq '코미디'} }">selected</c:if>>코미디</option> --%>
-<%-- 												<option value="판타지" <c:if test="${myInfo.member_like_genre eq '판타지'} }">selected</c:if>>판타지</option> --%>
-<%-- 												<option value="음악" <c:if test="${myInfo.member_like_genre eq '음악'} }">selected</c:if>>음악</option> --%>
-<%-- 												<option value="멜로" <c:if test="${myInfo.member_like_genre eq '멜로'} }">selected</c:if>>멜로</option> --%>
-<%-- 												<option value="뮤지컬" <c:if test="${myInfo.member_like_genre eq '뮤지컬'} }">selected</c:if>>뮤지컬</option> --%>
-<%-- 												<option value="스포츠" <c:if test="${myInfo.member_like_genre eq '스포츠'} }">selected</c:if>>스포츠</option> --%>
-<%-- 												<option value="애니메이션" <c:if test="${myInfo.member_like_genre eq '애니메이션'} }">selected</c:if>>애니메이션</option> --%>
-<%-- 												<option value="다큐멘터리" <c:if test="${myInfo.member_like_genre eq '다큐멘터리'} }">selected</c:if>>다큐멘터리</option> --%>
-<%-- 												<option value="기타" <c:if test="${myInfo.member_like_genre eq '기타'} }">selected</c:if>>기타</option> --%>
-<!-- 											</select> -->
-<!-- 										</td> -->
+<%-- 									<td>${myInfo.member_like_genre } / 변경할 거 구현</td> --%>
+										<td>
+											<select name="member_like_genre" class="select">
+<%-- 												<option value="개발자" <c:if test="${member.job eq '개발자' }">selected</c:if>>개발자</option> --%>
+												<option value="선택 안함" <c:if test="${myInfo.member_like_genre eq '선택 안함'} ">selected</c:if>>선택 안함</option>
+												<option value="로맨스코미디" <c:if test="${myInfo.member_like_genre eq '로맨스코미디'} ">selected</c:if>>로맨스코미디</option>
+												<option value="스릴러" <c:if test="${myInfo.member_like_genre eq '스릴러'} ">selected</c:if>>스릴러</option>
+												<option value="공포" <c:if test="${myInfo.member_like_genre eq '공포'} ">selected</c:if>>공포</option>
+												<option value="SF" <c:if test="${myInfo.member_like_genre eq 'SF'} ">selected</c:if>>SF</option>
+												<option value="범죄" <c:if test="${myInfo.member_like_genre eq '범죄'} ">selected</c:if>>범죄</option>
+												<option value="액션" <c:if test="${myInfo.member_like_genre eq '액션'} ">selected</c:if>>액션</option>
+												<option value="코미디" <c:if test="${myInfo.member_like_genre eq '코미디'} ">selected</c:if>>코미디</option>
+												<option value="판타지" <c:if test="${myInfo.member_like_genre eq '판타지'} ">selected</c:if>>판타지</option>
+												<option value="음악" <c:if test="${myInfo.member_like_genre eq '음악'} ">selected</c:if>>음악</option>
+												<option value="멜로" <c:if test="${myInfo.member_like_genre eq '멜로'} ">selected</c:if>>멜로</option>
+												<option value="뮤지컬" <c:if test="${myInfo.member_like_genre eq '뮤지컬'} ">selected</c:if>>뮤지컬</option>
+												<option value="스포츠" <c:if test="${myInfo.member_like_genre eq '스포츠'} ">selected</c:if>>스포츠</option>
+												<option value="애니메이션" <c:if test="${myInfo.member_like_genre eq '애니메이션'} ">selected</c:if>>애니메이션</option>
+												<option value="다큐멘터리" <c:if test="${myInfo.member_like_genre eq '다큐멘터리'} ">selected</c:if>>다큐멘터리</option>
+												<option value="기타" <c:if test="${myInfo.member_like_genre eq '기타'} ">selected</c:if>>기타</option>
+											</select>
+										</td>
 											<td>
 												
 											</td>
 								</tr>
 							</table>
 							<br>
-							<input type="button" value="취소" onclick="history.back()"> <input type="button" value="등록 / 변경" onclick="location.href='myPage_modify_member_pro'">
+<!-- 								<input type="button" value="취소" onclick="history.back()"> -->
+								<input type="submit" value="정보 수정" onclick="location.href='myPage_modify_member_pro'">
+<!-- 								<input type="submit" value="정보수정"> -->
+								<input type="button" value="돌아가기" onclick="history.back()">
+								<input type="button" value="탈퇴하기" onclick="location.href='MemberCheckoutForm'">
 						</form>
 					</c:forEach>
 				</c:otherwise>
