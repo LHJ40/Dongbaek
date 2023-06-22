@@ -136,6 +136,14 @@
 		WHERE member_id = #{member_id}
 	</update>
 	
+	<!-- 아이디 찾기 -->
+	<select id="findMemberId" resultType="String">
+		SELECT member_id
+			FROM MEMBERS
+			WHERE
+				member_name = #{member_name}
+				AND member_phone = #{member_phone}
+	</select>
 	
 </mapper>
 

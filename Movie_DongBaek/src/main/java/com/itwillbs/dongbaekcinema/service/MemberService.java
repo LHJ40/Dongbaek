@@ -87,6 +87,12 @@ public class MemberService {
 		return mapper.updateMemeber(member);
 	}
 
+	// 아이디 찾기
+	public String findId(String member_name, String member_phone) {
+
+		return mapper.findMemberId(member_name, member_phone);
+	}
+
 
 	
 

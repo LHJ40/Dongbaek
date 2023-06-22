@@ -22,7 +22,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>동백시네마 마이페이지</title>
 <style>
 </style>
 </head>

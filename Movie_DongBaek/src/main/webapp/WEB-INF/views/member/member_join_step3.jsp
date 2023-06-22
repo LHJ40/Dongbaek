@@ -66,7 +66,7 @@ th{
 		$.ajax({
 			url:'./idCheck', 			// Controller 에서 요청 받을 주소
 			type:'post', 	 			// POST 방식으로 전달
-			data:{id:id},
+			data:{id:id},				// 
 			success:function(cnt) {		// Controller 에서 넘어온 cnt 값을 받는다
 				if(cnt == 0) { 			//  cnt 가 1이 아니면(==0일 경우) => 사용 가능한 아이디
 					$('.id_already').css("display", "none");
@@ -99,6 +99,7 @@ th{
 		}
 	}
 
+	// 비밀번호 일치 여부 확인
 	
 	// 생년월일에 숫자만 입력하기
 	function inputNum(id) {

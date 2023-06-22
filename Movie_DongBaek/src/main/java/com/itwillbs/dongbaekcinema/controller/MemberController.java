@@ -388,16 +388,44 @@ public class MemberController {
 		
 	}
 	
-	
-	@GetMapping("MemberModifyForm")
+	// 아이디 찾기 페이지로 이동
+	@GetMapping("MemberModifyFormId")
 	public String modifyForm() {
-		return "member/NewFile";
+		return "member/member_id_find";
 	}
 	
+	// 아이디 찾기 로직 수행
+	@PostMapping("MemberIdFind")
+	public String idFind(@RequestParam String member_name, String member_phone , MemberVO member, Model model, HttpSession session) {
+		String find_id = service.findId(member_name, member_phone);
+		System.out.println("find_id : " + find_id);
+		
+//		model.addAttribute("find_id", find_id);
+		if(find_id == null) {
+			model.addAttribute("msg", "일치하는 회원이 없습니다.");
+			return "fail_back"; // 다시 전화번호를 입력할 수 있도록 페이지 reset 필요
+		} else { 
+		session.setAttribute("find_id", find_id);
+		session.setAttribute("member_name", member_name);
+		return "member/member_id_find_result";
+		}
+	}
+	
+	// 비밀호 찾기 페이지로 이동
+	@GetMapping("MemberFindPasswd")
+	public String modifyFormPass() {
+		return "member/member_passwd_find";
+	}
+	
+	// 비밀번호 변경할 회원의 아이디와 전화번호 일치 여부 로직
+//	@PostMapping("MemberPasswdFind")
+//	public String passFind(@RequestParam String member_id, String member_phone, MemberVO member, Model model, HttpSession session) {
+//		String 
+//	}
+	
+	// 비밀번호수정
 	@PostMapping("MemberModify")
 	public String modifyPro(MemberVO member, HttpSession session, Model model) {
-		
-		
 		// 패스워드 암호화(해싱)--------------
 		// => MyPasswordEncoder  클래스에 덮어쓰기
 		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
@@ -433,7 +461,6 @@ public class MemberController {
 		
 		// "회원 정보 수정 성공!" 메세지 출력 및 "MemberInfo" 서블릿 리다이렉트를 위해 데이터 저장 후
 		// success_forward.jsp 페이지로 포워딩
-		
 		
 		
 	}

@@ -40,7 +40,14 @@
  			FROM CS
  			WHERE member_id = #{member_id}
   </select>
-  
+
+  <!--  비밀번호  -->
+  <select id="selectMyPasswd" resultType="String">
+  		SELECT member_pass
+  			FROM MEMBERS
+  			WHERE member_id = #{member_id}
+  </select>
+
   <!-- 나의 회원정보 수정  -->
   <!-- 수정 필요함  -->
   <update id="updateMyInfo">

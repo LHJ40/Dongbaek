@@ -53,6 +53,9 @@ public interface MemberMapper {
 	// 회원정보 비밀번호 수정
 	int updateMemeber(MemberVO member);
 
+	// 아이디 찾기
+	String findMemberId(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
+
 
 
 	

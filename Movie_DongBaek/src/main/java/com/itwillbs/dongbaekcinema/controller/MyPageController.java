@@ -5,10 +5,13 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.itwillbs.dongbaekcinema.handler.MyPasswordEncoder;
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
 import com.itwillbs.dongbaekcinema.voNew.*;
@@ -233,21 +236,52 @@ public class MyPageController {
 		return "myPage/myPage_grade";
 	}
 	
-	// 마이페이지 - 개인정보 수정 비밀번호 확인 페이지로 이동
+	// 마이페이지 - 개인정보 수정 비밀번호 확인 페이지로 이동 -> pro 생성 해서 처리하
 	// 로그인 한 상태와 로그인하지 않은 상태를 구분해서 페이지이동
 	// => 로그인 한 상태 : modify_check.jsp 화면으로 이동
 	// => 비로그인 상태 : 로그인해야한다는 메세지를 띄우고, 로그인 화면으로 이동
 	@GetMapping("myPage_modify_check")
-	public String myPage_modify_check(@RequestParam(required = false) String member_id, HttpSession session, Model model) {
+	public String myPage_modify_check(HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
-		String sId = (String)session.getAttribute("member_id");
-		if(sId == null) {
-			return "member/member_login_form";
-		}
-		
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+					
+			return "fail_location";
+		}		
 		return "myPage/myPage_modify_check";
 	}
 	
+	@PostMapping("myPage_modify_check_pro")
+	public String myPage_modify_check_pro(@RequestParam String member_pass_check, MemberVO member, Model model, HttpSession session) {
+		String member_id = (String)session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+					
+			return "fail_location";
+		}
+		
+		System.out.println("member_pass_check : " + member_pass_check);
+//		
+		String securePasswd = service.getPasswd(member_id);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		System.out.println("securePasswd : " + securePasswd);
+
+//		 if (member.getMember_pass() ==  null || !passwordEncoder.matches(member.getMember_pass(), securePasswd)) {
+		 if (!passwordEncoder.matches(member_pass_check, securePasswd)) {
+				// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+				model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
+						+ "입력하신 내용을 다시 확인해주세요.");
+				return "fail_back";
+		 } 
+		 return "redirect:/myPage_modify_member";
+	}
+	
+
 	// 마이페이지 - 개인정보 수정 폼페이지로 이동
 	@GetMapping("myPage_modify_member")
 	public String myPage_modify_member(MemberVO member, Model model, HttpSession session) {
