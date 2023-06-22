@@ -13,10 +13,22 @@
 <script  type="text/javascript">
  $(function() {
 	$(".custom-select").on("change", function(){
-			
+		
+	
+		//셀렉트박스 옵션 선택텍스트(예매순/평점순) 저장
+		let value = $(".custom-select option:selected").val();
+		let url = '';
+	
+		
+		if(value == 2){ //평점순선택시
+			url = "movie_list_present2?pageNum=${param.pageNum }";
+		} else { //예매순 선택시
+			url = "movie_list_return?pageNum=${param.pageNum }";
+		}
+				
 			$.ajax({
-				type : "get", 
-				url : "movie_list_present2",  
+				type : "get",
+				url : url,
 				dataType : "json", 
 			})
 			.done(function(movie) {
@@ -40,7 +52,7 @@
 						
 						res += "<div class='col-lg-3 col-mid-4'>" +
 						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
-						  "<a href='movie_detail_info?movie_num=$" + movie[i].movie_num + "'>" +
+						  "<a href='movie_detail_info?movie_num=" + movie[i].movie_num + "'>" +
 						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...'>" +
 						  "</a>" +
 							"<div class='card-body'>" +
@@ -63,7 +75,6 @@
 				alert("요청 실패!");
 			});
  	});
-
  });
 </script>
 <title>영화 예매 사이트</title>
@@ -132,66 +143,8 @@
 	
 	<%-- 영화정보 --%>
 	<%-- 한 열당 영화4개출력 => 한 페이지 당 2열 => 총 8개영화출력--%>
-<!-- 	<div class="m-3"> -->
+	<!-- 	<div class="m-3"> -->
 		 <%-- 1열 --%>
-	 <script type="text/javascript">
-
-// 	$(function(){
-// 		// 셀렉트박스 change이벤트 발생시 실행할 함수
-// 		$("#selectbox").on("change", function(){
-// 			// 	var selected = $("#selectbox option:selected").text();
-// 			// => '평점순' 출력
-			
-// 			//-> 변경된 텍스트 값 출력(평점순/예매순)
-// 			var paramValue = $('#selectbox option:selected').text();
-// // 			alert(paramValue);
-// 			//selected="평점순" -> 파라미터값 전달
-			
-// 			if(paramValue.equals('평점순')){ //셀렉트박스 텍스트->평점순일경우
-// 				  $.ajax({
-// 				      //url -> 값받아올 경로()
-// 					  url : 'movieListReviewRate', // movieListReviewRate메서드에서 받아옴
-// 					  type : 'get',
-// 					  dataType : 'json',
-// 					  data : {'movieList' : movieList}
-// 				  })
-// 				  .done(function(movie){
-// 					  // 평점순 영화목록 출력
-// 					 alert("요청성공");
-// 						//
-// 						//
-// 						//
-// 						// 
-// 					console.log(movie_num);
-// 				  })
-// 				  .fail(function(){
-// 					  alert("요청실패");
-// 				  });
-			
-// 			} else { //셀렉트박스 텍스트 -> 예매율순일경우
-// 				  $.ajax({
-// 					  url : 'movie_list_present', // movie_list_present메서드에서 받아옴
-// 					  type : 'get',
-// 					  dataType : 'json',
-// 					  data : {'movieList' : movieList}
-// 				  })
-// 				  .done(function(movie){
-// 					  // 예매율순 영화목록 출력  
-// 					  alert("요청성공");
-// 						//
-// 						//
-// 						//
-// 						//					  
-// 				  })
-// 				  .fail(function(){
-// 					  alert("요청실패");
-// 				  });
-// 			}
-			
-// 		});
-// 	});
-
-</script>
 		 
 		<div class="row"  id="moviearea" align="left">
 		
@@ -230,8 +183,6 @@
 		</div>
 		<br>
 	</div> <%--class="container" 끝 --%>
-	
-	
 	
 	
 	<%-- 페이징처리 ========================================== --%>
