@@ -47,7 +47,7 @@
 	</select>
 	
 	<!-- 전체 글 목록 갯수 조회 (페이징처리)-->
-	<select id="selectMovieListCount" resultType="int">
+	<select id="selectMovieListCounting" resultType="int">
 		SELECT 
 			COUNT(*)
 		FROM 

@@ -29,7 +29,7 @@ public interface MovieMapper {
 
 
 	// 전체 글 목록 갯수 조회 - 검색X
-	int selectMovieListCount();
+	int selectMovieListCounting();
 	
 	
 	
