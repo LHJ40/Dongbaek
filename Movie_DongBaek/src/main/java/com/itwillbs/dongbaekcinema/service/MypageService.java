@@ -38,6 +38,10 @@ public class MypageService {
 		return mapper.updateMyInfo(member_id);
 	}
 
+	public String getPasswd(String member_id) {
+		return mapper.selectMyPasswd(member_id);
+	}
+
 
 
 

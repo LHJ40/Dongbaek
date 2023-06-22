@@ -52,8 +52,13 @@ public interface MemberMapper {
 	// 회원정보 비밀번호 수정
 	int updateMemeber(MemberVO member);
 
+
+	// 아이디 찾기
+	String findMemberId(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
+	
 	//전체 글 목록 갯수 조회 - 페이징처리중 0621 정의효
 	int selectMemberListCount(@Param("memberSearchType") String memberSearchType, @Param("memberSearchKeyword") String memberSearchKeyword);
+
 
 
 

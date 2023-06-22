@@ -25,6 +25,9 @@ public interface MypageMapper {
 
 	// 나의 개인정보 수정 - 회원 아이디로 조회하여 업데이
 	int updateMyInfo(String member_id);
+
+	//
+	String selectMyPasswd(String member_id);
 	
 	
 }
