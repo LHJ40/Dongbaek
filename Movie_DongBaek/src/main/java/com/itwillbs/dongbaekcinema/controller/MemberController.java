@@ -95,8 +95,6 @@ public class MemberController {
 	@PostMapping("member_login_pro")
 	public String member_login_pro(
 				MemberVO member, boolean remember_me,
-				// 예매 페이지에서 넘어오는 파라미터
-				@RequestParam(required = false, defaultValue = "0") int play_num, @RequestParam(required = false) String url,
 				HttpSession session, HttpServletResponse response, Model model) {
 		
 		// 1. 일반 로그인 시도
@@ -160,13 +158,15 @@ public class MemberController {
 			}
 			response.addCookie(cookie);
 			
+			String url = (String) session.getAttribute("url");
 			// @RequestParam(required = false) int play_num, @RequestParam(required = false) String url
 			// 만약, 다른 작업을 하다 로그인을 해야할 때
 			// 세션에 선택된 값, 다음으로 이동할 값을 저장해서 로그인 성공 시 세션에 저장된 주소("url")로 이동
 			if(url != null) {
 				// 파라미터에 url이라는 이름을 가진 속성이 있으면 
 				// model에 값 넣어("msg") 원하는 주소로 이동("targetURL")
-				model.addAttribute("play_num", play_num);
+//				model.addAttribute("play_num", (Integer) session.getAttribute("play_num"));
+				
 				return "redirect:/" + url;
 			} 
 			
@@ -231,8 +231,11 @@ public class MemberController {
 		model.addAttribute("url", naverAuthUrl);
 		
 		// 예매 페이지에서 넘어온 값들
-		model.addAttribute("URL", url);
-		model.addAttribute("play_num", play_num); // 위의 값과 중복 방지를 위해 대문자(pro에서 바꿀 예정)
+//		model.addAttribute("URL", url);
+//		model.addAttribute("play_num", play_num); // 위의 값과 중복 방지를 위해 대문자(pro에서 바꿀 예정)
+		
+		session.setAttribute("url", url);
+		session.setAttribute("play_num", (Integer) play_num);
 		
 		
 		return "member/member_login_form";
@@ -335,6 +338,9 @@ public class MemberController {
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
 	@GetMapping("no_member_login_form")
 	public String no_member_login_form() {
+//		// 예매 페이지에서 넘어온 값들
+//		model.addAttribute("URL", url);
+//		model.addAttribute("play_num", play_num);
 		
 		return "member/no_member_login_form";
 	}
@@ -342,6 +348,10 @@ public class MemberController {
 	// 비회원 로그인(가입) 작업
 	@PostMapping("no_member_login_pro")
 	public String no_member_login_pro(MemberVO noMember, Model model, HttpSession session) {
+		
+//		// 예매 페이지에서 넘어온 값들
+//		model.addAttribute("URL", url);
+//		model.addAttribute("play_num", play_num);
 		
 		// 비회원 로그인 작업 
 		// MemberService - noMemberLogin()
@@ -376,8 +386,8 @@ public class MemberController {
 	
 	// 비회원 예매 확인을 위한 로그인
 	@PostMapping("noMemberCheckPro")
-	public String no_member_reservation_check_pro(String member_name, String member_phone, String member_pass
-					, Model model, HttpSession session) {
+	public String no_member_reservation_check_pro(String member_name, String member_phone, String member_pass,
+					Model model, HttpSession session) {
 		
 		// 이름, 휴대폰번호, 비밀번호를 받아 맞는 레코드 조회
 		// MemberService - getNoMemberPasswd()

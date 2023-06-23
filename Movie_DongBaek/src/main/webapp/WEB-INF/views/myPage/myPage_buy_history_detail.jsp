@@ -49,20 +49,20 @@
 		let order_num = $("#order_num").val();
 		let payment_total_price = $("#payment_total_price").val();
 		console.log("payment_num : " + payment_num);
-	    
+	   	
 		$.ajax({
 	      // 예: http://www.myservice.com/payments/cancel
 	      url: "payCancel", // {환불정보를 수신할 가맹점 서비스 URL}
 	      type: "POST",
 	      
 	      data: {
-	    	'order_num': order_num, 
+	    	'order_num': order_num, 	// 생략가능
 	    	'payment_num': payment_num, // "{결제건의 주문번호}" 예: ORD20180131-0000011
 	    	'payment_total_price': payment_total_price, // 2000, 환불금액
 	        'reason': "테스트 결제 환불" // 환불사유
      		 },
 	      success: function(data) {
-			console.log("가져오기 성공");
+// 			console.log("가져오기 성공");
 	    	  
 	    	  // 환불 완료 swal창으로 안내
 	    	  swal({
@@ -156,15 +156,37 @@
 			<%-- 버튼 --%>
 			<div class="row d-flex justify-content-center">
 				<%-- 결제취소버튼 --%>
-				<button class="btn btn-outline-red" type="button" id="cancleCk" onclick="cancelPay()">결제취소</button>
+				<button class="btn btn-outline-red" type="button" id="cancleCk" data-toggle="modal" data-target="#cancleCheck">결제취소</button>
 <!-- 				<button class="btn btn-outline-red" type="button" id="cancleCk" >결제취소</button> -->
-				<button class="btn btn-outline-red" type="button" onclick="history.back()">뒤로가기</button>
+				<button class="btn btn-secondary" type="button" onclick="history.back()">뒤로가기</button>
 			</div>
   		</div>
 	</div>
   </article>
   
-  
+  <%-- 모달 영역 --%>
+	<div class="modal fade" id="cancleCheck" tabindex="-1" role="dialog" aria-labelledby="checkTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="checkTitle">결제취소</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body text-center" id="modalMsg">
+	      <%-- 메세지가 표시되는 부분 --%>
+	      정말 결제를 취소하시겠습니까? <br>
+	      결제 취소 즉시 좌석 예매가 취소됩니다.
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	        <button class="btn btn-outline-red" type="button" id="cancleCk" onclick="cancelPay()">결제취소</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
   
   	<nav id="mainNav">
 		<%--왼쪽 사이드바 --%>

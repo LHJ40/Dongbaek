@@ -184,6 +184,7 @@
 				, #{play_num}
 				, #{seat_num}
 				, #{ticket_type_num}
+				, "결제완료"
 				)
 	</insert>
 	<insert id="insertPayment" parameterType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
@@ -197,7 +198,7 @@
 				, #{payment_card_num}
 				, #{payment_total_price}
 				, #{order_num}
-				, #{payment_status}
+				, "결제완료"
 				)
 	</insert>
 	
