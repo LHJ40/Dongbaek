@@ -110,14 +110,14 @@ background-color: transparent;
 	  <tbody>
 	  	    <tr>
 	  <%-- CS 목록 출력 --%>
-	  <c:forEach var="faq" items="${CsFaqList }">
+	  <c:forEach var="csInfo" items="${csInfoList }">
 	    <tr>
-	      <td scope="col" class="align-middle">${faq.cs_type_list_num }</td>
-	      <td scope="col" class="align-middle">${faq.cs_type }</td>
-	      <td scope="col" class="align-middle text-left"><a href="admin_cs_faq_modify_form?cs_type_list_num=${faq.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${faq.cs_subject }</a></td>
-	      <td scope="col" class="align-middle">${faq.member_id }</td>
+	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
+	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
+	      <td scope="col" class="align-middle text-left"><a href="admin_cs_faq_modify_form?cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
+	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
 	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${faq.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
 	      </td>
 	    </tr>
 	  </c:forEach>

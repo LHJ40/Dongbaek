@@ -73,6 +73,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		    	                       <div> 개봉일자 :<br> ' + sch[j].movie_release_date + '</div>\
 		    	                       <div> 종영일자 :<br> ' + sch[j].movie_close_date + '</div>\
 		    	                       <div> 상영시간 : ' + sch[j].play_start_time + ' ~ ' + sch[j].play_end_time + '</div>\
+		    	                       <div> 러닝타임 :<br> ' + sch[j].movie_running_time + '분' + '</div>\
 		    	                       <div> 영화명 :<br> ' + sch[j].movie_name_kr + '</div>?';
 
 		    	          break;
@@ -376,7 +377,7 @@ background-color: transparent;
 $(function() {
 
 	// 첫번째 행 상영 스케줄 생성버튼 클릭 시 동작 메서드
-	$("#newSchedule1").on("click", function() {
+	$("#newSchedule1").on("click", function scheduleMake() {
 	    let play_date = $("#play_date").val();
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 1;
@@ -396,13 +397,18 @@ $(function() {
 	        row_num: row_num,
 	        movie_num: movie_num
 	      },
-	      success: function(response) {
-	        // 서버 응답을 처리하는 로직
-	      },
-	      error: function(xhr, status, error) {
-	        // 에러 처리 로직
-	      }
-	    });
+	      dataType: 'json',
+	      success: function(result) {
+		         console.log(result);
+		         let text = result.result;
+		    	  alert(text);
+		      },
+		      error: function(xhr, status, error) {
+		         let text = xhr;
+		         console.log(xhr);
+		    	 alert(text);
+		      }
+		  });
 	    
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
 		  
@@ -429,13 +435,18 @@ $(function() {
 	        row_num: row_num,
 	        movie_num: movie_num
 	      },
-	      success: function(response) {
-	        // 서버 응답을 처리하는 로직
-	      },
-	      error: function(xhr, status, error) {
-	        // 에러 처리 로직
-	      }
-	    });
+	      dataType: 'json',
+	      success: function(result) {
+		         console.log(result);
+		         let text = result.result;
+		    	  alert(text);
+		      },
+		      error: function(xhr, status, error) {
+		         let text = xhr;
+		         console.log(text);
+		    	 alert(text);
+		      }
+		  });
 		    
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
 			  
@@ -461,13 +472,16 @@ $(function() {
 	        row_num: row_num,
 	        movie_num: movie_num
 	      },
+	      dataType: 'json',
 	      success: function(result) {
 	         console.log(result);
-	    	  alert(result);
-	        
+	         let text = result.result;
+	    	  alert(text);
 	      },
 	      error: function(xhr, status, error) {
-	        alert('상영정보 생성 또는 변경에 실패했습니다!');
+	         let text = xhr;
+	         console.log(text);
+	    	 alert(text);
 	      }
 	    });
 			    
