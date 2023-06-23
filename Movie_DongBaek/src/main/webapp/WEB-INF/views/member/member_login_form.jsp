@@ -98,6 +98,10 @@ div {
 		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
+			<%-- 받아온 값 다시 넘기기 --%>
+			<input type="hidden" name="play_num" value="${play_num }" />      
+            <input type="hidden" name="url" value="${URL }" />  
+                  
 			<%-- 아이디 --%>
 			<div class="row mb-3">
               <label for="id" class="col-2 text-nowrap">아이디</label>

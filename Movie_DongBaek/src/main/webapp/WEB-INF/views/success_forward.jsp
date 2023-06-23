@@ -9,7 +9,9 @@
 	
 	// 요청 작업 성공 시 받은 url 페이지로 돌아가기
 	// 로그인 성공 시
-	alert("${msg}");
+	if("${msg}" != null || "${msg}" != "") {
+		alert("${msg}");
+	}
 	location.href = "${targetURL}";
 </script>
 </head>

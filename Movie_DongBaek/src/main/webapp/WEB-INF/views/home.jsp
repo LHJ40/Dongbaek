@@ -29,27 +29,30 @@ a:link,a:visited { color:gray; }
 <script type="text/javascript">
 	
 	// 찜하기 기능
-// 	$(document).on("click", "#likeMovie", function() {
-// 		let sId = $("#sessionId").val();
-// // 		console.log(sId);	// 세션아이디 확인
-// 		let movie_num = $("#movie_num").val();
+	$(document).on("click", "#likeMovie", function() {
+		let sId = $("#sessionId").val();
+// 		console.log(sId);	// 세션아이디 확인
+		let movie_num = $("#movie_num").val();
+		let targetId = $(this).data('target');
+		$(targetId).attr("")
+		console.log(targetId);
 		
-// 		$.ajax({
-// 			type: 'GET',
-// 			url: 'likeMovie',
-// 			data: {'member_id': member_id, 'movie_num': movie_num },
-// // 			dataType: 'JSON',
-// 			success : function(result) {
+		$.ajax({
+			type: 'GET',
+			url: 'likeMovie',
+			data: {'member_id': member_id, 'movie_num': movie_num },
+// 			dataType: 'JSON',
+			success : function(result) {
 				
-// 				$(this).removeClass("btn-outline-danger");
-// 				$(this).addClass("btn-danger");
-// 				$(this).val("♡찜");
-// 			}
+				$(this).removeClass("btn-outline-danger");
+				$(this).addClass("btn-danger");
+				$(this).val("♡찜");
+			}
 			
-// 		});	// ajax끝
+		});	// ajax끝
 		
 		
-// 	}); // 찜하기 버튼 클릭 함수 끝
+	}); // 찜하기 버튼 클릭 함수 끝
 	
 
 </script>
@@ -61,7 +64,6 @@ a:link,a:visited { color:gray; }
   	<%--본문내용 --%>
 	<div class="container-fluid w-1200">
 	  <br>
- 	
  	<%-- 현재상영작 --%>
  	 <div class="d-flex justify-content-center" >
 				<!-- 	 <ul class="nav nav-pills mb-3 text-dark" id="pills-tab" role="tablist"  > -->
@@ -86,7 +88,7 @@ a:link,a:visited { color:gray; }
 
 	<%-- 컨텐츠 forEach --%>
 	<div class="row" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
-		<c:forEach var="movie" items="${movieList}">
+		<c:forEach var="movie" items="${movieList}" varStatus="i">
 			<div class="col-3">
 				<div class="card border-0 shadow-sm">
 					<a href="movie_detail_info?movie_num=${movie.movie_num}">
@@ -104,13 +106,12 @@ a:link,a:visited { color:gray; }
 								세션 아이디가 있을 때(로그인o) 찜하기 기능
 								--%>
 								<c:when test="${member_type eq '비회원' || empty sessionScope.member_id }">
-									<button type="button" class="btn btn-outline-danger" id="likeMovieNo" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
-<%-- 								</c:when> --%>
-<%-- 								<c:when test="${ }"> --%>
-<!-- 									<button type="button" class="btn btn-outline-danger" id="likeMovieNo" data-toggle="modal" data-target="#needLogin">♡찜하기</button> -->
+									<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn btn-outline-danger" id="likeMovie">♡찜하기</button>
+									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
+									<button type="button" class="btn btn-outline-danger" id="likeMovie${i.index }" data-target="#clickCk${i.index }">♡찜하기</button>
+									<input type="hidden" id="clickCk${i.index }">
 								</c:otherwise>
 							</c:choose>
 							<button type="button" class="btn btn-danger" onclick="location.href='reservation_main?movie_num=${movie.movie_num}'">예매하기</button>

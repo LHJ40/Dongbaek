@@ -93,15 +93,17 @@ public class MemberController {
 //	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
-	public String member_login_pro(MemberVO member, boolean remember_me,
+	public String member_login_pro(
+				MemberVO member, boolean remember_me,
+				// 예매 페이지에서 넘어오는 파라미터
+				@RequestParam(required = false, defaultValue = "0") int play_num, @RequestParam(required = false) String url,
 				HttpSession session, HttpServletResponse response, Model model) {
 		
 		// 1. 일반 로그인 시도
 		// MemberService - getPasswd()
 		// member 테이블에서 id가 일치하는 레코드의 패스워드(passwd) 조회
-		// 파라미터 : MemberVO member	리턴타입 : String(passwd)
+		// 파라미터 : MemberVO member	리턴타입 : MemberVO getMember
 //		String passwd = service.getPasswd(member);
-//		MemberVO getMember = service.getMember(member.getMember_id());
 		
 		// BcryptPasswordEncoder 객체를 활요한 로그인(해싱된 암호 필요)-----------------
 //		String passwd = getMember.getMember_pass();
@@ -136,13 +138,16 @@ public class MemberController {
 			return "fail_back";
 		} else {
 			// 로그인 성공 시
+			
+			// 아이디로 조회한 회원 정보를 들고와서 세션에 아이디와 회원타입(회원, 비회원, 직원) 들고오기
+			MemberVO getMember = service.getMember(member.getMember_id());
 			// 세션에 값 넣기
-			session.setAttribute("member_id", member.getMember_id());
-			session.setAttribute("member_type", member.getMember_type());
+			session.setAttribute("member_id", getMember.getMember_id());
+			session.setAttribute("member_type", getMember.getMember_type());
 			
 			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
 //			Cookie cookie = new Cookie("member_id", member.getMember_id());
-			Cookie cookie = new Cookie("member_id", member.getMember_id());
+			Cookie cookie = new Cookie("member_id", getMember.getMember_id());
 			
 			if(remember_me) {
 				// Cookie에 로그인 성공한 member_id 저장 (name : "member_id")
@@ -155,14 +160,15 @@ public class MemberController {
 			}
 			response.addCookie(cookie);
 			
+			// @RequestParam(required = false) int play_num, @RequestParam(required = false) String url
 			// 만약, 다른 작업을 하다 로그인을 해야할 때
 			// 세션에 선택된 값, 다음으로 이동할 값을 저장해서 로그인 성공 시 세션에 저장된 주소("url")로 이동
-			if(session.getAttribute("url") != null) {
-				// 세션에 url이라는 이름을 가진 속성이 있으면 
+			if(url != null) {
+				// 파라미터에 url이라는 이름을 가진 속성이 있으면 
 				// model에 값 넣어("msg") 원하는 주소로 이동("targetURL")
-				model.addAttribute("targetURL", session.getAttribute("url"));
-				return "success_forward";
-			}
+				model.addAttribute("play_num", play_num);
+				return "redirect:/" + url;
+			} 
 			
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 		}
@@ -211,7 +217,8 @@ public class MemberController {
 	
 	// (1) 로그인 첫 화면 요청 메소드
 	@RequestMapping(value="member_login_form", method = {RequestMethod.GET, RequestMethod.POST })
-	public String login(Model model, HttpSession session) {
+	public String login(Model model, HttpSession session,
+			@RequestParam(required = false, defaultValue = "0") int play_num, @RequestParam(required = false) String url) {
 		
 		/* 네이버 아이디로 인증 URL 을 생성하기 위하여 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출  */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -222,6 +229,11 @@ public class MemberController {
 		
 		// 네이버
 		model.addAttribute("url", naverAuthUrl);
+		
+		// 예매 페이지에서 넘어온 값들
+		model.addAttribute("URL", url);
+		model.addAttribute("play_num", play_num); // 위의 값과 중복 방지를 위해 대문자(pro에서 바꿀 예정)
+		
 		
 		return "member/member_login_form";
 	}

@@ -439,7 +439,10 @@
    // 로그인하지 않은 상태에서 [next] 버튼 클릭시
    // member_login_form 서블릿 요청을 통해 로그인 페이지(member/member_login_form.jsp)으로 이동
    function login(){
-      location.href = "member_login_form";      
+      let playNum = $("#selectTime .selected a").attr("data-play-num");      // 선택한 상영 번호   
+      $("input[name=play_num]").attr("value",playNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+//       alert(playNum);
+      location.href = "member_login_form";
    }
    
    // 로그인 상태에서 [next] 버튼 클릭시
@@ -451,7 +454,6 @@
       location.href = "reservation_seat";
    }
    
-   sessionStorage.setitem("play_num", playNum);
    
    </script>
    </head>
@@ -593,6 +595,7 @@
                         <button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button>
                      </c:otherwise>
                   </c:choose>
+               </form>
                
                   <%-- 미로그인시 보여줄 모달창 --%>
                   <div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needLoginTitle" aria-hidden="true">
@@ -609,13 +612,16 @@
                               로그인 페이지로 이동하시겠습니까?
                            </div>
                            <div class="modal-footer">
-                              <button type="button" class="btn btn-danger"  onclick="login()">확인</button>
+                           <form action="member_login_form" method="post">
+			                  <input type="hidden" name="play_num" value="" />      
+			                  <input type="hidden" name="url" value="reservation_seat" />            
+                              <button type="submit" class="btn btn-danger" onclick="login()">확인</button>
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                           </form>
                            </div>
                         </div>
                      </div>
                   </div><!-- 모달 영역 끝 -->
-               </form>
             </div>   <!-- [다음 페이지 이동 버튼] 끝  -->
          </div> <!-- [선택사항 안내 구간, 다음으로 넘어가기 영역] 끝 -->
       </div>   <!-- container-fluid 영역 끝 -->
