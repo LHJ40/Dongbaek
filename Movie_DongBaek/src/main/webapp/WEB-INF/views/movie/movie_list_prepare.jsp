@@ -26,6 +26,7 @@
 			url = "movie_list_prepareReturn?pageNum=${param.pageNum }";
 		}
 				
+		
 			$.ajax({
 				type : "get",
 				url : url,
@@ -50,6 +51,11 @@
 							movieGrade = "18";
 						}
 						
+				   
+						let releaseDate = new Date(movie[i].movie_release_date);
+				        let formattedDate = releaseDate.getFullYear() + "-" + ("0" + (releaseDate.getMonth() + 1)).slice(-2) + "-" + ("0" + releaseDate.getDate()).slice(-2);
+		
+				
 						res += "<div class='col-lg-3 col-mid-4'>" +
 						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
 						  "<a href='movie_detail_info?movie_num=" + movie[i].movie_num + "'>" +
@@ -58,8 +64,8 @@
 							"<div class='card-body'>" +
 								"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
 									"<img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade +".png' alt='" + movieGrade +"' class='img-rounded'>" +
-								movie[i].movie_name_kr +"</h6>" +
-								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + " 개봉일: " + movie[i].movie_release_date + "</p>" +
+									"<b>" + movie[i].movie_name_kr + "</b>" + "</h6>" +
+								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + "% 개봉일: " + formattedDate  + "</p>" +
 								"<p class='d-flex justify-content-center'>" +
 							    	"<button type='button' class='btn btn-outline-danger mr-2'>♡찜하기</button>" +
 							    	"<a href='reservation_main?movie_num=" +  movie[i].movie_num + "' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>" +
@@ -161,9 +167,9 @@
 							<c:if test="${movie.movie_grade eq '청소년관람불가'}">
 								<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
 							</c:if>
-							${movie.movie_name_kr}
+							<b>${movie.movie_name_kr}</b>
 						</h6>
-						<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
+						<p class="card-text">예매율:${movie.movie_booking_rate}% 개봉일: ${movie.movie_release_date}</p>
 						
 						<%--찜하기버튼, 예매버튼 --%>
 						<p class="d-flex justify-content-center">

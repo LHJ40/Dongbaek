@@ -29,6 +29,17 @@
 			) 
 	</insert>	
 	
+
+
+	<!-- 영화 정보 조회 - 각영화당 평점평균정보 포함하는 뷰(MOVIES_ADD_REVIEWRATING) 조회 -->
+	<select id="selectMovieADDReview" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
+		SELECT *
+		FROM 
+			MOVIES_ADD_REVIEWRATING
+		WHERE movie_num = #{movie_num}
+	</select>
+
+
 	<!-- 현재상영작 - 셀렉트박스:예매율순 
 		 ++ 페이징처리로 LIMIT추가
 	 --> 
@@ -164,30 +175,39 @@
 		<result property="movie_review_rating" column="movie_review_rating"/>
 	</resultMap>	
 	
-<!-- 영화당 리뷰,평점평균 불러오기 -->
+<!-- 영화당 리뷰 불러오기 ==> movieDetail.jsp -->
 <!-- 영화당 리뷰개수(COUNT) 불러오기 -->
-
 <select id="selectReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
-	SELECT 
-		review_num 
-		, AVG(review_rating) as movie_review_rating
-		, review_content
-		, review_date
-		, movie_num
+	SELECT  
+		review_date
+		,review_content
 		, member_id
 	FROM 
 		REVIEWS
 	WHERE
 		movie_num = #{movie_num}
 	GROUP BY 
-		review_num
+		movie_num	
 		, review_content
-		, review_date
-		, movie_num
 		, member_id
+		,review_date
 	ORDER BY
-		review_num DESC
+		review_date DESC
+	LIMIT 1
 </select>
+
+<!-- 최신순(변경가능-리뷰공감순으로) 리뷰 콘텐츠 1개 출력(아이디,리뷰컨텐츠) -->
+<!-- <select id="selectReviewLecent" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO"> -->
+<!-- 	SELECT -->
+<!-- 		member_id, review_content -->
+<!-- 	FROM -->
+<!-- 		REVIEWS -->
+<!-- 	WHERE -->
+<!-- 		movie_num = #{movie_num} -->
+<!-- 	ORDER BY  -->
+<!-- 		review_date DESC -->
+<!-- 	LIMIT 1; -->
+<!-- </select> -->
 
 
 <!-- 전달받은 movie_num 파라미터값과 일치하는 리뷰카운팅정보 전달 -->
