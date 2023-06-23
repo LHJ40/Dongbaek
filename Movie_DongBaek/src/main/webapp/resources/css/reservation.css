@@ -7,7 +7,7 @@
 /* 예매 선택 구간 */
 /* 크기 조절 */
 .container-fluid{
-	width: 900px;
+	width: 1200px;
 /* 	padding-left: 2rem; */
 	border: 1px solid #aaa;
 /* 	background-color: #d5b59c; */
@@ -187,12 +187,12 @@ li .selected a span.text {
 
 #selectTime a span.time {
 	display: table-cell;
-	width: 80px;
+	width: 100px;
 }
 
 #selectTime a span.movie {
 	display: table-cell;
-	width: 80px;
+	width: 120px;
 }
 
 #selectTime a span.theater {

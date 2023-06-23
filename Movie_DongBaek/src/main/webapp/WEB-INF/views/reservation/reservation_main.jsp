@@ -441,7 +441,7 @@
    function login(){
       let playNum = $("#selectTime .selected a").attr("data-play-num");      // 선택한 상영 번호   
       $("input[name=play_num]").attr("value",playNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
-//       alert(playNum);
+
       location.href = "member_login_form";
    }
    

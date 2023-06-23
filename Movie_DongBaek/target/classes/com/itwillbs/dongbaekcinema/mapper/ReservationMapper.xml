@@ -160,6 +160,11 @@
 		WHERE ticket_time_type = #{play_time_type};
 	</select>
 	
+		<select id="selectTicketTypeListByNum" resultType="com.itwillbs.dongbaekcinema.vo.TicketTypeVO">
+		SELECT * FROM TICKET_TYPES
+		WHERE ticket_type_num = #{ticket_type_num};
+	</select>
+	
 	<insert id="insertOrder" parameterType="com.itwillbs.dongbaekcinema.vo.OrderVO">
 		INSERT
 			INTO ORDERS

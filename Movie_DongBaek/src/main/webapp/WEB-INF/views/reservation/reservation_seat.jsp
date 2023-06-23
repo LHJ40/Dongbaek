@@ -12,8 +12,8 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reservation.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
-<style>
-   .container-top{
+<style> 
+	.container-top{
       margin: 3rem;
    }
    aside{
@@ -21,24 +21,7 @@
       background-color: #d5b59c;
    }
    
-   /* 예매 선택 구간 */
-   /* 크기 조절 */
-   .container-fluid{
-      width: 900px;
-      margin: 1rem;
-      padding-left: 2rem;
-      border: 2px solid #aaa;
-   /*    background-color: #d5b59c; */
-   }
-   div{
-      background-color: transparent;
-   }
-   .container-fluid h5{
-      text-align: center;
-      font-weight: bold;
-   }
-   
-   /* 선택사항 안내 구간 */
+      /* 선택사항 안내 구간 */
    /* 위 파트와 구별을 위한 색상 부여 */
    
    #seat-part{
@@ -67,16 +50,6 @@
       border: 1px solid #999;
       font-size: 0.8em;
    }
-   .unable{
-      width: 0.8rem;
-      height: 0.8rem;
-      background-color: black;
-   }
-   .check{
-      width: 0.8rem;
-      height: 0.8rem;
-      background-color: blue;
-   }
    .align-left{
       border-bottom:2px solid black;
       border-left: 2px solid black;
@@ -99,96 +72,7 @@
       vertical-align: middle;
    }
    
-   #seat-part button{
-   margin: 1px;
-   border: 1px solid #aaa;
-   background-color: #aaa;
-   color: #fff;
-   
-}
-
-#seat-part button:hover {
-   background-color: #777;
-}
-
-#seat-part button:click {
-   background-color: #ef4f4f;
-}
-
-
-#seat-part .seatArea button.seat.selected {
-   border: 1px solid #ef4f4f;
-   background-color: #ef4f4f; 
-   border-radius: 0;
-}
-/*
-#seat-part .seatArea button.seat.on {
-   border: 1px solid #ef4f4f;
-   background-color: #ef4f4f; 
-   border-radius: 0;
-}
-*/
-#seat-part .seatArea button.seat:visited {
-   border: 1px solid #ef4f4f;
-   background-color: #ef4f4f; 
-   border-radius: 0;
-}
-
-#seat-part button#A5, 
-#seat-part button#B5, 
-#seat-part button#C5, 
-#seat-part button#D5, 
-#seat-part button#E5, 
-#seat-part button#F5 {
-   margin-right: 20px;
-}
-
-#seat-part button#C1, 
-#seat-part button#C2, 
-#seat-part button#C3, 
-#seat-part button#C4, 
-#seat-part button#C5, 
-#seat-part button#C6, 
-#seat-part button#C7, 
-#seat-part button#C8, 
-#seat-part button#C9, 
-#seat-part button#C10 {
-   margin-bottom: 20px;
-}
-   
-.selected-animation {
-  animation-name: seatSelected;
-  animation-duration: 0.5s;
-}
-/*
-@keyframes seatSelected {
-  0% {
-    background-color: #ff6961;
-    color: #fff;
-  }
-  50% {
-    background-color: #fff;
-    color: #000;
-  }
-  100% {
-    background-color: #ff6961;
-    color: #fff;
-  }
-}
-
- .seat {
-      width: 50px;
-      height: 50px;
-      background-color: gray;
-      margin: 5px;
-      display: inline-block;
-      cursor: pointer;
-    }
-
-    .selected {
-      background-color: green;
-    }
-  */    
+ 
     .seat {
       display: inline-block;
 /*       width: 50px; */
@@ -532,250 +416,253 @@
 </script>
 </head>
 <body>
-   <%--네비게이션 바 영역 --%>
-    <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
+	<%--네비게이션 바 영역 --%>
+	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
-   <article id="mainArticle">
-   <%--본문내용 --%>
-       <h2>영화 예매</h2>
-      <div class="container-fluid" >
-            <div class="row row1">
-               <div class="col-12">
-                  <div class="row title-area">
-                     <div class="col-12">
-                        <div class="row">
-                           <div class="col-12">
-                              <h5>관람인원선택</h5>
-                           </div>                        
-                        </div>
-                     </div>
-                  </div>
-                  
-                  <%-- 좌석 선택 파트 --%>
-               <div class="row">
-                      <div class="col-12 border">
-                        <div class="row mt-3">
-                           <div class="col-12" id="selectPeople">
-                           <div class="row">
-                              <div class="col-2"  id="adult">
-                                 <span>성인</span>
-                                 <div>
-                                    <button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
-                                 </div>
-                              </div>
-                              <div class="col-2"  id="teenager">
-                                    <span>청소년</span><div><button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button></div>
-                              </div>
-                              <div class="col-2"  id="child">
-                                    <span>우대</span><div><button class="down" onclick="childDown()"> - </button><button class="result">0</button><button class="up" onclick="childUp()"> + </button></div>
-                              </div>
-                              <div class="col-2"  id="handi">
-                                    <span>장애인</span><div><button class="down" onclick="handiDown()"> - </button><button class="result">0</button><button class="up" onclick="handiUp()"> + </button></div>
-                              </div>
-                              <script type="text/javascript">
-                                 let adultResult = $("#selectPeople #adult button.result").text();
-                                 let teenagerResult = $("#selectPeople #teenager button.result").text();
-                                 let childResult = $("#selectPeople #child button.result").text();
-                                 let handiResult = $("#selectPeople #handi button.result").text();
-                                 let adultCount = Number(adultResult);
-                                 let teenagerCount = Number(teenagerResult);
-                                 let childCount = Number(childResult);
-                                 let handiCount = Number(handiResult);
-                                 let countPeople = adultCount + teenagerCount + childCount + handiCount;
-                                 function adultDown() {
-                                    if(adultCount <= 0){
-                                       $("#selectPeople #adult button.down").addClass("disabled");
-                                    }else {
-                                       adultCount = adultCount - 1;
-                                       $("#selectPeople #adult button.up").removeClass("disabled");
-                                       $("#selectPeople #adult button.result").html(adultCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function adultUp() {
-                                    if(adultCount >= 8){
-                                       $("#selectPeople #adult button.up").addClass("disabled");
-                                    }else {
-                                       adultCount = adultCount + 1;
-                                       $("#selectPeople #adult button.down").removeClass("disabled");
-                                       $("#selectPeople #adult button.result").html(adultCount);                                       
-                                    }
-                                 }   
-                                 
-                                 // ------------------------------------------------------------------------------
-                                 function teenagerDown() {
-                                    if(teenagerCount <= 0){
-                                       $("#selectPeople #teenager button.down").addClass("disabled");
-                                    }else {
-                                       teenagerCount = teenagerCount - 1;
-                                       $("#selectPeople #teenager button.up").removeClass("disabled");
-                                       $("#selectPeople #teenager button.result").html(teenagerCount);
-                                       
-                                    }
-                                 }   
-                                 
-                                 function teenagerUp() {
-                                    if(teenagerCount >= 8){
-                                       $("#selectPeople #teenager button.up").addClass("disabled");
-                                    }else {
-                                       teenagerCount = teenagerCount + 1;
-                                       $("#selectPeople #teenager button.down").removeClass("disabled");
-                                       $("#selectPeople #teenager button.result").html(teenagerCount);                                       
-                                    }
-                                 }   
-                                                                  
-                                 // ------------------------------------------------------------------------------
-                                 function childDown() {
-                                    if(childCount <= 0){
-                                       $("#selectPeople #child button.down").addClass("disabled");
-                                    }else {
-                                       childCount = childCount - 1;
-                                       $("#selectPeople #child button.up").removeClass("disabled");
-                                       $("#selectPeople #child button.result").html(childCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function childUp() {
-                                    if(childCount >= 8){
-                                       $("#selectPeople #child button.up").addClass("disabled");
-                                    }else {
-                                       childCount = childCount + 1;
-                                       $("#selectPeople #child button.down").removeClass("disabled");
-                                       $("#selectPeople #child button.result").html(childCount);                                       
-                                    }
-                                 }   
-                                 
-                                 // ------------------------------------------------------------------------------
-                                 function handiDown() {
-                                    if(handiCount <= 0){
-                                       $("#selectPeople #handi button.down").addClass("disabled");
-                                    }else {
-                                       handiCount = handiCount - 1;
-                                       $("#selectPeople #handi button.up").removeClass("disabled");
-                                       $("#selectPeople #handi button.result").html(handiCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function handiUp() {
-                                    if(handiCount >= 8){
-                                       $("#selectPeople #handi button.up").addClass("disabled");
-                                    }else {
-                                       handiCount = handiCount + 1;
-                                       $("#selectPeople #handi button.down").removeClass("disabled");
-                                       $("#selectPeople #handi button.result").html(handiCount);                                       
-                                    }
-                                 }   
-                                 
-                                 
-                                 // ------------------------------------------------------------------------------
-                              </script>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-12 disabled" id="seat-part">
-                               <hr>
-                               <b>SCREEN 화면</b> <span class="door align-right">출구</span>
-                               <br>
-                               <div class="seatArea">
-                              <!-- 좌석 출력되는 부분 -->
-                               </div>
-                           <div id="beforeBtnArea">   <%-- 영역왼쪽하단에 위치시키고 싶음 --%>
-                              <button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-                <%-- 관람 인원 선택 파트 --%>
-<!--                 <div class="col-2.5 border selectPart"> -->
-<!--                    <h5>관람 인원 선택</h5> -->
-<!--                    <hr> -->
-<!--                    <div id="personType"> -->
-<!--                       성인 &nbsp;&nbsp;&nbsp;&nbsp;<input type="number"> <br> -->
-<%--                       청소년 &nbsp;&nbsp;<input type="number"> <br> 만 7세 초과 ~ 만 18세 미만 --%>
-<%--                       경로/어린이 <input type="number"> <br> 만 65세 이상 --%>
-<!--                    </div> -->
-<!--                    <div id="seatType"> -->
-<!--                       <button class="seat"></button> 예매가능 <br> -->
-<!--                       <button class="check"></button> 선택좌석 <br> -->
-<!--                       <button class="unable"></button> 예매완료 <br> -->
-<!--                       <button class="handi"></button> 장애인석 -->
-<!--                    </div> -->
-<!--                    <hr> -->
-<!--                    <button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button> -->
-<!--                 </div> -->
-            </div>
-            </div>
-            
-            <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
-            <div class="row row2">
-               <%-- 선택한 영화 포스터와 영화명 노출 --%>
-            <div class="col-3">
-               <h5>선택 정보</h5>
-               <div class="row p-0" id="movieInfo">
-                  <div class="col-4 movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
-                    <div class="col-8 movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
-               </div>
-            </div>
-            
-            <%-- 선택한 상영스케줄 노출 --%>
-            <div class="col-2">
-               <div id="theaterInfo" style="display: table;">
-                  <span style="display: table-cell;">극장&nbsp;</span>
-                  <span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
-               </div>
-               <div id="dateInfo" style="display: table;">
-                  <span style="display: table-cell;">날짜&nbsp;</span>
-<%--                   <span data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
-                  <span data-play-num="${reservation.play_num }" data-play-start-time="${reservation.play_start_time }" data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
-               </div>
-               <div id="roomInfo" style="display: table;">
-                  <span style="display: table-cell;">상영관&nbsp;</span>
-                  <span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
-               </div>
-            </div>
-            
-                <%-- 미선택 사항 노출 --%>
-                <div class="col-2">
-               <h5>좌석 선택</h5>
-               <div id="seatInfo">
-                    <div class="row" id="seat_name"></div>
-               </div>
-            </div>
-            
-                <%-- 미선택 사항(결제) 노출 --%>
-                <div class="col-3">
-<!--                    <h5>결제</h5> -->
-<%--                    <table> 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!--                     <tr><td>일반 (10,000 x 2)</td></tr> -->
-<!--                     <tr><td>총 금액 (20,000)</td></tr> -->
-<!--                  </table> -->
-            <h5>결제</h5>
-               <div id="paymentInfo"  style="display: table;">
-                  <div style="display: table-cell;">
-                     <div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
-                     <div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>           
-                     <div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
-                     <div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>      
-                     <div style="display: table;"><span class="total" style="display: table-cell;">합계&nbsp;</span><span class="totalPrice" style="display: table-cell;"></span></div>      
-                  </div>
-               </div>
-            </div>
-                <%-- 다음 페이지 이동 버튼 --%>
-            <div class="col-2 ">
-               <button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
-<%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
-            </div>
-         </div>
-      </div>
-  
-   </article>
-   <nav id="mainNav">
-   <%--왼쪽 사이드바 --%>
-   </nav>
-  
-   <div id="siteAds"></div>
-   <%--페이지 하단 --%>
-   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
+	<article id="mainArticle">
+	<%--본문내용 --%>
+	<h2>영화 예매</h2>
+	<div class="container-fluid" >
+		<div class="row row1">
+			<div class="col-12">
+				<div class="row title-area">
+					<div class="col-12">
+						<div class="row">
+							<div class="col-12">
+								<h5>관람인원선택</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<%-- 좌석 선택 파트 --%>
+				<div class="row">
+					<div class="col-12 border">
+						<div class="row mt-3">
+							<div class="col-12" id="selectPeople">
+								<div class="row">
+									<div class="col-2"  id="adult">
+										<span>성인</span>
+										<div>
+											<button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
+										</div>
+									</div>
+									<div class="col-2"  id="teenager">
+										<span>청소년</span>
+										<div>
+											<button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button>
+										</div>
+									</div>
+									<div class="col-2"  id="child">
+										<span>우대</span>
+										<div>
+											<button class="down" onclick="childDown()"> - </button><button class="result">0</button><button class="up" onclick="childUp()"> + </button>
+										</div>
+									</div>
+									<div class="col-2"  id="handi">
+										<span>장애인</span>
+										<div>
+											<button class="down" onclick="handiDown()"> - </button><button class="result">0</button><button class="up" onclick="handiUp()"> + </button>
+										</div>
+									</div>
+									<script type="text/javascript">
+									
+										let adultResult = $("#selectPeople #adult button.result").text();
+										let teenagerResult = $("#selectPeople #teenager button.result").text();
+										let childResult = $("#selectPeople #child button.result").text();
+										let handiResult = $("#selectPeople #handi button.result").text();
+										let adultCount = Number(adultResult);
+										let teenagerCount = Number(teenagerResult);
+										let childCount = Number(childResult);
+										let handiCount = Number(handiResult);
+										let countPeople = adultCount + teenagerCount + childCount + handiCount;
+										function adultDown() {
+											if(adultCount <= 0){
+												$("#selectPeople #adult button.down").addClass("disabled");
+											}else {
+												adultCount = adultCount - 1;
+												$("#selectPeople #adult button.up").removeClass("disabled");
+												$("#selectPeople #adult button.result").html(adultCount);
+												}
+										} 
+										
+										function adultUp() {
+											if(adultCount >= 8){
+												$("#selectPeople #adult button.up").addClass("disabled");
+											}else {
+												adultCount = adultCount + 1;
+												$("#selectPeople #adult button.down").removeClass("disabled");
+												$("#selectPeople #adult button.result").html(adultCount); 
+											}
+										} 
+										
+										// ------------------------------------------------------------------------------
+										function teenagerDown() {
+											if(teenagerCount <= 0){
+												$("#selectPeople #teenager button.down").addClass("disabled");
+											}else {
+												teenagerCount = teenagerCount - 1;
+												$("#selectPeople #teenager button.up").removeClass("disabled");
+												$("#selectPeople #teenager button.result").html(teenagerCount);
+											}
+										}
+										
+										function teenagerUp() {
+											if(teenagerCount >= 8){
+												$("#selectPeople #teenager button.up").addClass("disabled");
+											}else {
+												teenagerCount = teenagerCount + 1;
+												$("#selectPeople #teenager button.down").removeClass("disabled");
+												$("#selectPeople #teenager button.result").html(teenagerCount);
+											}
+										} 
+										
+										// ------------------------------------------------------------------------------
+										function childDown() {
+											if(childCount <= 0){
+												$("#selectPeople #child button.down").addClass("disabled");
+		                                    }else {
+		                                    	childCount = childCount - 1;
+		                                    	$("#selectPeople #child button.up").removeClass("disabled");
+		                                    	$("#selectPeople #child button.result").html(childCount);
+		                                    }
+										}
+										
+										function childUp() {
+											if(childCount >= 8){
+												$("#selectPeople #child button.up").addClass("disabled");
+											}else {
+												childCount = childCount + 1;
+												$("#selectPeople #child button.down").removeClass("disabled");
+												$("#selectPeople #child button.result").html(childCount);
+											}
+										} 
+										
+										// ------------------------------------------------------------------------------
+										function handiDown() {
+											if(handiCount <= 0){
+												$("#selectPeople #handi button.down").addClass("disabled");
+											}else {
+												handiCount = handiCount - 1;
+												$("#selectPeople #handi button.up").removeClass("disabled");
+												$("#selectPeople #handi button.result").html(handiCount);
+											}
+										}
+										
+										function handiUp() {
+											if(handiCount >= 8){
+												$("#selectPeople #handi button.up").addClass("disabled");
+											}else {
+												handiCount = handiCount + 1;
+												$("#selectPeople #handi button.down").removeClass("disabled");
+												$("#selectPeople #handi button.result").html(handiCount);
+											}
+										} 
+										// ------------------------------------------------------------------------------
+										</script>
+									</div>
+									<hr>
+								</div>
+							</div>
+						<div class="row">
+							<div class="col-10 disabled" id="seat-part">
+								<hr>
+								<b>SCREEN 화면</b> <span class="door align-right">출구</span>
+								<br>
+								<div class="seatArea">
+									<!-- 좌석 출력되는 부분 -->
+								</div>
+							</div>
+							<div class="col-2  border selectPart">
+								<h5>관람 인원 선택</h5>
+								<hr>
+								<div id="personType">
+									성인 &nbsp;&nbsp;&nbsp;&nbsp;<input type="number"> <br>
+									청소년 &nbsp;&nbsp;<input type="number"> <br> 만 7세 초과 ~ 만 18세 미만
+									경로/어린이 <input type="number"> <br> 만 65세 이상
+								</div>
+								<div id="seatType">
+									<button class="seat"></button> 예매가능 <br>
+									<button class="check"></button> 선택좌석 <br>
+									<button class="unable"></button> 예매완료 <br>
+									<button class="handi"></button> 장애인석
+								</div>
+								<hr>
+								<button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
+		<div class="row row2">
+			<div class="col-2" id="beforeBtnArea">
+				<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
+			</div>
+			<%-- 선택한 영화 포스터와 영화명 노출 --%>
+			<div class="col-3">
+				<h5>선택 정보</h5>
+				<div class="row p-0" id="movieInfo">
+					<div class="col-4 movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
+					<div class="col-8 movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
+				</div>
+			</div>
+		
+			<%-- 선택한 상영스케줄 노출 --%>
+			<div class="col-2">
+				<div id="theaterInfo" style="display: table;">
+					<span style="display: table-cell;">극장&nbsp;</span>
+					<span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
+				</div>
+				
+				<div id="dateInfo" style="display: table;">
+					<span style="display: table-cell;">날짜&nbsp;</span>
+	<%--                   <span data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
+					<span data-play-num="${reservation.play_num }" data-play-start-time="${reservation.play_start_time }" data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
+				</div>
+				<div id="roomInfo" style="display: table;">
+					<span style="display: table-cell;">상영관&nbsp;</span>
+					<span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+				</div>
+				</div>
+				
+				<%-- 미선택 사항 노출 --%>
+				<div class="col-2">
+					<h5>좌석 선택</h5>
+					<div id="seatInfo">
+						<div class="row" id="seat_name"></div>
+					</div>
+				</div>
+				
+				<%-- 미선택 사항(결제) 노출 --%>
+				<div class="col-3">
+				<h5>결제</h5>
+				<div id="paymentInfo"  style="display: table;">
+					<div style="display: table-cell;">
+						<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
+						<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>          
+						<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
+						<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>     
+						<div style="display: table;"><span class="total" style="display: table-cell;">합계&nbsp;</span><span class="totalPrice" style="display: table-cell;"></span></div>
+					</div>
+				</div>
+				</div>
+				<%-- 다음 페이지 이동 버튼 --%>
+				<div class="col-1 ">
+					<button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
+	<%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
+				</div>
+			</div>
+		</div>
+	</article>
+	<nav id="mainNav">
+	<%--왼쪽 사이드바 --%>
+	</nav>
+  	
+  	<div id="siteAds"></div>
+  	
+  	<%--페이지 하단 --%>
+  	<footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

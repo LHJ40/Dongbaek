@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -151,8 +152,15 @@ public class ReservationController {
 		System.out.println("ReservationController - Play()");
 		System.out.println(play_num);
 		
+		// 세션 아이디가 존재하지 않으면(미로그인) "잘못된 접근입니다!"출력 후 이전 페이지로 돌아가기 처리
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
+		}
 		session.setAttribute("play_num", play_num);
-		session.setAttribute("url", "reservation_seat");
 		
 		// ReservationService - getPlay() 메서드를 호출하여
 		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
@@ -204,15 +212,22 @@ public class ReservationController {
 	
 	
 	@GetMapping("reservation_ing")
-	public String reservation_ing(int play_num,HttpSession session,HttpServletRequest request,Model model) {
-		//잘못된 접근처리
-		String beforePage =(String)request.getHeader("REFERER");
-		if(beforePage==null) {
-			model.addAttribute("msg", "잘못된 접근");
-			model.addAttribute("url", "./");
-					
-			return "fail_location";
-		}
+    public String reservation_ing(int play_num,String seat_name,String ticket_type_num,String snack_num,String snack_quantity,HttpSession session,HttpServletRequest request,Model model) {
+        //잘못된 접근처리
+        String beforePage =(String)request.getHeader("REFERER");
+        if(beforePage==null) {
+            model.addAttribute("msg", "잘못된 접근");
+            model.addAttribute("url", "./");
+
+            return "fail_location";
+        }
+        System.out.println(seat_name);
+        String seatnamelist[]=seat_name.split(",");
+        String ticketlist[] =ticket_type_num.split(",");
+        
+        for(String seat : seatnamelist) {
+            System.out.println(seat);
+        }
 		String member_id=(String) session.getAttribute("member_id");
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);
@@ -244,7 +259,7 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_snack")
-	public String reservation_snack(int play_num, HttpServletRequest request, Model model) {
+	public String reservation_snack(int play_num,String ticket_type_num, HttpServletRequest request, Model model) {
 		//잘못된 접근처리
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
@@ -253,9 +268,19 @@ public class ReservationController {
 			
 			return "fail_location";
 		}
-//		System.out.println(beforePage);
+		List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
+		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
+		   for(String ticket : ticketlist) {
+			   int ticket_num=Integer.parseInt(ticket);
+			   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticket_num);
+			   ticketPriceList.add(ticketType);
+	        }
+		   System.out.println("여기");
+		   System.out.println(ticketPriceList);
+		   model.addAttribute("ticketPriceList", ticketPriceList);
+
 		List<SnackVO> snackList = service2.getSnackList();
-//		System.out.println(snackList);
+
 		model.addAttribute("snackList", snackList);
 		
 		ReservationVO reservation = service.getPlay(play_num);
