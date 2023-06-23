@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 public class BuyDetailVO {
 	// 마이페이지 - 나의 구매내역 중 
-//	private int order_num;
+	private long order_num;
 	private String member_id;
 	private String payment_num;
 	private String payment_name;

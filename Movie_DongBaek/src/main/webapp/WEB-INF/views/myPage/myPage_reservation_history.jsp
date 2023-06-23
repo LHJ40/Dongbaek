@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -48,11 +49,14 @@
 								<tr>
 									<td><img src="${myTicket.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
 									<td>${myTicket.movie_name_kr }</td>
-									<td>${myTicket.play_date }</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
+									<td>
+										${myTicket.play_date }
+										<fmf:formatDate value="${myTicket.play_start_time }" pattern="HH:mm"/>
+									</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
 									
 									<td>
 										<form action="myPayment_detail" method="post">
-										<input type="hidden" name="payment_num" value="${myTicket.order_num }">
+										<input type="hidden" name="payment_num" value="${myTicket.payment_num }">
 										<input type="hidden" name="play_change" value="${myTicket.play_change }">
 										<input type="submit" value="${myTicket.play_change }"
 												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >

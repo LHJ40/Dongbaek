@@ -77,8 +77,7 @@ public interface AdminMapper {
 	
 	
 	
-	// 결제 취소 (payment_num)으로 일치하는 레코드 삭제
-	public int orderCancle(String payment_num);
+	
 
 
 }

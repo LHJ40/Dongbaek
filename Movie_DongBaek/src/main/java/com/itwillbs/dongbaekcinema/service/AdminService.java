@@ -284,18 +284,7 @@ public class AdminService {
     }
     
     
-    // 결제 취소
-    public int orderCancle(BuyDetailVO buyDetail) throws Exception {
-		if(!buyDetail.getPayment_num().equals("")) {
-			String token = payService.getToken(); 
-			int price = buyDetail.getPayment_total_price();
-			payService.payMentCancle(token, buyDetail.getPayment_num(), price, buyDetail.getReason());
-		}
-		
-//		return adminDAO.orderCancle((orderList.getOrderNum()));
-		// payment_num 으로 조회 후 삭제
-		return mapper.orderCancle(buyDetail.getPayment_num());
-    }
+    
 
 
 

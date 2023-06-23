@@ -1,5 +1,8 @@
 package com.itwillbs.dongbaekcinema.voNew;
 
+import java.sql.*;
+import java.util.*;
+
 import lombok.*;
 
 @Data
@@ -12,6 +15,9 @@ public class MyTicketVO {
 	private String play_date;
 	private String play_status;
 	private String play_change;
-	private String order_num;	// 파라미터 전달 시 사용하기 위해 order_num 추가
+	private long order_num;	// 파라미터 전달 시 사용하기 위해 order_num 추가
+	private String payment_num;
+	private Time play_start_time;
+	private Time play_end_time;
 	
 }

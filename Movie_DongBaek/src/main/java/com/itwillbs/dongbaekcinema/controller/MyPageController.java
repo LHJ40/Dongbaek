@@ -32,8 +32,8 @@ public class MyPageController {
 	@Autowired
 	private PayService payService;
 	
-	@Autowired
-	private AdminService adminService;
+//	@Autowired
+//	private AdminService adminService;
 	
 	@Autowired
 	private MemberService memberService;
@@ -163,35 +163,8 @@ public class MyPageController {
 		return "myPage/myPage_buy_history_detail";
 	}
 	
-//	 마이페이지 - 나의 예매내역에서 '결제취소'버튼 클릭 시 호출되는 메서드
-//	@PostMapping("/payCancel")
-//	@ResponseBody	// json 타입으로 받음
-//	public BuyDetailVO payCancel(
-//			BuyDetailVO myPayment,
-//			String imp_uid,
-//			OrderTicketVO ticket,
-//			Model model,
-//			HttpSession session) throws Exception {
-//		
-//		// 파라미터 확인
-//		System.out.println(myPayment);
-//		
-//		// 토큰 받아오기
-//		String token = payService.getToken();
-//		
-//		
-//		// 결제 취소(api)
-////		payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
-//		payService.payMentCancle(token, imp_uid, myPayment.getPayment_total_price(), "환불!");
-//		
-//		// 결제 취소(DB 로직)
-//		
-//		
-//		
-//		return myPayment;
-//	}
 	
-	// 주문취소
+	// ============= 결제 취소 ================
 	@PostMapping("payCancel")
 	public ResponseEntity<String> orderCancle(BuyDetailVO buyDetail) throws Exception {
 //		System.out.println(orderCancelDto.toString());
@@ -202,7 +175,9 @@ public class MyPageController {
 	        payService.payMentCancle(token, buyDetail.getPayment_num(), amount, buyDetail.getReason());
 	    }
 		
-		adminService.orderCancle(buyDetail);
+	    // PayService - orderCancle() 호출
+	    // 결제 상태변경(PAYMENTS.payment_status), 티켓예약 상태변경, 스낵결제 상태변경
+		payService.orderCancle(buyDetail);
 
 		return ResponseEntity.ok().body("주문취소완료"); // <200 OK OK,주문취소완료,[]>
 	}

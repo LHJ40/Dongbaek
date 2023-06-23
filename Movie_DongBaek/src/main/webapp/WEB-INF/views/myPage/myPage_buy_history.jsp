@@ -11,6 +11,9 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <title>영화 예매 사이트</title>
 <style>
 
@@ -27,6 +30,7 @@
 // 				break;
 // 		}
 	}
+	
 
 </script>
 </head>
@@ -60,7 +64,7 @@
 								<tr>
 									
 									<td>
-										<fmf:formatDate value="${myPayment.payment_datetime}"/>
+										<fmf:formatDate value="${myPayment.payment_datetime}" pattern="yyyy.MM.dd HH:mm"/>
 									</td>
 									<td>
 										<fmf:formatNumber value="${myPayment.payment_total_price}" pattern="#,###,###" />
