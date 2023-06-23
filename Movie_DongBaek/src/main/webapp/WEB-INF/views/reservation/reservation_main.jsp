@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -127,7 +128,8 @@
          // 날짜 출력
          $("#selectDate").css("display", "flex");
    
-         const now = new Date("2023-06-19T09:00:00");
+//          const now = new Date("2023-06-19T09:00:00");
+         const now = new Date();
          let year = now.getFullYear();
          let month = now.getMonth();
          let thisMonth = month + 1;
@@ -217,7 +219,7 @@
                   // 요일 & 일 출력
                   res += "<li><a href='#'>" + 
                            "<span class='playTodayLabel'>" + todayLabel + "</span>&nbsp;&nbsp;" + // 요일
-                           "<span class='playDate'>" +  j + "</span><br>" +    // 일
+                           "<span class='playDate'>" +  i + "</span><br>" +    // 일
                         "</a>";
                   selectedDate = new Date(year, month + 1, i);
                   res += "<input type='hidden' class='selectedDate' value='" + selectedDate + "'></li>";
@@ -314,18 +316,20 @@
             res += "<hr>";
             for(let i = 0; i < play.length; i++){
                // 상영 시작 시간 설정
-               let playStartTime = new Date(play[i].play_start_time);
+//                let playStartTime = play[i].play_start_time;
+               let playStartTime = new Date(play[i].play_date + "T" +play[i].play_start_time);
                let playStartHour = playStartTime.getHours();
                let playStartMin = playStartTime.getMinutes();
                
                // 상영 종료 시간 설정
-               let playEndTime = new Date(play[i].play_end_time);
+//                let playEndTime = play[i].play_end_time;
+               let playEndTime = new Date(play[i].play_date + "T" +play[i].play_end_time);
                let playEndHour = playEndTime.getHours();
                let playEndMin = playEndTime.getMinutes();
    
                // 예매할 당시의 시간이 상영 시작 시간보다 20분 전인 경우만 선택 가능하도록 설정
                let reservationTime = new Date();   // 예매 진행하고 있는 시간
-//                   let reservationTime = new Date("2023-06-18T16:45:00");   // 예매 진행하고 있는 시간
+//                   let reservationTime = new Date("2023-06-23T21:50:00");   // 예매 진행하고 있는 시간
                let gap = playStartTime.getTime() - reservationTime.getTime();   //  (영화 상영 시작 시간) - (예매 진행하고 있는 시간)
                let convertTime = Math.round(gap / 1000 / 60);
                if(convertTime < 20){
@@ -333,10 +337,10 @@
                   "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
                      "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
                      "<span class='time'>" + 
-                        "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
-                        "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
-//                         "<strong title='상영시작'>" + playStartHour + ":" + playStartMin + " </strong>" + 
-//                         "<em title='상영종료'> ~ " + playEndHour + ":" + playEndMin + "</em>" + 
+	                     "<strong title='상영시작'>" + playStartHour + " : " + playStartMin + " </strong>" + 
+	                     "<em title='상영종료'> ~ " + playEndHour + " : " + playEndMin + "</em>" +
+//                         "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+//                         "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
                      "</span>" +
                      "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
                      "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -347,8 +351,10 @@
                   "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
                      "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
                      "<span class='time'>" + 
-                        "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
-                        "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
+	                        "<strong title='상영시작'>" + playStartHour + " : " + playStartMin + " </strong>" + 
+	                        "<em title='상영종료'> ~ " + playEndHour + " : " + playEndMin + "</em>" + 
+//                         "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
+//                         "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
                      "</span>" +
                      "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
                      "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
@@ -514,7 +520,7 @@
                     <div class="title-area">날짜</div>
                     <div class="list-area p-2">
                   <div class="row mt-3" id="selectDate" style="display: none;">
-                  
+						<!-- 날짜 목록 출력 -->
                   </div>
                </div>
             </div>
@@ -528,7 +534,9 @@
                        <img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야
                     </div>
                     <div class="mt-3" id="selectTime" style="display: none;">
-                       <ul></ul>
+                       <ul>
+							<!-- 상영 목록 출력 -->
+                       </ul>
                     </div>
                  </div>
                  </div>

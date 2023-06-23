@@ -450,19 +450,19 @@
 			// TICKET_TYPES 테이블에서 가져온 티켓타입번호(ticket_type_num)을 
 			// seatList[]와 함께 파라미터로 전달하기 위해 ticketTypeNum[] 배열에 저장  
 			for (let i = 0; i < adultCount; i++) {
-				seatListForParam[i] = seatList[i] + "/adult";
+				seatListForParam[i] = seatList[i] + "/일반";
 				ticketTypeNum[i] = $("#selectPeople #adult button.result").attr("data-ticket-type-num");
 			}
 			for (let i = adultCount; i < adultCount + teenagerCount; i++) {
-				seatListForParam[i] = seatList[i] + "/teenager";
+				seatListForParam[i] = seatList[i] + "/청소년";
 				ticketTypeNum[i] = $("#selectPeople #teenager button.result").attr("data-ticket-type-num");
 			}
 			for (let i = adultCount + teenagerCount; i < adultCount + teenagerCount + childCount; i++) {
-				seatListForParam[i] = seatList[i] + "/child";
+				seatListForParam[i] = seatList[i] + "/우대";
 				ticketTypeNum[i] = $("#selectPeople #child button.result").attr("data-ticket-type-num");
 			}
 			for (let i = adultCount + teenagerCount + childCount; i < adultCount + teenagerCount + childCount + handiCount; i++) {
-				seatListForParam[i] = seatList[i] +  "/handi";
+				seatListForParam[i] = seatList[i] +  "/장애인";
 				ticketTypeNum[i] = $("#selectPeople #handi button.result").attr("data-ticket-type-num");
 			}
 			
@@ -482,7 +482,7 @@
 // 			if (index4 > -1) {
 // 				ticketTypeNum.splice(index4, 1);
 // 			}
-// // 			console.log(seatListForParam);
+			console.log(seatListForParam);
 			console.log(ticketTypeNum);
 			
 		});
@@ -515,7 +515,7 @@
 			
 		}else if(seatList.length == countPeople){
 			if(seatList.length == ticketTypeNum.length){
-				location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum				
+				location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum;		
 			}else{
 				alert("오류가 발생했습니다. 다시 선택해 주세요");
 				location.reload();
