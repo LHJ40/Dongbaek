@@ -51,11 +51,11 @@
                     <tbody>
                         <tr>
                             <td scope="col" class="align-middle" width="100">번호</td>
-                            <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="notice.cs_type_list_num" name="cs_type_list_num" value="${notice.cs_type_list_num }" readonly></td>
+                            <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="notice.cs_type_list_num" name="cs_type_list_num" value="${csInfo.cs_type_list_num }" readonly></td>
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">제목</td>
-                            <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value="${notice.cs_subject }"></td>
+                            <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value="${csInfo.cs_subject }"></td>
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">작성자</td>
@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">내용</td>
-                            <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content">${notice.cs_content }</textarea></td>
+                            <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content">${csInfo.cs_content }</textarea></td>
                         </tr>
                         <tr>
                         	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>
@@ -72,8 +72,8 @@
                             	<%-- 첨부파일 다운로드 구현 아직 --%>
                             	
                             	<c:choose>
-                            		<c:when test="${notice.cs_file } != ''">
-	                            		<a href="${pageContext.request.contextPath}/resources/upload/${notice.cs_file }" download="${notice.cs_file }" class="form-control" aria-label="cs_file"></a>
+                            		<c:when test="${csInfo.cs_file } != ''">
+	                            		<a href="${pageContext.request.contextPath}/resources/upload/${csInfo.cs_file }" download="${notice.cs_file }" class="form-control" aria-label="cs_file"></a>
                             		</c:when>
                             		<c:otherwise>
 	                            		<span id="cs_file_old_span">첨부파일이 없습니다</span>
@@ -92,7 +92,7 @@
                             <td scope="col" class="align-middle">
                                 <button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
                                 <button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
-                                <button class="btn btn-outline-secondary" type="button" onclick="location.href='delete_cs?csType=1&cs_type_list_num=${notice.cs_type_list_num }'">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+                                <button class="btn btn-outline-secondary" type="button" onclick="location.href='delete_cs?csTypeNo=1&cs_type_list_num=${csInfo.cs_type_list_num }'">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
                             </td>
                         </tr>
                     </tbody>

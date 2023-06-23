@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +19,6 @@ public class AdminService {
 
     @Autowired
     private AdminMapper mapper;
-    
-    @Autowired
-    private HttpSession session;
     
     @Autowired
     private PayService payService;
@@ -142,7 +137,7 @@ public class AdminService {
                     // 나머지 회차
                     LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
                     LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
-                    LocalTime startDateTime = breakStartDateTime.plusMinutes(30);
+                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
                     LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
 
                     new_start_turn[i] = startDateTime.format(formatter);
@@ -172,7 +167,6 @@ public class AdminService {
             }
 
             
-            
             // 제대로 등록될 경우 insertCount=5
             System.out.println("상영 스케줄 등록:" + insertCount);
             return insertCount;
@@ -191,22 +185,21 @@ public class AdminService {
 
 	
     // CS 게시판 목록 가져오기
-	public List<CsInfoVO> getCsList(int pageNo, int pageListLimit, int startRow, int csType) {
+	public List<CsInfoVO> getCsList(int pageNo, int pageListLimit, int startRow, int csTypeNo) {
 	
 		// CS 게시판 구분용 contiodion 변수
-		String condition = distinctType(csType);
+		String condition = distinctType(csTypeNo);
 		
-//		System.out.println("getCsNoticeList - startPage, pageListLimit, condition:" + startRow + pageListLimit + condition);
-		// 목록 시작지점 지정
+
 		return mapper.getCsWithPaging(startRow, pageListLimit, condition);
 	}
 	
 	// CS게시판 총 목록 갯수 가져오기
-    public int getCsTotalPageCount(int pageListLimit, int csType) {
+    public int getCsTotalPageCount(int pageListLimit, int csTypeNo) {
 
 		// CS 게시판 구분용 contiodion 변수(csType=1일경우 공지사항, cstype=2일경우 1:1질문 게시판, cstype=3경우 자주묻는 질문)
-		String condition = distinctType(csType);
-		System.out.println("getCsTotalPageCount(condition):" + condition);
+		String condition = distinctType(csTypeNo);
+		System.out.println("getCsTotalPageCount- condition:" + condition);
         
 //        System.out.println("getCsTotalPageCount pageListLimit:" + pageListLimit + "csType:" + csType + "condition" + condition + "totalCount" + totalCount);
         return mapper.getCsCount(condition);
@@ -214,21 +207,25 @@ public class AdminService {
     
     
 	// 관리자 공지사항, 자주묻는 질문 글쓰기 등록
-	public int registCs(int csType, CsInfoVO csInfo) {
+	public int registCs(int csTypeNo, CsInfoVO csInfo) {
 		
 		// CS 게시판 구분용 contiodion 변수
-		String condition = distinctType(csType);
-	
+		String condition = distinctType(csTypeNo);
+		System.out.println("registCs - condition:" + condition);
+		System.out.println("registCs - csInfo:" + csInfo);
+		
 		return mapper.registCs(condition, csInfo);
 				
 	}
     
 	
 	// CS 공지, 자주묻는 질문 게시판 글수정
-	public int updateCs(int csType, CsInfoVO csInfo) {
+	public int updateCs(int csTypeNo, CsInfoVO csInfo) {
 		
 		// CS 게시판 구분용 contiodion 변수(1: 공지사항, 2: 자주묻는 질문 게시판)
-		String condition = distinctType(csType);
+		String condition = distinctType(csTypeNo);
+		System.out.println("updateCs - condition:" + condition);
+		System.out.println("updateCs - csInfo:" + csInfo);
 		
 		return mapper.updateCs(condition, csInfo);
 				
@@ -236,48 +233,50 @@ public class AdminService {
 	}
     
 	// CS게시판 공지사항, 자주묻는 질문 삭제
-	public int deleteCs(int csType, int cs_type_list_num) {
+	public int deleteCs(int csTypeNo, int cs_type_list_num) {
 
 		// CS 게시판 구분용 contiodion 변수
-		String condition = distinctType(csType);
+		String condition = distinctType(csTypeNo);
 		
-		System.out.println("deleteCs_service condition:" + condition + ", cs_type_list_num :" + cs_type_list_num);
+		System.out.println("deleteCs condition:" + condition);
+		System.out.println("deleteCs cs_type_list_num:" + cs_type_list_num);
 
 		return mapper.deleteCs(condition, cs_type_list_num);
 	}
 
 
     // CS게시판 1:1 질문 관리 답변 화면 정보 가져오기
-	public CsInfoVO getCsInfo(int csType, int cs_type_list_num) {
+	public CsInfoVO getCsInfo(int csTypeNo, int cs_type_list_num) {
 		
 		// CS 게시판 구분용 contiodion 변수
-		String condition = distinctType(csType);
+		String condition = distinctType(csTypeNo);
 		
 		
 		return mapper.getCsInfo(condition, cs_type_list_num);
 	}
 
 	// CS게시판 1:1 질문 관리 답변 등록
-	public int quaReply(int csType, CsInfoVO qnaInfo) {
+	public int quaReply(int csTypeNo, CsInfoVO qnaInfo) {
 		
 		// CS 게시판 구분용 contiodion 변수
-		String condition = distinctType(csType);
+		String condition = distinctType(csTypeNo);
+		System.out.println("quaReply - condition:" + condition);
+		System.out.println("quaReply - qnaInfo:" + qnaInfo);
 		
 		return mapper.updateReply(condition, qnaInfo);
 	}
 	
 
-
     // CS 게시판 구분용 메서드 모듈
-    public String distinctType(int csType) {
+    public String distinctType(int csTypeNo) {
     	
     	String condition = ""; // 조건절 변수명
     	// csType 변수명에 따라 Cs게시판 목록 가져오기
-    	if(csType == 1) {
+    	if(csTypeNo == 1) {
     		condition = "'공지'"; 
-    	} else if(csType == 2) {
+    	} else if(csTypeNo == 2) {
     		condition = "'영화정보문의', '회원 문의', '예매 결제 관련 문의', '일반 문의'";
-    	} else if(csType == 3) {
+    	} else if(csTypeNo == 3) {
     		condition = "'예매','멤버십','결제수단','극장','할인혜택'";
     	}
     	
