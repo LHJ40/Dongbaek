@@ -451,7 +451,7 @@
       location.href = "reservation_seat";
    }
    
-   
+   sessionStorage.setitem("play_num", playNum);
    
    </script>
    </head>
@@ -578,7 +578,8 @@
             <%-- 다음 페이지 이동 버튼 --%>
             <div class="col-3">
                <form action="reservation_seat" method="post">
-                  <input type="hidden" name="play_num" value="" />                  
+                  <input type="hidden" name="play_num" value="" />      
+                  <input type="hidden" name="url" value="reservation_seat" />            
                   <%-- 
                   로그인 여부 확인하여 
                   로그인 시 reservation_seat() 함수를 실행하여 reservation_seat.jsp 페이지로 이동
@@ -590,8 +591,6 @@
                      </c:when>
                      <c:otherwise>
                         <button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button>
-<%--                         <%session.setAttribute("url", "reservation_seat") %> --%>
-<%--                         <%session.setAttribute("play_num", $("input[name=play_num]").attr("value")) %> --%>
                      </c:otherwise>
                   </c:choose>
                
