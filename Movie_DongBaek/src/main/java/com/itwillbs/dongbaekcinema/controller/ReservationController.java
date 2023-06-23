@@ -151,8 +151,14 @@ public class ReservationController {
 		System.out.println("ReservationController - Play()");
 		System.out.println(play_num);
 		
+		// 세션 아이디가 존재하지 않으면(미로그인) "잘못된 접근입니다!"출력 후 이전 페이지로 돌아가기 처리
+		String member_id = (String)session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
 		session.setAttribute("play_num", play_num);
-		session.setAttribute("url", "reservation_seat");
 		
 		// ReservationService - getPlay() 메서드를 호출하여
 		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회

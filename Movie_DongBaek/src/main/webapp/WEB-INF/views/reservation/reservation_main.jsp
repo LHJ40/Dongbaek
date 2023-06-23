@@ -439,7 +439,10 @@
    // 로그인하지 않은 상태에서 [next] 버튼 클릭시
    // member_login_form 서블릿 요청을 통해 로그인 페이지(member/member_login_form.jsp)으로 이동
    function login(){
-      location.href = "member_login_form";      
+	  let playNum = $("#selectTime .selected a").attr("data-play-num");      // 선택한 상영 번호   
+	  $("input[name=play_num]").attr("value",playNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+      
+	  location.href = "member_login_form";      
    }
    
    // 로그인 상태에서 [next] 버튼 클릭시
@@ -450,9 +453,7 @@
       
       location.href = "reservation_seat";
    }
-   
-   sessionStorage.setitem("play_num", playNum);
-   
+      
    </script>
    </head>
    <body>
