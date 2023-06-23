@@ -268,7 +268,12 @@ function reservation_ing(){
 	               <div class="col-3">
 	               	<h5>결제</h5>
 	               	<%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!-- 			  			<span>일반 (10,000 x 2)</span> -->
+	               	<c:set var = "total" value = "0" />
+					  <c:forEach var="ticket" items="${ticketPriceList}" >
+					  ${ticket.ticket_user_type}
+					  ${ticket.ticket_type_price}
+					  <c:set var= "total" value="${total + ticket.ticket_type_price}"/>
+					  </c:forEach>
 			  			
 			  			<div style="list-style-type: none;">
 
@@ -278,7 +283,7 @@ function reservation_ing(){
 		               		</c:forEach>
 	               		</div>
 	               		
-			  			총금액(<span id=totalview></span>)
+			  			총금액(<span id=totalview>${total}</span>)
 			  		
 	               </div>
 	               <%-- 다음 페이지 이동 버튼 --%>

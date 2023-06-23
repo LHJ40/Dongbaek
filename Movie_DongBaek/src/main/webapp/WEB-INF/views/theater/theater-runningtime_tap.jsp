@@ -110,7 +110,7 @@ function timetable(){
 		<div class="tab-content" id="nav-tabContent">
 		  <div class="tab-pane fade show active my-3 mx-6" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 			  	<div class="row container" align="right">
-					<input type="date" id="play_date" value="${currentdate}" min="" max="${maxdate}">
+					<input type="date" id="play_date" value="${currentdate}" min="${currentdate}" max="${maxdate}">
 					 &nbsp; &nbsp; &nbsp;<b><span id="theater_name" >${theaterList[0].theater_name }</span></b>
 					   <input type="hidden" id="theater_num" value="${theaterList[0].theater_num }">
 					   <span id=hidden style="display:none"></span>

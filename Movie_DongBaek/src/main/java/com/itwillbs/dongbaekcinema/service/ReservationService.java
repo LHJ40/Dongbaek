@@ -106,4 +106,9 @@ public class ReservationService {
 		// TODO Auto-generated method stub
 		return mapper.insertPayment(payment);
 	}
+
+	public TicketTypeVO getTicketPriceListByNum(int ticket_type_num) {
+		// TODO Auto-generated method stub
+		return mapper.selectTicketTypeListByNum(ticket_type_num);
+	}
 }
