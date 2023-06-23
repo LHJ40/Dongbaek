@@ -201,7 +201,7 @@
          
 //          seatList.length = countPeople;
          // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때         
-         if (countPeople < seatList.length) {   
+         if (countPeople < seatList.length) {
             alert("관람인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
             return;
          }
@@ -285,7 +285,9 @@
          } else {
             // 클릭된 좌석이 selected 클래스를 가지고 있지 않으면
             if (seatList.length >= countPeople) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 크거나 같아지면
-               alert("좌석 선택이 완료되었습니다.");
+//             	$("#selectPeople #adult button.down").addClass("disabled");
+            	alert("좌석 선택이 완료되었습니다.");
+            
                return;
             } else if (countPeople < seatList.length) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때
                alert("인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
@@ -457,7 +459,12 @@
 												adultCount = adultCount - 1;
 												$("#selectPeople #adult button.up").removeClass("disabled");
 												$("#selectPeople #adult button.result").html(adultCount);
+												
+												if(countPeople < seatList.length) {
+										        	 $("#selectPeople #adult button.result").html(adultCount + 1);
+										        	 $("#selectPeople #adult button.down").addClass("disabled");
 												}
+											}
 										} 
 										
 										function adultUp() {
@@ -468,7 +475,9 @@
 												$("#selectPeople #adult button.down").removeClass("disabled");
 												$("#selectPeople #adult button.result").html(adultCount); 
 											}
-										} 
+										}
+										
+// 										function 
 										
 										// ------------------------------------------------------------------------------
 										function teenagerDown() {
