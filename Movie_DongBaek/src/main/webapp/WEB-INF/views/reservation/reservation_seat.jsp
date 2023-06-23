@@ -23,16 +23,8 @@
    
       /* 선택사항 안내 구간 */
    /* 위 파트와 구별을 위한 색상 부여 */
-   
-   #seat-part{
-      text-align: center;
-   }
-   #seat-part>hr{
-      border: 0;   /* 두께를 지정하려면 기본 border을 0으로 설정해야함 */
-      height: 3px;
-      background-color: #ccc;
-      width: 400px;
-   }
+
+  
    .border {
       border: 3px solid #aaa;
    }
@@ -46,28 +38,7 @@
       width: 50px;
       height: 25px;
    }
-   #seatType{
-      border: 1px solid #999;
-      font-size: 0.8em;
-   }
-   .align-left{
-      border-bottom:2px solid black;
-      border-left: 2px solid black;
-      border-right: 2px solid black;
-      color: gray;
-      left: 10px;
-      position: relative;
-      margin-right: 24rem;
-   }
-   .align-right{
-      border-top:2px solid black;
-      border-left: 2px solid black;
-      border-right: 2px solid black;
-      color: gray;
-      right: 10px;
-      position: absolute;
-      margin-right: 7rem;
-   }
+   
    .vertical-center {
       vertical-align: middle;
    }
@@ -84,9 +55,9 @@
       cursor: pointer;
     }
   
-    .selected {
-      background-color: #42b983;
-    }
+/*     .selected { */
+/*       background-color: #42b983; */
+/*     } */
     
 </style>
 <script type="text/javascript">
@@ -101,12 +72,15 @@
       let row = ["A", "B", "C", "D", "E", "F"];
       for(let i = 0; i < 6; i++){
          for(let j = 1; j <= 10; j++){
+//             res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";            
             res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";            
          }
          res += "<br>";
       }
       res += "</div>";
       $("#seat-part .seatArea").html(res);
+      $("#seat-part .seatArea #A1").addClass("handiSeat");
+      $("#seat-part .seatArea #A2").addClass("handiSeat");
       
 
       // 인원별 티켓 가격을 계산하기 위해
@@ -437,31 +411,31 @@
 				
 				<%-- 좌석 선택 파트 --%>
 				<div class="row">
-					<div class="col-12 border">
-						<div class="row mt-3">
+					<div class="col-12">
+						<div class="row mt-3 pl-3">
 							<div class="col-12" id="selectPeople">
 								<div class="row">
 									<div class="col-2"  id="adult">
 										<span>성인</span>
-										<div>
+										<div class="mt-1">
 											<button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
 										</div>
 									</div>
 									<div class="col-2"  id="teenager">
 										<span>청소년</span>
-										<div>
+										<div class="mt-1">
 											<button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button>
 										</div>
 									</div>
 									<div class="col-2"  id="child">
 										<span>우대</span>
-										<div>
+										<div class="mt-1">
 											<button class="down" onclick="childDown()"> - </button><button class="result">0</button><button class="up" onclick="childUp()"> + </button>
 										</div>
 									</div>
 									<div class="col-2"  id="handi">
 										<span>장애인</span>
-										<div>
+										<div class="mt-1">
 											<button class="down" onclick="handiDown()"> - </button><button class="result">0</button><button class="up" onclick="handiUp()"> + </button>
 										</div>
 									</div>
@@ -567,28 +541,20 @@
 						<div class="row">
 							<div class="col-10 disabled" id="seat-part">
 								<hr>
-								<b>SCREEN 화면</b> <span class="door align-right">출구</span>
+<!-- 								<b>SCREEN 화면</b> <span class="door align-right">출구</span> -->
+								<b>SCREEN 화면</b> <span class="align-right"><img alt="exit" src="${pageContext.request.contextPath }/resources/img/door.png"></span>
 								<br>
 								<div class="seatArea">
 									<!-- 좌석 출력되는 부분 -->
 								</div>
 							</div>
-							<div class="col-2  border selectPart">
-								<h5>관람 인원 선택</h5>
-								<hr>
-								<div id="personType">
-									성인 &nbsp;&nbsp;&nbsp;&nbsp;<input type="number"> <br>
-									청소년 &nbsp;&nbsp;<input type="number"> <br> 만 7세 초과 ~ 만 18세 미만
-									경로/어린이 <input type="number"> <br> 만 65세 이상
-								</div>
+							<div class="col-2 selectPart">
 								<div id="seatType">
-									<button class="seat"></button> 예매가능 <br>
-									<button class="check"></button> 선택좌석 <br>
-									<button class="unable"></button> 예매완료 <br>
-									<button class="handi"></button> 장애인석
+									<button class="selectedSeat"></button> 선택 <br>
+									<button class="disabledSeat"></button> 예매완료 <br>
+									<button class="handiSeat"></button> 휠체어석
 								</div>
-								<hr>
-								<button class="btn btn-secondary"><img src="/resources/img/reset.png" width="20px"> 다시 선택하기</button>
+								<button id="reset" class="btn btn-secondary mt-3"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
 							</div>
 						</div>
 					</div>
