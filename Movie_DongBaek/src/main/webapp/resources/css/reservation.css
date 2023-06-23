@@ -304,13 +304,147 @@ li .selected a span.text {
 
 /* --------------------------------------- reservation_seat.jsp ---------------------------------------- */
 
+/* 관람인원선택 영역 */
+#selectPeople #adult, 
+#selectPeople #teenager, 
+#selectPeople #child, 
+#selectPeople #handi {
+	display: block;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+.down {
+	margin-left: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    position: relative;
+    display: inline;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1;
+    color: #ef4f4f;
+    background-color: #fff;
+    border: 1px solid #ef4f4f;
+}
+.result{
+	position: relative;
+    display: inline;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1;
+    color: #ef4f4f;
+    background-color: #fff;
+    border: 1px solid #ef4f4f;
+}
+.up {
+	border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    position: relative;
+    display: inline;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1;
+    color: #ef4f4f;
+    background-color: #fff;
+    border: 1px solid #ef4f4f;
+}
+
+.down:focus, .result:focus, .up:focus {
+	box-shadow: 0 0 0 0.2rem rgba(239,79,79,.2);
+	border-color: #f6a2a2;
+	outline: none;
+}
+
 /* 좌석 영역 */
+#seat-part {
+/* 	height: 500px; */
+	text-align: center;
+}
+
+#seat-part>hr{
+	border: 0;   /* 두께를 지정하려면 기본 border을 0으로 설정해야함 */
+	height: 3px;
+	background-color: #ccc;
+	width: 400px;
+}
+
+.align-left{
+/* 	border-bottom:2px solid black; */
+/* 	border-left: 2px solid black; */
+/* 	border-right: 2px solid black; */
+/* 	color: gray; */
+	left: 10px;
+	position: relative;
+	margin-right: 20rem;
+}
+.align-right{
+	right: 10px;
+	position: absolute;
+	margin-right: 18rem;
+}
+
+#seatType {
+	margin-top: 50px;
+}
+
 #seat-part button{
 	margin: 1px;
 	border: 1px solid #aaa;
 	background-color: #aaa;
 	color: #fff;
+	width:30px; 
+	height: 23.5px;	
+	font-size:13px;
+	text-align: center;
+}
+
+.selectPart .selectedSeat {
+	margin: 1px;
+	width:30px; 
+	height: 23.5px;	
+	font-size:13px; 
+	border: 1px solid #ef4f4f;
+	background-color: #ef4f4f; 
+	border-radius: 0;
+	cursor: default;
+    pointer-events: none;
 	
+}
+.selectPart .disabledSeat {
+	margin: 1px;
+	border: 1px solid #aaa;
+    background-image: url("../img/x.png") !important;
+	background-color: #aaa;
+	width:30px; 
+	height: 23.5px;	
+	font-size:13px;
+    color: #666;
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+}
+.selectPart .handiSeat {
+	margin: 1px;
+	border: 1px solid #42b983;
+	background-color: #42b983;
+	color: #fff;
+	width:30px; 
+	height: 23.5px;	
+	font-size:13px;
+	cursor: default;
+    pointer-events: none; 
+}
+.seatArea .handiSeat {
+	margin: 1px;
+	border: 1px solid #42b983 !important;
+	background-color: #42b983 !important;
+	color: #fff;
+	width:30px; 
+	height: 23.5px;	
+	font-size:13px;
+	cursor: default;
+    pointer-events: none;
 }
 
 #seat-part button:hover {
@@ -327,6 +461,13 @@ li .selected a span.text {
 	background-color: #ef4f4f; 
 	border-radius: 0;
 }
+
+#seat-part .seatArea button.seat.disabled {
+	color: #666;
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+}
 /*
 #seat-part .seatArea button.seat.on {
 	border: 1px solid #ef4f4f;
@@ -339,6 +480,7 @@ li .selected a span.text {
 	background-color: #ef4f4f; 
 	border-radius: 0;
 }
+
 
 #seat-part button#A5, 
 #seat-part button#B5, 
