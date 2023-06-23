@@ -54,4 +54,6 @@ public interface ReservationMapper {
 	int insertTicket(OrderTicketVO ticket);
 
 	int insertPayment(PaymentVO payment);
+
+	TicketTypeVO selectTicketTypeListByNum(int ticket_type_num);
 }
