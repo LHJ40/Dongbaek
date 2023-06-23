@@ -573,101 +573,91 @@
                                     <span>장애인</span><div><button class="down" onclick="handiDown()"> - </button><button class="result">0</button><button class="up" onclick="handiUp()"> + </button></div>
                               </div>
                               <script type="text/javascript">
-                                 let adultResult = $("#selectPeople #adult button.result").text();
-                                 let teenagerResult = $("#selectPeople #teenager button.result").text();
-                                 let childResult = $("#selectPeople #child button.result").text();
-                                 let handiResult = $("#selectPeople #handi button.result").text();
-                                 let adultCount = Number(adultResult);
-                                 let teenagerCount = Number(teenagerResult);
-                                 let childCount = Number(childResult);
-                                 let handiCount = Number(handiResult);
-                                 let countPeople = adultCount + teenagerCount + childCount + handiCount;
-                                 function adultDown() {
-                                    if(adultCount <= 0){
-                                       $("#selectPeople #adult button.down").addClass("disabled");
-                                    }else {
-                                       adultCount = adultCount - 1;
-                                       $("#selectPeople #adult button.up").removeClass("disabled");
-                                       $("#selectPeople #adult button.result").html(adultCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function adultUp() {
-                                    if(adultCount >= 8){
-                                       $("#selectPeople #adult button.up").addClass("disabled");
-                                    }else {
-                                       adultCount = adultCount + 1;
-                                       $("#selectPeople #adult button.down").removeClass("disabled");
-                                       $("#selectPeople #adult button.result").html(adultCount);                                       
-                                    }
-                                 }   
-                                 
-                                 // ------------------------------------------------------------------------------
-                                 function teenagerDown() {
-                                    if(teenagerCount <= 0){
-                                       $("#selectPeople #teenager button.down").addClass("disabled");
-                                    }else {
-                                       teenagerCount = teenagerCount - 1;
-                                       $("#selectPeople #teenager button.up").removeClass("disabled");
-                                       $("#selectPeople #teenager button.result").html(teenagerCount);
-                                       
-                                    }
-                                 }   
-                                 
-                                 function teenagerUp() {
-                                    if(teenagerCount >= 8){
-                                       $("#selectPeople #teenager button.up").addClass("disabled");
-                                    }else {
-                                       teenagerCount = teenagerCount + 1;
-                                       $("#selectPeople #teenager button.down").removeClass("disabled");
-                                       $("#selectPeople #teenager button.result").html(teenagerCount);                                       
-                                    }
-                                 }   
-                                                                  
-                                 // ------------------------------------------------------------------------------
-                                 function childDown() {
-                                    if(childCount <= 0){
-                                       $("#selectPeople #child button.down").addClass("disabled");
-                                    }else {
-                                       childCount = childCount - 1;
-                                       $("#selectPeople #child button.up").removeClass("disabled");
-                                       $("#selectPeople #child button.result").html(childCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function childUp() {
-                                    if(childCount >= 8){
-                                       $("#selectPeople #child button.up").addClass("disabled");
-                                    }else {
-                                       childCount = childCount + 1;
-                                       $("#selectPeople #child button.down").removeClass("disabled");
-                                       $("#selectPeople #child button.result").html(childCount);                                       
-                                    }
-                                 }   
-                                 
-                                 // ------------------------------------------------------------------------------
-                                 function handiDown() {
-                                    if(handiCount <= 0){
-                                       $("#selectPeople #handi button.down").addClass("disabled");
-                                    }else {
-                                       handiCount = handiCount - 1;
-                                       $("#selectPeople #handi button.up").removeClass("disabled");
-                                       $("#selectPeople #handi button.result").html(handiCount);                                       
-                                    }
-                                 }   
-                                 
-                                 function handiUp() {
-                                    if(handiCount >= 8){
-                                       $("#selectPeople #handi button.up").addClass("disabled");
-                                    }else {
-                                       handiCount = handiCount + 1;
-                                       $("#selectPeople #handi button.down").removeClass("disabled");
-                                       $("#selectPeople #handi button.result").html(handiCount);                                       
-                                    }
-                                 }   
-                                 
-                                 
-                                 // ------------------------------------------------------------------------------
+									let adultResult = $("#selectPeople #adult button.result").text();
+									let teenagerResult = $("#selectPeople #teenager button.result").text();
+									let childResult = $("#selectPeople #child button.result").text();
+									let handiResult = $("#selectPeople #handi button.result").text();
+									let adultCount = Number(adultResult);
+									let teenagerCount = Number(teenagerResult);
+									let childCount = Number(childResult);
+									let handiCount = Number(handiResult);
+									let countPeople = adultCount + teenagerCount + childCount + handiCount;
+									function adultDown() {
+										if(adultCount <= 0){
+											$("#selectPeople #adult button.down").addClass("disabled");
+										}else {
+											adultCount = adultCount - 1;
+											$("#selectPeople #adult button.up").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(adultCount); 
+										}
+									}   
+									function adultUp() {
+										if(adultCount >= 8){
+											$("#selectPeople #adult button.up").addClass("disabled");
+										}else {
+											adultCount = adultCount + 1;
+											$("#selectPeople #adult button.down").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(adultCount);                                       
+										}
+									}
+									// ------------------------------------------------------------------------------
+									function teenagerDown() {
+										if(teenagerCount <= 0){
+											$("#selectPeople #adult button.down").addClass("disabled");
+										}else {
+											teenagerCount = teenagerCount - 1;
+											$("#selectPeople #adult button.up").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(teenagerCount); 
+										}
+									}   
+									function teenagerUp() {
+										if(teenagerCount >= 8){
+											$("#selectPeople #adult button.up").addClass("disabled");
+										}else {
+											teenagerCount = teenagerCount + 1;
+											$("#selectPeople #adult button.down").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(teenagerCount);                                       
+										}
+									}
+									// ------------------------------------------------------------------------------
+									function childDown() {
+										if(childCount <= 0){
+											$("#selectPeople #adult button.down").addClass("disabled");
+										}else {
+											childCount = childCount - 1;
+											$("#selectPeople #adult button.up").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(childCount); 
+										}
+									}   
+									function childUp() {
+										if(childCount >= 8){
+											$("#selectPeople #adult button.up").addClass("disabled");
+										}else {
+											childCount = childCount + 1;
+											$("#selectPeople #adult button.down").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(childCount);                                       
+										}
+									}
+									// ------------------------------------------------------------------------------
+									function handiDown() {
+										if(handiCount <= 0){
+											$("#selectPeople #adult button.down").addClass("disabled");
+										}else {
+											handiCount = handiCount - 1;
+											$("#selectPeople #adult button.up").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(handiCount); 
+										}
+									}   
+									function handiUp() {
+										if(handiCount >= 8){
+											$("#selectPeople #adult button.up").addClass("disabled");
+										}else {
+											handiCount = handiCount + 1;
+											$("#selectPeople #adult button.down").removeClass("disabled");
+											$("#selectPeople #adult button.result").html(handiCount);                                       
+										}
+									}
+									// ------------------------------------------------------------------------------
                               </script>
                            </div>
                         </div>

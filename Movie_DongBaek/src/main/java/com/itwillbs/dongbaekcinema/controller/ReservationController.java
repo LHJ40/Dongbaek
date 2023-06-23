@@ -147,9 +147,12 @@ public class ReservationController {
 	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
 	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
 	@RequestMapping(value = "reservation_seat", method= {RequestMethod.GET, RequestMethod.POST})
-	public String reservation_seat(@RequestParam int play_num, Model model) {
+	public String reservation_seat(@RequestParam int play_num, Model model, HttpSession session) {
 		System.out.println("ReservationController - Play()");
 		System.out.println(play_num);
+		
+		session.setAttribute("play_num", play_num);
+		session.setAttribute("url", "reservation_seat");
 		
 		// ReservationService - getPlay() 메서드를 호출하여
 		// PLAYS 테이블에서 선택한 상영번호에 해당하는 상영정보 조회
