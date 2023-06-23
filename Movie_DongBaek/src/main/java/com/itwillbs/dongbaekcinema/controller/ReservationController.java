@@ -221,9 +221,20 @@ public class ReservationController {
 
             return "fail_location";
         }
-        System.out.println(seat_name);
+        
+        List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
+		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
+		   for(String ticket : ticketlist) {
+			   int ticket_num=Integer.parseInt(ticket);
+			   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticket_num);
+			   ticketPriceList.add(ticketType);
+	        }
+		   
+		   model.addAttribute("ticketPriceList", ticketPriceList);
+       
+		   System.out.println(seat_name);
         String seatnamelist[]=seat_name.split(",");
-        String ticketlist[] =ticket_type_num.split(",");
+        
         
         for(String seat : seatnamelist) {
             System.out.println(seat);
@@ -275,8 +286,7 @@ public class ReservationController {
 			   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticket_num);
 			   ticketPriceList.add(ticketType);
 	        }
-		   System.out.println("여기");
-		   System.out.println(ticketPriceList);
+		   
 		   model.addAttribute("ticketPriceList", ticketPriceList);
 
 		List<SnackVO> snackList = service2.getSnackList();
