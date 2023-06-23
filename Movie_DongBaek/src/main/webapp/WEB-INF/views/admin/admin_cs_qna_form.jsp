@@ -48,7 +48,7 @@ background-color: transparent;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	let type = "${csQna.cs_type}";
+	let type = "${csInfo.cs_type}";
 // 	alert('출력 :' + type ); // 출력 :일반 문의
 	$("#cs_type").val(type); // 셀렉트박스 cs_type 값 중 cs_type이 같은 값이 있으면 선택됨
 	
@@ -84,7 +84,7 @@ function selectDomain(domain) {
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csQna.cs_type_list_num }" readonly></td>
+			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csInfo.cs_type_list_num }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">유형</th>
@@ -100,13 +100,13 @@ function selectDomain(domain) {
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이름</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csQna.member_name }" readonly></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csInfo.member_name }" readonly></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">이메일</th>
 			      <td scope="col" class="align-middle d-flex justify-content-start">
-   					<input type="text" name="email1" value="${fn:split(csQna.member_email,'@')[0]}" readonly>
-					@ <input type="text" name="email2" value="${fn:split(csQna.member_email,'@')[1]} " readonly>
+   					<input type="text" name="email1" value="${fn:split(csInfo.member_email,'@')[0]}" readonly>
+					@ <input type="text" name="email2" value="${fn:split(csInfo.member_email,'@')[1]} " readonly>
 <!-- 						<select name="emailDomain" onchange="selectDomain(this.value)"> -->
 <!-- 							<option value="">직접입력</option> -->
 <!-- 							<option value="naver.com">naver.com</option> -->
@@ -120,17 +120,17 @@ function selectDomain(domain) {
 <!-- 			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" pattern="(010)-\d{3,4}-\d{4}"  -->
 			      <td scope="col" class="align-middle"><input type="phone" class="form-control" aria-label="cs_name" 
                 placeholder="형식 010-0000-0000" required="required" name="cs_phone"
-                value="${csQna.cs_phone}" readonly>
+                value="${csInfo.cs_phone}" readonly>
                   </td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content" readonly>${csQna.cs_content}</textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_content" readonly>${csInfo.cs_content}</textarea></td>
 			    </tr>
 			    <!-- cs_reply 값이 널이 아닐경수 활성화될 텍스트박스 위치 -->
 				<tr>
 			      <td scope="col" class="align-middle" width="100">답변</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_reply">${csQna.cs_reply}</textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_reply">${csInfo.cs_reply}</textarea></td>
 			    </tr>
 			    
 			    
@@ -143,8 +143,8 @@ function selectDomain(domain) {
 					   (단, 다운로드 시 파일명 변경하여 다운하려면 download="변경할 파일명" 형식으로 지정 
 					--%>
 				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
-						<a href="upload/${csQna.cs_file_real }" download="${csQna.cs_file }">
-							${csQna.cs_file }
+						<a href="upload/${csInfo.cs_file_real }" download="${csInfo.cs_file }">
+							${csInfo.cs_file }
 						</a>
 			      </td>
 			    </tr>

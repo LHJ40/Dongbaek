@@ -109,13 +109,13 @@ background-color: transparent;
 	  <%-- 테이블 바디--%>
 	  <tbody>
 	  <%-- CS 목록 출력 --%>
-	  <c:forEach var="notice" items="${CsNoticeList }">
+	  <c:forEach var="csInfo" items="${csInfoList }">
 	    <tr>
-	      <td scope="col" class="align-middle">${notice.cs_type_list_num }</td>
-	      <td scope="col" class="align-middle text-left"><a href="admin_cs_notice_modify_form?cs_type_list_num=${notice.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${notice.cs_subject }</a></td>
-	      <td scope="col" class="align-middle">${notice.member_id }</td>
+	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
+	      <td scope="col" class="align-middle text-left"><a href="admin_cs_notice_modify_form?cstypeNo=1&cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
+	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
 	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${notice.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
 	      </td>
 	      <td scope="col" class="align-middle">
 	      

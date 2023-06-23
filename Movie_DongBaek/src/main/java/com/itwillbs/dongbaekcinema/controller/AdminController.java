@@ -102,7 +102,8 @@ public class AdminController {
 	
 	// 관리자페이지 상영스케줄 관리
 	@GetMapping("admin_schedule_list")
-	public String adminScheduleList(HttpSession session, @RequestParam(defaultValue = "1") int pageNo, Model model) {
+	public String adminScheduleList(HttpSession session, Model model
+			, @RequestParam(defaultValue = "1") int pageNo) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -157,7 +158,10 @@ public class AdminController {
 	// 상단 생성 버튼 클릭 시 해당 영화관의 스케줄 목록 가져옴
 	@ResponseBody
     @GetMapping(value = "showSchedual", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+    public String getSchedule(HttpSession session, Model model
+    		, @RequestParam String theater_num, @RequestParam String play_date
+    		, @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+		
         // 상영 스케줄 정보 가져오기
         List<PlayScheduleVO> scheduleList = admin_service.showSchedual(theater_num, play_date, pageNo);
         
@@ -192,7 +196,10 @@ public class AdminController {
 	// 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 현재 상영중인 영화 목록 조회- json 
 	@ResponseBody
 	@RequestMapping(value = "findMovieList", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public List<MovieVO> findMovieList(HttpSession session, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
+	public List<MovieVO> findMovieList(HttpSession session, Model model
+			, @RequestParam String play_date
+			, @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+		
 //		System.out.println("findMovieList : " + play_date);
 		
 		// 테이블 셀렉트박스에서 상영날짜별 선택가능한 영화 목록 조회
@@ -211,8 +218,12 @@ public class AdminController {
 	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
 	@ResponseBody
 	@RequestMapping(value = "createUpdateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
-	public String createSchedule1(HttpSession session, @RequestParam String play_date, @RequestParam int theater_num, @RequestParam int row_num, @RequestParam int movie_num, Model model) {
-		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date + ", theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+	public String createSchedule1(HttpSession session, Model model
+			, @RequestParam String play_date, @RequestParam int theater_num
+			, @RequestParam int row_num, @RequestParam int movie_num) {
+		
+		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
+		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
 		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
 		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
@@ -220,13 +231,13 @@ public class AdminController {
 //		System.out.println("상영정보 존재(건):" + turnCount);
 
 	        
+		JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
         try {
-			jsonArray = new JSONArray(); // JSONArray 객체 생성
-			JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
+//			jsonArray = new JSONArray(); // JSONArray 객체 생성
 			
 			
 			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
-				System.out.println("상영스케줄 이미 존재함");
+				System.out.println("상영스케줄 이미 존재하므로 기존 스케줄 삭제 후 재생성");
 			
 //				// 상영스케줄 정보 삭제 수행
 				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
@@ -238,14 +249,13 @@ public class AdminController {
 				} else { // 상영 스케줄 등록
 					
 					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
-					
-					
-					if(insertTurnCount == 0) {
+										
+					if(insertTurnCount == 0) { // 상영 등록 실패
 						System.out.println("상영 스케줄 등록을 시도했으나 실패");
 						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
-					} else {
+					} else { // 상영 등록 성공
 						System.out.println("상영등록 성공");
-						jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
+						jsonObject.put("result", "상영정보가 변경 되었습니다 확인 버튼을 다시 눌러주세요");
 					}
 				}
 //				
@@ -255,29 +265,27 @@ public class AdminController {
 //				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
 				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
 			
-				if(insertTurnCount == 0) {
+				if(insertTurnCount == 0) { // 상영 등록 실패
 					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
-					jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
-				} else {
+					jsonObject.put("result", "상영등록 날짜가 오늘과 같거나 과거입니다");
+				} else { // 상영 등록 성공
 					System.out.println("상영등록 성공");
 					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
 				}
 			}
-			
-	
-			
-//				jsonObject.put("roomList", roomList);
-			
-			jsonArray.put(jsonObject);
+
+//			jsonArray.put(jsonObject);
 		} catch (JSONException e) {
 
 			e.printStackTrace();
-		}
+			jsonObject.put("result", "컨트롤러 등록 시 오류 발생");
 			
+		}
+		
 
+        return jsonObject.toString();
 
-
-		return jsonArray.toString();
+		
 	}
 	
 	
@@ -299,9 +307,12 @@ public class AdminController {
 	//		return "admin/admin_";
 //	}	
 
-	// 관리자페이지 공지사항관리 목록 출력
+	// 관리자페이지 목록 출력
+	// csTypeNo = 1 공지, 2 1:1게시판, 3 자주묻는 질문 
 	@GetMapping("admin_cs_notice")
-	public String adminCsNotice(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
+	public String adminCsNotice(HttpSession session, Model model
+			, @RequestParam(defaultValue = "1") int pageNo
+			, @RequestParam(defaultValue = "1") int csTypeNo) {
 //		System.out.println("pageNO : " + pageNo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -315,8 +326,7 @@ public class AdminController {
 		
 		
 		// --------------------------페이징 작업 ----------------------------------
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 1;
+
 
 		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNo - 1) * listLimit; // 조회 시작 행(레코드) 번호
@@ -339,24 +349,26 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsNoticeList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
+		List<CsInfoVO> csInfoList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
 		
 		// 페이징 정보 저장
 		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
 		
 //		System.out.println("CsNoticeList : " + CsNoticeList);
 //		System.out.println("pageInfo : " + pageInfo);
-			model.addAttribute("CsNoticeList", CsNoticeList);
-			model.addAttribute("pageNo", pageNo);
-			model.addAttribute("pageInfo", pageInfo);
-			
-	
+		model.addAttribute("csInfoList", csInfoList);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("pageInfo", pageInfo);
+
 		return "admin/admin_cs_notice_list";
+
+		
 	}
 	
 	// 관리자페이지 공지사항 글쓰기 폼 이동
 	@GetMapping("admin_cs_notice_form")
-	public String adminCsNoticeForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
+	public String adminCsNoticeForm(HttpSession session, Model model
+			, @RequestParam(defaultValue = "1") int pageNo) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -377,10 +389,10 @@ public class AdminController {
 	@PostMapping("admin_cs_notice_pro")
 	public String adminCsNoticePro(HttpSession session, Model model
 			, @RequestParam( defaultValue = "1", name = "pageNo") int pageNo
-			, @ModelAttribute("noticeInfo") CsInfoVO noticeInfo
+			, @ModelAttribute("noticeInfo") CsInfoVO csInfo
 			, @RequestParam int csTypeNo) {
 		
-		System.out.println("notice_form pageNo: " + pageNo + ", noticeInfo: " + noticeInfo);
+		System.out.println("notice_form pageNo: " + pageNo + ", csInfo: " + csInfo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -391,22 +403,6 @@ public class AdminController {
 //            return "fail_back";
 //        }
 
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-//		int csTypeNo = 1;
-
-	
-		// 공지사항 글쓰기 등록을 위한 함수 호출
-//		int insertCount = admin_service.registCs(csTypeNo, noticeInfo, files);
-//
-//		if(insertCount > 0) { //글쓰기 성공
-//			
-//			return "redirect:/admin_cs_notice"; // 공지사항으로 리다이렉트
-//		} else { // 글쓰기 실패
-//			model.addAttribute("msg", "등록이 실패했습니다!");
-//			
-//			return "fail_back"; // 실패 창 띄우기
-//		}
-		
 		
 		// 이클립스 프로젝트 상에 업로드 폴더(upload) 생성 필요 
 		// => 주의! 외부에서 접근하도록 하려면 resources 폴더 내에 upload 폴더 생성
@@ -417,7 +413,7 @@ public class AdminController {
 		String uploadDir = "/resources/upload"; 
 //		String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
-//		System.out.println("실제 업로드 경로 : "+ saveDir);
+		System.out.println("실제 업로드 경로 : "+ saveDir);
 		// 실제 업로드 경로 : D:\Shared\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring_MVC_Board\resources\ upload
 		
 		String subDir = ""; // 서브디렉토리(날짜 구분)
@@ -451,7 +447,7 @@ public class AdminController {
 		}
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
-		MultipartFile mFile1 = noticeInfo.getFile1();
+		MultipartFile mFile1 = csInfo.getFile1();
 		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
@@ -466,23 +462,23 @@ public class AdminController {
 		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
 		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
 		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
-		noticeInfo.setCs_file("");
+		csInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
 		String fileName1 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
 		
 		if(!mFile1.getOriginalFilename().equals("")) {
-			noticeInfo.setCs_file(subDir + "/" + fileName1);
+			csInfo.setCs_file(subDir + "/" + fileName1);
 		}
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + noticeInfo.getCs_file());
+		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, noticeInfo);
+		int insertCount = admin_service.registCs(csTypeNo, csInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
@@ -519,9 +515,13 @@ public class AdminController {
 	
 	
 	// 관리자페이지 공지사항 글수정 폼
+	// csTypeNo = 1 공지, 2 1:1게시판, 3 자주묻는 질문 
 	// 이전 등록된 정보 가져오기
 	@GetMapping("admin_cs_notice_modify_form")
-	public String adminCsNoticeModifyForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam int cs_type_list_num) {
+	public String adminCsNoticeModifyForm(HttpSession session, Model model
+			, @RequestParam(defaultValue = "1") int pageNo
+			, @RequestParam int cs_type_list_num
+			, @RequestParam(defaultValue = "1") int csTypeNo) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -533,18 +533,15 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 1;
 		
-		
-		// 1:1 질문 정보 가져오기
+		// 질문 정보 가져오기
 		// 파라미터값 : cs_type_list_num
-		CsInfoVO notice = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
+		CsInfoVO csInfo = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
 //		System.out.println("어드민컨트롤러 csQna" + csQna );
 		
 		// 페이지번호와 
 		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("notice", notice);
+		model.addAttribute("csInfo", csInfo);
 		
 		
 		
@@ -555,7 +552,7 @@ public class AdminController {
 	@PostMapping("admin_cs_notice_modify_pro")
 	public String adminCsNoticeModifyPro(HttpSession session, Model model
 			, @RequestParam(defaultValue = "1")int pageNo
-			, @ModelAttribute("noticeInfo") CsInfoVO noticeInfo
+			, @ModelAttribute("csInfo") CsInfoVO csInfo
 			, @RequestParam int csTypeNo) {
 		
 		
@@ -629,7 +626,7 @@ public class AdminController {
 		}
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
-		MultipartFile mFile1 = noticeInfo.getFile1();
+		MultipartFile mFile1 = csInfo.getFile1();
 		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
@@ -644,23 +641,23 @@ public class AdminController {
 		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
 		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
 		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
-		noticeInfo.setCs_file("");
+		csInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
 		String fileName1 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
 		
 		if(!mFile1.getOriginalFilename().equals("")) {
-			noticeInfo.setCs_file(subDir + "/" + fileName1);
+			csInfo.setCs_file(subDir + "/" + fileName1);
 		}
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + noticeInfo.getCs_file());
+		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, noticeInfo);
+		int insertCount = admin_service.registCs(csTypeNo, csInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
@@ -699,18 +696,18 @@ public class AdminController {
 	@GetMapping("delete_cs")
 	public String deleteCs(HttpSession session, Model model
 			, @RequestParam(defaultValue = "1")int pageNo
-			, @RequestParam("csType") int csType
-			, @RequestParam("cs_type_list_num") int cs_type_list_num) {
+			, @RequestParam("csTypeNo") int csTypeNo
+			, @RequestParam("cs_type_list_num")int cs_type_list_num) {
 		
-		System.out.println("delete_cs, csType:" + csType + ", cs_type_list_num:" + cs_type_list_num);
+		System.out.println("delete_cs, csTypeNo:" + csTypeNo + ", cs_type_list_num:" + cs_type_list_num);
 		
-		int deleteCount = admin_service.deleteCs(csType, cs_type_list_num);
+		int deleteCount = admin_service.deleteCs(csTypeNo, cs_type_list_num);
 		
 		// 글삭제 작업 후 리턴할 페이지
-		if(deleteCount != 0 && csType == 1) { // 삭제 성공 시 공지사항 목록으로 리턴
+		if(deleteCount != 0 && csTypeNo == 1) { // 삭제 성공 시 공지사항 목록으로 리턴
 			
 			return "redirect:/admin_cs_notice";
-		} else if(deleteCount != 0 && csType == 3) { // 삭제 성공 시 자주묻는 질문 목록으로 리턴
+		} else if(deleteCount != 0 && csTypeNo == 3) { // 삭제 성공 시 자주묻는 질문 목록으로 리턴
 			
 			return "redirect:/admin_cs_faq";
 		} else {
@@ -724,7 +721,8 @@ public class AdminController {
 	// 관리자페이지 1:1 질문관리 게시판 목록
 	@GetMapping("admin_cs_qna")
 	public String adminCsQna(HttpSession session, Model model
-			, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo) {
+			, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo
+			, @RequestParam(defaultValue = "2") int csTypeNo) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -738,8 +736,7 @@ public class AdminController {
 		
 		
 		// --------------------------페이징 작업 ----------------------------------
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 2;
+
 
 		int listLimit = 5;// 한 페이지에 보여줄 목록 수
 		
@@ -762,7 +759,7 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 1:1 게시판 목록 조회
-		List<CsInfoVO> CsQnaList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
+		List<CsInfoVO> csInfoList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
 		
 		// 페이징 정보 저장
 		PageInfoVO pageInfo = new PageInfoVO(listLimit, listLimit, maxPage, startPage, endPage);
@@ -771,7 +768,7 @@ public class AdminController {
 //		System.out.println("pageInfo : " + pageInfo);
 		
 		// 글목록, 페이징 정보 저장
-		model.addAttribute("CsQnaList", CsQnaList);
+		model.addAttribute("csInfoList", csInfoList);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("pageInfo", pageInfo);
 		
@@ -784,7 +781,8 @@ public class AdminController {
 	@GetMapping("admin_cs_qna_reply")
 	public String adminCsQnaReply(HttpSession session, Model model
 			, @RequestParam(defaultValue = "1") int pageNo
-			, @RequestParam int cs_type_list_num) {
+			, @RequestParam int cs_type_list_num
+			, @RequestParam(defaultValue = "2") int csTypeNo ) {
 		
 //		System.out.println("adminCsQnaReply pageNo:" + pageNo + ",cs_type_list_num:" + cs_type_list_num );
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -796,18 +794,16 @@ public class AdminController {
 //            return "fail_back";
 //        }	
 		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 2;
 		
 		
 		// 1:1 질문 정보 가져오기
 		// 파라미터값 : cs_type_list_num
-		CsInfoVO csQna = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
+		CsInfoVO csInfo = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
 //		System.out.println("어드민컨트롤러 csQna" + csQna );
 		
 		// 페이지번호와 
 		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("csQna", csQna);
+		model.addAttribute("csInfo", csInfo);
 		
 		
 		return "admin/admin_cs_qna_form";
@@ -817,6 +813,7 @@ public class AdminController {
 	@RequestMapping(value="admin_cs_qna_pro" , method = {RequestMethod.GET, RequestMethod.POST})
 	public String adminCsQnaPro(HttpSession session, Model model
 			, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo
+			, @RequestParam(defaultValue = "2") int csTypeNo
 			, @ModelAttribute("qnaInfo") CsInfoVO qnaInfo) {
 		
 		System.out.println("pageNo : " + pageNo + ", qnaInfo : " + qnaInfo);
@@ -829,8 +826,7 @@ public class AdminController {
 //            model.addAttribute("msg", "잘못된 접근입니다!");
 //            return "fail_back";
 //        }		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 2;
+
 		
 		// 답변 등록을 위한 update 서비스
 		int updateCount = admin_service.quaReply(csTypeNo, qnaInfo);
@@ -852,6 +848,7 @@ public class AdminController {
 	// 관리자페이지 자주묻는 질문 관리 게시판 목록
 	@GetMapping("admin_cs_faq")
 	public String adminCsFaq(HttpSession session, Model model
+			, @RequestParam(defaultValue = "3") int csTypeNo
 			, @RequestParam(defaultValue = "1") int pageNo) {
 
 		
@@ -865,8 +862,7 @@ public class AdminController {
 //        }
 		
 		// --------------------------페이징 작업 ----------------------------------
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 3;
+
 
 
 		int listLimit = 5;// 한 페이지에 보여줄 목록 수
@@ -890,7 +886,7 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> CsFaqList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
+		List<CsInfoVO> csInfoList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
 		
 		// 페이징 정보 저장
 		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
@@ -899,7 +895,7 @@ public class AdminController {
 //		System.out.println("pageInfo : " + pageInfo);
 		
 		// 글목록, 페이징 정보 저장
-		model.addAttribute("CsFaqList", CsFaqList);
+		model.addAttribute("csInfoList", csInfoList);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("pageInfo", pageInfo);
 		
@@ -1075,9 +1071,13 @@ public class AdminController {
 	
 	
 	// 관리자페이지 자주묻는 질문 글수정 폼 이동
+	// csTypeNo = 1 공지, 2 1:1게시판, 3 자주묻는 질문 
 	// 이전 등록된 정보 가져오기
 	@GetMapping("admin_cs_faq_modify_form")
-	public String adminCsFaqModifyForm(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam int cs_type_list_num) {
+	public String adminCsFaqModifyForm(HttpSession session, Model model
+			, @RequestParam(defaultValue = "1") int pageNo
+			, @RequestParam int cs_type_list_num
+			, @RequestParam(defaultValue = "3") int csTypeNo) {
 
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
@@ -1089,22 +1089,21 @@ public class AdminController {
 //            return "fail_back";
 //        }
 		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-		int csTypeNo = 3;
-		
+	
 		// 1:1 질문 정보 가져오기
 		// 파라미터값 : cs_type_list_num
-		CsInfoVO csFaq = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
+		CsInfoVO csInfo = admin_service.getCsInfo(csTypeNo, cs_type_list_num);
 //		System.out.println("어드민컨트롤러 csQna" + csQna );
 		
 		// 페이지번호와 
 		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("csFaq", csFaq);
+		model.addAttribute("csInfo", csInfo);
 		
 		return "admin/admin_cs_faq_modify_form";
 	}
 	
 	// 관리자페이지 자주묻는 질문 글수정 등록 후 게시판 이동
+	// csTypeNo = 1 공지, 2 1:1게시판, 3 자주묻는 질문 
 	@PostMapping("admin_cs_faq_modify_pro")
 	public String adminCsFaqModifyPro(HttpSession session, Model model
 			, @RequestParam( defaultValue = "1", name = "pageNo") int pageNo
@@ -1121,8 +1120,7 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-//		int csTypeNo = 3;
+
 //
 //		System.out.println("faq_modify_pro csTypeNo :" + csTypeNo + ", faqInfo" + faqInfo + ", files" + files);
 //		// 공지사항 글정보 변경
