@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -8,13 +7,30 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
-<title>본인인증</title>
+<title>동백시네마 회원가입 1.본인인증</title>
 <style>
 .w-900{
 	width: 900px;
 }
 .h-500{
 	height: 500px;
+}
+
+.container {
+	margin: 20px auto;
+}
+
+.box {
+	box-sizing: border-box;
+	margin: auto;
+}
+
+.container-fluid {
+	padding: 10px;
+}
+
+.center * {
+	text-align: center;
 }
 
 div {
@@ -27,89 +43,97 @@ td {
 
 #DoneBtn {
 	margin: 1px auto ;
-
 }
 
-th{
-	width: 200px;
-}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
-<script type="text/javascript">
-	
-	// 정규표현식으로 전화번호 판별
-// 	function phoneCheck(phone) {
-// 		let regExp = /^(010|011)[-\s]?[\d]{3,4}(-|\s)?\d{4}$/;
-		
-// 		if(!regExp.test(phone)) {
-// 			// 입력창에 정규표현식에 맞지 않는 값이면
-// 			alert("맞지 않는 형식");
-			
-// 		}
-// 	}
-	
-</script>
 </head>
 <body>
- <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header_join.jsp"%></header>
+	<%--네비게이션 바 영역 --%>
+	<header id="pageHeader"><%@ include file="../inc/header_join.jsp"%></header>
  
-  <article id="mainArticle">
-  <%--본문내용 --%>
+	<%--본문내용 --%>
+	<article id="mainArticle">
 	<%-- 본문 내용을 div로 감싸 전체 폭 조절 --%>
+	<%-- 폭 조절 div 끝 --%>
 		<!-- 4단계 탭 -->
  	 	<%-- 네이게이션 중앙 정렬 : justify-content-center --%>
  		<nav class=	"nav nav-pills justify-content-center">
  			<%-- 해당 탭에서는 클릭 시 다음 단계로 이동 불가 --%>
   			<a class="nav-link active btn-danger" aria-current="page" href="#">본인인증</a>
  			<a class="nav-link" >약관동의</a>
-			<a class="nav-link" >정보입력</a>
+			<a class="nav-link"  href="member_join_step3">정보입력</a>
 			<a class="nav-link" >가입완료</a>
 		</nav>
 		
 		<hr>
 	<div class="container-fluid w-900">
-		<div align="center">
+		<div>
 			<%-- 상단 문구 구역 --%>
-			<div>
+			<div class="center">
 				<h3>회원 가입을 위한 본인 인증 단계 입니다.</h3>
+				<h5>원하시는 인증방법을 선택해주세요.</h5>
 			</div>
-			<br>
+			<hr>
+			
 			<%-- 인증 형식 선택 --%>
 			<%-- 사진을 클릭 시 해당 인증 방식으로 이동 --%>
 			<div class="container w-900">
+  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
    				<%-- 핸드폰 인증 방식 --%>
-				<form action="member_join_step2" method="post">
-					<table>
-						<tr>
-							<td>휴대폰 번호 </td>
-							<td>
-		      					<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
-<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
-		      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
-		      					<br>
-							</td>
-						</tr>
-						<tr>
-							<td>인증번호</td>
-							<td>
-		      					<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호">
-<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
-		      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
-		      					<br>
-								<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
-								<input type="hidden" id="phoneDoubleChk">
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<input type="submit" id="DoneBtn" class="btn btn-danger d-flex justify-content-center" value="인증완료" disabled="disabled">
-							</td>
-						</tr>
-					</table>
-				</form>
-   			</div>
-				<%-- CoolSMS 문자인증 시작 --%>
+   				<div class="row box">
+	   				<div class="col-3 box">
+						<img src="${pageContext.request.contextPath }/resources/img/member_join_step1_phone.jpg" class="rounded" alt="..." width="230px">
+					</div>
+					<div class="col-8 box">
+	   				<%-- 핸드폰 인증 방식 --%>
+	   					<br>
+						<form action="member_join_step2" method="post">
+							<table>
+								<tr>
+									<td>휴대폰 번호 </td>
+									<td>
+				      					<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
+		<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
+				      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
+				      					<br>
+									</td>
+								</tr>
+								<tr>
+									<td>인증번호</td>
+									<td>
+				      					<input type="text" id="phone2" title="인증번호 입력" maxlength="4" placeholder="인증번호">
+		<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
+				      					<input type="button" id="phoneChk2" disabled class="doubleChk" value="인증확인">
+										<br>
+										<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주세요.</span>
+										<input type="hidden" id="phoneDoubleChk">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<input type="submit" id="DoneBtn" class="btn btn-danger d-flex justify-content-center" value="인증완료" disabled="disabled">
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+	   			</div> <%-- row 끝 --%>
+   			
+	  		</div>
+	  		<hr>
+	  		<%-- 하단 안내 문구 --%>
+	  		<div>
+				<h6>14세 미만 어린이는 보호자 인증을 추가로 완료한 후 가입이 가능합니다.</h6>
+				<h6>본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며,
+					인증 이외의 용도로 이용 또는 저장되지 않습니다.</h6>
+			</div>
+  		</div>
+  		
+		</div> <%-- 폭 조절 div 끝 --%>
+  	</article>
+  	
+  	<%-- CoolSMS 문자인증 시작 --%>
 				<script type="text/javascript">
 					//휴대폰 번호 인증
 					$("#phoneChk").click(function(){
@@ -142,6 +166,7 @@ th{
 					        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
 					        		$(".successPhoneChk").css("color","green");
 					        		$("#member_phone").attr("readonly",true);
+					        		$("#phoneChk2").attr("disabled",false);
 					        		code2 = data;
 					        	}
 
@@ -171,15 +196,13 @@ th{
 					
 				</script>
 				<%-- CoolSMS 문자인증 끝 --%>
-					
-
-	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
-  			</div>
-  		</div>
-  </article>
-  
-  <nav id="mainNav">
-  <%--왼쪽 사이드바 --%>
+  	
+  	
+  	
+  	
+  	
+  <nav id="mainNav" class="d-none d-md-block sidebar">
+  	<%-- 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
   </nav>
   
   <div id="siteAds"></div>

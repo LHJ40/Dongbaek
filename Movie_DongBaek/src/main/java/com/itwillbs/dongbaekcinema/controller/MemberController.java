@@ -308,10 +308,10 @@ public class MemberController {
 	}
 	
 	// 회원가입 화면 1페이지에서 휴대폰 인증 클릭 시 이동
-	@GetMapping("member_join_certify")
-	public String member_join_certify() {
-		return "member/member_join_certify";
-	}
+//	@GetMapping("member_join_certify")
+//	public String member_join_certify() {
+//		return "member/member_join_certify";
+//	}
 	
 	// 회원가입 화면 1 인증 성공, 네이버/카카오 인증 성공하면 회원가입 화면 2페이지로 이동
 	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
@@ -338,9 +338,6 @@ public class MemberController {
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
 	@GetMapping("no_member_login_form")
 	public String no_member_login_form() {
-//		// 예매 페이지에서 넘어온 값들
-//		model.addAttribute("URL", url);
-//		model.addAttribute("play_num", play_num);
 		
 		return "member/no_member_login_form";
 	}
@@ -397,7 +394,7 @@ public class MemberController {
 		
 		if (passwd == null || !passwd.equals(member_pass)) {	// 가져오는 비밀번호가 없음
 			
-			model.addAttribute("msg", "회원이 아니거나 비밀번호가 틀립니다. 다시 한 번 정보를 확인해주세요.");
+			model.addAttribute("msg", "입력하신 정보와 일치하는 예매내역이 없습니다.다시 한 번 정보를 확인해주세요.");
 			return "fail_back";
 			
 		} else  {	// 비밀번호 일치 -> 로그인 성공
@@ -405,7 +402,7 @@ public class MemberController {
 			// 세션에 "member_type"로 저장해서 비회원의 경우 권한 제한
 			session.setAttribute("member_type", "비회원");
 			// 마이페이지 홈으로 이동
-			return "myPage/myPage";
+			return "myPage/myPage_reservation_history";
 		} 
 		
 	}
