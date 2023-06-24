@@ -73,7 +73,7 @@
       for(let i = 0; i < 6; i++){
          for(let j = 1; j <= 10; j++){
 //             res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";            
-            res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + " style='width:30px; font-size:13px;'>" + row[i] + j + "</button>";            
+            res += "<button id="+ row[i] + j +" class='seat' data-seat-num=" + (i * 10 + j) + " data-seat-name=" + row[i] + j + ">" + row[i] + j + "</button>";            
          }
          res += "<br>";
       }
@@ -85,7 +85,7 @@
 
       // 인원별 티켓 가격을 계산하기 위해
       // 상영시간(play_time_type)에 해당하는 티켓의 정보(ticket_type)을 TICKET_TYPES 테이블에서 가져오기
-      let playTimeType = $("#dateInfo span").eq(1).attr("data-play-time-type");
+      let playTimeType = $("#dateInfo span").eq(2).attr("data-play-time-type");
       
       $.ajax({
          type : "post", 
@@ -220,7 +220,7 @@
          if(adultCount > 0){
             $("#paymentInfo .adult").html("(일반)");
             $("#paymentInfo .adultPrice").html(adultTicketTypePrice + " X " + adultCount);
-         }else if(handiCount == 0){
+         }else if(adultCount == 0){
             $("#paymentInfo .adult").html("");
             $("#paymentInfo .adultPrice").html("");
          }
@@ -228,7 +228,7 @@
          if(teenagerCount > 0){
             $("#paymentInfo .teenager").html("(청소년)");
             $("#paymentInfo .teenagerPrice").html(teenagerTicketTypePrice + " X " + teenagerCount);
-         }else if(handiCount == 0){
+         }else if(teenagerCount == 0){
             $("#paymentInfo .teenager").html("");
             $("#paymentInfo .teenagerPrice").html("");
          }
@@ -236,7 +236,7 @@
          if(childCount > 0){
             $("#paymentInfo .child").html("(경로/어린이)");
             $("#paymentInfo .childPrice").html(childTicketTypePrice + " X " + childCount);
-         }else if(handiCount == 0){
+         }else if(childCount == 0){
             $("#paymentInfo .child").html("");
             $("#paymentInfo .childPrice").html("");
          }
@@ -573,64 +573,76 @@
 		
 		<%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
 		<div class="row row2">
-			<div class="col-2" id="beforeBtnArea">
+			<div class="col-1 p-2">
 				<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
 			</div>
-			<%-- 선택한 영화 포스터와 영화명 노출 --%>
-			<div class="col-3">
-				<h5>선택 정보</h5>
-				<div class="row p-0" id="movieInfo">
-					<div class="col-4 movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
-					<div class="col-8 movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
+			<%-- 선택한 영화 포스터와 영화명, 극장, 일시, 상영관 노출 --%>
+			<div class="col-6">
+				<div class="row">
+					<div class="col-12">
+						<h5>선택 정보</h5>						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-7">
+						<div class="row" id="movieInfo">
+							<div class="col-4 pr-1 text-center movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
+							<div class="col-8 pl-1 text-left movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="row">
+							<div class="col-12">
+								<div id="theaterInfo" style="display: table;">
+									<span style="display: table-cell;">극장&nbsp;</span>
+									<span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
+								</div>
+								
+								<div id="dateInfo" style="display: table;">
+									<span style="display: table-cell;">날짜&nbsp;</span>
+									<span data-play-date="${reservation.play_date }" style="display: table-cell;"><b>${reservation.play_date }</b></span>
+									<span data-play-num="${reservation.play_num }" data-play-start-time="${reservation.play_start_time }" data-play-time-type="${reservation.play_time_type }" style="display: table-cell;">
+										<fmt:parseDate value="${reservation.play_start_time }" var="play_start_time" pattern="HH:mm:ss"/>
+										<b>(<fmt:formatDate value="${play_start_time}" pattern="HH:mm"/>)</b>
+									</span>
+								</div>
+								<div id="roomInfo" style="display: table;">
+									<span style="display: table-cell;">상영관&nbsp;</span>
+									<span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
+								</div>						
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		
-			<%-- 선택한 상영스케줄 노출 --%>
+			<%-- 미선택 사항 노출 --%>
 			<div class="col-2">
-				<div id="theaterInfo" style="display: table;">
-					<span style="display: table-cell;">극장&nbsp;</span>
-					<span style="display: table-cell;"><b>${reservation.theater_name }</b></span>
+				<h5>좌석 선택</h5>
+				<div id="seatInfo" style="text-align: center;">
+					<div id="seat_name"></div>
 				</div>
+			</div>
 				
-				<div id="dateInfo" style="display: table;">
-					<span style="display: table-cell;">날짜&nbsp;</span>
-	<%--                   <span data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span> --%>
-					<span data-play-num="${reservation.play_num }" data-play-start-time="${reservation.play_start_time }" data-play-time-type="${reservation.play_time_type }" style="display: table-cell;"><b>${reservation.play_start_time }</b></span>
+			<%-- 미선택 사항(결제) 노출 --%>
+			<div class="col-2">
+			<h5>결제</h5>
+			<div id="paymentInfo"  style="display: table;">
+				<div style="display: table-cell;">
+					<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
+					<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>          
+					<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
+					<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>     
+					<div style="display: table;"><span class="total" style="display: table-cell;">합계&nbsp;</span><span class="totalPrice" style="display: table-cell;"></span></div>
 				</div>
-				<div id="roomInfo" style="display: table;">
-					<span style="display: table-cell;">상영관&nbsp;</span>
-					<span class="roomInfo2" data-play-num="${reservation.play_num }" style="display: table-cell;"><b>${reservation.room_name }</b></span>
-				</div>
-				</div>
-				
-				<%-- 미선택 사항 노출 --%>
-				<div class="col-2">
-					<h5>좌석 선택</h5>
-					<div id="seatInfo">
-						<div class="row" id="seat_name"></div>
-					</div>
-				</div>
-				
-				<%-- 미선택 사항(결제) 노출 --%>
-				<div class="col-3">
-				<h5>결제</h5>
-				<div id="paymentInfo"  style="display: table;">
-					<div style="display: table-cell;">
-						<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
-						<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>          
-						<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
-						<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>     
-						<div style="display: table;"><span class="total" style="display: table-cell;">합계&nbsp;</span><span class="totalPrice" style="display: table-cell;"></span></div>
-					</div>
-				</div>
-				</div>
-				<%-- 다음 페이지 이동 버튼 --%>
-				<div class="col-1 ">
-					<button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
-	<%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
-				</div>
+			</div>
+			</div>
+			<%-- 다음 페이지 이동 버튼 --%>
+			<div class="col-1 p-2">
+				<button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
+<%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
 			</div>
 		</div>
+	</div>	
 	</article>
 	<nav id="mainNav">
 	<%--왼쪽 사이드바 --%>
