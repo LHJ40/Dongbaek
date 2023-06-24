@@ -49,7 +49,10 @@ public class MovieService {
 		return mapper.selectMovieListCounting();
 	}
 	
+	
+	
 	//---------------------------------------------------------------------------------	
+	
 	// 상영예정작 목록 조회 요청을 위한 getMovieList_prepare() 메서드 정의 -
 	public List<MovieVO> getMovieList_prepare(int startRow, int listLimit) {
 //		System.out.println("getMovieList_prepare()");
@@ -74,6 +77,14 @@ public class MovieService {
 //		System.out.println("getMovieList_top4");
 		return mapper.select_movieListTop4();
 	}
+
+	
+	//------------------------------------------------------------------------------
+	// 영화 정보 조회 - 각영화당 평점평균정보 포함하는 뷰(MOVIES_ADD_REVIEWRATING) 조회
+
+	public MovieVO getMovieADDReview(int movie_num) {
+		return mapper.selectMovieADDReview(movie_num);
+	}
 	
 	//------------------------------------------------------------------------------
 	// 리뷰 정보 조회 요청을 위한 getReviewRating()메서드 정의
@@ -97,12 +108,14 @@ public class MovieService {
 	}
 	
 	//영화당 리뷰총개수 조회(페이징)
-	public int getMovieListCount_forPaging(int movie_num) {
-		
+	public int getReviewListCount_forPaging(int movie_num) {
 		return mapper.selectReviewCounting_forPaging(movie_num);
 	}
 	
-	
+	//리뷰컨텐츠 하나만 출력
+//	public ReviewVO getReviewRecent(int movie_num) {
+//		return mapper.selectReviewLecent(movie_num);
+//	}
 	
 	//-------------------------------------------------------------------------
 
@@ -145,6 +158,8 @@ public class MovieService {
 	public int getMovieListCount(String movieSearchKeyword) {
 		return mapper.selectMovieListCount(movieSearchKeyword);
 	}
+
+
 
 
 

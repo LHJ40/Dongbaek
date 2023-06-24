@@ -83,10 +83,10 @@ div {
 	
 	// 생년월일 체크
 	function checkBirth(value) {
-		let getBirth = RegExp(/^[0-9]{8}$/);
+		let getBirth = RegExp(/^(19|20)[0-9]{6}$/);
 		
 		if(!getBirth.test(value)) {
-			$("#birthfeedback").text("생일을 입력해주세요.");
+			$("#birthfeedback").text("생년월일 8자를 입력해주세요.");
 			$(this).focus();
 		} else {
 // 			alert(value);
@@ -166,7 +166,8 @@ div {
 			}
 		});
 	});
-		
+	
+	
 	
 </script>
 
@@ -207,7 +208,7 @@ div {
 	            <div class="row mb-3">
 	              <label for="birth" class="col-3 text-nowrap">생년월일</label>
 	              <div class="col-9">
-		              <input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일(8자리)"
+		              <input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일(8자리)" min="19000101" max="20090101"
 		              		maxlength="8" required="required" onchange="checkBirth(this.value)">
 		              <div id="birthfeedback"></div>
 		              <input type="hidden" id="birthcheck">
@@ -219,7 +220,7 @@ div {
 	              <label for="phoneNum" class="col-3 text-nowrap">휴대폰번호</label>
 	              <div class="col-9">
 		              <div class="input-group">
-					  	<input type="text" class="form-control" id="phone" name="phone" placeholder="- 없이 입력해주세요" onchange="checkPhone(value)"
+					  	<input type="text" class="form-control" id="phone" name="phone" placeholder="- 없이 입력해주세요" onkeyup="checkPhone(value)"
 					  			maxlength="11" required="required" aria-describedby="button-addon1">
 					  	<input class="btn btn-outline-red" type="button" value="인증요청" id="phoneChk" disabled="disabled" data-toggle="modal" data-target="#sendCheckNum">
 					  </div>

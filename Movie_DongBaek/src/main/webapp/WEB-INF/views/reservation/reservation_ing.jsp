@@ -293,38 +293,46 @@ article {
 				  			<%-- 상단의 멤버십 사진 대신 할인금액에서 멤버십 이라는 단어를 사용해 할인이 된다 정도만 명시하면 좋을듯
 				  			회원인 경우 멤버십을 마이페이지에서 확인할 수 있고
 				  			비회원인 경우 멤버십이 필요가 없음 --%>
-				  			<thead>
+				  			
+				  			
 				  			<tr>
-				  				<th colspan="3">결제하실 금액</th>
+				  			 <c:forEach var="ticket" items="${ticketPriceList}" >
+					 		 ${ticket.ticket_user_type}
+							 ${ticket.ticket_type_price}<br>
+					 		<c:set var= "total" value="${total + ticket.ticket_type_price}"/>
+					 		
+						    </c:forEach>
+						    </tr>
+				  			<tr>
+				  				<th colspan="3">총 금액 ${total}원</th>
 				  			</tr>
-				  			</thead>
-				  			<tbody>
-				  				<tr>
-				  					<th>성인</th>
-				  					<td> 2 명 </td>
-				  					<td> 30,000 원</td>
-				  				</tr>
-				  				<tr>
-				  					<th>청소년</th>
-				  					<td> 0 명 </td>
-				  					<td> 0 원 </td>
-				  				</tr>
-				  				<tr>
-				  					<th>경로/우대</th>
-				  					<td> 0 명 </td>
-				  					<td> 0 원 </td>
-				  				</tr>
-				  				<tr>
+<!-- 				  				<tr> -->
+<!-- 				  					<th>성인</th> -->
+<!-- 				  					<td> 2 명 </td> -->
+<!-- 				  					<td> 30,000 원</td> -->
+<!-- 				  				</tr> -->
+<!-- 				  				<tr> -->
+<!-- 				  					<th>청소년</th> -->
+<!-- 				  					<td> 0 명 </td> -->
+<!-- 				  					<td> 0 원 </td> -->
+<!-- 				  				</tr> -->
+<!-- 				  				<tr> -->
+<!-- 				  					<th>경로/우대</th> -->
+<!-- 				  					<td> 0 명 </td> -->
+<!-- 				  					<td> 0 원 </td> -->
+<!-- 				  				</tr> -->
+<!-- 				  				<tr> -->
+							<tr>
 				  					<th>할인금액</th>
 				  					<td>${member_grade.grade_name }</td>
-				  					<td>${member_grade.grade_discount } </td>
+				  					<td>${total*member_grade.grade_discount } </td>
 				  				</tr>
 				  				<tr>
-				  					<th>결제금액</th>
+				  					<th>최종 결제금액</th>
 				  					<td> &nbsp; </td>
-				  					<td> 25,000 원 </td>
+				  					<td> ${total-total*member_grade.grade_discount} 원 </td>
 				  				</tr>
-				  			</tbody>
+				  			
 				  		</table>
 	                	</div>
 	            	</div>

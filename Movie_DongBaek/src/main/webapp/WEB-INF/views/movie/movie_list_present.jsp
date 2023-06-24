@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -10,22 +11,22 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 
-<script  type="text/javascript">
+<script>
  $(function() {
 	$(".custom-select").on("change", function(){
-		
 	
-		//셀렉트박스 옵션 선택텍스트(예매순/평점순) 저장
+		//셀렉트박스 옵션 선택텍스트(예매순/가나다순) 저장
 		let value = $(".custom-select option:selected").val();
 		let url = '';
 	
 		
-		if(value == 2){ //평점순선택시
+		if(value == 2){ //가나다순 선택시
 			url = "movie_list_present2?pageNum=${param.pageNum }";
-		} else { //예매순 선택시
+		} else { //예매순으로 다시 선택시
 			url = "movie_list_return?pageNum=${param.pageNum }";
 		}
 				
+		
 			$.ajax({
 				type : "get",
 				url : url,
@@ -50,6 +51,11 @@
 							movieGrade = "18";
 						}
 						
+				   
+						let releaseDate = new Date(movie[i].movie_release_date);
+				        let formattedDate = releaseDate.getFullYear() + "-" + ("0" + (releaseDate.getMonth() + 1)).slice(-2) + "-" + ("0" + releaseDate.getDate()).slice(-2);
+		
+				
 						res += "<div class='col-lg-3 col-mid-4'>" +
 						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
 						  "<a href='movie_detail_info?movie_num=" + movie[i].movie_num + "'>" +
@@ -58,8 +64,8 @@
 							"<div class='card-body'>" +
 								"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
 									"<img src='${pageContext.request.contextPath }/resources/img/grade_" + movieGrade +".png' alt='" + movieGrade +"' class='img-rounded'>" +
-								movie[i].movie_name_kr +"</h6>" +
-								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + " 개봉일: " + movie[i].movie_release_date + "</p>" +
+									"<b>" + movie[i].movie_name_kr + "</b>" + "</h6>" +
+								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + "% 개봉일: " + formattedDate  + "</p>" +
 								"<p class='d-flex justify-content-center'>" +
 							    	"<button type='button' class='btn btn-outline-danger mr-2'>♡찜하기</button>" +
 							    	"<a href='reservation_main?movie_num=" +  movie[i].movie_num + "' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>" +
@@ -75,6 +81,7 @@
 				alert("요청 실패!");
 			});
  	});
+
  });
 </script>
 <title>영화 예매 사이트</title>
@@ -170,8 +177,8 @@
 								<img src="${pageContext.request.contextPath }/resources/img/grade_18.png" alt="18" class="img-rounded" >
 							</c:if>
 							
-							${movie.movie_name_kr}</h6>
-							<p class="card-text">예매율:${movie.movie_booking_rate} 개봉일: ${movie.movie_release_date}</p>
+							<b>${movie.movie_name_kr}</b></h6>
+							<p class="card-text">예매율:${movie.movie_booking_rate}% 개봉일: ${movie.movie_release_date}</p>
 							<p class="d-flex justify-content-center">
 						    	<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
 						    	<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>

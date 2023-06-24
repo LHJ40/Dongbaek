@@ -77,10 +77,11 @@
 	}
 </style>
 <script type="text/javascript">
-
-	
+$(function(){
  	//스낵 담기
+	let ticketprice=Number($("#totalview").html());
 	$(document).on("click", "#addsnack", function(){
+		
 		let totalprice=0;
 		let snacknum=$(this).val();
  		let quantity=($("#quantity"+snacknum).val());
@@ -99,7 +100,7 @@
 			}
 		
 		$("#totalprice").html(totalprice);
-		$("#totalview").html(totalprice);
+		$("#totalview").html(ticketprice+totalprice);
 		
 		$("#snackCart"+snacknum).css("display", "");
 		$("#snackview"+snacknum).css("display", "");
@@ -120,7 +121,7 @@
 		$(".snackquantity").val(1);
 		$(".quantityview").val(1);
 		
-		$("#totalview").html($("#totalprice").html());
+		$("#totalview").html(ticketprice);
 	
 	});
 	
@@ -136,9 +137,9 @@
 		$("#snackCart"+snacknum).css("display", "none");
 		$("#snackview"+snacknum).css("display", "none");
 		
-		$("#totalview").html($("#totalprice").html());
+		$("#totalview").html(ticketprice+Number($("#totalprice").html()));
 	});
-	
+});	
 function reservation_ing(){
 	let arr=[];
 	let arr2=[];
@@ -150,6 +151,7 @@ function reservation_ing(){
 	}
 	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&ticket_type_num=${param.ticket_type_num}&snack_num='+arr+'&snack_quantity='+arr2
 }
+
 
 </script>
 </head>
@@ -233,7 +235,7 @@ function reservation_ing(){
 	                
 	                <div class="bottom">
 	                	<hr>
-		                	총 금액 :(<span id="totalprice" >0</span>)원
+		                	스낵 총 금액 :(<span id="totalprice" >0</span>)원
 		                <button class="btn btn-secondary" id="snackreset"><img src="${pageContext.request.contextPath }/resources/img/reset.png" width="20px"> 다시 선택하기</button>
 	                </div>
 	               </div>
@@ -268,7 +270,12 @@ function reservation_ing(){
 	               <div class="col-3">
 	               	<h5>결제</h5>
 	               	<%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
-<!-- 			  			<span>일반 (10,000 x 2)</span> -->
+	               	<c:set var = "total" value = "0" />
+					  <c:forEach var="ticket" items="${ticketPriceList}" >
+					  ${ticket.ticket_user_type}
+					  ${ticket.ticket_type_price}<br>
+					  <c:set var= "total" value="${total + ticket.ticket_type_price}"/>
+					  </c:forEach>
 			  			
 			  			<div style="list-style-type: none;">
 
@@ -278,7 +285,7 @@ function reservation_ing(){
 		               		</c:forEach>
 	               		</div>
 	               		
-			  			총금액(<span id=totalview></span>)
+			  			<b>총금액(<span id=totalview>${total}</span>)</b>
 			  		
 	               </div>
 	               <%-- 다음 페이지 이동 버튼 --%>

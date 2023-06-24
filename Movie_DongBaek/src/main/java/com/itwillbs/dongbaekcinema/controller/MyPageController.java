@@ -167,14 +167,20 @@ public class MyPageController {
 	// ============= 결제 취소 ================
 	@PostMapping("payCancel")
 	public ResponseEntity<String> orderCancle(BuyDetailVO buyDetail) throws Exception {
-//		System.out.println(orderCancelDto.toString());
-		System.out.println(buyDetail);
+//		System.out.println(buyDetail);
+		
+		// ----------- api 작업 -----------------
+		// 주문번호가 있으면 실행
+		// payService - getToken() : 토큰 받아오기
+		// payService - paymentInfo() : 결제번호와 토큰으로 결제된 금액 받아오기
+		// payService - payMentCancle() : 결제 취소 기능 메서드 호출
 	    if(!"".equals(buyDetail.getPayment_num())) {
 	        String token = payService.getToken();
 	        int amount = Integer.parseInt(payService.paymentInfo(buyDetail.getPayment_num(), token));
 	        payService.payMentCancle(token, buyDetail.getPayment_num(), amount, buyDetail.getReason());
 	    }
 		
+	    // ------------ DB 작업 -----------------
 	    // PayService - orderCancle() 호출
 	    // 결제 상태변경(PAYMENTS.payment_status), 티켓예약 상태변경, 스낵결제 상태변경
 		payService.orderCancle(buyDetail);

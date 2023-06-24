@@ -109,7 +109,7 @@
 		WHERE p.movie_num = #{movie_num}
 			AND p.theater_num = #{theater_num}
 			AND p.play_date = #{play_date}
-			AND p.play_start_time >= SUBTIME(SYSDATE(), '00:20:00')
+			AND concat(p.play_date,' ',p.play_start_time) >= SUBTIME(SYSDATE(), '00:20:00')
 		ORDER BY play_start_time
 	</select>
 	
@@ -146,14 +146,23 @@
 	
 	<!-- 좌석 사용 여부 조회를 위한 오더티켓 조회 -->
 	<select id="selectOrderTicket" resultType="com.itwillbs.dongbaekcinema.vo.OrderTicketVO">
-		SELECT * FROM ORDER_TICKETS
-		WHERE play_num = #{play_num}
+		SELECT * 
+			FROM 
+				ORDER_TICKETS
+			WHERE 
+				play_num = #{play_num}
+				AND ticket_payment_status = "결제완료" 
 	</select>
 	
 	<!-- 티켓의 가격 조회를 위한 티켓타입 조회 -->
 	<select id="selectTicketTypeList" resultType="com.itwillbs.dongbaekcinema.vo.TicketTypeVO">
 		SELECT * FROM TICKET_TYPES
 		WHERE ticket_time_type = #{play_time_type};
+	</select>
+	
+		<select id="selectTicketTypeListByNum" resultType="com.itwillbs.dongbaekcinema.vo.TicketTypeVO">
+		SELECT * FROM TICKET_TYPES
+		WHERE ticket_type_num = #{ticket_type_num};
 	</select>
 	
 	<insert id="insertOrder" parameterType="com.itwillbs.dongbaekcinema.vo.OrderVO">
@@ -175,6 +184,7 @@
 				, #{play_num}
 				, #{seat_num}
 				, #{ticket_type_num}
+				, "결제완료"
 				)
 	</insert>
 	<insert id="insertPayment" parameterType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
@@ -188,7 +198,7 @@
 				, #{payment_card_num}
 				, #{payment_total_price}
 				, #{order_num}
-				, #{payment_status}
+				, "결제완료"
 				)
 	</insert>
 	

@@ -241,7 +241,7 @@ public class MovieController {
 		
 		// 각 영화의 상세정보 출력 getMovie()메서드
 		// 파라미터: 리턴타입:MemberVO
-		MovieVO movie = service.getMovie(movie_num);
+		MovieVO movie = service.getMovieADDReview(movie_num);
 //		System.out.println(movie);
 		model.addAttribute("movie", movie);
 		
@@ -260,11 +260,11 @@ public class MovieController {
 		
 		// 각 영화의 상세정보 출력 getMovie()메서드
 		// 파라미터: 리턴타입:MemberVO
-		MovieVO movie = service.getMovie(movie_num);
+		MovieVO movie = service.getMovieADDReview(movie_num);
 //		System.out.println(movie);
 		model.addAttribute("movie", movie);
 		
-		// 각 영화의 리뷰정보 출력 getReviewRating
+		// 각 영화의 리뷰정보 출력 getReview
 		ReviewVO review = service.getReview(movie_num);
 //		System.out.println(review);
 		model.addAttribute("review", review);
@@ -281,7 +281,7 @@ public class MovieController {
 		
 		// 각 영화의 상세정보 출력 getMovie()메서드
 		// 파라미터: 리턴타입:MemberVO
-		MovieVO movie = service.getMovie(movie_num);
+		MovieVO movie = service.getMovieADDReview(movie_num);
 		model.addAttribute("movie", movie);
 		
 		
@@ -290,26 +290,21 @@ public class MovieController {
 		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
 		
 		
-		// 각 영화의 리뷰정보 출력 getReviewRating
+		// 각 영화의 리뷰정보 출력
 		ReviewVO review = service.getReview(movie_num);
 		model.addAttribute("review", review);
 		
-		
-		// 리뷰목록출력(리뷰탭 컨텐츠영역) getReviewList
+		// 리뷰목록출력(리뷰탭 컨텐츠영역)
 		List<ReviewVO> reviewList = service.getReviewList(movie_num, startRow, listLimit);
-	
 		
 		// 각 영화의 리뷰개수 출력 getReviewCounting === 영화당 리뷰개수 출력용(ReviewVO)
 		ReviewVO reviewCount = service.getReviewCounting(movie_num);
 		model.addAttribute("reviewCount", reviewCount);
-		System.out.println(reviewCount);
+		
 		
 		//페이징 계산작업
-		
 		//1.전체게시물 수 조회 작업 요청-검색X ==== 페이징처리용 (int)
-		int listCount = service.getMovieListCount_forPaging(movie_num);
-		
-		
+		int listCount = service.getReviewListCount_forPaging(movie_num);
 		
 		int pageListLimit = 2; //2.페이지번호개수
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수

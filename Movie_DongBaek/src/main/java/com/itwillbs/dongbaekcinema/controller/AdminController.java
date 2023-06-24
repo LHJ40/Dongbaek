@@ -1506,18 +1506,20 @@ public class AdminController {
 	
 	// 관리자 - 회원등급변경 - 정의효
 	@PostMapping("admin_changeMemberGrade")
-	public String adminChangeMemberGrade(HttpSession session, @RequestParam String grade_name, @RequestParam String member_id) {
+	public String adminChangeMemberGrade(HttpSession session, @RequestParam String grade_name, @RequestParam String member_id, Model model) {
 		System.out.println(grade_name);
 	    member_service.changeMemberGrade(grade_name, member_id);
-	    return "redirect:/admin_member_list";
+	    model.addAttribute("member_id", member_id); // 변경후 리다이렉트를 위해 전달하는 member_id model객체에 저장
+	    return "redirect:/admin_member_oneperson";
 	}
 
 	// 관리자 - 회원상태변경 - 정의효
 	@PostMapping("admin_changeMemberStatus")
-	public String adminChangeMemberStatus(HttpSession session, @RequestParam String member_status, @RequestParam String member_id) {
+	public String adminChangeMemberStatus(HttpSession session, @RequestParam String member_status, @RequestParam String member_id, Model model) {
 		System.out.println(member_status);
 		member_service.changeMemberStatus(member_status, member_id);
-		return "redirect:/admin_member_list";
+		model.addAttribute("member_id", member_id);
+		return "redirect:/admin_member_oneperson";
 	}
     
 	// 관리자 - 회원삭제 - 정의효

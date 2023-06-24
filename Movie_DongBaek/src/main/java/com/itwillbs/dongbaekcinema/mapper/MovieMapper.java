@@ -33,6 +33,10 @@ public interface MovieMapper {
 	
 	
 	
+	// 영화 정보 조회 - 각영화당 평점평균정보 포함하는 뷰(MOVIES_ADD_REVIEWRATING) 조회
+	MovieVO selectMovieADDReview(int movie_num);
+	
+	
 	//영화 목록 조회 - 현재상영작 평점 순 정렬
 	List<MovieVO> select_presentMovie_reviewRate(@Param("startRow") int startRow, 
 						@Param("listLimit") int listLimit);
@@ -71,6 +75,8 @@ public interface MovieMapper {
 	// 리뷰 총개수 조회(페이징용)
 	int selectReviewCounting_forPaging(int movie_num);
 
+//	// 리뷰컨텐츠 하나만 출력
+//	ReviewVO selectReviewLecent(int movie_num);
 	
 	//---------------------------------------------
 	// 영화 정보 모두 조회 페이징처리로 필요없음 - 0616 정의효
@@ -95,6 +101,10 @@ public interface MovieMapper {
 	
 	// 전체 영화 목록 개수 조회 / 페이징 - 0622정의효
 	int selectMovieListCount(String movieSearchKeyword);
+
+	
+
+
 
 
 

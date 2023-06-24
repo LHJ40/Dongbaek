@@ -70,6 +70,18 @@ div {
 		});
 	});
 	
+	// 비회원 로그인, 예매확인 넘어가는 함수(파라미터 전달 포함)
+	function noMember(value, param1, param2) {
+		switch(value) {
+		case '비회원 로그인' :
+			location.href = "no_member_login_form?play_num=" + param1 + "&url=" + param2;
+			break;
+		case '비회원 예매확인' :
+			location.href = "no_member_reservation_check_form?play_num=" + param1 + "&url=" + param2;
+		}
+	}
+	
+	
 </script>
 
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
@@ -88,8 +100,9 @@ div {
 	<header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">회원로그인</a></li>
-        <li class="nav-item"><a href="no_member_login_form" class="nav-link">비회원로그인</a></li>
-        <li class="nav-item"><a href="no_member_reservation_check_form" class="nav-link">비회원예매 확인</a></li>
+			<%-- 받아온 값 다시 넘기기 --%>
+        <li class="nav-item"><a href="noMember(this.value, ${play_num }, ${URL })" class="nav-link">비회원 로그인</a></li>
+        <li class="nav-item"><a href="noMember(this.value, ${play_num }, ${URL })" class="nav-link">비회원 예매확인</a></li>
       </ul>
     </header>
 	
@@ -98,6 +111,10 @@ div {
 		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
+			<%-- 받아온 값 다시 넘기기 --%>
+			<input type="hidden" name="play_num" value="${play_num }" />      
+            <input type="hidden" name="url" value="${URL }" />  
+                  
 			<%-- 아이디 --%>
 			<div class="row mb-3">
               <label for="id" class="col-2 text-nowrap">아이디</label>
