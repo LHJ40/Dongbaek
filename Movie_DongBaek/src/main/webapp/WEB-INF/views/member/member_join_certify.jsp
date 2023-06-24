@@ -21,6 +21,15 @@ div {
 	background-color: transparent;
 }
 
+td {
+	padding: 10px;
+}
+
+#DoneBtn {
+	margin: 1px auto ;
+
+}
+
 th{
 	width: 200px;
 }
@@ -47,8 +56,7 @@ th{
  
   <article id="mainArticle">
   <%--본문내용 --%>
- <%-- 본문 내용을 div로 감싸 전체 폭 조절 --%>
-	<%-- 폭 조절 div 끝 --%>
+	<%-- 본문 내용을 div로 감싸 전체 폭 조절 --%>
 		<!-- 4단계 탭 -->
  	 	<%-- 네이게이션 중앙 정렬 : justify-content-center --%>
  		<nav class=	"nav nav-pills justify-content-center">
@@ -66,120 +74,108 @@ th{
 			<div>
 				<h3>회원 가입을 위한 본인 인증 단계 입니다.</h3>
 			</div>
-			
 			<br>
-			
 			<%-- 인증 형식 선택 --%>
 			<%-- 사진을 클릭 시 해당 인증 방식으로 이동 --%>
-			<div class="container">
-	  			<div class="row">
-	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
-	  				<div class="col"></div>
-	    			<div class="col">
-	    				<%-- 핸드폰 인증 방식 --%>
-<!-- 	      				<div class="text-center"> -->
-						<form action="member_join_step2" method="post">
-							<table>
-							<tr>
-								<td>휴대폰 번호</td>
-								<td>
-			      					<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
-	<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
-			      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
-			      					<br>
-								</td>
-							</tr>
-							<tr>
-								<td>인증번호</td>
-								<td>
-			      					<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호">
-	<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
-			      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
-			      					<br>
-									<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
-									<input type="hidden" id="phoneDoubleChk">
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<input type="submit" id="DoneBtn" value="인증완료" disabled="disabled">
-								</td>
-							</tr>
-							</table>
-						</form>
-<!-- 						</div> -->
-					<%-- CoolSMS 문자인증 시작 --%>
-					<script type="text/javascript">
-						//휴대폰 번호 인증
-						$("#phoneChk").click(function(){
-							var code2 = "";
-							alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-							let member_phone = $("#member_phone").val();
-							console.log("1");
-							
-							$.ajax({
-						        type:"POST",
-						        url: '<c:url value="/phoneCheck"/>',
-						        data: "member_phone=" + member_phone,
-// 						        cache : false,
-						        dataType: "json",
-						        success : function(data){
-						        	
-						         	console.log("2");
-						         	let checkNum = data;
-						         	alert(member_phone + ', checkNum: ' + checkNum);
-						         	
-						        	if(data == "error"){
-						        		console.log("3");
-						        		alert("휴대폰 번호가 올바르지 않습니다.")
-										$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
-										$(".successPhoneChk").css("color","red");
-										$("#member_phone").attr("autofocus",true);
-						        	}else{	        		
-						        		console.log("4");
-						        		$("#phone2").attr("disabled",false);
-						        		$("#phoneChk2").css("display","inline-block");
-						        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-						        		$(".successPhoneChk").css("color","green");
-						        		$("#member_phone").attr("readonly",true);
-						        		code2 = data;
-						        	}
-
-									//휴대폰 인증번호 대조
-									$("#phoneChk2").click(function(){
-										if($("#phone2").val() == code2){
-											$(".successPhoneChk").text("인증번호가 일치합니다.");
-											$(".successPhoneChk").css("color","green");
-											$("#phoneDoubleChk").val("true");
-											$("#DoneBtn").attr("disabled",false);
-											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
-											// 로컬의 세션 스토리지에 이메일 저장
-											sessionStorage.setItem('member_phone', member_phone);
-										}else{
-											$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-											$(".successPhoneChk").css("color","red");
-											$("#phoneDoubleChk").val("false");
-											$(this).attr("autofocus",true);
-										}
-									});
-						        },
-						        error: function() {
-						        	alert("에러")
-						        }
-						    });
-						});
+			<div class="container w-900">
+   				<%-- 핸드폰 인증 방식 --%>
+				<form action="member_join_step2" method="post">
+					<table>
+						<tr>
+							<td>휴대폰 번호 </td>
+							<td>
+		      					<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력">
+<!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
+		      					<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기">
+		      					<br>
+							</td>
+						</tr>
+						<tr>
+							<td>인증번호</td>
+							<td>
+		      					<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호">
+<!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
+		      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인">
+		      					<br>
+								<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
+								<input type="hidden" id="phoneDoubleChk">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="submit" id="DoneBtn" class="btn btn-danger d-flex justify-content-center" value="인증완료" disabled="disabled">
+							</td>
+						</tr>
+					</table>
+				</form>
+   			</div>
+				<%-- CoolSMS 문자인증 시작 --%>
+				<script type="text/javascript">
+					//휴대폰 번호 인증
+					$("#phoneChk").click(function(){
+						var code2 = "";
+						alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+						let member_phone = $("#member_phone").val();
+						console.log("1");
 						
-					</script>
-					<%-- CoolSMS 문자인증 끝 --%>
+						$.ajax({
+					        type:"POST",
+					        url: '<c:url value="/phoneCheck"/>',
+					        data: "member_phone=" + member_phone,
+					        dataType: "json",
+					        success : function(data){
+					        	
+					         	console.log("2");
+					         	let checkNum = data;
+					         	alert(member_phone + ', checkNum: ' + checkNum);
+					         	
+					        	if(data == "error"){
+					        		console.log("3");
+					        		alert("휴대폰 번호가 올바르지 않습니다.")
+									$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
+									$(".successPhoneChk").css("color","red");
+									$("#member_phone").attr("autofocus",true);
+					        	}else{	        		
+					        		console.log("4");
+					        		$("#phone2").attr("disabled",false);
+					        		$("#phoneChk2").css("display","inline-block");
+					        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+					        		$(".successPhoneChk").css("color","green");
+					        		$("#member_phone").attr("readonly",true);
+					        		code2 = data;
+					        	}
+
+								//휴대폰 인증번호 대조
+								$("#phoneChk2").click(function(){
+									if($("#phone2").val() == code2){
+										$(".successPhoneChk").text("인증번호가 일치합니다.");
+										$(".successPhoneChk").css("color","green");
+										$("#phoneDoubleChk").val("true");
+										$("#DoneBtn").attr("disabled",false);
+										// 회원가입 진행시 자동으로 값을 입력해주기 위해서
+										// 로컬의 세션 스토리지에 이메일 저장
+										sessionStorage.setItem('member_phone', member_phone);
+									}else{
+										$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+										$(".successPhoneChk").css("color","red");
+										$("#phoneDoubleChk").val("false");
+										$(this).attr("autofocus",true);
+									}
+								});
+					        },
+					        error: function() {
+					        	alert("에러")
+					        }
+					    });
+					});
 					
-	    			</div>
+				</script>
+				<%-- CoolSMS 문자인증 끝 --%>
+					
+
 	  				<%-- 사진 간격을 위한 div 태그 삽입( 내용 없음 ) --%>
-	  				<div class="col"></div>
-	  			</div>
-	  		</div>
+  			</div>
   		</div>
-  		
-		</div> <%-- 폭 조절 div 끝 --%>
   </article>
   
   <nav id="mainNav">

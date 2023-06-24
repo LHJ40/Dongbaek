@@ -3,6 +3,7 @@ package com.itwillbs.dongbaekcinema.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -232,13 +233,23 @@ public class ReservationController {
 		   
 		   model.addAttribute("ticketPriceList", ticketPriceList);
        
-		   System.out.println(seat_name);
-        String seatnamelist[]=seat_name.split(",");
+		   System.out.println("여기");
+		   if(!snack_num.equals("")) {
+			   List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
+			   String snacklist[]=snack_num.split(",");
+			   for(String snack : snacklist) {
+				   int snackNum=Integer.parseInt(snack);
+				   SnackVO snacks=service2.getSnackListByNum(snackNum);
+				   snackNumlist.add(snacks);
+			   };
+			   model.addAttribute("snackNumlist", snackNumlist);
+			   int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();
+			   model.addAttribute("snackquantitylist", snackquantitylist);
+		   }
+			   
+		  
         
         
-        for(String seat : seatnamelist) {
-            System.out.println(seat);
-        }
 		String member_id=(String) session.getAttribute("member_id");
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);

@@ -11,6 +11,8 @@ public interface StoreMapper {
 
 	List<SnackVO> selectSnackList();
 
+	SnackVO selectSnackListByNum(int snackNum);
+
 	
 
 }

@@ -70,17 +70,6 @@ div {
 		});
 	});
 	
-	// 비회원 로그인, 예매확인 넘어가는 함수(파라미터 전달 포함)
-	function noMember(value, param1, param2) {
-		switch(value) {
-		case '비회원 로그인' :
-			location.href = "no_member_login_form?play_num=" + param1 + "&url=" + param2;
-			break;
-		case '비회원 예매확인' :
-			location.href = "no_member_reservation_check_form?play_num=" + param1 + "&url=" + param2;
-		}
-	}
-	
 	
 </script>
 
@@ -101,8 +90,8 @@ div {
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">회원로그인</a></li>
 			<%-- 받아온 값 다시 넘기기 --%>
-        <li class="nav-item"><a href="noMember(this.value, ${play_num }, ${URL })" class="nav-link">비회원 로그인</a></li>
-        <li class="nav-item"><a href="noMember(this.value, ${play_num }, ${URL })" class="nav-link">비회원 예매확인</a></li>
+        <li class="nav-item"><a href="no_member_login_form" class="nav-link">비회원 로그인</a></li>
+        <li class="nav-item"><a href="no_member_reservation_check_form" class="nav-link">비회원 예매확인</a></li>
       </ul>
     </header>
 	
@@ -111,9 +100,6 @@ div {
 		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
-			<%-- 받아온 값 다시 넘기기 --%>
-			<input type="hidden" name="play_num" value="${play_num }" />      
-            <input type="hidden" name="url" value="${URL }" />  
                   
 			<%-- 아이디 --%>
 			<div class="row mb-3">
@@ -190,7 +176,7 @@ div {
 								
 								// JSON 객체 출력하기
 								// 카카오 로그인을 성공하면 여기에 전달받은 값들이 출력됨
-								alert(JSON.stringify(response));
+// 								alert(JSON.stringify(response));
 								
 								// 여기서 부터는 직접 구현해야 하는 부분임!
 								// 이메일을 사용하여 회원가입 여부 판별할 예정임
@@ -207,7 +193,7 @@ div {
 										if (result === 'new') {	// DB에 없는 새로운 이메일!
 											// DB에 카카오에서 받아온 이메일이 존재하지 않을 경우 => 회원가입 진행
 											alert('카카오 로그인 성공! 회원가입을 완료해주세요');
-											console.log('카카오 로그인 성공! 회원가입을 완료해주세요');
+// 											console.log('카카오 로그인 성공! 회원가입을 완료해주세요');
 											
 											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
 											// 로컬의 세션 스토리지에 이메일 저장

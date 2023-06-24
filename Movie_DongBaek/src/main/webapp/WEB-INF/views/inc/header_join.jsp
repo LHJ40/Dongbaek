@@ -5,7 +5,7 @@
 
 <nav class="navbar  navbar-light bg-light" >
 
-  <a class="navbar-brand" href="#" style="margin:0px auto">
+  <a class="navbar-brand" href="./" style="margin:0px auto">
     <img src="${pageContext.request.contextPath}/resources/img/logo2.png" width="220"  alt="">
 </a>
 </nav>
