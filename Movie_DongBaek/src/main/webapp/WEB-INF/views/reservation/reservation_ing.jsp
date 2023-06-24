@@ -135,7 +135,7 @@ article {
  	            
  	            name: '주문명:동백시네마',
  	            //결제창에서 보여질 이름
- 	            amount: ${totalprice}, 
+ 	            amount:1000, //${totalprice}
  	            //가격 
  	            buyer_email: '${member.member_email}',
  	            buyer_name: '${member.member_name}',
@@ -157,17 +157,17 @@ article {
                        type: "POST",
                         data:{
                        "order_num" :  rsp.merchant_uid,//주문번호
-                       "order_total_price": 2000, //할인전 총금액 임시	
+                       "order_total_price": ${beforeTotalprice}, //할인전 총금액 	
                        "member_id" : '${member.member_id}', // 회원아이디
                        "payment_num" : rsp.imp_uid,//고유ID
                        "payment_name": '${member.member_name}',//주문자명
                        "payment_datetime" : timestamp(),//결제시간
                        "payment_total_price" : rsp.paid_amount,//총결제금액
                        "payment_status":'결제완료',
-                       "play_num":'${param.play_num}',
-                       "seat_num":10,//임시
-                       "ticket_type_num":1,//임시
-                       "payment_card_num":11123, //임시
+                       "play_num":${param.play_num},
+                       "seat_name":"${param.seat_name}",//임시
+                       "ticket_type_num_param":"${param.ticket_type_num}",//임시
+                       "payment_card_num":rsp.apply_num, //임시
                        "payment_card_name":"NH"//임시
                        },
                        dataType: "json", 
@@ -176,7 +176,7 @@ article {
                        if (res > 0) {
                            alert('주문정보 저장 성공');
 //                            createPayInfo(uid);
-                           location.href='reservation_check';
+                           location.replace='reservation_check';
                        }
                        else {
                     	   alert('주문정보 저장 실패');

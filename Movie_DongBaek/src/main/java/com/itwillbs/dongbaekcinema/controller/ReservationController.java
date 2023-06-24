@@ -259,7 +259,8 @@ public class ReservationController {
 			   model.addAttribute("snackquantitylist", snackquantitylist);
 		   }
 			   
-		  
+		int beforeTotalprice=ticketTotalPrice+snackTotalPrice;
+		model.addAttribute("beforeTotalprice", beforeTotalprice);  
         
         
 		String member_id=(String) session.getAttribute("member_id");
@@ -329,8 +330,10 @@ public class ReservationController {
 	}
 	@RequestMapping(value ="complete", method = RequestMethod.POST)
 	@ResponseBody
-	public int paymentComplete(OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
+	public int paymentComplete(String seat_name,String ticket_type_num_param,OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
 			) throws Exception {
+			System.out.println(ticket_type_num_param);
+			System.out.println(seat_name);
 		    System.out.println(order);
 		    System.out.println(ticket);
 		    System.out.println(payment);
@@ -348,12 +351,12 @@ public class ReservationController {
 //				return res;
 //			}
 //			orderService.insert_pay(orderDTO);
-		    int insertCount=service.registOrder(order);
-		    int insertCount2=service.registTicket(ticket);
-		    int insertCount3=service.registPayment(payment);
-		    System.out.println(insertCount);
-		    System.out.println(insertCount2);
-		    System.out.println(insertCount3);
+//		    int insertCount=service.registOrder(order);
+//		    int insertCount2=service.registTicket(ticket);
+//		    int insertCount3=service.registPayment(payment);
+//		    System.out.println(insertCount);
+//		    System.out.println(insertCount2);
+//		    System.out.println(insertCount3);
 			return res;
 		 
 	}
