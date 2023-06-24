@@ -40,6 +40,21 @@ background-color: transparent;
 }
 
 </style>
+<script type="text/javascript">
+<%-- 공백 입력 방지 --%>
+
+$(function() {
+    $("#cs_form").submit(function(e) {
+      var csContent = $("#cs_content").val().trim();
+      
+      if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+          e.preventDefault(); // 등록 방지
+          
+          alert("내용을 입력해주세요.");
+      }
+    });
+});
+</script>
 
 </head>
 <body>
@@ -54,7 +69,7 @@ background-color: transparent;
    <div class="container-fluid w-900" >
   
 
-	<form action="admin_cs_faq_pro" method="post" enctype="multipart/form-data">
+	<form action="admin_cs_faq_pro" method="post" id="cs_form" enctype="multipart/form-data">
 		<h1>자주묻는질문 관리자</h1>
 		<input type="hidden" name="csTypeNo" value="3" ><%-- CS타입 유형 정보 전송용 --%>
 

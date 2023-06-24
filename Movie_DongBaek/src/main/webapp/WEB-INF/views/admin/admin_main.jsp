@@ -95,7 +95,7 @@ background-color: transparent;
 	 <div id="adminTitle">관리자 페이지</div><br>
 	  <div class="d-flex justify-content-center">
 	    
-		<h4>환영합니다 ${session.member_id }님!</h4>
+		<h4>환영합니다 ${sessionScope.member_id }님!</h4>
 		
 	  </div>
 
