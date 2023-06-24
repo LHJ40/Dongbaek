@@ -4,4 +4,9 @@
 	<select id="selectSnackList"  resultType="com.itwillbs.dongbaekcinema.vo.SnackVO">
 		SELECT * FROM SNACKS;
 	</select> 
+	
+	<select id="selectSnackListByNum"  resultType="com.itwillbs.dongbaekcinema.vo.SnackVO">
+		SELECT * FROM SNACKS
+		WHERE snack_num = #{snackNum};
+	</select> 
 </mapper>
