@@ -26,7 +26,7 @@ public class MemberController {
 	// Service와 연결하기
 	@Autowired
 	private MemberService service;
-		
+	
 	
 	// 회원가입 폼에서 아이디 중복확인
 	@PostMapping("/idCheck")
@@ -144,7 +144,6 @@ public class MemberController {
 			session.setAttribute("member_type", getMember.getMember_type());
 			
 			// 만약, "아이디 저장" 체크박스 버튼이 눌려진 경우 cookie에 member_id 저장
-//			Cookie cookie = new Cookie("member_id", member.getMember_id());
 			Cookie cookie = new Cookie("member_id", getMember.getMember_id());
 			
 			if(remember_me) {
@@ -219,6 +218,14 @@ public class MemberController {
 	@RequestMapping(value="member_login_form", method = {RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session,
 			@RequestParam(required = false, defaultValue = "0") int play_num, @RequestParam(required = false) String url) {
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
 		
 		/* 네이버 아이디로 인증 URL 을 생성하기 위하여 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출  */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -337,7 +344,15 @@ public class MemberController {
 	
 	// 회원 로그인 화면에서 상단 탭(header)의 비회원 로그인 탭 클릭 시 비회원 로그인 페이지로 이동
 	@GetMapping("no_member_login_form")
-	public String no_member_login_form() {
+	public String no_member_login_form(HttpSession session, Model model) {
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
 		
 		return "member/no_member_login_form";
 	}
@@ -376,7 +391,15 @@ public class MemberController {
 
 	// 회원 로그인 화면에서 상단 탭(header)의  비회훤 예매 확인 탭 클릭 시 비회원 예매 확인 페이지로 이동
 	@GetMapping("no_member_reservation_check_form")
-	public String no_member_reservation_check_form() {
+	public String no_member_reservation_check_form(HttpSession session, Model model) {
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
 		
 		return "member/no_member_reservation_check_form";
 	}
@@ -409,7 +432,16 @@ public class MemberController {
 	
 	// 아이디 찾기 페이지로 이동
 	@GetMapping("MemberModifyFormId")
-	public String modifyForm() {
+	public String modifyForm(Model model, HttpSession session) {
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
+		
 		return "member/member_id_find";
 	}
 	
@@ -418,6 +450,14 @@ public class MemberController {
 	public String idFind(@RequestParam String member_name, String member_phone , MemberVO member, Model model, HttpSession session) {
 		String find_id = service.findId(member_name, member_phone);
 		System.out.println("find_id : " + find_id);
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
 		
 //		model.addAttribute("find_id", find_id);
 		if(find_id == null) {
@@ -432,7 +472,16 @@ public class MemberController {
 	
 	// 비밀호 찾기 페이지로 이동
 	@GetMapping("MemberFindPasswd")
-	public String modifyFormPass() {
+	public String modifyFormPass(HttpSession session, Model model) {
+		
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
+		
 		return "member/member_passwd_find";
 	}
 	
