@@ -66,6 +66,12 @@ background-color: transparent;
 
 }
 
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+
 </style>
 
 </head>
@@ -114,7 +120,8 @@ background-color: transparent;
 	    <tr>
 	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
 	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
-	      <td scope="col" class="align-middle text-left"><a href="admin_cs_faq_modify_form?cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
+	      <td scope="col" class="align-middle text-left">
+	      		<a href="admin_cs_faq_modify_form?cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
 	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
 	      <td scope="col" class="align-middle">
 	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />

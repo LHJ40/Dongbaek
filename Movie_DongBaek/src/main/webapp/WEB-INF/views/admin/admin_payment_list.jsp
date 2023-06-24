@@ -26,6 +26,12 @@ div {
 	background-color: transparent;
 }
 
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+
 /* 확인용 */
 .container-fluid{
 	border: 1px solid gray;

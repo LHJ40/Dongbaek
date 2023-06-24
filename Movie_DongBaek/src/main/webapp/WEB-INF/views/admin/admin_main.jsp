@@ -75,6 +75,12 @@ background-color: transparent;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
 </style>
 	
 
@@ -95,7 +101,7 @@ background-color: transparent;
 	 <div id="adminTitle">관리자 페이지</div><br>
 	  <div class="d-flex justify-content-center">
 	    
-		<h4>환영합니다 ${session.member_id }님!</h4>
+		<h4>환영합니다 ${sessionScope.member_id }님!</h4>
 		
 	  </div>
 
