@@ -389,6 +389,12 @@
          location.reload();
       }
    }
+   
+	$(function(){
+		$("#reset").on("click", function() {
+			location.reload();
+		})	
+	})
 </script>
 </head>
 <body>
@@ -586,7 +592,7 @@
 				<div class="row">
 					<div class="col-7">
 						<div class="row" id="movieInfo">
-							<div class="col-4 pr-1 text-center movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px"></div>
+							<div class="col-4 pr-1 text-center movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="120px"></div>
 							<div class="col-8 pl-1 text-left movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
 						</div>
 					</div>

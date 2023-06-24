@@ -119,7 +119,7 @@
 	     			dataType : "json", 
 	     		})
 	     		.done(function(RemoveReviewLike) {
-	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
+// 	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
 					$(this).parents(".reviewLikeArea").find(".reviewCount").html(RemoveReviewLike);
 		     		getReviewLikeCount(reviewNum);
 	     				
@@ -140,7 +140,7 @@
   				})
   				.done(function(ReviewLike) {
 					$(this).parents(".reviewLikeArea").find(".reviewCount").html(ReviewLike);
-  					alert("ReviewLike 요청성공" + ReviewLike);
+//   					alert("ReviewLike 요청성공" + ReviewLike);
 	  				getReviewLikeCount(reviewNum);
   				})
   				.fail(function() { // 요청 실패 시
