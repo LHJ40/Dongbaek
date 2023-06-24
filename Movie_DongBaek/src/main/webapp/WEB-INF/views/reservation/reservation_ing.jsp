@@ -135,7 +135,7 @@ article {
  	            
  	            name: '주문명:동백시네마',
  	            //결제창에서 보여질 이름
- 	            amount: 1000, 
+ 	            amount: ${totalprice}, 
  	            //가격 
  	            buyer_email: '${member.member_email}',
  	            buyer_name: '${member.member_name}',
@@ -245,6 +245,9 @@ article {
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
+<c:set var="morning" value='<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조' />
+<c:set var="night" value='<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야' />
+<c:set var="general" value='일반' />
   <%--본문내용 --%>
 		<h2>영화 예매</h2>
 		<div class="container-fluid reservation_con" >
@@ -276,7 +279,9 @@ article {
 					 	<table id="room" class="table table-borderless">
 					 		<thead>
 					 		<tr>
-					 			<th scope="col" width="180px">&nbsp;</th>
+					 			<td scope="col" width="180px"><c:if test="${reservation.play_time_type eq '조조'}">${morning}</c:if>
+															  <c:if test="${reservation.play_time_type eq '심야'}">${night}</c:if>
+															  <c:if test="${reservation.play_time_type eq '일반'}">${general}</c:if></td>
 					 		</tr>
 					 		</thead>
 					 		<tbody>

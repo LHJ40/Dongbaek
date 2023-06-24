@@ -225,25 +225,37 @@ public class ReservationController {
         
         List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
 		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
+		
+			int ticketTotalPrice=0;
+			int i=0;
 		   for(String ticket : ticketlist) {
 			   int ticket_num=Integer.parseInt(ticket);
 			   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticket_num);
 			   ticketPriceList.add(ticketType);
+			   ticketTotalPrice+=ticketPriceList.get(i).getTicket_type_price();
+			   i++;
 	        }
+		  
+		   System.out.println(ticketTotalPrice);
 		   
 		   model.addAttribute("ticketPriceList", ticketPriceList);
        
-		   System.out.println("여기");
+		   List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
+		   int snackTotalPrice=0;
 		   if(!snack_num.equals("")) {
-			   List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
 			   String snacklist[]=snack_num.split(",");
+			   int i2=0;
+			   int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();//문자열 ,단위로 나눠 int 타입 배열로 저장 
 			   for(String snack : snacklist) {
 				   int snackNum=Integer.parseInt(snack);
 				   SnackVO snacks=service2.getSnackListByNum(snackNum);
 				   snackNumlist.add(snacks);
+				   snackTotalPrice+=snackNumlist.get(i2).getSnack_price()*snackquantitylist[i2];
+				   i2++;
 			   };
+			  
+			   System.out.println(snackTotalPrice);
 			   model.addAttribute("snackNumlist", snackNumlist);
-			   int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();
 			   model.addAttribute("snackquantitylist", snackquantitylist);
 		   }
 			   
@@ -254,10 +266,14 @@ public class ReservationController {
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
+		int discount=(int) (ticketTotalPrice*member_grade.getGrade_discount());
+		
 		ReservationVO reservation = service.getPlay(play_num);
 		model.addAttribute("reservation", reservation);
 		model.addAttribute("member", member);
 		model.addAttribute("member_grade", member_grade);
+		int totalprice=ticketTotalPrice-discount+snackTotalPrice;
+		model.addAttribute("totalprice", totalprice);
 //		System.out.println(member);
 //		System.out.println(member_grade);
 		return "reservation/reservation_ing";

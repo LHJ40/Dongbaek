@@ -144,9 +144,11 @@ function reservation_ing(){
 	let arr=[];
 	let arr2=[];
 	for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
-		if($("#snackquantity"+i).html()!=0){
+		if($("#snackquantity"+i).html()>0){
 			arr.push([i]);
 			arr2.push([$("#snackquantity"+i).html()]);
+		}else if($("#snackquantity"+i).html()<0){
+			alert("잘못된시도")
 		}
 	}
 	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&ticket_type_num=${param.ticket_type_num}&snack_num='+arr+'&snack_quantity='+arr2
