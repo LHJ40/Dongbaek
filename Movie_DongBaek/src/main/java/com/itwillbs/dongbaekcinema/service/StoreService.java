@@ -15,6 +15,10 @@ public class StoreService {
 		// TODO Auto-generated method stub
 		return mapper.selectSnackList();
 	}
+	public SnackVO getSnackListByNum(int snackNum) {
+		// TODO Auto-generated method stub
+		return mapper.selectSnackListByNum(snackNum);
+	}
 
 
 }

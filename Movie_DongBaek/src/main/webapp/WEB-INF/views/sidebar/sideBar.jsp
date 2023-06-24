@@ -6,6 +6,8 @@
 
 <div class="sidebar-sticky">
   <ul class="nav flex-column">
+    <li class="nav-item"  style="height:100px;">
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="admin_main">
         홈<span class="sr-only">(current)</span>
@@ -55,9 +57,9 @@
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#">
-        분실물 관리
-      </a>
+<!--       <a class="nav-link" href="#"> -->
+<!--         분실물 관리 -->
+<!--       </a> -->
     </li>
     <hr>
   </ul>

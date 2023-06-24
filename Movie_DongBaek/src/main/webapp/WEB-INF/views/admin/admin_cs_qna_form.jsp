@@ -41,7 +41,11 @@
 div {
 background-color: transparent;
 }
-
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
 </style>
 
 <%-- jquery 태그 --%>
@@ -60,6 +64,21 @@ function selectDomain(domain) {
 	// 모든 값을 email2 영역에 표시하면 직접입력 선택 시 널스트링이 표시됨
 	document.fr.email2.value = domain;
 }
+
+<%-- 공백 입력 방지 --%>
+
+$(function() {
+    $("#cs_form").submit(function(e) {
+      var csReply = $("#cs_reply").val().trim();
+      
+      if (/^\s*$/.test(csReply)) { // 스페이스바로만 이루어진 공백 감지
+          e.preventDefault(); // 등록 방지
+          
+          alert("답변 내용을 입력해주세요.");
+      }
+    });
+  });
+
 </script>
 
 </head>
@@ -75,7 +94,7 @@ function selectDomain(domain) {
    <div class="container-fluid w-900" >
   
 
-	<form action="admin_cs_qna_pro" method="post" name="fr">
+	<form id="cs_form" action="admin_cs_qna_pro" method="post" name="fr">
 		<h1>1:1게시판 관리자 답글쓰기</h1>
 		<input type="hidden" name="pageNo" value="${param.pageNo }">
 		<input type="hidden" name="csTypeNo" value="2" ><%-- CS타입 유형 정보 전송용 --%>
@@ -84,13 +103,14 @@ function selectDomain(domain) {
 			<tbody>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">번호</th>
-			      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csInfo.cs_type_list_num }" readonly></td>
+			      <td scope="col" class="align-middle" width="400">
+			      	<input type="text" class="form-control" aria-label="cs_type_list_num" name="cs_type_list_num" value="${csInfo.cs_type_list_num }" readonly>
+			      </td>
 			    </tr>
 				<tr>
-			      <td scope="col" class="align-middle" width="100">유형</th>
+			      <td scope="col" class="align-middle" width="100">문의 유형</th>
 			      <td scope="col" class="align-middle" width="400">
 				       <select class="form-control" id="cs_type" name="cs_type">
-							<option value="">문의 유형</option>
 							<option value="영화정보문의">영화정보문의</option>
 							<option value="회원 문의">회원 문의</option>
 							<option value="예매 결제 관련 문의">예매 결제 관련 문의</option>
@@ -107,12 +127,6 @@ function selectDomain(domain) {
 			      <td scope="col" class="align-middle d-flex justify-content-start">
    					<input type="text" name="email1" value="${fn:split(csInfo.member_email,'@')[0]}" readonly>
 					@ <input type="text" name="email2" value="${fn:split(csInfo.member_email,'@')[1]} " readonly>
-<!-- 						<select name="emailDomain" onchange="selectDomain(this.value)"> -->
-<!-- 							<option value="">직접입력</option> -->
-<!-- 							<option value="naver.com">naver.com</option> -->
-<!-- 							<option value="gmail.com">gmail.com</option> -->
-<!-- 							<option value="nate.com">nate.com</option> -->
-<!-- 						</select> -->
 			      </td>
 			    </tr>
 				<tr>
@@ -130,22 +144,28 @@ function selectDomain(domain) {
 			    <!-- cs_reply 값이 널이 아닐경수 활성화될 텍스트박스 위치 -->
 				<tr>
 			      <td scope="col" class="align-middle" width="100">답변</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_content" name="cs_reply">${csInfo.cs_reply}</textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" id="cs_reply" name="cs_reply">${csInfo.cs_reply}</textarea></td>
 			    </tr>
 			    
 			    
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>
-			      <td scope="col" class="align-middle">
 			      	<%-- 
 					첨부파일 다운로드를 위해 하이퍼링크 생성
 					=> download 속성 지정 시 다운로드 가능
 					   (단, 다운로드 시 파일명 변경하여 다운하려면 download="변경할 파일명" 형식으로 지정 
 					--%>
 				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
-						<a href="upload/${csInfo.cs_file_real }" download="${csInfo.cs_file }">
-							${csInfo.cs_file }
-						</a>
+                        <c:choose>
+							<c:when test="${not empty csInfo.cs_file }">
+								<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file }" download="${fn:split(csInfo.cs_file, '_')[1] }">
+									${fn:split(csInfo.cs_file, '_')[1] }
+								</a>
+							</c:when>
+                          		<c:otherwise>
+                           		<span id="cs_file_old_span">첨부파일이 없습니다</span>
+                          		</c:otherwise>
+                        </c:choose>
 			      </td>
 			    </tr>
 				<tr>

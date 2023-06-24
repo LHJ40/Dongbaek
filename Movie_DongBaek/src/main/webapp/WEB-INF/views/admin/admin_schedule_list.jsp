@@ -4,11 +4,30 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link
+	href="${pageContext.request.contextPath }/resources/css/default.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath }/resources/css/sidebar.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath }/resources/css/button.css"
+	rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -69,12 +88,12 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		    	          found = true;
 // 		    	          alert(i + '번째 상영관: ' + sch[j].room_num + ', 회차: ' + sch[j].play_turn);
 
-		    	          schedule += '<div> 상영번호 : ' + sch[j].play_num + '</div>\
-		    	                       <div> 개봉일자 :<br> ' + sch[j].movie_release_date + '</div>\
-		    	                       <div> 종영일자 :<br> ' + sch[j].movie_close_date + '</div>\
-		    	                       <div> 상영시간 : ' + sch[j].play_start_time + ' ~ ' + sch[j].play_end_time + '</div>\
-		    	                       <div> 러닝타임 :<br> ' + sch[j].movie_running_time + '분' + '</div>\
-		    	                       <div> 영화명 :<br> ' + sch[j].movie_name_kr + '</div>?';
+		    	          schedule += '<div class="font-weight-bold"> 상영번호 :<br></div><div> ' + sch[j].play_num + '</div>\
+		    	                       <div class="font-weight-bold"> 상영기간 :<br></div><div>' + sch[j].movie_release_date + '</div>\
+		    	                       <div> ~ <br> ' + sch[j].movie_close_date + '</div>\
+		    	                       <div class="font-weight-bold"> 상영시간 :<br></div><div> ' + sch[j].play_start_time + '<br> ~ <br>' + sch[j].play_end_time + '</div>\
+		    	                       <div class="font-weight-bold"> 러닝타임 :<br></div><div> ' + sch[j].movie_running_time + '분' + '</div>\
+		    	                       <div class="font-weight-bold"> 영화명 :<br></div><div> ' + sch[j].movie_name_kr + '</div>?';
 
 		    	          break;
 		    	        }
@@ -89,7 +108,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		    	    let scheduleList = schedule.split('?');
 		    	    console.log(scheduleList);  	    
 		    	    
-	    	    		    	    	
+	    	    	
 					// 첫번째 행에 상영정보 출력
 			        $("#play_turn11").html(scheduleList[0]);
 			        $("#play_turn21").html(scheduleList[1]);
@@ -199,6 +218,11 @@ background-color: transparent;
   background-color: #fafafa; 
   border-color: #ccc;
 }
+
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
 </style>
 </head>
 <body>
@@ -215,7 +239,7 @@ background-color: transparent;
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 		  	<div class="col col-md-4">
-		    	<a class="navbar-brand" >상영스케줄 관리</a>
+		    	<div class="navbar-brand" >상영스케줄 관리</div>
 		    </div>
 	    	<div class="col col-md-10">
 	    	
@@ -234,6 +258,7 @@ background-color: transparent;
 				  </div>
 			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">확인</button>
 			    </form>
+
 			    
 			    
 		    </div>
@@ -256,7 +281,7 @@ background-color: transparent;
 	      <th style="width:200px;">3회차</th>
 	      <th style="width:200px;">4회차</th>
 	      <th style="width:200px;">5회차</th>
-	      <th width="80px"></th>
+	      <th width="60px"></th>
 	    </tr>
 	  </thead>
 	  <%-- 테이블 바디--%>
@@ -280,7 +305,7 @@ background-color: transparent;
       <td class="align-middle text-center"><div id="play_turn41">상영정보 없음</div></td>
       <td class="align-middle text-center"><div id="play_turn51">상영정보 없음</div></td>
       <td class="align-middle text-center">
-        <div class="row mb-2"><button type="button" class="btn btn-outline-danger" style="height:150px;" id="newSchedule1">생성수정</button></div>
+        <div class="row mb-2"><button type="button" class="btn btn-outline-danger" style="height:120px;" id="newSchedule1">생성수정</button></div>
 <!--         <div class="row"><button type="button" class="btn btn-danger" style="height:60px;" style="height:60px;" id="updateSchedule1">수정</button></div> -->
       </td>
     </tr>
@@ -347,7 +372,6 @@ background-color: transparent;
 	  </tbody>
 	</table>
   	</div> <%-- div id="hide_div" 끝 --%> 
-  	
   				    
 	
 	<%-- 테스트 영역 --%>
@@ -484,7 +508,7 @@ $(function() {
 	    	 alert(text);
 	      }
 	    });
-			    
+		
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
 	  
 }); // $(function() { 메서드 끝

@@ -44,9 +44,30 @@ a {
 	text-decoration: none;
 	
 }
+
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+
 </style>
 
-<
+<script type="text/javascript">
+<%-- 공백 입력 방지 --%>
+$(function() {
+    $("#cs_form").submit(function(e) {
+      var csContent = $("#cs_content").val().trim();
+      
+      if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+          e.preventDefault(); // 등록 방지
+          
+          alert("내용을 입력해주세요.");
+      }
+    });
+});
+
+</script>
 
 </head>
 <body>
@@ -60,7 +81,7 @@ a {
   
    <div class="container-fluid w-900" >
   
-		<form action="admin_cs_notice_pro" method="post" enctype="multipart/form-data">
+		<form action="admin_cs_notice_pro" id="cs_form" method="post" enctype="multipart/form-data">
 			<h1>공지사항 관리자</h1>
 			<input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
 			<input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>

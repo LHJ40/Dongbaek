@@ -63,7 +63,15 @@ background-color: transparent;
   border-color: #ccc;
 }
 
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+
 </style>
+
+
 
 <script type="text/javascript">
 
@@ -105,8 +113,9 @@ background-color: transparent;
 	  <%-- 테이블 헤드 --%>
 	  <thead>
 	    <tr>
-	      <th scope="col" width="100px">번호</th>
-	      <th scope="col" width="400px">제목</th>
+	      <th scope="col" width="80px">번호</th>
+   	      <th scope="col" width="80px">유형</th>
+	      <th scope="col" width="300px">제목</th>
 	      <th scope="col" width="100px">작성자</th>
 	      <th scope="col" width="100px">등록일</th>
 	      <th scope="col" width="100px"></th>
@@ -119,6 +128,7 @@ background-color: transparent;
 	  <c:forEach var="csInfo" items="${csInfoList }">
 	    <tr>
 	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
+   	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
 	      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${csInfo.cs_subject }</td>
 	      <td scope="col" class="align-middle">${csInfo.member_name }</td>
 	      <td scope="col" class="align-middle">
