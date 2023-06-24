@@ -27,6 +27,11 @@ public class CsService {
 //		return mapper.selectCsFaq(cs_type, startNum, pageNum);
 //	}
 	
+	// cs 부분 1:1질문 DB 에 저장(지영)
+	public int insertBoard(CsVO board) {
+		return mapper.insertBoard(board);
+	}
+	
 	
 	
 }

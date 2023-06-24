@@ -92,39 +92,70 @@
       <td><a href="movie_list_present">전체영화</a> </td>
       <td><a href="theater_main">전체극장</a></td>
       <td><a href="cs_main">고객센터홈</a></td>
-      <td><a href="#">예매/구매내역</a></td>
+      <td>
+	      <c:choose>
+	      	<c:when test="${empty sessionScope.member_id }">
+	      	  로그인 후 사용가능
+	      	</c:when>
+	      	<c:otherwise>
+	      	  <a href="myPage_reservation_history">예매/구매내역</a>
+	      	</c:otherwise>
+	      </c:choose>
+      </td>
     </tr>
     <tr>
      
       <td></td>
       <td></td>
       <td><a href="cs_notice">공지사항</a></td>
-      <td><a href="#">나의 리뷰</a></td>
+      <td>
+      	<c:if test="${not empty sessionScope.member_id }">
+	      <a href="#">나의 리뷰</a>
+      	</c:if>
+      </td>
     </tr>
     <tr>
      
       <th>스토어</th>
       <th>예매</th>
       <td><a href="cs_faq">자주묻는질문</a></td>
-      <td><a href="#">문의내역</a></td>
+	  <td>
+      	<c:if test="${not empty sessionScope.member_id }">
+          <a href="myPage_inquiry">나의 문의내역</a>
+      	</c:if>
+	  </td>
     </tr>
     <tr>
      
       <td><a href="snack_main">전체상품</a></td>
-       <td><a href="reservation_main">빠른예매</a></td>
-      <td><a href="cs_qna_form">1:1 질문</a></td>
-      <td><a href="#">등급별혜택</a></td>
+      <td><a href="reservation_main">빠른예매</a></td>
+      <td>
+      <c:if test="${not empty sessionScope.member_id }">
+	      <a href="cs_qna_form">1:1 질문</a>
+      </c:if>
+      </td>
+      <td>
+      <c:if test="${not empty sessionScope.member_id }">
+	      <a href="#">등급별혜택</a>
+      </c:if>
+      </td>
     </tr>
      <tr>
     <td></td>
       <td><a href="theater-runningtime_tap">극장별예매</a></td>
       <td></td>
-      <td><a href="myPage_modify_member">개인정보 수정</a></td>
+      <td>
+	      <c:if test="${not empty sessionScope.member_id }">
+	      	<a href="myPage_modify_member">개인정보 수정</a>
+	      </c:if>
+      </td>
       </tr>
       <td></td>
       <td></td>
       <td></td>
-      <td><a href="#">인생영화네컷 만들기</a></td>
+      <td>
+<!--       	<a href="#">인생영화네컷 만들기</a> -->
+      </td>
       </tr>
   </tbody>
 </table>
