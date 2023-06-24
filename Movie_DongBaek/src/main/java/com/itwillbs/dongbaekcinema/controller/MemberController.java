@@ -139,6 +139,13 @@ public class MemberController {
 			
 			// 아이디로 조회한 회원 정보를 들고와서 세션에 아이디와 회원타입(회원, 비회원, 직원) 들고오기
 			MemberVO getMember = service.getMember(member.getMember_id());
+			
+			// 탈퇴한 회원인 경우(member_status가 "탈퇴") 탈퇴한 회원입니다 하고 돌려보내기
+			if(getMember.getMember_status().equals("탈퇴")) {
+				model.addAttribute("msg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+				return "fail_back";
+			}
+			
 			// 세션에 값 넣기
 			session.setAttribute("member_id", getMember.getMember_id());
 			session.setAttribute("member_type", getMember.getMember_type());
@@ -529,24 +536,6 @@ public class MemberController {
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

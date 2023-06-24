@@ -32,7 +32,6 @@
 			 <a href="javascript:logout()">로그아웃</a> &nbsp;
 		</c:otherwise>
 	</c:choose>
-		<a href="cs_main">고객센터</a> &nbsp;
 		<%-- 만약, 세션 member_type이 "직원" 일 경우 관리자페이지(admin_main) 링크 표시 --%>
 		<c:if test="${member_type eq '직원' }">
 			 <a href="admin_main">관리자페이지</a>
@@ -65,7 +64,7 @@
     <a class="nav-link menuItem" href="snack_main" style="background-color:white; color:black;">스토어</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link menuItem" href="#" style="background-color:white; color:black;">심플모드</a>
+    <a class="nav-link menuItem" href="cs_main" style="background-color:white; color:black;">고객센터</a>
   </li>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   
 </ul>

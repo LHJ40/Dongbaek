@@ -21,7 +21,7 @@
 //import com.itwillbs.dongbaekcinema.vo.*;
 //
 //@Controller
-//public class MemberController_backup {
+//public class MemberController {
 //	
 //	// Service와 연결하기
 //	@Autowired
@@ -157,17 +157,12 @@
 //			}
 //			response.addCookie(cookie);
 //			
-//			String url = (String) session.getAttribute("url");
-//			// @RequestParam(required = false) int play_num, @RequestParam(required = false) String url
-//			// 만약, 다른 작업을 하다 로그인을 해야할 때
-//			// 세션에 선택된 값, 다음으로 이동할 값을 저장해서 로그인 성공 시 세션에 저장된 주소("url")로 이동
-//			if(url != null) {
-//				// 파라미터에 url이라는 이름을 가진 속성이 있으면 
-//				// model에 값 넣어("msg") 원하는 주소로 이동("targetURL")
-////				model.addAttribute("play_num", (Integer) session.getAttribute("play_num"));
-//				
-//				return "redirect:/" + url;
-//			} 
+//			System.out.println("play_num 없어? " + session.getAttribute("play_num"));
+//			
+//			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
+//			if(session.getAttribute("play_num") != null) {
+//				return "reservation/reservation_seat";
+//			}
 //			
 //			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
 //		}
@@ -217,7 +212,7 @@
 //	// (1) 로그인 첫 화면 요청 메소드
 //	@RequestMapping(value="member_login_form", method = {RequestMethod.GET, RequestMethod.POST })
 //	public String login(Model model, HttpSession session,
-//			@RequestParam(required = false, defaultValue = "0") int play_num, @RequestParam(required = false) String url) {
+//			@RequestParam(required = false) String play_num) {
 //		
 //		// 세션 아이디가 있을 경우" 접근 막기
 //		String member_id = (String) session.getAttribute("member_id");
@@ -238,13 +233,13 @@
 //		model.addAttribute("url", naverAuthUrl);
 //		
 //		// 예매 페이지에서 넘어온 값들
-//		session.setAttribute("url", url);
-//		session.setAttribute("play_num", (Integer) play_num);
+//		session.setAttribute("play_num", play_num);
 //		
-//		System.out.println("url하고 play_num : " + url + play_num );
+////		System.out.println("url하고 play_num : " + url + play_num );
 //		
 //		return "member/member_login_form";
 //	}
+//	
 //	
 //	// (2) 네이버 로그인 성공 시 callback 호출 메서드
 //	@RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST })
@@ -359,9 +354,6 @@
 //	@PostMapping("no_member_login_pro")
 //	public String no_member_login_pro(MemberVO noMember, Model model, HttpSession session) {
 //		
-////		// 예매 페이지에서 넘어온 값들
-////		model.addAttribute("URL", url);
-////		model.addAttribute("play_num", play_num);
 //		
 //		// 비회원 로그인 작업 
 //		// MemberService - noMemberLogin()
@@ -372,11 +364,13 @@
 //		if(insertCount > 0) {
 //			session.setAttribute("member_id", noMember.getMember_name()); // name으로 불리게 하기
 //			session.setAttribute("member_type", "비회원");
-//			// 나중에 작업하던 곳으로 돌아가게 설정하기
-////			model.addAttribute("url", "/");
-////			model.addAttribute("msg", "비회원 로그인 성공!");
 //			
-////			return "success_back";
+//			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
+//			if(session.getAttribute("play_num") != null) {
+//				return "reservation_seat";
+//			}
+//			
+//			
 //			return "redirect:/./";
 //		} else {
 //			// 로그인 실패 시 "로그인에 실패했습니다." 띄우고 이전 페이지로 돌아가기
@@ -398,9 +392,6 @@
 //			
 //			return "fail_back";
 //		}
-//		
-//		// 예매 페이지에서 넘어온 값들
-//		System.out.println("세션에 들어와있나? " + session.getAttribute("play_num"));
 //		
 //		return "member/no_member_reservation_check_form";
 //	}
@@ -538,29 +529,5 @@
 //	
 //	
 //}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
