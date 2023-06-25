@@ -361,6 +361,23 @@ public class MemberController {
 	@PostMapping("no_member_login_pro")
 	public String no_member_login_pro(MemberVO noMember, Model model, HttpSession session) {
 		
+		// 중복되면 안되는 정보 (member_phone)이 중복되는 경우 돌려보내기
+		String member_phone = noMember.getMember_phone();
+		boolean isExistPhone = service.isExistPhone(member_phone);
+		if(isExistPhone) { // 이미 DB상에 존재하는 phone번호인 경우
+			model.addAttribute("msg", "이미 등록되어있는 전화번호입니다. 회원로그인 및 다른 전화번호를 사용해주세요.");
+			return "fail_back";
+		}
+		
+		// 패스워드 암호화(해싱)--------------
+		// => MyPasswordEncoder  클래스에 덮어쓰기
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPasswd(noMember.getMember_pass());
+		
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		noMember.setMember_pass(securePasswd);
 		
 		// 비회원 로그인 작업 
 		// MemberService - noMemberLogin()
@@ -396,7 +413,7 @@ public class MemberController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id != null) {
 			model.addAttribute("msg", " 잘못된 접근!");
-			
+		
 			return "fail_back";
 		}
 		
@@ -405,27 +422,45 @@ public class MemberController {
 	
 	// 비회원 예매 확인을 위한 로그인
 	@PostMapping("noMemberCheckPro")
-	public String no_member_reservation_check_pro(String member_name, String member_phone, String member_pass,
+	public String no_member_reservation_check_pro(MemberVO noMember,
 					Model model, HttpSession session) {
+		
+		// 비밀번호 암호화
+//		String securePasswd = service.getPasswd(noMember);
+//		System.out.println(securePasswd);
+//		System.out.println(noMember.getMember_pass());
+		
+		
 		
 		// 이름, 휴대폰번호, 비밀번호를 받아 맞는 레코드 조회
 		// MemberService - getNoMemberPasswd()
 		// 파라미터 : String 파라미터 두 개(member_name, member_phone)	리턴타입 : String(passwd)
-		String passwd = service.getNoMemberPasswd(member_name, member_phone);
-		System.out.println(passwd);
+		String securePasswd = service.getNoMemberPasswd(noMember.getMember_name(), noMember.getMember_phone());
+		System.out.println(securePasswd);
 		
-		if (passwd == null || !passwd.equals(member_pass)) {	// 가져오는 비밀번호가 없음
-			
-			model.addAttribute("msg", "입력하신 정보와 일치하는 예매내역이 없습니다.다시 한 번 정보를 확인해주세요.");
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		// => 파라미터 : 평문, 암호화 된 암호 		리턴타입 : boolean
+		// 로그인 성공/ 실패 여부 판별하여 포워딩
+		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
+		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
+		
+		System.out.println("securePasswd : " + securePasswd);
+	
+		if(noMember.getMember_pass() ==  null || !passwordEncoder.matches(noMember.getMember_pass(), securePasswd)) {		
+			// 아이디로 조회 시 없는 아이디일 때
+			model.addAttribute("msg", "입력하신 정보와 일치하는 예매내역이 없습니다. "
+					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
-			
-		} else  {	// 비밀번호 일치 -> 로그인 성공
-			session.setAttribute("member_id", member_name);
+		}  else  {	// 비밀번호 일치 -> 로그인 성공
+			session.setAttribute("member_id", noMember.getMember_name());
 			// 세션에 "member_type"로 저장해서 비회원의 경우 권한 제한
 			session.setAttribute("member_type", "비회원");
 			// 마이페이지 홈으로 이동
 			return "myPage/myPage_reservation_history";
-		} 
+		}
 		
 	}
 	

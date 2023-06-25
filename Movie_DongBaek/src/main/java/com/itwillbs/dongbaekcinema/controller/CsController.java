@@ -53,6 +53,13 @@ public class CsController {
 			return "fail_location";
 		}
 		
+		// 비회원의 경우도 사용하지 못하게 접근 불가시키기
+		String member_type = (String) session.getAttribute("member_type");
+		if(member_type.equals("비회원")) {
+			model.addAttribute("msg", "가입한 회원만 가능한 작업입니다. 로그인 후 이용해주세요.");
+			return "fail_back";
+		}
+		
 		return "cs/cs_qna_form";
 	}
 	

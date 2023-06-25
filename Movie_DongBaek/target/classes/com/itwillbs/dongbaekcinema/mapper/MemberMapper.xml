@@ -48,6 +48,15 @@
 				member_id = #{member_id}
 	</select>
 	
+	<!-- (member_phone)이 중복 확인 - SELECT -->
+	<select id="selectMemberByPhone" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+		SELECT *
+			FROM MEMBERS
+			WHERE
+				member_phone = #{member_phone}
+	</select>
+	
+	
 	<!-- 비회원 로그인(가입) 작업을 위한 메서드 -->
 	<insert id="insertNoMember">
 		INSERT
