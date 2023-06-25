@@ -72,6 +72,16 @@ a:hover, a:active{
 }
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+//     $(".selectBtn").click(function(){
+//         var cs_type_keyword = $(this).val();
+//         alert(cs_type_keyword);
+//         $("#selectForm").submit();
+//     });
+});
+</script>
 
 </head>
 <body>
@@ -86,69 +96,70 @@ a:hover, a:active{
    <div class="container container-fluid w-900" >
   
 
-<br><h1>자주묻는 질문</h1>
-<!-- <div class="btn-group " role="group" aria-label="Basic example"> -->
-<!--   <button type="button" class="btn btn-outline-secondary">전체</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">예매</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">멤버십</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">결제수단</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">극장</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">스토어</button> -->
-<!--   <button type="button" class="btn btn-outline-secondary">할인혜택</button> -->
-<!--   <hr> -->
-<!--   </div> -->
-  <hr>
-  	<%-- 본문 테이블 --%>
-  	<div class="row">
-  	<table class="table table-striped text-center align-middle">
-	  <%-- 테이블 헤드 --%>
-	  <thead>
-	    <tr>
-	      <th scope="col" width="100px">번호</th>
-	      <th scope="col" width="100px">유형</th>
-	      <th scope="col" width="600px">제목</th>
-	      <th scope="col" width="100px">작성자</th>
-	      <th scope="col" width="100px">등록일</th>
-	    </tr>
-	  </thead>
-	  <%-- 테이블 바디--%>
-	  <tbody>
-	  	    <tr>
-	  <%-- CS 목록 출력 --%>
-	  <c:forEach var="csInfo" items="${csInfoList }">
-	    <tr>
-	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
-	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
-	      <td scope="col" class="align-middle text-left">
-	      		<a href="admin_cs_faq_modify_form?cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
-	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
-	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
-	      </td>
-	    </tr>
-	  </c:forEach>
-<!-- 	    <tr> -->
-<!-- 	      <td scope="col" class="align-middle">24</th> -->
-<!-- 	      <td scope="col" class="align-middle">예매</td> -->
-<!-- 	      <td scope="col" class="align-middle">안녕하세요</td> -->
-<!-- 	      <td scope="col" class="align-middle">관리자</td> -->
-<!-- 	      <td scope="col" class="align-middle">2022-02-02</td> -->
-<!-- 	    </tr> -->
+		<br><h1>자주묻는 질문</h1>
+		<form action="admin_cs_faq"  id="selectForm"  method="get">
 
-	    <%-- 밑줄 용 빈칸 --%>
-	    <tr>
-	     <th scope="row"></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	    </tr>
+		<div class="btn-group row col" role="group" aria-label="Basic example">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="전체">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="예매">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="멤버십">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="결제수단">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="극장">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="스토어">
+		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="할인혜택">
+		</div>
+			<div class="row col d-flex flex-row-reverse">
+				<br>
+			  	<button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">글쓰기</button>
+			</div>
+
+		</form>
+		<hr>
+	  	<%-- 본문 테이블 --%>
+	  	<div class="row">
+	  	<table class="table table-striped text-center align-middle">
+		  <%-- 테이블 헤드 --%>
+		  <thead>
+		    <tr>
+		      <th scope="col" width="100px">번호</th>
+		      <th scope="col" width="100px">유형</th>
+		      <th scope="col" width="600px">제목</th>
+		      <th scope="col" width="100px">작성자</th>
+		      <th scope="col" width="100px">등록일</th>
+		    </tr>
+		  </thead>
+		  <%-- 테이블 바디--%>
+		  <tbody>
+		  	    <tr>
+		  <%-- CS 목록 출력 --%>
+		  <c:forEach var="csInfo" items="${csInfoList }">
+		    <tr>
+		      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
+		      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
+		      <td scope="col" class="align-middle text-left">
+		      		<a href="admin_cs_faq_modify_form?cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
+		      <td scope="col" class="align-middle">${csInfo.member_id }</td>
+		      <td scope="col" class="align-middle">
+		      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
+		      </td>
+		    </tr>
+		  </c:forEach>
 	
-	  </tbody>
-	</table>
-  	</div>
-  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">등록</button></div>
-	<div class="col col-md-1"></div>
+	
+		    <%-- 밑줄 용 빈칸 --%>
+		    <tr>
+		     <th scope="row"></th>
+		     <th></th>
+		     <th></th>
+		     <th></th>
+		     <th></th>
+		    </tr>
+		
+		  </tbody>
+		</table>
+	  	</div>
+
+	</div>
  <%-- 페이징 --%>
  
  <nav aria-label="...">
@@ -159,7 +170,7 @@ a:hover, a:active{
 	<c:choose>
 		<c:when test="${pageNo > 1 }">
 			<li class="page-item">
-		      <a class="page-link" href="admin_cs_notice?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
+		      <a class="page-link" href="admin_cs_faq?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
 		    </li>
 		</c:when>
 		<c:otherwise>
@@ -180,7 +191,7 @@ a:hover, a:active{
 				<c:otherwise>
 				    <%-- 다른 페이지 --%>
     				<li class="page-item">
-    				  <a class="page-link" href="admin_cs_notice?pageNo=${i }">${i }</a>
+    				  <a class="page-link" href="admin_cs_faq?pageNo=${i }">${i }</a>
     				</li>
 				</c:otherwise>
 			</c:choose>
@@ -191,7 +202,7 @@ a:hover, a:active{
 		<c:choose>
 			<c:when test="${pageNo < pageInfo.maxPage }">
 				<li class="page-item">
-				 <a class="page-link" href="admin_cs_notice?pageNo=${pageNo + 1}">&raquo;</a>
+				 <a class="page-link" href="admin_cs_faq?pageNo=${pageNo + 1}">&raquo;</a>
 			    </li>
 			</c:when>
 			<c:otherwise>
