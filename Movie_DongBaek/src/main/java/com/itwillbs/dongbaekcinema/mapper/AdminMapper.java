@@ -50,7 +50,6 @@ public interface AdminMapper {
 	
 	
 	
-	
     // CS 게시판 목록 가져오기
     List<CsInfoVO> getCsWithPaging(@Param("start") int start, @Param("pageListLimit") int pageListLimit, @Param("condition") String condition);
 
@@ -74,6 +73,12 @@ public interface AdminMapper {
 
 	// CS 게시판 1:1 게시판 답변 추가
 	public int updateReply(@Param("condition")String condition, @Param("qnaInfo")CsInfoVO qnaInfo);
+
+	// CS 게시판 자주묻는 질문 키워드 목록 가져오기
+	public List<CsInfoVO> getCsWithKeywordPaging(@Param("start")int start, @Param("pageListLimit")int pageListLimit, @Param("condition")String condition, @Param("cs_type_keyword")String cs_type_keyword);
+
+	// CS 게시판 키워드로 총 목록 개수 조회하기
+	public int getCsCountKeyword(@Param("condition")String condition, @Param("cs_type_keyword")String cs_type_keyword);
 	
 	
 	

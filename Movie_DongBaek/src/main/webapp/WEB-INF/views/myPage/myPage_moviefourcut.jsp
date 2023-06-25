@@ -13,9 +13,24 @@
 
 <title>영화 예매 사이트</title>
 <style>
-	.container-top{
-		margin: 3rem;
+	#mainNav{
+	/* 		border: 1px solid #f00; */
+		padding: 8rem 2rem;	
 	}
+		
+	#mainNav>ul{
+		list-style: none;
+	}
+	<%-- a링크 활성화 색상 변경 --%>
+	a:hover, a:active{
+	 color:  #ff5050 !important;
+		
+	}
+
+	.container-top{
+/* 		margin: 3rem; */
+	}
+	
 	aside{
 		margin: 10px;
 		background-color: #d5b59c;
@@ -24,12 +39,10 @@
 	/* 예매 선택 구간 */
 	/* 크기 조절 */
 	.container-fluid{
-		width: 900px;
-		margin: 1rem;
-		padding-left: 2rem;
 		border: 2px solid #aaa;
 	/* 	background-color: #d5b59c; */
 	}
+	
 	div{
 		background-color: transparent;
 	}
@@ -58,13 +71,6 @@
 		background-color: #e2cdbc;
 	}
 
-	#mainNav{
-/* 		border: 1px solid #f00; */
-		padding: 8rem 2rem;
-	}
-	#mainNav>ul{
-		background-color: #d5b59c;
-	}
 	.row>div {
 		margin: 1rem;
 /* 		border: 1px solid red; */
@@ -153,7 +159,7 @@
   <article id="mainArticle">
   <%--본문내용 --%>
 	<h2>인생영화네컷 만들기</h2>
-	<div class="container-fluid reservation_con" >
+	<div class="container container-fluid w-900 reservation_con" >
             <div class="row">
             	
             	<%-- 미리보기 파트 --%>

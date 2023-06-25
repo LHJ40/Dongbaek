@@ -11,7 +11,19 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
 </style>
 </head>
 <body>
@@ -20,7 +32,7 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
-  	<div class="container">
+  	<div class="container container-fluid w-900">
   		<div class="mainTop">
 		 	<span>영화제목</span>  <%-- css로 색이랑 입히기 --%>
 		 	<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  <%--디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>

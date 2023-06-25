@@ -8,10 +8,15 @@
 			FROM ORDER_MY_TICKET
 			WHERE 
 				ORDER_MY_TICKET.member_id = #{member_id}
-<!-- 				AND payment_datetime &gt;= SUBDATE(now(), INTERVAL 3 MONTH) -->
-<!-- 				AND payment_datetime &lt;= now() -->
-			LIMIT 3 -- 후에 pageNum으로 조절할 예정
-  </select>
+				AND LEFT(order_num, 8) &gt;= SUBDATE(NOW(), INTERVAL 1 MONTH)
+			ORDER BY
+				order_num DESC
+			<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
+				LIMIT 
+					#{startRow}
+					, #{listLimit}
+			</if>
+	</select>
   
   <!-- 나의 멤버십 등급 조회 -->
   <select id="selectMyGrade" resultType="com.itwillbs.dongbaekcinema.voNew.GradeNextVO">

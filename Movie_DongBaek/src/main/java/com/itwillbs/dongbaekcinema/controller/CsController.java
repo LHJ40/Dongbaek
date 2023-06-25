@@ -38,6 +38,31 @@ public class CsController {
 		// 모델에 저장해 이동하기
 //		model.addAttribute("board_csNotice", board_csNotice);
 		
+		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = listLimit; // 조회 시작 행(레코드) 번호 (다섯개만 보여줄거임)
+		
+		int startPage = listLimit + 1; // 시작할 페이지
+//		System.out.println("startPage: " + startPage);
+		int endPage = startPage + listLimit -1; // 끝페이지
+		// CS 게시판 구분용 contiodion 변수(csType=1일경우 공지사항)
+		int listCount = admin_service.getCsTotalPageCount(listLimit, 1);
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+		if(endPage > maxPage) { 
+			endPage = maxPage;
+		}
+//		System.out.println("어드민 컨트롤러 공지사항 스타트페이지" + startPage +", 엔드 페이지:"+ endPage);
+		// --------------------------------------------------------------------------
+		
+		// 공지사항 목록 조회
+		List<CsInfoVO> csInfoList = admin_service.getCsList(1, listLimit, startRow, 1);
+		
+		model.addAttribute("csInfoList", csInfoList);
+
 		return "cs/cs_main";
 	}
 	
@@ -51,6 +76,13 @@ public class CsController {
 			model.addAttribute("msg", "회원만 가능한 작업입니다. 로그인 후 이용해주세요.");
 			model.addAttribute("targetURL", "member_login_form");
 			return "fail_location";
+		}
+		
+		// 비회원의 경우도 사용하지 못하게 접근 불가시키기
+		String member_type = (String) session.getAttribute("member_type");
+		if(member_type.equals("비회원")) {
+			model.addAttribute("msg", "가입한 회원만 가능한 작업입니다. 로그인 후 이용해주세요.");
+			return "fail_back";
 		}
 		
 		return "cs/cs_qna_form";

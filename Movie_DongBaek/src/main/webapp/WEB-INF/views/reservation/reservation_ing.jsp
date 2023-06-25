@@ -29,7 +29,7 @@ article {
 	/* 예매 선택 구간 */
 	/* 크기 조절 */
 	.container-fluid{
-		width: 900px;
+		width: 1200px;
 		padding-left: 2rem;
 		border: 2px solid #aaa;
 	/* 	background-color: #d5b59c; */
@@ -59,7 +59,7 @@ article {
 	/* 위 파트와 구별을 위한 색상 부여 */
 	.row2{
 		padding-top: 0.5rem;
-		height: 150px;
+		height: 200px;
 		background-color: #aaa;
 	}
 	
@@ -74,7 +74,7 @@ article {
 	/* 극장 파트 좌우 배치 */
 	#region{
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 130px;
 		display: inline-block;
 		vertical-align: top;
 		padding-top: 1.5rem;
@@ -82,7 +82,7 @@ article {
 	#room{
 		vertical-align: top;
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 300px;
 		display: inline-block;
 		padding-top: 1.5rem;
 		
@@ -135,7 +135,7 @@ article {
  	            
  	            name: '주문명:동백시네마',
  	            //결제창에서 보여질 이름
- 	            amount: 1000, 
+ 	            amount:1000, //${totalprice}
  	            //가격 
  	            buyer_email: '${member.member_email}',
  	            buyer_name: '${member.member_name}',
@@ -157,17 +157,17 @@ article {
                        type: "POST",
                         data:{
                        "order_num" :  rsp.merchant_uid,//주문번호
-                       "order_total_price": 2000, //할인전 총금액 임시	
+                       "order_total_price": ${beforeTotalprice}, //할인전 총금액 	
                        "member_id" : '${member.member_id}', // 회원아이디
                        "payment_num" : rsp.imp_uid,//고유ID
                        "payment_name": '${member.member_name}',//주문자명
                        "payment_datetime" : timestamp(),//결제시간
                        "payment_total_price" : rsp.paid_amount,//총결제금액
                        "payment_status":'결제완료',
-                       "play_num":'${param.play_num}',
-                       "seat_num":10,//임시
-                       "ticket_type_num":1,//임시
-                       "payment_card_num":11123, //임시
+                       "play_num":${param.play_num},
+                       "seat_name":"${param.seat_name}",//임시
+                       "ticket_type_num_param":"${param.ticket_type_num}",//임시
+                       "payment_card_num":rsp.apply_num, //임시
                        "payment_card_name":"NH"//임시
                        },
                        dataType: "json", 
@@ -176,7 +176,7 @@ article {
                        if (res > 0) {
                            alert('주문정보 저장 성공');
 //                            createPayInfo(uid);
-                           location.href='reservation_check';
+                           location.replace='reservation_check';
                        }
                        else {
                     	   alert('주문정보 저장 실패');
@@ -245,6 +245,9 @@ article {
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
+<c:set var="morning" value='<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조' />
+<c:set var="night" value='<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야' />
+<c:set var="general" value='일반' />
   <%--본문내용 --%>
 		<h2>영화 예매</h2>
 		<div class="container-fluid reservation_con" >
@@ -256,7 +259,7 @@ article {
 	                </div>
 	                
 	                <%-- 예매 진행 중인 예매 정보 출력 파트 --%>
-	                <div class="col-4">
+	                <div class="col-4.5">
 		                <%-- 테두리가 없는 테이블 --%>
 		                <%-- 예매 진행 중인 구체적인 내용 출력 --%>
 					 	<table id="region" class="table table-borderless">
@@ -276,10 +279,12 @@ article {
 					 	<table id="room" class="table table-borderless">
 					 		<thead>
 					 		<tr>
-					 			<th scope="col" width="180px">&nbsp;</th>
+					 			<td scope="col" ><c:if test="${reservation.play_time_type eq '조조'}">${morning}</c:if>
+															  <c:if test="${reservation.play_time_type eq '심야'}">${night}</c:if>
+															  <c:if test="${reservation.play_time_type eq '일반'}">${general}</c:if></td>
 					 		</tr>
 					 		</thead>
-					 		<tbody>
+					 		<tbody >
 					 		<tr><td>${reservation.movie_name_kr }</td></tr>
 					 		<tr><td>${reservation.theater_name } ${reservation. room_name }</td></tr>
 					 		<tr><td>${reservation.play_date} ${reservation.play_start_time }</td></tr>
@@ -289,48 +294,60 @@ article {
 	                </div>
 	                
 					<%-- 결제할 금액을 명시하는 파트 --%>
-	                <div class="col-4">
+	                <div class="col-3.5">
 				  		<table class="table table-striped">
 				  			<%-- 상단의 멤버십 사진 대신 할인금액에서 멤버십 이라는 단어를 사용해 할인이 된다 정도만 명시하면 좋을듯
 				  			회원인 경우 멤버십을 마이페이지에서 확인할 수 있고
 				  			비회원인 경우 멤버십이 필요가 없음 --%>
-				  			
-				  			
-				  			<tr>
-				  			 <c:forEach var="ticket" items="${ticketPriceList}" >
-					 		 ${ticket.ticket_user_type}
-							 ${ticket.ticket_type_price}<br>
-					 		<c:set var= "total" value="${total + ticket.ticket_type_price}"/>
-					 		
-						    </c:forEach>
-						    </tr>
-				  			<tr>
-				  				<td colspan="3"><b>영화 총 금액</b> ${total}원</td>
+				  	<tr>
+				  	<td colspan="3">
+				  			<c:set var = "total" value = "0" />
+	               	<c:set var = "count" value = "1" />
+					  <c:forEach var="ticket" items="${ticketPriceList}" varStatus="status" >
+					  	<c:choose>
+							<c:when test="${status.index eq 0 }" >
+							  ${ticket.ticket_user_type}
+							  ${ticket.ticket_type_price}
+							  <c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+					  		</c:when>
+							<c:when test="${status.index ne 0 }" >
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type eq ticket.ticket_user_type }">
+								
+							    <c:set var = "count" value = "${count + 1}"/>
+								</c:if>
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type ne ticket.ticket_user_type }">
+								X${count}<br>
+								<c:set var = "count" value = "1"/>
+								 ${ticket.ticket_user_type}
+							  	${ticket.ticket_type_price}
+								</c:if>
+								<c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+							</c:when>
+						</c:choose>
+					  <c:set var= "total" value="${total + ticket.ticket_type_price}"/>
+					  </c:forEach>
+				  			</td>
 				  			</tr>
-<!-- 				  				<tr> -->
-<!-- 				  					<th>성인</th> -->
-<!-- 				  					<td> 2 명 </td> -->
-<!-- 				  					<td> 30,000 원</td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
-<!-- 				  					<th>청소년</th> -->
-<!-- 				  					<td> 0 명 </td> -->
-<!-- 				  					<td> 0 원 </td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
-<!-- 				  					<th>경로/우대</th> -->
-<!-- 				  					<td> 0 명 </td> -->
-<!-- 				  					<td> 0 원 </td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
+				  			
+				  		
+				  			<tr>
+				  				<td ><b>영화 총 금액</b> </td>
+				  				<td>${total}원</td>
+				  				<td></td>
+				  			</tr>
+
 							<tr>
 				  					<th>할인금액</th>
 				  					<fmt:parseNumber var= "grade_discount" integerOnly= "true" value= "${total*member_grade.grade_discount}" />
 				  					 <c:if test="${member_grade.grade_name eq 'NONE'}">
 				  					<c:set var= "grade_discount" value="0"/>
 				  					</c:if>
-				  					<td>${member_grade.grade_name }</td>
 				  					<td>${grade_discount }원 </td>
+				  					<td>${member_grade.grade_name } </td>
 				  				</tr>
 				  				<tr>
 				  					<th>최종 영화금액 </th>
@@ -347,31 +364,33 @@ article {
 	            	<%-- 선택한 스낵의 사진 --%>
 	         <c:if test="${snackNumlist ne null}">
 	                <div class="col-3" align="center">
-				  		<img src="${snackNumlist[0].snack_img }" height="100px" width="100px">
+				  		<img src="${pageContext.request.contextPath }/resources/img/${snackNumlist[0].snack_img }" height="100px" width="100px">
 					</div>
 					<%-- 선택한 스낵의 정보 --%>
-	                <div class="col-3">
-	                	<table id="snackregion" class="table table-borderless">
-					 		<tr>
-					 			<th scope="col" colspan="2">스낵 정보</th>
-					 		</tr>
-					 		<tr>
-					 		<td>
-					 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
-					 		 	${snack.snack_name}
-								 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
-								 <c:set var= "sancktotal" value="${sancktotal + snack.snack_price*snackquantitylist[status.index]}"/>
-					 		 </c:forEach>
-					 		 ${sancktotal}원
-					 		</td>
-					 		</tr>
-					 		
-					 	</table>
-	                </div>
+		                <div class="col-3">
+		                	<table id="snackregion" class="table table-borderless">
+						 		<tr>
+						 			<th scope="col" colspan="2"><b>스낵 정보</b></th>
+						 		</tr>
+						 		<tr>
+						 		<td>
+						 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
+						 		 	${snack.snack_name}
+									 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
+									 <c:set var= "sancktotal" value="${sancktotal + snack.snack_price*snackquantitylist[status.index]}"/>
+						 		 </c:forEach>
+						 		 <b>스낵 총 금액</b> ${sancktotal}원
+						 		</td>
+						 		</tr>
+						 		
+						 	</table>
+		                </div>
 	                </c:if>
+	               
 	                <div class="col-3">
-	                <h5>최종 결제 금액</h5>
-	                <h5>${total-grade_discount+sancktotal}원</h5>
+	                <h2>최종 결제 금액</h2>
+	                <c:if test="${snackNumlist ne null}">영화(${total-grade_discount})+스낵(${sancktotal})</c:if>
+	                <h3>=<fmt:formatNumber value="${total-grade_discount+sancktotal }" pattern="#,###" />원</h3>
 	                </div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
 	                <div class="col-3">

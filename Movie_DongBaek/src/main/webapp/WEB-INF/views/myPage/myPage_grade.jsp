@@ -20,11 +20,28 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
+	#mainNav{
+	/* 		border: 1px solid #f00; */
+		padding: 8rem 2rem;
+		margin-top:15px;
+		margin-bottom:15px;
+	}
+		
+	#mainNav>ul{
+		list-style: none;
+	}
+	<%-- a링크 활성화 색상 변경 --%>
+	a:hover, a:active{
+	 color:  #ff5050 !important;
+		
+	}
+	
 	/* 본문내용과 사이드바 위, 아래 여백주기 */
-	#mainArticle, #mainNav {
+	#mainArticle{
 		margin: 50px auto 30px;
 	}
 	.mainTop {
@@ -53,8 +70,8 @@
 	}
 	/* 글자 연하게 */
 	i {
-/* 		font-style: none; */
-		style: #eee;
+ 		font-style: none; 
+ 		style: #eee; 
 	}
 </style>
 <script type="text/javascript">
@@ -79,7 +96,7 @@
 	<article id="mainArticle">
 		<%--본문내용 --%>
 		<h2> 나의 멤버십 등급</h2>
-		<div class="container part">
+		<div class="container part container-fluid w-900">
 			<div class="mainTop">
 				<h3>
 					${member_id} 님은 <strong>${myGrade.grade_name}</strong> 등급입니다

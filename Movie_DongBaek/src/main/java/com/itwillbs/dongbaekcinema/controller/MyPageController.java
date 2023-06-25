@@ -38,6 +38,9 @@ public class MyPageController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private MovieLikeService likeService;
+	
 	//  마이페이지 메인화면
 	@GetMapping("myPage")
 	public String myPage(HttpSession session, Model model) {
@@ -57,8 +60,8 @@ public class MyPageController {
 		GradeNextVO myGrade = service.getMyGrade(member_id);
 //		System.out.println(myGrade);
 		
-		// 세션 아이디로 예매내역 받아오기
-		List<MyTicketVO> myTicketList = service.getMyTicket(member_id);
+		// 세션 아이디로 예매내역 받아오기(최근 세개만)
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, 0, 2);
 		
 		// 세션 아이디로 회원 이름 받아오기
 		MemberVO member = memberService.getMember(member_id);
@@ -77,7 +80,9 @@ public class MyPageController {
 	
 	// 마이페이지 -  예매내역 페이지로 이동
 	@GetMapping("myPage_reservation_history")
-	public String myPage_reservation_history(HttpSession session, Model model) {
+	public String myPage_reservation_history(HttpSession session, Model model,
+			// 페이징 처리
+			@RequestParam(defaultValue = "1") int pageNo ) {
 		// 세션아이디로 나의 예매/구매 내역 보여주기
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
@@ -88,12 +93,40 @@ public class MyPageController {
 			return "fail_location";
 		}
 		
+		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
+		
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
 		// 나의 예매내역 조회
 		// MypageService - getMyTicket()
 		// 파라미터 : member_id		리턴타입 : List<MyTicketVO>(myTicketList)
-		List<MyTicketVO> myTicketList = service.getMyTicket(member_id);
-//		System.out.println(myTicketList);
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, startRow, listLimit);
 		
+		List<MyTicketVO> myTicketListAll = service.getMyTicket(member_id, 0, 0);
+		int listCount = myTicketListAll.size();
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 5;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+		if(endPage > maxPage) { 
+			endPage = maxPage;
+		}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+		
+		model.addAttribute("pageInfo", pageInfo);
 		
 		// 받아온 예매내역 전달
 		model.addAttribute("myTicketList", myTicketList);
@@ -103,7 +136,9 @@ public class MyPageController {
 	
 	// 마이페이지 -  구매내역 페이지로 이동
 	@GetMapping("myPage_buy_history")
-	public String myPage_buy_history(HttpSession session, Model model) {
+	public String myPage_buy_history(HttpSession session, Model model,
+			// 페이징 처리
+			@RequestParam(defaultValue = "1") int pageNo) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
@@ -117,11 +152,45 @@ public class MyPageController {
 		// 구매내역 페이징 생각하기
 		int pageNum = 3;
 		
+		// 한 페이지에 보여줄 게시물 수
+		int listLimit = 5; 
+		
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
 		// 나의 구매내역 조회
 		// MypageService - getMyPayment()
 		// 파라미터 : member_id		리턴타입 : List<PaymentVO>(myPaymentList)
-		List<BuyDetailVO> myPaymentList = paymentService.getMyPaymentList(member_id, pageNum);
-//		System.out.println(myPaymentList);
+		List<BuyDetailVO> myPaymentList = paymentService.getMyPaymentList(member_id, startRow, listLimit);
+		
+		// 나의 예매내역 조회
+		// MypageService - getMyTicket()
+		// 파라미터 : member_id		리턴타입 : List<MyTicketVO>(myTicketList)
+		
+		List<BuyDetailVO> myPaymentListAll = paymentService.getMyPaymentList(member_id, 0, 0);
+		int listCount = myPaymentListAll.size();
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 5;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+		if(endPage > maxPage) { 
+			endPage = maxPage;
+		}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+		
+		model.addAttribute("pageInfo", pageInfo);
 		
 		//받아온 구매내역 전달
 		model.addAttribute("myPaymentList", myPaymentList);
@@ -200,7 +269,79 @@ public class MyPageController {
 	public String myPage_reviewWrite() {
 		return "myPage/myPage_reviewWrite";
 	}
-
+	
+	
+	// 마이페이지 - 찜한 영화 목록으로 이동
+	@GetMapping("myPage_like")
+	public String myPageLike(HttpSession session, Model model,
+			// 페이징 처리
+			@RequestParam(defaultValue = "1") int pageNo) {
+		
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		// 세션 아이디로 찜한 영화 목록 들고오기
+		// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
+		String member_type = (String) session.getAttribute("member_type");
+		String member_id = (String) session.getAttribute("member_id");
+		
+		if(member_id == null || member_type.equals("비회원")) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+			
+			return "fail_location";
+		}
+		
+		// 세션아이디로 나의 예매/구매 내역 보여주기
+		// 구매내역 페이징 생각하기
+		int pageNum = 5;
+		
+		// 한 페이지에 보여줄 게시물 수
+		int listLimit = 5; 
+		
+		// 조회 시작 행(레코드) 번호 계산
+		int startRow = (pageNo - 1) * listLimit;
+		
+		// 찜한 영화 목록 - 페이징
+		// LikeService - getLikeMovie()
+		// 파라미터 : member_id		리턴타입 : List<LikeVO>(likeList)
+//		List<MovieLikeVO> likeList = likeService.getLikeMovieList(member_id, startRow, listLimit); 
+//		System.out.println(likeList);
+		
+		int likeListCount = likeService.getLikeMovieCount(member_id); 
+		
+		
+		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
+		int pageListLimit = 5;
+		
+		// 3. 전체 페이지 목록 갯수 계산
+		int maxPage = likeListCount / listLimit + (likeListCount % listLimit > 0 ? 1 : 0);
+		
+		// 4. 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5. 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+		
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+		if(endPage > maxPage) { 
+			endPage = maxPage;
+		}
+		
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(likeListCount, pageListLimit, maxPage, startPage, endPage);
+		
+		model.addAttribute("pageInfo", pageInfo);
+//		model.addAttribute("likeList", likeList);
+		
+//			if(likeList != null) {
+//	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+//	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+//			}
+		
+		
+		return "myPage/myPage_like";
+	}
+	
+	
 	// 마이페이지 - 영화 네컷 페이지로 이동
 	@GetMapping("myPage_moviefourcut")
 	public String myPage_moviefourcut() {

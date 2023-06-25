@@ -13,6 +13,22 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
+/* a링크 활성화 색상 변경 */
+a:hover, a:active{
+ color:  #ff5050 !important;
+}
+
+table {
+	margin-top: 20px;
+}
 
 </style>
 <script type="text/javascript">
@@ -25,12 +41,11 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
-  	<div class="container">
+  	<div class="container container-fluid w-900">
   		<div class="mainTop">
 		  <h2>나의 예매내역</h2>
 		  <br>
 		  <span>지난 <b>1개월</b>까지의 예매내역을 확인하실 수 있습니다</span><br>
-				<hr>
 				<table class="table">
 					<c:choose>
 						<c:when test="${empty myTicketList}">
@@ -69,6 +84,58 @@
 					</c:choose>
 				</table>
 			</div>
+				
+		<%-- 페이징 처리 --%>
+		<nav aria-label="...">
+		    <ul class="pagination pagination-md justify-content-center">
+		        <%-- 이전 페이지로 이동 --%>
+		        <c:choose>
+		            <c:when test="${pageInfo.startPage > 1}">
+		                <li class="page-item">
+		                    <a class="page-link" href="myPage_reservation_history?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+		                </li>
+		            </c:when>
+		            <c:otherwise>
+		                <li class="page-item disabled">
+		                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+		                </li>
+		            </c:otherwise>
+		        </c:choose>
+		
+		        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+		        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+		            <c:choose>
+		                <%-- 현재 페이지 --%>
+		                <c:when test="${pageNo eq i}">
+		                    <li class="page-item active" aria-current="page">
+		                        <a class="page-link">${i} <span class="sr-only">(current)</span></a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                    <%-- 다른 페이지 --%>
+		                    <li class="page-item">
+		                        <a class="page-link" href="myPage_reservation_history?pageNo=${i}">${i}</a>
+		                    </li>
+		                </c:otherwise>
+		            </c:choose>
+		        </c:forEach>
+		
+		        <%-- 다음 페이지로 이동 --%>
+		        <c:choose>
+		            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+		                <li class="page-item">
+		                    <a class="page-link" href="myPage_reservation_history?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+		                </li>
+		            </c:when>
+		            <c:otherwise>
+		                <li class="page-item disabled">
+		                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+		                </li>
+		            </c:otherwise>
+		        </c:choose>
+		    </ul>
+		</nav>
+				
 	  </div>
   </article>
   
@@ -76,21 +143,6 @@
 		<%--왼쪽 사이드바 --%>
   		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
   	</nav>
-  
-<!--   <nav id="mainNav"> -->
-<%--   <%--왼쪽 사이드바 --%> --%>
-<!--   <!-- 	왼쪽 탭 링크들 --> -->
-<!--   	<h3>마이페이지</h3> -->
-<!-- 		<ul class="left-tap"> -->
-<!-- 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매 -->
-<!-- 					/ 구매내역</a></li> -->
-<!-- 			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li> -->
-<!-- 			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li> -->
-<!-- 			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li> -->
-<!-- 			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li> -->
-<!-- 			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li> -->
-<!-- 		</ul> -->
-<!--   </nav> -->
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>

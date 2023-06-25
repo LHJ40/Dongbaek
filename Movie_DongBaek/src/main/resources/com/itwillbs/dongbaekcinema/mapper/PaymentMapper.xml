@@ -91,8 +91,11 @@
 				, payment_datetime
 				, payment_total_price
 				, payment_status
-		LIMIT
-			#{pageNum}  -- 후에 pageNum으로 조절
+		<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
+				LIMIT 
+					#{startRow}
+					, #{listLimit}
+		</if>
 	</select>
 	
 	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회(지영) -->

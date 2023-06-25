@@ -20,7 +20,19 @@
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <title>영화 예매 사이트</title>
 <style>
-	
+	#mainNav{
+	/* 		border: 1px solid #f00; */
+		padding: 8rem 2rem;	
+	}
+		
+	#mainNav>ul{
+		list-style: none;
+	}
+	/* a링크 활성화 색상 변경 */
+	a:hover, a:active{
+	 color:  #ff5050 !important;
+		
+	}
 	/* 표 중간배치 */
 	.w-900 {
 		margin: 0 auto;
@@ -98,7 +110,7 @@
   <input type="hidden" id="payment_num" value="${myPaymentDetailList[0].payment_num}">
   <input type="hidden" id="order_num" value="${myPaymentDetailList[0].order_num}">
   <%--본문내용 --%>
-  	<div class="container w-900">
+  	<div class="container container-fluid w-900">
   		<div class="mainTop">
 			<h2>나의 구매 내역</h2>
 			<br>

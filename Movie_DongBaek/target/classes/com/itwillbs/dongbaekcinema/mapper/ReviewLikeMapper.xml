@@ -35,5 +35,10 @@
 				member_id = #{member_id}
 				AND review_num = #{review_num}
 	</delete>
+	
+	<select id="selectMember" resultType="int">
+		SELECT count(*) FROM MEMBERS
+		WHERE member_id = #{member_id}
+	</select>
 
 </mapper>

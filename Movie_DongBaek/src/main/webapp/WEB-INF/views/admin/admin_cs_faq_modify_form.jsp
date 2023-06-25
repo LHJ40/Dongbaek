@@ -34,6 +34,7 @@
 <style>
 #mainNav{
 /* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
 }
 	
 #mainNav>ul{
@@ -85,7 +86,7 @@ $(function() {
   <article id="mainArticle">
   <%--본문내용 --%>
   
-   <div class="container-fluid w-900" >
+   <div class="container container-fluid w-900" >
   
 
 	<form action="admin_cs_faq_modify_pro" id="cs_form" method="post" enctype="multipart/form-data">

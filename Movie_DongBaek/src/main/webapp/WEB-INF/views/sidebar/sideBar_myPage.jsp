@@ -26,10 +26,10 @@
 	      			<a class="nav-link" href="myPage_myReview">나의 리뷰<span class="sr-only">(current)</span></a>
 	    		</li>
 	    		<hr>
-<!--     		<li class="nav-item"> -->
-<!--       			<a class="nav-link" href="myPage_moviefourcut">영화네컷<span class="sr-only">(current)</span></a> -->
-<!--     		</li> -->
-<!--     		<hr> -->
+    		<li class="nav-item">
+      			<a class="nav-link" href="myPage_like">찜한 영화<span class="sr-only">(current)</span></a>
+    		</li>
+    		<hr>
 	    		<li class="nav-item">
 	      			<a class="nav-link" href="myPage_inquiry">문의내역<span class="sr-only">(current)</span></a>
 	    		</li>

@@ -111,4 +111,10 @@ public class ReservationService {
 		// TODO Auto-generated method stub
 		return mapper.selectTicketTypeListByNum(ticket_type_num);
 	}
+
+	public int getSeatNumListByName(String seat) {
+		// TODO Auto-generated method stub
+		return mapper.selectSeatNumListByName(seat);
+	}
+	
 }

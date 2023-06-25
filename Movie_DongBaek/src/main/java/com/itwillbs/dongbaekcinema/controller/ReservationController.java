@@ -222,42 +222,59 @@ public class ReservationController {
 
             return "fail_location";
         }
-        
+       
         List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
 		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
+		
+			int ticketTotalPrice=0;
+			int i=0;
 		   for(String ticket : ticketlist) {
 			   int ticket_num=Integer.parseInt(ticket);
 			   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticket_num);
 			   ticketPriceList.add(ticketType);
+			   ticketTotalPrice+=ticketPriceList.get(i).getTicket_type_price();
+			   i++;
 	        }
+		  
+		   System.out.println(ticketTotalPrice);
 		   
 		   model.addAttribute("ticketPriceList", ticketPriceList);
        
-		   System.out.println("여기");
+		   List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
+		   int snackTotalPrice=0;
 		   if(!snack_num.equals("")) {
-			   List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
 			   String snacklist[]=snack_num.split(",");
+			   int i2=0;
+			   int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();//문자열 ,단위로 나눠 int 타입 배열로 저장 
 			   for(String snack : snacklist) {
 				   int snackNum=Integer.parseInt(snack);
 				   SnackVO snacks=service2.getSnackListByNum(snackNum);
 				   snackNumlist.add(snacks);
+				   snackTotalPrice+=snackNumlist.get(i2).getSnack_price()*snackquantitylist[i2];
+				   i2++;
 			   };
+			  
+			   System.out.println(snackTotalPrice);
 			   model.addAttribute("snackNumlist", snackNumlist);
-			   int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();
 			   model.addAttribute("snackquantitylist", snackquantitylist);
 		   }
 			   
-		  
+		int beforeTotalprice=ticketTotalPrice+snackTotalPrice;
+		model.addAttribute("beforeTotalprice", beforeTotalprice);  
         
         
 		String member_id=(String) session.getAttribute("member_id");
 		System.out.println(member_id);
 		MemberVO member=service4.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
+		int discount=(int) (ticketTotalPrice*member_grade.getGrade_discount());
+		
 		ReservationVO reservation = service.getPlay(play_num);
 		model.addAttribute("reservation", reservation);
 		model.addAttribute("member", member);
 		model.addAttribute("member_grade", member_grade);
+		int totalprice=ticketTotalPrice-discount+snackTotalPrice;
+		model.addAttribute("totalprice", totalprice);
 //		System.out.println(member);
 //		System.out.println(member_grade);
 		return "reservation/reservation_ing";
@@ -313,11 +330,26 @@ public class ReservationController {
 	}
 	@RequestMapping(value ="complete", method = RequestMethod.POST)
 	@ResponseBody
-	public int paymentComplete(OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
+	public int paymentComplete(String seat_name,String ticket_type_num_param,OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
 			) throws Exception {
-		    System.out.println(order);
-		    System.out.println(ticket);
-		    System.out.println(payment);
+		
+			List<Integer> seatNumList=new ArrayList<Integer>();
+	        String seatlist[] =seat_name.split(",");
+	        int ticket_num [] = Stream.of(ticket_type_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
+	        for(String seat : seatlist) {
+	        	int seatnum=service.getSeatNumListByName(seat);
+	        	seatNumList.add(seatnum);
+	        }
+	       
+	        
+	        
+	        
+//	        System.out.println(seatNumList);
+//			System.out.println(ticket_type_num_param);
+//			System.out.println(seat_name);
+//		    System.out.println(order);
+//		    System.out.println(ticket);
+//		    System.out.println(payment);
 //		    String token = payService.getToken();
 //		    
 //		    // 결제 완료된 금액
@@ -333,11 +365,17 @@ public class ReservationController {
 //			}
 //			orderService.insert_pay(orderDTO);
 		    int insertCount=service.registOrder(order);
-		    int insertCount2=service.registTicket(ticket);
-		    int insertCount3=service.registPayment(payment);
+		    int insertCount2=service.registPayment(payment);
+		    for(int seat:seatNumList) {
+	        	int i=0;
+	        	ticket.setSeat_num(seat);
+	        	ticket.setTicket_type_num(ticket_num[i]);
+	        	service.registTicket(ticket);
+	        }
+		    
 		    System.out.println(insertCount);
 		    System.out.println(insertCount2);
-		    System.out.println(insertCount3);
+		   
 			return res;
 		 
 	}

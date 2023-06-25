@@ -3,11 +3,9 @@
 <script type="text/javascript">
 	
 </script>
-
 <div class="sidebar-sticky">
+<h1> 관리자페이지 </h1>
   <ul class="nav flex-column">
-    <li class="nav-item"  style="height:100px;">
-    </li>
     <li class="nav-item">
       <a class="nav-link" href="admin_main">
         홈<span class="sr-only">(current)</span>
