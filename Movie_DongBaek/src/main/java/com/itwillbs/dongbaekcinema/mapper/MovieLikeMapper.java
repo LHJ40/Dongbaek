@@ -18,5 +18,11 @@ public interface MovieLikeMapper {
 	// 찜 취소(지영)
 	int deleteLikeMovie(MovieLikeVO movieLike);
 	
+	// 찜 영화 갯수 세기 -> 페이징
+	int countLikeMovie(String member_id);
+	
+	// 찜한 영화 목록 - 페이징
+//	List<MovieLikeVO> selectLikeMovieList(String member_id, int startRow, int listLimit);
+	
 	
 }

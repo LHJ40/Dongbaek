@@ -30,6 +30,16 @@ public class MovieLikeService {
 		return mapper.deleteLikeMovie(movieLike);
 	}
 	
+	// 찜 영화 갯수 세기  -> 페이징
+	public int getLikeMovieCount(String member_id) {
+		return mapper.countLikeMovie(member_id);
+	}
+	
+	// 찜한 영화 목록 - 페이징
+//	public List<MovieLikeVO> getLikeMovieList(String member_id, int startRow, int listLimit) {
+//		return mapper.selectLikeMovieList(member_id, startRow, listLimit);
+//	}
+	
 	
 	
 }
