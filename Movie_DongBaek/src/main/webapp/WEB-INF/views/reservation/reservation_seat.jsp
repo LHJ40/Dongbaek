@@ -130,11 +130,14 @@
 	});
 	
 	$(function() {
+		
+		
 		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
 		$("#selectPeople button").on("click", function() {
 			$("#seat-part").removeClass("disabled");   // 좌석 선택 영역 disable 클래스 제거
 			$("#selectPeople button").removeClass("selected");
 			$(this).addClass("selected");
+			
 			
 			// play_num을 파라미터로 하여 OREDER_TICKETS 테이블에서 예약된 좌석 정보 가져오기
 			// 예약된 좌석의 경우 disabled 클래스를 추가하여 선택할 수 없게 설정하기  
@@ -174,6 +177,10 @@
 			let handiCount = Number(handiResult);
 			let countPeople = adultCount + teenagerCount + childCount + handiCount;
 			
+			
+
+			
+			
 			// 인원 선택 수 제한두기
 			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
 			if(countPeople > 8){   // 관람인원의 합이 8명 이상일 때
@@ -193,10 +200,17 @@
 				$("#seat-part button").removeClass("disabled");
 			}
 			
-// 			seatList.length = countPeople;
 			// 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때 
 			if (countPeople < seatList.length) {
 				alert("관람인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+// 				adultCount = adultCount + 1;
+// 				$("#selectPeople #adult button.result").html(adultCount); 
+// 				teenagerCount = teenagerCount + 1;
+// 				$("#selectPeople #teenager button.result").html(adultCount); 
+// 				childCount = childCount + 1;
+// 				$("#selectPeople #child button.result").html(adultCount); 
+// 				handiCount = handiCount + 1;
+// 				$("#selectPeople #handi button.result").html(adultCount); 
 				return;
 			}
 			
@@ -246,146 +260,153 @@
 			
 		});
 		
-	}); 
-	
+	});
 	// [좌석] 선택 시 ======================================================================================================================================================   
-   $(function() {
-      $("#seat-part button").on("click", function() {
-         let resultAdult = $("#selectPeople #adult button.result").text();
-         let resultTeenager = $("#selectPeople #teenager button.result").text();
-         let resultChild = $("#selectPeople #child button.result").text();
-         let resultHandi = $("#selectPeople #handi button.result").text();
-         let adultCount = Number(resultAdult);
-         let teenagerCount = Number(resultTeenager);
-         let childCount = Number(resultChild);
-         let handiCount = Number(resultHandi);
-         let countPeople = adultCount + teenagerCount + childCount + handiCount;
-         
-
-         
-         // 클릭된 좌석이 selected 클래스를 가지고 있으면
-         // selecte 클래스를 제거하고, 해당 좌석명을 seatList 배열에서 찾아서 제거
-         // splice()를 사용하기 위해 indexOf()를 이용해 해당하는 좌석명이 배열의 몇번째 요소인지 찾아서 제거하기
-         let selectedSeatName = $(this).attr("data-seat-name");
-         if ($(this).hasClass("selected")) {   
-            $(this).removeClass("selected");   
-
-            const index = seatList.indexOf(selectedSeatName);
-            if (index > -1) {
-               seatList.splice(index, 1);
-            }
-         } else {
-            // 클릭된 좌석이 selected 클래스를 가지고 있지 않으면
-            if (seatList.length >= countPeople) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 크거나 같아지면
-//             	$("#selectPeople #adult button.down").addClass("disabled");
-            	alert("좌석 선택이 완료되었습니다.");
-            
-               return;
-            } else if (countPeople < seatList.length) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때
-               alert("인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
-               return;
-            }
-            
-            $(this).addClass("selected");
-            seatList.push(selectedSeatName);
-         }
-   
-         console.log(seatList);
-         
-         let res="";
-         for(let i = 0; i < seatList.length; i++){
-            res += "<b>" + seatList[i] + " </b>";
-         }
-         $("#seatInfo").html(res);
-//          $("#seatInfo").html(seatList);
-         
-         // TICKET_TYPES 테이블에서 가져온 티켓타입번호(ticket_type_num)을 
-         // seatList[]와 함께 파라미터로 전달하기 위해 ticketTypeNum[] 배열에 저장  
-         for (let i = 0; i < adultCount; i++) {
-            seatListForParam[i] = seatList[i] + "/일반";
-            ticketTypeNum[i] = $("#selectPeople #adult button.result").attr("data-ticket-type-num");
-         }
-         for (let i = adultCount; i < adultCount + teenagerCount; i++) {
-            seatListForParam[i] = seatList[i] + "/청소년";
-            ticketTypeNum[i] = $("#selectPeople #teenager button.result").attr("data-ticket-type-num");
-         }
-         for (let i = adultCount + teenagerCount; i < adultCount + teenagerCount + childCount; i++) {
-            seatListForParam[i] = seatList[i] + "/우대";
-            ticketTypeNum[i] = $("#selectPeople #child button.result").attr("data-ticket-type-num");
-         }
-         for (let i = adultCount + teenagerCount + childCount; i < adultCount + teenagerCount + childCount + handiCount; i++) {
-            seatListForParam[i] = seatList[i] +  "/장애인";
-            ticketTypeNum[i] = $("#selectPeople #handi button.result").attr("data-ticket-type-num");
-         }
-         
-//          const index1 = ticketTypeNum.indexOf($("#selectPeople #adult button.result").attr("data-ticket-type-num"));
-//          if (index1 > -1) {
-//             ticketTypeNum.splice(index1, 1);
-//          }
-//          const index2 = ticketTypeNum.indexOf($("#selectPeople #teenager button.result").attr("data-ticket-type-num"));
-//          if (index2 > -1) {
-//             ticketTypeNum.splice(index2, 1);
-//          }
-//          const index3 = ticketTypeNum.indexOf($("#selectPeople #child button.result").attr("data-ticket-type-num"));
-//          if (index3 > -1) {
-//             ticketTypeNum.splice(index3, 1);
-//          }
-//          const index4 = ticketTypeNum.indexOf($("#selectPeople #handi button.result").attr("data-ticket-type-num"));
-//          if (index4 > -1) {
-//             ticketTypeNum.splice(index4, 1);
-//          }
-         console.log(seatListForParam);
-         console.log(ticketTypeNum);
-         
-      });
-      
-   });
-   
-   // [next] 버튼 클릭 시 ============================================================================================================================================================ 
-   // 1) 선택한 좌석 수 == 0
-   //    => alert("좌석을 선택해주세요");
-   // 2) 선택한 좌석의 수 < 관람인원수 
-   //    => alert("좌석 선택이 완료되지 않았습니다");
-   // 3) 선택한 좌석의 수 > 관람인원수
-   //    => alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
-   //        location.reload();
-   // 4) 선택한 좌석 수 != ticketTypeNum[] 
-   //    => alert("오류발생")
-   function reservationSnack() {
-      let resultAdult = $("#selectPeople #adult button.result").text();
-      let resultTeenager = $("#selectPeople #teenager button.result").text();
-      let resultChild = $("#selectPeople #child button.result").text();
-      let resultHandi = $("#selectPeople #handi button.result").text();
-      let adultCount = Number(resultAdult);
-      let teenagerCount = Number(resultTeenager);
-      let childCount = Number(resultChild);
-      let handiCount = Number(resultHandi);
-      let countPeople = adultCount + teenagerCount + childCount + handiCount;
-      
-      if(seatList.length == 0){
-         alert("좌석을 선택해주세요");
-         
-      }else if(seatList.length == countPeople){
-         if(seatList.length == ticketTypeNum.length){
-            location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum;      
-         }else{
-            alert("오류가 발생했습니다. 다시 선택해 주세요");
-            location.reload();
-         }
-         
-      }else if(seatList.length < countPeople){
-         alert("좌석 선택이 완료되지 않았습니다");
-         
-      }else if(seatList.length > countPeople){
-         alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
-         location.reload();
-      }
-   }
-   
+	$(function() {
+		$("#seat-part button").on("click", function() {
+			$("#selectPeople").addClass("disabled");
+			
+			let resultAdult = $("#selectPeople #adult button.result").text();
+			let resultTeenager = $("#selectPeople #teenager button.result").text();
+			let resultChild = $("#selectPeople #child button.result").text();
+			let resultHandi = $("#selectPeople #handi button.result").text();
+			let adultCount = Number(resultAdult);
+			let teenagerCount = Number(resultTeenager);
+			let childCount = Number(resultChild);
+			let handiCount = Number(resultHandi);
+			let countPeople = adultCount + teenagerCount + childCount + handiCount;
+			
+			
+			// 클릭된 좌석이 selected 클래스를 가지고 있으면
+			// selecte 클래스를 제거하고, 해당 좌석명을 seatList 배열에서 찾아서 제거
+			// splice()를 사용하기 위해 indexOf()를 이용해 해당하는 좌석명이 배열의 몇번째 요소인지 찾아서 제거하기
+			let selectedSeatName = $(this).attr("data-seat-name");
+			if ($(this).hasClass("selected")) {  
+				$(this).removeClass("selected"); 
+				
+				const index = seatList.indexOf(selectedSeatName);
+				if (index > -1) {
+					seatList.splice(index, 1);
+				}
+				
+			} else {
+				// 클릭된 좌석이 selected 클래스를 가지고 있지 않으면
+				if (seatList.length >= countPeople) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 크거나 같아지면
+					alert("좌석 선택이 완료되었습니다.");
+					return;
+					
+				} else if (countPeople < seatList.length) {   // 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때
+					alert("인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
+				
+				}				
+				
+				$(this).addClass("selected");
+				seatList.push(selectedSeatName);
+			}
+			
+			console.log(seatList);
+						
+			let res="";
+			for(let i = 0; i < seatList.length; i++){
+				res += "<b>" + seatList[i] + " </b>";
+			}
+			
+			$("#seatInfo").html(res);
+			
+			// TICKET_TYPES 테이블에서 가져온 티켓타입번호(ticket_type_num)을 
+			// seatList[]와 함께 파라미터로 전달하기 위해 ticketTypeNum[] 배열에 저장
+			for (let i = 0; i < adultCount; i++) {
+				seatListForParam[i] = seatList[i] + "/일반";
+				ticketTypeNum[i] = $("#selectPeople #adult button.result").attr("data-ticket-type-num");
+			}
+			
+			for (let i = adultCount; i < adultCount + teenagerCount; i++) {
+				seatListForParam[i] = seatList[i] + "/청소년";
+				ticketTypeNum[i] = $("#selectPeople #teenager button.result").attr("data-ticket-type-num");
+			}
+			
+			for (let i = adultCount + teenagerCount; i < adultCount + teenagerCount + childCount; i++) {
+				seatListForParam[i] = seatList[i] + "/우대";
+				ticketTypeNum[i] = $("#selectPeople #child button.result").attr("data-ticket-type-num");
+			}
+			
+			for (let i = adultCount + teenagerCount + childCount; i < adultCount + teenagerCount + childCount + handiCount; i++) {
+				seatListForParam[i] = seatList[i] +  "/장애인";
+				ticketTypeNum[i] = $("#selectPeople #handi button.result").attr("data-ticket-type-num");
+			}
+			
+// 			const index1 = ticketTypeNum.indexOf($("#selectPeople #adult button.result").attr("data-ticket-type-num"));
+// 			if (index1 > -1) {
+// 				ticketTypeNum.splice(index1, 1);
+// 			}
+			
+// 			const index2 = ticketTypeNum.indexOf($("#selectPeople #teenager button.result").attr("data-ticket-type-num"));
+// 			if (index2 > -1) {
+// 				ticketTypeNum.splice(index2, 1);
+// 			}
+			
+// 			const index3 = ticketTypeNum.indexOf($("#selectPeople #child button.result").attr("data-ticket-type-num"));
+// 			if (index3 > -1) {
+// 				ticketTypeNum.splice(index3, 1);
+// 			}
+			
+// 			const index4 = ticketTypeNum.indexOf($("#selectPeople #handi button.result").attr("data-ticket-type-num"));
+// 			if (index4 > -1) {
+// 				ticketTypeNum.splice(index4, 1);
+// 			}
+			console.log(seatListForParam);
+			console.log(ticketTypeNum);
+		});
+		
+	});
+	
+	// [next] 버튼 클릭 시 ============================================================================================================================================================ 
+	// 1) 선택한 좌석 수 == 0
+	//    => alert("좌석을 선택해주세요");
+	// 2) 선택한 좌석의 수 < 관람인원수 
+	//    => alert("좌석 선택이 완료되지 않았습니다");
+	// 3) 선택한 좌석의 수 > 관람인원수
+	//    => alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
+	//        location.reload();
+	// 4) 선택한 좌석 수 != ticketTypeNum[] 
+	//    => alert("오류발생")
+	function reservationSnack() {
+		let resultAdult = $("#selectPeople #adult button.result").text();
+		let resultTeenager = $("#selectPeople #teenager button.result").text();
+		let resultChild = $("#selectPeople #child button.result").text();
+		let resultHandi = $("#selectPeople #handi button.result").text();
+		let adultCount = Number(resultAdult);
+		let teenagerCount = Number(resultTeenager);
+		let childCount = Number(resultChild);
+		let handiCount = Number(resultHandi);
+		let countPeople = adultCount + teenagerCount + childCount + handiCount;
+		
+		if(seatList.length == 0){
+			alert("좌석을 선택해주세요");
+			
+		}else if(seatList.length == countPeople){
+			if(seatList.length == ticketTypeNum.length){
+				location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum;      
+				
+			}else{
+				alert("오류가 발생했습니다. 다시 선택해 주세요");
+				location.reload();
+			}
+			
+		}else if(seatList.length < countPeople){
+			alert("좌석 선택이 완료되지 않았습니다");
+			
+		}else if(seatList.length > countPeople){
+			alert("선택한 좌석 수가 관람인원수를 초과하였습니다." + "\n" + "다시 선택해주세요" + "\n" + "seatList.length : " + seatList.length + "\n" + "countPeople : " + countPeople);
+			location.reload();
+			
+		}
+	}
+	
 	$(function(){
 		$("#reset").on("click", function() {
 			location.reload();
-		})	
+		})		
 	})
 </script>
 </head>
@@ -415,16 +436,16 @@
 						<div class="row mt-3 pl-3">
 							<div class="col-12" id="selectPeople">
 								<div class="row">
-									<div class="col-2"  id="adult">
-										<span>성인</span>
-										<div class="mt-1">
-											<button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
-										</div>
-									</div>
-									<div class="col-2"  id="teenager">
-										<span>청소년</span>
-										<div class="mt-1">
-											<button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button>
+ 									<div class="col-2"  id="adult">
+ 										<span>성인</span>
+ 										<div class="mt-1">
+ 											<button class="down" onclick="adultDown()"> - </button><button class="result">0</button><button class="up" onclick="adultUp()"> + </button>
+ 										</div>
+ 									</div>
+ 									<div class="col-2"  id="teenager">
+ 										<span>청소년</span>
+ 										<div class="mt-1">
+										<button class="down" onclick="teenagerDown()"> - </button><button class="result">0</button><button class="up" onclick="teenagerUp()"> + </button>
 										</div>
 									</div>
 									<div class="col-2"  id="child">
@@ -440,7 +461,6 @@
 										</div>
 									</div>
 									<script type="text/javascript">
-									
 										let adultResult = $("#selectPeople #adult button.result").text();
 										let teenagerResult = $("#selectPeople #teenager button.result").text();
 										let childResult = $("#selectPeople #child button.result").text();
@@ -450,6 +470,7 @@
 										let childCount = Number(childResult);
 										let handiCount = Number(handiResult);
 										let countPeople = adultCount + teenagerCount + childCount + handiCount;
+										
 										function adultDown() {
 											if(adultCount <= 0){
 												$("#selectPeople #adult button.down").addClass("disabled");
@@ -457,11 +478,6 @@
 												adultCount = adultCount - 1;
 												$("#selectPeople #adult button.up").removeClass("disabled");
 												$("#selectPeople #adult button.result").html(adultCount);
-												
-												if(countPeople < seatList.length) {
-										        	 $("#selectPeople #adult button.result").html(adultCount + 1);
-										        	 $("#selectPeople #adult button.down").addClass("disabled");
-												}
 											}
 										} 
 										
@@ -472,10 +488,10 @@
 												adultCount = adultCount + 1;
 												$("#selectPeople #adult button.down").removeClass("disabled");
 												$("#selectPeople #adult button.result").html(adultCount); 
+												
 											}
 										}
 										
-// 										function 
 										
 										// ------------------------------------------------------------------------------
 										function teenagerDown() {
@@ -539,8 +555,8 @@
 												$("#selectPeople #handi button.result").html(handiCount);
 											}
 										} 
-										// ------------------------------------------------------------------------------
-										</script>
+// 										// ------------------------------------------------------------------------------
+									</script>
 									</div>
 									<hr>
 								</div>
