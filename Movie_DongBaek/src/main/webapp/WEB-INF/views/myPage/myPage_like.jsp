@@ -59,40 +59,33 @@
   <%--본문내용 --%>
   	<div class="container container-fluid w-900">
   		<div class="mainTop">
-			<h2>나의 구매 내역</h2>
+			<h2>찜한 영화</h2>
 			<br>
-			<span>지난 <b>3개월</b>까지의 구매내역을 확인하실 수 있습니다</span><br>
+<!-- 			<span></span><br> -->
 				<table class="table">
 					<c:choose>
-						<c:when test="${empty myPaymentList}">
+						<c:when test="${empty likeList}">
 							<tr>
-								<td>고객님의 최근 구매내역이 존재하지 않습니다.</td>
+								<td>고객님의 영화 찜하기 내역이 존재하지 않습니다.</td>
 							</tr>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<th>결제일시</th>
-								<th>결제한금액</th>
-								<th>결제상태</th>
-								<th>상세내역</th>
+								<th>영화번호</th>
+								<th>영화이름</th>
+								<th>.</th>
+								<th>.</th>
 							</tr>
-							<c:forEach var="myPayment" items="${myPaymentList }">
+							<c:forEach var="like" items="${likeList }">
 								<tr>
 									
-									<td>
-										<fmf:formatDate value="${myPayment.payment_datetime}" pattern="yyyy.MM.dd HH:mm"/>
+									<td>${like.movie_num }
 									</td>
-									<td>
-										<fmf:formatNumber value="${myPayment.payment_total_price}" pattern="#,###,###" />
+									<td>.
 									</td><%-- {param.order_total} --%>
-									<td>${myPayment.payment_status}</td>
-<%-- 									<td><a href="myPayment_detail?payment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+									<td>.</td>
 									<td>
-										<form action="myPayment_detail" method="post">
-											<input type="hidden" value="${myPayment.payment_num}" name="payment_num">
-											<input type="hidden" value="${payment_change}" name="payment_change">
-											<input type="submit" value="상세내역보기" >
-										</form>
+										.
 <%-- 										<a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a> --%>
 									</td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
 <%-- 									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>

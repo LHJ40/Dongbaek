@@ -26,33 +26,91 @@ a:link,a:visited { color:gray; }
 }
 
 </style>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
-	// 찜하기 기능
-	$(document).on("click", "#likeMovie", function() {
+	// 찜하기 받아오기
+	$(function() {
+		
 		let sId = $("#sessionId").val();
+// 		console.log(sId);
+		$.ajax ({
+			type: 'GET',
+			url: 'likeMovieShow',
+			data: {'member_id' : sId},
+			dataType: 'JSON',
+			success: function(result) {
+// 			console.log(result);
+				
+				for(let i = 1; i <= 4; i++) {
+					let movieNo = $("" + $("#likeMovie" + i).data("target")).val();	// movie_num
+// 					console.log(movieNo);
+					
+					for(let like of result) {
+						if(like.movie_num == movieNo) {	// 일치하면
+// 							console.log(i);
+							$("#likeMovie" + i).removeClass("btn-outline-danger");
+							$("#likeMovie" + i).addClass("btn-danger");
+							$("#likeMovie" + i).text("♡찜");
+							$("#clickCk" + i).attr("disabled", true);
+						}
+					}
+				}
+			},
+			error: function() {
+				console.log("에러");
+			}
+		});
+		
+	});// function 끝
+	
+	
+	// 찜하기 기능
+	function checkMovie(element, i) {
+		
+		let sId = $("#sessionId").val();
+// 		console.log($(element).val());
+		let movie_num = $("" + $(element).data('target')).val();
+		let targetId = 'clickCk' + i;
+// 		console.log(targetId);	// 타겟아이디
+		let isLike = $("#" + targetId).prop("disabled");	// 찜 안했을 땐 false
 // 		console.log(sId);	// 세션아이디 확인
-		let movie_num = $("#movie_num").val();
-		let targetId = $(this).data('target');
-		$(targetId).attr("")
-		console.log(targetId);
+// 		console.log(movie_num);
+// 		console.log(isLike);
 		
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: 'likeMovie',
-			data: {'member_id': member_id, 'movie_num': movie_num },
-// 			dataType: 'JSON',
+			data: {'member_id': sId, 'movie_num': movie_num, 'isLike': isLike },
+			dataType: 'JSON',
 			success : function(result) {
+				console.log("성공!");
+				console.log(isLike);
 				
-				$(this).removeClass("btn-outline-danger");
-				$(this).addClass("btn-danger");
-				$(this).val("♡찜");
+				if(isLike) {	// 찜 상태가 false면
+					$(element).removeClass("btn-danger");
+					$(element).addClass("btn-outline-danger");
+					$(element).val("♡찜하기");
+					
+					// 찜 상태 전환(false로)
+					$("#" + targetId).attr("disabled", false);
+					
+				} else {	// 찜 상태가 true이면
+					$(element).removeClass("btn-outline-danger");
+					$(element).addClass("btn-danger");
+					$(element).val("♡찜");
+					
+					// 찜 상태 전환(true로)
+					$("#" + targetId).attr("disabled", true);
+				}
+			},
+			error : function(xhr, status, error) {
+			    console.error(error);
 			}
 			
 		});	// ajax끝
 		
-		
-	}); // 찜하기 버튼 클릭 함수 끝
+	} // 찜하기 버튼 클릭 함수 끝
 	
 
 </script>
@@ -98,20 +156,30 @@ a:link,a:visited { color:gray; }
 						<h6 class="card-title"><b> ${movie.movie_name_kr}</b></h6>
 						<p class="card-text">
 							<%-- 찜하기 버튼 클릭 시 movie_num 파라미터로 받아 전달 --%>
-							<input type="hidden" value="${movie.movie_num}" id="movie_num">
-							<input type="hidden" value="${sessionScope.member_id }" id ="sessionId">
+							<input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+							<input type="hidden" name="movie_num" value="${movie.movie_num}" id="movie_num${i.count }">
 							<c:choose>
 								<%--
-								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
+								회원이나 직원이('비회원'이 아닐 때)
 								세션 아이디가 있을 때(로그인o) 찜하기 기능
+									- 찜하기 목록에 있으면 찜 표시
+									- 찜하기 목록에 없으면 그대로 표시
+								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
 								--%>
-								<c:when test="${member_type eq '비회원' || empty sessionScope.member_id }">
-									<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
+								<c:when test="${not empty sessionScope.member_id && member_type ne '비회원'}">
+									<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" value="${i.count }" onclick="checkMovie(this, ${i.count })">♡찜하기</button>
+									<input type="hidden" id="clickCk${i.count }">
 								</c:when>
+<%-- 									<c:otherwise> --%>
+<%-- 										<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" data-number="${i.count }" onclick="checkMovie(this.dataset.number)">♡찜하기</button> --%>
+<%-- 										<input type="hidden" id="clickCk${i.count }"> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 									</c:choose> --%>
+<%-- 								</c:when> --%>
+								<%-- 세션아이디가 없거나 비회원일 때 -> 클릭 시 모달창 팝업 --%>
 								<c:otherwise>
 									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
-									<button type="button" class="btn btn-outline-danger" id="likeMovie${i.index }" data-target="#clickCk${i.index }">♡찜하기</button>
-									<input type="hidden" id="clickCk${i.index }">
+									<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
 								</c:otherwise>
 							</c:choose>
 							<button type="button" class="btn btn-danger" onclick="location.href='reservation_main?movie_num=${movie.movie_num}'">예매하기</button>
@@ -191,7 +259,7 @@ a:link,a:visited { color:gray; }
 	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
 	      </div>
 	      <div class="modal-footer justify-content-center">
-	        <button type="button" class="btn btn-danger" onclick="location='member_login_form'">로그인</button>
+	        <button type="submit" class="btn btn-danger">로그인</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
 	      </div>
 	    </div>

@@ -83,6 +83,91 @@
  	});
 
  });
+ 
+	//찜하기 받아오기
+	$(function() {
+		let sId = $("#sessionId").val();
+//		console.log(sId);
+		$.ajax ({
+			type: 'GET',
+			url: 'likeMovieShow',
+			data: {'member_id' : sId},
+			dataType: 'JSON',
+			success: function(result) {
+//			console.log(result);
+				
+				for(let i = 1; i <= 8; i++) {
+					let movieNo = $("#likeMovie" + i).data("target");	// movie_num
+//					console.log(movieNo);
+					
+					for(let like of result) {
+						if(like.movie_num == movieNo) {	// 일치하면
+//							console.log(i);
+							$("#likeMovie" + i).removeClass("btn-outline-danger");
+							$("#likeMovie" + i).addClass("btn-danger");
+							$("#likeMovie" + i).text("♡찜");
+							$("#clickCk" + i).attr("disabled", true);
+						}
+					}
+				}
+			},
+			error: function() {
+				console.log("에러");
+			}
+		});
+		
+	});// function 끝
+	
+	
+	// 찜하기 기능
+	function checkMovie(element, i) {
+		
+		let sId = $("#sessionId").val();
+//		console.log($(element).val());
+		let movie_num = $(element).data('target');
+		let targetId = 'clickCk' + i;
+//		console.log(targetId);	// 타겟아이디
+		let isLike = $("#" + targetId).prop("disabled");	// 찜 안했을 땐 false
+		console.log(sId);	// 세션아이디 확인
+		console.log(movie_num);
+		console.log(isLike);
+		
+		$.ajax({
+			type: 'POST',
+			url: 'likeMovie',
+			data: {'member_id': sId, 'movie_num': movie_num, 'isLike': isLike },
+			dataType: 'JSON',
+			success : function(result) {
+				console.log("성공!");
+				console.log(isLike);
+				
+				if(isLike) {	// 찜 상태가 false면
+					$(element).removeClass("btn-danger");
+					$(element).addClass("btn-outline-danger");
+					$(element).text("♡찜하기");
+					
+					// 찜 상태 전환(false로)
+					$("#" + targetId).attr("disabled", false);
+					
+				} else {	// 찜 상태가 true이면
+					$(element).removeClass("btn-outline-danger");
+					$(element).addClass("btn-danger");
+					$(element).text("♡찜");
+					
+					// 찜 상태 전환(true로)
+					$("#" + targetId).attr("disabled", true);
+				}
+			},
+			error : function(xhr, status, error) {
+			    console.error(error);
+			}
+			
+		});	// ajax끝
+		
+	} // 찜하기 버튼 클릭 함수 끝
+ 
+ 
+ 
 </script>
 <title>영화 예매 사이트</title>
 <%--페이징css --%>
@@ -114,6 +199,9 @@
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
+ <%-- 찜하기 기능 - 세션아이디로 조회 --%>
+ <input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+ 
  <article id="mainArticle">
  <%--본문내용 --%>
 	<div class="container">
@@ -144,7 +232,7 @@
 		 <%-- 1열 --%>
 		<%-- <input type="hidden" value="movie_num=${movieList.movie_num }"> --%>
 		<div class="row" id="moviearea" align="left">
-		<c:forEach var="movie" items="${movieList}" >
+		<c:forEach var="movie" items="${movieList}" varStatus="i">
 			<div class="col-lg-3 col-mid-4">
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
 					<%-- 해당영화의 포스터출력 -> 클릭시 상세페이지로 이동 --%>
@@ -173,7 +261,8 @@
 						
 						<%--찜하기버튼, 예매버튼 --%>
 						<p class="d-flex justify-content-center">
-							<button type="button" class="btn btn-outline-danger mr-2">♡찜하기</button>
+							<button type="button" class="btn btn-outline-danger mr-2" id="likeMovie${i.count }" data-target="${movie.movie_num }" value="${i.count }" onclick="checkMovie(this, ${i.count })">♡찜하기</button>
+							<input type="hidden" id="clickCk${i.count }">
 							<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
 						</p>
 					</div>

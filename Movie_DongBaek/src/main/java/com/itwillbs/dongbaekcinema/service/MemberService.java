@@ -44,6 +44,17 @@ public class MemberService {
 		return mapper.insertNoMember(noMember);
 	}
 	
+	// 비회원 중복되면 안되는 정보 (member_phone)이 중복 확인 메서드
+	public boolean isExistPhone(String member_phone) {
+		MemberVO existMember = mapper.selectMemberByPhone(member_phone);
+		
+		if(existMember != null) {	// 회원이 존재하면
+			return true;
+		}
+		
+		return false;
+	}
+	
 	// 비회원 로그인(정보조회) 작업을 위한 메서드
 	public String getNoMemberPasswd(String member_name, String member_phone) {
 		return mapper.selectNoMemberPasswd(member_name, member_phone);

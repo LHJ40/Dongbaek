@@ -38,6 +38,9 @@ public interface MemberMapper {
 	// 비회원 로그인(가입) 작업을 위한 메서드
 	int insertNoMember(MemberVO noMember);
 	
+	// 비회원 중복되면 안되는 정보 (member_phone)이 중복 확인 메서드
+	MemberVO selectMemberByPhone(String member_phone);
+	
 	// 비회원 로그인(정보조회) 작업을 위한 메서드
 	String selectNoMemberPasswd(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
 	
@@ -57,6 +60,7 @@ public interface MemberMapper {
 
 	// 아이디 찾기
 	String findMemberId(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
+	
 	
 
 

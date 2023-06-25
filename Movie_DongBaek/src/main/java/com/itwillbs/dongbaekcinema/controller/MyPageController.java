@@ -38,6 +38,9 @@ public class MyPageController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private MovieLikeService likeService;
+	
 	//  마이페이지 메인화면
 	@GetMapping("myPage")
 	public String myPage(HttpSession session, Model model) {
@@ -266,7 +269,38 @@ public class MyPageController {
 	public String myPage_reviewWrite() {
 		return "myPage/myPage_reviewWrite";
 	}
+	
+	
+	// 마이페이지 - 찜한 영화 목록으로 이동
+	@GetMapping("myPage_like")
+	public String myPageLike(HttpSession session, Model model) {
+		
+		// 세션 아이디로 찜한 영화 목록 들고오기
+		// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
+		String member_id = (String) session.getAttribute("member_id");
+		String member_type = (String) session.getAttribute("member_type");
 
+		if (member_id != null && !"비회원".equals(member_type)) {
+//		System.out.println("어디서 문제니 : member_id " + member_id);
+//		System.out.println("어디서 문제니 : member_type " + session.getAttribute("member_type"));
+			
+		// 찜한 영화 찾기
+		// LikeService - getLikeMovie()
+		// 파라미터 : member_id		리턴타입 : List<LikeVO>(likeList)
+		List<MovieLikeVO> likeList = likeService.getLikeMovie(member_id); 
+		System.out.println(likeList);
+							
+			if(likeList != null) {
+	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+				model.addAttribute("likeList", likeList);
+			}
+		}
+		
+		return "myPage/myPage_like";
+	}
+	
+	
 	// 마이페이지 - 영화 네컷 페이지로 이동
 	@GetMapping("myPage_moviefourcut")
 	public String myPage_moviefourcut() {

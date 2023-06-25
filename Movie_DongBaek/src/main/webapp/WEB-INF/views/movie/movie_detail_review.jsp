@@ -55,13 +55,17 @@
 		if($("input[type=hidden]").val()) {
 			reviewButtons.each(function() {
 				let reviewNum = $(this).attr("data-review-num");
+				let memberId = $("input[type=hidden]").val();
+				
 				isReviewLikeExist(reviewNum);
 				getReviewLikeCount(reviewNum);
+				isMember(memberId);
 			});
 		}
 		
 	});
 	
+	// 세션 아이디가 있는 경우 리뷰 좋아요 누른 적 있는 지 확인
 	function isReviewLikeExist(reviewNum){
 		let memberId = $("input[type=hidden]").val();
 		
@@ -106,12 +110,34 @@
        	});
 	}
 	
+	// 세션 아이디가 있는 경우 회원인지 비회원인지 확인
+	function isMember(memberId){
+		let hidden = $("input[type=hidden]");
+			
+		$.ajax({
+			type : "post", 
+			url : "IsMember", 
+			data : {"member_id" : memberId}, 
+			dataType : "json", 
+		})
+		.done(function(isMember) {
+			console.log(isMember);
+			
+			if(isMember){
+				hidden.addClass("isMember");  						
+			}
+		})
+		.fail(function() { // 요청 실패 시
+			alert("IsMember 요청 실패!");
+		});
+	}
+	
 	// 로그인한 상태에서 [reviewLike] 버튼 클릭시
 	$(function(){
 		$(document).on("click", "button.reviewLike", function() {
 			
    			let reviewNum = $(this).attr("data-review-num");
-    		let memberId = $("input[type=hidden]").val();    		
+    		let memberId = $("input[type=hidden]").val();
     				
     		if($(this).hasClass("removeReviewLike")){	// 리뷰 좋아요가 이미 눌려있을 경우
 	     		$.ajax({
@@ -123,30 +149,39 @@
 	     		.done(function(RemoveReviewLike) {
 // 	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
 		     		getReviewLikeCount(reviewNum);		
-		    		$(this).removeClass('removeReviewLike');
-		     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
 	     		})
 	     		.fail(function() { // 요청 실패 시
 	     			alert("RemoverReviewLike 요청 실패!");
 	     		});
+	    		$(this).removeClass('removeReviewLike');
+	     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
 	     		
     					
   			} else{	// 리뷰 좋아요가 눌려있지 않을 경우
-  				$.ajax({
-  					type : "post", 
-  					url : "ReviewLike", 
-  					data : {"review_num" : reviewNum, "member_id" : memberId}, 
-  					dataType : "json", 
-  				})
-  				.done(function(ReviewLike) {
-//   					alert("ReviewLike 요청성공" + ReviewLike);
-	  				getReviewLikeCount(reviewNum);
+  				let hidden = $("input[type=hidden]");
+  				
+  				if(hidden.hasClass("isMember")){
+					$.ajax({
+	  					type : "post", 
+	  					url : "ReviewLike", 
+	  					data : {"review_num" : reviewNum, "member_id" : memberId}, 
+	  					dataType : "json", 
+	  				})
+	  				.done(function(ReviewLike) {
+// 	   					alert("ReviewLike 요청성공" + ReviewLike);
+		  				getReviewLikeCount(reviewNum);
+	  				})
+	  				.fail(function() { // 요청 실패 시
+	  					alert("ReviewLike 요청 실패!");
+	  				});
+	  				
 	  				$(this).addClass("removeReviewLike");
-	    			$(this).html("<img src='${pageContext.request.contextPath }/resources/img/finger.png' class='rounded float-left' alt='...' width='50px'>");
-  				})
-  				.fail(function() { // 요청 실패 시
-  					alert("회원 로그인이 필요한 서비스입니다");
-  				});
+	    			$(this).html("<img src='${pageContext.request.contextPath }/resources/img/finger.png' class='rounded float-left' alt='...' width='50px'>");  		
+				
+  				}else{
+					alert("회원 로그인이 필요한 서비스입니다");
+				}
+  								
 
    					
     		}

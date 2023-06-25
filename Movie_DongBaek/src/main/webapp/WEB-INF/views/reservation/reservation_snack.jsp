@@ -18,11 +18,19 @@
 		margin: 10px;
 		background-color: #d5b59c;
 	}
+	.card{
+    position: relative;
+    display: block;
+    height: 435px;
+    text-decoration: none;
+    border:3px solid #e4e4e4;
+    border-radius: 10px;
+  }
 	
 	/* 예매 선택 구간 */
 	/* 크기 조절 */
 	.container-fluid{
-		width: 900px;
+		width: 1200px;
 		margin: 1rem;
 		padding-left: 2rem;
 		border: 2px solid #aaa;
@@ -52,7 +60,7 @@
 	/* 위 파트와 구별을 위한 색상 부여 */
 	.row2{
 		padding-top: 0.5rem;
-		height: 150px;
+		height: 230px;
 		background-color: #aaa;
 	}
 
@@ -178,7 +186,7 @@ function reservation_ing(){
 	               		<c:forEach var="snack" items="${snackList}">
 						<div class="col mb-4">
 						    <div class="card h-100">
-						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
+						      <img src="${pageContext.request.contextPath }/resources/img/${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
 						      <div class="card-body">
 						        <h5 class="card-title">${snack.snack_name}</h5>
 						        	${snack.snack_price}원
@@ -221,7 +229,7 @@ function reservation_ing(){
 	                <hr>
 	                <%-- (상품 담기 시 입력되는 창) --%>
 	                <c:forEach var="snack" items="${snackList}" >
-	                <table border="1" id="snackCart${snack.snack_num}"style=display:none>
+	                <table border="1" id="snackCart${snack.snack_num}"style="display:none; width:200px;">
 	                	<tr>
 	                		
 	                		<td width="150px">${snack.snack_name} x <span id="snackquantity${snack.snack_num}">0</span> </td>
@@ -231,7 +239,7 @@ function reservation_ing(){
 	                	
 	                	<input type="hidden" id="snackprice${snack.snack_num}" value="${snack.snack_price}">
              	
-	                			<span id="snackpriceview${snack.snack_num}" >0</span> <button class="btn btn-secondary" value="${snack.snack_num}"  id="snackcancel">x</button>
+	                			<span id="snackpriceview${snack.snack_num}" >0</span><span>원</span> <button class="btn btn-secondary" value="${snack.snack_num}"  id="snackcancel">x</button>
 	                		</td>
 	                	</tr>
 	                </table>
@@ -251,13 +259,13 @@ function reservation_ing(){
 	           <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
 	           <div class="row row2">
 	           	<%-- 선택한 영화 포스터와 영화명 노출 --%>
-	               <div class="col-4">
+	               <div class="col-3.5">
 					<h5>선택 정보</h5>
-			  		<img src="${reservation.movie_poster }" alt="선택영화포스터" height="90px">
+			  		<img src="${reservation.movie_poster }" alt="선택영화포스터" height="120px" >
 			  		<span>${reservation.movie_name_kr }</span><br>
 				</div>
 				<%-- 선택한 상영스케줄 노출 --%>
-	               <div class="col-1.5">
+	               <div class="col-2">
 	               <br>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 			  			<tr><td>극장 ${reservation.theater_name }</td></tr>
@@ -266,7 +274,7 @@ function reservation_ing(){
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항 노출 --%>
-	               <div class="col-1.5">
+	               <div class="col-2.5">
 	               	<h5>좌석 선택</h5>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 <!-- 			  			<tr><td>좌석명 (일반석)</td></tr> -->
@@ -278,16 +286,39 @@ function reservation_ing(){
 	               	<h5>결제</h5>
 	               	<%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 	               	<c:set var = "total" value = "0" />
-					  <c:forEach var="ticket" items="${ticketPriceList}" >
-					  ${ticket.ticket_user_type}
-					  ${ticket.ticket_type_price}<br>
+	               	<c:set var = "count" value = "1" />
+					  <c:forEach var="ticket" items="${ticketPriceList}" varStatus="status" >
+					  	<c:choose>
+							<c:when test="${status.index eq 0 }" >
+							  ${ticket.ticket_user_type}
+							  ${ticket.ticket_type_price}
+							  <c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+					  		</c:when>
+							<c:when test="${status.index ne 0 }" >
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type eq ticket.ticket_user_type }">
+								
+							    <c:set var = "count" value = "${count + 1}"/>
+								</c:if>
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type ne ticket.ticket_user_type }">
+								X${count}<br>
+								<c:set var = "count" value = "1"/>
+								 ${ticket.ticket_user_type}
+							  	${ticket.ticket_type_price}
+								</c:if>
+								<c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+							</c:when>
+						</c:choose>
 					  <c:set var= "total" value="${total + ticket.ticket_type_price}"/>
 					  </c:forEach>
 			  			
 			  			<div style="list-style-type: none;">
 
 		                 	<c:forEach var="snack" items="${snackList}" >
-		               		<div id="snackview${snack.snack_num}" style="display:none">${snack.snack_name} x (${snack.snack_price}X<span id="quantityview${snack.snack_num}">0</span>)</div>
+		               		<div id="snackview${snack.snack_num}" style="display:none">${snack.snack_name}  ${snack.snack_price}X<span id="quantityview${snack.snack_num}">0</span></div>
 		               		
 		               		</c:forEach>
 	               		</div>
