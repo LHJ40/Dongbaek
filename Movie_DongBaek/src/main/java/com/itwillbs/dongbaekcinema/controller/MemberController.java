@@ -168,7 +168,7 @@ public class MemberController {
 			
 			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
 			if(session.getAttribute("play_num") != null) {
-				return "reservation/reservation_seat";
+				return "redirect:/reservation_seatplay_num=?" + session.getAttribute("play_num");
 			}
 			
 			return "redirect:/";	// 메인페이지(루트)로 리다이렉트 (href="./" 와 같음)
@@ -391,7 +391,7 @@ public class MemberController {
 			
 			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
 			if(session.getAttribute("play_num") != null) {
-				return "reservation_seat";
+				return "redirect:/reservation_seat?play_num=" + session.getAttribute("play_num");
 			}
 			
 			

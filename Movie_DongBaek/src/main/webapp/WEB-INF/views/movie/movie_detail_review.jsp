@@ -168,7 +168,7 @@
 	  					dataType : "json", 
 	  				})
 	  				.done(function(ReviewLike) {
-	   					alert("ReviewLike 요청성공" + ReviewLike);
+// 	   					alert("ReviewLike 요청성공" + ReviewLike);
 		  				getReviewLikeCount(reviewNum);
 	  				})
 	  				.fail(function() { // 요청 실패 시
