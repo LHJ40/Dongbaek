@@ -229,7 +229,7 @@
                         "</div>";
                   // 월 출력
                   res += "<div class='month'>" + 
-                           "<span class='playMonth'><h4>" + thisMonth + "</h4></span><span>월</span>" + 
+                           "<span class='playMonth'><h4>" + thisMonth + "</h4></span><span style='display:table-cell;'>월</span>" + 
                         "</div>" + 
                         "<div class='day'><ul>";
                         
@@ -255,7 +255,7 @@
                         "</div>";
                   // 월 출력
                   res += "<div class='month'>" + 
-                           "<span class=playMonth'><h4>" + (thisMonth + 1) + "</h4></span><span>월</span>" + 
+                           "<span class='playMonth'><h4>" + (thisMonth + 1) + "</h4></span><span style='display:table-cell;'>월</span>" + 
                         "</div>" + 
                         "<div class='day'><ul>";
                         
@@ -282,7 +282,7 @@
                         "</div>";
                   // 월 출력
                   res += "<div class='month'>" + 
-                           "<span class='playMonth'><h4>" + thisMonth + "</h4></span><span>월</span>" + 
+                           "<span class='playMonth'><h4>" + thisMonth + "</h4></span><span style='display:table-cell;'>월</span>" +                           
                         "</div>" + 
                         "<div class='day'><ul>";
                         
@@ -308,7 +308,7 @@
                         "</div>";
                   // 월 출력
                   res += "<div class='month'>" + 
-                           "<span class='playMonth'><h4>" + (thisMonth - 11) + "</h4></span><span class='col-2 p-0'>월</span>" + 
+                           "<span class='playMonth'><h4>" + (thisMonth - 11) + "</h4></span><span style='display:table-cell;'>월</span>" + 
                         "</div>" + 
                         "<div class='day'><ul>";
                         
@@ -381,34 +381,32 @@
                let gap = playStartTime.getTime() - reservationTime.getTime();   //  (영화 상영 시작 시간) - (예매 진행하고 있는 시간)
                let convertTime = Math.round(gap / 1000 / 60);
                if(convertTime < 20){
-                  res += "<li class='disabled'>" + 
-                  "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
-                     "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
-                     "<span class='time'>" + 
-	                     "<strong title='상영시작'>" + playStartHour + " : " + playStartMin + " </strong>" + 
-	                     "<em title='상영종료'> ~ " + playEndHour + " : " + playEndMin + "</em>" +
-//                         "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
-//                         "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
-                     "</span>" +
-                     "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
-                     "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
-                  "</a>" + 
-               "</li><hr>"
-               }else {
-                  res += "<li>" + 
-                  "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
-                     "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
-                     "<span class='time'>" + 
-	                        "<strong title='상영시작'>" + playStartHour + " : " + playStartMin + " </strong>" + 
-	                        "<em title='상영종료'> ~ " + playEndHour + " : " + playEndMin + "</em>" + 
-//                         "<strong title='상영시작'>" + play[i].play_start_time + " </strong>" + 
-//                         "<em title='상영종료'> ~ " + play[i].play_end_time + "</em>" + 
-                     "</span>" +
-                     "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
-                     "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
-                  "</a>" + 
-               "</li><hr>"
-               }
+                   res += "<li class='disabled'>" + 
+                   "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
+                      "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
+                      "<span class='time'>" + 
+//   	                     "<strong title='상영시작'>" + playStartHour + " : " + playStartMin + " </strong>" + 
+//   	                     "<em title='상영종료'> ~ " + playEndHour + " : " + playEndMin + "</em>" +
+                         "<strong title='상영시작'>" + play[i].play_start_time.substring(0, 5) + " </strong>" + 
+                         "<em title='상영종료'> ~ " + play[i].play_end_time.substring(0, 5) + "</em>" + 
+                      "</span>" +
+                      "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
+                      "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
+                   "</a>" + 
+                "</li><hr>"
+                }else {
+                   res += "<li>" + 
+                   "<a data-play-num=" + play[i].play_num + " data-movie-num=" + play[i].movie_num + " data-theater-num=" + play[i].theater_num + " data-play-date=" + play[i].play_date + " data-room-num=" + play[i].room_num + ">" + 
+                      "<span class='playTimeType'>" + play[i].play_time_type + "</span>" +
+                      "<span class='time'>" + 
+                         "<strong title='상영시작'>" + play[i].play_start_time.substring(0, 5) + " </strong>" +
+                         "<em title='상영종료'> ~ " + play[i].play_end_time.substring(0, 5) + "</em>" + 
+                      "</span>" +
+                      "<span class='movie' title='영화'><strong title=" + play[i].movie_name_kr + ">" + play[i].movie_name_kr + "</strong></span>" +
+                      "<span class='theater'><p class='theater' title='극장'>" + play[i].theater_name + "</p><p class='room' title='상영관'>" + play[i].room_name + "</p></span>" + 
+                   "</a>" + 
+                "</li><hr>"
+                }
                
             }
             $("#selectTime>ul").html(res);
@@ -449,7 +447,7 @@
    // reservation_seat 서블릿 요청을 통해 좌석예매 페이지(reservation.reservation_seat.jsp)로 이동
    function reservationSeat() {
       let playNum = $("#selectTime .selected a").attr("data-play-num");      // 선택한 상영 번호   
-      $("input[name=play_num]").attr("value",playNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+      $("input[name=play_num]").attr("value",playNum + "");   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
       
       location.href = "reservation_seat";
    }
@@ -544,42 +542,71 @@
                  </div>
                  </div>
              </div>
-               
-         <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
-         <div class="row row2">
-            <%-- 선택한 영화 포스터와 영화명 노출 --%>
-            <div class="col-3">
-               <h5>선택 정보</h5>
-               <div class="row p-0" id="movieInfo" style="display: none;">
-                  <div class="col-4 movie_poster"><img src="" alt="선택영화포스터" height="90px"></div>
-                    <div class="col-8 movie_name_kr"></div><br>
-               </div>
-            </div>
-            
-            <%-- 선택한 상영스케줄 노출 --%>
-            <div class="col-3">
-               <div id="theaterInfo" style="display: table;">
-                  <span style="display: table-cell;">극장&nbsp;</span>
-                  <span style="display: table-cell;"></span>
-               </div>
-               <div id="dateInfo" style="display: table;">
-                  <span style="display: table-cell;">날짜&nbsp;</span>
-                  <span style="display: table-cell;"></span>
-                  <span style="display: table-cell;"></span>
-               </div>
-               <div id="roomInfo" style="display: table;">
-                  <span style="display: table-cell;">상영관&nbsp;</span>
-                  <span style="display: table-cell;"></span>
-               </div>
-            </div>
-            <%-- 미선택 사항 노출 --%>
-            <div class="col-3">
-               <b>좌석 선택 &nbsp;&nbsp;> &nbsp;결제</b>
-            </div>
-            
-            <%-- 다음 페이지 이동 버튼 --%>
-            <div class="col-3">
-               <form action="reservation_seat" method="post">
+		
+		<%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
+		<div class="row row2">
+			<div class="col-1 p-2">
+				<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
+			</div>
+			<%-- 선택한 영화 포스터와 영화명, 극장, 일시, 상영관 노출 --%>
+			<div class="col-6">
+				<div class="row">
+					<div class="col-12">
+						<h5>선택 정보</h5>						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-7">
+						<div class="row" id="movieInfo" style="display: none;">
+							<div class="col-4 pr-1  text-center movie_poster"><img src="" alt="선택영화포스터" height="120px"></div>
+							<div class="col-8 pl-1 text-left movie_name_kr"></div><br>
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="row">
+							<div class="col-12">
+								<div id="theaterInfo" style="display: table;">
+									<span style="display: table-cell;">극장&nbsp;</span>
+									<span style="display: table-cell;"></span>
+								</div>
+								<div id="dateInfo" style="display: table;">
+									<span style="display: table-cell;">날짜&nbsp;</span>
+									<span style="display: table-cell;"></span>
+									<span style="display: table-cell;"></span>
+								</div>
+								<div id="roomInfo" style="display: table;">
+									<span style="display: table-cell;">상영관&nbsp;</span>
+									<span style="display: table-cell;"></span>
+								</div>		
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%-- 미선택 사항 노출 --%>
+			<div class="col-2">
+				<h5>좌석 선택</h5>
+				<div id="seatInfo" style="text-align: center;">
+					<div id="seat_name"></div>
+				</div>
+			</div>
+				
+			<%-- 미선택 사항(결제) 노출 --%>
+			<div class="col-2">
+			<h5>결제</h5>
+			<div id="paymentInfo"  style="display: table;">
+				<div style="display: table-cell;">
+					<div style="display: table;"><span class="adult" style="display: table-cell;"></span><span class="adultPrice" style="display: table-cell;"></span></div>                 
+					<div style="display: table;"><span class="teenager" style="display: table-cell;"></span><span class="teenagerPrice" style="display: table-cell;"></span></div>          
+					<div style="display: table;"><span class="child" style="display: table-cell;"></span><span class="childPrice" style="display: table-cell;"></span></div>      
+					<div style="display: table;"><span class="handi" style="display: table-cell;"></span><span class="handiPrice" style="display: table-cell;"></span></div>     
+					<div style="display: table;"><span class="total" style="display: table-cell;">합계&nbsp;</span><span class="totalPrice" style="display: table-cell;"></span></div>
+				</div>
+			</div>
+			</div>
+			<%-- 다음 페이지 이동 버튼 --%>
+			<div class="col-1 p-2">
+				<form action="reservation_seat" method="post">
                   <input type="hidden" name="play_num" value="" />      
                   <input type="hidden" name="url" value="reservation_seat" />            
                   <%-- 
@@ -588,7 +615,7 @@
                   미로그인 시 lonin() 함수 실행하여 모달창으로 '로그인 필요' 출력 후 로그인 페이지(member_login_form.jsp)로 이동
                    --%>
                   <c:choose>
-                     <c:when test="${empty member_id }">                  
+                     <c:when test="${empty sessionScope.member_id }">                  
                         <button type="button" class="btn btn-danger" id="emptyMemberId" data-toggle="modal" data-target="#needLogin">next ></button>
                      </c:when>
                      <c:otherwise>
@@ -622,9 +649,11 @@
                         </div>
                      </div>
                   </div><!-- 모달 영역 끝 -->
-            </div>   <!-- [다음 페이지 이동 버튼] 끝  -->
-         </div> <!-- [선택사항 안내 구간, 다음으로 넘어가기 영역] 끝 -->
-      </div>   <!-- container-fluid 영역 끝 -->
+            </div><!-- [다음 페이지 이동 버튼] 끝  -->
+		</div><!-- [선택사항 안내 구간, 다음으로 넘어가기 영역] 끝 -->
+	</div><!-- container-fluid 영역 끝 -->
+		
+<!--          </diDcontainer-fluid 영역 끝 -->
    </article>
   
   <nav id="mainNav">

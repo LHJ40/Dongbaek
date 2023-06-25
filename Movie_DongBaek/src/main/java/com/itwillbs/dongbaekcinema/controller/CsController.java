@@ -1,13 +1,17 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.io.*;
+import java.nio.file.*;
+import java.text.*;
 import java.util.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
@@ -39,8 +43,78 @@ public class CsController {
 	
 	// cs 부분 1:1질문(cs_qna_form.jsp)으로 가는 매핑
 	@GetMapping("cs_qna_form")
-	public String cs_qna_form() {
+	public String cs_qna_form(HttpSession session, Model model) {
+		
+		// 미 로그인 시 (세션 아이디가 없는 경우) 접근 불가
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "회원만 가능한 작업입니다. 로그인 후 이용해주세요.");
+			model.addAttribute("targetURL", "member_login_form");
+			return "fail_location";
+		}
+		
 		return "cs/cs_qna_form";
+	}
+	
+	// cs 부분 1:1질문 DB 에 INSERT 하는 메서드
+	@PostMapping("csQnaPro")
+	public String qnaPro(CsVO board, Model model, HttpSession session, HttpServletRequest request) {
+		// 값 받아오기
+//		System.out.println(board);
+		
+		// ======================================== 파일 처리 ========================================
+		// 이클립스 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request나 session 객체필요)
+		String uploadDir = "/resources/upload";	// 현재 폴더상 경로
+		String saveDir = request.getServletContext().getRealPath(uploadDir);  // 실제 경로
+//		System.out.println(saveDir);
+		// (지영) - 서버상 경로 알아두기
+		
+		String subDir = ""; // 서브디렉토리(업로드 날짜에 따라 디렉토리 구분하기)
+		
+		try {
+			Date date = new Date();	// 1. Date 객체 생성
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");	// 날짜 형식 포맷 지정(/로 디렉토리 구분)
+			// 실제 업로드 경로에 날짜 경로 결합
+			subDir = "/" + sdf.format(date);	// 날짜 디렉토리
+			saveDir += subDir;					// 실제 경로 + 날짜 경로
+			
+			// 실제 경로를 관리하는 객체 리턴받기(파라미터 : 
+			Path path = Paths.get(saveDir);
+			
+			// path 객체로 관리하는 경로 생성
+			Files.createDirectories(path);	// try-catch 필수
+		} catch (IOException e) {
+			System.out.println("e 이거 오류 : ");
+			e.printStackTrace();
+		}
+		
+		// 파라미터로 받은 CsVO board 에서 전달된 MultipartFile 객체 꺼내기
+		MultipartFile mFile = board.getCs_file();
+		System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
+		
+		// 파일명 중복 방지 처리 - 랜덤ID(8글자) 붙이기 (ex.랜덤ID_파일명.확장자)
+		String uuid = UUID.randomUUID().toString().substring(0, 8);
+		board.setCs_file_real(""); 	// 파일명이 없을 때를 대비하여 기본 파일명 "" 처리
+		
+		if(!mFile.getOriginalFilename().equals("")) {	// 파일이 있을 경우
+			// 실제 이름을 (날짜디렉토리/uuid_실제받은파일명.확장자) 로 저장
+			board.setCs_file_real(subDir + "/" + uuid + "_" + mFile.getOriginalFilename());
+		}
+//		System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
+		
+		// ======================================== 파일 처리 끝 ========================================
+		
+		// CsService - insertBoard()
+		// 파라미터 : CsVO board		리턴타입 : int(insertCount)
+		int insertCount = service.insertBoard(board);
+		
+		if(insertCount == 0) {	// DB에 등록 실패 시
+			model.addAttribute("msg", "1:1 문의 등록 실패!");
+			return "fail_back";
+		}
+		
+		// cs main으로 이동
+		return "redirect:/cs_main";
 	}
 	
 	// cs 부분 자주묻는질문(cs_faq.jsp)으로 가는 매핑

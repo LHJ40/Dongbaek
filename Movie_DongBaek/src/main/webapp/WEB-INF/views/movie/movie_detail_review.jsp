@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <%-- 부트스트랩 이모티콘 --%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -39,6 +40,121 @@
 	}
 	
 </style>
+ <script type="text/javascript">
+	            
+	// 로그인하지 않은 상태에서 [reviewLike] 버튼 클릭시
+	// alert("로그인이 필요한 서비스입니다") 출력
+	function login(){
+		alert("로그인이 필요한 서비스입니다");
+	}
+         	
+	
+	$(document).ready(function() {
+		let reviewButtons = $(".reviewLike");
+		
+		if($("input[type=hidden]").val()) {
+			reviewButtons.each(function() {
+				let reviewNum = $(this).data("review-num");
+				isReviewLikeExist(reviewNum);
+				getReviewLikeCount(reviewNum);
+			});
+		}
+		
+	});
+	
+	function isReviewLikeExist(reviewNum){
+		let memberId = $("input[type=hidden]").val();
+		
+		$.ajax({
+			type : "post",
+			url : "IsReviewLikeExist", 
+			data : {"review_num" : reviewNum, "member_id" : memberId}, 
+			dataType : "json",
+		})
+		.done(function(isReviewLikeExist) {
+			if(isReviewLikeExist){	// 리뷰 좋아요가 존재할 경우	
+				let likeButton = $('.reviewLike[data-review-num="' + reviewNum + '"]');
+				likeButton.html("<img src='${pageContext.request.contextPath}/resources/img/finger.png' class='rounded float-left' alt=''...' width='50px'>");
+				likeButton.addClass('removeReviewLike');
+			}else if(!isReviewLikeExist){
+				let likeButton = $('.reviewLike[data-review-num="' + reviewNum + '"]');
+				likeButton.html("<img src='${pageContext.request.contextPath}/resources/img/likeBefore.png' class='rounded float-left' alt=''...' width='50px'>");
+				likeButton.removeClass('removeReviewLike');
+			}
+			
+		})
+		.fail(function() { // 요청 실패 시
+       		alert("IsReviewLikeExist 요청 실패!");
+       	});
+	}
+
+	function getReviewLikeCount(reviewNum){
+		
+		$.ajax({
+			type : "post",
+			url : "ReviewLikeCount", 
+			data : {"review_num" : reviewNum}, 
+			dataType : "json",
+		})
+		.done(function(reviewLikeCount) {
+			$(".reviewLikeCount").html(reviewLikeCount);
+		})
+		.fail(function() { // 요청 실패 시
+       		alert("ReviewLikeCount 요청 실패!");
+       	});
+	}
+	
+	// 로그인한 상태에서 [reviewLike] 버튼 클릭시
+	$(function(){
+		$(document).on("click", ".reviewLike", function() {
+			
+   			let reviewNum = $(this).attr("data-review-num");
+    		let memberId = $("input[type=hidden]").val();    		
+    				
+    		if($(this).hasClass("removeReviewLike")){	// 리뷰 좋아요가 이미 눌려있을 경우
+	     		$.ajax({
+	     			type : "post", 
+	     			url : "RemoveReviewLike", 
+	     			data : {"review_num" : reviewNum, "member_id" : memberId}, 
+	     			dataType : "json", 
+	     		})
+	     		.done(function(RemoveReviewLike) {
+// 	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
+					$(this).parents(".reviewLikeArea").find(".reviewCount").html(RemoveReviewLike);
+		     		getReviewLikeCount(reviewNum);
+	     				
+	     		})
+	     		.fail(function() { // 요청 실패 시
+	     			alert("RemoverReviewLike 요청 실패!");
+	     		});
+	     		
+	    		$(this).removeClass('removeReviewLike');
+	     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
+    					
+  			} else{
+  				$.ajax({
+  					type : "post", 
+  					url : "ReviewLike", 
+  					data : {"review_num" : reviewNum, "member_id" : memberId}, 
+  					dataType : "json", 
+  				})
+  				.done(function(ReviewLike) {
+					$(this).parents(".reviewLikeArea").find(".reviewCount").html(ReviewLike);
+//   					alert("ReviewLike 요청성공" + ReviewLike);
+	  				getReviewLikeCount(reviewNum);
+  				})
+  				.fail(function() { // 요청 실패 시
+  					alert("ReviewLike 요청 실패!");
+  				});
+
+  				$(this).addClass("removeReviewLike");
+    			$(this).html("<img src='${pageContext.request.contextPath }/resources/img/finger.png' class='rounded float-left' alt='...' width='50px'>");
+   					
+    		}
+		})
+
+	})
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -84,7 +200,7 @@
 	            <%-- 아이콘,아이디 --%>
 	            <div class="col sm-2">
 	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px" style="margin:10px">
-	               <p>${review.member_id} 님</p>
+	               <p class="member_id">${review.member_id} 님</p>
 	            </div>
 	            <%-- 평점 --%>
 	            <div class="col sm-2">
@@ -97,7 +213,21 @@
 	            </div>
 	            <%-- 공감버튼,공감수? --%>
 	            <div class="col sm-2">
-	               <button><img src="${pageContext.request.contextPath }/resources/img/finger.png" class="rounded float-left" alt="..." width="50px"></button>
+	            	<c:choose>
+	            		<c:when test="${empty sessionScope.member_id }">
+			            	<div class="reviewLikeArea">
+		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
+				            	<button data-review-num="${review.review_num }" onclick="login()"><img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px"></button>	            		
+			            	</div>
+	            		</c:when>
+	            		<c:otherwise>
+			            	<div class="reviewLikeArea">
+		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
+				            	<button class="reviewLike" data-review-num="${review.review_num }" ><img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px"></button>	            				
+		            			<input type="hidden" value="${sessionScope.member_id }">
+							</div>
+	            		</c:otherwise>
+	            	</c:choose>
 	            </div>
 	         </div>
 	      </c:forEach>

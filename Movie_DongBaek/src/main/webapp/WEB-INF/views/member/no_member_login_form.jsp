@@ -83,7 +83,7 @@ div {
 	
 	// 생년월일 체크
 	function checkBirth(value) {
-		let getBirth = RegExp(/^(19|20)[0-9]{6}$/);
+		let getBirth = RegExp(/^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/);
 		
 		if(!getBirth.test(value)) {
 			$("#birthfeedback").text("생년월일 8자를 입력해주세요.");
@@ -458,7 +458,7 @@ div {
 		      </div>
 		      <div class="modal-footer justify-content-center">
 		      <input type="submit" class="btn btn-red" id="submitBtn" value="확인">
-		      <button type="button" class="btn btn-red" data-dismiss="modal" aria-label="Close">돌아가기
+		      <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">돌아가기
 <!-- 			      <span aria-hidden="true">&times;</span> -->
 		        </button>
 		      </div>

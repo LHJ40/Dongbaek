@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -1289,6 +1290,16 @@ public class AdminController {
 					endPage = maxPage;
 				}
 		
+		// oneperson 뒤로가기 - 기존페이지 및 검색정보 저장을 위한 값들 세션에 저장		
+		// pageNo 값을 세션에 저장
+	    session.setAttribute("pageNo", pageNo);
+		// memberSearchType 값을 세션에 저장		
+	    session.setAttribute("memberSearchType", memberSearchType);
+	    // memberSearchKeyword 값을 세션에 저장		
+	    session.setAttribute("memberSearchKeyword", memberSearchKeyword);
+	    
+	    
+	    
 		// 페이징 정보 저장
 		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
@@ -1296,9 +1307,33 @@ public class AdminController {
 		model.addAttribute("pageInfo", pageInfo);
 		System.out.println(memberList);
 		
-		
 		return "admin/admin_member_list";
 	}
+	
+	// 관리자 - 회원상세 - 정의효
+		@GetMapping("admin_member_oneperson")
+		public String adminMemberOneperson(
+		        HttpSession session,
+		        @RequestParam String member_id,
+		        Model model,
+		        HttpServletRequest request) {
+
+			
+//			// 직원 세션이 아닐 경우 잘못된 접근 처리
+//			String member_type = (String)session.getAttribute("member_type");
+//			System.out.println(member_type);
+//			if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	//
+//	            model.addAttribute("msg", "잘못된 접근입니다!");
+//	            return "fail_back";
+//	        }		
+			
+			
+			MemberVO member = member_service.getMember(member_id);
+			model.addAttribute("member", member);
+			
+			return "admin/admin_member_oneperson";
+		}
 	
 	
 //	관리자 - 영화관리 - 정의효
@@ -1473,25 +1508,7 @@ public class AdminController {
 	}
 	
 
-	// 관리자 - 회원상세 - 정의효
-	@GetMapping("admin_member_oneperson")
-	public String adminMemberOneperson(HttpSession session, @RequestParam String member_id, Model model) {
-
-		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
-		
-		MemberVO member = member_service.getMember(member_id);
-		model.addAttribute("member", member);
-		
-		return "admin/admin_member_oneperson";
-	}
+	
 	
 	// 관리자 - 결제상세 - 정의효
 	@GetMapping("admin_payment_list_detail")

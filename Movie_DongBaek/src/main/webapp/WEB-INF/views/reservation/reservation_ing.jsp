@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <head>
 
@@ -134,7 +135,7 @@ article {
  	            
  	            name: '주문명:동백시네마',
  	            //결제창에서 보여질 이름
- 	            amount: 1000, 
+ 	            amount:1000, //${totalprice}
  	            //가격 
  	            buyer_email: '${member.member_email}',
  	            buyer_name: '${member.member_name}',
@@ -156,17 +157,17 @@ article {
                        type: "POST",
                         data:{
                        "order_num" :  rsp.merchant_uid,//주문번호
-                       "order_total_price": 2000, //할인전 총금액 임시	
+                       "order_total_price": ${beforeTotalprice}, //할인전 총금액 	
                        "member_id" : '${member.member_id}', // 회원아이디
                        "payment_num" : rsp.imp_uid,//고유ID
                        "payment_name": '${member.member_name}',//주문자명
                        "payment_datetime" : timestamp(),//결제시간
                        "payment_total_price" : rsp.paid_amount,//총결제금액
                        "payment_status":'결제완료',
-                       "play_num":'${param.play_num}',
-                       "seat_num":10,//임시
-                       "ticket_type_num":1,//임시
-                       "payment_card_num":11123, //임시
+                       "play_num":${param.play_num},
+                       "seat_name":"${param.seat_name}",//임시
+                       "ticket_type_num_param":"${param.ticket_type_num}",//임시
+                       "payment_card_num":rsp.apply_num, //임시
                        "payment_card_name":"NH"//임시
                        },
                        dataType: "json", 
@@ -175,7 +176,7 @@ article {
                        if (res > 0) {
                            alert('주문정보 저장 성공');
 //                            createPayInfo(uid);
-                           location.href='reservation_check';
+                           location.replace='reservation_check';
                        }
                        else {
                     	   alert('주문정보 저장 실패');
@@ -244,9 +245,12 @@ article {
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
+<c:set var="morning" value='<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조' />
+<c:set var="night" value='<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야' />
+<c:set var="general" value='일반' />
   <%--본문내용 --%>
-		<div class="container-fluid reservation_con" >
 		<h2>영화 예매</h2>
+		<div class="container-fluid reservation_con" >
 			<div class="col col1">
 	            <div class="row row1">
 	            	<%-- 예매 진행 중인 영화 포스터 파트  --%>
@@ -275,7 +279,9 @@ article {
 					 	<table id="room" class="table table-borderless">
 					 		<thead>
 					 		<tr>
-					 			<th scope="col" width="180px">&nbsp;</th>
+					 			<td scope="col" width="180px"><c:if test="${reservation.play_time_type eq '조조'}">${morning}</c:if>
+															  <c:if test="${reservation.play_time_type eq '심야'}">${night}</c:if>
+															  <c:if test="${reservation.play_time_type eq '일반'}">${general}</c:if></td>
 					 		</tr>
 					 		</thead>
 					 		<tbody>
@@ -304,7 +310,7 @@ article {
 						    </c:forEach>
 						    </tr>
 				  			<tr>
-				  				<th colspan="3">총 금액 ${total}원</th>
+				  				<td colspan="3"><b>영화 총 금액</b> ${total}원</td>
 				  			</tr>
 <!-- 				  				<tr> -->
 <!-- 				  					<th>성인</th> -->
@@ -324,13 +330,17 @@ article {
 <!-- 				  				<tr> -->
 							<tr>
 				  					<th>할인금액</th>
+				  					<fmt:parseNumber var= "grade_discount" integerOnly= "true" value= "${total*member_grade.grade_discount}" />
+				  					 <c:if test="${member_grade.grade_name eq 'NONE'}">
+				  					<c:set var= "grade_discount" value="0"/>
+				  					</c:if>
 				  					<td>${member_grade.grade_name }</td>
-				  					<td>${total*member_grade.grade_discount } </td>
+				  					<td>${grade_discount }원 </td>
 				  				</tr>
 				  				<tr>
-				  					<th>최종 결제금액</th>
-				  					<td> &nbsp; </td>
-				  					<td> ${total-total*member_grade.grade_discount} 원 </td>
+				  					<th>최종 영화금액 </th>
+				  					<td> <span <c:if test="${member_grade.grade_name ne 'NONE'}"> style="text-decoration: line-through;"</c:if>>${total}원</span></td>
+				  					<td> ${total-grade_discount} 원 </td>
 				  				</tr>
 				  			
 				  		</table>
@@ -340,24 +350,36 @@ article {
 	            <%-- 스낵 구매 정보 확인 & 돌아가기 ,결제하기 버튼 --%>
 	            <div class="row row2">
 	            	<%-- 선택한 스낵의 사진 --%>
+	         <c:if test="${snackNumlist ne null}">
 	                <div class="col-3" align="center">
-				  		<img src="/resources/img/popcorncombo.png" height="100px" width="100px">
+				  		<img src="${snackNumlist[0].snack_img }" height="100px" width="100px">
 					</div>
 					<%-- 선택한 스낵의 정보 --%>
 	                <div class="col-3">
 	                	<table id="snackregion" class="table table-borderless">
-					 		<thead>
 					 		<tr>
 					 			<th scope="col" colspan="2">스낵 정보</th>
 					 		</tr>
-					 		</thead>
-					 		<tbody>
-					 		<tr><td>카라멜팝콘 콤보</td></tr>
-					 		</tbody>
+					 		<tr>
+					 		<td>
+					 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
+					 		 	${snack.snack_name}
+								 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
+								 <c:set var= "sancktotal" value="${sancktotal + snack.snack_price*snackquantitylist[status.index]}"/>
+					 		 </c:forEach>
+					 		 ${sancktotal}원
+					 		</td>
+					 		</tr>
+					 		
 					 	</table>
 	                </div>
+	                </c:if>
+	                <div class="col-3">
+	                <h5>최종 결제 금액</h5>
+	                <h5>${total-grade_discount+sancktotal}원</h5>
+	                </div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
-	                <div class="col-5">
+	                <div class="col-3">
 			  			<button class="btn btn-secondary btn-lg" id="nextBtn" onclick=""> 돌아가기 </button>
 			  			<button class="btn btn-danger btn-lg" id="check_module" onclick=""> 결제하기 </button>
 	                </div>

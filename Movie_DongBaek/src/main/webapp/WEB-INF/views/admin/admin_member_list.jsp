@@ -71,110 +71,110 @@ a:hover, a:active{
 	<header id="pageHeader"><%@ include
 			file="../inc/header.jsp"%></header>
 
-	<article id="mainArticle">
-		<%--본문내용 --%>
-		<div class="container-fluid w-900">
-			<div class="row">
-				<div class="col-md-12 mt-3">
-					<h3>회원관리</h3>
+		<article id="mainArticle">
+			<%--본문내용 --%>
+			<div class="container-fluid w-900">
+				<div class="row">
+					<div class="col-md-12 mt-3">
+						<h3>회원관리</h3>
+					</div>
 				</div>
-			</div>
-
-			<%-- 'search' 영역 --%>
-			<div class="row">
-	<div class="col-md-12 mt-3">
-		<nav class="navbar navbar-light bg-light justify-content-end">
-			<form class="form-inline" action="admin_member_list" method="GET">
-				<select class="form-control mr-sm-2" name="memberSearchType" id="memberSearchType">
-					<option value="member_name" <c:if test="${param.memberSearchType eq 'member_name' }">selected</c:if>>이름</option>
-					<option value="member_id" <c:if test="${param.memberSearchType eq 'member_id' }">selected</c:if>>아이디</option>
-					<option value="grade_name" <c:if test="${param.memberSearchType eq 'grade_name' }">selected</c:if>>멤버십</option>
-				</select>
-				<input class="form-control mr-sm-2" type="text" value="${empty param.memberSearchKeyword ? '' : param.memberSearchKeyword}" placeholder="Search" aria-label="Search" id="memberSearchKeyword" name="memberSearchKeyword">
-				<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-			</form>
-		</nav>
+	
+				<%-- 'search' 영역 --%>
+				<div class="row">
+		<div class="col-md-12 mt-3">
+			<nav class="navbar navbar-light bg-light justify-content-end">
+				<form class="form-inline" action="admin_member_list" method="GET">
+					<select class="form-control mr-sm-2" name="memberSearchType" id="memberSearchType">
+						<option value="member_name" <c:if test="${param.memberSearchType eq 'member_name' }">selected</c:if>>이름</option>
+						<option value="member_id" <c:if test="${param.memberSearchType eq 'member_id' }">selected</c:if>>아이디</option>
+						<option value="grade_name" <c:if test="${param.memberSearchType eq 'grade_name' }">selected</c:if>>멤버십</option>
+					</select>
+					<input class="form-control mr-sm-2" type="text" value="${empty param.memberSearchKeyword ? '' : param.memberSearchKeyword}" placeholder="Search" aria-label="Search" id="memberSearchKeyword" name="memberSearchKeyword">
+					<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+				</form>
+			</nav>
+		</div>
 	</div>
-</div>
-<%-- 회원관리 테이블 시작 --%>
-<div class="row">
-	<div class="col-md-12">
-		<table class="table table-striped text-center">
-			<thead>
-				<tr>
-					<th scope="col">이름</th>
-					<th scope="col">아이디</th>
-					<th scope="col">멤버십</th>
-					<th scope="col">현재상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="member" items="${memberList}">
+	<%-- 회원관리 테이블 시작 --%>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped text-center">
+				<thead>
 					<tr>
-						<td>${member.member_name}</td>
-						<td>${member.member_id}</td>
-						<td>${member.grade_name}</td>
-						<td>
-							<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
-						</td>
+						<th scope="col">이름</th>
+						<th scope="col">아이디</th>
+						<th scope="col">멤버십</th>
+						<th scope="col">현재상태</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach var="member" items="${memberList}">
+						<tr>
+							<td>${member.member_name}</td>
+							<td>${member.member_id}</td>
+							<td>${member.grade_name}</td>
+							<td>
+								<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
-
-		
-		<%--수정님 페이징 --%>
-<nav aria-label="...">
-    <ul class="pagination pagination-md justify-content-center">
-        <%-- 이전 페이지로 이동 --%>
-        <c:choose>
-            <c:when test="${pageInfo.startPage > 1}">
-                <li class="page-item">
-                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-
-        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
-        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-            <c:choose>
-                <%-- 현재 페이지 --%>
-                <c:when test="${pageNo eq i}">
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">${i} <span class="sr-only">(current)</span></a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <%-- 다른 페이지 --%>
-                    <li class="page-item">
-                        <a class="page-link" href="admin_member_list?pageNo=${i}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">${i}</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-
-        <%-- 다음 페이지로 이동 --%>
-        <c:choose>
-            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
-                <li class="page-item">
-                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
-</nav>
+	
+			
+			<%--수정님 페이징 --%>
+	<nav aria-label="...">
+	    <ul class="pagination pagination-md justify-content-center">
+	        <%-- 이전 페이지로 이동 --%>
+	        <c:choose>
+	            <c:when test="${pageInfo.startPage > 1}">
+	                <li class="page-item">
+	                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
+	                </li>
+	            </c:when>
+	            <c:otherwise>
+	                <li class="page-item disabled">
+	                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+	                </li>
+	            </c:otherwise>
+	        </c:choose>
+	
+	        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+	        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+	            <c:choose>
+	                <%-- 현재 페이지 --%>
+	                <c:when test="${pageNo eq i}">
+	                    <li class="page-item active" aria-current="page">
+	                        <a class="page-link" href="#">${i} <span class="sr-only">(current)</span></a>
+	                    </li>
+	                </c:when>
+	                <c:otherwise>
+	                    <%-- 다른 페이지 --%>
+	                    <li class="page-item">
+	                        <a class="page-link" href="admin_member_list?pageNo=${i}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">${i}</a>
+	                    </li>
+	                </c:otherwise>
+	            </c:choose>
+	        </c:forEach>
+	
+	        <%-- 다음 페이지로 이동 --%>
+	        <c:choose>
+	            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+	                <li class="page-item">
+	                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
+	                </li>
+	            </c:when>
+	            <c:otherwise>
+	                <li class="page-item disabled">
+	                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+	                </li>
+	            </c:otherwise>
+	        </c:choose>
+	    </ul>
+	</nav>
 
 
 <%-- 			<%-- 0616 정의효 - 페이징 처리 --%> 

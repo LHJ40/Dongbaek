@@ -135,6 +135,7 @@
 			WHERE
 				member_id = #{member_id}
 				AND payment_datetime >= CONCAT(YEAR(now()), '-01-01')
+				AND payment_status = '결제완료'
 	</select>
 	
 	<!-- 페이징처리중 - 0615 정의효  - 페이징처리 새로 완료후삭제예정 0622 정의효-->

@@ -42,6 +42,11 @@
 		width: 800px;
 	}
 	
+	#nothing {
+		color: gray;
+		font-size: 0.8em;
+	}
+	
 </style>
 <script type="text/javascript">
 	
@@ -128,17 +133,22 @@
 						    </c:forEach>
 			      		</td> 
 				    </tr>
-		    		<c:if test="${not empty mySnack}">
 					    <c:forEach var="snack" items="${mySnack }">
 							    <tr>
 							    	<th>주문 내역</th>
 							    		<td>
-											${snack.snack_name}
-											${snack.snack_quantity} 개
+							    			<c:choose>
+									    		<c:when test="${snack.snack_quantity eq 0}">
+									    			<span id="nothing">스토어 주문내역 없음</span>
+									    		</c:when>
+									    		<c:otherwise>
+													${snack.snack_name}
+													${snack.snack_quantity} 개
+									    		</c:otherwise>
+							    			</c:choose>
 						      			</td> 
 							    </tr>
 					    </c:forEach>
-		    		</c:if>
 				    <tr>
 				      <th>결제일</th>
 				      <td>
