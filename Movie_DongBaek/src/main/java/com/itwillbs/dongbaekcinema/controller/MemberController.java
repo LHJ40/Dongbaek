@@ -386,7 +386,7 @@ public class MemberController {
 		System.out.println(insertCount);
 		// 비회원 로그인(가입) 성공 시 success_back으로 이동
 		if(insertCount > 0) {
-			session.setAttribute("member_id", noMember.getMember_name()); // name으로 불리게 하기
+			session.setAttribute("member_id", noMember.getMember_id());
 			session.setAttribute("member_type", "비회원");
 			
 			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
