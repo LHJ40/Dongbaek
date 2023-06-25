@@ -16,8 +16,8 @@ public class MypageService {
 	private MypageMapper mapper;
 	
 	// 나의 예매내역 조회 - 회원 아이디로 레코드 조회
-	public List<MyTicketVO> getMyTicket(String member_id) {
-		return mapper.selectMyTicket(member_id);
+	public List<MyTicketVO> getMyTicket(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyTicket(member_id, startRow, listLimit);
 	}
 
 	// 나의 개인정보 조회  - 회원 아이디로 레코드 조회 , myPage_modify_form.jsp 
@@ -41,6 +41,7 @@ public class MypageService {
 	public String getPasswd(String member_id) {
 		return mapper.selectMyPasswd(member_id);
 	}
+
 
 
 

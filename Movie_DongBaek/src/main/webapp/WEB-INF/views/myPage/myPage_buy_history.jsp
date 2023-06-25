@@ -98,6 +98,60 @@
 					</c:choose>
 				</table>
 			</div>
+			
+			<%-- 페이징 처리 --%>
+			<nav aria-label="...">
+			    <ul class="pagination pagination-md justify-content-center">
+			        <%-- 이전 페이지로 이동 --%>
+			        <c:choose>
+			            <c:when test="${pageInfo.startPage > 1}">
+			                <li class="page-item">
+			                    <a class="page-link" href="myPage_buy_history?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+			                </li>
+			            </c:when>
+			            <c:otherwise>
+			                <li class="page-item disabled">
+			                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+			                </li>
+			            </c:otherwise>
+			        </c:choose>
+			
+			        <%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+			        <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+			            <c:choose>
+			                <%-- 현재 페이지 --%>
+			                <c:when test="${pageNo eq i}">
+			                    <li class="page-item active" aria-current="page">
+			                        <a class="page-link">${i} <span class="sr-only">(current)</span></a>
+			                    </li>
+			                </c:when>
+			                <c:otherwise>
+			                    <%-- 다른 페이지 --%>
+			                    <li class="page-item">
+			                        <a class="page-link" href="myPage_buy_history?pageNo=${i}">${i}</a>
+			                    </li>
+			                </c:otherwise>
+			            </c:choose>
+			        </c:forEach>
+			
+			        <%-- 다음 페이지로 이동 --%>
+			        <c:choose>
+			            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+			                <li class="page-item">
+			                    <a class="page-link" href="myPage_buy_history?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+			                </li>
+			            </c:when>
+			            <c:otherwise>
+			                <li class="page-item disabled">
+			                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+			                </li>
+			            </c:otherwise>
+			        </c:choose>
+			    </ul>
+			</nav>
+			
+			
+			
 	  </div>
   </article>
   
