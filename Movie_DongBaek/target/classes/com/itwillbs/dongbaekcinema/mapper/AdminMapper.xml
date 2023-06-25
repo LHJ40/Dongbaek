@@ -152,7 +152,7 @@
         #{theater_num},
         #{room_num}
     )
-</insert>
+	</insert>
 	
 	
 	
@@ -172,6 +172,44 @@
     		 	LIMIT #{start}, #{pageListLimit}
     </select>
     
+    <!-- 자주묻는 질문 게시판 변수에 따라서 목록 출력하기 -->
+    <select id="getCsWithKeywordPaging" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
+    	SELECT
+    		 * 
+    		 FROM 
+    		 	CS c
+    		 	JOIN
+    		 		MEMBERS m
+    		 		ON c.member_id = m.member_id
+				WHERE
+				<!-- 2. 검색타입(cs_type_keyword)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="cs_type_keyword.equals('전체')">
+						cs_type IN(${condition})
+					</when>
+					<when test="cs_type_keyword.equals('예매')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('멤버십')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('결제수단')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('극장')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('스토어')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('할인혜택')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+				</choose>
+    		 	ORDER BY cs_type_list_num  DESC 
+    		 	LIMIT #{start}, #{pageListLimit}
+    </select>
+    
     <!-- CS 게시판 condition 변수에 따라 총 게시물 수 출력 -->
     <select id="getCsCount" resultType="int">
     	SELECT 
@@ -180,6 +218,40 @@
    				CS
    			WHERE
    				cs_type IN(${condition})
+    </select>
+    
+    
+        <!-- CS 게시판 키워드 변수에 따라 총 게시물 수 출력 -->
+    <select id="getCsCountKeyword" resultType="int">
+    	SELECT 
+    		COUNT(*)
+    		FROM
+   				CS
+				WHERE
+				<!-- 2. 검색타입(cs_type_keyword)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="cs_type_keyword.equals('전체')">
+						cs_type IN(${condition})
+					</when>
+					<when test="cs_type_keyword.equals('예매')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('멤버십')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('결제수단')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('극장')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('스토어')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+					<when test="cs_type_keyword.equals('할인혜택')">
+						cs_type LIKE '${cs_type_keyword}'
+					</when>
+				</choose>
     </select>
 
 	<!-- CS 게시판 condition 변수에 따라 글수정, 답글 달기 시 해당 타입글번호 CsVO 출력 -->

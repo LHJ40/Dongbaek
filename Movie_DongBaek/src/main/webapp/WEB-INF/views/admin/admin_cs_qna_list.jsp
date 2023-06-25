@@ -92,78 +92,79 @@ a:hover, a:active{
   
    <div class="container-fluid w-900" >
 
-	  <%-- 네이게이션바 --%>
- 	<div class="row row-md-12"> 
-		<nav class="navbar navbar-expand-xl navbar-light bg-light d-flex justify-content-between">
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-		  	<div class="col col-md-4">
-		    	<a class="navbar-brand" >1:1 질문 관리</a>
-		    </div>
-
-		  </div>
-
-		</nav>
-  	</div>
-  	
-  	<%-- 본문 테이블 --%>
-  	<div class="row">
-  	<table class="table table-striped text-center align-middle">
-	  <%-- 테이블 헤드 --%>
-	  <thead>
-	    <tr>
-	      <th scope="col" width="80px">번호</th>
-   	      <th scope="col" width="80px">유형</th>
-	      <th scope="col" width="300px">제목</th>
-	      <th scope="col" width="100px">작성자</th>
-	      <th scope="col" width="100px">등록일</th>
-	      <th scope="col" width="100px"></th>
-	    </tr>
-	  </thead>
-	  <%-- 테이블 바디--%>
-	  <tbody>
-	    <tr>
-	  <%-- CS 목록 출력 --%>
-	  <c:forEach var="csInfo" items="${csInfoList }">
-	    <tr>
-	      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
-   	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
-	      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${csInfo.cs_subject }</td>
-	      <td scope="col" class="align-middle">${csInfo.member_name }</td>
-	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
-	      </td>
-	      
-		<%-- 관리자 답변이 없을 경우 답변 등록 버튼이 나오고 답변이 있을 경우 답변완료 버튼 뜸  --%>	      
-		<td scope="col" class="align-middle">
-	      	<c:choose>
-	      		<c:when test="${empty csInfo.cs_reply }">
-		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${csInfo.cs_type_list_num}&pageNo=${param.pageNo}'">답변등록</button></div>
-		  		</c:when>
-		  		<c:otherwise>
-		  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-outline-secondary" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${csInfo.cs_type_list_num}&pageNo=${param.pageNo}'">답변완료</button></div>
-		  		</c:otherwise>
-		  	</c:choose>
-		  </td>
-	    </tr>
-	  </c:forEach>
-	    </tr>
-
-	    <%-- 밑줄 용 빈칸 --%>
-	    <tr>
-	     <th scope="row"></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	    </tr>
+	 	 <%-- 네이게이션바 --%>
+	 	<div class="row row-md-12"> 
+			<nav class="navbar navbar-expand-xl navbar-light bg-light d-flex justify-content-between">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+			  	<div class="col col-md-4">
+			    	<a class="navbar-brand" >1:1 질문 관리</a>
+			    </div>
 	
-	  </tbody>
-	</table>
-  	</div>
-	<div class="col col-md-1"></div>
+			  </div>
+	
+			</nav>
+	  	</div>
+  	
+	  	<%-- 본문 테이블 --%>
+	  	<div class="row">
+	  	<table class="table table-striped text-center align-middle">
+		  <%-- 테이블 헤드 --%>
+		  <thead>
+		    <tr>
+		      <th scope="col" width="80px">번호</th>
+	   	      <th scope="col" width="80px">유형</th>
+		      <th scope="col" width="300px">제목</th>
+		      <th scope="col" width="100px">작성자</th>
+		      <th scope="col" width="100px">등록일</th>
+		      <th scope="col" width="100px"></th>
+		    </tr>
+		  </thead>
+		  <%-- 테이블 바디--%>
+		  <tbody>
+		    <tr>
+		  <%-- CS 목록 출력 --%>
+		  <c:forEach var="csInfo" items="${csInfoList }">
+		    <tr>
+		      <td scope="col" class="align-middle">${csInfo.cs_type_list_num }</td>
+	   	      <td scope="col" class="align-middle">${csInfo.cs_type }</td>
+		      <td scope="col" class="align-middle text-left" style="color: #3D2C1E;">${csInfo.cs_subject }</td>
+		      <td scope="col" class="align-middle">${csInfo.member_name }</td>
+		      <td scope="col" class="align-middle">
+		      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
+		      </td>
+		      
+			<%-- 관리자 답변이 없을 경우 답변 등록 버튼이 나오고 답변이 있을 경우 답변완료 버튼 뜸  --%>	      
+			<td scope="col" class="align-middle">
+		      	<c:choose>
+		      		<c:when test="${empty csInfo.cs_reply }">
+			  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-danger" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${csInfo.cs_type_list_num}&pageNo=${param.pageNo}'">답변등록</button></div>
+			  		</c:when>
+			  		<c:otherwise>
+			  			<div class="row col flex-row-reverse"><button type="button" class="btn btn-outline-secondary" onclick="location.href='admin_cs_qna_reply?cs_type_list_num=${csInfo.cs_type_list_num}&pageNo=${param.pageNo}'">답변완료</button></div>
+			  		</c:otherwise>
+			  	</c:choose>
+			  </td>
+		    </tr>
+		  </c:forEach>
+		    </tr>
+	
+		    <%-- 밑줄 용 빈칸 --%>
+		    <tr>
+		     <th scope="row"></th>
+		     <th></th>
+		     <th></th>
+		     <th></th>
+		     <th></th>
+		    </tr>
+		
+		  </tbody>
+		</table>
+	  	</div>
+   </div>
+
  <%-- 페이징 --%>
  
  <nav aria-label="...">

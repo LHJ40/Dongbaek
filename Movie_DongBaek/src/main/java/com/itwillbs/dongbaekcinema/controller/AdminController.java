@@ -728,7 +728,6 @@ public class AdminController {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
 //		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
 //
 //            model.addAttribute("msg", "잘못된 접근입니다!");
@@ -850,9 +849,10 @@ public class AdminController {
 	@GetMapping("admin_cs_faq")
 	public String adminCsFaq(HttpSession session, Model model
 			, @RequestParam(defaultValue = "3") int csTypeNo
+			, @RequestParam(defaultValue = "전체") String cs_type_keyword
 			, @RequestParam(defaultValue = "1") int pageNo) {
 
-		
+		System.out.println(cs_type_keyword);
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
 //		System.out.println(member_type);
@@ -874,7 +874,7 @@ public class AdminController {
 		int startPage = ((pageNo - 1) / listLimit) * listLimit + 1; // 시작할 페이지
 //		System.out.println("startPage: " + startPage);
 		int endPage = startPage + listLimit -1; // 끝페이지
-		int listCount = admin_service.getCsTotalPageCount(listLimit, csTypeNo);
+		int listCount = admin_service.getCsTotalPageCountKeyword(listLimit, csTypeNo, cs_type_keyword);
 		
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
@@ -887,7 +887,7 @@ public class AdminController {
 		// --------------------------------------------------------------------------
 		
 		// 공지사항 목록 조회
-		List<CsInfoVO> csInfoList = admin_service.getCsList(pageNo, listLimit, startRow, csTypeNo);
+		List<CsInfoVO> csInfoList = admin_service.getCsListKeyword(pageNo, listLimit, startRow, csTypeNo, cs_type_keyword);
 		
 		// 페이징 정보 저장
 		PageInfoVO pageInfo = new PageInfoVO(listCount, listLimit, maxPage, startPage, endPage);
