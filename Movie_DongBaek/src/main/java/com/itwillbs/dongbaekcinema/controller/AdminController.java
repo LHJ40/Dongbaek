@@ -223,8 +223,8 @@ public class AdminController {
 			, @RequestParam String play_date, @RequestParam int theater_num
 			, @RequestParam int row_num, @RequestParam int movie_num) {
 		
-		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
-		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+//		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
+//		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
 		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
 		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
@@ -238,39 +238,39 @@ public class AdminController {
 			
 			
 			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
-				System.out.println("상영스케줄 이미 존재하므로 기존 스케줄 삭제 후 재생성");
+//				System.out.println("상영스케줄 이미 존재하므로 기존 스케줄 삭제 후 재생성");
 			
 //				// 상영스케줄 정보 삭제 수행
 				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
 //				
 //				
 				if(deleteTurnCount == 0) { // 상영스케줄이 다른 테이블에서 참조하는경우 삭제 실패(ex.예매가 진행되고있는 경우)
-					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
+//					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
 					
 				} else { // 상영 스케줄 등록
 					
 					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
 										
 					if(insertTurnCount == 0) { // 상영 등록 실패
-						System.out.println("상영 스케줄 등록을 시도했으나 실패");
+//						System.out.println("상영 스케줄 등록을 시도했으나 실패");
 						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
 					} else { // 상영 등록 성공
-						System.out.println("상영등록 성공");
+//						System.out.println("상영등록 성공");
 						jsonObject.put("result", "상영정보가 변경 되었습니다 확인 버튼을 다시 눌러주세요");
 					}
 				}
 //				
 			} else { // 상영 스케줄이 없는 경우(insert 실행)
-				System.out.println("상영스케줄 없음");
+//				System.out.println("상영스케줄 없음");
 				
 //				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
 				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
 			
 				if(insertTurnCount == 0) { // 상영 등록 실패
-					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
+//					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
 					jsonObject.put("result", "상영등록 날짜가 오늘과 같거나 과거입니다");
 				} else { // 상영 등록 성공
-					System.out.println("상영등록 성공");
+//					System.out.println("상영등록 성공");
 					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
 				}
 			}
@@ -340,7 +340,7 @@ public class AdminController {
 		
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
 		
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
@@ -393,7 +393,7 @@ public class AdminController {
 			, @ModelAttribute("noticeInfo") CsInfoVO csInfo
 			, @RequestParam int csTypeNo) {
 		
-		System.out.println("notice_form pageNo: " + pageNo + ", csInfo: " + csInfo);
+//		System.out.println("notice_form pageNo: " + pageNo + ", csInfo: " + csInfo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -449,7 +449,7 @@ public class AdminController {
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile1 = csInfo.getFile1();
-		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+//		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
 		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
@@ -474,7 +474,7 @@ public class AdminController {
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
+//		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
@@ -628,7 +628,7 @@ public class AdminController {
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile1 = csInfo.getFile1();
-		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+//		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
 		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
@@ -653,7 +653,7 @@ public class AdminController {
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
+//		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
@@ -700,7 +700,7 @@ public class AdminController {
 			, @RequestParam("csTypeNo") int csTypeNo
 			, @RequestParam("cs_type_list_num")int cs_type_list_num) {
 		
-		System.out.println("delete_cs, csTypeNo:" + csTypeNo + ", cs_type_list_num:" + cs_type_list_num);
+//		System.out.println("delete_cs, csTypeNo:" + csTypeNo + ", cs_type_list_num:" + cs_type_list_num);
 		
 		int deleteCount = admin_service.deleteCs(csTypeNo, cs_type_list_num);
 		
@@ -816,7 +816,7 @@ public class AdminController {
 			, @RequestParam(defaultValue = "2") int csTypeNo
 			, @ModelAttribute("qnaInfo") CsInfoVO qnaInfo) {
 		
-		System.out.println("pageNo : " + pageNo + ", qnaInfo : " + qnaInfo);
+//		System.out.println("pageNo : " + pageNo + ", qnaInfo : " + qnaInfo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -836,7 +836,7 @@ public class AdminController {
 			// 1:1 질문 관리 게시판으로 이동
 			return "redirect:/admin_cs_qna";
 		} else {
-			System.out.println("quaReply - update 실패!");
+//			System.out.println("quaReply - update 실패!");
 			model.addAttribute("msg", "답변 등록이 실패하였습니다!");
 			return "fail_back";
 		}
@@ -933,7 +933,7 @@ public class AdminController {
 			, @ModelAttribute("faqInfo") CsInfoVO faqInfo
 			, @RequestParam int csTypeNo) {
 		
-		System.out.println("faqInfo: " + faqInfo);
+//		System.out.println("faqInfo: " + faqInfo);
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -1006,7 +1006,7 @@ public class AdminController {
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile1 = faqInfo.getFile1();
-		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+//		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
 		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
@@ -1184,7 +1184,7 @@ public class AdminController {
 		
 		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile1 = faqInfo.getFile1();
-		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+//		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
 		// 파일명 중복 방지를 위한 대첵
 		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
@@ -1209,7 +1209,7 @@ public class AdminController {
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + faqInfo.getCs_file());
+//		System.out.println("실제 업로드 파일명1 : " + faqInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
