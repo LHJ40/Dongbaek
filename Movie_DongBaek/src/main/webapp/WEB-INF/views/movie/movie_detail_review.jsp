@@ -123,13 +123,13 @@
 	     		.done(function(RemoveReviewLike) {
 // 	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
 		     		getReviewLikeCount(reviewNum);		
+		    		$(this).removeClass('removeReviewLike');
+		     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
 	     		})
 	     		.fail(function() { // 요청 실패 시
 	     			alert("RemoverReviewLike 요청 실패!");
 	     		});
 	     		
-	    		$(this).removeClass('removeReviewLike');
-	     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
     					
   			} else{	// 리뷰 좋아요가 눌려있지 않을 경우
   				$.ajax({
@@ -141,13 +141,13 @@
   				.done(function(ReviewLike) {
 //   					alert("ReviewLike 요청성공" + ReviewLike);
 	  				getReviewLikeCount(reviewNum);
+	  				$(this).addClass("removeReviewLike");
+	    			$(this).html("<img src='${pageContext.request.contextPath }/resources/img/finger.png' class='rounded float-left' alt='...' width='50px'>");
   				})
   				.fail(function() { // 요청 실패 시
-  					alert("ReviewLike 요청 실패!");
+  					alert("회원 로그인이 필요한 서비스입니다");
   				});
 
-  				$(this).addClass("removeReviewLike");
-    			$(this).html("<img src='${pageContext.request.contextPath }/resources/img/finger.png' class='rounded float-left' alt='...' width='50px'>");
    					
     		}
 		})
