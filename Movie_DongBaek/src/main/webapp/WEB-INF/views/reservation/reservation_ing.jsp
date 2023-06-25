@@ -163,10 +163,11 @@ article {
                        "payment_name": '${member.member_name}',//주문자명
                        "payment_datetime" : timestamp(),//결제시간
                        "payment_total_price" : rsp.paid_amount,//총결제금액
-                       "payment_status":'결제완료',
                        "play_num":${param.play_num},
-                       "seat_name":"${param.seat_name}",//임시
-                       "ticket_type_num_param":"${param.ticket_type_num}",//임시
+                       "seat_name":"${param.seat_name}",
+                       "ticket_type_num_param":"${param.ticket_type_num}",
+                       "snack_num_param":"${param.snack_num}",
+                       "snack_quantity_param":"${param.snack_quantity}",
                        "payment_card_num":rsp.apply_num, //임시
                        "payment_card_name":"NH"//임시
                        },

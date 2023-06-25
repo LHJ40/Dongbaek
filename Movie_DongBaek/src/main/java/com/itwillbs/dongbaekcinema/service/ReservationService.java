@@ -15,6 +15,7 @@ import com.itwillbs.dongbaekcinema.mapper.ReservationMapper;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
+import com.itwillbs.dongbaekcinema.vo.OrderSnackVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
 
 @Service
@@ -106,6 +107,10 @@ public class ReservationService {
 		// TODO Auto-generated method stub
 		return mapper.insertPayment(payment);
 	}
+	public void registSnack(OrderSnackVO snack) {
+		mapper.insertSnack(snack);
+		
+	}
 
 	public TicketTypeVO getTicketPriceListByNum(int ticket_type_num) {
 		// TODO Auto-generated method stub
@@ -116,5 +121,6 @@ public class ReservationService {
 		// TODO Auto-generated method stub
 		return mapper.selectSeatNumListByName(seat);
 	}
+
 	
 }
