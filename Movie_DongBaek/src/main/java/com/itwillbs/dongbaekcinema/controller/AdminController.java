@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -39,10 +40,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MovieService;
+import com.itwillbs.dongbaekcinema.service.MypageService;
+import com.itwillbs.dongbaekcinema.service.PayService;
 import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.BuyDetailVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -66,6 +70,13 @@ public class AdminController {
 	
 	@Autowired
 	private MovieService movie_service;
+	
+	// 결제취소 같은 매퍼 xml 사용하기 위한 서비스 - 0625 정의효
+	@Autowired
+	private MypageService mypage_service;
+	
+	@Autowired
+	private PayService pay_service;
 	
 	// 관리자페이지 메인
 	@GetMapping("admin_main")
@@ -1511,8 +1522,14 @@ public class AdminController {
 	
 	
 	// 관리자 - 결제상세 - 정의효
-	@GetMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
+	@PostMapping("admin_payment_list_detail")
+	public String adminPaymentListDetail(
+				HttpSession session,
+				@RequestParam String order_num,
+				@RequestParam String payment_num,
+				Model model) {
+		
+		
 		
 		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
 		model.addAttribute("paymentDetail", paymentDetail);

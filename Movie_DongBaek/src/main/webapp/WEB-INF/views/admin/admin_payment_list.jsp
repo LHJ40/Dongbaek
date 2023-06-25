@@ -95,16 +95,21 @@ div {
 			    </tr>
 			  </thead>
 			  <tbody>
-			  <c:forEach var="paymentList" items="${paymentList }">
-				    <tr>
-				      <th scope="row">${paymentList.payment_num }</th>
-				      <td>${paymentList.member_id }</td>
-				      <td>${paymentList.payment_datetime }</td>
-				      <td>${paymentList.payment_status }</td>
-				      <td><a href="admin_payment_list_detail?order_num=${paymentList.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
-				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
-				    </tr>
-			    </c:forEach>
+			 <c:forEach var="paymentList" items="${paymentList }">
+  <tr>
+    <th scope="row">${paymentList.payment_num }</th>
+    <td>${paymentList.member_id }</td>
+    <td>${paymentList.payment_datetime }</td>
+    <td>${paymentList.payment_status }</td>
+    <td>
+      <form action="admin_payment_list_detail" method="POST">
+        <input type="hidden" name="order_num" value="${paymentList.order_num }">
+        <input type="hidden" name="payment_num" value="${paymentList.payment_num }"> <!-- list_detail 취소를위한 payment_num -->
+        <input type="submit" class="btn btn-outline-red btn-sm" value="상세보기">
+      </form>
+    </td>
+  </tr>
+</c:forEach>
 			  </tbody>
 			</table>
 		</div>
