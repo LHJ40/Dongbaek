@@ -12,7 +12,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
-<title>영화 예매 사이트</title>
+<title>개인정보 수정</title>
 <style>
 #mainNav{
 /* 		border: 1px solid #f00; */
@@ -28,6 +28,26 @@ a:hover, a:active{
 	
 }
 </style>
+<script type="text/javascript">
+
+// 비밀번호 와 비밀번호 확인 일치
+function checkconfirmPasswd(passwdCheck) {
+	
+	let member_pass = document.fr.member_pass.value;
+	
+	if(member_pass == passwdCheck) {
+		document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
+		document.querySelector("#pass_confirm").style.color = "green";
+	} else {
+		document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
+		document.querySelector("#pass_confirm").style.color = "red";
+		alert("비밀번호를 다시 입력해주세요!");
+		$("#member_pass").val('');
+		$("#member_pass2").val('');
+	}
+}
+
+</script>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -43,81 +63,215 @@ a:hover, a:active{
 				</c:when>
 				<c:otherwise>
 				 	<c:forEach var="myInfo" items="${myInfoList }">
-				 		<h2>개인정보 수정</h2>
-						* ${myInfo.member_name } 님의 정보를 정확히 입력해주세요. <br>
-						현재 $ } 등급으로 동백시네마와 함께 하고 계십니다!
-						<form action="myPage_modify_member" method="post">
-							<table border="1">
-								<tr>
-									<td>아이디</td>
-									<td>${myInfo.member_id }</td>
-								</tr>
-								<tr>
-									<td>이름</td>
-									<td>${myInfo.member_name } </td>
-								</tr>
-								<tr>
-									<td>비밀번호</td>
-<%-- 									<td>${myInfo.member_pass } </td> --%>
-									<td><input type="password" name="passwd" onkeyup="checkPasswd(this.value)" placeholder="영어 대소문자, 숫자, @#$% 를 사용하여 8 ~ 16글자 사이 입력"> </td>
-								</tr>
-								<tr>
-									<td>비밀번호 확인</td>
-<%-- 									<td>${myInfo.member_pass }</td> --%>
-									<td><input type="password" name="newPasswd" onkeyup="checkNewPasswd(this.value)" placeholder="비밀번호 변경 시 입력"></td>
+				 		<h2>
+							* ${myInfo.member_name } 님의 정보입니다.
+						</h2>
+						
+						<hr>
+						
+						<p> <em style="color:red;">*</em> 표시 항목은 변경을 원하실 때만 입력해주세요.
+						
+						<form action="myPage_modify_member_pro" method="POST" name="fr">
+						<input type="hidden">
+							<%-- 아이디 --%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">아이디</label>
+	              					<div class="col-10">
+		             					${myInfo.member_id }
+	              					</div>
+		        			</div>
+							
+							<%-- 이름 --%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">이름</label>
+	              					<div class="col-10">
+		             					${myInfo.member_name }
+	              					</div>
+		        			</div>
+							
+							<%-- 비밀번호 --%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">비밀번호 <em style="color:red;">*</em></label>
+	              					<div class="col-6">
+		             					<input type="password" name="member_pass" id="member_pass" onblur="checkPasswd(this.value)" placeholder="영어 대소문자, 숫자, @#$% 를 사용하여 8 ~ 16글자 사이 입력">
+	              					</div>
+		        			</div>
+		        			
+							<%-- 비밀번호 확인--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">비밀번호 확인 <em style="color:red;">*</em></label>
+	              					<div class="col-6">
+	              						<input type="password" name="member_pass2" id="member_pass2" onblur="checkconfirmPasswd(this.value)(this.value)" placeholder="비밀번호 변경 시 입력">
+	              					</div>
+	              					<div class="col-6">
+										<span id="pass_confirm"></span>
+	              					</div>
+		        			</div>
+		        			
+							<%-- 생년월일--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">생일</label>
+	              					<div class="col-5">
+	              						${myInfo.member_birth }
+	              					</div>
+		        			</div>
+		        			
+							<%-- 전화번호--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">전화번호</label>
+	              					<div class="col-10">
+	              						<%-- 전화번호 형태로 보여주기 --%>
+	              						${myInfo.member_phone }
+	              					</div>
+		        			</div>
+		        			
+							<%-- 전화번호 변경 시 인증--%>
+<!-- 							<div class="row mb-3"> -->
+<!-- 	             				<label for="id" class="col-2 text-nowrap">변경할 전화번호 <em style="color:red;">*</em></label> -->
+<!-- 	              					<div class="col-10"> -->
+<!-- 										<input type="text" id="member_phone" name="member_phone" title="전화번호 입력" required maxlength="11" placeholder="핸드폰번호 (-)없이 입력"> -->
+<!-- <!-- 		      					<span id="phoneChk" class="doubleChk">인증번호 보내기</span> -->
+<!-- 		      							<input type="button" id="phoneChk" class="doubleChk" value="인증번호 보내기"> -->
+<!-- 		      							<br> -->
+<!-- 	              					</div> -->
+<!-- 		        			</div> -->
+		        			
+<%-- 							전화번호 변경 시 인증번호 입력 --%>
+<!-- 							<div class="row mb-3"> -->
+<!-- 	             				<label for="id" class="col-2 text-nowrap">변경할 전화번호 <em style="color:red;">*</em></label> -->
+<!-- 	              					<div class="col-10"> -->
+<!-- 										<input type="text" id="phone2" title="인증번호 입력" placeholder="인증번호"> -->
+<!-- <!-- 		      					<span id="phoneChk2" class="doubleChk">본인인증</span> -->
+<!-- 				      					<input type="button" id="phoneChk2" class="doubleChk" value="인증확인"> -->
+<!-- 				      					<br> -->
+<!-- 										<span class="point successPhoneChk">휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span> -->
+<!-- 										<input type="hidden" id="phoneDoubleChk"> -->
+<!-- 	              					</div> -->
+<!-- 		        			</div> -->
+		        			
+<%-- 		        			인증 완료 버튼 --%>
+<!-- 							<div class="row mb-3"> -->
+<!-- 	             				<label for="id" class="col-2 text-nowrap">변경할 전화번호 <em style="color:red;">*</em></label> -->
+<!-- 	              					<div class="col-10"> -->
+<!-- 										<input type="button" id="DoneBtn" class="btn btn-danger d-flex justify-content-center" value="인증완료" disabled="disabled"> -->
+<!-- 	              					</div> -->
+<!-- 		        			</div> -->
+		        			
+<%-- 		        			CoolSMS 문자인증 시작 --%>
+<!-- 								<script type="text/javascript"> -->
+<!-- // 									//휴대폰 번호 인증 -->
+<!-- // 									$("#phoneChk").click(function(){ -->
+<!-- // 										var code2 = ""; -->
+<!-- // 										alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); -->
+<!-- // 										let member_phone = $("#member_phone").val(); -->
+<!-- // 										console.log("1"); -->
+										
+<!-- // 										$.ajax({ -->
+<!-- // 									        type:"POST", -->
+<%-- // 									        url: '<c:url value="/phoneCheck"/>', --%>
+<!-- // 									        data: "member_phone=" + member_phone, -->
+<!-- // 									        dataType: "json", -->
+<!-- // 									        success : function(data){ -->
+									        	
+<!-- // 									         	console.log("2"); -->
+<!-- // 									         	let checkNum = data; -->
+<!-- // 									         	alert(member_phone + ', checkNum: ' + checkNum); -->
+									         	
+<!-- // 									        	if(data == "error"){ -->
+<!-- // 									        		console.log("3"); -->
+<!-- // 									        		alert("휴대폰 번호가 올바르지 않습니다.") -->
+<!-- // 													$(".successPhoneChk").text("유효한 번호를 입력해주세요."); -->
+<!-- // 													$(".successPhoneChk").css("color","red"); -->
+<!-- // 													$("#member_phone").attr("autofocus",true); -->
+<!-- // 									        	}else{	        		 -->
+<!-- // 									        		console.log("4"); -->
+<!-- // 									        		$("#phone2").attr("disabled",false); -->
+<!-- // 									        		$("#phoneChk2").css("display","inline-block"); -->
+<!-- // 									        		$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오."); -->
+<!-- // 									        		$(".successPhoneChk").css("color","green"); -->
+<!-- // 									        		$("#member_phone").attr("readonly",true); -->
+<!-- // 									        		code2 = data; -->
+<!-- // 									        	} -->
+				
+<!-- // 												//휴대폰 인증번호 대조 -->
+<!-- // 												$("#phoneChk2").click(function(){ -->
+<!-- // 													if($("#phone2").val() == code2){ -->
+<!-- // 														$(".successPhoneChk").text("인증번호가 일치합니다."); -->
+<!-- // 														$(".successPhoneChk").css("color","green"); -->
+<!-- // 														$("#phoneDoubleChk").val("true"); -->
+<!-- // 														$("#DoneBtn").attr("disabled",false); -->
+<!-- // 														// 회원가입 진행시 자동으로 값을 입력해주기 위해서 -->
+<!-- // 														// 로컬의 세션 스토리지에 이메일 저장 -->
+<!-- // 														sessionStorage.setItem('member_phone', member_phone); -->
+<!-- // 													}else{ -->
+<!-- // 														$(".successPhoneChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다."); -->
+<!-- // 														$(".successPhoneChk").css("color","red"); -->
+<!-- // 														$("#phoneDoubleChk").val("false"); -->
+<!-- // 														$(this).attr("autofocus",true); -->
+<!-- // 													} -->
+<!-- // 												}); -->
+<!-- // 									        }, -->
+<!-- // 									        error: function() { -->
+<!-- // 									        	alert("에러") -->
+<!-- // 									        } -->
+<!-- // 									    }); -->
+<!-- // 									}); -->
 									
-								</tr>
-								<tr>
-									<td>생년월일</td>
-									<td>${myInfo.member_birth }</td>
-								</tr>
-								<tr>
-									<td>휴대폰</td>
-									<td>${myInfo.member_phone }
-										<input type="button" value="휴대폰번호 변경" >
-									</td>
-								</tr>
-								<tr>
-									<td>이메일</td>
-									<td>${myInfo.member_email }
-										<input type="email" placeholder="이메일을 적어주세요" value="">
-									</td>
-								</tr>
-								<tr>
-									<td>좋아하는 장르</td>
-<%-- 									<td>${myInfo.member_like_genre } / 변경할 거 구현</td> --%>
-										<td>
-											<select name="member_like_genre" class="select">
-<%-- 												<option value="개발자" <c:if test="${member.job eq '개발자' }">selected</c:if>>개발자</option> --%>
-												<option value="선택 안함" <c:if test="${myInfo.member_like_genre eq '선택 안함'} ">selected</c:if>>선택 안함</option>
-												<option value="로맨스코미디" <c:if test="${myInfo.member_like_genre eq '로맨스코미디'} ">selected</c:if>>로맨스코미디</option>
-												<option value="스릴러" <c:if test="${myInfo.member_like_genre eq '스릴러'} ">selected</c:if>>스릴러</option>
-												<option value="공포" <c:if test="${myInfo.member_like_genre eq '공포'} ">selected</c:if>>공포</option>
-												<option value="SF" <c:if test="${myInfo.member_like_genre eq 'SF'} ">selected</c:if>>SF</option>
-												<option value="범죄" <c:if test="${myInfo.member_like_genre eq '범죄'} ">selected</c:if>>범죄</option>
-												<option value="액션" <c:if test="${myInfo.member_like_genre eq '액션'} ">selected</c:if>>액션</option>
-												<option value="코미디" <c:if test="${myInfo.member_like_genre eq '코미디'} ">selected</c:if>>코미디</option>
-												<option value="판타지" <c:if test="${myInfo.member_like_genre eq '판타지'} ">selected</c:if>>판타지</option>
-												<option value="음악" <c:if test="${myInfo.member_like_genre eq '음악'} ">selected</c:if>>음악</option>
-												<option value="멜로" <c:if test="${myInfo.member_like_genre eq '멜로'} ">selected</c:if>>멜로</option>
-												<option value="뮤지컬" <c:if test="${myInfo.member_like_genre eq '뮤지컬'} ">selected</c:if>>뮤지컬</option>
-												<option value="스포츠" <c:if test="${myInfo.member_like_genre eq '스포츠'} ">selected</c:if>>스포츠</option>
-												<option value="애니메이션" <c:if test="${myInfo.member_like_genre eq '애니메이션'} ">selected</c:if>>애니메이션</option>
-												<option value="다큐멘터리" <c:if test="${myInfo.member_like_genre eq '다큐멘터리'} ">selected</c:if>>다큐멘터리</option>
-												<option value="기타" <c:if test="${myInfo.member_like_genre eq '기타'} ">selected</c:if>>기타</option>
-											</select>
-										</td>
-											<td>
-												
-											</td>
-								</tr>
-							</table>
-							<br>
+<!-- 								</script> -->
+								<%-- CoolSMS 문자인증 끝 --%>
+		        			
+							<%-- 이메일--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">이메일</label>
+	              					<div class="col-10">
+	              						${myInfo.member_email }
+	              					</div>
+		        			</div>
+		        			
+							<%-- 이메일 변경--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">이메일 변경 <em style="color:red;">*</em></label>
+	              					<div class="col-10">
+	              						<input type="email" name="member_email" placeholder="이메일 변경 시 적어주세요">
+	              					</div>
+		        			</div>
+		        			
+							<%-- 좋아하는 장르 --%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">좋아하는 장르</label>
+	              					<div class="col-10">
+	              						${myInfo.member_like_genre }
+	              					</div>
+		        			</div>
+		        			
+							<%-- 좋아하는 장르 변경--%>
+							<div class="row mb-3">
+	             				<label for="id" class="col-2 text-nowrap">좋아하는 장르 변경 <em style="color:red;">*</em></label>
+	              					<div class="col-10">
+	              						<select name="member_like_genre" class="select">
+											<option value="선택 안함" <c:if test="${member_like_genre=='선택 안함'}">${'selected' }</c:if>>선택 안함</option>
+											<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>로맨스코미디</option>
+											<option value="스릴러"<c:if test="${member_like_genre=='스릴러'}">${'selected' }</c:if>>스릴러</option>
+											<option value="공포"<c:if test="${member_like_genre=='공포'}">${'selected' }</c:if>>공포</option>
+											<option value="SF"<c:if test="${member_like_genre=='SF'}">${'selected' }</c:if>>SF</option>
+											<option value="범죄"<c:if test="${member_like_genre=='범죄'}">${'selected' }</c:if>>범죄</option>
+											<option value="액션"<c:if test="${member_like_genre=='액션'}">${'selected' }</c:if>>액션</option>
+											<option value="코미디"<c:if test="${member_like_genre=='코미디'}">${'selected' }</c:if>>코미디</option>
+											<option value="판타지"<c:if test="${member_like_genre=='판타지'}">${'selected' }</c:if>>판타지</option>
+											<option value="음악"<c:if test="${member_like_genre=='음악'}">${'selected' }</c:if>>음악</option>
+											<option value="멜로"<c:if test="${member_like_genre=='멜로'}">${'selected' }</c:if>>멜로</option>
+											<option value="뮤지컬"<c:if test="${member_like_genre=='뮤지컬'}">${'selected' }</c:if>>뮤지컬</option>
+											<option value="스포츠"<c:if test="${member_like_genre=='스포츠'}">${'selected' }</c:if>>스포츠</option>
+											<option value="애니메이션"<c:if test="${member_like_genre=='애니메이션'}">${'selected' }</c:if>>애니메이션</option>
+											<option value="다큐멘터리"<c:if test="${member_like_genre=='다큐멘터리'}">${'selected' }</c:if>>다큐멘터리</option>
+											<option value="기타"<c:if test="${member_like_genre=='기타'}">${'selected' }</c:if>>기타</option>
+										</select>
+	              					</div>
+		        			</div>
 <!-- 								<input type="button" value="취소" onclick="history.back()"> -->
-								<input type="submit" value="정보 수정" onclick="location.href='myPage_modify_member_pro'">
-<!-- 								<input type="submit" value="정보수정"> -->
-								<input type="button" value="돌아가기" onclick="history.back()">
-								<input type="button" value="탈퇴하기" onclick="location.href='MemberCheckoutForm'">
+							<input type="submit" value="정보 수정">
+							<input type="button" value="돌아가기" onclick="history.back()">
+							
 						</form>
 					</c:forEach>
 				</c:otherwise>

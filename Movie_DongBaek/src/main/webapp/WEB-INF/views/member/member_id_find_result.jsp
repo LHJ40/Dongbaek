@@ -77,7 +77,7 @@ th{
 	            	<div class="col-10">
 						<input type="button" value="메인 화면" onclick="location.href='./'">
 						<input type="button" value="로그인 화면" onclick="location.href='member_login_form'">
-						<input type="button" value="비밀번호 찾기" onclick="location.href='member_passwd_find'">
+<!-- 						<input type="button" value="비밀번호 찾기" onclick="location.href='member_passwd_find'"> -->
 	             	</div>
 		        </div>
 <!-- 		    </form> -->

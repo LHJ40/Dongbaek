@@ -84,9 +84,19 @@ th{
 		})		
 	}
 	
+	//모든 공백 체크 정규식
+	var empJ = /\s/g;
+
+	// 이름 정규식
+	var nameJ = /^[가-힣]{2,6}$/;
+	// 이메일 검사 정규식
+	var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	// 휴대폰 번호 정규식
+	var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+	
 	// 아이디 정규식
 	function checkIdRegex(member_id) {
-		let regex = /^[A-Za-z0-9]{5,10}$/;
+		let regex = /^[a-z0-9]{5,10}$/;
 		
 		if(regex.exec(member_id)) {
 			document.querySelector(".id_ok").innerHTML = "사용 가능한 아이디입니다!"
@@ -100,7 +110,7 @@ th{
 	}
 	
 	// 비밀번호 정규식
-	function checkPass(member_pass) {
+	function checkPass(member_pass, member_pass2) {
 		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
 		
 		if(regex.exec(member_pass)) {
@@ -131,8 +141,7 @@ th{
 			$("#member_pass2").val('');
 		}
 	}
-
-	// 비밀번호 일치 여부 확인
+	
 	
 	// 생년월일에 숫자만 입력하기
 	function inputNum(id) {
@@ -140,12 +149,79 @@ th{
 		element.value = element.value.replace(/[^0-9]/gi, "");
 	}
 	
+	// 생일 유효성 검사
+	var birthJ = false;
+	
+	// 생년월일	birthJ 유효성 검사
+	$(function() {
+		$("#member_birth").change(function() {
+		
+			var dateStr = $(this).val();		
+		    var year = Number(dateStr.substr(0,4)); // 입력한 값의 0~4자리까지 (연)
+		    var month = Number(dateStr.substr(4,2)); // 입력한 값의 4번째 자리부터 2자리 숫자 (월)
+		    var day = Number(dateStr.substr(6,2)); // 입력한 값 6번째 자리부터 2자리 숫자 (일)
+		    var today = new Date(); // 날짜 변수 선언
+		    var yearNow = today.getFullYear(); // 올해 연도 가져옴
+		
+		    if (dateStr.length <=8) {
+				// 연도의 경우 1900 보다 작거나 yearNow 보다 크다면 false를 반환합니다.
+			    if (1900 > year || year > yearNow){
+			    	
+			    	$("#birth_check").text("생년월일을 확인해주세요!)");
+					$("#birth_check").css("color", "red");
+			    	
+			    } else if (month < 1 || month > 12) {
+			    		
+			    	$("#birth_check").text("생년월일을 확인해주세요!)");
+					$("#birth_check").css("color", "red"); 
+			    
+			    } else if (day < 1 || day > 31) {
+			    	
+			    	$("#birth_check").text("생년월일을 확인해주세요 !)");
+					$("#birth_check").css("color", "red"); 
+			    	
+			    } else if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+			    	 
+			    	$("#birth_check").text("생년월일을 확인해주세요 !)");
+					$("#birth_check").css("color", "red"); 
+					
+			    } else if (month == 2) {
+			    	 
+			       	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+			       	
+			     	if (day>29 || (day==29 && !isleap)) {
+			     		
+			     		$("#birth_check").text("생년월일을 확인해주세요 !)");
+						$("#birth_check").css("color", "red");
+			    	
+					} else {
+						$("#birth_check").text('');
+						birthJ = true;
+					}//end of if (day>29 || (day==29 && !isleap))
+			    }
+		     	
+			} else {
+		    	
+		    	$("#birth_check").text(''); 
+				birthJ = true;
+			}//end of if
+			
+		} else {
+					//1.입력된 생년월일이 8자 초과할때 :  auth:false
+					$("#birth_check").text("생년월일을 확인해주세요 :)");
+					$("#birth_check").css("color", "red");  
+				}
+	}); //End of method /*
+	
+	
 	// 전화번호에 숫자만 입력하기
 	function inputNum_phone(id) {
 		var element = document.getElementById('member_phone');
 		element.value = element.value.replace(/[^0-9]/gi, "");
 	}
-	
+
+//-----------------------------------------------------------
+
 	// ------ 카카오 로그인 후 회원가입 진행 작업 -------------
 	// 로컬의 세션 스토리지에 저장한 이메일과 닉네임을 <input> 요소에 설정
 	$(function() {
@@ -193,7 +269,7 @@ th{
 		<div class="container-fluid w-600">
 			<div class="row d-flex justify-content-center mt-3">
 				<div class="col-10">	<%-- 전체 12개의 col중에 가운데 10개의 col 사용 --%>
-					<form action="member_join_pro" method="post" name="fr">
+					<form action="member_join_pro" method="post" name="fr" class="memberjoin">
 						<input type="hidden" name="member_status" value="활동">
 					 	<input type="hidden" name="member_type" value="회원">
 						<c:choose>
@@ -218,9 +294,10 @@ th{
 					    	<div class="col-sm-12">
 					    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
 						    			minlength="5" maxlength="20" onchange="checkId(); checkIdRegex(this.value);">
+					    		<div class="check_font" id="id_check"></div>
 					    	</div>
 					</div>
-					<!-- 아이디 중복확인 : ajax -->
+<!-- 					아이디 중복확인 : ajax -->
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>
 					    	<div class="col-sm-12">
@@ -234,7 +311,8 @@ th{
 				    	<label for="inputPassword" class="col-sm-5 ">비밀번호<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required" 
-				     	 		   onchange="checkPass(this.value)">
+				     	 		   onchange="checkPass(this.value)" placeholder="영어 대,소문자와 !@#$%를 조합하여 입력하세요.">
+				   			<div class="check_font" id="pw_check"></div>
 				   		</div>
 				  	</div>
 				  	
@@ -252,6 +330,7 @@ th{
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass2" name="member_pass2" required="required"
 				     	 		   onchange="checkconfirmPasswd(this.value)">
+				     	 	<div class="check_font" id="pw2_check"></div>   
 				   		</div>
 				  	</div>
 				  	
@@ -260,6 +339,7 @@ th{
 				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
 					    	<div class="col-sm-12">
 								<span id="pass_confirm"></span>
+<!-- 								<font id="pass_confirm" size="2"></font> -->
 					   		</div>
 					</div>
 				    
@@ -268,6 +348,7 @@ th{
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">이름<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_name" name="member_name" required="required">
+				 			<div class="check_font" id="name_check"></div>
 				 		</div>
 				  	</div>
 				
@@ -279,6 +360,7 @@ th{
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_birth" name="member_birth" placeholder="생년월일 8자리를 입력하세요." maxlength="8"
 				  				   oninput="inputNum(this.id)" required="required">
+				 			<div class="check_font" id="birth_check" class="birth_check"></div>
 				 		</div>
 				  	</div>
 				  	
@@ -291,7 +373,7 @@ th{
 						    	<c:when test="${empty member_phone }">
 									<input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="- 없이 전화번호를 입력하세요." maxlength="11"
 									   oninput="inputNum_phone(this.id)" required="required">
-						    	
+						    		<div class="check_font" id="phone_check"></div>
 						    	</c:when>
 						    	<c:otherwise>
 									<input type="text" class="form-control" id="member_phone" name="member_phone" maxlength="11" value="${member_phone }"
@@ -307,6 +389,7 @@ th{
 					    <label for="inputCity" class="col-sm-12">이메일 <font size="2px">(선택)</font></label>
 						  	<div class="col-sm-12">
 						  		<input type="text" class="form-control" id="member_email" name="member_email" placeholder="이메일 주소를 입력하세요.">
+						 		<div class="check_font" id="email_check"></div>
 						 	</div>
 					</div>
 

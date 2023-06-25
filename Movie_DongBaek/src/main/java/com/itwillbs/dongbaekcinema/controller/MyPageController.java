@@ -256,16 +256,49 @@ public class MyPageController {
 	
 	
 	// 마이페이지 - 나의 리뷰 페이지로 이동
-	@GetMapping("myPage_myReview")
-	public String myPage_myReview() {
-		return "myPage/myPage_myReview";
-	}
-	
-	// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
-	@GetMapping("myPage_reviewWrite")
-	public String myPage_reviewWrite() {
-		return "myPage/myPage_reviewWrite";
-	}
+		@GetMapping("myPage_myReview")
+		public String myPage_myReview(HttpSession session, Model model) {
+			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+			String member_id = (String) session.getAttribute("member_id");
+			if(member_id == null) {
+				model.addAttribute("msg", " 로그인이 필요합니다!");
+				model.addAttribute("url", "member_login_form");
+								
+				return "fail_location";
+			}
+			
+			// 세션 아이디로 리뷰 보여주기
+			// 페이징
+			int pageNum = 5;
+			
+			// 나의 리뷰 조회
+			// MypageService - getMyReview()
+			// 파라미터 : member_id(세션저장)	리턴타입 : List<ReviewVO> myReviewList
+			List<ReviewVO> myReviewList = service.getMyReview(member_id, pageNum);
+			System.out.println(myReviewList);
+			
+			// 받아온 리뷰내역 전달
+			model.addAttribute("myReviewList", myReviewList);
+			
+			return "myPage/myPage_myReview";
+		}
+		
+		// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
+		@GetMapping("myPage_reviewWrite")
+		public String myPage_reviewWrite(HttpSession session, Model model) {
+			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+			String member_id = (String) session.getAttribute("member_id");
+			if(member_id == null) {
+				model.addAttribute("msg", "로그인이 필요합니다!");
+				model.addAttribute("url", "member_login_form");
+						
+				return "fail_location";
+			}
+			
+			
+			return "myPage/myPage_reviewWrite";
+		}
+
 
 	// 마이페이지 - 영화 네컷 페이지로 이동
 	@GetMapping("myPage_moviefourcut")
@@ -391,24 +424,112 @@ public class MyPageController {
 	
 	// 마이페이지 - 개인정보 수정 
 	@PostMapping("myPage_modify_member_pro")
-	public String myPage_modify_member_pro(MemberVO member, Model model, HttpSession session) {
+//	@RequestMapping(value = "myPage_modify_member_pro", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myPage_modify_member_pro(MemberVO member,
+										   Model model,
+										   HttpSession session,
+										   @RequestParam String member_pass,
+										   @RequestParam String member_email,
+										   @RequestParam String member_like_genre) {
 		// 세션 아이디로 개인정보 내역 보여주기
+		System.out.println("member_pass : " + member_pass);
+		System.out.println("member_email : " + member_email);
 		String member_id = (String)session.getAttribute("member_id");
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
 		
 		// 나의 개인정보 업데이트 
 		// MypageService - updateMyInfo()
 		// 파라미터 : member_id	리턴타입 : int 
-		int updateCount = service.updateMyInfo(member_id);
+		int updateCount = service.updateMyInfo(
+								member, 
+								passwordEncoder.encode(member_pass),
+								member_email,
+								member_id,
+								member_like_genre
+								);
 		
-		if(updateCount == 1) {
-			return "redirect:/myPage/myPage_modify_member";			
-		}
+		System.out.println(updateCount);
+		
+		if(updateCount > 0 ) {
+			model.addAttribute("msg", "개인정보 수정이 성공했습니다.");
+//			model.addAttribute("url", "myPage/myPage_modify_member");
+			
+//			return "success_back";		
+			
+			return "redirect:/myPage_modify_member";
+			
+		} else {
 		
 		model.addAttribute("msg", "개인정보 수정이 실패했습니다.");
-		model.addAttribute("url", "member_login_form");
+//		model.addAttribute("url", "member_login_form");
 		
-		return "fail_location";
+		return "fail_back";
+		}
+		
 	}
+	
+	// 회원 탈퇴 확인
+	// DB 에 저장된 비밀번호와 일치 여부 확인 시
+	// 일치한다면 회원상태 '탈퇴'로 변경 
+	// 회원 상태 가 탈퇴라면 로그인 불가능 하다록 로그인 페이지 수정 필요
+	@GetMapping("MemberWithdrawalForm")
+	public String member_withdrawal_form(HttpSession session, Model model, MemberVO member) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "./");
+							
+			return "fail_location";
+		}
+		return "myPage/myPage_withdrawal_check";
+	}
+	
+	// 회원 탈퇴 로직
+	@PostMapping("MemberWithdrawal")
+	public String member_withdrawal_pro(HttpSession session, Model model, MemberVO member, String withdrawalPasswd) {
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("url", "member_login_form");
+							
+			return "fail_location";
+		}
+		
+		String securePasswd = memberService.getPasswd(member);
+		System.out.println(securePasswd);
+		System.out.println(withdrawalPasswd);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
+		System.out.println("securePasswd : " + securePasswd);
+	
+		if (passwordEncoder.matches(withdrawalPasswd, securePasswd)) {
+			// 회원상태 = 탈퇴로 변경
+			int withdrawalCount = service.memberwithdrawal(member_id);
+			
+			if(withdrawalCount > 0 ) {
+				// 세션무효화 필요
+				session.invalidate();
+
+				model.addAttribute("msg", "동백시네마를 이용해주셔서 감사합니다. 탈퇴처리 되었습니다.");
+				model.addAttribute("url", "member_login_form");
+				
+				
+				return "success_forward";		
+			} 
+		}
+		// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+		model.addAttribute("msg", "개인정보 수정이 실패했습니다." + "비밀번호를 잘못 입력했습니다."
+				+ "입력하신 내용을 다시 확인해주세요." );
+		return "fail_back";
+		
+	}
+	
+
 	
 }
 

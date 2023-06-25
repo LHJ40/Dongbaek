@@ -54,12 +54,23 @@ public interface MemberMapper {
 	//0619정의효 - 멤버 삭제
 	void memberDelete(String member_id);
 	
-	// 회원정보 비밀번호 수정
-	int updateMemeber(MemberVO member);
-
+//	// 회원정보 비밀번호 수정
+	int updateMember(MemberVO member);
 
 	// 아이디 찾기
-	String findMemberId(@Param("member_name") String member_name, @Param("member_phone") String member_phone);
+	String findMemberId(
+			@Param("member_name") String member_name, 
+			@Param("member_phone") String member_phone);
+
+	// 비밀번호 찾기 
+	String findMemberPass(
+			@Param("member_id") String member_id, 
+			@Param("member_phone") String member_phone);
+
+	// 비밀번호 수정
+	int updatePassword(
+			@Param("member_id") String member_id, 
+			@Param("memberNewPasswd") String memberNewPasswd);
 	
 	
 

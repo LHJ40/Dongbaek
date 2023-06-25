@@ -33,24 +33,57 @@ a:hover, a:active{
   <article id="mainArticle">
   <%--본문내용 --%>
   	<div class="container container-fluid w-900">
-  		<div class="mainTop">
-		 	<span>영화제목</span>  <%-- css로 색이랑 입히기 --%>
-		 	<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  <%--디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>
-		  	<br>
-		  	<span>평점</span>
-		  	<select name="movie_review_grade">
-		  		<option value="none">선택해주세요</option>
-		  		<option value="">1</option>
-		  		<option value="2">2</option>
-		  		<option value="3">3</option>
-		  		<option value="4">4</option>
-		  		<option value="5">5</option>
-		  	</select>
-		  	<br>
-		  	<span id="asd">리뷰</span> <%--textarea 리뷰글자 옆에서 밑으로 하도록 찾기 css vertical-align:top; 아직안됨 --%>
-		  	<textarea rows="5" cols="50" placeholder="리뷰를 작성해 주세요"></textarea> <%--css에서 마진넣어서  --%>
-		  	<br>
-		  	<input type="submit" value="등록하기"> <%--css로 중간으로 바꾸기 --%>
+  		<div class="row d-flex justify-content-center mt-3">
+  			<div class="col-10">
+  				<form action="review_write_pro" method="post" name="fr" >
+				 	
+				 	<%-- 영화 제목 --%>
+					<div class="row mb-3">
+		              <label for="id" class="col-2 text-nowrap">이름</label>
+		              <div class="col-10">
+		              		<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  <%--디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>
+		              </div>
+			        </div>
+					 	
+<%-- 				 	<span>영화제목</span>  css로 색이랑 입히기 --%>
+<%-- 				 	<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>
+				  	<br>
+				  	
+				  	<%-- 평점 선택하기 --%>
+				  	<div class="row mb-3">
+		              <label for="id" class="col-2 text-nowrap">평점</label>
+		              <div class="col-10">
+							<div class="selectBox_movie">
+							  	<select name="review_rating" class="select">
+							  		<option value="none">선택해주세요</option>
+							  		<option value="1" <c:if test="${review_rating=='1'}">${'selected' }</c:if>>1</option>
+							  		<option value="2" <c:if test="${review_rating=='2'}">${'selected' }</c:if>>2</option>
+							  		<option value="3" <c:if test="${review_rating=='3'}">${'selected' }</c:if>>3</option>
+							  		<option value="4" <c:if test="${review_rating=='4'}">${'selected' }</c:if>>4</option>
+							  		<option value="5" <c:if test="${review_rating=='5'}">${'selected' }</c:if>>5</option>
+							  	</select>
+							</div>
+		            	</div>
+			        </div>
+				  	
+				  	<%-- 영화 제목 --%>
+					<div class="row mb-3">
+		              <label for="id" class="col-2 text-nowrap">리뷰</label>
+		              <div class="col-10">
+		              		<textarea rows="5" cols="50" placeholder="리뷰를 작성해 주세요"></textarea> <%--css에서 마진넣어서  --%>
+		              </div>
+			        </div>
+				  	
+				  	<div class="row mb-3">
+		            	<label for="id" class="col-2 text-nowrap">리뷰</label>
+		            	<div class="col-10">
+							<input type="submit" value="등록">&nbsp;&nbsp;
+							<input type="reset" value="다시쓰기">&nbsp;&nbsp;
+							<input type="button" value="취소" onclick="history.back()">
+						</div>
+					</div>
+			  </form>
+		  	</div>
 	  	</div>
   	</div>
   </article>

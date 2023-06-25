@@ -146,7 +146,7 @@
       <td></td>
       <td>
 	      <c:if test="${not empty sessionScope.member_id }">
-	      	<a href="myPage_modify_member">개인정보 수정</a>
+	      	<a href="myPage_modify_check">개인정보 수정</a>
 	      </c:if>
       </td>
       </tr>

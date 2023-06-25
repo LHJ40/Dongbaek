@@ -80,18 +80,25 @@ public class MemberService {
 	// 회원정보 비밀번호 수정
 	public int modifyMember(MemberVO member) {
 		
-		return mapper.updateMemeber(member);
+		return mapper.updateMember(member);
 	}
 
 	// 아이디 찾기
-		public String findId(String member_name, String member_phone) {
-
-			return mapper.findMemberId(member_name, member_phone);
-		}
-
-
+	public String findId(String member_name, String member_phone) {
+		return mapper.findMemberId(member_name, member_phone);
+	}
 	
-	
+	// 비밀번호 찾기 위해 이름과 핸드폰 번호 일치하는 회원 찾기
+	public String matchMember(String member_id, String member_phone) {
+		return mapper.findMemberPass(member_id, member_phone);
+	}
+
+	// 비밀번호 변경하기
+	public int updatePassword(String member_id, String memberNewPasswd) {
+		// TODO Auto-generated method stub
+		return mapper.updatePassword(member_id, memberNewPasswd);
+	}
+
 
 	// 회원 목록 조회 요청을 위한 메서드(페이징처리,검색하는중) 0621-정의효
 	public List<MemberVO> getMemberList(String memberSearchType, String memberSearchKeyword, int startRow,

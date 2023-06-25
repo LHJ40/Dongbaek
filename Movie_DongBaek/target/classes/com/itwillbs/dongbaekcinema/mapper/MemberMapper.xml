@@ -165,7 +165,7 @@
 	
 	
 	<!-- 비밀번호 수정 -->
-	<update id="updateMemeber">
+	<update id="updateMember">
 		UPDATE MEMBERS
 		SET member_pass = #{member_pass}
 		WHERE member_id = #{member_id}
@@ -179,6 +179,24 @@
 				member_name = #{member_name}
 				AND member_phone = #{member_phone}
 	</select>
+	
+	<!-- 비밀번호 찾기  -->
+	<select id="findMemberPass" resultType="String">
+		SELECT member_name
+			FROM MEMBERS
+			WHERE
+				member_id = #{member_id}
+				AND member_phone = #{member_phone}
+	</select>
+	
+	<!--비밀번호 찾기 - 변경 -->
+	<update id="updatePassword">
+		UPDATE MEMBERS
+			SET
+				member_pass = #{memberNewPasswd}
+			WHERE
+				member_id = #{member_id}
+	</update>
 	
 </mapper>
 

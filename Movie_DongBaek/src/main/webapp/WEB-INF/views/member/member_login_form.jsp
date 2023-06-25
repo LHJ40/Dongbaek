@@ -142,10 +142,60 @@ div {
 		    <div class="row mb-3 d-flext justify-content-center">
 		    	<%-- 네이버 --%>
 		    	<div class="col-2">
-		    		<%-- 네이버 로그인 버튼 노출 영역  --%>
-		    		<div id="naver_id_login"></div>
+		    		<%--  네이버 로그인 버튼 노출 영역  --%>
+		    		<a id="naverIdLogin_loginButton" href="javascript:void(0)"><span>네이버</span></a>
 					<br>
 		    	</div>
+		    		<!--  네이버 로그인 시작 -->
+					<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+					<script>
+					var naverLogin = new naver.LoginWithNaverId(
+							{
+								clientId: "FapLXYLoVFVUWfuqISrN", // cliendId
+								callbackUrl: "http://localhost:8089/dongbaekcinema/member_join_step2", // Callback URL 
+								isPopup: false,
+								callbackHandle: true
+							} );
+					
+// 					naverLogin.init();
+					
+					$('#naverIdLogin_loginButton').on('click', function() {
+					    naverLogin.getLoginStatus(function(status) {
+					    	
+					    	if (status) {
+					            var email = naverLogin.user.getEmail();
+					            console.log(email);
+					            console.log(naverLogin);
+					            
+					            $.ajax({
+					                type: 'post',
+					                url: '<c:url value="/checkUserNaver"/>',
+					                data: {email: email},
+					                dataType: 'text',
+					                success: function(response) {
+					                  console.log(response);
+					                  if (response === 'new') {
+					                	  sessionStorage.setItem('email', email);
+					                	  location.href = '<c:url value="//member_join_step2"/>';
+					                	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
+
+					                  }  else if (response === 'existing') { 
+					                	  sessionStorage.removeItem("email");
+					                	  location.href = '<c:url value="/" />';
+					                	  alert(' 네이버 로그인 성공!')
+					                  }
+					                },
+					                error: function(xhr, status, error) {
+					                  console.log(error);
+					                }
+					            });
+					    	} else {
+					            alert("fail");
+					          }
+					    });
+					});
+<!-- 				</script>
+		    	
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
 			    	<button type="button" id="submit-btn" onclick="loginWithKakao()">
@@ -231,22 +281,6 @@ div {
 				</script>
 				<!-- 카카오 로그인 끝 -->
 				
-				<%-- 네이버 로그인 시작 --%>
-				<!-- 네이버 로그인 시작 -->
-				<%-- 서비스에 필요한 login.jsp 구현--%>
-				<script type="text/javascript">
-					// (클라이언트 번호, callback URL)
-			        var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8082/dongbaekcinema/member_join_step2");
-			        var state = naver_id_login.getUniqState();
-			        naver_id_login.setButton("white", 2,40);
-			        // service URL
-			        naver_id_login.setDomain("http://localhost:8082/dongbaekcinema/member_login_form");
-			        naver_id_login.setState(state);
-			        naver_id_login.setPopup();
-			        naver_id_login.init_naver_id_login();
-			    </script>
-				<!-- 네이버 로그인 끝  -->
-				<%-- 네이버 로그인 끝  --%>
 		    	<%-- qr --%>
 <!-- 		    	<div class="col-2"> -->
 <%-- 			    	<a href="#"><img alt="qr" src="${pageContext.request.contextPath }/resources/img/qr.png" width="50px" height="50px"></a> --%>

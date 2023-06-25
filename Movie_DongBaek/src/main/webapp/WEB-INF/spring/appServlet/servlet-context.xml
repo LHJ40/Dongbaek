@@ -26,7 +26,7 @@
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<!-- class 에 있는 경로에 NaverLoginBO를 @bean 으로 등록해서  -->
 	<!-- naverLoginBO 를 id로 사용하겠다는 의미  -->
-	<beans:bean id="naverLoginBO" class="com.itwillbs.dongbaekcinema.naver.NaverLoginBO" />
+<!-- 	<beans:bean id="naverLoginBO" class="com.itwillbs.dongbaekcinema.naver.NaverLoginBO" /> -->
 	
 	<!-- 파일 업로드를 위한 Bean설정 추가 -->
 	<!-- 파일 업로드를 처리하는 객체 생성-->

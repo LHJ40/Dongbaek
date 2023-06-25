@@ -5,18 +5,13 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.itwillbs.dongbaekcinema.handler.MyPasswordEncoder;
-import com.itwillbs.dongbaekcinema.naver.NaverLoginBO;
 import com.itwillbs.dongbaekcinema.service.*;
 import com.itwillbs.dongbaekcinema.vo.*;
 
@@ -86,10 +81,10 @@ public class MemberController {
 	}
 	
 	// 메인화면에서 회원 로그인 화면으로 이동
-//	@GetMapping("member_login_form")
-//	public String member_login_form() {
-//		return "member/member_login_form";
-//	}
+	@GetMapping("member_login_form")
+	public String member_login_form() {
+		return "member/member_login_form";
+	}
 //	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
@@ -206,89 +201,30 @@ public class MemberController {
 		
 	}
 	
-	// 3. 네이버 로그인 --------------------------------
-	/* NaverLoginBO */
-	private NaverLoginBO naverLoginBO;
-	private String apiResult = null;
-	
-	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
-	}
-	
-	// (1) 로그인 첫 화면 요청 메소드
-	@RequestMapping(value="member_login_form", method = {RequestMethod.GET, RequestMethod.POST })
-	public String login(Model model, HttpSession session,
-			@RequestParam(required = false) String play_num) {
-		
-		// 세션 아이디가 있을 경우" 접근 막기
-		String member_id = (String) session.getAttribute("member_id");
-		if(member_id != null) {
-			model.addAttribute("msg", " 잘못된 접근!");
-			
-			return "fail_back";
+	// 3. 네이버 로그인 클릭
+	@PostMapping("/checkUserNaver")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkUser(@RequestParam("email") String email,HttpSession session) {
+		  System.out.println("email : "+ email);
+		  int idCheck = service.idCheck(email);
+		  System.out.println(idCheck);
+		  
+		// 네이버에서 전달받은 이메일 값으로 회원가입 여부 판별
+		if (idCheck > 0) {
+			// DB에 네이버에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
+				
+			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", email);
+			return "existing";
+		 
+		} else {
+			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			return "new";
 		}
 		
-		/* 네이버 아이디로 인증 URL 을 생성하기 위하여 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출  */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-	
-		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("네이버 :" + naverAuthUrl);
-		
-		// 네이버
-		model.addAttribute("url", naverAuthUrl);
-		
-		// 예매 페이지에서 넘어온 값들
-		session.setAttribute("play_num", play_num);
-		
-//		System.out.println("url하고 play_num : " + url + play_num );
-		
-		return "member/member_login_form";
 	}
-	
-	
-	// (2) 네이버 로그인 성공 시 callback 호출 메서드
-	@RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST })
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
-		System.out.println("콘솔에 callback이 나타났습니당");
-		
-		OAuth2AccessToken oauthToken;
-        oauthToken = naverLoginBO.getAccessToken(session, code, state);
-		
-        // 1. 로그인 사용자 정보를 읽어온다. 
-        apiResult = naverLoginBO.getUserProfile(oauthToken); // String 형식의 json 데이터 
-        	
-       // 2. String 형식인 apiResult 를 json 형태로 바꾼다. 
-       JSONParser parser = new JSONParser();
-       Object obj = parser.parse(apiResult);
-       JSONObject jsonObj = (JSONObject) obj;
-       
-       // 3. 데이터 파싱 
-       // TOP 레벨 단계 _resonse 파싱
-       JSONObject response_obj = (JSONObject)jsonObj.get("response");
-       // response 의 nickname 값 파싱
-       String nickname = (String)response_obj.get("nickname");
-       
-       System.out.println(nickname);
-
-       // 4. 파싱 닉네임을 세션에 저장
-       session.setAttribute("sessionId", nickname); // 세션 생성
-       
-       model.addAttribute("result", apiResult);
-       
-       return "member/member_join_step2";
-	}
-	
-	// (3) 로그아웃
-	@RequestMapping(value="/logout", method = {RequestMethod.GET, RequestMethod.POST })
-	public String logout(HttpSession session) throws IOException  {
-		System.out.println("콘솔에 logout이 나타났습니당");
-		session.invalidate();
-		
-		return "redirect:/";
-	}
-	
+//	
 	//----------------------------------------------------
 		
 	// 이메일 정보가 있을 때 (회원임)
@@ -485,6 +421,7 @@ public class MemberController {
 		String find_id = service.findId(member_name, member_phone);
 		System.out.println("find_id : " + find_id);
 		
+
 		// 세션 아이디가 있을 경우" 접근 막기
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id != null) {
@@ -492,21 +429,32 @@ public class MemberController {
 			
 			return "fail_back";
 		}
+
+		// 아이디로 조회한 회원 정보를 들고와서 세션에 아이디와 회원타입(회원, 비회원, 직원) 들고오기
+//		MemberVO getMember = service.getMember(member.getMember_id());
+//		
+//		// 탈퇴한 회원인 경우(member_status가 "탈퇴") 탈퇴한 회원입니다 하고 돌려보내기
+//		if(getMember.getMember_status().equals("탈퇴")) {
+//			model.addAttribute("msg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+//			return "fail_back";
+//		}
 		
 //		model.addAttribute("find_id", find_id);
 		if(find_id == null) {
 			model.addAttribute("msg", "일치하는 회원이 없습니다.");
 			return "fail_back"; // 다시 전화번호를 입력할 수 있도록 페이지 reset 필요
 		} else { 
+			
 		session.setAttribute("find_id", find_id);
 		session.setAttribute("member_name", member_name);
 		return "member/member_id_find_result";
 		}
 	}
 	
-	// 비밀호 찾기 페이지로 이동
+	// 비밀번호 찾기 페이지로 이동
 	@GetMapping("MemberFindPasswd")
-	public String modifyFormPass(HttpSession session, Model model) {
+	public String modifyFormPass(HttpSession session, Model model, MemberVO member) {
+		
 		
 		// 세션 아이디가 있을 경우" 접근 막기
 		String member_id = (String) session.getAttribute("member_id");
@@ -515,62 +463,77 @@ public class MemberController {
 			
 			return "fail_back";
 		}
+
+//		// 아이디로 조회한 회원 정보를 들고와서 세션에 아이디와 회원타입(회원, 비회원, 직원) 들고오기
+//		MemberVO getMember = service.getMember(member.getMember_id());
+//		
+//		// 탈퇴한 회원인 경우(member_status가 "탈퇴") 탈퇴한 회원입니다 하고 돌려보내기
+//		if(getMember.getMember_status().equals("탈퇴")) {
+//			model.addAttribute("msg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
+//			return "fail_back";
+//		}
+		
 		
 		return "member/member_passwd_find";
 	}
 	
 	// 비밀번호 변경할 회원의 아이디와 전화번호 일치 여부 로직
-//	@PostMapping("MemberPasswdFind")
-//	public String passFind(@RequestParam String member_id, String member_phone, MemberVO member, Model model, HttpSession session) {
-//		String 
-//	}
-	
-	// 비밀번호수정
-	@PostMapping("MemberModify")
-	public String modifyPro(MemberVO member, HttpSession session, Model model) {
-		// 패스워드 암호화(해싱)--------------
-		// => MyPasswordEncoder  클래스에 덮어쓰기
-		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
-		
-		// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
-		String securePasswd = passwordEncoder.getCryptoPasswd(member.getMember_pass());
-		
-		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
-		member.setMember_pass(securePasswd);
-		// --------------------------------------
-		
-		// MemberService(registMember()) - MemberMapper(insertMember())
-		int updateCount = service.modifyMember(member);
-		
-		if (updateCount > 0) {
-			model.addAttribute("msg", "회원 정보 수정 성공!");
-			model.addAttribute("targetURL", "MemberModifyForm");
+	@PostMapping("MemberPasswdFind")
+	public String passFind(@RequestParam String member_id, String member_phone, MemberVO member, Model model, HttpSession session) {
+		String matchMember = service.matchMember(member_id, member_phone);
+		System.out.println("matchMember : " + matchMember);
 			
-			return "success_forward";
+		if(matchMember == null) {
+			model.addAttribute("msg", "일치하는 회원이 없습니다.");
+			return "fail_back"; 
 		} else {
-			model.addAttribute("msg", "회원 정보 수정 실패!");
-			model.addAttribute("targetURL", "MemberModifyForm");
+//			session.setAttribute("member_id", member_id); // 세션에 저장하면 로그인 상태가 된다
+			model.addAttribute("member_id", member_id);
+			session.setAttribute("matchMember", matchMember);
 			
-			return "fail_location";
+			return "member/member_passwd_find_result";
 		}
+	}
 		
-		// 일반 회원이 패스워드가 일치하거나, 관리자일 때
-		// MemberService - modifyMember() 메서드 호출하여 회원 정보 수정 요청
-		// => 단, 관리자일 때  
-		// => 파라미터 : MemberVO 객체, 새 패스워드(newPasswd)
-		// => 추가) BCryptPasswordEncoder 를 활용하여 새 패스워드 암호화
-//		service.modifyMember(member, newPasswd);
-		
-		// "회원 정보 수정 성공!" 메세지 출력 및 "MemberInfo" 서블릿 리다이렉트를 위해 데이터 저장 후
-		// success_forward.jsp 페이지로 포워딩
-		
+		// 비밀번호수정
+		// 여기서는 모댈로 가져올 필요가 없음 -> sessionScope.member_id 로 처리하는 것이 좋다!
+		// 세션으로 처리할 경우 로그인 상태로 헤더가 변경되게 된다. 
+		@RequestMapping(value = "MemberPasswdModify", method= {RequestMethod.GET, RequestMethod.POST})
+//		@PostMapping("MemberPasswdModify")
+		public String modifyPro(HttpServletRequest request, Model model, MemberVO member ,@RequestParam String memberNewPasswd, @RequestParam String member_id) {
+//			String sId = (String)session.getAttribute("member_id");
+//			if(sId != null) {
+//				model.addAttribute("msg", " 잘못된 접근입니다!");
+//				model.addAttribute("url", "./");
+//						
+//				return "fail_location";
+//			}
+			System.out.println("memberNewPasswd : " + memberNewPasswd);
+//			model.addAttribute("member_id", member.getMember_id());
+			System.out.println("member_id : " + member_id);
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			int updatePasswd = service.updatePassword(member_id, passwordEncoder.encode(memberNewPasswd));
+//			
+//			
+			if (updatePasswd > 0) {
+				model.addAttribute("msg", "비밀번호 수정 성공!");
+				model.addAttribute("targetURL", "member_login_form");
+				
+				return "success_forward";
+			} else {
+				model.addAttribute("msg", "회원 정보 수정 실패!");
+				model.addAttribute("targetURL", "member_passwd_fird");
+				
+				return "fail_location";
+			}
+//				
+		}
+	
 		
 	}
 	
 	
-	
-	
-}
+
 
 
 
