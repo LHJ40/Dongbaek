@@ -89,6 +89,9 @@ $(function(){
 		if(quantity<=0){
 			alert("잘못된 입력");
 			$(".snackquantity").val(1);
+		}else if(quantity>100){
+			alert("100개를 초과해서 구매할 수 없습니다.");
+			$(".snackquantity").val(1);
 		}else{
 		$("#snackquantity"+snacknum).html(quantity);
 		$("#quantityview"+snacknum).html(quantity);
@@ -144,9 +147,13 @@ function reservation_ing(){
 	let arr=[];
 	let arr2=[];
 	for (var i = 1; i < ${fn:length(snackList)}+1; i++) { 
-		if($("#snackquantity"+i).html()!=0){
+		if($("#snackquantity"+i).html()>0 && $("#snackquantity"+i).html()<=100){
 			arr.push([i]);
 			arr2.push([$("#snackquantity"+i).html()]);
+		}else if($("#snackquantity"+i).html()<0){
+			alert("잘못된시도")
+		}else if($("#snackquantity"+i).html()>100){
+			alert("잘못된시도")
 		}
 	}
 	location.href='reservation_ing?play_num=${reservation.play_num}&seat_name=${param.seat_name}&ticket_type_num=${param.ticket_type_num}&snack_num='+arr+'&snack_quantity='+arr2

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -19,6 +19,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
+	
 <link
 	href="${pageContext.request.contextPath }/resources/css/default.css"
 	rel="stylesheet" type="text/css">
@@ -42,6 +43,12 @@ div {
 background-color: transparent;
 }
 
+<%-- 페이징 색상변경 --%>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
 
 .page-item.active .page-link {
  z-index: 1;
@@ -56,19 +63,13 @@ background-color: transparent;
   color: #000;
   background-color: #fafafa; 
   border-color: #ccc;
+  
 }
 
 <%-- a링크 활성화 색상 변경 --%>
 a:hover, a:active{
  color:  #ff5050 !important;
 	
-}
-
-<%-- 페이징 색상변경 --%>
-.page-link {
-  color: #000; 
-  background-color: #fff;
-  border: 1px solid #ccc; 
 }
 
 </style>
@@ -153,13 +154,11 @@ a:hover, a:active{
  
  <nav aria-label="...">
   <ul class="pagination pagination-md justify-content-center">
-  
-  
   <%-- 페이지가 1이상일때 클릭시 이전 페이지로 이동 --%>
 	<c:choose>
 		<c:when test="${pageNo > 1 }">
 			<li class="page-item">
-		      <a class="page-link" href="admin_cs_notice?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
+		      <a class="page-link" href="admin_cs_faq?pageNo=${pageNo - 1}" tabindex="-1" aria-disabled="flase">&laquo;</a>
 		    </li>
 		</c:when>
 		<c:otherwise>
@@ -180,7 +179,7 @@ a:hover, a:active{
 				<c:otherwise>
 				    <%-- 다른 페이지 --%>
     				<li class="page-item">
-    				  <a class="page-link" href="admin_cs_notice?pageNo=${i }">${i }</a>
+    				  <a class="page-link" href="admin_cs_faq?pageNo=${i }">${i }</a>
     				</li>
 				</c:otherwise>
 			</c:choose>
@@ -191,7 +190,7 @@ a:hover, a:active{
 		<c:choose>
 			<c:when test="${pageNo < pageInfo.maxPage }">
 				<li class="page-item">
-				 <a class="page-link" href="admin_cs_notice?pageNo=${pageNo + 1}">&raquo;</a>
+				 <a class="page-link" href="admin_cs_faq?pageNo=${pageNo + 1}">&raquo;</a>
 			    </li>
 			</c:when>
 			<c:otherwise>
@@ -199,12 +198,12 @@ a:hover, a:active{
 			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
 			</c:otherwise>
 		</c:choose>	
-
-    <li class="page-item">
-
-    </li>
   </ul>
 </nav>
+
+
+       
+  </div>
   
   </article>
   
@@ -216,5 +215,4 @@ a:hover, a:active{
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
 </body>

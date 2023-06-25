@@ -15,6 +15,20 @@
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>관리자 - 결제관리</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+
 .w-900{
 	width: 900px;
 }
@@ -26,11 +40,7 @@ div {
 	background-color: transparent;
 }
 
-<%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
-}
+
 
 /* 확인용 */
 .container-fluid{
@@ -80,6 +90,7 @@ a:hover, a:active{
 			      <th scope="col">결제번호</th>
 			      <th scope="col">아이디</th> <%-- 원래는 주문자명이었는데 동명이인이 있을수 있으니 id로 바꿔놓음 0608 - 정의효 --%>
 			      <th scope="col">결제일시</th>
+			      <th scope="col">결제상태</th>
 			      <th scope="col">주문내역 상세보기</th>
 			    </tr>
 			  </thead>
@@ -89,6 +100,7 @@ a:hover, a:active{
 				      <th scope="row">${paymentList.payment_num }</th>
 				      <td>${paymentList.member_id }</td>
 				      <td>${paymentList.payment_datetime }</td>
+				      <td>${paymentList.payment_status }</td>
 				      <td><a href="admin_payment_list_detail?order_num=${paymentList.order_num }"><input type="button" class="btn btn-outline-red btn-sm" value="상세보기"></a></td>
 				      <%-- 버튼 생길때 자동으로 하이퍼링크 admin_payment_list_detail 로 생성되게 구현  --%>
 				    </tr>

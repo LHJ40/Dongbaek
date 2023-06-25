@@ -29,6 +29,14 @@
 	rel="stylesheet" type="text/css">
 <title>회원관리 - ${member.member_id}</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
 .w-900 {
 	width: 900px;
 	margin: 0 auto;
@@ -135,8 +143,8 @@ a:hover, a:active{
 						data-toggle="modal" data-target="#memberTypeChange">삭제</button>
 				</div>
 				<div class="col-3">
-					<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="window.history.back();">돌아가기</button>
-				</div>
+    <button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list?pageNo=${pageNo}&memberSearchType=${memberSearchType}&memberSearchKeyword=${memberSearchKeyword}'">돌아가기</button>
+</div>
 			</div>
 		</div>
 
@@ -240,18 +248,18 @@ a:hover, a:active{
 
 
 		<script>
-  $('#gradeChangeBtn').on('click', function() {
-    const selectedGrade = $('#gradeSelect').val();
-
-    if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
-      alert("변경할 등급을 선택해주세요.");
-      return;
-    } else {
-      $('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
-      $('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함
-    }
-  });
-</script>
+		$('#gradeChangeBtn').on('click', function() {
+		    const selectedGrade = $('#gradeSelect').val();
+		
+		    if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
+		      alert("변경할 등급을 선택해주세요.");
+		      return;
+		    } else {
+		      $('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
+		      $('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함
+		    }
+		});
+		</script>
 
 		<%-- '회원등급변경' 모달  끝--%>
 
@@ -263,19 +271,6 @@ a:hover, a:active{
 	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%@ include file="../sidebar/sideBar.jsp"%>
 	</nav>
-
-	<!--  	<nav id="mainNav"> -->
-	<!--  	<h1>관리자 페이지</h1> -->
-	<!--  	<div class="list-group"> -->
-	<%--  		<%-- 활성화된 페이지는 active로 나타냄 --%>
-	<!--   		<a href="#" class="list-group-item list-group-item-action active" aria-current="true">회원관리</a> -->
-	<!--   		<a href="#" class="list-group-item list-group-item-action">영화관리</a> -->
-	<!--   		<a href="#" class="list-group-item list-group-item-action">상영스케쥴 관리</a> -->
-	<!-- 		<a href="#" class="list-group-item list-group-item-action">결제 관리</a> -->
-	<!-- 		<a href="#" class="list-group-item list-group-item-action">CS 관리</a> -->
-	<!-- 		<a href="#" class="list-group-item list-group-item-action">혜택 관리</a> -->
-	<!-- 	</div> -->
-	<!--   </nav> -->
 
 	<%--페이지 하단 --%>
 	<div id="siteAds"></div>

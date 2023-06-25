@@ -32,6 +32,12 @@ a:hover{
 #mainNav>ul{
 	list-style: none;
 }
+
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+	color:  #ff5050 !important;
+	text-decoration: none;
+}
 	
 </style>
 
