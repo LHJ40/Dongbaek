@@ -17,6 +17,8 @@ public interface ReviewLikeMapper {
 
 	int deleteReviewLike(@Param("review_num") int review_num, @Param("member_id") String member_id);
 
+	int selectMember(String member_id);
+
 
 
 }

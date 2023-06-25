@@ -36,6 +36,12 @@ public class ReviewLikeService {
 		return mapper.deleteReviewLike(review_num, member_id);
 	}
 
+	public int getMember(String member_id) {
+		System.out.println("ReviewLikeService - getMember()");
+		
+		return mapper.selectMember(member_id);
+	}
+
 
 
 }

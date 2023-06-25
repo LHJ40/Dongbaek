@@ -72,5 +72,20 @@ public class ReviewLikeController {
 		
 		return reviewLikeCount;
 	}
+	
+	@ResponseBody
+	@PostMapping("IsMember")
+	public boolean isMember(@RequestParam String member_id) {
+		System.out.println("ReviewLikeController - isMember()");
+		boolean isMember = false;
+		
+		int getMember = service.getMember(member_id);
+		
+		if(getMember > 0) {
+			isMember = true;
+		}
+		
+		return isMember;
+	}
 
 }
