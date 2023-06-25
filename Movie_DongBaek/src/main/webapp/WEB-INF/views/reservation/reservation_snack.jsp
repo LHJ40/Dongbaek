@@ -274,7 +274,7 @@ function reservation_ing(){
 			  		</table>
 	               </div>
 	               <%-- 미선택 사항 노출 --%>
-	               <div class="col-2">
+	               <div class="col-2.5">
 	               	<h5>좌석 선택</h5>
 	               	<table> <%-- 선택요소들이 ()안에 들어가게 하기 (인원은 x) --%>
 <!-- 			  			<tr><td>좌석명 (일반석)</td></tr> -->
