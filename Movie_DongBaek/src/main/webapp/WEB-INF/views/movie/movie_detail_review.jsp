@@ -54,7 +54,7 @@
 		
 		if($("input[type=hidden]").val()) {
 			reviewButtons.each(function() {
-				let reviewNum = $(this).data("review-num");
+				let reviewNum = $(this).attr("data-review-num");
 				isReviewLikeExist(reviewNum);
 				getReviewLikeCount(reviewNum);
 			});
@@ -74,12 +74,12 @@
 		.done(function(isReviewLikeExist) {
 			if(isReviewLikeExist){	// 리뷰 좋아요가 존재할 경우	
 				let likeButton = $('.reviewLike[data-review-num="' + reviewNum + '"]');
-				likeButton.html("<img src='${pageContext.request.contextPath}/resources/img/finger.png' class='rounded float-left' alt=''...' width='50px'>");
+				$(this).html("<img src='${pageContext.request.contextPath}/resources/img/finger.png' class='rounded float-left' alt=''...' width='50px'>");
 				likeButton.addClass('removeReviewLike');
 			}else if(!isReviewLikeExist){
 				let likeButton = $('.reviewLike[data-review-num="' + reviewNum + '"]');
 				likeButton.html("<img src='${pageContext.request.contextPath}/resources/img/likeBefore.png' class='rounded float-left' alt=''...' width='50px'>");
-				likeButton.removeClass('removeReviewLike');
+				$(this).removeClass('removeReviewLike');
 			}
 			
 		})
@@ -88,8 +88,9 @@
        	});
 	}
 
-	function getReviewLikeCount(reviewNum){
-		
+	
+	// 리뷰좋아요 개수 구하기
+	function getReviewLikeCount(reviewNum){	
 		$.ajax({
 			type : "post",
 			url : "ReviewLikeCount", 
@@ -97,7 +98,7 @@
 			dataType : "json",
 		})
 		.done(function(reviewLikeCount) {
-			$(".reviewLikeCount").html(reviewLikeCount);
+			$(".reviewLikeCount[data-review-num=" + reviewNum + "]").html(reviewLikeCount);
 		})
 		.fail(function() { // 요청 실패 시
        		alert("ReviewLikeCount 요청 실패!");
@@ -120,9 +121,8 @@
 	     		})
 	     		.done(function(RemoveReviewLike) {
 // 	     			alert("RemoverReviewLike 요청성공" + RemoveReviewLike);
-					$(this).parents(".reviewLikeArea").find(".reviewCount").html(RemoveReviewLike);
-		     		getReviewLikeCount(reviewNum);
-	     				
+// 					$(this).parents(".reviewLikeArea").find(".reviewCount").html(RemoveReviewLike);
+		     		getReviewLikeCount(reviewNum);		
 	     		})
 	     		.fail(function() { // 요청 실패 시
 	     			alert("RemoverReviewLike 요청 실패!");
@@ -131,7 +131,7 @@
 	    		$(this).removeClass('removeReviewLike');
 	     		$(this).html("<img src='${pageContext.request.contextPath }/resources/img/likeBefore.png' class='rounded float-left' alt='...' width='50px'>");
     					
-  			} else{
+  			} else{	// 리뷰 좋아요가 눌려있지 않을 경우
   				$.ajax({
   					type : "post", 
   					url : "ReviewLike", 
