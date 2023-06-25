@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.TheaterService;
 import com.itwillbs.dongbaekcinema.vo.ScheduleVO;
 import com.itwillbs.dongbaekcinema.vo.SnackVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
+import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 
 @Controller
 public class TheaterController {
@@ -29,12 +31,21 @@ public class TheaterController {
 	private TheaterService service;
 	
 	@Autowired
-	private ReservationService service2;
+	private AdminService admin_service;
+	
+	
 	
 	@GetMapping("theater_main")
 	public String theater_main(Model model) {
 		List<TheaterVO> theaterList = service.getTheaterList();
-		System.out.println(theaterList);
+		
+		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = listLimit; // 조회 시작 행(레코드) 번호 (다섯개만 보여줄거임)
+		
+		// 공지사항 목록 조회
+		List<CsInfoVO> csInfoList = admin_service.getCsList(1, listLimit, startRow, 1);
+		
+		model.addAttribute("csInfoList", csInfoList);
 		
 		
 		model.addAttribute("theaterList", theaterList);

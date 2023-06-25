@@ -202,4 +202,9 @@
 				)
 	</insert>
 	
+	<select id="selectSeatNumListByName" resultType="int">
+		SELECT seat_num FROM SEATS
+		WHERE seat_name = #{seat};
+	</select>
+	
 </mapper>

@@ -182,7 +182,7 @@ function reservation_ing(){
 	           	<%-- 스낵 권유 파트 --%>
 	               <div class="col-8" id="seat-part">
 	               	<h5>스낵이 필요하지는 않으신가요?</h5>
-	               		<div class="row row-cols-1 row-cols-md-4" style="width: 45rem;">
+	               		<div class="row row-cols-1 row-cols-md-3" style="width: 45rem;">
 	               		<c:forEach var="snack" items="${snackList}">
 						<div class="col mb-4">
 						    <div class="card h-100">
