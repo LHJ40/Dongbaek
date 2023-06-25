@@ -157,16 +157,16 @@ $(function() {
 					   (단, 다운로드 시 파일명 변경하여 다운하려면 download="변경할 파일명" 형식으로 지정 
 					--%>
 				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
-                        <c:choose>
-							<c:when test="${not empty csInfo.cs_file }">
-								<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file }" download="${fn:split(csInfo.cs_file, '_')[1] }">
-									${fn:split(csInfo.cs_file, '_')[1] }
-								</a>
-							</c:when>
-                          		<c:otherwise>
-                           		<span id="cs_file_old_span">첨부파일이 없습니다</span>
-                          		</c:otherwise>
-                        </c:choose>
+		                        <c:choose>
+									<c:when test="${not empty csInfo.cs_file }">
+										<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file_real }" download="${fn:split(csInfo.cs_file_real, '_')[1] }">
+											${fn:split(csInfo.cs_file_real, '_')[1] }
+										</a>
+									</c:when>
+		                          		<c:otherwise>
+		                           		<span id="cs_file_old_span">첨부파일이 없습니다</span>
+		                          		</c:otherwise>
+		                        </c:choose>
 			      </td>
 			    </tr>
 				<tr>

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,23 @@ public class AdminService {
 		
 		return mapper.getRoom(theater_num);
 	}
+	
+    // 해당 영화 러닝타임 가져오기
+	public int findMovieRunningTime(int movie_num) {
+        // 상영회차 정보 생성을 위해 영화 상영정보 가져오기(movie_running_time)
+        return mapper.findMovieRunningTime(movie_num);
+	}
+	
+    // 영화번호로 영화명 가져오기
+	public String findMovieName(int movie_num) {
+		return mapper.findMovieName(movie_num);
+	} 
+
+    // 상영관 시작시간 종료시간 가져오기
+	public PlayScheduleVO getRoomStartTime(int theater_num, int room_num) {
+		return mapper.getRoomStartTime(theater_num, room_num);
+	}
+
 
 	// 특정 날짜에 상영관 스케줄이 등록되어있는지 확인
 	public int checkSchedule(String play_date, int theater_num, int room_num) {
@@ -88,97 +106,11 @@ public class AdminService {
 	}
 
 	// 특정 날짜의 상영관 스케줄 등록
-	public int insertSchedule(String play_date, int theater_num, int room_num, int movie_num) {
-		int insertCount = 0;
-		
-		Date date = new Date();
-		// play_date를 LocalDate 형식으로 변환
-        LocalDate localDate = LocalDate.parse(play_date, DateTimeFormatter.ISO_DATE);
-        Date targetDate = java.sql.Date.valueOf(localDate);
-        System.out.println(date);
-                
-        // 현재 날짜를 생성
-        Date currentDate = new Date();
-
-        // before() 메서드로 날짜 비교
-        if (targetDate.after(currentDate)) {
-        	// 등록 날짜가 오늘 보다 미래일 경우에만 등록 가능 (return>1)
-            System.out.println("insertSchedule - 주어진 날짜가 오늘보다 이후입니다.");
+	public int insertSchedule(String play_date, int theater_num
+			, int room_num, int movie_num, String new_start_turn 
+			, String new_end_turn, int play_turn, String play_time_type) {
             
-            // 상영회차 정보 생성을 위해 영화 상영정보 가져오기(movie_running_time)
-            int movie_running_time = mapper.findMovieRunningTime(movie_num);
-            
-            // 상영회차 정보 생성을 위해 상영관 시작시간 종료시간 가져오기(room_start_time)
-            PlayScheduleVO playSchedule = mapper.getRoomStartTime(theater_num, room_num);
-            
-            
-            // 회차 정보 생성을 위한 계산
-            System.out.println("영화러닝타임:" + movie_running_time + " 과 상영관 시작시간:" + playSchedule.getRoom_start_time());
-            
-            // 쉬는 시간 변수
-            int breakTime = 60;
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-            // 새로운 배열 생성
-            LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
-            LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
-
-            String[] new_start_turn = new String[5];
-            String[] new_end_turn = new String[5];
-            String[] play_time_type = new String[5];
-
-            for (int i = 0; i < 5; i++) {
-                if (i == 0) {
-                    // 첫 번째 회차
-                    new_start_turn[i] = startDateTime1.format(formatter);
-                    new_end_turn[i] = endDateTime1.format(formatter);
-                } else {
-                    // 나머지 회차
-                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
-                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
-                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
-                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
-
-                    new_start_turn[i] = startDateTime.format(formatter);
-                    new_end_turn[i] = endDateTime.format(formatter);
-                }
-
-                // play_time_type 설정
-                LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
-
-                if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
-                    play_time_type[i] = "조조";
-                } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
-                    play_time_type[i] = "심야";
-                } else {
-                    play_time_type[i] = "일반";
-                }
-            }
-
-            // 출력(1~5회차 등록)
-            for (int i = 0; i < new_start_turn.length; i++) {
-                System.out.println("New Start Time [" + i + "]: " + new_start_turn[i]);
-                System.out.println("New End Time [" + i + "]: " + new_end_turn[i]);
-                System.out.println("Play Time Type [" + i + "]: " + play_time_type[i]);
-                int play_turn = i + 1;
-
-                insertCount += mapper.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
-            }
-
-            
-            // 제대로 등록될 경우 insertCount=5
-            System.out.println("상영 스케줄 등록:" + insertCount);
-            return insertCount;
-        } else {
-        	
-        	// 등록 날짜가 오늘 보다 과거일 경우 (return=0)
-            System.out.println("insertSchedule - 주어진 날짜가 오늘과 같거나 이전입니다.");
-            
-            return 0;
-        }
-		
-
+        return mapper.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn, new_end_turn, play_turn, play_time_type);
 	}
 	
 	
@@ -302,6 +234,9 @@ public class AdminService {
     	
     	return condition;
     }
+
+
+
 
 
 

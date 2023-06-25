@@ -44,6 +44,9 @@ public interface AdminMapper {
 	// movie_num으로 해당 영화 러닝타임 가져오기
 	public int findMovieRunningTime(@Param("movie_num")int movie_num);
 
+	// movie_num으로 해당 영화 러닝타임 가져오기
+	public String findMovieName(@Param("movie_num")int movie_num);
+	
 	// 상영관별 시작시간 정보 가져오기
 	public PlayScheduleVO getRoomStartTime(@Param("theater_num")int theater_num, @Param("room_num")int room_num);	
 	

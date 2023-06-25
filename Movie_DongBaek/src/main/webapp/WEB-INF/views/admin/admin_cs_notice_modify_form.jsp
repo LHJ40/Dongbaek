@@ -65,7 +65,7 @@ $(function() {
     <article id="mainArticle">
         <%--본문내용 --%>
         <div class="container-fluid w-900">
-            <form action="admin_cs_notice_pro" id="cs_form" method="post" enctype="multipart/form-data">
+            <form action="admin_cs_notice_modify_pro" id="cs_form" method="post" enctype="multipart/form-data">
                 <h1>공지사항 관리자</h1>
                 <input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
                 <input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>

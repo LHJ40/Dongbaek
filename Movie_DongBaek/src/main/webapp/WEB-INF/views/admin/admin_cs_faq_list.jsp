@@ -105,13 +105,9 @@ $(document).ready(function() {
 		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="멤버십">
 		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="결제수단">
 		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="극장">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="스토어">
 		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="할인혜택">
 		</div>
-			<div class="row col d-flex flex-row-reverse">
-				<br>
-			  	<button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">글쓰기</button>
-			</div>
+
 
 		</form>
 		<hr>
@@ -158,7 +154,11 @@ $(document).ready(function() {
 		  </tbody>
 		</table>
 	  	</div>
-
+	    <div class="row col d-flex flex-row-reverse">
+			<br>
+		  	<button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">글쓰기</button>
+		</div>
+		
 	</div>
  <%-- 페이징 --%>
  

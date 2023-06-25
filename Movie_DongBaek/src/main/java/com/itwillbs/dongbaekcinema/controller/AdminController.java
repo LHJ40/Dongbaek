@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,8 +105,7 @@ public class AdminController {
 	
 	// 관리자페이지 상영스케줄 관리
 	@GetMapping("admin_schedule_list")
-	public String adminScheduleList(HttpSession session, Model model
-			, @RequestParam(defaultValue = "1") int pageNo) {
+	public String adminScheduleList(HttpSession session, Model model) {
 		
 //		// 직원 세션이 아닐 경우 잘못된 접근 처리
 //		String member_type = (String)session.getAttribute("member_type");
@@ -126,35 +127,6 @@ public class AdminController {
 		return "admin/admin_schedule_list";
 	}
 	
-//    // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
-//	@ResponseBody
-//	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-//	public List<PlayScheduleVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-////		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
-//
-//		
-////		// 직원 세션이 아닐 경우 잘못된 접근 처리
-////		String member_type = (String)session.getAttribute("member_type");
-////		System.out.println(member_type);
-////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-////
-////            model.addAttribute("msg", "잘못된 접근입니다!");
-////            return "fail_back";
-////        }
-//		
-//
-//		
-//		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
-//
-//		List<PlayScheduleVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
-//
-////		System.out.println(playList);
-//		
-//		model.addAttribute("playList", playList);
-//		
-//		return playList;
-//	}
-
 	
 	// 상단 생성 버튼 클릭 시 해당 영화관의 스케줄 목록 가져옴
 	@ResponseBody
@@ -162,6 +134,7 @@ public class AdminController {
     public String getSchedule(HttpSession session, Model model
     		, @RequestParam String theater_num, @RequestParam String play_date
     		, @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+		
 		
         // 상영 스케줄 정보 가져오기
         List<PlayScheduleVO> scheduleList = admin_service.showSchedual(theater_num, play_date, pageNo);
@@ -214,6 +187,116 @@ public class AdminController {
 		return movieList;
 	}
 	
+	// 상영스케줄 영화 선택 변경시 보여줄 상영스케줄
+	@ResponseBody
+	@RequestMapping(value = "testSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testSchedule(HttpSession session, Model model,
+	                           @RequestParam int theater_num, @RequestParam int room_num, @RequestParam int movie_num) {
+
+//		System.out.println("testSchedule 전송정보 확인 theater_num:" + theater_num);
+//	    System.out.println("testSchedule 전송정보 확인 room_num:" + room_num);
+//	    System.out.println("testSchedule 전송정보 확인 movie_num:" + movie_num);
+
+	    JSONArray jsonArray = new JSONArray(); // JSON 배열 변수 선언
+
+	    try {
+	    	// 해당 영화 이름 가져오기
+	    	String movie_name_kr = admin_service.findMovieName(movie_num);
+	    	
+	        // 해당 영화 러닝타임 정보 가져오기
+	        int movie_running_time = admin_service.findMovieRunningTime(movie_num);
+
+			// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+			room_num = (theater_num - 1) * 3 + room_num; 
+
+	        // 상영관 시작시간 종료시간 정보 가져오기
+	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
+
+	        // 회차별 시간 계산
+	        // 쉬는 시간 변수
+	        int breakTime = 60;
+
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+	        // 새로운 배열 생성
+	        LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
+	        LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
+
+	        String[] new_start_turn = new String[5];
+	        String[] new_end_turn = new String[5];
+	        String[] play_time_type = new String[5];
+
+	        for (int i = 0; i < 5; i++) {
+	            if (i == 0) {
+	                // 첫 번째 회차
+	                new_start_turn[i] = startDateTime1.format(formatter);
+	                new_end_turn[i] = endDateTime1.format(formatter);
+	            } else {
+	                // 나머지 회차
+                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
+                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
+                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
+                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
+
+	                new_start_turn[i] = startDateTime.format(formatter);
+	                new_end_turn[i] = endDateTime.format(formatter);
+	            }
+
+	            // play_time_type 설정
+	            LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
+
+	            if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
+	                play_time_type[i] = "조조";
+	            } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
+	                play_time_type[i] = "심야";
+	            } else {
+	                play_time_type[i] = "일반";
+	            }
+	        }
+
+	        // 출력(1~5회차 등록)
+	        for (int i = 0; i < new_start_turn.length; i++) {
+//	            System.out.println("새로운 시작 시간 [" + i + "]: " + new_start_turn[i]);
+//	            System.out.println("새로운 종료 시간 [" + i + "]: " + new_end_turn[i]);
+//	            System.out.println("회차 유형 [" + i + "]: " + play_time_type[i]);
+
+	            LocalTime endTime = LocalTime.parse(new_end_turn[i], formatter);
+	            LocalTime roomEndTime = LocalTime.parse(playSchedule.getRoom_end_time(), formatter);
+
+	            if (endTime.isAfter(roomEndTime)) {
+//	            	System.out.println("endTime:" + endTime + "roomEndTime:" + roomEndTime);
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 늦습니다.");
+	            } else if (endTime.isAfter(LocalTime.parse("00:00:00", formatter)) 
+	            		&& endTime.isBefore(LocalTime.parse(new_start_turn[0], formatter))){
+//	            	System.out.println( i + 1 + "회차 종료 시간 00:00:00이후이고 " +new_start_turn[0] + " 사이입니다");
+	            
+	            } else {
+	            	System.out.println("endTime:" + endTime + "roomEndTime:" + roomEndTime);
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
+	                JSONObject jsonObject = new JSONObject();
+	                jsonObject.put("play_turn", i + 1);
+	                jsonObject.put("new_start_turn", new_start_turn[i]);
+	                jsonObject.put("new_end_turn", new_end_turn[i]);
+	                jsonObject.put("movie_running_time", movie_running_time);
+	                jsonObject.put("movie_name_kr", movie_name_kr);
+	                System.out.println("회차:"+ i);
+//	                System.out.println("new_start_turn:"+ new_start_turn);
+//	                System.out.println("new_end_turn:"+ new_end_turn);
+//	                System.out.println("movie_running_time:"+ movie_running_time);
+//	                System.out.println("movie_name_kr:"+ movie_name_kr);
+	                
+	                jsonArray.put(jsonObject);
+	            }
+	        }
+
+	        return jsonArray.toString();
+
+	    } catch (Exception e) {
+	        return "";
+	    }
+	}
+	
+	
 	
 	
 	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
@@ -224,67 +307,113 @@ public class AdminController {
 			, @RequestParam int row_num, @RequestParam int movie_num) {
 		
 		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
+		
 		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
-		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
-		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
-		int turnCount = admin_service.checkSchedule(play_date, theater_num, row_num);
-//		System.out.println("상영정보 존재(건):" + turnCount);
+		// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+		int room_num = (theater_num - 1) * 3 + row_num;		
+		
+		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
 
-	        
-		JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
-        try {
-//			jsonArray = new JSONArray(); // JSONArray 객체 생성
-			
-			
-			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
-				System.out.println("상영스케줄 이미 존재하므로 기존 스케줄 삭제 후 재생성");
-			
-//				// 상영스케줄 정보 삭제 수행
-				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
-//				
-//				
-				if(deleteTurnCount == 0) { // 상영스케줄이 다른 테이블에서 참조하는경우 삭제 실패(ex.예매가 진행되고있는 경우)
-					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
-					
-				} else { // 상영 스케줄 등록
-					
-					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
-										
-					if(insertTurnCount == 0) { // 상영 등록 실패
-						System.out.println("상영 스케줄 등록을 시도했으나 실패");
-						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
-					} else { // 상영 등록 성공
-						System.out.println("상영등록 성공");
-						jsonObject.put("result", "상영정보가 변경 되었습니다 확인 버튼을 다시 눌러주세요");
-					}
-				}
-//				
-			} else { // 상영 스케줄이 없는 경우(insert 실행)
-				System.out.println("상영스케줄 없음");
-				
-//				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
-				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
-			
-				if(insertTurnCount == 0) { // 상영 등록 실패
-					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
-					jsonObject.put("result", "상영등록 날짜가 오늘과 같거나 과거입니다");
-				} else { // 상영 등록 성공
-					System.out.println("상영등록 성공");
-					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
-				}
-			}
+	    try {
+	    	
+	    	// 기존 상영스케줄 존재여부 확인
+	    	int scheduelCount = admin_service.checkSchedule(play_date, theater_num, room_num);
+	    	System.out.println("scheduelCount:" + scheduelCount);
+	    	
+	    	if( scheduelCount > 0) { //기존 상영 스케줄이 존재할 경우
+	    		
+	    		// 기존 상영 스케줄 삭제
+	    		int deleteCount = admin_service.deleteSchedule(play_date, theater_num, room_num);
+	    		System.out.println("기존 스케줄 삭제 :" + deleteCount);
+	    	}
+	    	
+	    	
+	        // 해당 영화 러닝타임 정보 가져오기
+	        int movie_running_time = admin_service.findMovieRunningTime(movie_num); 
 
-//			jsonArray.put(jsonObject);
-		} catch (JSONException e) {
+	        // 상영관 시작시간 종료시간 정보 가져오기
+	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
 
-			e.printStackTrace();
-			jsonObject.put("result", "컨트롤러 등록 시 오류 발생");
-			
-		}
+	        // 회차별 시간 계산
+	        // 쉬는 시간 변수
+	        int breakTime = 60;
+
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+	        // 새로운 배열 생성
+	        LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
+	        LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
+
+	        String[] new_start_turn = new String[5];
+	        String[] new_end_turn = new String[5];
+	        String[] play_time_type = new String[5];
+
+	        for (int i = 0; i < 5; i++) {
+	            if (i == 0) {
+	                // 첫 번째 회차
+	                new_start_turn[i] = startDateTime1.format(formatter);
+	                new_end_turn[i] = endDateTime1.format(formatter);
+	            } else {
+	                // 나머지 회차
+                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
+                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
+                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
+                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
+
+	                new_start_turn[i] = startDateTime.format(formatter);
+	                new_end_turn[i] = endDateTime.format(formatter);
+	            }
+
+	            // play_time_type 설정
+	            LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
+
+	            if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
+	                play_time_type[i] = "조조";
+	            } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
+	                play_time_type[i] = "심야";
+	            } else {
+	                play_time_type[i] = "일반";
+	            }
+	        }
+
+	        // 출력(1~5회차 등록)
+	        for (int i = 0; i < new_start_turn.length; i++) {
+	            System.out.println("새로운 시작 시간 [" + i + "]: " + new_start_turn[i]);
+	            System.out.println("새로운 종료 시간 [" + i + "]: " + new_end_turn[i]);
+	            System.out.println("회차 유형 [" + i + "]: " + play_time_type[i]);
+
+	            LocalTime endTime = LocalTime.parse(new_end_turn[i], formatter);
+	            LocalTime roomEndTime = LocalTime.parse(playSchedule.getRoom_end_time(), formatter);
+	            int play_turn = i + 1;
+	            
+	            if (endTime.isAfter(roomEndTime)) {
+	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 늦습니다.");
+	            } else if (endTime.isAfter(LocalTime.parse("00:00:00", formatter)) 
+	            		&& endTime.isBefore(LocalTime.parse(new_start_turn[0], formatter))){
+	            	System.out.println();
+	            	System.out.println( i + 1 + "회차 종료 시간 00:00:00이후이고 " +new_start_turn[0] + " 사이입니다");
+	            
+	            } else {
+	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
+	                int insertCount = admin_service.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
+	                
+	                if(insertCount > 0) {
+	                	System.out.println("상영회차 등록:" + insertCount + "개");
+	                	jsonObject.put("result", "상영 회차가 등록되었습니다 확인버튼을 눌러주세요");	                	
+	                } else {
+	                	jsonObject.put("result", "회차 등록이 실패했습니다");	                		                	
+	                }
+	            }
+	        }
+
+	        return jsonObject.toString();
+
+	    } catch (Exception e) {
+	        return "";
+	    }
 		
 
-        return jsonObject.toString();
 
 		
 	}
@@ -658,13 +787,13 @@ public class AdminController {
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, csInfo);
+		int updateCount = admin_service.updateCs(csTypeNo, csInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
 		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
 		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
-		if(insertCount > 0) { // 성공
+		if(updateCount > 0) { // 성공
 			try {
 				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
 				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
@@ -683,7 +812,7 @@ public class AdminController {
 			}
 			
 			// 글쓰기 작업 성공 시 자주묻는 질문 게시판(admin_cs_faq)으로 리다이렉트
-			return "redirect:/admin_cs_faq";
+			return "redirect:/admin_cs_notice";
 		} else { // 실패
 			model.addAttribute("msg", "글 쓰기 실패!");
 			return "fail_back";
@@ -1214,13 +1343,13 @@ public class AdminController {
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, faqInfo);
+		int updateCount = admin_service.updateCs(csTypeNo, faqInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
 		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
 		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
-		if(insertCount > 0) { // 성공
+		if(updateCount > 0) { // 성공
 			try {
 				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
 				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
