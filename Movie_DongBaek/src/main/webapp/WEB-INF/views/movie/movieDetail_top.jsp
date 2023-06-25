@@ -39,7 +39,7 @@
 				  
 			  <%--찝버튼, 리뷰출력카드 --%>
 			  <div class="row" style="margin-bottom: 50px">
-				<div class="col mx-4 my-2" style="width:80px"><button class="btn btn-danger"> 찜하기♡ </button></div>
+				<div class="col mx-4 my-2" style="width:80px"><button class="btn btn-outline-danger"> 찜하기♡ </button></div>
 					<div class="col mx-4 my-2">
 			    		<div class="card" style="width: 24rem">
 						<div class="card-body">

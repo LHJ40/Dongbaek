@@ -108,9 +108,7 @@ a:link,a:visited { color:gray; }
 			    console.error(error);
 			}
 			
-			
 		});	// ajax끝
-		
 		
 	} // 찜하기 버튼 클릭 함수 끝
 	
@@ -158,8 +156,8 @@ a:link,a:visited { color:gray; }
 						<h6 class="card-title"><b> ${movie.movie_name_kr}</b></h6>
 						<p class="card-text">
 							<%-- 찜하기 버튼 클릭 시 movie_num 파라미터로 받아 전달 --%>
-							<input type="hidden" name="movie_num" value="${movie.movie_num}" id="movie_num${i.count }">
 							<input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+							<input type="hidden" name="movie_num" value="${movie.movie_num}" id="movie_num${i.count }">
 							<c:choose>
 								<%--
 								회원이나 직원이('비회원'이 아닐 때)

@@ -38,31 +38,10 @@ public class HomeController {
 		model.addAttribute("movieList", movieList);
 //		System.out.println(movieList);
 		
-//		// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
-//		String member_id = (String) session.getAttribute("member_id");
-//		String member_type = (String) session.getAttribute("member_type");
-//
-//		if (member_id != null && !"비회원".equals(member_type)) {
-//			System.out.println("어디서 문제니 : member_id " + member_id);
-//			System.out.println("어디서 문제니 : member_type " + session.getAttribute("member_type"));
-//			
-//			// 찜한 영화 찾기
-//			// LikeService - getLikeMovie()
-//			// 파라미터 : member_id		리턴타입 : List<LikeVO>(likeList)
-//			List<MovieLikeVO> likeList = likeService.getLikeMovie(member_id); 
-//			System.out.println(likeList);
-////			
-//			if(likeList != null) {
-//				// 모델에 저장 (-> 메인, 영화목록, 영화디테일)
-//				// 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
-//				model.addAttribute("likeList", likeList);
-//			}
-//		}
-		
 		return "home";
 	}
 	
-	// 영화 찜 보여주기
+	// 페이지 - 영화 찜 보여주기(지영)
 	@RequestMapping(value = "likeMovieShow", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<MovieLikeVO> likeMovieShow(HttpSession session) {
@@ -91,7 +70,7 @@ public class HomeController {
 		return null;
 	}
 	
-	// 영화 찜 기능 구현
+	// 영화 찜 버튼 기능 구현(지영)
 	@RequestMapping(value = "likeMovie", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Integer likeMovie(
