@@ -209,7 +209,7 @@ public class AdminService {
 
 		// CS 게시판 구분용 contiodion 변수(csType=1일경우 공지사항, cstype=2일경우 1:1질문 게시판, cstype=3경우 자주묻는 질문)
 		String condition = distinctType(csTypeNo);
-		System.out.println("getCsTotalPageCount- condition:" + condition);
+//		System.out.println("getCsTotalPageCount- condition:" + condition);
         
 //        System.out.println("getCsTotalPageCount pageListLimit:" + pageListLimit + "csType:" + csType + "condition" + condition + "totalCount" + totalCount);
         return mapper.getCsCount(condition);
@@ -220,7 +220,7 @@ public class AdminService {
 
 		// CS 게시판 구분용 contiodion 변수(csType=1일경우 공지사항, cstype=2일경우 1:1질문 게시판, cstype=3경우 자주묻는 질문)
 		String condition = distinctType(csTypeNo);
-		System.out.println("getCsTotalPageCount- condition:" + condition);
+//		System.out.println("getCsTotalPageCount- condition:" + condition);
         
 //        System.out.println("getCsTotalPageCount pageListLimit:" + pageListLimit + "csType:" + csType + "condition" + condition + "totalCount" + totalCount);
         return mapper.getCsCountKeyword(condition, cs_type_keyword);
@@ -231,8 +231,8 @@ public class AdminService {
 		
 		// CS 게시판 구분용 contiodion 변수
 		String condition = distinctType(csTypeNo);
-		System.out.println("registCs - condition:" + condition);
-		System.out.println("registCs - csInfo:" + csInfo);
+//		System.out.println("registCs - condition:" + condition);
+//		System.out.println("registCs - csInfo:" + csInfo);
 		
 		return mapper.registCs(condition, csInfo);
 				
@@ -244,8 +244,8 @@ public class AdminService {
 		
 		// CS 게시판 구분용 contiodion 변수(1: 공지사항, 2: 자주묻는 질문 게시판)
 		String condition = distinctType(csTypeNo);
-		System.out.println("updateCs - condition:" + condition);
-		System.out.println("updateCs - csInfo:" + csInfo);
+//		System.out.println("updateCs - condition:" + condition);
+//		System.out.println("updateCs - csInfo:" + csInfo);
 		
 		return mapper.updateCs(condition, csInfo);
 				
@@ -258,8 +258,8 @@ public class AdminService {
 		// CS 게시판 구분용 contiodion 변수
 		String condition = distinctType(csTypeNo);
 		
-		System.out.println("deleteCs condition:" + condition);
-		System.out.println("deleteCs cs_type_list_num:" + cs_type_list_num);
+//		System.out.println("deleteCs condition:" + condition);
+//		System.out.println("deleteCs cs_type_list_num:" + cs_type_list_num);
 
 		return mapper.deleteCs(condition, cs_type_list_num);
 	}
@@ -280,8 +280,8 @@ public class AdminService {
 		
 		// CS 게시판 구분용 contiodion 변수
 		String condition = distinctType(csTypeNo);
-		System.out.println("quaReply - condition:" + condition);
-		System.out.println("quaReply - qnaInfo:" + qnaInfo);
+//		System.out.println("quaReply - condition:" + condition);
+//		System.out.println("quaReply - qnaInfo:" + qnaInfo);
 		
 		return mapper.updateReply(condition, qnaInfo);
 	}
