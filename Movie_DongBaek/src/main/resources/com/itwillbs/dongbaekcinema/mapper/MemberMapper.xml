@@ -38,6 +38,7 @@
 		SELECT * 
 		FROM MEMBERS
 		WHERE member_id = #{member_id}
+			AND member_type != '비회원'
 	</select>
 	
 	<!-- 로그인 작업 - member_id로 조회, member_pass 받아오기 -->

@@ -11,6 +11,7 @@ import com.itwillbs.dongbaekcinema.vo.OrderVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
+import com.itwillbs.dongbaekcinema.vo.OrderSnackVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
@@ -55,5 +56,10 @@ public interface ReservationMapper {
 
 	int insertPayment(PaymentVO payment);
 
+	void insertSnack(OrderSnackVO snack);
+
 	TicketTypeVO selectTicketTypeListByNum(int ticket_type_num);
+
+	int selectSeatNumListByName(String seat);
+
 }

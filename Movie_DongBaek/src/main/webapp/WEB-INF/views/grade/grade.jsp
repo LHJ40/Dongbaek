@@ -122,7 +122,17 @@
 		</div>
 
 	</article>
-	
+
+
+<!-- bronze -->
+<!-- <a href="https://www.flaticon.com/free-icons/laurel-wreath" title="laurel-wreath icons">Laurel-wreath icons created by Flat Icons - Flaticon</a> -->
+<!-- silver -->
+<!-- <a href="https://www.flaticon.com/free-icons/silver-medal" title="silver medal icons">Silver medal icons created by KSan Wapiti - Flaticon</a> -->
+<!-- gold -->
+<!-- <a href="https://www.flaticon.com/free-icons/gold-medal" title="gold medal icons">Gold medal icons created by KSan Wapiti - Flaticon</a> -->
+<!-- platinum -->
+<!-- <div> Icons made by <a href="https://www.flaticon.com/authors/ksan-wapiti" title="KSan Wapiti"> KSan Wapiti </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
+
 	<%-- 메인화면에서 멤버십 클릭하여 진입 시 왼쪽 사이드바 불필요 -> 삭제 --%>
 <%-- 
 	<nav id="mainNav">

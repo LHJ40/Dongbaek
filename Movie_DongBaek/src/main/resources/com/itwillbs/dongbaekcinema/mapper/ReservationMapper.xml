@@ -202,4 +202,22 @@
 				)
 	</insert>
 	
+	<insert id="insertSnack" parameterType="com.itwillbs.dongbaekcinema.vo.OrderSnackVO">
+		INSERT
+			INTO ORDER_SNACKS
+			VALUES (
+				null
+				, #{snack_quantity}
+				, #{order_num}
+				, #{member_id}
+				, #{snack_num}
+				, "결제완료"
+				)
+	</insert>
+	
+	<select id="selectSeatNumListByName" resultType="int">
+		SELECT seat_num FROM SEATS
+		WHERE seat_name = #{seat};
+	</select>
+	
 </mapper>

@@ -32,6 +32,7 @@ import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
+import com.itwillbs.dongbaekcinema.vo.OrderSnackVO;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
 
@@ -222,7 +223,7 @@ public class ReservationController {
 
             return "fail_location";
         }
-        
+       
         List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
 		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
 		
@@ -330,13 +331,27 @@ public class ReservationController {
 	}
 	@RequestMapping(value ="complete", method = RequestMethod.POST)
 	@ResponseBody
-	public int paymentComplete(String seat_name,String ticket_type_num_param,OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
+	public int paymentComplete(String seat_name,String snack_num_param,String snack_quantity_param,String ticket_type_num_param,OrderSnackVO snack,OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
 			) throws Exception {
-			System.out.println(ticket_type_num_param);
-			System.out.println(seat_name);
-		    System.out.println(order);
-		    System.out.println(ticket);
-		    System.out.println(payment);
+			
+		
+			List<Integer> seatNumList=new ArrayList<Integer>();
+	        String seatlist[] =seat_name.split(",");
+	        int ticket_num [] = Stream.of(ticket_type_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
+	        for(String seat : seatlist) {
+	        	int seatnum=service.getSeatNumListByName(seat);
+	        	seatNumList.add(seatnum);
+	        }
+	       
+	        
+	        
+	        
+//	        System.out.println(seatNumList);
+//			System.out.println(ticket_type_num_param);
+//			System.out.println(seat_name);
+//		    System.out.println(order);
+//		    System.out.println(ticket);
+//		    System.out.println(payment);
 //		    String token = payService.getToken();
 //		    
 //		    // 결제 완료된 금액
@@ -351,12 +366,30 @@ public class ReservationController {
 //				return res;
 //			}
 //			orderService.insert_pay(orderDTO);
-//		    int insertCount=service.registOrder(order);
-//		    int insertCount2=service.registTicket(ticket);
-//		    int insertCount3=service.registPayment(payment);
-//		    System.out.println(insertCount);
-//		    System.out.println(insertCount2);
-//		    System.out.println(insertCount3);
+		    service.registOrder(order); //주문정보 저장
+		    service.registPayment(payment);//결제정보 저장
+		    
+		    int i=0;
+		    for(int seat:seatNumList) {
+	        	ticket.setSeat_num(seat);
+	        	ticket.setTicket_type_num(ticket_num[i]);
+	        	service.registTicket(ticket);//티켓정보 저장
+	        	i++;
+	        }
+		    
+		    if(!snack_num_param.equals("")) {
+				int snackNum[]=Stream.of(snack_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
+				int snackQuantity[]=Stream.of(snack_quantity_param.split(",")).mapToInt(Integer::parseInt).toArray();
+				for(int i2=0; i2<snackNum.length; i2++) {
+					snack.setSnack_num(snackNum[i2]);
+					snack.setSnack_quantity(snackQuantity[i2]);
+					service.registSnack(snack);//스낵정보 저장
+				}
+				
+			}
+		    
+		   
+		   
 			return res;
 		 
 	}
