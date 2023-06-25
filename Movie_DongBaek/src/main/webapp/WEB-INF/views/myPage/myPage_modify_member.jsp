@@ -271,7 +271,7 @@ function checkconfirmPasswd(passwdCheck) {
 <!-- 								<input type="button" value="취소" onclick="history.back()"> -->
 							<input type="submit" value="정보 수정">
 							<input type="button" value="돌아가기" onclick="history.back()">
-							
+							<input type="button" value="탈퇴하기" onclick="location.href='MemberWithdrawalForm'">
 						</form>
 					</c:forEach>
 				</c:otherwise>

@@ -27,38 +27,38 @@ th{
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
-// 비밀번호 정규식
-function checkPass(memberNewPasswd) {
-	let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
-	
-	if(regex.exec(memberNewPasswd)) {
-		document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
-		document.querySelector("#pass_check").style.color = "green";
-	} else {
-		document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
-		document.querySelector("#pass_check").style.color = "red";
-		alert("비밀번호를 다시 입력해주세요!");
-		$("#member_pass").val('');
-		$("#member_pass2").val('');
+	// 비밀번호 정규식
+	function checkPass(memberNewPasswd) {
+		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+		
+		if(regex.exec(memberNewPasswd)) {
+			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
+			document.querySelector("#pass_check").style.color = "green";
+		} else {
+			document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
+			document.querySelector("#pass_check").style.color = "red";
+			alert("비밀번호를 다시 입력해주세요!");
+			$("#member_pass").val('');
+			$("#member_pass2").val('');
+		}
 	}
-}
-
-// 비밀번호 와 비밀번호 확인 일치
-function checkconfirmPasswd(passwdCheck) {
 	
-	let memberNewPasswd = document.fr.memberNewPasswd.value;
-	
-	if(memberNewPasswd == passwdCheck) {
-		document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
-		document.querySelector("#pass_confirm").style.color = "green";
-	} else {
-		document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
-		document.querySelector("#pass_confirm").style.color = "red";
-		alert("비밀번호를 다시 입력해주세요!");
-		$("#member_pass").val('');
-		$("#member_pass2").val('');
+	// 비밀번호 와 비밀번호 확인 일치
+	function checkconfirmPasswd(passwdCheck) {
+		
+		let memberNewPasswd = document.fr.memberNewPasswd.value;
+		
+		if(memberNewPasswd == passwdCheck) {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
+			document.querySelector("#pass_confirm").style.color = "green";
+		} else {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
+			document.querySelector("#pass_confirm").style.color = "red";
+			alert("비밀번호를 다시 입력해주세요!");
+			$("#member_pass").val('');
+			$("#member_pass2").val('');
+		}
 	}
-}
 	
 </script>
 </head>
