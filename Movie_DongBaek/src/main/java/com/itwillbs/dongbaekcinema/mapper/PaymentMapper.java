@@ -22,7 +22,7 @@ public interface PaymentMapper {
 //	List<PaymentVO> selectPaymentList();
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	List<BuyDetailVO> selectMyPaymentList(@Param("member_id") String member_id, @Param("pageNum") int pageNum);
+	List<BuyDetailVO> selectMyPaymentList(@Param("member_id") String member_id, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
 
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회(지영)
 	List<BuyDetailVO> selectMyPaymentDetail(String payment_num);

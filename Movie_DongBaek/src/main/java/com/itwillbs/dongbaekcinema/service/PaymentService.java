@@ -38,8 +38,8 @@ public class PaymentService {
 //	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 조회(지영)
-	public List<BuyDetailVO> getMyPaymentList(String member_id, int pageNum) {
-		return mapper.selectMyPaymentList(member_id, pageNum);
+	public List<BuyDetailVO> getMyPaymentList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyPaymentList(member_id, startRow, listLimit);
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 (지영)
