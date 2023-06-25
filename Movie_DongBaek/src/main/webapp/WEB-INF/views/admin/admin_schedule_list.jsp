@@ -29,7 +29,24 @@
 	href="${pageContext.request.contextPath }/resources/css/button.css"
 	rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
-
+<style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
+div {
+	background-color: transparent;
+}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">

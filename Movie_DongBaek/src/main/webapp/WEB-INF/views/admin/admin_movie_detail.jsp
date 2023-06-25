@@ -12,6 +12,14 @@
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>영화상세정보 - ${movieList.movie_name_kr }</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
 .w-900{
 	width: 900px;
 	margin: 0 auto;

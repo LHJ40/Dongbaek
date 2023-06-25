@@ -14,7 +14,19 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
+<%-- a링크 활성화 색상 변경 --%>
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
+}
 </style>
 </head>
 <body>
@@ -23,7 +35,7 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
-  	<div class="container">
+  	<div class="container container-fluid w-900">
 		<div class="mainTop">
 			<c:choose>
 				<c:when test ="${empty member_id}">

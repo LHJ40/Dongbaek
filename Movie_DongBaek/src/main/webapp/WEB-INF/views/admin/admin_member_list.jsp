@@ -31,6 +31,14 @@
 	rel="stylesheet" type="text/css">
 <title>관리자 - 회원관리</title>
 <style>
+#mainNav{
+/* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
+}
+	
+#mainNav>ul{
+	list-style: none;
+}
 .w-900 {
 	width: 900px;
 }
@@ -54,9 +62,6 @@ a:hover, a:active{
 	border: 1px solid gray;
 }
 
-#mainNav {
-	border: 1px solid blue;
-}
 
 
 </style>

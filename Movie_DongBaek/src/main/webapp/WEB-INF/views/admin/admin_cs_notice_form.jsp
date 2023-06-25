@@ -31,6 +31,7 @@
 <style>
 #mainNav{
 /* 		border: 1px solid #f00; */
+	padding: 8rem 2rem;	
 }
 	
 #mainNav>ul{
