@@ -10,69 +10,16 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-	.container-top{
-		margin: 3rem;
-	}
-	aside{
-		margin: 10px;
-		background-color: #d5b59c;
-	}
-	
-	/* 예매 선택 구간 */
-	/* 크기 조절 */
-	.container-fluid{
-		width: 900px;
-		margin: 1rem;
-		padding-left: 2rem;
-		border: 2px solid #aaa;
-	/* 	background-color: #d5b59c; */
-	}
-	div{
-		background-color: transparent;
-	}
-	.container-fluid h5{
-		text-align: center;
-		font-weight: bold;
-	}
-	/* 각 파트 구별을 위한 색상 조절, 여백 */
-	.row1>div{
-		height: 300px;
-		margin: 0.5rem;
-		padding: 10px;
-		background-color: white;
-	}
-	/* 페이지 이름 잘보이게 설정 */
-	#mainArticle>h2{
-		font-weight: bold;
-		padding-left: 1rem;
-	}
-	
-	/* 선택사항 안내 구간 */
-	/* 위 파트와 구별을 위한 색상 부여 */
-	.row2{
-		padding-top: 0.5rem;
-		height: 150px;
-		background-color: #e2cdbc;
-	}
 
-	.row1>div{
-		height: 450px;
-		margin: 1rem;
-		padding: 2rem;
-		background-color: white;
-	}
-	.card-text>input{
-		width: 80px;
-		height: 30px;
-	}
-	.right_side{
-		text-align: right;
-	}
-	.bottom{
-		text-align: center;
-		bottom: 1rem;
-		position: absolute;
-	}
+	 .card{
+    position: relative;
+    display: block;
+    height: 435px;
+    text-decoration: none;
+    border:3px solid #e4e4e4;
+    border-radius: 10px;
+  }
+	
 </style>
 <script type="text/javascript">
 
@@ -84,21 +31,23 @@
  
   <article id="mainArticle">
   <%--본문내용 --%>
+		<div class="container">
  		<h2>스토어</h2>
-		<div class="container-fluid reservation_con" >
+ 		<hr>
+		<div class="container-fluid reservation_con" style="border:none;">
 	           <div class="row row1">
 	           	<%-- 스낵 권유 파트 --%>
 	               <div class="col-md-8 col-lg-8" id="seat-part">
-	               		<div class="row row-cols-1 row-cols-md-3" style="width: 45rem;">
+	               		<div class="row row-cols-1 row-cols-md-3" style="width: 50rem;">
 	               		<c:forEach var="snack" items="${snackList }">
-						<div class="col mb-4">
-						    <div class="card h-100">
-						      <img src="${snack.snack_img}" width="80" height="130" class="card-img-top" alt="...">
+						<div class="col mb-3" >
+						    <div class="card h-100" >
+						      <img src="${pageContext.request.contextPath }/resources/img/${snack.snack_img}"  height="280" class="card-img-top" alt="...">
 						      <div class="card-body">
-						        <h5 class="card-title">${snack.snack_name}</h5>
-						        	${snack.snack_price}원
-						        	<br>
-						        	${snack.snack_txt}<br>
+						        <h5 class="card-title" style="text-align:left">${snack.snack_name}</h5><br>
+						        	<b>${snack.snack_txt}</b><br>
+						        	<hr>
+						        	<b>${snack.snack_price}원</b>
 						      </div>
 						    </div>
 						  </div>
@@ -124,7 +73,7 @@
 	           
 	           
 	           </div>
-  
+  </div>
   </article>
   
   <nav id="mainNav">

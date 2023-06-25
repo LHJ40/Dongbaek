@@ -11,8 +11,8 @@
 .table table-striped>tr>td>button{
 	height:4em;
 }
-.nav-link{
-
+.breadcrumb{
+background-color: #ffffff;
 }
 </style>
 <script type="text/javascript">
@@ -80,7 +80,7 @@ function timetable(){
 
 <%-- breadcrumb --%>
 <div class="container">
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" >
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">theaters</li>
@@ -89,11 +89,6 @@ function timetable(){
 </nav>
 </div>
 
-<%-- MY영화관표시 --%>
-<div class="container" align="right">
-	<span>My영화관 &nbsp;</span><a href="#">로그인하세요</a><br>
-	<span>My영화관 &nbsp;&nbsp;&nbsp;</span><a href="#">XXX지점</a>
-</div>
 
 
 <%-- 극장 선택 버튼 --%>
@@ -104,52 +99,5 @@ function timetable(){
 			<button type="button" id="theater_button" style="width:100%" name="theater_num"  value="${theater.theater_num}" class="btn btn-outline-danger cols-4 my-3">${theater.theater_name}</button>
 	    </div>
 	    </c:forEach>
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">송정점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">해운대점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">센텀점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4 my-3">수영점</button> -->
-<!-- 	    </div> -->
-<!--   </div> -->
-  
-<!--     <div class="row"> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">동래점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 ">경성대점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">광안리점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4">초량점</button> -->
-<!-- 	    </div> -->
-<!-- 	   <div class="col"> -->
-<!-- 			<button type="button"  style="width:100%" class="btn btn-outline-danger cols-4">개금점</button> -->
-<!-- 	    </div> -->
-<!--   	</div> -->
-<!--   	<div class="row"> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3 ">서면점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4  my-3">사상점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">남포동점</button> -->
-<!-- 	    </div> -->
-<!-- 	    <div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">다대포점</button> -->
-<!-- 	    </div> -->
-<!-- 	   	<div class="col"> -->
-<!-- 			<button type="button" style="width:100%" class="btn btn-outline-danger cols-4 my-3">명지점</button> -->
-<!-- 	    </div> -->
   	</div>
 </div>

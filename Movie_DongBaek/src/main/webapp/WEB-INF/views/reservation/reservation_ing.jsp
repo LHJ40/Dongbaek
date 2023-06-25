@@ -29,7 +29,7 @@ article {
 	/* 예매 선택 구간 */
 	/* 크기 조절 */
 	.container-fluid{
-		width: 900px;
+		width: 1200px;
 		padding-left: 2rem;
 		border: 2px solid #aaa;
 	/* 	background-color: #d5b59c; */
@@ -59,7 +59,7 @@ article {
 	/* 위 파트와 구별을 위한 색상 부여 */
 	.row2{
 		padding-top: 0.5rem;
-		height: 150px;
+		height: 200px;
 		background-color: #aaa;
 	}
 	
@@ -299,16 +299,41 @@ article {
 				  			<%-- 상단의 멤버십 사진 대신 할인금액에서 멤버십 이라는 단어를 사용해 할인이 된다 정도만 명시하면 좋을듯
 				  			회원인 경우 멤버십을 마이페이지에서 확인할 수 있고
 				  			비회원인 경우 멤버십이 필요가 없음 --%>
+				  	<tr>
+				  	<td colspan="3">
+				  			<c:set var = "total" value = "0" />
+	               	<c:set var = "count" value = "1" />
+					  <c:forEach var="ticket" items="${ticketPriceList}" varStatus="status" >
+					  	<c:choose>
+							<c:when test="${status.index eq 0 }" >
+							  ${ticket.ticket_user_type}
+							  ${ticket.ticket_type_price}
+							  <c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+					  		</c:when>
+							<c:when test="${status.index ne 0 }" >
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type eq ticket.ticket_user_type }">
+								
+							    <c:set var = "count" value = "${count + 1}"/>
+								</c:if>
+								<c:if test="${ticketPriceList[status.index-1].ticket_user_type ne ticket.ticket_user_type }">
+								X${count}<br>
+								<c:set var = "count" value = "1"/>
+								 ${ticket.ticket_user_type}
+							  	${ticket.ticket_type_price}
+								</c:if>
+								<c:if test="${status.last eq true }">
+								X${count}
+								</c:if>
+							</c:when>
+						</c:choose>
+					  <c:set var= "total" value="${total + ticket.ticket_type_price}"/>
+					  </c:forEach>
+				  			</td>
+				  			</tr>
 				  			
-				  			
-				  			<tr>
-				  			 <c:forEach var="ticket" items="${ticketPriceList}" >
-					 		 ${ticket.ticket_user_type}
-							 ${ticket.ticket_type_price}<br>
-					 		<c:set var= "total" value="${total + ticket.ticket_type_price}"/>
-					 		
-						    </c:forEach>
-						    </tr>
+				  		
 				  			<tr>
 				  				<td colspan="3"><b>영화 총 금액</b> ${total}원</td>
 				  			</tr>
@@ -352,27 +377,27 @@ article {
 	            	<%-- 선택한 스낵의 사진 --%>
 	         <c:if test="${snackNumlist ne null}">
 	                <div class="col-3" align="center">
-				  		<img src="${snackNumlist[0].snack_img }" height="100px" width="100px">
+				  		<img src="${pageContext.request.contextPath }/resources/img/${snackNumlist[0].snack_img }" height="100px" width="100px">
 					</div>
 					<%-- 선택한 스낵의 정보 --%>
-	                <div class="col-3">
-	                	<table id="snackregion" class="table table-borderless">
-					 		<tr>
-					 			<th scope="col" colspan="2">스낵 정보</th>
-					 		</tr>
-					 		<tr>
-					 		<td>
-					 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
-					 		 	${snack.snack_name}
-								 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
-								 <c:set var= "sancktotal" value="${sancktotal + snack.snack_price*snackquantitylist[status.index]}"/>
-					 		 </c:forEach>
-					 		 ${sancktotal}원
-					 		</td>
-					 		</tr>
-					 		
-					 	</table>
-	                </div>
+		                <div class="col-3">
+		                	<table id="snackregion" class="table table-borderless">
+						 		<tr>
+						 			<th scope="col" colspan="2">스낵 정보
+						 		</tr>
+						 		<tr>
+						 		<td>
+						 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
+						 		 	${snack.snack_name}
+									 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
+									 <c:set var= "sancktotal" value="${sancktotal + snack.snack_price*snackquantitylist[status.index]}"/>
+						 		 </c:forEach>
+						 		 <b>스낵 총 금액</b> ${sancktotal}원
+						 		</td>
+						 		</tr>
+						 		
+						 	</table>
+		                </div>
 	                </c:if>
 	                <div class="col-3">
 	                <h5>최종 결제 금액</h5>
