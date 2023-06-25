@@ -74,7 +74,7 @@ article {
 	/* 극장 파트 좌우 배치 */
 	#region{
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 130px;
 		display: inline-block;
 		vertical-align: top;
 		padding-top: 1.5rem;
@@ -82,7 +82,7 @@ article {
 	#room{
 		vertical-align: top;
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 300px;
 		display: inline-block;
 		padding-top: 1.5rem;
 		
@@ -259,7 +259,7 @@ article {
 	                </div>
 	                
 	                <%-- 예매 진행 중인 예매 정보 출력 파트 --%>
-	                <div class="col-4">
+	                <div class="col-4.5">
 		                <%-- 테두리가 없는 테이블 --%>
 		                <%-- 예매 진행 중인 구체적인 내용 출력 --%>
 					 	<table id="region" class="table table-borderless">
@@ -279,12 +279,12 @@ article {
 					 	<table id="room" class="table table-borderless">
 					 		<thead>
 					 		<tr>
-					 			<td scope="col" width="180px"><c:if test="${reservation.play_time_type eq '조조'}">${morning}</c:if>
+					 			<td scope="col" ><c:if test="${reservation.play_time_type eq '조조'}">${morning}</c:if>
 															  <c:if test="${reservation.play_time_type eq '심야'}">${night}</c:if>
 															  <c:if test="${reservation.play_time_type eq '일반'}">${general}</c:if></td>
 					 		</tr>
 					 		</thead>
-					 		<tbody>
+					 		<tbody >
 					 		<tr><td>${reservation.movie_name_kr }</td></tr>
 					 		<tr><td>${reservation.theater_name } ${reservation. room_name }</td></tr>
 					 		<tr><td>${reservation.play_date} ${reservation.play_start_time }</td></tr>
@@ -294,7 +294,7 @@ article {
 	                </div>
 	                
 					<%-- 결제할 금액을 명시하는 파트 --%>
-	                <div class="col-4">
+	                <div class="col-3.5">
 				  		<table class="table table-striped">
 				  			<%-- 상단의 멤버십 사진 대신 할인금액에서 멤버십 이라는 단어를 사용해 할인이 된다 정도만 명시하면 좋을듯
 				  			회원인 경우 멤버십을 마이페이지에서 확인할 수 있고
@@ -335,32 +335,19 @@ article {
 				  			
 				  		
 				  			<tr>
-				  				<td colspan="3"><b>영화 총 금액</b> ${total}원</td>
+				  				<td ><b>영화 총 금액</b> </td>
+				  				<td>${total}원</td>
+				  				<td></td>
 				  			</tr>
-<!-- 				  				<tr> -->
-<!-- 				  					<th>성인</th> -->
-<!-- 				  					<td> 2 명 </td> -->
-<!-- 				  					<td> 30,000 원</td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
-<!-- 				  					<th>청소년</th> -->
-<!-- 				  					<td> 0 명 </td> -->
-<!-- 				  					<td> 0 원 </td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
-<!-- 				  					<th>경로/우대</th> -->
-<!-- 				  					<td> 0 명 </td> -->
-<!-- 				  					<td> 0 원 </td> -->
-<!-- 				  				</tr> -->
-<!-- 				  				<tr> -->
+
 							<tr>
 				  					<th>할인금액</th>
 				  					<fmt:parseNumber var= "grade_discount" integerOnly= "true" value= "${total*member_grade.grade_discount}" />
 				  					 <c:if test="${member_grade.grade_name eq 'NONE'}">
 				  					<c:set var= "grade_discount" value="0"/>
 				  					</c:if>
-				  					<td>${member_grade.grade_name }</td>
 				  					<td>${grade_discount }원 </td>
+				  					<td>${member_grade.grade_name } </td>
 				  				</tr>
 				  				<tr>
 				  					<th>최종 영화금액 </th>
@@ -383,7 +370,7 @@ article {
 		                <div class="col-3">
 		                	<table id="snackregion" class="table table-borderless">
 						 		<tr>
-						 			<th scope="col" colspan="2">스낵 정보
+						 			<th scope="col" colspan="2"><b>스낵 정보</b></th>
 						 		</tr>
 						 		<tr>
 						 		<td>
@@ -399,9 +386,11 @@ article {
 						 	</table>
 		                </div>
 	                </c:if>
+	               
 	                <div class="col-3">
-	                <h5>최종 결제 금액</h5>
-	                <h5>${total-grade_discount+sancktotal}원</h5>
+	                <h2>최종 결제 금액</h2>
+	                <c:if test="${snackNumlist ne null}">영화(${total-grade_discount})+스낵(${sancktotal})</c:if>
+	                <h3>=<fmt:formatNumber value="${total-grade_discount+sancktotal }" pattern="#,###" />원</h3>
 	                </div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
 	                <div class="col-3">
