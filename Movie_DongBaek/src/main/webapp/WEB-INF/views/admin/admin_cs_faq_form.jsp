@@ -89,6 +89,7 @@ $(function() {
 			      <td scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
 				       <select class="form-control" name="cs_type" id="cs_type">
+							<option value="">전체</option>
 							<option value="예매">예매</option>
 							<option value="멤버십">멤버십</option>
 							<option value="결제수단">결제수단</option>

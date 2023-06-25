@@ -86,9 +86,18 @@ a:hover, a:active{
 
 	  <%-- 네이게이션바 --%>
  	<div class="row row-md-12"> 
+		<nav class="navbar navbar-expand-xl navbar-light bg-light d-flex justify-content-between">
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 		  	<div class="col col-md-4">
-		    	<br><h1>공지사항 관리</h1>
+		    	<a class="navbar-brand" >공지사항 관리</a>
 		    </div>
+
+		  </div>
+
+		</nav>
   	</div>
   	
   	<%-- 본문 테이블 --%>
