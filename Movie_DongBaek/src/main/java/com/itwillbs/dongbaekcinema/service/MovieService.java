@@ -33,10 +33,11 @@ public class MovieService {
 
 	
 	// 현재상영작 예매율순 영화목록 조회 요청 - 기본
-	public List<MovieVO> getMovieList_present_bookrate(int startRow, int listLimit){
+	public List<MovieVO> getMovieList_present_bookrate(int startRow, int listLimit, String movieSearchKeyword){
 		//		System.out.println("getMovieList_present_bookrate()");
-		return mapper.select_presentMovie_bookingRateDESC(startRow, listLimit);
+		return mapper.select_presentMovie_bookingRateDESC(startRow, listLimit, movieSearchKeyword);
 	}
+	//수정용
 	
 	// 현재상영작 평점순 영화목록 조회 요청
 	public List<MovieVO> getMovieList_present_reviewrate(int startRow, int listLimit){

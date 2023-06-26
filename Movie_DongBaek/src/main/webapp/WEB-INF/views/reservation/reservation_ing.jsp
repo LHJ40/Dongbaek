@@ -143,7 +143,7 @@ article {
  	            
  	            
  	        }, function (rsp) {
- 	            console.log(rsp);
+ 	        	uid = rsp.imp_uid;
  	            if (rsp.success) {
  	                var msg = '결제가 완료되었습니다.';
 //  	              	 location.href='reservation_check'
