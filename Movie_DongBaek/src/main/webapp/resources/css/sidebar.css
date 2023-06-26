@@ -41,6 +41,7 @@ div{
     border-radius: 0 0 10px 10px;
 }
 
+
 #mainNav .nav-item {
 	width: 196px;
 }
@@ -51,6 +52,13 @@ div{
     padding: 10px 15px;
     font-weight: 400;
     background-color: #f2f4f5;
+}
+
+#mainNav li a:active {
+	color: #ef4f4f;
+}
+#mainNav li a:hover {
+	color: #ef4f4f;
 }
 
 #mainNav hr{

@@ -10,7 +10,14 @@ $(document).ready(function(){
 		let position = $(window).scrollTop(); 
 		$(".sidebar").stop().animate({"top":position+currentPosition+"px"},800);
 	});
+	
+	$("#nav-item").on("click", function(){
+		 $(".nav-link").removeClass("active");
+        $(this).addClass("active");  
+	});
+
 });	
+
 </script>
 
 <div class="sidebar">

@@ -53,6 +53,13 @@ div{
     background-color: #f2f4f5;
 }
 
+#mainNav li a:active {
+	color: #ef4f4f;
+}
+#mainNav li a:hover {
+	color: #ef4f4f;
+}
+
 #mainNav hr{
 	margin: 0 2px 0 2px;
 	visibility: hidden;	
