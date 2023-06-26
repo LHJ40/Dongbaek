@@ -105,7 +105,8 @@ a:hover, a:active{
 						<th scope="col">이름</th>
 						<th scope="col">아이디</th>
 						<th scope="col">멤버십</th>
-						<th scope="col">현재상태</th>
+						<th scope="col">회원상태</th>
+						<th scope="col">계정 종류 및 변경</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -114,9 +115,29 @@ a:hover, a:active{
 							<td>${member.member_name}</td>
 							<td>${member.member_id}</td>
 							<td>${member.grade_name}</td>
-							<td>
-								<button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
-							</td>
+							<c:choose>
+								<c:when test="${member.grade_name  eq 'NONE'}">
+										<td>비회원</td>
+								</c:when>
+								<c:otherwise>			
+									<td>${member.member_status}</td>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+    <c:when test="${member.grade_name eq 'NONE'}">
+        <td>
+            <button type="button" class="btn btn-secondary" disabled onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+        </td>
+    </c:when>
+    <c:otherwise>
+        <td>
+            <button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+        </td>
+    </c:otherwise>
+</c:choose>
+
+							
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -177,43 +198,6 @@ a:hover, a:active{
 	</nav>
 
 
-<%-- 			<%-- 0616 정의효 - 페이징 처리 --%> 
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-md-12"> -->
-<!-- 				    <div> -->
-<%-- 				        <c:if test="${currentPage > 1}"> --%>
-<%-- 				            <a href="admin_member_list?pageNo=${currentPage - 1}">이전</a> --%>
-<%-- 				        </c:if> --%>
-<%-- 				        <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
-<%-- 				            <a href="admin_member_list?pageNo=${page}">${page}</a> --%>
-<%-- 				        </c:forEach> --%>
-<%-- 				        <c:if test="${currentPage < totalPageCount}"> --%>
-<%-- 				            <a href="admin_member_list?pageNo=${currentPage + 1}">다음</a> --%>
-<%-- 				        </c:if> --%>
-<!-- 	    			</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<%-- 0616 정의효 - 페이징 처리 끝--%>
-			
-			<%-- 원본 페이징 처리 --%>
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-md-12"> -->
-<!-- 					<nav aria-label="Page navigation example"> -->
-<!-- 						<ul class="pagination justify-content-center"> -->
-<!-- 							<li class="page-item disabled"><a class="page-link">&laquo;</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">1</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">2</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">3</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">4</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">5</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">&raquo;</a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</nav> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<%-- 페이징 처리 끝--%>
 			
 			
 		</div>
