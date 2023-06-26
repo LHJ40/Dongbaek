@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
@@ -61,10 +62,26 @@
 					<c:otherwise>
 							<th>영화번호</th>
 							<th>영화이름</th>
-						<c:forEach var="like" items="${likeList }">
-							${like.movie_num }
 								
-						</c:forEach>
+						<table class="table table-striped">
+							<tr>
+								<th>번호</th>
+								<th>포스터</th> <%-- {param.board_ticket_num} --%>
+								<th>영화제목</th>
+								<th>종영일</th>
+							</tr>
+							<c:forEach var="like" items="${likeList }" begin="0" end="3" step="1" varStatus="status">
+								<tr>
+									<%-- 게시물 번호 처리, 1번부터 시작 --%>
+									<td>${status.index+1} </td>
+									<td><img src="${like.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
+									<td>${like.movie_name_kr }</td>
+									<td>${like.movie_close_date }<br>
+										<a href="reservation_main?movie_num=${like.movie_num}" class="btn btn-danger mt-3">예매하러 가기</a>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -76,7 +93,7 @@
 			        <c:choose>
 			            <c:when test="${pageInfo.startPage > 1}">
 			                <li class="page-item">
-			                    <a class="page-link" href="myPage_buy_history?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+			                    <a class="page-link" href="myPage_like?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
 			                </li>
 			            </c:when>
 			            <c:otherwise>
@@ -98,7 +115,7 @@
 			                <c:otherwise>
 			                    <%-- 다른 페이지 --%>
 			                    <li class="page-item">
-			                        <a class="page-link" href="myPage_buy_history?pageNo=${i}">${i}</a>
+			                        <a class="page-link" href="myPage_like?pageNo=${i}">${i}</a>
 			                    </li>
 			                </c:otherwise>
 			            </c:choose>
@@ -108,7 +125,7 @@
 			        <c:choose>
 			            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
 			                <li class="page-item">
-			                    <a class="page-link" href="myPage_buy_history?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+			                    <a class="page-link" href="myPage_like?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
 			                </li>
 			            </c:when>
 			            <c:otherwise>

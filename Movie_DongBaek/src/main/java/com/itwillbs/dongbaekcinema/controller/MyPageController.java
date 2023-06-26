@@ -326,12 +326,12 @@ public class MyPageController {
 		PageInfoVO pageInfo = new PageInfoVO(likeListCount, pageListLimit, maxPage, startPage, endPage);
 
 		model.addAttribute("pageInfo", pageInfo);
-//		model.addAttribute("likeList", likeList);
+		model.addAttribute("likeList", likeList);
 
-//			if(likeList != null) {
-//	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
-//	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
-//			}
+			if(likeList != null) {
+	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+			}
 		
 		
 		
