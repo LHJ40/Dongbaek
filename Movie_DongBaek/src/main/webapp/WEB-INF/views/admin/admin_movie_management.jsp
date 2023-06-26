@@ -63,6 +63,8 @@ a:hover, a:active{
  color:  #ff5050 !important;
 	
 }
+
+
 </style>
 </head>
 <body>
@@ -130,9 +132,11 @@ a:hover, a:active{
 	</div>
 	
 	<!-- 0622정의효 페이징처리 -->
-	
-	<nav aria-label="...">
-    <ul class="pagination pagination-md justify-content-center">
+	<div class="row">
+    <div class="col-12 d-flex justify-content-between">
+        <div></div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-md justify-content-center mb-0">
         <%-- 이전 페이지로 이동 --%>
         <c:choose>
             <c:when test="${pageInfo.startPage > 1}">
@@ -178,51 +182,15 @@ a:hover, a:active{
                 </li>
             </c:otherwise>
         </c:choose>
-    </ul>
-</nav>
+         </ul>
+        </nav>
+     <div>
+            <button type="button" class="btn btn-primary btn-lg btn-danger" onclick="location.href='admin_movie_regist'" id="registBtn">등록</button>
+        </div>
+    </div>
+</div>
+        
 	
-		<div class="col-12 d-flex justify-content-center">
-  			<button type="button" class="btn btn-primary btn-lg btn-danger mr-3" onclick="location.href='admin_movie_regist'">등록</button>
-  		</div>
-			</div>
-
-<%-- 	<%-- 0616 정의효 - 페이징 처리 --%>
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-md-12"> -->
-<!-- 				    <div> -->
-<%-- 				        <c:if test="${currentPage > 1}"> --%>
-<%-- 				            <a href="admin_movie_management?pageNo=${currentPage - 1}">이전</a> --%>
-<%-- 				        </c:if> --%>
-<%-- 				        <c:forEach begin="1" end="${totalPageCount}" var="page"> --%>
-<%-- 				            <a href="admin_movie_management?pageNo=${page}">${page}</a> --%>
-<%-- 				        </c:forEach> --%>
-<%-- 				        <c:if test="${currentPage < totalPageCount}"> --%>
-<%-- 				            <a href="admin_movie_management?pageNo=${currentPage + 1}">다음</a> --%>
-<%-- 				        </c:if> --%>
-<!-- 	    			</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-		<%-- 0616 정의효 - 페이징 처리 끝--%>
-
-			<%-- 원본 페이징 처리 --%>
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-md-12"> -->
-<!-- 					<nav aria-label="Page navigation example"> -->
-<!-- 						<ul class="pagination justify-content-center"> -->
-<!-- 							<li class="page-item disabled"><a class="page-link">&laquo;</a> -->
-<!-- 							</li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">1</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">2</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">3</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">4</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">5</a></li> -->
-<!-- 							<li class="page-item"><a class="page-link" href="#">&raquo;</a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</nav> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<%-- 원본 페이징 처리 끝--%>
 
 
 	</article>

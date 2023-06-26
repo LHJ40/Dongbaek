@@ -9,6 +9,7 @@
 				, pm.payment_name 			
 				, mb.member_name 
 				, pm.payment_datetime 
+				, pm.payment_status -- 결제취소 버튼 비활성화를 위해 추가 0626 정의효
 				, mv.movie_name_kr
 				, t.theater_name
 				, s.seat_num
