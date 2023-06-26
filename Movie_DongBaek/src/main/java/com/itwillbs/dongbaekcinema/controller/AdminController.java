@@ -1326,6 +1326,7 @@ public class AdminController {
 		public String adminMemberOneperson(
 		        HttpSession session,
 		        @RequestParam String member_id,
+		        @RequestParam String grade_name,
 		        Model model,
 		        HttpServletRequest request) {
 
@@ -1340,7 +1341,7 @@ public class AdminController {
 //	        }		
 			
 			
-			MemberVO member = member_service.getMember(member_id);
+			MemberVO member = member_service.getMemberWithGradeName(member_id, grade_name);
 			model.addAttribute("member", member);
 			
 			return "admin/admin_member_oneperson";
