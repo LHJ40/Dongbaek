@@ -94,7 +94,15 @@ a:hover, a:active{
 						<tr>
 							<%-- 회원상태 : selectBox , 상태변경 확인버튼 --%>
 							<th>회원상태</th>
-							<td width="350px">${member.member_status}</td>
+							<%-- 회원상태가 탈퇴인 경우 탈퇴일도 출력 --%>
+							<c:choose>
+							    <c:when test="${member.member_status eq '탈퇴' }">
+							        <td width="350px">${member.member_status}<br>(탈퇴한 날짜 : ${member.member_withdrawl })</td>
+							    </c:when>
+							    <c:otherwise>
+							        <td width="350px">${member.member_status}</td>
+							    </c:otherwise>
+							</c:choose>
 							<td><select id="statusSelect">
 									<option selected disabled>현재 상태 : ${member.member_status }</option>
 									<option value="활동">활동</option>
