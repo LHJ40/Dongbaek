@@ -144,9 +144,9 @@ a:hover, a:active{
 	    <ul class="pagination pagination-md justify-content-center">
 	        <%-- 이전 페이지로 이동 --%>
 	        <c:choose>
-	            <c:when test="${pageInfo.startPage > 1}">
+	            <c:when test="${pageNo > 1}">
 	                <li class="page-item">
-	                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.startPage - 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
+	                    <a class="page-link" href="admin_member_list?pageNo=${pageNo - 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
 	                </li>
 	            </c:when>
 	            <c:otherwise>
@@ -178,7 +178,7 @@ a:hover, a:active{
 	        <c:choose>
 	            <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
 	                <li class="page-item">
-	                    <a class="page-link" href="admin_member_list?pageNo=${pageInfo.endPage + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
+	                    <a class="page-link" href="admin_member_list?pageNo=${pageNo + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
 	                </li>
 	            </c:when>
 	            <c:otherwise>
