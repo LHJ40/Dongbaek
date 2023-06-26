@@ -624,7 +624,7 @@ public class AdminController {
 		// --------------------------페이징 작업 ----------------------------------
 
 
-		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNo - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
 		
@@ -972,7 +972,7 @@ public class AdminController {
 		// --------------------------페이징 작업 ----------------------------------
 
 
-		int listLimit = 5;// 한 페이지에 보여줄 목록 수
+		int listLimit = 10;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
@@ -1100,7 +1100,7 @@ public class AdminController {
 
 
 
-		int listLimit = 5;// 한 페이지에 보여줄 목록 수
+		int listLimit = 10;// 한 페이지에 보여줄 목록 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
@@ -1422,7 +1422,7 @@ public class AdminController {
 			@RequestParam(defaultValue = "1") int pageNo, 
 			Model model) {
 		
-		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
@@ -1433,7 +1433,7 @@ public class AdminController {
 		int listCount = member_service.getMemberListCount(memberSearchType, memberSearchKeyword);
 		
 		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
-		int pageListLimit = 2;
+		int pageListLimit = 5;
 		
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
@@ -1513,7 +1513,7 @@ public class AdminController {
 //        }		
 		
 		
-		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
@@ -1524,7 +1524,7 @@ public class AdminController {
 		int listCount = movie_service.getMovieListCount(movieSearchKeyword);
 		
 		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
-		int pageListLimit = 2;
+		int pageListLimit = 5;
 		
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
@@ -1630,7 +1630,7 @@ public class AdminController {
 //            return "fail_back";
 //        }		
 		
-		int listLimit = 5; // 한 페이지에 보여줄 게시물 수
+		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
@@ -1641,7 +1641,7 @@ public class AdminController {
 		int listCount = payment_service.getPaymentListCount(paymentSearchKeyword);
 		
 		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
-		int pageListLimit = 2;
+		int pageListLimit = 5;
 		
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);

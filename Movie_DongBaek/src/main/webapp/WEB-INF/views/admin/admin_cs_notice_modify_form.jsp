@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
 <!doctype html>
 <html>
@@ -30,6 +29,7 @@ a:hover, a:active{
 	
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 <%-- 공백 입력 방지 --%>
@@ -101,7 +101,7 @@ $(function() {
 						</tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">사진첨부(변경)</td>
-                            <td scope="col" class="col align-middle text-left">
+                            <td scope="col" class="align-middle">
                             	<input type="file" class="form-control" aria-label="cs_file" name="file1" />
                             </td>
                         </tr>

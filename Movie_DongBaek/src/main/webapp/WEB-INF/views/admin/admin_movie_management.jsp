@@ -132,9 +132,9 @@ a:hover, a:active{
             <ul class="pagination pagination-md justify-content-center mb-0">
         <%-- 이전 페이지로 이동 --%>
         <c:choose>
-            <c:when test="${pageInfo.startPage > 1}">
+            <c:when test="${pageNo > 1}">
                 <li class="page-item">
-                    <a class="page-link" href="admin_movie_management?pageNo=${pageInfo.startPage - 1}&movieSearchKeyword=${param.movieSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
+                    <a class="page-link" href="admin_movie_management?pageNo=${pageNo - 1}&movieSearchKeyword=${param.movieSearchKeyword}" tabindex="-1" aria-disabled="false">&laquo;</a>
                 </li>
             </c:when>
             <c:otherwise>
@@ -166,7 +166,7 @@ a:hover, a:active{
         <c:choose>
             <c:when test="${pageInfo.endPage < pageInfo.maxPage}">
                 <li class="page-item">
-                    <a class="page-link" href="admin_movie_management?pageNo=${pageInfo.endPage + 1}&movieSearchKeyword=${param.movieSearchKeyword}">&raquo;</a>
+                    <a class="page-link" href="admin_movie_management?pageNo=${pageNo + 1}&movieSearchKeyword=${param.movieSearchKeyword}">&raquo;</a>
                 </li>
             </c:when>
             <c:otherwise>

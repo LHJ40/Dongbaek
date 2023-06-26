@@ -186,7 +186,7 @@ public class CsController {
 		// --------------------------페이징 작업 ----------------------------------
 
 
-		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
+		int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = (pageNo - 1) * listLimit; // 조회 시작 행(레코드) 번호
 		
 		
