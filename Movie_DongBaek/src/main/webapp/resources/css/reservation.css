@@ -372,10 +372,6 @@ li .selected a span.text {
 }
 
 .align-left{
-/* 	border-bottom:2px solid black; */
-/* 	border-left: 2px solid black; */
-/* 	border-right: 2px solid black; */
-/* 	color: gray; */
 	left: 10px;
 	position: relative;
 	margin-right: 20rem;
@@ -446,7 +442,7 @@ li .selected a span.text {
 	height: 23.5px;	
 	font-size:13px;
 	cursor: default;
-    pointer-events: none;
+/*     pointer-events: none;  */
 }
 
 #seat-part button:hover {

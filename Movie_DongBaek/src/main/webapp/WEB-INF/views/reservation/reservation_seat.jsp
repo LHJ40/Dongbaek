@@ -79,8 +79,36 @@
 		}
 		res += "</div>";
 		$("#seat-part .seatArea").html(res);
+		
+		// 휠체어석 표시
 		$("#seat-part .seatArea #A1").addClass("handiSeat");
 		$("#seat-part .seatArea #A2").addClass("handiSeat");
+		
+		
+		// 휠체어석을 선택할 경우 
+		// "현장문의" alert 후 seat 선택하지 못하도록 disabled 클래스 추가
+		$("#seat-part .seatArea #A1").on("mousedown", function() {
+			$("#seat-part .seatArea #A1").addClass("disabled");
+			
+			alert("휠체어석입니다. \n현장에서 문의해 주세요");			
+			let selectedSeatName = $("#seat-part .seatArea #A1").attr("data-seat-name");
+			const index = seatList.indexOf(selectedSeatName);
+			if (index > -1) {
+				seatList.splice(index, 1);
+			}
+			
+		});
+		
+		$("#seat-part .seatArea #A2").on("mousedown", function() {
+			$("#seat-part .seatArea #A2").addClass("disabled");
+			
+			alert("휠체어석입니다. \n현장에서 문의해 주세요");			
+			let selectedSeatName = $("#seat-part .seatArea #A2").attr("data-seat-name");
+			const index = seatList.indexOf(selectedSeatName);
+			if (index > -1) {
+				seatList.splice(index, 1);
+			}
+		});
 		
 		
 		// 인원별 티켓 가격을 계산하기 위해
@@ -249,8 +277,9 @@
 		});
 		
 	});
-	// [좌석] 선택 시 ======================================================================================================================================================   
+	// [좌석] 선택 시 ======================================================================================================================================================   		
 	$(function() {
+		
 		$("#seat-part button").on("click", function() {
 			$("#selectPeople").addClass("disabled");
 			
