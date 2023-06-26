@@ -330,7 +330,7 @@
             }
          }
          res += "<br>";
-         $("#selectDate").html(res);   
+         $("#selectDate").html(res); 
                   
       });
       
@@ -366,14 +366,14 @@
                // 상영 시작 시간 설정
 //                let playStartTime = play[i].play_start_time;
                let playStartTime = new Date(play[i].play_date + "T" +play[i].play_start_time);
-               let playStartHour = playStartTime.getHours();
-               let playStartMin = playStartTime.getMinutes();
+//                let playStartHour = playStartTime.getHours();
+//                let playStartMin = playStartTime.getMinutes();
                
                // 상영 종료 시간 설정
 //                let playEndTime = play[i].play_end_time;
                let playEndTime = new Date(play[i].play_date + "T" +play[i].play_end_time);
-               let playEndHour = playEndTime.getHours();
-               let playEndMin = playEndTime.getMinutes();
+//                let playEndHour = playEndTime.getHours();
+//                let playEndMin = playEndTime.getMinutes();
    
                // 예매할 당시의 시간이 상영 시작 시간보다 20분 전인 경우만 선택 가능하도록 설정
                let reservationTime = new Date();   // 예매 진행하고 있는 시간
@@ -410,7 +410,7 @@
                
             }
             $("#selectTime>ul").html(res);
-                  
+                        
          })
          .fail(function() { // 요청 실패 시
             $("#selectTime").html("요청 실패!");
@@ -511,7 +511,7 @@
                    <div class="title-area">극장</div>
                    <div class="list-area p-2">
                    <div class="mt-3" id="selectTheater" style="display: none;">
-                   
+                   		<!-- 극장 목록 출력 -->
                    </div>
                 </div>
                </div>
@@ -558,8 +558,8 @@
 				<div class="row">
 					<div class="col-7">
 						<div class="row" id="movieInfo" style="display: none;">
-							<div class="col-4 pr-1  text-center movie_poster"><img src="" alt="선택영화포스터" height="120px"></div>
-							<div class="col-8 pl-1 text-left movie_name_kr"></div><br>
+							<div class="col-6 pr-1  text-center movie_poster"><img src="" alt="선택영화포스터" height="170px"></div>
+							<div class="col-6 pl-1 text-left movie_name_kr"></div><br>
 						</div>
 					</div>
 					<div class="col-5">
@@ -616,10 +616,10 @@
                    --%>
                   <c:choose>
                      <c:when test="${empty sessionScope.member_id }">                  
-                        <button type="button" class="btn btn-danger" id="emptyMemberId" data-toggle="modal" data-target="#needLogin">next ></button>
+                        <button type="button" class="btn btn-danger" id="emptyMemberId" data-toggle="modal" data-target="#needLogin" > next &gt;</button>
                      </c:when>
                      <c:otherwise>
-                        <button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next ></button>
+                        <button class="btn btn-danger" id="nextBtn" onclick="reservationSeat()"> next &gt;</button>
                      </c:otherwise>
                   </c:choose>
                </form>

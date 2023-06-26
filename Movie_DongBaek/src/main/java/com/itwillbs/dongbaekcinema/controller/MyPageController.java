@@ -221,7 +221,7 @@ public class MyPageController {
 		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(tickets)
 		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(snacks)
 		List<BuyDetailVO> myTicket = paymentService.getMyTickets(payment_num);
-		List<BuyDetailVO> mySnack = paymentService.getMySnacks(payment_num);
+		List<BuyDetailSnackVO> mySnack = paymentService.getMySnacks(payment_num);
 		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);

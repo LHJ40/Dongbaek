@@ -90,7 +90,7 @@ a:link,a:visited { color:gray; }
 				if(isLike) {	// 찜 상태가 false면
 					$(element).removeClass("btn-danger");
 					$(element).addClass("btn-outline-danger");
-					$(element).val("♡찜하기");
+					$(element).text("♡찜하기");
 					
 					// 찜 상태 전환(false로)
 					$("#" + targetId).attr("disabled", false);
@@ -98,7 +98,7 @@ a:link,a:visited { color:gray; }
 				} else {	// 찜 상태가 true이면
 					$(element).removeClass("btn-outline-danger");
 					$(element).addClass("btn-danger");
-					$(element).val("♡찜");
+					$(element).text("♡찜");
 					
 					// 찜 상태 전환(true로)
 					$("#" + targetId).attr("disabled", true);
@@ -259,7 +259,7 @@ a:link,a:visited { color:gray; }
 	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
 	      </div>
 	      <div class="modal-footer justify-content-center">
-	        <button type="submit" class="btn btn-danger">로그인</button>
+	        <button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
 	      </div>
 	    </div>
@@ -268,16 +268,25 @@ a:link,a:visited { color:gray; }
 	
 	
 	
-	
-	
-	
-	
-<br>
-	<%-- 영화검색창 --%>
-   <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search"  style="border: 1px solid #bd2130;">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+		
+		<%--    <%-- 영화검색창(if로 현재상영작, 상영예정작 구분해서 보내기 --%> 
+	    <%-- 현재상영작 내 --%> 
+	   <div class="row">
+	      <form class="form-inline my-2 my-lg-0" action="movie_list_present" id="movieSearchKeyword" name="movieSearchKeyword" method="get" >
+	          <input class="form-control mr-sm-2" type="text"
+	                           placeholder="Search" aria-label="Search" 
+	                           name="movieSearchKeyword"
+	                           value="${not empty param.movieSearchKeyword ? param.movieSearchKeyword : ''}">
+	            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="location.href='movie_list_present?movieSearchKeyword=${param.movieSearchKeyword}'">Search</button>
+	       </form>
+	       
+		 <%-- 상영예정작 내 --%>    
+	     
+	       
+	    </div>
+		<%--     영화검색창 끝 --%>
+	    
+    
     
     </div>
   	</article>

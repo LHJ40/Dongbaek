@@ -204,7 +204,17 @@ article {
 	<%-- 버튼 --%>
 	<div class="row d-flex justify-content-center mt-3">
 		<div class="col-3">
-			<button class="w-100 btn btn-outline-red mb-3" type="button" id="cancelCk" data-toggle="modal" data-target="#cancelCheck">결제취소</button>
+		
+		   <c:choose>
+            <c:when test="${last_paymentDetail.payment_status eq '결제취소'}">
+                <button class="w-100 btn btn-outline-red mb-3" type="button" id="cancelCk" data-toggle="modal" disabled>결제취소</button>
+            </c:when>
+            <c:otherwise>
+                <button class="w-100 btn btn-outline-red mb-3" type="button" id="cancelCk" data-toggle="modal" data-target="#cancelCheck">결제취소</button>
+            </c:otherwise>
+        </c:choose>
+			
+			
 		</div>
 		<div class="col-3">
 			<button class="w-100 btn btn-outline-red mb-3" type="button" onclick="window.history.back();">뒤로가기</button>

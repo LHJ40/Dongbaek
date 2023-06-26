@@ -80,12 +80,30 @@ public class MemberController {
 		return "member_join_step4";
 	}
 	
+	
+	
 	// 메인화면에서 회원 로그인 화면으로 이동
-	@GetMapping("member_login_form")
-	public String member_login_form() {
+	@RequestMapping(value="member_login_form", method = {RequestMethod.GET, RequestMethod.POST })
+	public String member_login_form(Model model, HttpSession session,
+						@RequestParam(required = false) String play_num) {
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", " 잘못된 접근!");
+			
+			return "fail_back";
+		}
+		
+		if(play_num != null) {
+			session.setAttribute("play_num", play_num);
+//			System.out.println("url하고 play_num : " + url + play_num );
+		}
+		
+		
 		return "member/member_login_form";
 	}
-//	
+
+	
 	// 로그인 폼에서 로그인 버튼, 네이버/카카오 로그인 버튼 클릭 시 처리
 	@PostMapping("member_login_pro")
 	public String member_login_pro(

@@ -10,7 +10,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
-
+<style type="text/css">
+	#needLogin, #needLogin>div {
+		background-color: #ffffff00;
+	}
+</style>
 <script  type="text/javascript">
  $(function() {
 	$(".custom-select").on("change", function(){
@@ -261,8 +265,16 @@
 						
 						<%--찜하기버튼, 예매버튼 --%>
 						<p class="d-flex justify-content-center">
-							<button type="button" class="btn btn-outline-danger mr-2" id="likeMovie${i.count }" data-target="${movie.movie_num }" value="${i.count }" onclick="checkMovie(this, ${i.count })">♡찜하기</button>
-							<input type="hidden" id="clickCk${i.count }">
+							<c:choose>
+									<c:when test="${not empty sessionScope.member_id && member_type ne '비회원'}">
+								    	<button type="button" class="btn btn-outline-danger mr-2" id="likeMovie${i.count }" data-target="${movie.movie_num }" value="${i.count }" onclick="checkMovie(this, ${i.count })">♡찜하기</button>
+								    	<input type="hidden" id="clickCk${i.count }">
+								    </c:when>
+									<c:otherwise>
+										<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
+										<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
+									</c:otherwise>
+								</c:choose>
 							<a href="reservation_main?movie_num=${movie.movie_num}" class="btn btn-danger">&nbsp;&nbsp;예매&nbsp;&nbsp;</a>
 						</p>
 					</div>
@@ -321,6 +333,29 @@
 		</c:choose>
 	</section>
 	<%--페이징처리 끝 ==========================================--%>
+	
+	
+		<%-- 찜하기 안내 모달 영역 --%>
+	<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="needSessionId">찜하기 - 로그인 필요</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body text-center" id="modalMsg">
+	      <%-- 메세지가 표시되는 부분 --%>
+	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	        <button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 	
 	<!-- JavaScript Bundle with Popper -->
