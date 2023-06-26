@@ -31,7 +31,7 @@ public interface PaymentMapper {
 	List<BuyDetailVO> selectMyTickets(String payment_num);
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
-	List<BuyDetailVO> selectMySnacks(String payment_num);
+	List<BuyDetailSnackVO> selectMySnacks(String payment_num);
 	
 	// 마이페이지 - 나의 멤버십. 올해 누적 실적 조회 (지영)
 	int selectYearPayment(String member_id);
