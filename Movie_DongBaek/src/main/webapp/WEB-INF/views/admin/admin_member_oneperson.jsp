@@ -103,7 +103,7 @@ a:hover, a:active{
 									<option value="활동">활동</option>
 									<option value="탈퇴">탈퇴</option>
 								</select>
-							<button type="button" class="btn btn-danger" id="statusChangeBtn">상태 변경하기</button>
+							<button type="button" class="btn btn-danger" id="statusChangeBtn" data-toggle="modal" data-target="#memberStatusChange">상태 변경하기</button>
 							</td>
 						</tr>
 						<tr>
@@ -126,7 +126,7 @@ a:hover, a:active{
 										<option value="GOLD">GOLD</option>
 										<option value="PLATINUM">PLATINUM</option>
 								</select>
-								<button type="button" class="btn btn-danger" id="gradeChangeBtn">등급 변경하기</button>
+								<button type="button" class="btn btn-danger" id="gradeChangeBtn" data-toggle="modal" data-target="#memberGradeChange">등급 변경하기</button>
 							</td>
 						</tr>
 						<tr>
@@ -217,17 +217,17 @@ a:hover, a:active{
 
 
 		<script>
-  $('#statusChangeBtn').on('click', function() {
-    const selectedStatus = $('#statusSelect').val();
+		$('#statusChangeBtn').on('click', function() {
+		    const selectedStatus = $('#statusSelect').val();
 
-    if (selectedStatus === null || selectedStatus === "회원 상태 선택") {
-      alert("회원 상태를 선택해주세요.");
-      return;
-    } else {
-      $('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
-      $('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
-    }
-  });
+		    if (selectedStatus === null || selectedStatus === "회원 상태 선택") {
+		      alert("회원 상태를 선택해주세요.");
+		      return false; // 차단 시도 추가
+		    } else {
+		      $('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
+		      $('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
+		    }
+		});
 </script>
 
 
@@ -263,10 +263,10 @@ a:hover, a:active{
 		<script>
 		$('#gradeChangeBtn').on('click', function() {
 		    const selectedGrade = $('#gradeSelect').val();
-		
+
 		    if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
 		      alert("변경할 등급을 선택해주세요.");
-		      return;
+		      return false; // 차단 시도 추가
 		    } else {
 		      $('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
 		      $('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함

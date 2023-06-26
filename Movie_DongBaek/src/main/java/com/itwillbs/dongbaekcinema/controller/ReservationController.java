@@ -158,7 +158,7 @@ public class ReservationController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -255,7 +255,7 @@ public class ReservationController {
 				   i2++;
 			   };
 			  
-			   System.out.println(snackTotalPrice);
+			  
 			   model.addAttribute("snackNumlist", snackNumlist);
 			   model.addAttribute("snackquantitylist", snackquantitylist);
 		   }
@@ -282,18 +282,35 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_check")
-	public String reservation_check(HttpSession session,HttpServletRequest request,Model model) {
+	public String reservation_check(int play_num,String snack_num,String snack_quantity,HttpSession session,HttpServletRequest request,Model model) {
 		//잘못된 접근처리
-//		String beforePage =(String)request.getHeader("REFERER");
-//		if(beforePage==null) {
-//			model.addAttribute("msg", "잘못된 접근");
-//			model.addAttribute("url", "./");
-//							
-//			return "fail_location";
-//		}
+		String beforePage =(String)request.getHeader("REFERER");
+		if(beforePage==null) {
+			model.addAttribute("msg", "잘못된 접근");
+			model.addAttribute("targetURL", "./");
+							
+			return "fail_location";
+		}
+		ReservationVO reservation = service.getPlay(play_num);
+		model.addAttribute("reservation", reservation);
 		String member_id=(String) session.getAttribute("member_id");
 		MemberVO member=service4.getMember(member_id);
 		model.addAttribute("member", member);
+		
+		 List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
+		  
+		 if(!snack_num.equals("")) {
+			 String snacklist[]=snack_num.split(",");
+			  
+			   for(String snack : snacklist) {
+				   int snackNum=Integer.parseInt(snack);
+				   SnackVO snacks=service2.getSnackListByNum(snackNum);
+				   snackNumlist.add(snacks);
+			   };  
+			model.addAttribute("snackNumlist", snackNumlist);
+			int snackquantitylist [] = Stream.of(snack_quantity.split(",")).mapToInt(Integer::parseInt).toArray();//문자열 ,단위로 나눠 int 타입 배열로 저장 
+			model.addAttribute("snackquantitylist", snackquantitylist);
+		   }
 		
 		return "reservation/reservation_check";
 	}

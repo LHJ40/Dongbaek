@@ -24,7 +24,7 @@ public interface MemberMapper {
 	MemberVO selectMember(String member_id);
 	
 	// 회원정보 멤버십 위해 추가 0626정의효
-	MemberVO selectMemberWithGradeName(@Param("member_id") String member_id, @Param("grade_name") String grade_name);
+	MemberVO selectMemberWithGradeName(String member_id);
 
 	
 	// 회원 목록 조회 -0622 완

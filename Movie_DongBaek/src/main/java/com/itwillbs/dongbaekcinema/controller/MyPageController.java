@@ -49,7 +49,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -88,7 +88,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -143,7 +143,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -206,7 +206,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -284,7 +284,7 @@ public class MyPageController {
 
 		if (member_id == null || member_type.equals("비회원")) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			return "fail_location";
 		}
 		
@@ -372,7 +372,7 @@ public class MyPageController {
         String member_id = (String) session.getAttribute("member_id");
         if(member_id == null) {
             model.addAttribute("msg", " 로그인이 필요합니다!");
-            model.addAttribute("url", "member_login_form");
+            model.addAttribute("targetURL", "member_login_form");
 
             return "fail_location";
         }
@@ -394,7 +394,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -416,7 +416,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
@@ -449,7 +449,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 					
 			return "fail_location";
 		}		
@@ -561,7 +561,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "./");
+			model.addAttribute("targetURL", "./");
 							
 			return "fail_location";
 		}
@@ -574,7 +574,7 @@ public class MyPageController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("url", "member_login_form");
+			model.addAttribute("targetURL", "member_login_form");
 							
 			return "fail_location";
 		}
@@ -613,20 +613,6 @@ public class MyPageController {
 
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

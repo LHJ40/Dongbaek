@@ -39,8 +39,8 @@ public class MemberService {
 	}
 	
 	// 회원정보 멤버십 위해 추가 0626 정의효
-	public MemberVO getMemberWithGradeName(String member_id, String grade_name) {
-		return mapper.selectMemberWithGradeName(member_id, grade_name);
+	public MemberVO getMemberWithGradeName(String member_id) {
+		return mapper.selectMemberWithGradeName(member_id);
 	}
 	
 	// 비회원 로그인(가입) 작업을 위한 메서드

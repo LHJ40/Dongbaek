@@ -26,7 +26,7 @@ article {
 	/* 예매 선택 구간 */
 	/* 크기 조절 */
 	.container-fluid{
-		width: 900px;
+		width: 1200px;
 		padding-left: 2rem;
 		border: 2px solid #aaa;
 	/* 	background-color: #d5b59c; */
@@ -70,7 +70,7 @@ article {
 	/* 극장 파트 좌우 배치 */
 	#region{
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 130px;
 		display: inline-block;
 		vertical-align: top;
 		padding-top: 1.5rem;
@@ -78,7 +78,7 @@ article {
 	#room{
 		vertical-align: top;
 	/* 	border: 1px solid #000; */
-		width: 120px;
+		width: 300px;
 		display: inline-block;
 		padding-top: 1.5rem;
 		
@@ -124,11 +124,11 @@ article {
 	            <div class="row row1">
 	            	<%-- 예매 진행 중인 영화 포스터 파트  --%>
 	                <div class="col-3" align="center">
-	                	<img src="/resources/img/poster09.jpg" width="200" height="285">
+	                	<img src="${reservation.movie_poster }" width="200" height="285">
 	                </div>
 	                
 	                <%-- 예매 진행 중인 예매 정보 출력 파트 --%>
-	                <div class="col-4">
+	                <div class="col-4.5">
 		                <%-- 테두리가 없는 테이블 --%>
 		                <%-- 예매 진행 중인 구체적인 내용 출력 --%>
 					 	<table id="region" class="table table-borderless">
@@ -148,33 +148,43 @@ article {
 					 	<table id="room" class="table table-borderless">
 					 		<thead>
 					 		<tr>
-					 			<th scope="col" width="180px">&nbsp;</th>
+					 			<th scope="col" width="300px">&nbsp;</th>
 					 		</tr>
 					 		</thead>
 					 		<tbody>
-					 		<tr><td>문라이트</td></tr>
-					 		<tr><td>서면점 1 관</td></tr>
-					 		<tr><td>23년 6월 1일</td></tr>
+					 		<tr><td>${reservation.movie_name_kr }</td></tr>
+					 		<tr><td>${reservation.theater_name } ${reservation. room_name }</td></tr>
+					 		<tr><td>${reservation.play_date} ${reservation.play_start_time }</td></tr>
 					 		<tr><td>${param.seat_name }</td></tr>
 					 		</tbody>
 					 	</table>
 	                </div>
 	                
 					<%-- 결제할 금액을 명시하는 파트 --%>
+	                 <c:if test="${snackNumlist ne null}">
 	                <div class="col-3" align="center">
-				  		<img src="/resources/img/popcorncombo.png" height="100px" width="100px">
-				  		<hr>
-				  		<table id="snackregion" class="table table-borderless">
-					 		<thead>
-					 		<tr>
-					 			<th scope="col" colspan="2">스낵 정보</th>
-					 		</tr>
-					 		</thead>
-					 		<tbody>
-					 		<tr><td>카라멜팝콘 콤보</td></tr>
-					 		</tbody>
-					 	</table>
-					</div>
+				  		<img src="${pageContext.request.contextPath }/resources/img/${snackNumlist[0].snack_img }" height="100px" width="100px">
+					
+					<%-- 선택한 스낵의 정보 --%>
+		                
+		                	<table id="snackregion" class="table table-borderless">
+						 		<tr>
+						 			<th scope="col" colspan="2"><b>스낵 정보</b></th>
+						 		</tr>
+						 		<tr>
+						 		<td>
+						 		<c:forEach var="snack" items="${snackNumlist}" varStatus="status" >
+						 		 	${snack.snack_name}
+									 ${snack.snack_price}x${snackquantitylist[status.index]}<br>
+									
+						 		 </c:forEach>
+						 		 
+						 		</td>
+						 		</tr>
+						 		
+						 	</table>
+		                </div>
+	                </c:if>
 	            
 	            </div>
 	            
@@ -191,8 +201,8 @@ article {
 	             	</div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
 	                <div class="col-4">
-			  			<button class="btn btn-secondary" id="nextBtn" onclick=""> 취소 </button>
-			  			<button class="btn btn-danger" id="nextBtn" onclick=""> 확인 </button>
+			  			<button class="btn btn-secondary" id="nextBtn" onclick="location.replace('myPage')"> 취소 </button>
+			  			<button class="btn btn-danger" id="nextBtn" onclick="location.replace('myPage')"> 확인 </button>
 	                </div>
 	            </div>
 	        </div>

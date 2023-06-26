@@ -178,7 +178,7 @@ article {
                            alert('주문정보 저장 성공');
 //                            createPayInfo(uid);
                            location.replace('reservation_check?order_num='+rsp.merchant_uid+'&play_num=${param.play_num}&seat_name=${param.seat_name}&payment_total_price='+rsp.paid_amount
-                        		   +'&snack_num=${param.snack_num}&snack_quantity=${param.snack_quantity}&payment_num='+rsp.imp_uid);
+                        		   +'&snack_num=${param.snack_num}&snack_quantity=${param.snack_quantity}');
                        } 
                        else {
                     	   alert('주문정보 저장 실패');
