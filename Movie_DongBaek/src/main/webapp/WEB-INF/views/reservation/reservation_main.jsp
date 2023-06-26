@@ -520,7 +520,7 @@
             <div class="col-2 p-0">
                     <div class="title-area">날짜</div>
                     <div class="list-area p-2">
-                  <div class="row mt-3" id="selectDate" style="display: none;">
+                  <div class="row mt-3 mr-0" id="selectDate" style="display: none;">
 						<!-- 날짜 목록 출력 -->
                   </div>
                </div>

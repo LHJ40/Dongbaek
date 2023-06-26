@@ -29,14 +29,7 @@
 	rel="stylesheet" type="text/css">
 <title>회원관리 - ${member.member_id}</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 .w-900 {
 	width: 900px;
 	margin: 0 auto;

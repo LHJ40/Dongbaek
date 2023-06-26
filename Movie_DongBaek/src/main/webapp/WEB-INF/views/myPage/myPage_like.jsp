@@ -16,14 +16,7 @@
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <title>영화 예매 사이트</title>
 <style>
-	#mainNav{
-	/* 		border: 1px solid #f00; */
-		padding: 8rem 2rem;	
-	}
-		
-	#mainNav>ul{
-		list-style: none;
-	}
+
 	 /* a링크 활성화 색상 변경 */ 
 	a:hover, a:active{
 	 color:  #ff5050 !important;
