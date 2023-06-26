@@ -1670,7 +1670,7 @@ public class AdminController {
 	
 	
 	// 관리자 - 결제상세 - 정의효
-	@GetMapping("admin_payment_list_detail")
+	@PostMapping("admin_payment_list_detail")
 	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
 		
 		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
@@ -1706,11 +1706,11 @@ public class AdminController {
 	}
 		
 	// 관리자 - 영화삭제 - 정의효
-		@PostMapping("admin_movieDelete")
-		public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
-			movie_service.movieDelete(movie_num);
-			return "redirect:/admin_movie_management";
-		}
+	@PostMapping("admin_movieDelete")
+	public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
+		movie_service.movieDelete(movie_num);
+		return "redirect:/admin_movie_management";
+	}
 		
 	// 관리자 - 영화수정 - 정의효
 	@PostMapping("admin_movie_modify")

@@ -103,7 +103,7 @@ a:hover, a:active{
 									<option value="활동">활동</option>
 									<option value="탈퇴">탈퇴</option>
 								</select>
-							<button type="button" class="btn btn-danger" id="statusChangeBtn">상태 변경하기</button>
+							<button type="button" class="btn btn-danger" id="statusChangeBtn" data-toggle="modal" data-target="#memberStatusChange">상태 변경하기</button>
 							</td>
 						</tr>
 						<tr>
@@ -126,7 +126,7 @@ a:hover, a:active{
 										<option value="GOLD">GOLD</option>
 										<option value="PLATINUM">PLATINUM</option>
 								</select>
-								<button type="button" class="btn btn-danger" id="gradeChangeBtn">등급 변경하기</button>
+								<button type="button" class="btn btn-danger" id="gradeChangeBtn" data-toggle="modal" data-target="#memberGradeChange">등급 변경하기</button>
 							</td>
 						</tr>
 						<tr>
