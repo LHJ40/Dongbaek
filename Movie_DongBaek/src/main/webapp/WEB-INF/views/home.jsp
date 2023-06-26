@@ -268,16 +268,25 @@ a:link,a:visited { color:gray; }
 	
 	
 	
-	
-	
-	
-	
-<br>
-	<%-- 영화검색창 --%>
-   <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search"  style="border: 1px solid #bd2130;">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+		
+		<%--    <%-- 영화검색창(if로 현재상영작, 상영예정작 구분해서 보내기 --%> 
+	    <%-- 현재상영작 내 --%> 
+	   <div class="row">
+	      <form class="form-inline my-2 my-lg-0" action="movie_list_present" id="movieSearchKeyword" name="movieSearchKeyword" method="get" >
+	          <input class="form-control mr-sm-2" type="text"
+	                           placeholder="Search" aria-label="Search" 
+	                           name="movieSearchKeyword"
+	                           value="${not empty param.movieSearchKeyword ? param.movieSearchKeyword : ''}">
+	            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="location.href='movie_list_present?movieSearchKeyword=${param.movieSearchKeyword}'">Search</button>
+	       </form>
+	       
+		 <%-- 상영예정작 내 --%>    
+	     
+	       
+	    </div>
+		<%--     영화검색창 끝 --%>
+	    
+    
     
     </div>
   	</article>
