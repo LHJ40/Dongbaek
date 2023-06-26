@@ -17,14 +17,15 @@
         SELECT
 				*
           FROM PLAYS p
-          JOIN THEATERS t
-         	 ON p.theater_num = t.theater_num
-          JOIN MOVIES m
-       	   	ON p.movie_num = m.movie_num
-          JOIN ROOMS r
-        	ON p.room_num = r.room_num
-			WHERE play_date = #{play_date}
-				ORDER BY play_num
+	          JOIN THEATERS t
+	         	 ON p.theater_num = t.theater_num
+	          JOIN MOVIES m
+	       	   	ON p.movie_num = m.movie_num
+	          JOIN ROOMS r
+	        	ON p.room_num = r.room_num
+				WHERE play_date = #{play_date}
+				AND p.theater_num = #{theater_num}
+					ORDER BY play_num
     </select>
     
 
@@ -41,10 +42,21 @@
 			AND movie_close_date
 	</select>
 	
-		<!-- 영화 번호로 러닝타임(상영시간) 조회 -->
+	<!-- 영화 번호로 러닝타임(상영시간) 조회 -->
 	<select id="findMovieRunningTime" resultType="int">
 		SELECT 
 			movie_running_time
+			FROM 
+				MOVIES
+			WHERE
+				movie_num = ${movie_num}
+	</select>
+	
+	
+	<!-- 영화 번호로 영화명 조회 -->
+	<select id="findMovieName" resultType="String">
+		SELECT 
+			movie_name_kr
 			FROM 
 				MOVIES
 			WHERE
@@ -108,13 +120,63 @@
 					AND room_num = #{room_num}
 	</select>
 	
-	<!-- 특정 날짜 상영스케줄 삭제 수행하기 -->
+	<!-- 특정 날짜, 영화관, 상영관 상영스케줄 등록 -->
+	<insert id="insertSchedule">
+    INSERT 
+    	INTO PLAYS (
+	        play_date,
+	        play_turn,
+	        play_start_time,
+	        play_end_time,
+	        play_time_type,
+	        movie_num,
+	        theater_num,
+	        room_num
+		    ) VALUES (
+		        #{play_date},
+		        #{play_turn},
+		        #{new_start_turn},
+		        #{new_end_turn},
+		        #{play_time_type},
+		        #{movie_num},
+		        #{theater_num},
+		        #{room_num}
+		    )
+	</insert>
+	
+	<!-- 특정 날짜, 영화관, 상영관 상영스케줄 회차별로 변경 -->
+	<update id="updateSchedule">
+    UPDATE PLAYS
+    	SET 
+    		play_turn = #{play_turn}
+    		, play_start_time =  #{new_start_turn}
+    		, play_end_time = #{new_end_turn}
+    		, play_time_type = #{play_time_type}
+	        , movie_num = #{movie_num}
+		    WHERE 
+		    	play_date = #{play_date}
+		    	AND theater_num =  #{theater_num}
+		    	AND room_num = #{room_num}
+		    	AND play_turn = #{play_turn}
+	</update>
+	
+	<!-- 특정 날짜, 영화관, 상영관 상영스케줄 삭제 수행하기 -->
 	<delete id="deleteSchedule">
 		DELETE 
 			FROM PLAYS
 				WHERE play_date = #{play_date}
 					AND theater_num = #{theater_num}
 					AND room_num = #{room_num}
+	</delete>
+	
+	<!-- 상영스케줄 변경 시 상영관 종료일보다 늦는 회차 정보 삭제 수행하기 -->
+	<delete id="deleteLateSchedule" >
+		DELETE 
+			FROM PLAYS
+				WHERE play_date = #{play_date}
+					AND theater_num = #{theater_num}
+					AND room_num = #{room_num}
+					AND play_turn = #{play_turn}
 	</delete>
 	
 	
@@ -130,29 +192,6 @@
 					AND r.room_num = #{room_num}
 	</select>
 	
-	
-	<!-- 특정 날짜 상영스케줄 등록 -->
-	<insert id="insertSchedule">
-    INSERT INTO PLAYS (
-        play_date,
-        play_turn,
-        play_start_time,
-        play_end_time,
-        play_time_type,
-        movie_num,
-        theater_num,
-        room_num
-    ) VALUES (
-        #{play_date},
-        #{play_turn},
-        #{new_start_turn},
-        #{new_end_turn},
-        #{play_time_type},
-        #{movie_num},
-        #{theater_num},
-        #{room_num}
-    )
-	</insert>
 	
 	
 	
