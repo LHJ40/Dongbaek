@@ -136,7 +136,7 @@ li .selected a span.text {
 /* ----------------- [날짜] 선택 영역 ------------- */
 #selectDate .selected a {
 	background-color: #333;
-	width: 172px;
+	width: 171px;
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;
@@ -183,6 +183,7 @@ li .selected a span.text {
 #selectTime a span.playTimeType {
 	display: table-cell;
 	width: 50px;
+	font-size: 13px;
 }
 
 #selectTime a span.time {
@@ -192,14 +193,15 @@ li .selected a span.text {
 
 #selectTime a span.movie {
 	display: table-cell;
-	width: 120px;
+	width: 135px;
 }
 
 #selectTime a span.theater {
 	display: table-cell;
 	width: 80px;
 	text-align: right;
-	padding-right: 5%
+	padding-right: 5%;
+	font-size: 13px;
 }
 
 #selectTime hr {
