@@ -39,6 +39,31 @@
 		text-align: right;
 	}
 	
+	.reviewLikeArea>button{
+		border: none!important; 
+		background-color: transparent!important;
+		outline: none;
+	}
+	.reviewLikeArea >button:hover{
+		border: none!important; 
+		background-color: transparent!important;
+		outline: none;
+	}
+	.reviewLikeArea>button:active{
+		border: none!important; 
+		background-color: transparent!important;
+		outline: none;
+	}
+	.reviewLikeArea>button:click{
+		border: none!important; 
+		background-color: transparent!important;
+		outline: none;
+	}
+	.reviewLikeArea>button:visited{
+		border: none!important; 
+		background-color: transparent!important;
+		outline: none;
+	}
 </style>
  <script type="text/javascript">
 	            
@@ -251,13 +276,15 @@
 	            		<c:when test="${empty sessionScope.member_id }">
 			            	<div class="reviewLikeArea">
 		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
-				            	<button data-review-num="${review.review_num }" onclick="login()"><img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px"></button>	            		
+				            	<button data-review-num="${review.review_num }" onclick="login()">
+				            		<img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px">
+				            	</button>	            		
 			            	</div>
 	            		</c:when>
 	            		<c:otherwise>
 			            	<div class="reviewLikeArea">
 		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
-				            	<button class="reviewLike" data-review-num="${review.review_num }" ></button>	            				
+				            	<button class="reviewLike" data-review-num="${review.review_num }"></button>	            				
 		            			<input type="hidden" value="${sessionScope.member_id }">
 							</div>
 	            		</c:otherwise>
