@@ -25,10 +25,7 @@
 <title>동백시네마 마이페이지</title>
 <style>	
 <%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
-}
+
 </style>
 </head>
 <body>
