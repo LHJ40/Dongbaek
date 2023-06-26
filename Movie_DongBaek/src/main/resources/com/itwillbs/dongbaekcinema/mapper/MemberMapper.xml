@@ -64,8 +64,6 @@
 		WHERE 
 			m.member_id = #{member_id}
 		AND 
-			g.grade_name = #{grade_name} 
-		AND 
 			m.member_type != '비회원'
 		LIMIT 1
 		</select>

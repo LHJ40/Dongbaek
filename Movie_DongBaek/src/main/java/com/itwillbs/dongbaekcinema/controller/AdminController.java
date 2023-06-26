@@ -1488,7 +1488,7 @@ public class AdminController {
 //	        }		
 			
 			
-			MemberVO member = member_service.getMember(member_id);
+			MemberVO member = member_service.getMemberWithGradeName(member_id);
 			model.addAttribute("member", member);
 			
 			return "admin/admin_member_oneperson";

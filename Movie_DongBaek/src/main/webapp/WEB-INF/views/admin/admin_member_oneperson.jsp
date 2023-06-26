@@ -217,17 +217,17 @@ a:hover, a:active{
 
 
 		<script>
-  $('#statusChangeBtn').on('click', function() {
-    const selectedStatus = $('#statusSelect').val();
+		$('#statusChangeBtn').on('click', function() {
+		    const selectedStatus = $('#statusSelect').val();
 
-    if (selectedStatus === null || selectedStatus === "회원 상태 선택") {
-      alert("회원 상태를 선택해주세요.");
-      return;
-    } else {
-      $('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
-      $('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
-    }
-  });
+		    if (selectedStatus === null || selectedStatus === "회원 상태 선택") {
+		      alert("회원 상태를 선택해주세요.");
+		      return false; // 차단 시도 추가
+		    } else {
+		      $('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
+		      $('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
+		    }
+		});
 </script>
 
 
@@ -263,10 +263,10 @@ a:hover, a:active{
 		<script>
 		$('#gradeChangeBtn').on('click', function() {
 		    const selectedGrade = $('#gradeSelect').val();
-		
+
 		    if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
 		      alert("변경할 등급을 선택해주세요.");
-		      return;
+		      return false; // 차단 시도 추가
 		    } else {
 		      $('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
 		      $('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함
