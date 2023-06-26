@@ -49,7 +49,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -88,7 +88,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -143,7 +143,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -206,7 +206,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -284,7 +284,7 @@
 //
 //		if (member_id == null || member_type.equals("비회원")) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			return "fail_location";
 //		}
 //		
@@ -324,6 +324,11 @@
 //
 //		model.addAttribute("pageInfo", pageInfo);
 //		model.addAttribute("likeList", likeList);
+////			if(likeList != null) {
+////	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+////	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+////			}
+////		
 //		model.addAttribute("likeListCount", likeListCount);
 //		
 //		
@@ -367,7 +372,7 @@
 //        String member_id = (String) session.getAttribute("member_id");
 //        if(member_id == null) {
 //            model.addAttribute("msg", " 로그인이 필요합니다!");
-//            model.addAttribute("url", "member_login_form");
+//            model.addAttribute("targetURL", "member_login_form");
 //
 //            return "fail_location";
 //        }
@@ -389,7 +394,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -411,7 +416,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //			
 //			return "fail_location";
 //		}
@@ -444,7 +449,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //					
 //			return "fail_location";
 //		}		
@@ -556,7 +561,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "./");
+//			model.addAttribute("targetURL", "./");
 //							
 //			return "fail_location";
 //		}
@@ -569,7 +574,7 @@
 //		String member_id = (String) session.getAttribute("member_id");
 //		if(member_id == null) {
 //			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("url", "member_login_form");
+//			model.addAttribute("targetURL", "member_login_form");
 //							
 //			return "fail_location";
 //		}
@@ -608,24 +613,6 @@
 //
 //	
 //}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
