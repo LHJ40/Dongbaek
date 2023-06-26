@@ -55,7 +55,7 @@
 							movieGrade = "18";
 						}
 						
-				   
+						//날짜데이터 변환(밀리초->날짜형식으로)		   
 						let releaseDate = new Date(movie[i].movie_release_date);
 				        let formattedDate = releaseDate.getFullYear() + "-" + ("0" + (releaseDate.getMonth() + 1)).slice(-2) + "-" + ("0" + releaseDate.getDate()).slice(-2);
 		

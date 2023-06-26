@@ -53,6 +53,7 @@ public class TheaterController {
 		return "theater/theater_main";
 	}
 
+	
 	@ResponseBody
 	@GetMapping("getTheater")
 	public Object getTheater(int theater_num, Model model) {
