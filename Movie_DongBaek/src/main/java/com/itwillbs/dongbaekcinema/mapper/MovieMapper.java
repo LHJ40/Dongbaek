@@ -25,7 +25,9 @@ public interface MovieMapper {
 	// 영화 목록 조회 - 현재상영작 예매율 순 정렬 - 검색X
 	List<MovieVO> select_presentMovie_bookingRateDESC(
 								@Param("startRow") int startRow, 
-								@Param("listLimit") int listLimit);
+								@Param("listLimit") int listLimit,
+								@Param("movieSearchKeyword") String movieSearchKeyword);
+	//수정
 
 
 	// 전체 글 목록 갯수 조회 - 검색X
