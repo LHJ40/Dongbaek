@@ -219,7 +219,7 @@ public class ReservationController {
         String beforePage =(String)request.getHeader("REFERER");
         if(beforePage==null) {
             model.addAttribute("msg", "잘못된 접근");
-            model.addAttribute("url", "./");
+            model.addAttribute("targetURL", "./");
 
             return "fail_location";
         }
@@ -304,7 +304,7 @@ public class ReservationController {
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
 			model.addAttribute("msg", "잘못된 접근");
-			model.addAttribute("url", "./");
+			model.addAttribute("targetURL", "./");
 			
 			return "fail_location";
 		}
