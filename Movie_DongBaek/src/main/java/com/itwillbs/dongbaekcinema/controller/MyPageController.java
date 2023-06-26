@@ -221,7 +221,7 @@ public class MyPageController {
 		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(tickets)
 		// 파라미터 : int(payment_num)		리턴타입 : BuyDetailVO(snacks)
 		List<BuyDetailVO> myTicket = paymentService.getMyTickets(payment_num);
-		List<BuyDetailVO> mySnack = paymentService.getMySnacks(payment_num);
+		List<BuyDetailSnackVO> mySnack = paymentService.getMySnacks(payment_num);
 		
 		//받아온 구매 상세내역 전달
 		model.addAttribute("myPaymentDetailList", myPaymentDetailList);
@@ -259,16 +259,62 @@ public class MyPageController {
 	
 	
 	// 마이페이지 - 나의 리뷰 페이지로 이동
-	@GetMapping("myPage_myReview")
-	public String myPage_myReview() {
-		return "myPage/myPage_myReview";
-	}
+//	@GetMapping("myPage_myReview")
+//	public String myPage_myReview() {
+//		return "myPage/myPage_myReview";
+//	}
+//	
+//	// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
+//	@GetMapping("myPage_reviewWrite")
+//	public String myPage_reviewWrite() {
+//		return "myPage/myPage_reviewWrite";
+//	}
 	
-	// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
-	@GetMapping("myPage_reviewWrite")
-	public String myPage_reviewWrite() {
-		return "myPage/myPage_reviewWrite";
-	}
+	// 마이페이지 - 나의 리뷰 페이지로 이동
+    @GetMapping("myPage_myReview")
+    public String myPage_myReview(HttpSession session, Model model) {
+        // 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+        String member_id = (String) session.getAttribute("member_id");
+        if(member_id == null) {
+            model.addAttribute("msg", " 로그인이 필요합니다!");
+            model.addAttribute("targetURL", "member_login_form");
+
+            return "fail_location";
+        }
+
+        // 세션 아이디로 리뷰 보여주기
+        // 페이징
+        int pageNum = 5;
+
+        // 나의 리뷰 조회
+        // MypageService - getMyReview()
+        // 파라미터 : member_id(세션저장)    리턴타입 : List<ReviewVO> myReviewList
+        List<ReviewVO> myReviewList = service.getMyReview(member_id, pageNum);
+//        List<MyReviewVO> myReviewList = service.getMyReview(member_id, pageNum);
+        System.out.println(myReviewList);
+        System.out.println(); 
+        
+        // 받아온 리뷰내역 전달
+        model.addAttribute("myReviewList", myReviewList);
+
+        return "myPage/myPage_myReview";
+    }
+
+    // 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
+    @GetMapping("myPage_reviewWrite")
+    public String myPage_reviewWrite(HttpSession session, Model model) {
+        // 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+        String member_id = (String) session.getAttribute("member_id");
+        if(member_id == null) {
+            model.addAttribute("msg", " 로그인이 필요합니다!");
+            model.addAttribute("url", "member_login_form");
+
+            return "fail_location";
+        }
+
+
+        return "myPage/myPage_reviewWrite";
+    }
 
 	// 마이페이지 - 영화 네컷 페이지로 이동
 	@GetMapping("myPage_moviefourcut")
@@ -486,14 +532,14 @@ public class MyPageController {
 				session.invalidate();
 
 				model.addAttribute("msg", "동백시네마를 이용해주셔서 감사합니다. 탈퇴처리 되었습니다.");
-				model.addAttribute("url", "member_login_form");
+				model.addAttribute("targetURL", "member_login_form");
 				
 				
 				return "success_forward";		
 			} 
 		}
 		// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
-		model.addAttribute("msg", "개인정보 수정이 실패했습니다." + "비밀번호를 잘못 입력했습니다."
+		model.addAttribute("msg", "비밀번호를 잘못 입력했습니다."
 				+ "입력하신 내용을 다시 확인해주세요." );
 		return "fail_back";
 		

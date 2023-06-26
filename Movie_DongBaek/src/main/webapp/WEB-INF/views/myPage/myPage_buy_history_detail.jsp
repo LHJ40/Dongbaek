@@ -133,7 +133,6 @@
 						    </c:forEach>
 			      		</td> 
 				    </tr>
-					    <c:forEach var="snack" items="${mySnack }">
 							    <tr>
 							    	<th>주문 내역</th>
 							    		<td>
@@ -142,13 +141,15 @@
 									    			<span id="nothing">스토어 주문내역 없음</span>
 									    		</c:when>
 									    		<c:otherwise>
-													${snack.snack_name}
-													${snack.snack_quantity} 개
+					    							<c:forEach var="snack" items="${mySnack }" varStatus="i">
+					    								<c:if test="${i.index ne 0 }"> / </c:if>
+														${snack.snack_name}
+														${snack.snack_quantity}개 
+					    							</c:forEach>
 									    		</c:otherwise>
 							    			</c:choose>
 						      			</td> 
 							    </tr>
-					    </c:forEach>
 				    <tr>
 				      <th>결제일</th>
 				      <td>

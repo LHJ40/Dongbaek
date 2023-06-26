@@ -50,6 +50,7 @@ public class MypageService {
 	}
 
 	// 나의 리뷰public List<ReviewVO> getMyReview(String member_id, int pageNum) {
+//	public List<MyReviewVO> getMyReview(String member_id, int pageNum) {
 	public List<ReviewVO> getMyReview(String member_id, int pageNum) {
 		return mapper.selectMyReview(member_id, pageNum);
 	}

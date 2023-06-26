@@ -53,7 +53,7 @@ public class PaymentService {
 	}
 	
 	// 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영)
-	public List<BuyDetailVO> getMySnacks(String payment_num) {
+	public List<BuyDetailSnackVO> getMySnacks(String payment_num) {
 		return mapper.selectMySnacks(payment_num);
 	}
 	

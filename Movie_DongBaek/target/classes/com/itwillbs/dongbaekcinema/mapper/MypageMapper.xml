@@ -79,6 +79,7 @@
 			MEMBERS
 			SET
 				member_status = '탈퇴'
+				, member_withdrawl = now()
 			WHERE member_id = #{member_id}
 	</update>
   

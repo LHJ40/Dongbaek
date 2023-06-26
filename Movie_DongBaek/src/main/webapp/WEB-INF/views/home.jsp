@@ -90,7 +90,7 @@ a:link,a:visited { color:gray; }
 				if(isLike) {	// 찜 상태가 false면
 					$(element).removeClass("btn-danger");
 					$(element).addClass("btn-outline-danger");
-					$(element).val("♡찜하기");
+					$(element).text("♡찜하기");
 					
 					// 찜 상태 전환(false로)
 					$("#" + targetId).attr("disabled", false);
@@ -98,7 +98,7 @@ a:link,a:visited { color:gray; }
 				} else {	// 찜 상태가 true이면
 					$(element).removeClass("btn-outline-danger");
 					$(element).addClass("btn-danger");
-					$(element).val("♡찜");
+					$(element).text("♡찜");
 					
 					// 찜 상태 전환(true로)
 					$("#" + targetId).attr("disabled", true);

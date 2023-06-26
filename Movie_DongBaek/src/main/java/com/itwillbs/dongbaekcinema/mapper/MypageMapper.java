@@ -34,7 +34,7 @@ public interface MypageMapper {
 	//
 	String selectMyPasswd(String member_id);
 
-	// 개인젇보 수정 - 탈퇴하기
+	// 개인정보 수정 - 탈퇴하기
 	int memberwithdrawal(String member_id);
 	
 	// 나의 리뷰 조회 - 회원 아이디로 레코드 조회
