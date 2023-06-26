@@ -176,11 +176,7 @@
 			let childCount = Number(childResult);
 			let handiCount = Number(handiResult);
 			let countPeople = adultCount + teenagerCount + childCount + handiCount;
-			
-			
-
-			
-			
+						
 			// 인원 선택 수 제한두기
 			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
 			if(countPeople > 8){   // 관람인원의 합이 8명 이상일 때
@@ -203,18 +199,10 @@
 			// 배열의 길이(선택한 좌석의 수)가 countPeople 보다 작을 때 
 			if (countPeople < seatList.length) {
 				alert("관람인원수를 변경하려면 기존에 선택된 좌석을 취소해야 합니다.");
-// 				adultCount = adultCount + 1;
-// 				$("#selectPeople #adult button.result").html(adultCount); 
-// 				teenagerCount = teenagerCount + 1;
-// 				$("#selectPeople #teenager button.result").html(adultCount); 
-// 				childCount = childCount + 1;
-// 				$("#selectPeople #child button.result").html(adultCount); 
-// 				handiCount = handiCount + 1;
-// 				$("#selectPeople #handi button.result").html(adultCount); 
 				return;
 			}
 			
-			// 
+			// [결제] 영역에 티켓타입 별 가격 표시
 			let adultTicketTypePrice = $("#selectPeople #adult button.result").attr("data-ticket-type-price");
 			let teenagerTicketTypePrice = $("#selectPeople #teenager button.result").attr("data-ticket-type-price");
 			let childTicketTypePrice = $("#selectPeople #child button.result").attr("data-ticket-type-price");
@@ -256,7 +244,7 @@
 				$("#paymentInfo .handiPrice").html("");
 			}
 			
-			$("#paymentInfo .totalPrice").html(totalPrice);
+			$("#paymentInfo .totalPrice").html("<b>" + totalPrice + "</b>");
 			
 		});
 		
@@ -265,6 +253,10 @@
 	$(function() {
 		$("#seat-part button").on("click", function() {
 			$("#selectPeople").addClass("disabled");
+			
+// 			$("#selectPeople button").on("click", function() {
+// 				alert("관람인원을 변경하려면 좌석을 다시 선택해야 합니다.")
+// 			})
 			
 			let resultAdult = $("#selectPeople #adult button.result").text();
 			let resultTeenager = $("#selectPeople #teenager button.result").text();
@@ -600,8 +592,8 @@
 				<div class="row">
 					<div class="col-7">
 						<div class="row" id="movieInfo">
-							<div class="col-4 pr-1 text-center movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="120px"></div>
-							<div class="col-8 pl-1 text-left movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
+							<div class="col-6 pr-1 text-center movie_poster"><img src="${reservation.movie_poster }" alt="선택영화포스터" height="170px"></div>
+							<div class="col-6 pl-1 text-left movie_name_kr"><b>${reservation.movie_name_kr }</b></div><br>
 						</div>
 					</div>
 					<div class="col-5">
@@ -652,7 +644,7 @@
 			</div>
 			<%-- 다음 페이지 이동 버튼 --%>
 			<div class="col-1 p-2">
-				<button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
+				<button class="btn btn-danger vertical-center" onclick="reservationSnack()" style="height: 72px; width: 72px;"> next > </button>
 <%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
 			</div>
 		</div>

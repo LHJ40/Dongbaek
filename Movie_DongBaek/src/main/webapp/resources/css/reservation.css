@@ -45,7 +45,7 @@ div .title-area {
 /* 위 파트와 구별을 위한 색상 부여 */
 .row2{
 	padding-top: 0.5rem;
-	height: 170px;
+	height: 230px;
 	background-color: #aaa;
 }
 
@@ -136,7 +136,7 @@ li .selected a span.text {
 /* ----------------- [날짜] 선택 영역 ------------- */
 #selectDate .selected a {
 	background-color: #333;
-/*     width: 51px; */
+	width: 172px;
     height: 33px;
     line-height: 33px;
     border: 1px solid #000;
