@@ -245,7 +245,7 @@
 					</a>
 					<%-- 해당영화의 등급에 해당하는 이미지 출력, 영화제목 출력--%>
 					<div class="card-body">
-						<h6 class="card-title">
+						<h6 class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 							<%-- 해당영화의 등급에 해당하는 이미지 출력 --%>
 							<c:if test="${movie.movie_grade eq '전체관람가'}">
 								<img src="${pageContext.request.contextPath }/resources/img/grade_all.png" alt="전체" class="img-rounded" >

@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-	
-</script>
+$(document).ready(function(){
+	let currentPosition = parseInt($(".sidebar").css("top"));
+	$(window).scroll(function() {
+		let position = $(window).scrollTop(); 
+		$(".sidebar").stop().animate({"top":position+currentPosition+"px"},800);
+	});
+});	
 
-<div class="sidebar-sticky">
-  <h1> 고객센터 </h1>
+</script>
+<div class="sidebar">
+  <p class="title"> 고객센터 </p>
   <ul class="nav flex-column">
     <li class="nav-item">
       <a class="nav-link" href="cs_main">

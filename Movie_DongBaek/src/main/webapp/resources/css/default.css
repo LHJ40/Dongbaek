@@ -88,8 +88,8 @@ button.navbar-toggler{
  .nav-link{color:black; 
  font-weight: bold; } 
  
-  .nav-item{
-  width:115px;}
+/*   .nav-item{ */
+/*   width:115px;} */
  
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #dc3545;

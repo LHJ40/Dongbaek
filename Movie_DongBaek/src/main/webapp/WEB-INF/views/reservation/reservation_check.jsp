@@ -155,7 +155,7 @@ article {
 					 		<tr><td>문라이트</td></tr>
 					 		<tr><td>서면점 1 관</td></tr>
 					 		<tr><td>23년 6월 1일</td></tr>
-					 		<tr><td>G10, G11</td></tr>
+					 		<tr><td>${param.seat_name }</td></tr>
 					 		</tbody>
 					 	</table>
 	                </div>
@@ -179,24 +179,13 @@ article {
 	            </div>
 	            
 	             <div class="row row2">
-	             	<div class="col-4">
-	             		<table id="paymentcheck_detail" class="table table-borderless">
-	             			<tr>
-	             				<th>주문 금액</th>
-	             				<th><button type="button" class="btn btn-danger">30,000 원</button></th>
-	             			</tr>
-	             			<tr>
-	             				<th>할인 금액</th>
-	             				<th><button type="button" class="btn btn-danger">5,000 원</button></th>
-	             			</tr>
-	             		</table>
-	             	</div>
+	             	
 	             	<div class="col-3">
 	             		<h4>총 결제 금액</h4>
 	             		<table id="paymentcheck" class="table table-borderless">
 	             			<tr>
 	             				<th>&nbsp;</th>
-	             				<th><button type="button" class="btn btn-danger btn-lg">25,000 원</button></th>
+	             				<th><button type="button" class="btn btn-danger btn-lg">${param.payment_total_price }원</button></th>
 	             			</tr>
 	             		</table>
 	             	</div>

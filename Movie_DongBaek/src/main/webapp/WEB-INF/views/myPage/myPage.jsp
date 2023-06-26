@@ -23,20 +23,9 @@
 <link href="${pageContext.request.contextPath }/resources/css/myPage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>동백시네마 마이페이지</title>
-<style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+<style>	
 <%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
-}
+
 </style>
 </head>
 <body>

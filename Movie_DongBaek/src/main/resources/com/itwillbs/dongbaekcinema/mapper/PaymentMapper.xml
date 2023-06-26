@@ -9,7 +9,6 @@
 				, pm.payment_name 			
 				, mb.member_name 
 				, pm.payment_datetime 
-				, pm.payment_status -- 결제취소 버튼 비활성화를 위해 추가 0626 정의효
 				, mv.movie_name_kr
 				, t.theater_name
 				, s.seat_num
@@ -121,13 +120,13 @@
 	
 	
 	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영) -->
-	<select id="selectMySnacks" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailSnackVO">
+	<select id="selectMySnacks" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
 		SELECT 
 			snack_name
-			, snack_quantity
-			FROM BUY_DETAIL_SNACK
+			, count(snack_name) AS 'snack_quantity'
+			FROM BUY_DETAIL
 			WHERE payment_num = #{payment_num}
-<!-- 			GROUP BY snack_name -->
+			GROUP BY snack_name
 			
 	</select>
 	

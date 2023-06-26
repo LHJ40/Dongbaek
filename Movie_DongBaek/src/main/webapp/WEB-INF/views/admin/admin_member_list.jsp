@@ -31,14 +31,7 @@
 	rel="stylesheet" type="text/css">
 <title>관리자 - 회원관리</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 .w-900 {
 	width: 900px;
 }
@@ -127,12 +120,12 @@ a:hover, a:active{
 							<c:choose>
     <c:when test="${member.grade_name eq 'NONE'}">
         <td>
-            <button type="button" class="btn btn-secondary" disabled onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+            <button type="button" class="btn btn-secondary" disabled onclick="location.href='admin_member_oneperson?member_id=${member.member_id}&grade_name=${member.grade_name }'">${member.member_type}</button>
         </td>
     </c:when>
     <c:otherwise>
         <td>
-            <button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}'">${member.member_type}</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='admin_member_oneperson?member_id=${member.member_id}&grade_name=${member.grade_name }'">${member.member_type}</button>
         </td>
     </c:otherwise>
 </c:choose>

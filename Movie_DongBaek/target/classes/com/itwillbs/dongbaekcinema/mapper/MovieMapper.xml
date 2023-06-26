@@ -39,23 +39,28 @@
 		WHERE movie_num = #{movie_num}
 	</select>
 
-
-	<!-- 현재상영작 - 셀렉트박스:예매율순 
-		 ++ 페이징처리로 LIMIT추가
-	 --> 
-	<select id="select_presentMovie_bookingRateDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> 
- 		SELECT * 
- 		FROM 
- 			MOVIES 
- 		WHERE 
- 			now() &gt;= movie_release_date  
-			AND movie_close_date &gt;= now() 
-		ORDER BY 
-			movie_booking_rate DESC
-		LIMIT
-			#{startRow}
-			, #{listLimit}
-	</select>
+   <!-- 현재상영작 - 셀렉트박스:예매율순 
+       ++ 페이징처리로 LIMIT추가
+       ++ 검색처리로 if절 추가
+    --> 
+   <select id="select_presentMovie_bookingRateDESC" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO"> 
+       SELECT * 
+       FROM 
+          MOVIES 
+       WHERE 
+          now() &gt;= movie_release_date  
+         AND movie_close_date &gt;= now() 
+      
+      <if test="!movieSearchKeyword.equals('')">
+         AND
+         movie_name_kr LIKE '%${movieSearchKeyword}%'
+      </if>
+      ORDER BY 
+         movie_booking_rate DESC
+      LIMIT
+         #{startRow}
+         , #{listLimit}
+   </select>
 	
 	<!-- 전체 글 목록 갯수 조회 (페이징처리)-->
 	<select id="selectMovieListCounting" resultType="int">
@@ -63,6 +68,9 @@
 			COUNT(*)
 		FROM 
 			MOVIES		
+		WHERE 
+         now() &gt;= movie_release_date  
+         AND movie_close_date &gt;= now() 
 	</select>
 	
 	
@@ -85,8 +93,8 @@
 		FROM 
 			MOVIES
 		WHERE 
-			now() &gt;= movie_release_date
-			AND movie_release_date &gt; DATE_SUB(now(), INTERVAL 15 DAY)
+			movie_release_date &gt; now() 
+			AND movie_release_date &lt; ADDDATE(now(), INTERVAL 15 DAY)
 		ORDER BY 
 			movie_booking_rate DESC
 		
@@ -98,8 +106,8 @@
 		FROM 
 			MOVIES
 		WHERE 
-			now() &gt;= movie_release_date
-			AND movie_release_date &gt; DATE_SUB(now(), INTERVAL 15 DAY)
+			movie_release_date &gt; now() 
+			AND movie_release_date &lt; ADDDATE(now(), INTERVAL 15 DAY)
 		ORDER BY 
 			movie_name_kr
 		LIMIT
@@ -112,8 +120,8 @@
 		SELECT COUNT(*)
 		FROM MOVIES
 		WHERE 
-			now() &gt;= movie_release_date
-			AND movie_release_date &gt; DATE_SUB(now(), INTERVAL 15 DAY)
+			movie_release_date &gt; now() 
+			AND movie_release_date &lt; ADDDATE(now(), INTERVAL 15 DAY)
 	</select>
 	
 	

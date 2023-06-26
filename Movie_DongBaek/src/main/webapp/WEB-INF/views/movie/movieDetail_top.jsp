@@ -7,15 +7,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+//   function numberWithCommas(x) {
+//     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//   }
 
-  function displayAudienceNumber() {
-    var audienceNumber = ${movie.movie_audience_num};
-    var formattedNumber = numberWithCommas(audienceNumber);
-    return formattedNumber;
-  }
+//   function displayAudienceNumber() {
+//     var audienceNumber = ${movie.movie_audience_num};
+//     var formattedNumber = numberWithCommas(audienceNumber);
+//     return formattedNumber;
+//   }
   
   
 </script>

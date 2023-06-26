@@ -23,6 +23,10 @@ public interface MemberMapper {
 	// 회원 정보 조회 id로 구별
 	MemberVO selectMember(String member_id);
 	
+	// 회원정보 멤버십 위해 추가 0626정의효
+	MemberVO selectMemberWithGradeName(@Param("member_id") String member_id, @Param("grade_name") String grade_name);
+
+	
 	// 회원 목록 조회 -0622 완
 	List<MemberVO> selectMemberList(
 			@Param("memberSearchType") String memberSearchType, 

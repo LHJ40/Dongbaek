@@ -412,10 +412,10 @@
 	<div class="container-fluid" >
 		<div class="row row1">
 			<div class="col-12">
-				<div class="row title-area">
+				<div class="row">
 					<div class="col-12">
 						<div class="row">
-							<div class="col-12">
+							<div class="col-12 title-area">
 								<h5>관람인원선택</h5>
 							</div>
 						</div>

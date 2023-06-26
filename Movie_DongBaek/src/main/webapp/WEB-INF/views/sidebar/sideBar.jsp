@@ -1,10 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-	
+$(document).ready(function(){
+	let currentPosition = parseInt($(".sidebar").css("top"));
+	$(window).scroll(function() {
+		let position = $(window).scrollTop(); 
+		$(".sidebar").stop().animate({"top":position+currentPosition+"px"},800);
+	});
+});	
 </script>
-<div class="sidebar-sticky">
-<h1> 관리자페이지 </h1>
+<div class="sidebar">
+<p class="title"> 관리자페이지 </p>
   <ul class="nav flex-column">
     <li class="nav-item">
       <a class="nav-link" href="admin_main">

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -29,14 +31,7 @@
 	rel="stylesheet" type="text/css">
 <title>회원관리 - ${member.member_id}</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 .w-900 {
 	width: 900px;
 	margin: 0 auto;
@@ -113,7 +108,17 @@ a:hover, a:active{
 						</tr>
 						<tr>
 							<th>멤버십</th>
-							<td width="350px">${member.grade_name}</td>
+					<td width="350px">${member.grade_name}<br>
+					  <span>
+					    <c:choose>
+					      <c:when test="${not empty member.payment_total_price}">
+					        <fmf:formatNumber value="${member.payment_total_price}" pattern="#,###,###" />
+					      </c:when>
+					      <c:otherwise>0</c:otherwise>
+					    </c:choose>
+					  </span>
+					  / <span><fmf:formatNumber value="${member.grade_max}" pattern="#,###,###" /> 원</span>
+					</td>
 							<td><select id="gradeSelect">
 										<option selected disabled>현재멤버십 : ${member.grade_name}</option>
 										<option value="BRONZE">BRONZE</option>
