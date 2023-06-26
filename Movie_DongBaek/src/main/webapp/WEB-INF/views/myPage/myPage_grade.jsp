@@ -42,6 +42,11 @@
 		padding: 20px;
 /* 		border: 1px dotted #ccc; */
 	}
+	/* 등급 아이콘 크기 조절 */
+	.gradeImg {
+		width: 60px;
+		vertical-align: -25px;
+	}
 	/* 좌우 중간 정렬 */
 	.middle {
 		margin: 0 auto;
@@ -57,7 +62,8 @@
 		style: #eee;
 		text-align: center;
 		vertical-align: middle;
-		height: 2em;
+		padding: 3px 5px 2px 6px;
+		margin-top: 5px;
 	}
 	/* 글자 연하게 */
 	i {
@@ -90,6 +96,20 @@
 		<div class="container part container-fluid w-900">
 			<div class="mainTop">
 				<h3>
+					<c:choose>
+						<c:when test="${myGrade.grade_name eq 'BRONZE'}">
+							<img class="gradeImg" src="${pageContext.request.contextPath }/resources/img/grade_bronze.png">
+						</c:when>
+						<c:when test="${myGrade.grade_name eq 'SILVER'}">
+							<img class="gradeImg" src="${pageContext.request.contextPath }/resources/img/grade_silver.png">
+						</c:when>
+						<c:when test="${myGrade.grade_name eq 'GOLD'}">
+							<img class="gradeImg" src="${pageContext.request.contextPath }/resources/img/grade_gold.png">
+						</c:when>
+						<c:otherwise>
+							<img class="gradeImg" src="${pageContext.request.contextPath }/resources/img/grade_platinum.png">
+						</c:otherwise>
+					</c:choose>
 					${member_id} 님은 <strong>${myGrade.grade_name}</strong> 등급입니다
 				</h3>
 			</div>
