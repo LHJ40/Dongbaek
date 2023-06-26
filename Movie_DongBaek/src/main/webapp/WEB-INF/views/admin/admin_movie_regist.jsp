@@ -146,7 +146,7 @@ article {
             </tr>
             <tr>
               <td colspan="2">
-				<button type="button" class="btn btn-danger" id="submit-button">등록하기</button> <!-- 모달창으로 확인 -->
+				<button type="button" class="btn btn-danger" id="submit-button" data-toggle="modal" data-target="#confirmModal">등록하기</button> <!-- 모달창으로 확인 -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#takeMovieAPI" id="getMovieApi">가져오기</button>
               </td>
             </tr>
@@ -229,6 +229,7 @@ article {
   }
 
 </script>
+
 
 
 
