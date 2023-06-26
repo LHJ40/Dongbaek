@@ -92,20 +92,15 @@ $(document).ready(function() {
 		<br><h1>자주묻는 질문</h1>
 		<form action="admin_cs_faq"  id="selectForm"  method="get">
 
-		<div class="btn-group row col" role="group" aria-label="Basic example">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="전체">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="예매">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="멤버십">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="결제수단">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="극장">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="스토어">
-		  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="할인혜택">
-		</div>
-			<div class="row col d-flex flex-row-reverse">
-				<br>
-			  	<button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">글쓰기</button>
+			<div class="btn-group row col" role="group" aria-label="Basic example">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="전체">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="예매">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="멤버십">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="결제수단">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="극장">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="스토어">
+			  <input type="submit" class="btn btn-outline-danger selectBtn" name="cs_type_keyword" value="할인혜택">
 			</div>
-
 		</form>
 		<hr>
 	  	<%-- 본문 테이블 --%>
@@ -151,7 +146,10 @@ $(document).ready(function() {
 		  </tbody>
 		</table>
 	  	</div>
-
+		<div class="row col d-flex flex-row-reverse">
+			<br>
+		  	<button type="button" class="btn btn-danger" onclick="location.href='admin_cs_faq_form'">글쓰기</button>
+		</div>
 	</div>
  <%-- 페이징 --%>
  

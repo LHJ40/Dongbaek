@@ -84,7 +84,7 @@ $(function() {
                         </tr>
                         <tr>
                         	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>
-                            <td scope="col" class="align-middle">
+                            <td scope="col" class="align-middle text-left">
                             	
                             	<%-- 첨부파일 다운로드 구현 아직 --%>
 		                        <c:choose>
@@ -101,7 +101,7 @@ $(function() {
 						</tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">사진첨부(변경)</td>
-                            <td scope="col" class="align-middle">
+                            <td scope="col" class="col align-middle text-left">
                             	<input type="file" class="form-control" aria-label="cs_file" name="file1" />
                             </td>
                         </tr>

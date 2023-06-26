@@ -149,7 +149,7 @@ $(function() {
 					=> download 속성 지정 시 다운로드 가능
 					   (단, 다운로드 시 파일명 변경하여 다운하려면 download="변경할 파일명" 형식으로 지정 
 					--%>
-				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
+				  <td scope="col" class="align-middle text-left">
                         <c:choose>
 							<c:when test="${not empty csInfo.cs_file }">
 								<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file_real }" download="${fn:split(csInfo.cs_file_real, '_')[1] }">
