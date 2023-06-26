@@ -61,19 +61,39 @@
   		<div class="mainTop">
 			<h2>찜한 영화</h2>
 			<br>
-				<c:choose>
-					<c:when test="${empty likeList}">
-						고객님의 영화 찜하기 내역이 존재하지 않습니다.
-					</c:when>
-					<c:otherwise>
-							<th>영화번호</th>
-							<th>영화이름</th>
-						<c:forEach var="like" items="${likeList }">
-							${like.movie_num }
-								
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+<!-- 			<span></span><br> -->
+				<table class="table">
+					<c:choose>
+						<c:when test="${empty likeList}">
+							<tr>
+								<td>고객님의 영화 찜하기 내역이 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<th>영화번호</th>
+								<th>영화이름</th>
+								<th>.</th>
+								<th>.</th>
+							</tr>
+							<c:forEach var="like" items="${likeList }">
+								<tr>
+									
+									<td>${like.movie_num }
+									</td>
+									<td>.
+									</td><%-- {param.order_total} --%>
+									<td>.</td>
+									<td>
+										.
+<%-- 										<a href="myPayment_detail?order_num=${myPayment.order_num}">상세내역보기</a> --%>
+									</td> <%--누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+<%-- 									<td><a href="myPayment_detail?myPayment=${myPayment}">상세내역보기</a></td> 누르면 팝업창으로 구매종류 이름 가격 구매시간 --%>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</table>
 			</div>
 			
 			<%-- 페이징 처리 --%>

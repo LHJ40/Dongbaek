@@ -259,7 +259,7 @@ a:link,a:visited { color:gray; }
 	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
 	      </div>
 	      <div class="modal-footer justify-content-center">
-	        <button type="submit" class="btn btn-danger">로그인</button>
+	        <button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
 	      </div>
 	    </div>
