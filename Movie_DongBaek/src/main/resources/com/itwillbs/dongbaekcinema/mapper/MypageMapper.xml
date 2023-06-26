@@ -6,11 +6,13 @@
   <select id="selectMyTicket" resultType="com.itwillbs.dongbaekcinema.voNew.MyTicketVO">
 		SELECT *
 			FROM ORDER_MY_TICKET
+				JOIN PAYMENTS
+					ON PAYMENTS.order_num = ORDER_MY_TICKET.order_num
 			WHERE 
-				ORDER_MY_TICKET.member_id = #{member_id}
-				AND LEFT(order_num, 8) &gt;= SUBDATE(NOW(), INTERVAL 1 MONTH)
+				member_id = #{member_id}
+				AND payment_datetime &gt;= SUBDATE(NOW(), INTERVAL 1 MONTH)
 			ORDER BY
-				order_num DESC
+				PAYMENTS.order_num DESC
 			<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
 				LIMIT 
 					#{startRow}

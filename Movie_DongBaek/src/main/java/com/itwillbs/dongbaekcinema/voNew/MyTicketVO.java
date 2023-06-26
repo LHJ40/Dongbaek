@@ -13,10 +13,16 @@ public class MyTicketVO {
 	private String movie_poster;
 	private String movie_name_kr;
 	private String play_date;
+	private String ticket_type;
 	private String play_status;
 	private String play_change;
 	private long order_num;	// 파라미터 전달 시 사용하기 위해 order_num 추가
 	private String payment_num;
+//	private String payment_name;
+//	private String payment_datetime;
+//	private String payment_card_name;
+//	private String payment_total_price;
+//	private String payment_status;
 	private Time play_start_time;
 	private Time play_end_time;
 	

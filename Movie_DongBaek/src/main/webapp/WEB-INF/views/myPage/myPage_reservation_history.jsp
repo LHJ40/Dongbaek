@@ -13,14 +13,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 /* a링크 활성화 색상 변경 */
 a:hover, a:active{
  color:  #ff5050 !important;
@@ -28,6 +21,11 @@ a:hover, a:active{
 
 table {
 	margin-top: 20px;
+}
+
+#infoType {
+	color: gray;
+	font-size: 0.8em;
 }
 
 </style>
@@ -56,14 +54,17 @@ table {
 						<c:otherwise>
 							<tr>
 								<th>포스터</th> <%-- {param.board_ticket_num} --%>
-								<th>영화제목</th>
+								<th>영화명</th>
 								<th>상영일</th>
 								<th>예매 상태 변경</th>
 							</tr>
 							<c:forEach var="myTicket" items="${myTicketList }">
 								<tr>
 									<td><img src="${myTicket.movie_poster }" alt="포스터" height="150"></td><%-- {param.movie.poster} --%>
-									<td>${myTicket.movie_name_kr }</td>
+									<td>
+										${myTicket.movie_name_kr } <br>
+										<span id="infoType">${myTicket.ticket_type }</span>
+									</td>
 									<td>
 										${myTicket.play_date }
 										<fmf:formatDate value="${myTicket.play_start_time }" pattern="HH:mm"/>

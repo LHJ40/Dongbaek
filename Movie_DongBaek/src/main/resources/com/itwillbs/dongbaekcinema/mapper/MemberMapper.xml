@@ -41,6 +41,35 @@
 			AND member_type != '비회원'
 	</select>
 	
+	<!-- 관리자 - 회원상세 멤버십 0626정의효 -->
+	<select id="selectMemberWithGradeName" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+	SELECT 
+			m.*
+			, g.grade_max
+			, p.payment_total_price 
+		FROM 
+			MEMBERS m  
+		LEFT JOIN 
+			GRADES g 
+		ON 
+			m.grade_name = m.grade_name  
+		LEFT JOIN 
+			ORDERS o
+		ON 
+			o.member_id = m.member_id 
+		LEFT JOIN
+			PAYMENTS p
+		ON 
+			p.order_num = o.order_num 
+		WHERE 
+			m.member_id = #{member_id}
+		AND 
+			g.grade_name = #{grade_name} 
+		AND 
+			m.member_type != '비회원'
+		LIMIT 1
+		</select>
+			
 	<!-- 로그인 작업 - member_id로 조회, member_pass 받아오기 -->
 	<select id="selectPasswd" resultType="String">
 		SELECT member_pass 

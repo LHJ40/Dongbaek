@@ -25,6 +25,8 @@ public class MemberVO {
 	private String member_like_genre; // NULL
 	private int theater_num;
 	private String grade_name;
+	private String payment_total_price;
+	private String grade_max;
 	
 	
 }

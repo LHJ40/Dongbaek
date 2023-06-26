@@ -36,9 +36,9 @@ public class MovieLikeService {
 	}
 	
 	// 찜한 영화 목록 - 페이징
-//	public List<MovieLikeVO> getLikeMovieList(String member_id, int startRow, int listLimit) {
-//		return mapper.selectLikeMovieList(member_id, startRow, listLimit);
-//	}
+	public List<MovieLikeVO> getLikeMovieList(String member_id, int startRow, int listLimit) {
+		return mapper.selectLikeMovieList(member_id, startRow, listLimit);
+	}
 	
 	
 	

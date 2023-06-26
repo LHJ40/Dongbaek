@@ -24,16 +24,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-	#mainNav{
-	/* 		border: 1px solid #f00; */
-		padding: 8rem 2rem;
-		margin-top:15px;
-		margin-bottom:15px;
-	}
-		
-	#mainNav>ul{
-		list-style: none;
-	}
+	
 	<%-- a링크 활성화 색상 변경 --%>
 	a:hover, a:active{
 	 color:  #ff5050 !important;
@@ -154,7 +145,7 @@
 	</article>
 
 	<%--왼쪽 사이드바 --%>
-		<nav id="mainNav">
+		<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%--왼쪽 사이드바 --%>
   		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
   	</nav>

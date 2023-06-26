@@ -29,14 +29,7 @@
 	rel="stylesheet" type="text/css">
 <title>영화 예매 사이트</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 div {
 background-color: transparent;
 }

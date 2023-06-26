@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-	
+$(document).ready(function(){
+	let currentPosition = parseInt($(".sidebar").css("top"));
+	$(window).scroll(function() {
+		let position = $(window).scrollTop(); 
+		$(".sidebar").stop().animate({"top":position+currentPosition+"px"},800);
+	});
+});	
 </script>
 
-<div class="sidebar-sticky">
-	<h1> 마이페이지 </h1>
+<div class="sidebar">
+	<p class="title">마이페이지</p>
   		<ul class="nav flex-column">
   			<c:if test="${member_type != '비회원'}">
 	    		<li class="nav-item">
 	      			<a class="nav-link" href="myPage">마이페이지<span class="sr-only">(current)</span></a>
 	    		</li>
+	    		<hr>
     		</c:if>
     		<li class="nav-item">
       			<a class="nav-link" href="myPage_reservation_history">나의 예매내역<span class="sr-only">(current)</span></a>
