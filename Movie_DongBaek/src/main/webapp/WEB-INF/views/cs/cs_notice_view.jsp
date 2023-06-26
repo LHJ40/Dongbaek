@@ -37,7 +37,7 @@ a:hover, a:active{
 
 <script type="text/javascript">
 
-//공백체크
+
 
 
 </script>
@@ -76,7 +76,7 @@ a:hover, a:active{
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle text-left"><section id="cs_contentArea">${csInfo.cs_content }</section></td>
+			      <td scope="col" class="align-middle text-left"><pre>${csInfo.cs_content }</pre></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>

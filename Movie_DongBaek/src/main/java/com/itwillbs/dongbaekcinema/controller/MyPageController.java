@@ -292,7 +292,7 @@ public class MyPageController {
 		// 구매내역 페이징 생각하기
 		int pageNum = 5;
 		// 한 페이지에 보여줄 게시물 수
-		int listLimit = 5; 
+		int listLimit = 6; 
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
 
@@ -301,22 +301,19 @@ public class MyPageController {
 		// 파라미터 : member_id		리턴타입 : List<LikeVO>(likeList)
 		List<MovieLikeVO> likeList = likeService.getLikeMovieList(member_id, startRow, listLimit); 
 //		System.out.println(likeList);
-
+		
+		// 페이징처리, 찜한 영화 총 갯수
 		int likeListCount = likeService.getLikeMovieCount(member_id); 
 
 
 		// 2. 한 페이지에서 표시할 목록 갯수 설정(페이지 번호의 갯수)
 		int pageListLimit = 5;
-
 		// 3. 전체 페이지 목록 갯수 계산
 		int maxPage = likeListCount / listLimit + (likeListCount % listLimit > 0 ? 1 : 0);
-
 		// 4. 시작 페이지 번호 계산
 		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
-
 		// 5. 끝 페이지 번호 계산
 		int endPage = startPage + listLimit -1; // 끝페이지
-
 		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
 		if(endPage > maxPage) { 
 			endPage = maxPage;
@@ -327,12 +324,12 @@ public class MyPageController {
 
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("likeList", likeList);
-
-			if(likeList != null) {
-	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
-	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
-			}
-		
+//			if(likeList != null) {
+//	//		 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+//	//		 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+//			}
+//		
+		model.addAttribute("likeListCount", likeListCount);
 		
 		
 		return "myPage/myPage_like";

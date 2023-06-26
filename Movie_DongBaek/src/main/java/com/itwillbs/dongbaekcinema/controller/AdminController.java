@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -40,13 +41,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.dongbaekcinema.service.AdminService;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MovieService;
-import com.itwillbs.dongbaekcinema.service.MypageService;
-import com.itwillbs.dongbaekcinema.service.PayService;
 import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
-import com.itwillbs.dongbaekcinema.voNew.BuyDetailVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -71,25 +69,18 @@ public class AdminController {
 	@Autowired
 	private MovieService movie_service;
 	
-	// 결제취소 같은 매퍼 xml 사용하기 위한 서비스 - 0625 정의효
-	@Autowired
-	private MypageService mypage_service;
-	
-	@Autowired
-	private PayService pay_service;
-	
 	// 관리자페이지 메인
 	@GetMapping("admin_main")
 	public String adminMain(HttpSession session, Model model) {
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 		
 		return "admin/admin_main";
@@ -114,17 +105,16 @@ public class AdminController {
 	
 	// 관리자페이지 상영스케줄 관리
 	@GetMapping("admin_schedule_list")
-	public String adminScheduleList(HttpSession session, Model model
-			, @RequestParam(defaultValue = "1") int pageNo) {
+	public String adminScheduleList(HttpSession session, Model model) {
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//	
-//	        model.addAttribute("msg", "잘못된 접근입니다!");
-//	        return "fail_back";
-//	    }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+	        model.addAttribute("msg", "잘못된 접근입니다!");
+	        return "fail_back";
+	    }
 		
 		
 		// 상영스케줄 관리 사이드 버튼 클릭시 영화관 목록 조회 후 셀렉트박스 생성 
@@ -137,35 +127,6 @@ public class AdminController {
 		return "admin/admin_schedule_list";
 	}
 	
-//    // 관리자페이지 상영스케줄 상단 확인 버튼 클릭시 상영스케줄 목록 조회- json
-//	@ResponseBody
-//	@RequestMapping(value = "showSchedual", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-//	public List<PlayScheduleVO> findSchedule(HttpSession session, @RequestParam String theater_num, @RequestParam String play_date, @RequestParam(defaultValue = "1") int pageNo, Model model) throws Exception {
-////		System.out.println(theater_num + ", " + play_date + ", " + pageNo);
-//
-//		
-////		// 직원 세션이 아닐 경우 잘못된 접근 처리
-////		String member_type = (String)session.getAttribute("member_type");
-////		System.out.println(member_type);
-////		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-////
-////            model.addAttribute("msg", "잘못된 접근입니다!");
-////            return "fail_back";
-////        }
-//		
-//
-//		
-//		// 상단 셀렉트박스에서 영화관, 상영날짜 선택 후 버튼 클릭시 스케줄 목록 조회
-//
-//		List<PlayScheduleVO> playList = admin_service.showSchedual(theater_num, play_date, pageNo);
-//
-////		System.out.println(playList);
-//		
-//		model.addAttribute("playList", playList);
-//		
-//		return playList;
-//	}
-
 	
 	// 상단 생성 버튼 클릭 시 해당 영화관의 스케줄 목록 가져옴
 	@ResponseBody
@@ -173,6 +134,7 @@ public class AdminController {
     public String getSchedule(HttpSession session, Model model
     		, @RequestParam String theater_num, @RequestParam String play_date
     		, @RequestParam(defaultValue = "1") int pageNo) throws Exception {
+		
 		
         // 상영 스케줄 정보 가져오기
         List<PlayScheduleVO> scheduleList = admin_service.showSchedual(theater_num, play_date, pageNo);
@@ -225,80 +187,402 @@ public class AdminController {
 		return movieList;
 	}
 	
+	// 상영스케줄 영화 선택 변경시 보여줄 상영스케줄
+	@ResponseBody
+	@RequestMapping(value = "testSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testSchedule(HttpSession session, Model model,
+	                           @RequestParam int theater_num, @RequestParam int room_num, @RequestParam int movie_num) {
+
+//		System.out.println("testSchedule 전송정보 확인 theater_num:" + theater_num);
+//	    System.out.println("testSchedule 전송정보 확인 room_num:" + room_num);
+//	    System.out.println("testSchedule 전송정보 확인 movie_num:" + movie_num);
+
+	    JSONArray jsonArray = new JSONArray(); // JSON 배열 변수 선언
+
+	    try {
+	    	// 해당 영화 이름 가져오기
+	    	String movie_name_kr = admin_service.findMovieName(movie_num);
+	    	
+	        // 해당 영화 러닝타임 정보 가져오기
+	        int movie_running_time = admin_service.findMovieRunningTime(movie_num);
+
+			// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+			room_num = (theater_num - 1) * 3 + room_num; 
+
+	        // 상영관 시작시간 종료시간 정보 가져오기
+	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
+
+	        // 회차별 시간 계산
+	        // 쉬는 시간 변수
+	        int breakTime = 60;
+
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+	        // 새로운 배열 생성
+	        LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
+	        LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
+
+	        String[] new_start_turn = new String[5];
+	        String[] new_end_turn = new String[5];
+	        String[] play_time_type = new String[5];
+
+	        for (int i = 0; i < 5; i++) {
+	            if (i == 0) {
+	                // 첫 번째 회차
+	                new_start_turn[i] = startDateTime1.format(formatter);
+	                new_end_turn[i] = endDateTime1.format(formatter);
+	            } else {
+	                // 나머지 회차
+                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
+                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
+                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
+                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
+
+	                new_start_turn[i] = startDateTime.format(formatter);
+	                new_end_turn[i] = endDateTime.format(formatter);
+	            }
+
+	            // play_time_type 설정
+	            LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
+
+	            if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
+	                play_time_type[i] = "조조";
+	            } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
+	                play_time_type[i] = "심야";
+	            } else {
+	                play_time_type[i] = "일반";
+	            }
+	        }
+
+	        // 출력(1~5회차 등록)
+	        for (int i = 0; i < new_start_turn.length; i++) {
+//	            System.out.println("새로운 시작 시간 [" + i + "]: " + new_start_turn[i]);
+//	            System.out.println("새로운 종료 시간 [" + i + "]: " + new_end_turn[i]);
+//	            System.out.println("회차 유형 [" + i + "]: " + play_time_type[i]);
+
+	            LocalTime endTime = LocalTime.parse(new_end_turn[i], formatter);
+	            LocalTime roomEndTime = LocalTime.parse(playSchedule.getRoom_end_time(), formatter);
+
+	            if (endTime.isAfter(roomEndTime)) {
+//	            	System.out.println("endTime:" + endTime + "roomEndTime:" + roomEndTime);
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 늦습니다.");
+	            } else if (endTime.isAfter(LocalTime.parse("00:00:00", formatter)) 
+	            		&& endTime.isBefore(LocalTime.parse(new_start_turn[0], formatter))){
+//	            	System.out.println( i + 1 + "회차 종료 시간 00:00:00이후이고 " +new_start_turn[0] + " 사이입니다");
+	            
+	            } else {
+	            	System.out.println("endTime:" + endTime + "roomEndTime:" + roomEndTime);
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
+	                JSONObject jsonObject = new JSONObject();
+	                jsonObject.put("play_turn", i + 1);
+	                jsonObject.put("new_start_turn", new_start_turn[i]);
+	                jsonObject.put("new_end_turn", new_end_turn[i]);
+	                jsonObject.put("movie_running_time", movie_running_time);
+	                jsonObject.put("movie_name_kr", movie_name_kr);
+//	                System.out.println("회차:"+ i);
+//	                System.out.println("new_start_turn:"+ new_start_turn);
+//	                System.out.println("new_end_turn:"+ new_end_turn);
+//	                System.out.println("movie_running_time:"+ movie_running_time);
+//	                System.out.println("movie_name_kr:"+ movie_name_kr);
+	                
+	                jsonArray.put(jsonObject);
+	            }
+	        }
+
+	        return jsonArray.toString();
+
+	    } catch (Exception e) {
+	        return "";
+	    }
+	}
+	
+	
 	
 	
 	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
 	@ResponseBody
-	@RequestMapping(value = "createUpdateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
-	public String createSchedule1(HttpSession session, Model model
+	@RequestMapping(value = "createSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String createSchedule(HttpSession session, Model model
 			, @RequestParam String play_date, @RequestParam int theater_num
 			, @RequestParam int row_num, @RequestParam int movie_num) {
 		
 //		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
 //		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
-		JSONArray jsonArray = null; // JSON 배열변수 선언
 		
-		// 특정 상영날짜 영화관의 상영관에 상영스케줄 정보가 등록되어있는지 확인
-		int turnCount = admin_service.checkSchedule(play_date, theater_num, row_num);
-//		System.out.println("상영정보 존재(건):" + turnCount);
-
-	        
-		JSONObject jsonObject = new JSONObject(); // JSONObject 객체 생성
-        try {
-//			jsonArray = new JSONArray(); // JSONArray 객체 생성
-			
-			
-			if(turnCount > 0 ) { // 상영스케줄이 이미 생성되어 있는 경우(기존 정보 삭제 후 재생성)
-//				System.out.println("상영스케줄 이미 존재하므로 기존 스케줄 삭제 후 재생성");
-			
-//				// 상영스케줄 정보 삭제 수행
-				int deleteTurnCount = admin_service.deleteSchedule(play_date, theater_num, row_num);
-//				
-//				
-				if(deleteTurnCount == 0) { // 상영스케줄이 다른 테이블에서 참조하는경우 삭제 실패(ex.예매가 진행되고있는 경우)
-//					jsonObject.put("result", "상영 정보가 이미 예매되었으므로 삭제가 불가능합니다");
-					
-				} else { // 상영 스케줄 등록
-					
-					int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
-										
-					if(insertTurnCount == 0) { // 상영 등록 실패
-//						System.out.println("상영 스케줄 등록을 시도했으나 실패");
-						jsonObject.put("result", "등록을 시도했으나 실패하였습니다");
-					} else { // 상영 등록 성공
-//						System.out.println("상영등록 성공");
-						jsonObject.put("result", "상영정보가 변경 되었습니다 확인 버튼을 다시 눌러주세요");
-					}
-				}
-//				
-			} else { // 상영 스케줄이 없는 경우(insert 실행)
-//				System.out.println("상영스케줄 없음");
-				
-//				// 상영 스케줄 등록 날짜가 오늘보다 미래여야함!
-				int insertTurnCount  = admin_service.insertSchedule(play_date,theater_num,row_num, movie_num);
-			
-				if(insertTurnCount == 0) { // 상영 등록 실패
-//					System.out.println("상영등록 날짜가 오늘과 같거나 과거이므로 등록실패");
-					jsonObject.put("result", "상영등록 날짜가 오늘과 같거나 과거입니다");
-				} else { // 상영 등록 성공
-//					System.out.println("상영등록 성공");
-					jsonObject.put("result", "상영정보가 등록되었습니다 확인 버튼을 다시 눌러주세요");
-				}
-			}
-
-//			jsonArray.put(jsonObject);
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			jsonObject.put("result", "컨트롤러 등록 시 오류 발생");
-			
-		}
+		// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+		int room_num = (theater_num - 1) * 3 + row_num;		
 		
+		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
 
-        return jsonObject.toString();
+	    try {
+	    	
+	    	// 기존 상영스케줄 존재여부 확인
+	    	int scheduelCount = admin_service.checkSchedule(play_date, theater_num, room_num);
+//	    	System.out.println("scheduelCount:" + scheduelCount);
+	    	
+	    	if( scheduelCount > 0) { //기존 상영 스케줄이 존재할 경우
+	    		
+	    		jsonObject.put("result", "이미 등록된 스케줄이 있습니다 수정 버튼을 클릭해 주세요");
+	    		return jsonObject.toString();
+	    	}
+	    	
+	    	
+	        // 해당 영화 러닝타임 정보 가져오기
+	        int movie_running_time = admin_service.findMovieRunningTime(movie_num); 
 
+	        // 상영관 시작시간 종료시간 정보 가져오기
+	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
+
+	        // 회차별 시간 계산
+	        // 쉬는 시간 변수
+	        int breakTime = 60;
+
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+	        // 새로운 배열 생성
+	        LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
+	        LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
+
+	        String[] new_start_turn = new String[5];
+	        String[] new_end_turn = new String[5];
+	        String[] play_time_type = new String[5];
+
+	        for (int i = 0; i < 5; i++) {
+	            if (i == 0) {
+	                // 첫 번째 회차
+	                new_start_turn[i] = startDateTime1.format(formatter);
+	                new_end_turn[i] = endDateTime1.format(formatter);
+	            } else {
+	                // 나머지 회차
+                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
+                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
+                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
+                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
+
+	                new_start_turn[i] = startDateTime.format(formatter);
+	                new_end_turn[i] = endDateTime.format(formatter);
+	            }
+
+	            // play_time_type 설정
+	            LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
+
+	            if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
+	                play_time_type[i] = "조조";
+	            } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
+	                play_time_type[i] = "심야";
+	            } else {
+	                play_time_type[i] = "일반";
+	            }
+	        }
+
+	        // 출력(1~5회차 등록)
+	        for (int i = 0; i < new_start_turn.length; i++) {
+//	            System.out.println("새로운 시작 시간 [" + i + "]: " + new_start_turn[i]);
+//	            System.out.println("새로운 종료 시간 [" + i + "]: " + new_end_turn[i]);
+//	            System.out.println("회차 유형 [" + i + "]: " + play_time_type[i]);
+
+	            LocalTime endTime = LocalTime.parse(new_end_turn[i], formatter);
+	            LocalTime roomEndTime = LocalTime.parse(playSchedule.getRoom_end_time(), formatter);
+	            int play_turn = i + 1;
+	            
+	            if (endTime.isAfter(roomEndTime)) {
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 늦습니다.");
+	            } else if (endTime.isAfter(LocalTime.parse("00:00:00", formatter)) 
+	            		&& endTime.isBefore(LocalTime.parse(new_start_turn[0], formatter))){
+//	            	System.out.println();
+//	            	System.out.println( i + 1 + "회차 종료 시간 00:00:00이후이고 " +new_start_turn[0] + " 사이입니다");
+	            
+	            } else {
+//	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
+	                int insertCount = admin_service.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
+	                
+	                if(insertCount > 0) {
+//	                	System.out.println("상영회차 등록:" + insertCount + "개");
+	                	jsonObject.put("result", "상영 회차가 등록되었습니다 확인버튼을 눌러주세요");	                	
+	                } else {
+	                	jsonObject.put("result", "회차 등록이 실패했습니다");	                		                	
+	                }
+	            }
+	        }
+
+	        return jsonObject.toString();
+
+	    } catch (Exception e) {
+	        jsonObject.put("result", "회차 등록 실패");
+	        return jsonObject.toString();
+	    }
+		
 		
 	}
+	
+	
+	// 상영스케줄 우측 수정 버튼 클릭시 상영스케줄 업데이트
+	@ResponseBody
+	@RequestMapping(value = "updateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String updateSchedule(HttpSession session, Model model
+			, @RequestParam String play_date, @RequestParam int theater_num
+			, @RequestParam int row_num, @RequestParam int movie_num) {
+		
+//		System.out.println("updateSchedule 전송정보 확인 play_date:" + play_date);
+//		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+		
+		// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+		int room_num = (theater_num - 1) * 3 + row_num;		
+		
+		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
+
+	    try {
+	    	
+	    	// 기존 상영스케줄 존재여부 확인
+	    	int scheduelCount = admin_service.checkSchedule(play_date, theater_num, room_num);
+//	    	System.out.println("scheduelCount:" + scheduelCount);
+	    	
+	    	if( scheduelCount == 0) { // 기존 상영 스케줄이 존재하지 않는 경우
+	    		
+	    		jsonObject.put("result", "등록된 스케줄이 없습니다 등록버튼을 클릭해 주세요");
+	    		return jsonObject.toString();
+	    	
+	    	} else { //기존 상영 스케줄이 존재할 경우
+	    		
+		        // 해당 영화 러닝타임 정보 가져오기
+		        int movie_running_time = admin_service.findMovieRunningTime(movie_num); 
+
+		        // 상영관 시작시간 종료시간 정보 가져오기
+		        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
+
+		        // 회차별 시간 계산
+		        // 쉬는 시간 변수
+		        int breakTime = 60;
+
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+		        // 새로운 배열 생성
+		        LocalTime startDateTime1 = LocalTime.parse(playSchedule.getRoom_start_time(), formatter);
+		        LocalTime endDateTime1 = startDateTime1.plusMinutes(movie_running_time);
+
+		        String[] new_start_turn = new String[5]; // 회차별 시작시간 저장할 배열
+		        String[] new_end_turn = new String[5]; // 회차별 종료시간 저장할 배열
+		        String[] play_time_type = new String[5]; // 회차별 상영분류(조조,일반,심야) 저장할 배열
+
+		        for (int i = 0; i < 5; i++) {
+		            if (i == 0) {
+		                // 첫 번째 회차
+		                new_start_turn[i] = startDateTime1.format(formatter);
+		                new_end_turn[i] = endDateTime1.format(formatter);
+		            } else {
+		                // 나머지 회차
+	                    LocalTime previousEndDateTime = LocalTime.parse(new_end_turn[i - 1], formatter);
+	                    LocalTime breakStartDateTime = previousEndDateTime.plusMinutes(breakTime);
+	                    LocalTime startDateTime = breakStartDateTime.plusMinutes(0);
+	                    LocalTime endDateTime = startDateTime.plusMinutes(movie_running_time);
+
+		                new_start_turn[i] = startDateTime.format(formatter);
+		                new_end_turn[i] = endDateTime.format(formatter);
+		            }
+
+		            // play_time_type 설정
+		            LocalTime startTime = LocalTime.parse(new_start_turn[i], formatter);
+
+		            if (startTime.isBefore(LocalTime.parse("09:00:00", formatter))) {
+		                play_time_type[i] = "조조";
+		            } else if (startTime.isAfter(LocalTime.parse("22:00:00", formatter))) {
+		                play_time_type[i] = "심야";
+		            } else {
+		                play_time_type[i] = "일반";
+		            }
+		        }
+
+		        // 출력(1~5회차 등록)
+		        for (int i = 0; i < new_start_turn.length; i++) {
+//		            System.out.println("새로운 시작 시간 [" + i + "]: " + new_start_turn[i]);
+//		            System.out.println("새로운 종료 시간 [" + i + "]: " + new_end_turn[i]);
+//		            System.out.println("회차 유형 [" + i + "]: " + play_time_type[i]);
+
+		            LocalTime endTime = LocalTime.parse(new_end_turn[i], formatter);
+		            LocalTime roomEndTime = LocalTime.parse(playSchedule.getRoom_end_time(), formatter);
+		            int play_turn = i + 1;
+		            
+		            if (endTime.isAfter(roomEndTime)) { // 회차 종료 시간이 상영관 종료시간보다 늦은 경우
+//		                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 늦습니다.");
+		                int deleteCount = admin_service.deleteLateSchedule(play_date, theater_num, room_num, play_turn);
+//		                System.out.println(i+1 + "회차 삭제수행:" + deleteCount );
+		            
+		            } else if (endTime.isAfter(LocalTime.parse("00:00:00", formatter)) 
+		            		&& endTime.isBefore(LocalTime.parse(new_start_turn[0], formatter))){ // 회차 종료 시간이 오전 00:00:00 ~ 상영관 시작시간인 경우
+//		            	System.out.println( i + 1 + "회차 종료 시간 00:00:00이후이고 " +new_start_turn[0] + " 사이입니다");
+		            	int deleteCount = admin_service.deleteLateSchedule(play_date, theater_num, room_num, play_turn);
+//		            	System.out.println(i+1 + "회차 삭제수행:" + deleteCount );
+		            	
+		            } else { // 회차 종료 시간이 상영관 종료시간보다 빠른 경우(update 수행)
+//		                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
+		                int updateCount = admin_service.updateSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
+		                
+		                if(updateCount > 0) {
+//		                	System.out.println("상영회차 변경:" + updateCount + "개");
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다 확인버튼을 눌러주세요");	                	
+		                } else { // 기존 회차가 존재하지 않을 경우(ex.4회차까지만 등록되어있는 경우 5회차)
+		                	admin_service.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다! 확인버튼을 눌러주세요");	                		                	
+		                }
+		            }
+		            
+		        }
+		     }
+
+		        return jsonObject.toString();
+
+		    } catch (Exception e) {
+		        jsonObject.put("result", "회차 등록 실패");
+		        return jsonObject.toString();
+		    }
+		
+		
+	}	
+	
+	
+	// 상영스케줄 우측 삭제 버튼 클릭시 상영스케줄 등록 창 이동
+	@ResponseBody
+	@RequestMapping(value = "deleteSchedule", method = {RequestMethod.POST, RequestMethod.GET})
+	public String deleteSchedule1(HttpSession session, Model model
+			, @RequestParam String play_date, @RequestParam int theater_num
+			, @RequestParam int row_num, @RequestParam int movie_num) {
+		
+//		System.out.println("deleteSchedule 전송정보 확인 play_date:" + play_date);
+//		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
+		
+		// 영화관 별 상영관 번호 계산(ex) theater_num = 2 일때 동백관은 room_num=4
+		int room_num = (theater_num - 1) * 3 + row_num;		
+		
+		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
+
+	    try {
+	    	
+	    	// 기존 상영스케줄 존재여부 확인
+	    	int scheduelCount = admin_service.checkSchedule(play_date, theater_num, room_num);
+//	    	System.out.println("scheduelCount:" + scheduelCount);
+	    	
+	    	if( scheduelCount > 0) { //기존 상영 스케줄이 존재할 경우
+	    		
+	    		// 기존 상영 스케줄 삭제
+	    		int deleteCount = admin_service.deleteSchedule(play_date, theater_num, room_num);
+//	    		System.out.println("기존 스케줄 삭제 :" + deleteCount);
+	    		jsonObject.put("result", "상영정보가 삭제되었습니다 확인 버튼을 눌러주세요");
+	    		return jsonObject.toString();
+
+	    	} else { // 기존 상영 스케줄인 없는 경우
+	    		jsonObject.put("result", "삭제할 상영정보가 없습니다 먼저 생성해주세요");
+	    		return jsonObject.toString();  		
+	    	}
+	    	
+	    }catch (Exception e) {
+	    	jsonObject.put("result", "스케줄 삭제 불가");
+	    	return jsonObject.toString();
+
+		}	
+	    	
+		
+	}
+	
 	
 	
 	
@@ -327,14 +611,14 @@ public class AdminController {
 			, @RequestParam(defaultValue = "1") int csTypeNo) {
 //		System.out.println("pageNO : " + pageNo);
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 		
 		// --------------------------페이징 작업 ----------------------------------
@@ -382,14 +666,14 @@ public class AdminController {
 	public String adminCsNoticeForm(HttpSession session, Model model
 			, @RequestParam(defaultValue = "1") int pageNo) {
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//      }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+      }
 		
 		model.addAttribute("pageNo", pageNo);
 		
@@ -406,48 +690,38 @@ public class AdminController {
 		
 //		System.out.println("notice_form pageNo: " + pageNo + ", csInfo: " + csInfo);
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 
 		
-		// 이클립스 프로젝트 상에 업로드 폴더(upload) 생성 필요 
-		// => 주의! 외부에서 접근하도록 하려면 resources 폴더 내에 upload 폴더 생성
-		// 이클립스가 관리하는 프로젝스 상의 가상 업로드 경로에 대한 실제 업로드 경로 알아내기
-		// => request.getRealPath() 대신 request.getServletContext.getRealPath() 메서드 또는
-		//    세션 객체를 활용한 session.getServletContext().getRealPath() 메서드 사용
+
 //		System.out.println(request.getRealPath("/resources/upload")); // Deprecated 처리된 메서드
 		String uploadDir = "/resources/upload"; 
 //		String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
-		System.out.println("실제 업로드 경로 : "+ saveDir);
+//		System.out.println("실제 업로드 경로 : "+ saveDir);
 		// 실제 업로드 경로 : D:\Shared\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring_MVC_Board\resources\ upload
 		
 		String subDir = ""; // 서브디렉토리(날짜 구분)
 		
 		try {
 			// ------------------------------------------------------------------------------
-			// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
-			// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
-			// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
-			// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
+
 			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
 //		System.out.println(date);
-			// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
-			// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
-			// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
+
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
+			// 기존 업로드 경로에 날짜 경로 결합하여 저장
 			subDir = sdf.format(date);
 			saveDir += "/" + subDir;
 			// --------------------------------------------------------------
-			// java.nio.file.Paths 클래스의 get() 메서드를 호출하여
-			// 실제 경로를 관리하는 java.nio.file.Path 타입 객체 리턴받기
+
 			// => 파라미터 : 실제 업로드 경로
 			Path path = Paths.get(saveDir);
 			
@@ -462,18 +736,12 @@ public class AdminController {
 		MultipartFile mFile1 = csInfo.getFile1();
 //		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
-		// 파일명 중복 방지를 위한 대첵
-		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
+
 		// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
-		// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
 		String uuid = UUID.randomUUID().toString();
 //		System.out.println("uuid : " + uuid);
 		
-		// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
-		// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
-		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
-		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
-		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+		// 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
 		csInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
@@ -494,16 +762,9 @@ public class AdminController {
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
-		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
-		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
 		if(insertCount > 0) { // 성공
 			try {
-				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
-				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
-				// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
-				// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
-				// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)됨
-				//    따라서, 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
+				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장
 				if(!mFile1.getOriginalFilename().equals("")) {
 					mFile1.transferTo(new File(saveDir, fileName1));
 				}
@@ -536,14 +797,14 @@ public class AdminController {
 			, @RequestParam(defaultValue = "1") int csTypeNo) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 		
 		// 질문 정보 가져오기
@@ -568,69 +829,36 @@ public class AdminController {
 			, @RequestParam int csTypeNo) {
 		
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
-		// 공지사항 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
-//		int csTypeNo = 1;
-//		
-//		// 공지사항 글정보 변경
-//		int updateCount = admin_service.updateCs(csTypeNo, noticeInfo, files);
-//		
-//		
-//		if(updateCount > 0 ) { // 답변 등록 성공 시
-//			// 페이지 정보 저장
-//			model.addAttribute("pageNo", pageNo);
-//			// 공지사항 게시판으로 이동
-//			return "redirect:/admin_cs_notice_list";
-//		} else {
-//			System.out.println("notice - update 실패!");
-//			model.addAttribute("msg", "답변 등록이 실패하였습니다!");
-//			return "fail_back"; // 실패 시 이동할 페이지
-//		}
+
 		
 		// 이클립스 프로젝트 상에 업로드 폴더(upload) 생성 필요 
-		// => 주의! 외부에서 접근하도록 하려면 resources 폴더 내에 upload 폴더 생성
-		// 이클립스가 관리하는 프로젝스 상의 가상 업로드 경로에 대한 실제 업로드 경로 알아내기
-		// => request.getRealPath() 대신 request.getServletContext.getRealPath() 메서드 또는
-		//    세션 객체를 활용한 session.getServletContext().getRealPath() 메서드 사용
-//		System.out.println(request.getRealPath("/resources/upload")); // Deprecated 처리된 메서드
 		String uploadDir = "/resources/upload"; 
-//		String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
 //		System.out.println("실제 업로드 경로 : "+ saveDir);
-		// 실제 업로드 경로 : D:\Shared\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring_MVC_Board\resources\ upload
 		
 		String subDir = ""; // 서브디렉토리(날짜 구분)
 		
 		try {
 			// ------------------------------------------------------------------------------
-			// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
-			// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
-			// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
-			// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
 			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
 //		System.out.println(date);
-			// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
-			// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
-			// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
+			// 기존 업로드 경로에 날짜 경로 결합하여 저장
 			subDir = sdf.format(date);
 			saveDir += "/" + subDir;
 			// --------------------------------------------------------------
-			// java.nio.file.Paths 클래스의 get() 메서드를 호출하여
-			// 실제 경로를 관리하는 java.nio.file.Path 타입 객체 리턴받기
 			// => 파라미터 : 실제 업로드 경로
 			Path path = Paths.get(saveDir);
 			
-			// Files 클래스의 createDirectories() 메서드를 호출하여
 			// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
 			Files.createDirectories(path);
 		} catch (IOException e) {
@@ -641,18 +869,11 @@ public class AdminController {
 		MultipartFile mFile1 = csInfo.getFile1();
 //		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
-		// 파일명 중복 방지를 위한 대첵
-		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
 		// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
-		// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
 		String uuid = UUID.randomUUID().toString();
 //		System.out.println("uuid : " + uuid);
 		
-		// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
-		// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
-		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
-		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
-		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+		// 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
 		csInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
@@ -669,20 +890,13 @@ public class AdminController {
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, csInfo);
+		int updateCount = admin_service.updateCs(csTypeNo, csInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
-		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
-		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
-		if(insertCount > 0) { // 성공
+		if(updateCount > 0) { // 성공
 			try {
-				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
-				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
-				// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
-				// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
-				// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)됨
-				//    따라서, 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
+				// 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
 				if(!mFile1.getOriginalFilename().equals("")) {
 					mFile1.transferTo(new File(saveDir, fileName1));
 				}
@@ -694,7 +908,7 @@ public class AdminController {
 			}
 			
 			// 글쓰기 작업 성공 시 자주묻는 질문 게시판(admin_cs_faq)으로 리다이렉트
-			return "redirect:/admin_cs_faq";
+			return "redirect:/admin_cs_notice";
 		} else { // 실패
 			model.addAttribute("msg", "글 쓰기 실패!");
 			return "fail_back";
@@ -712,6 +926,15 @@ public class AdminController {
 			, @RequestParam("cs_type_list_num")int cs_type_list_num) {
 		
 //		System.out.println("delete_cs, csTypeNo:" + csTypeNo + ", cs_type_list_num:" + cs_type_list_num);
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
+		
 		
 		int deleteCount = admin_service.deleteCs(csTypeNo, cs_type_list_num);
 		
@@ -737,13 +960,13 @@ public class AdminController {
 			, @RequestParam(defaultValue = "2") int csTypeNo) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		
 		// --------------------------페이징 작업 ----------------------------------
@@ -795,15 +1018,15 @@ public class AdminController {
 			, @RequestParam int cs_type_list_num
 			, @RequestParam(defaultValue = "2") int csTypeNo ) {
 		
-//		System.out.println("adminCsQnaReply pageNo:" + pageNo + ",cs_type_list_num:" + cs_type_list_num );
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }	
+		System.out.println("adminCsQnaReply pageNo:" + pageNo + ",cs_type_list_num:" + cs_type_list_num );
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }	
 		
 		
 		
@@ -829,14 +1052,14 @@ public class AdminController {
 		
 //		System.out.println("pageNo : " + pageNo + ", qnaInfo : " + qnaInfo);
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 
 		
 		// 답변 등록을 위한 update 서비스
@@ -864,14 +1087,14 @@ public class AdminController {
 			, @RequestParam(defaultValue = "1") int pageNo) {
 
 		System.out.println(cs_type_keyword);
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 		// --------------------------페이징 작업 ----------------------------------
 
@@ -922,14 +1145,14 @@ public class AdminController {
 	public String adminCsFaqForm(HttpSession session, Model model, @RequestParam(name="pageNo", defaultValue = "1") int pageNo) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 		// 페이지 정보 저장
 		model.addAttribute("pageNo", pageNo);
@@ -946,14 +1169,14 @@ public class AdminController {
 		
 //		System.out.println("faqInfo: " + faqInfo);
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		// 자주 묻는 질문 게시판 변수명 설정(1=공지사항, 2=1:1게시판, 3=자주묻는질문)
 //		int csTypeNo = 3;
@@ -989,26 +1212,18 @@ public class AdminController {
 		
 		try {
 			// ------------------------------------------------------------------------------
-			// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
-			// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
-			// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
-			// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
 			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
 //		System.out.println(date);
-			// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
 			// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
-			// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
 			subDir = sdf.format(date);
 			saveDir += "/" + subDir;
 			// --------------------------------------------------------------
 			// java.nio.file.Paths 클래스의 get() 메서드를 호출하여
-			// 실제 경로를 관리하는 java.nio.file.Path 타입 객체 리턴받기
 			// => 파라미터 : 실제 업로드 경로
 			Path path = Paths.get(saveDir);
 			
-			// Files 클래스의 createDirectories() 메서드를 호출하여
 			// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
 			Files.createDirectories(path);
 		} catch (IOException e) {
@@ -1019,18 +1234,11 @@ public class AdminController {
 		MultipartFile mFile1 = faqInfo.getFile1();
 //		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
-		// 파일명 중복 방지를 위한 대첵
-		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
 		// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
-		// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
 		String uuid = UUID.randomUUID().toString();
 //		System.out.println("uuid : " + uuid);
 		
-		// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
-		// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
-		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
-		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
-		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+		//  파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
 		faqInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
@@ -1042,7 +1250,7 @@ public class AdminController {
 		
 
 		
-		System.out.println("실제 업로드 파일명1 : " + faqInfo.getCs_file());
+//		System.out.println("실제 업로드 파일명1 : " + faqInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
@@ -1051,16 +1259,8 @@ public class AdminController {
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
-		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
-		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
 		if(insertCount > 0) { // 성공
 			try {
-				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
-				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
-				// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
-				// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
-				// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)됨
-				//    따라서, 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
 				if(!mFile1.getOriginalFilename().equals("")) {
 					mFile1.transferTo(new File(saveDir, fileName1));
 				}
@@ -1092,14 +1292,14 @@ public class AdminController {
 			, @RequestParam(defaultValue = "3") int csTypeNo) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 	
 		// 1:1 질문 정보 가져오기
@@ -1123,92 +1323,49 @@ public class AdminController {
 			, @RequestParam int csTypeNo) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 
-//
-//		System.out.println("faq_modify_pro csTypeNo :" + csTypeNo + ", faqInfo" + faqInfo + ", files" + files);
-//		// 공지사항 글정보 변경
-//		int updateCount = admin_service.updateCs(csTypeNo, faqInfo, files);
-//		
-//		
-//		if(updateCount > 0 ) { // 답변 등록 성공 시
-//			// 페이지 정보 저장
-//			model.addAttribute("pageNo", pageNo);
-//			// 자주묻는 질문 게시판으로 이동
-//			return "redirect:/admin_cs_faq";
-//		} else {
-//			System.out.println("Faq - update 실패!");
-//			model.addAttribute("msg", "답변 등록이 실패하였습니다!");
-//			return "fail_back"; // 실패 시 이동할 페이지
-//		}
 		
-		
-		// 이클립스 프로젝트 상에 업로드 폴더(upload) 생성 필요 
-		// => 주의! 외부에서 접근하도록 하려면 resources 폴더 내에 upload 폴더 생성
-		// 이클립스가 관리하는 프로젝스 상의 가상 업로드 경로에 대한 실제 업로드 경로 알아내기
-		// => request.getRealPath() 대신 request.getServletContext.getRealPath() 메서드 또는
-		//    세션 객체를 활용한 session.getServletContext().getRealPath() 메서드 사용
 //		System.out.println(request.getRealPath("/resources/upload")); // Deprecated 처리된 메서드
 		String uploadDir = "/resources/upload"; 
-//		String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
 //		System.out.println("실제 업로드 경로 : "+ saveDir);
-		// 실제 업로드 경로 : D:\Shared\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring_MVC_Board\resources\ upload
 		
 		String subDir = ""; // 서브디렉토리(날짜 구분)
 		
 		try {
 			// ------------------------------------------------------------------------------
-			// 업로드 디렉토리를 날짜별 디렉토리로 자동 분류하기
-			// => 하나의 디렉토리에 너무 많은 파일이 존재하면 로딩 시간 길어지며 관리도 불편
-			// => 따라서, 날짜별 디렉토리 구별 위해 java.util.Date 클래스 활용
-			// 1. Date 객체 생성(기본 생성자 호출하여 시스템 날짜 정보 활용)
 			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
 //		System.out.println(date);
-			// 2. SimpleDateFormat 클래스를 활용하여 날짜 형식을 "yyyy/MM/dd" 로 지정
-			// => 디렉토리 구조로 바로 활용하기 위해 날짜 구분 기호를 슬래시(/)로 지정
-			// => 디렉토리 구분자를 가장 정확히 표현하려면 File.pathSeperator 또는 File.seperator 상수 활용
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			// 3. 기존 업로드 경로에 날짜 경로 결합하여 저장
 			subDir = sdf.format(date);
 			saveDir += "/" + subDir;
 			// --------------------------------------------------------------
-			// java.nio.file.Paths 클래스의 get() 메서드를 호출하여
-			// 실제 경로를 관리하는 java.nio.file.Path 타입 객체 리턴받기
 			// => 파라미터 : 실제 업로드 경로
 			Path path = Paths.get(saveDir);
 			
-			// Files 클래스의 createDirectories() 메서드를 호출하여
 			// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
 			Files.createDirectories(path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile1 = faqInfo.getFile1();
 //		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
 		
-		// 파일명 중복 방지를 위한 대첵
-		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
 		// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
-		// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
 		String uuid = UUID.randomUUID().toString();
 //		System.out.println("uuid : " + uuid);
 		
-		// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
-		// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
-		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
-		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 CsInfoVO 객체에 저장(구분자로 _ 기호 추가)
-		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
 		faqInfo.setCs_file("");
 		
 		// 파일명을 저장할 변수 선언
@@ -1223,22 +1380,13 @@ public class AdminController {
 //		System.out.println("실제 업로드 파일명1 : " + faqInfo.getCs_file());
 		
 		// -----------------------------------------------------------------------------------
-		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
-		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
-		int insertCount = admin_service.registCs(csTypeNo, faqInfo);
+		// => 파라미터 : csTypeNo, faqInfo 객체    리턴타입 : int(updateCount)
+		int updateCount = admin_service.updateCs(csTypeNo, faqInfo);
 		
 		
 		// 게시물 등록 작업 요청 결과 판별
-		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
-		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
-		if(insertCount > 0) { // 성공
+		if(updateCount > 0) { // 성공
 			try {
-				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
-				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
-				// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
-				// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
-				// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)됨
-				//    따라서, 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
 				if(!mFile1.getOriginalFilename().equals("")) {
 					mFile1.transferTo(new File(saveDir, fileName1));
 				}
@@ -1316,7 +1464,7 @@ public class AdminController {
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("pageInfo", pageInfo);
-		System.out.println(memberList);
+//		System.out.println(memberList);
 		
 		return "admin/admin_member_list";
 	}
@@ -1326,7 +1474,6 @@ public class AdminController {
 		public String adminMemberOneperson(
 		        HttpSession session,
 		        @RequestParam String member_id,
-		        @RequestParam String grade_name,
 		        Model model,
 		        HttpServletRequest request) {
 
@@ -1341,7 +1488,7 @@ public class AdminController {
 //	        }		
 			
 			
-			MemberVO member = member_service.getMemberWithGradeName(member_id, grade_name);
+			MemberVO member = member_service.getMember(member_id);
 			model.addAttribute("member", member);
 			
 			return "admin/admin_member_oneperson";
@@ -1523,14 +1670,8 @@ public class AdminController {
 	
 	
 	// 관리자 - 결제상세 - 정의효
-	@PostMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(
-				HttpSession session,
-				@RequestParam String order_num,
-				@RequestParam String payment_num,
-				Model model) {
-		
-		
+	@GetMapping("admin_payment_list_detail")
+	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
 		
 		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
 		model.addAttribute("paymentDetail", paymentDetail);

@@ -152,8 +152,8 @@ $(function() {
 				  <td scope="col" calss="align-middle" width="100"aria-label="cs_file_name" >
                         <c:choose>
 							<c:when test="${not empty csInfo.cs_file }">
-								<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file }" download="${fn:split(csInfo.cs_file, '_')[1] }">
-									${fn:split(csInfo.cs_file, '_')[1] }
+								<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file_real }" download="${fn:split(csInfo.cs_file_real, '_')[1] }">
+									${fn:split(csInfo.cs_file_real, '_')[1] }
 								</a>
 							</c:when>
                           		<c:otherwise>
@@ -165,7 +165,7 @@ $(function() {
 				<tr>
 					<td scope="col" class="align-middle"></td>
 					<td scope="col" class="align-middle">
-						<button class="btn btn-danger" type="submit">등록</button>
+						<button class="btn btn-danger" type="submit">답변 등록</button>
 						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
 					</td>
 			    </tr>

@@ -44,10 +44,20 @@ public interface AdminMapper {
 	// movie_num으로 해당 영화 러닝타임 가져오기
 	public int findMovieRunningTime(@Param("movie_num")int movie_num);
 
+	// movie_num으로 해당 영화 러닝타임 가져오기
+	public String findMovieName(@Param("movie_num")int movie_num);
+	
 	// 상영관별 시작시간 정보 가져오기
 	public PlayScheduleVO getRoomStartTime(@Param("theater_num")int theater_num, @Param("room_num")int room_num);	
 	
-	
+	// 종영시간이 상영관 종료시간보다 늦는 회차 업데이트시 삭제
+	public int deleteLateSchedule(@Param("play_date")String play_date, @Param("theater_num")int theater_num, @Param("room_num")int room_num, @Param("play_turn")int play_turn);
+
+	// 특정 날짜 영화관 상영관 스케줄 변경(업데이트)
+	public int updateSchedule(@Param("play_date")String play_date, @Param("theater_num")int theater_num
+			, @Param("room_num")int room_num, @Param("movie_num")int movie_num, 
+			@Param("new_start_turn")String new_start_turn, @Param("new_end_turn")String new_end_turn
+			, @Param("play_turn")int play_turn, @Param("play_time_type")String play_time_type);
 	
 	
     // CS 게시판 목록 가져오기
@@ -79,6 +89,9 @@ public interface AdminMapper {
 
 	// CS 게시판 키워드로 총 목록 개수 조회하기
 	public int getCsCountKeyword(@Param("condition")String condition, @Param("cs_type_keyword")String cs_type_keyword);
+
+
+
 	
 	
 	

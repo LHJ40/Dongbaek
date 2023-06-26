@@ -22,7 +22,9 @@ public interface MovieLikeMapper {
 	int countLikeMovie(String member_id);
 	
 	// 찜한 영화 목록 - 페이징
-	List<MovieLikeVO> selectLikeMovieList(@Param("member_id") String member_id, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	List<MovieLikeVO> selectLikeMovieList(@Param("member_id") String member_id
+										, @Param("startRow") int startRow
+										, @Param("listLimit") int listLimit);
 	
 	
 }
