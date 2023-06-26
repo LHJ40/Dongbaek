@@ -109,9 +109,11 @@ div {
 	</div>
 	
 	<!-- 0622정의효 페이징처리 -->
-	
-	<nav aria-label="...">
-    <ul class="pagination pagination-md justify-content-center">
+ <nav aria-label="...">
+  <ul class="pagination pagination-md justify-content-center">	
+
+
+  <%-- 페이지가 1이상일때 클릭시 이전 페이지로 이동 --%>
         <%-- 이전 페이지로 이동 --%>
         <c:choose>
             <c:when test="${pageNo > 1}">
@@ -145,20 +147,30 @@ div {
         </c:forEach>
 
         <%-- 다음 페이지로 이동 --%>
-        <c:choose>
-            <c:when test="${pageNo < pageInfo.maxPage}">
-                <li class="page-item">
-                    <a class="page-link" href="admin_payment_list?pageNo=${pageNo + 1}&paymentSearchKeyword=${param.paymentSearchKeyword}">&raquo;</a>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
+		<c:choose>
+			<c:when test="${pageNo < pageInfo.maxPage }">
+				<li class="page-item">
+				 <a class="page-link" href="admin_payment_list?pageNo=${pageNo + 1}&paymentSearchKeyword=${param.paymentSearchKeyword}">&raquo;</a>
+			    </li>
+			</c:when>
+			<c:otherwise>
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+			    </li>
+			</c:otherwise>
+		</c:choose>	
+
+    <li class="page-item">
+
+    </li>
+  </ul>
 </nav>
+
+
+
+
+
+
 	
 	
 <%-- 	<%-- 0616 정의효 - 페이징 처리 --%> 

@@ -51,14 +51,24 @@ a:hover, a:active{
 <%-- 공백 입력 방지 --%>
 $(function() {
     $("#cs_form").submit(function(e) {
-      var csContent = $("#cs_content").val().trim();
+      var csContent = $("#cs_subject").val().trim();
       
       if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
           e.preventDefault(); // 등록 방지
           
-          alert("내용을 입력해주세요.");
+          alert("제목을 입력해주세요.");
       }
     });
+    
+    $("#cs_form").submit(function(e) {
+        var csContent = $("#cs_content").val().trim();
+        
+        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+            e.preventDefault(); // 등록 방지
+            
+            alert("내용을 입력해주세요.");
+        }
+      });
 });
 
 </script>
@@ -89,7 +99,7 @@ $(function() {
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">제목</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value=""></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" id="cs_subject"></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
@@ -97,7 +107,7 @@ $(function() {
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>
-			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content"></textarea></td>
+			      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content" id="cs_content"></textarea></td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">사진첨부</th>

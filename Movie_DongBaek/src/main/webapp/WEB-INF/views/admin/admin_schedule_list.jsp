@@ -475,7 +475,7 @@ a:hover, a:active{
 					  </div>
 					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date" id="play_date">
 				  </div>
-			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">확인</button>
+			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">조회</button>
 			    </form>
 
 			    

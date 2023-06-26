@@ -72,7 +72,7 @@ a:hover, a:active{
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">작성자</th>
-			      <td scope="col" class="align-middle text-left">${csInfo.member_id }</td>
+			      <td scope="col" class="align-middle text-left">${csInfo.member_name }</td>
 			    </tr>
 				<tr>
 			      <td scope="col" class="align-middle" width="100">내용</th>

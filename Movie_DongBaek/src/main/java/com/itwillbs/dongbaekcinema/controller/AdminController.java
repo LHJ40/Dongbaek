@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -299,7 +300,7 @@ public class AdminController {
 	
 	
 	
-	// 상영스케줄 우측 생성 버튼 클릭시 상영스케줄 등록 창 이동
+	// 상영스케줄 우측 등록 버튼 클릭시 상영스케줄 등록 창 이동
 	@ResponseBody
 	@RequestMapping(value = "createSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String createSchedule(HttpSession session, Model model
@@ -313,6 +314,13 @@ public class AdminController {
 		int room_num = (theater_num - 1) * 3 + row_num;		
 		
 		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
+		
+		// 상영날짜가 이전일 경우 등록 불가
+		LocalDate playDate = LocalDate.parse(play_date);
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 등록가능합니다");
+			return jsonObject.toString();
+		}
 
 	    try {
 	    	
@@ -325,6 +333,7 @@ public class AdminController {
 	    		jsonObject.put("result", "이미 등록된 스케줄이 있습니다 수정 버튼을 클릭해 주세요");
 	    		return jsonObject.toString();
 	    	}
+	    	
 	    	
 	    	
 	        // 해당 영화 러닝타임 정보 가져오기
@@ -398,7 +407,7 @@ public class AdminController {
 	                
 	                if(insertCount > 0) {
 //	                	System.out.println("상영회차 등록:" + insertCount + "개");
-	                	jsonObject.put("result", "상영 회차가 등록되었습니다 확인버튼을 눌러주세요");	                	
+	                	jsonObject.put("result", "상영 회차가 등록되었습니다 조회버튼을 눌러주세요");	                	
 	                } else {
 	                	jsonObject.put("result", "회차 등록이 실패했습니다");	                		                	
 	                }
@@ -431,6 +440,14 @@ public class AdminController {
 		
 		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
 
+		// 상영날짜가 오늘보다 이전일 경우 변경 불가
+		LocalDate playDate = LocalDate.parse(play_date);
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 변경가능합니다");
+			return jsonObject.toString();
+		}
+
+		
 	    try {
 	    	
 	    	// 기존 상영스케줄 존재여부 확인
@@ -519,10 +536,10 @@ public class AdminController {
 		                
 		                if(updateCount > 0) {
 //		                	System.out.println("상영회차 변경:" + updateCount + "개");
-		                	jsonObject.put("result", "상영 회차가 변경되었습니다 확인버튼을 눌러주세요");	                	
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다 조회버튼을 눌러주세요");	                	
 		                } else { // 기존 회차가 존재하지 않을 경우(ex.4회차까지만 등록되어있는 경우 5회차)
 		                	admin_service.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
-		                	jsonObject.put("result", "상영 회차가 변경되었습니다! 확인버튼을 눌러주세요");	                		                	
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다! 조회버튼을 눌러주세요");	                		                	
 		                }
 		            }
 		            
@@ -555,6 +572,13 @@ public class AdminController {
 		
 		JSONObject jsonObject = new JSONObject(); // JSON 배열 변수 선언
 
+		// 상영날짜가 오늘보다 이전일 경우 삭제 불가
+		LocalDate playDate = LocalDate.parse(play_date);
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 삭제가능합니다");
+			return jsonObject.toString();
+		}
+		
 	    try {
 	    	
 	    	// 기존 상영스케줄 존재여부 확인
@@ -566,7 +590,7 @@ public class AdminController {
 	    		// 기존 상영 스케줄 삭제
 	    		int deleteCount = admin_service.deleteSchedule(play_date, theater_num, room_num);
 //	    		System.out.println("기존 스케줄 삭제 :" + deleteCount);
-	    		jsonObject.put("result", "상영정보가 삭제되었습니다 확인 버튼을 눌러주세요");
+	    		jsonObject.put("result", "상영정보가 삭제되었습니다 조회 버튼을 눌러주세요");
 	    		return jsonObject.toString();
 
 	    	} else { // 기존 상영 스케줄인 없는 경우
@@ -1463,6 +1487,7 @@ public class AdminController {
 		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("pageInfo", pageInfo);
 //		System.out.println(memberList);
 		
@@ -1544,6 +1569,7 @@ public class AdminController {
 		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("movieList", movieList);
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("pageInfo", pageInfo);
 		System.out.println(movieList);
 		
@@ -1661,7 +1687,9 @@ public class AdminController {
 		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("pageInfo", pageInfo);
+		
 		System.out.println(paymentList);
 		return "admin/admin_payment_list";
 	}
