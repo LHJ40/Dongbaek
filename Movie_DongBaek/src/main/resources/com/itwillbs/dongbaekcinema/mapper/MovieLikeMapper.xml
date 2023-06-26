@@ -66,6 +66,7 @@
 			LIMIT
 				#{startRow},
 				#{listLimit}
+<!-- >>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git -->
 	</select>
 	
 </mapper>
