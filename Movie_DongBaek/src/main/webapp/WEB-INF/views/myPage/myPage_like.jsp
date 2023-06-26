@@ -23,11 +23,69 @@
 		
 	}
 	
-	table {
-		margin-top: 20px;
+	.mainTop {
+		margin-bottom: 30px;
 	}
-
+	
+	.subtit {
+		margin-bottom: 20px;
+		
+	}
+	
+	/* 총 갯수 회색, 작게 보여주기 */
+	.gray {
+		color: gray;
+		font-size: 0.9em;
+	}
+	
+	.likeContent {
+		width: 80% !important;
+		margin: 5px auto 10px;
+		position: relative; /* watched, cancleLike 띄우기 위해서 설정*/
+	}
+	
+	.img {
+		width: 180px;
+		border: 5px solid #000;
+	}
+	
+	.movieName {
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+	
+	.textCut {
+		/* 영역보다 긴 글의 경우 ... 으로 처리 */
+		white-space: nowrap; /* 영역보다 커도 줄 바꿈하지마라 */
+		overflow: hidden; /* 잘리는 부분 안보이게 함 */
+		text-overflow: ellipsis; /* 잘리는 부분 ...으로 처리 */
+	}
+	
+	.movieBtn {
+		margin: 0 auto 30px;
+		width: 5.5rem;
+		height: 2rem;
+		padding: 3px;
+	}
+	.cancleLike {
+		font-size: 1rem;
+		padding: 2px 10px;
+		position: absolute;
+		top: 10px;
+		right: 45px;
+		border: 2px double; 
+		border-radius: 50%
+	}
+	
+	.watched {
+		width: 70px;
+		position: absolute;
+		bottom: 10px;
+		right: 15px;
+	}
+	
 </style>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
 	// 공통 이동 처리 함수
@@ -41,6 +99,36 @@
 // 		}
 	}
 	
+	function cancleLike(i){
+		let movie_num = i;
+		let sId = $("#sessionId").val();
+		let isLike = true;
+		
+		$.ajax({
+			type: 'POST',
+			url: 'likeMovie',
+			data: {'member_id': sId, 'movie_num': movie_num, 'isLike': isLike },
+			dataType: 'JSON',
+			success : function(result) {
+				
+				if(isLike) {	// 찜 상태가 false면
+					alert("선택하신 영화 찜하기를 해제했습니다!");
+					location.reload();				
+					// 찜 상태 전환(false로)
+					
+				} else {	// 찜 상태가 true이면
+					console.log("찜해제 실패!");
+				}
+			},
+			error : function(xhr, status, error) {
+			    console.error(error);
+			}
+			
+		});	// ajax끝
+		
+		
+	} // function 끝
+	
 
 </script>
 </head>
@@ -48,27 +136,54 @@
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
+ <%-- 세션아이디 들고오기 --%>
+ <input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+ 
   <article id="mainArticle">
   <%--본문내용 --%>
-  	<div class="container container-fluid w-900">
+  	<div class="container w-900">
   		<div class="mainTop">
 			<h2>찜한 영화</h2>
 			<br>
-				<c:choose>
-					<c:when test="${empty likeList}">
-						고객님의 영화 찜하기 내역이 존재하지 않습니다.
-					</c:when>
-					<c:otherwise>
-							<th>영화번호</th>
-							<th>영화이름</th>
-						<c:forEach var="like" items="${likeList }">
-							${like.movie_num }
-								
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+			<div class="subtit">기대되는 영화 <span class="gray">${likeListCount}건</span> </div>
+			<hr>
+				<div class="row">
+					<c:choose>
+						<c:when test="${empty likeList}">
+							고객님의 영화 찜하기 내역이 존재하지 않습니다.
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="like" items="${likeList }">
+								<%-- 찜하기 영화 갯수만큼 생성 --%>
+								<div class="col-4">
+									<div class="likeContent">
+<%-- 										<button class="cancleLike btn btn-dark" data-toggle="modal" data-target="#isCancle" value="${like.movie_num }">X</button> --%>
+										<button class="cancleLike btn btn-dark" value="${like.movie_num }" onclick="cancleLike(this.value)">X</button>
+										<input type="hidden" id="cancleVal${like.movie_num }">
+										
+										<div class="poster"><a href="movie_detail_info?movie_num=${like.movie_num}"><img class="img" src="${like.movie_poster}"></a></div>
+										<div class="movieName textCut">${like.movie_name_kr} </div>
+										<div class="movieRelease gray">${like.movie_release_date} 개봉</div>
+										<c:choose>
+										<%-- 영화가 상영중이면 예매하러 가는 버튼 생성 --%>
+											<c:when test="${like.movie_status eq '상영중'}">
+												<button type="button" class="movieBtn btn btn-danger" onclick="location.href='reservation_main?movie_num=${like.movie_num}'">예매하기</button>
+											</c:when>
+											<c:otherwise>
+												<button type="button" class="movieBtn btn btn-secondary">상영종료</button>
+											</c:otherwise>
+										</c:choose>
+										<c:if test="${like.like_view eq '관람' }">
+											<img class="watched" src="${pageContext.request.contextPath }/resources/img/watched.png">
+										</c:if>
+									</div>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>	<%-- row클래스 끝 --%>
 			</div>
-			
+			<hr>
 			<%-- 페이징 처리 --%>
 			<nav aria-label="...">
 			    <ul class="pagination pagination-md justify-content-center">
@@ -124,6 +239,35 @@
 			
 	  </div>
   </article>
+  
+  	<%-- 찜하기 취소 안내 모달 영역 --%>
+	<div class="modal fade" id="isCancle" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="needSessionId">찜하기 취소</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body text-center" id="modalMsg">
+	      <%-- 메세지가 표시되는 부분 --%>
+	      확인을 누르면 영화 찜하기가 취소되고 목록에서 사라집니다.<br>
+	      영화 찜하기를 취소하겠습니까?
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	        <button type="button" class="btn btn-danger" onclick="checkMovie()">찜 취소</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  
+  
+  
+  
+  
+  
   
   	<nav id="mainNav">
 		<%--왼쪽 사이드바 --%>
