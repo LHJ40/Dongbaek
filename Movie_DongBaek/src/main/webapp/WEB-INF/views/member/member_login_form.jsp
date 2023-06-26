@@ -198,9 +198,9 @@ div {
 		    	
 		    	<%-- 카카오 --%>
 		    	<div class="col-2">
-			    	<button type="button" id="submit-btn" onclick="loginWithKakao()">
-			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao_login_medium.png" height="50px">
-			    	</button>
+<!-- 			    	<button type="button" id="submit-btn" onclick="loginWithKakao()"> -->
+			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao_login_medium.png" height="50px" onclick="loginWithKakao()">
+<!-- 			    	</button> -->
 		    	</div>
 		    	<%-- 카카오 로그인 --%>
 		    	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>

@@ -32,6 +32,18 @@
 		margin-bottom: 20px;
 		
 	}
+	/* 찜하기 내역 없을 때 안내 */
+	#noList {
+		height: 10rem;
+	}
+	
+	#noList>span {
+		vertical-align: middle;
+		line-height: 10rem;
+		align-content: center;
+		margin-left: 300px;
+		color: gray;
+	}
 	
 	/* 총 갯수 회색, 작게 보여주기 */
 	.gray {
@@ -46,7 +58,7 @@
 	}
 	
 	.img {
-		width: 180px;
+		width: 190px;
 		border: 5px solid #000;
 	}
 	
@@ -69,20 +81,20 @@
 		padding: 3px;
 	}
 	.cancleLike {
-		font-size: 1rem;
+		font-size: 0.9rem;
 		padding: 2px 10px;
 		position: absolute;
-		top: 10px;
-		right: 45px;
-		border: 2px double; 
+		top: 8px;
+		right: 35px;
+		border: 3px double gray; 
 		border-radius: 50%
 	}
 	
 	.watched {
-		width: 70px;
+		width: 65px;
 		position: absolute;
-		bottom: 10px;
-		right: 15px;
+		bottom: 22px;
+		right: 25px;
 	}
 	
 </style>
@@ -148,12 +160,14 @@
 			<br>
 			<div class="subtit">기대되는 영화 <span class="gray">${likeListCount}건</span> </div>
 			<hr>
-				<div class="row">
 					<c:choose>
 						<c:when test="${empty likeList}">
-							고객님의 영화 찜하기 내역이 존재하지 않습니다.
+							<div id="noList">
+								<span>고객님의 영화 찜하기 내역이 존재하지 않습니다.</span>
+							</div>
 						</c:when>
 						<c:otherwise>
+				<div class="row">
 							<c:forEach var="like" items="${likeList }">
 								<%-- 찜하기 영화 갯수만큼 생성 --%>
 								<div class="col-4">
@@ -180,9 +194,9 @@
 									</div>
 								</div>
 							</c:forEach>
+				</div>	<%-- row클래스 끝 --%>
 						</c:otherwise>
 					</c:choose>
-				</div>	<%-- row클래스 끝 --%>
 			</div>
 			<hr>
 			<%-- 페이징 처리 --%>
