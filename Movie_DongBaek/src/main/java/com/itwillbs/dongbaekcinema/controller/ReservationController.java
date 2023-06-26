@@ -284,13 +284,13 @@ public class ReservationController {
 	@GetMapping("reservation_check")
 	public String reservation_check(HttpSession session,HttpServletRequest request,Model model) {
 		//잘못된 접근처리
-		String beforePage =(String)request.getHeader("REFERER");
-		if(beforePage==null) {
-			model.addAttribute("msg", "잘못된 접근");
-			model.addAttribute("url", "./");
-							
-			return "fail_location";
-		}
+//		String beforePage =(String)request.getHeader("REFERER");
+//		if(beforePage==null) {
+//			model.addAttribute("msg", "잘못된 접근");
+//			model.addAttribute("url", "./");
+//							
+//			return "fail_location";
+//		}
 		String member_id=(String) session.getAttribute("member_id");
 		MemberVO member=service4.getMember(member_id);
 		model.addAttribute("member", member);
@@ -377,7 +377,7 @@ public class ReservationController {
 	        	i++;
 	        }
 		    
-		    if(!snack_num_param.equals("")) {
+		    if(!snack_num_param.equals("")) {//스낵구매시에만
 				int snackNum[]=Stream.of(snack_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
 				int snackQuantity[]=Stream.of(snack_quantity_param.split(",")).mapToInt(Integer::parseInt).toArray();
 				for(int i2=0; i2<snackNum.length; i2++) {

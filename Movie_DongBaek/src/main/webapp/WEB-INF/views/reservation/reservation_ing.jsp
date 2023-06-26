@@ -135,7 +135,7 @@ article {
  	            
  	            name: '주문명:동백시네마',
  	            //결제창에서 보여질 이름
- 	            amount:1000, //${totalprice}
+ 	            amount:${totalprice},
  	            //가격 
  	            buyer_email: '${member.member_email}',
  	            buyer_name: '${member.member_name}',
@@ -143,7 +143,7 @@ article {
  	            
  	            
  	        }, function (rsp) {
- 	        	uid = rsp.imp_uid;
+ 	        	
  	            if (rsp.success) {
  	                var msg = '결제가 완료되었습니다.';
 //  	              	 location.href='reservation_check'
@@ -177,8 +177,9 @@ article {
                        if (res > 0) {
                            alert('주문정보 저장 성공');
 //                            createPayInfo(uid);
-                           location.replace='reservation_check';
-                       }
+                           location.replace('reservation_check?order_num='+rsp.merchant_uid+'&play_num=${param.play_num}&seat_name=${param.seat_name}&payment_total_price='+rsp.paid_amount
+                        		   +'&snack_num=${param.snack_num}&snack_quantity=${param.snack_quantity}&payment_num='+rsp.imp_uid);
+                       } 
                        else {
                     	   alert('주문정보 저장 실패');
                        }
