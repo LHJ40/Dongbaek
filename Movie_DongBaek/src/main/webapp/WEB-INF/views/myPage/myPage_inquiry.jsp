@@ -45,7 +45,7 @@ a:hover, a:active{
 							</tr>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="myPayment" items="${myPaymentList }">
+							<c:forEach var="myInq" items="${myinq }">
 								<tr>
 							 		<th>문의 번호 </th>
 							 		<th>문의 유형</th>
@@ -55,18 +55,18 @@ a:hover, a:active{
 							 		<th>문의내역 변경</th>
 							 	</tr>
 							 	<tr>
-							 		<td>{myinq.cs_num }</td><%--{param.inquiry_board_num} --%>
-							 		<td>{myinq.cs_type}</td><%--{param.inquiry-category} --%>
-							 		<td>{myinq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
-							 		<td>{myinq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+							 		<td>{myInq.cs_num }</td><%--{param.inquiry_board_num} --%>
+							 		<td>{myInq.cs_type}</td><%--{param.inquiry-category} --%>
+							 		<td>{myInq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
+							 		<td>{myInq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
 							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
 							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
 							 	</tr>
 							 	<tr>
-							 		<td>{myinq.cs_num }</td><%--{param.inquiry_board_num} --%>
-							 		<td>{myinq.cs_type}</td><%--{param.inquiry-category} --%>
-							 		<td>{myinq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
-							 		<td>{myinq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
+							 		<td>{myInq.cs_num }</td><%--{param.inquiry_board_num} --%>
+							 		<td>{myInq.cs_type}</td><%--{param.inquiry-category} --%>
+							 		<td>{myInq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
+							 		<td>{myInq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
 							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
 							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
 							 	</tr>

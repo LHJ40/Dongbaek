@@ -84,30 +84,8 @@ th{
 		})		
 	}
 	
-	//모든 공백 체크 정규식
-// 	var empJ = /\s/g;
-
-	// 이름 정규식
-// 	var nameJ = /^[가-힣]{2,6}$/;
-	// 이메일 검사 정규식
-// 	var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	// 휴대폰 번호 정규식
-// 	var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-	
 	// 아이디 정규식
-// 	function checkIdRegex(member_id) {
-// 		let regex = /^[a-z0-9]{5,10}$/;
-		
-// 		if(regex.exec(member_id)) {
-// 			document.querySelector(".id_ok").innerHTML = "사용 가능한 아이디입니다!"
-// 			document.querySelector(".id_ok").style.color = "green";
-// 		} else {
-// 			document.querySelector(".id_ok").innerHTML = "사용 불가능한 아이디입니다!"
-// 			document.querySelector(".id_ok").style.color = "red";
-// 			alert("아이디를 다시 입력해주세요!");
-// 			$("#member_id").val('');
-// 		}
-// 	}
+	
 	
 	// 비밀번호 정규식
 	function checkPass(member_pass, member_pass2) {
@@ -144,80 +122,46 @@ th{
 	
 	
 	// 생년월일에 숫자만 입력하기
-	function inputNum(id) {
-		var element = document.getElementById('member_birth');
-		element.value = element.value.replace(/[^0-9]/gi, "");
+	function inputNum(member_birth) {
+// 		var element = document.getElementById('member_birth');
+// 		element.value = element.value.replace(/[^0-9]/gi, "");
+// 		element.value = element.value.replace(/^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/gi, "");
+	
+		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+		
+		if(regex.exec(member_birth)) {
+			document.querySelector("#birth_check").innerHTML = "사용 가능한 비밀번호입니다!"
+			document.querySelector("#birth_check").style.color = "green";
+		} else {
+			document.querySelector("#birth_check").innerHTML = "생년월일 8자리를 입력해주세요!"
+			document.querySelector("#birth_check").style.color = "red";
+			alert("생년월일을 다시 입력해주세요!");
+			$("#member_birth").val('');
+// 			$("#member_pass2").val('');
+		}
+	
 	}
 	
-// 	// 생일 유효성 검사
-// 	var birthJ = false;
-	
-// 	// 생년월일	birthJ 유효성 검사
-// 	$(function() {
-// 		$("#member_birth").change(function() {
-		
-// 			var dateStr = $(this).val();		
-// 		    var year = Number(dateStr.substr(0,4)); // 입력한 값의 0~4자리까지 (연)
-// 		    var month = Number(dateStr.substr(4,2)); // 입력한 값의 4번째 자리부터 2자리 숫자 (월)
-// 		    var day = Number(dateStr.substr(6,2)); // 입력한 값 6번째 자리부터 2자리 숫자 (일)
-// 		    var today = new Date(); // 날짜 변수 선언
-// 		    var yearNow = today.getFullYear(); // 올해 연도 가져옴
-		
-// 		    if (dateStr.length <=8) {
-// 				// 연도의 경우 1900 보다 작거나 yearNow 보다 크다면 false를 반환합니다.
-// 			    if (1900 > year || year > yearNow){
-			    	
-// 			    	$("#birth_check").text("생년월일을 확인해주세요!)");
-// 					$("#birth_check").css("color", "red");
-			    	
-// 			    } else if (month < 1 || month > 12) {
-			    		
-// 			    	$("#birth_check").text("생년월일을 확인해주세요!)");
-// 					$("#birth_check").css("color", "red"); 
-			    
-// 			    } else if (day < 1 || day > 31) {
-			    	
-// 			    	$("#birth_check").text("생년월일을 확인해주세요 !)");
-// 					$("#birth_check").css("color", "red"); 
-			    	
-// 			    } else if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-			    	 
-// 			    	$("#birth_check").text("생년월일을 확인해주세요 !)");
-// 					$("#birth_check").css("color", "red"); 
-					
-// 			    } else if (month == 2) {
-			    	 
-// 			       	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-			       	
-// 			     	if (day>29 || (day==29 && !isleap)) {
-			     		
-// 			     		$("#birth_check").text("생년월일을 확인해주세요 !)");
-// 						$("#birth_check").css("color", "red");
-			    	
-// 					} else {
-// 						$("#birth_check").text('');
-// 						birthJ = true;
-// 					}//end of if (day>29 || (day==29 && !isleap))
-// 			    }
-		     	
-// 			} else {
-		    	
-// 		    	$("#birth_check").text(''); 
-// 				birthJ = true;
-// 			}//end of if
-			
-// 		} else {
-// 					//1.입력된 생년월일이 8자 초과할때 :  auth:false
-// 					$("#birth_check").text("생년월일을 확인해주세요 :)");
-// 					$("#birth_check").css("color", "red");  
-// 				}
-// 	}); //End of method /*
 	
 	
 	// 전화번호에 숫자만 입력하기
 	function inputNum_phone(id) {
 		var element = document.getElementById('member_phone');
-		element.value = element.value.replace(/[^0-9]/gi, "");
+// 		element.value = element.value.replace(/[^0-9]/gi, "");
+// 		element.value = element.value.replace(/^(010|011)[\d]{3,4}[\d]{4}$/gi, "");
+		
+		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+		
+		if(regex.exec(member_phone)) {
+			document.querySelector("#phone_check").innerHTML = "사용 가능한 전화번호입니다!"
+			document.querySelector("#phone_check").style.color = "green";
+		} else {
+			document.querySelector("#phone_check").innerHTML = "전화번호를 다시 입력해주세요!"
+			document.querySelector("#phone_check").style.color = "red";
+			alert("생년월일을 다시 입력해주세요!");
+			$("#phone_check").val('');
+// 			$("#member_pass2").val('');
+		}
 	}
 
 //-----------------------------------------------------------
@@ -311,7 +255,7 @@ th{
 				    	<label for="inputPassword" class="col-sm-5 ">비밀번호<em style="color:red;">*</em></label>
 				    	<div class="col-sm-12">
 				     	 	<input type="password" class="form-control" id="member_pass" name="member_pass" required="required" 
-				     	 		   onchange="checkPass(this.value)" placeholder="영어 대,소문자와 !@#$%를 조합하여 입력하세요.">
+				     	 		   onchange="checkPass(this.value)" placeholder="영어 대,소문자와 !@#$%를 조합하여 8 ~ 16 글자 입력하세요.">
 				   			<div class="check_font" id="pw_check"></div>
 				   		</div>
 				  	</div>
@@ -359,7 +303,7 @@ th{
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_birth" name="member_birth" placeholder="생년월일 8자리를 입력하세요." maxlength="8"
-				  				   oninput="inputNum(this.id)" required="required">
+				  				   onblur="inputNum(this.id)" required="required">
 				 			<div class="check_font" id="birth_check" class="birth_check"></div>
 				 		</div>
 				  	</div>

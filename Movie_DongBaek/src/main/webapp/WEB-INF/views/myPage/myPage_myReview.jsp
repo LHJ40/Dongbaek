@@ -49,10 +49,12 @@
 	 				</tr>
 	 				<c:forEach var="myReviewList" items="${myReviewList }" begin="0" end="3" step="1" varStatus="status">
 		 				<tr>
-					 		<td>${status.index+1}</td> <%-- {param.myreview_num} 최신순이 위로 --%>
+					 		<td>
+					 			${status.index+1}
+					 		</td> <%-- {param.myreview_num} 최신순이 위로 --%>
 					 		
 					 		<td>
-<%-- 					 			${myReviewList.movie_name_kr } --%>
+<%-- 					 		${myReviewList.movie_name_kr } --%>
 					 		</td> 
 					 		
 					 		<td>
