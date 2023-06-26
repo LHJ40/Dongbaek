@@ -25,7 +25,8 @@ public class MovieController {
 	@GetMapping("movie_list_present")
 	public String movie_list_present(
 			Model model, 
-			@RequestParam(defaultValue="1") int pageNum) {
+			@RequestParam(defaultValue="1") int pageNum,
+			@RequestParam(defaultValue="") String movieSearchKeyword ) {
 		
 		//페이징처리 변수선언
 		int listLimit = 8; //한페이지 표시 목록갯수
@@ -33,7 +34,7 @@ public class MovieController {
 		
 		//페이징 계산작업
 		//1.전체게시물 수 조회 작업 요청-검색X
-		int listCount = service.getMovieListCount();
+		int listCount = service.getMovieListCount(movieSearchKeyword);
 		int pageListLimit = 2; //2.페이지번호개수
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
@@ -46,7 +47,7 @@ public class MovieController {
 		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		//영화 목록 조회 ( 페이징 정보 전달 )
-		List<MovieVO> movieList = service.getMovieList_present_bookrate(startRow, listLimit);
+		List<MovieVO> movieList = service.getMovieList_present_bookrate(startRow, listLimit, movieSearchKeyword);
 		
 		//jsp페이지에 전달 ( 영화목록, 페이징 정보)
 		model.addAttribute("movieList", movieList);
@@ -92,7 +93,8 @@ public class MovieController {
 		@ResponseBody
 		@GetMapping("movie_list_return")
 		public List<MovieVO> movie_list_return(Model model, 
-				@RequestParam(defaultValue="1") int pageNum) {
+				@RequestParam(defaultValue="1") int pageNum,
+				@RequestParam(defaultValue="") String movieSearchKeyword) {
 			System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}movie_list_return");
 			//페이징처리 변수선언
 			int listLimit = 8; //한페이지 표시 목록갯수
@@ -113,7 +115,7 @@ public class MovieController {
 			PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+listLimit + startRow);
 			//영화 목록 조회 ( 페이징 정보 전달 )
-			List<MovieVO> movieList = service.getMovieList_present_bookrate(startRow, listLimit);
+			List<MovieVO> movieList = service.getMovieList_present_bookrate(startRow, listLimit, movieSearchKeyword);
 			
 			//jsp페이지에 전달 ( 영화목록, 페이징 정보)
 			model.addAttribute("movieList", movieList);
@@ -183,7 +185,6 @@ public class MovieController {
 			List<MovieVO> movieList = service.getMovieList_prepareNameDESC(startRow, listLimit);
 			
 			
-			
 			model.addAttribute("pageInfo", pageInfo);		
 			model.addAttribute("movieList", movieList);
 			return movieList;
@@ -205,7 +206,7 @@ public class MovieController {
 			
 			//페이징 계산작업
 			//1.전체게시물 수 조회 작업 요청-검색X
-			int listCount = service.getMovieListCount();
+			int listCount = service.getMovieListCount_prepare();
 			int pageListLimit = 2; //2.페이지번호개수
 			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 			int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
@@ -216,18 +217,10 @@ public class MovieController {
 			}
 			//페이징 처리 정보 저장할 PageInfo객체에 계산데이터 저장
 			PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+listLimit + startRow);
 			
-			//jsp페이지에 전달 ( 영화목록, 페이징 정보)
-		
-		
-			
-			List<MovieVO> movieList = service.getMovieList_present_reviewrate(startRow,listLimit);
-			
-			
-			
-			model.addAttribute("pageInfo", pageInfo);	
+			List<MovieVO> movieList = service.getMovieList_prepare(startRow, listLimit);
 			model.addAttribute("movieList", movieList);
+			model.addAttribute("pageInfo", pageInfo);
 			return movieList;
 		}
 	
