@@ -86,7 +86,7 @@
 				getReviewLikeCount(reviewNum);
 				isMember(memberId);
 			});
-		}
+		}		
 		
 	});
 	

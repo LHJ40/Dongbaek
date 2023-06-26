@@ -410,7 +410,7 @@
                
             }
             $("#selectTime>ul").html(res);
-                  
+                        
          })
          .fail(function() { // 요청 실패 시
             $("#selectTime").html("요청 실패!");
@@ -511,7 +511,7 @@
                    <div class="title-area">극장</div>
                    <div class="list-area p-2">
                    <div class="mt-3" id="selectTheater" style="display: none;">
-                   
+                   		<!-- 극장 목록 출력 -->
                    </div>
                 </div>
                </div>
