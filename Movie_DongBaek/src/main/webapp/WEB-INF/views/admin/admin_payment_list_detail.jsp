@@ -24,14 +24,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
 <title>결제내역 상세페이지</title>
 <style>
-#mainNav{
-/* 		border: 1px solid #f00; */
-	padding: 8rem 2rem;	
-}
-	
-#mainNav>ul{
-	list-style: none;
-}
+
 <%-- a링크 활성화 색상 변경 --%>
 a:hover, a:active{
  color:  #ff5050 !important;
