@@ -4,7 +4,8 @@ div{
 }
 #mainNav{
 	float: left;
-    width: 220px;
+    max-width: 220px;
+    min-width: 180px;
     padding: 150px 0 0 20px;
     background-color: #fff;
 }
@@ -42,7 +43,8 @@ div{
 }
 
 #mainNav .nav-item {
-	width: 196px;
+	max-width: 196px;
+	min-width: 156px;
 }
 
 #mainNav ul li a {

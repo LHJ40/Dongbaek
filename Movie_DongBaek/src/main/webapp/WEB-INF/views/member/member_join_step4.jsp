@@ -61,16 +61,20 @@ article {
 			<hr>
 		<div class="container-fluid w-900 d-flex justify-content-center">
 			<div class="row row1">
-				<div class="col-xl-10">
-					<h1 align="center">
-						동백 시네마 회원 가입을 축하합니다!
-					</h1>			
-				</div>
-			</div>
-			<div class="row row2">
-				<div class="col-xl-12">
-				 	<button type="submit" class="btn btn-primary btn-secondary mr-3 btn-lg" >&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;</button>
-				  	<button type="submit" class="btn btn-primary btn-danger ml-3 btn-lg" >메인페이지</button>				
+				<div class="col-12">
+					<div class="row">
+						<div class="col-xl-12">
+							<h1 align="center">
+								동백 시네마 회원 가입을 축하합니다!
+							</h1>			
+						</div>
+					</div>
+					<div class="row row2">
+						<div class="col-xl-12">
+						 	<button type="submit" class="btn btn-primary btn-secondary mr-3 btn-lg" >&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;</button>
+						  	<button type="submit" class="btn btn-primary btn-danger ml-3 btn-lg" >메인페이지</button>				
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
