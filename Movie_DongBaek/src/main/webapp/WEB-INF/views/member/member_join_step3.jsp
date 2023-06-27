@@ -85,11 +85,26 @@ th{
 	}
 	
 	// 아이디 정규식
+// 	function checkIdRegex(member_id) {
+// 		let regex =/^[a-z0-9]{5,10}$/;
+		
+// 		if(member_id == null) { // 일반 회원 가입
+// 			if(regex.exec(member_id)) {
+// 				document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
+// 				document.querySelector("#pass_check").style.color = "green";
+// 			} else {
+// 				document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
+// 				document.querySelector("#pass_check").style.color = "red";
+// 				alert("영어 소문자와 숫자를 조합하여 5 ~ 10글자로 다시 입력해주세요!");
+// 				$("#member_id").val('');
+// 		}
+// 	}
 	
 	
 	// 비밀번호 정규식
 	function checkPass(member_pass, member_pass2) {
-		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+// 		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
 		
 		if(regex.exec(member_pass)) {
 			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
@@ -105,7 +120,6 @@ th{
 	
 	// 비밀번호 와 비밀번호 확인 일치
 	function checkconfirmPasswd(passwdCheck) {
-		
 		let member_pass = document.fr.member_pass.value;
 		
 		if(member_pass == passwdCheck) {
@@ -120,50 +134,75 @@ th{
 		}
 	}
 	
-	
-	// 생년월일에 숫자만 입력하기
-	function inputNum(member_birth) {
-// 		var element = document.getElementById('member_birth');
-// 		element.value = element.value.replace(/[^0-9]/gi, "");
-// 		element.value = element.value.replace(/^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/gi, "");
-	
-		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+	// 이름 정규식
+	function inputName(member_name) {
+		let regex = /^[A-Za-z가-힣]{2,15}$/;
 		
-		if(regex.test(member_birth)) {
-			document.querySelector("#birth_check").innerHTML = "사용 가능한 비밀번호입니다!"
+		if(regex.exec(member_name)) {
+			document.querySelector("#name_confirm").innerHTML = ""
+			document.querySelector("#name_confirm").style.color = "green";
+		} else {
+			document.querySelector("#name_confirm").innerHTML = "이름을 한글 또는 영어로 입력해주세요!"
+			document.querySelector("#name_confirm").style.color = "red";
+			alert("이름을 다시 입력해주세요!");
+			$("#member_birth").val('');
+		}
+	}
+	
+	// 생년월일 정규식
+	function inputNum(member_birth) {
+// 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+		let regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+		
+// =======
+// 		if(regex.test(member_birth)) {
+// 			document.querySelector("#birth_check").innerHTML = "사용 가능한 비밀번호입니다!"
+		if(regex.exec(member_birth)) {
+			document.querySelector("#birth_check").innerHTML = ""
 			document.querySelector("#birth_check").style.color = "green";
 		} else {
 			document.querySelector("#birth_check").innerHTML = "생년월일 8자리를 입력해주세요!"
 			document.querySelector("#birth_check").style.color = "red";
 			alert("생년월일을 다시 입력해주세요!");
 			$("#member_birth").val('');
-// 			$("#member_pass2").val('');
 		}
 	
 	}
 	
-	
-	
-	// 전화번호에 숫자만 입력하기
-	function inputNum_phone(id) {
-		var element = document.getElementById('member_phone');
+	// 전화번호 정규식
+	function inputNum_phone(member_phone) {
 // 		element.value = element.value.replace(/[^0-9]/gi, "");
 // 		element.value = element.value.replace(/^(010|011)[\d]{3,4}[\d]{4}$/gi, "");
 		
 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
 		
 		if(regex.exec(member_phone)) {
-			document.querySelector("#phone_check").innerHTML = "사용 가능한 전화번호입니다!"
+			document.querySelector("#phone_check").innerHTML = ""
 			document.querySelector("#phone_check").style.color = "green";
 		} else {
 			document.querySelector("#phone_check").innerHTML = "전화번호를 다시 입력해주세요!"
 			document.querySelector("#phone_check").style.color = "red";
-			alert("생년월일을 다시 입력해주세요!");
-			$("#phone_check").val('');
-// 			$("#member_pass2").val('');
+			alert("전화번호를 다시 입력해주세요!");
+			$("#member_phone").val('');
 		}
 	}
 
+	// 이메일 정규식
+	function inputEmail(member_email) {
+		let regex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+		
+		if(regex.exec(member_email)) {
+			document.querySelector("#email_check").innerHTML = ""
+			document.querySelector("#email_check").style.color = "green";
+		} else {
+			document.querySelector("#email_check").innerHTML = "이메일을 다시 입력해주세요!"
+			document.querySelector("#email_check").style.color = "red";
+			alert("이메일을 다시 입력해주세요!");
+			$("#member_email").val('');
+		}	
+		
+	}
+	
 //-----------------------------------------------------------
 
 	// ------ 카카오 로그인 후 회원가입 진행 작업 -------------
@@ -238,7 +277,7 @@ th{
 					    	<div class="col-sm-12">
 					    		<input type="text" class="form-control" id="member_id" name="member_id" required="required" placeholder="영어 소문자와 숫자를 조합하여 5 ~ 10글자를 입력하세요."
 						    			minlength="5" maxlength="20" onchange="checkId(); checkIdRegex(this.value);">
-					    		<div class="check_font" id="id_check"></div>
+<!-- 					    		<div class="check_font" id="id_check"></div> -->
 					    	</div>
 					</div>
 <!-- 					아이디 중복확인 : ajax -->
@@ -249,6 +288,14 @@ th{
 								<span class="id_already" style="color:red;">이미 사용중인 아이디 입니다.</span>
 					   		</div>
 					</div>	
+					
+					<!-- 아아디 정규식 : regex -->
+					<div class="row mb-3">
+				    	<label for="inputPasswordRegex_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="id_check"></span>
+					   		</div>
+					</div>
 				  	
 					<!-- 비밀번호 (필수)  -->
 				  	<div class="row mb-3">
@@ -291,22 +338,35 @@ th{
 				  	<div class="row mb-3">
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">이름<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
-				  			<input type="text" class="form-control" id="member_name" name="member_name" required="required">
-				 			<div class="check_font" id="name_check"></div>
+				  			<input type="text" class="form-control" id="member_name" name="member_name" required="required"
+				  					 onchange="inputName(this.value)">
 				 		</div>
 				  	</div>
+				  	
+				  	<!-- 이름 정규식-->
+					<div class="row mb-3">
+				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="name_confirm"></span>
+					   		</div>
+					</div>
 				
 					<!-- 생년월일 (필수)  -->
-					<!-- 현재 입력 폼은 input type ="text" -->
-					<!-- DB의 데이터타입 : DATE -->
 				    <div class="row mb-3">
 				  		<label for="inputEmail3" class="col-sm-5 col-form-label">생년월일<em style="color:red;">*</em></label>
 				  		<div class="col-sm-12">
 				  			<input type="text" class="form-control" id="member_birth" name="member_birth" placeholder="생년월일 8자리를 입력하세요." maxlength="8"
-				  				   onblur="inputNum(this.id)" required="required">
-				 			<div class="check_font" id="birth_check" class="birth_check"></div>
+				  				    onchange="inputNum(this.value)" required="required">
 				 		</div>
 				  	</div>
+				  	
+				  	<!-- 생년월일 정규식-->
+					<div class="row mb-3">
+				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="birth_check"></span>
+					   		</div>
+					</div>
 				  	
 					<!-- 전화번호 (필수) -->
 					<div class="row mb-3">
@@ -316,7 +376,7 @@ th{
 						    	<c:choose>
 						    	<c:when test="${empty member_phone }">
 									<input type="text" class="form-control" id="member_phone" name="member_phone" placeholder="- 없이 전화번호를 입력하세요." maxlength="11"
-									   oninput="inputNum_phone(this.id)" required="required">
+									   onchange="inputNum_phone(this.id)" required="required">
 						    		<div class="check_font" id="phone_check"></div>
 						    	</c:when>
 						    	<c:otherwise>
@@ -332,9 +392,17 @@ th{
 					<div class="row mb-3">
 					    <label for="inputCity" class="col-sm-12">이메일 <font size="2px">(선택)</font></label>
 						  	<div class="col-sm-12">
-						  		<input type="text" class="form-control" id="member_email" name="member_email" placeholder="이메일 주소를 입력하세요.">
-						 		<div class="check_font" id="email_check"></div>
+						  		<input type="text" class="form-control" id="member_email" name="member_email" placeholder="이메일 주소를 입력하세요."
+						  				onchange="inputEmail(this.value)">
 						 	</div>
+					</div>
+					
+				  	<!-- 이메일 정규식-->
+					<div class="row mb-3">
+				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="email_check"></span>
+					   		</div>
 					</div>
 
 					<!-- 좋아하는 장르(선택) -->				 	
