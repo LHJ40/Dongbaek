@@ -99,7 +99,12 @@
   
   
 </script>
-
+<style type="text/css">
+	/* 찜하기 관련 */
+	#needLogin, #needLogin>div {
+		background-color: #ffffff00;
+	}
+</style>
 </head>
 <body>
 
@@ -183,11 +188,25 @@
 	      </div>
 	      <div class="modal-body text-center" id="modalMsg">
 	      <%-- 메세지가 표시되는 부분 --%>
-	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+	      <c:choose>
+		      <c:when test="${member_type eq '비회원'}">
+		      	회원 로그인이 필요한 작업입니다.
+		      </c:when>
+		      <c:otherwise>
+		      	회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+		      </c:otherwise>
+	      </c:choose>
 	      </div>
 	      <div class="modal-footer justify-content-center">
-	        <button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+	      	<c:choose>
+	      		<c:when test="${empty sessionScope.member_id}">
+		        	<button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+		        </c:when>
+		        <c:otherwise>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">확인</button>
+		        </c:otherwise>
+	      	</c:choose>
 	      </div>
 	    </div>
 	  </div>
