@@ -32,13 +32,13 @@
 
 	<!-- 상영날짜 별 선택가능한 영화 목록 조회 -->
 	<select id="findMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
-		SELECT 
+		SELECT
 			movie_num, movie_name_kr
 			FROM 
 				MOVIES
 			WHERE
 				#{play_date} 
-			BETWEEN movie_release_date
+			BETWEEN movie_release_date 
 			AND movie_close_date
 	</select>
 	
@@ -356,6 +356,9 @@
 				, cs_subject = #{csInfo.cs_subject}
 				, member_id = #{csInfo.member_id}
 				, cs_content = #{csInfo.cs_content}
+				<if test="cs_file != ''"> 
+					, cs_file = #{qnaInfo.cs_file}
+				</if>
 				, cs_file = #{csInfo.cs_file}
     		 WHERE
     		 	cs_type IN(${condition})
@@ -376,9 +379,9 @@
 		UPDATE 
 			CS
 			SET cs_reply = #{qnaInfo.cs_reply}
-    		 WHERE 
-    		 	cs_type IN(${condition})
-    		 	AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
+    		 	WHERE 
+    		 		cs_type IN(${condition})
+    		 		AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
 	</update>
 	
 	

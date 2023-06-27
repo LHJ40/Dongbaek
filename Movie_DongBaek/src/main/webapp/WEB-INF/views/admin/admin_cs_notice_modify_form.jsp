@@ -36,13 +36,23 @@ a:hover, a:active{
 
 $(function() {
     $("#cs_form").submit(function(e) {
-      var csContent = $("#cs_content").val().trim();
+        var csContent = $("#cs_subject").val().trim();
+        
+        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+            e.preventDefault(); // 등록 방지
+            
+            alert("제목을 입력해주세요.");
+        }
+    });
       
-      if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
-          e.preventDefault(); // 등록 방지
-          
-          alert("내용을 입력해주세요.");
-      }
+    $("#cs_form").submit(function(e) {
+        var csContent = $("#cs_content").val().trim();
+        
+        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+            e.preventDefault(); // 등록 방지
+            
+            alert("내용을 입력해주세요.");
+        }
     });
 });
 
@@ -86,7 +96,6 @@ $(function() {
                         	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>
                             <td scope="col" class="align-middle text-left">
                             	
-                            	<%-- 첨부파일 다운로드 구현 아직 --%>
 		                        <c:choose>
 									<c:when test="${not empty csInfo.cs_file }">
 										<a href="${pageContext.request.contextPath }/resources/upload/${csInfo.cs_file }" download="${fn:split(csInfo.cs_file, '_')[1] }">

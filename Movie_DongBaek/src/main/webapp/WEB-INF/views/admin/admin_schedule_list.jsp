@@ -183,7 +183,8 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 			            "play_date": play_date
 			          },
 			          success: function(data) {
-// 			            $(".movieSelect").empty();
+			            $(".movieSelect").empty();
+			            $(".movieSelect").append("<option>변경할 영화명</option>");
 	
 			            $(data).each(function(index, item) {
 			              let option = $("<option>")
