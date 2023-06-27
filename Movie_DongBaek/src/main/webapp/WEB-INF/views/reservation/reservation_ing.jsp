@@ -408,7 +408,7 @@ article {
     
 </script>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   </nav>
   

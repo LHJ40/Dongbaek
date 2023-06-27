@@ -135,7 +135,7 @@
 
 	<%-- 메인화면에서 멤버십 클릭하여 진입 시 왼쪽 사이드바 불필요 -> 삭제 --%>
 <%-- 
-	<nav id="mainNav">
+	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%--왼쪽 사이드바 --%>
 		<%-- 
 		<!-- 	왼쪽 탭 링크들 -->

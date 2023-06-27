@@ -673,13 +673,13 @@
 			</div>
 			<%-- 다음 페이지 이동 버튼 --%>
 			<div class="col-1 p-2">
-				<button class="btn btn-danger vertical-center" onclick="reservationSnack()" style="height: 72px; width: 72px;"> next > </button>
+				<button class="btn btn-danger vertical-center" onclick="reservationSnack()"> next > </button>
 <%--                   <button class="btn btn-danger vertical-center" onclick="location.href='reservation_snack?play_num=${reservation.play_num}&seat_name=' + seatList + '&ticket_type_num=' + ticketTypeNum"> next > </button> --%>
 			</div>
 		</div>
 	</div>	
 	</article>
-	<nav id="mainNav">
+	<nav id="mainNav" class="d-none d-md-block sidebar">
 	<%--왼쪽 사이드바 --%>
 	</nav>
   	

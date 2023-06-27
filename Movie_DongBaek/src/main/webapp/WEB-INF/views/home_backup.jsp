@@ -143,7 +143,7 @@ a:link,a:visited { color:gray; }
   	</article>
   	<%--div 컨테이너 끝 --%>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   </nav>
   <div id="siteAds"></div>
