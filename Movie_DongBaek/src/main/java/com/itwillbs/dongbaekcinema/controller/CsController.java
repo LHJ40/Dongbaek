@@ -98,7 +98,7 @@ public class CsController {
 		// 이클립스 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request나 session 객체필요)
 		String uploadDir = "/resources/upload";	// 현재 폴더상 경로
 		String saveDir = request.getServletContext().getRealPath(uploadDir);  // 실제 경로
-		System.out.println(saveDir);
+//		System.out.println(saveDir);
 		// (지영) - 서버상 경로 알아두기
 		
 		String subDir = ""; // 서브디렉토리(업로드 날짜에 따라 디렉토리 구분하기)
@@ -122,7 +122,7 @@ public class CsController {
 		
 		// 파라미터로 받은 CsVO board 에서 전달된 MultipartFile 객체 꺼내기
 		MultipartFile mFile = board.getCs_file();
-		System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
+//		System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
 		
 		// 파일명 중복 방지 처리 - 랜덤ID(8글자) 붙이기 (ex.랜덤ID_파일명.확장자)
 		String uuid = UUID.randomUUID().toString().substring(0, 8);
@@ -137,7 +137,7 @@ public class CsController {
 			// 실제 이름을 (날짜디렉토리/uuid_실제받은파일명.확장자) 로 저장
 			board.setCs_file_real(subDir + "/" + fileName);
 		}
-		System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
+//		System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
 		
 		// ======================================== 파일 처리 끝 ========================================
 		
