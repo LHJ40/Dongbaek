@@ -7,13 +7,13 @@ import lombok.*;
 /*
 CREATE OR REPLACE VIEW ORDER_MY_TICKET
 AS
-SELECT member_id, movie_poster, movie_name_kr, play_date, ticket_type, order_num, movie_num, ticket_payment_status, 
+SELECT member_id, movie_poster, movie_name_kr, play_date, ticket_type, order_num, movie_num, ticket_payment_status, play_start_time,
         CASE 
-	        WHEN (play_date > now() AND play_start_time > now()) THEN '상영 전'
+	        WHEN (play_date > now() OR (play_date = now() AND play_start_time > CURTIME()) ) THEN '상영 전'
 	        ELSE '상영완료'
         END AS 'play_status',
         CASE
-	        WHEN (play_date >= now() AND play_start_time >= ADDTIME(now(), '0:30:00')) THEN '취소가능'
+	        WHEN (play_date > now() OR (play_date = now() AND play_start_time >= ADDTIME(CURTIME(), '0:30:00')) ) THEN '취소가능'
             ELSE '취소불가'
         END AS 'play_change'
 FROM (SELECT movie_name_kr, movie_poster, play_date, play_start_time, member_id, MOVIES.movie_num, ticket_payment_status
