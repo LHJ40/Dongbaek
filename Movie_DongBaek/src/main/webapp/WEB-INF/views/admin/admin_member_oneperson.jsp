@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmf" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!doctype html>
 <head>
@@ -31,7 +31,6 @@
 	rel="stylesheet" type="text/css">
 <title>회원관리 - ${member.member_id}</title>
 <style>
-
 .w-900 {
 	width: 900px;
 	margin: 0 auto;
@@ -51,14 +50,14 @@ article {
 	margin: 2em auto;
 }
 
-<%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
+/* a링크 활성화 색상 변경 */
+a:hover, a:active {
+	color: #ff5050 !important;
 }
 </style>
 </head>
 <body>
+
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 
@@ -68,7 +67,7 @@ a:hover, a:active{
 			style="border: 1px solid gray">
 			<div class="row">
 				<div class="col-md-12 mt-3">
-					<h3>${member.member_id} 님의 회원정보</h3>
+					<h3>${member.member_id}님의회원정보</h3>
 				</div>
 			</div>
 
@@ -91,42 +90,50 @@ a:hover, a:active{
 							<th>회원상태</th>
 							<%-- 회원상태가 탈퇴인 경우 탈퇴일도 출력 --%>
 							<c:choose>
-							    <c:when test="${member.member_status eq '탈퇴' }">
-							        <td width="350px">${member.member_status}<br>(탈퇴한 날짜 : ${member.member_withdrawl })</td>
-							    </c:when>
-							    <c:otherwise>
-							        <td width="350px">${member.member_status}</td>
-							    </c:otherwise>
+								<c:when test="${member.member_status eq '탈퇴' }">
+									<td width="350px">${member.member_status} <br>(탈퇴한 날짜 : ${member.member_withdrawl })</td>
+								</c:when>
+								<c:otherwise>
+									<td width="350px">${member.member_status}</td>
+								</c:otherwise>
 							</c:choose>
 							<td><select id="statusSelect">
 									<option selected disabled>현재 상태 : ${member.member_status }</option>
 									<option value="활동">활동</option>
 									<option value="탈퇴">탈퇴</option>
-								</select>
-							<button type="button" class="btn btn-danger" id="statusChangeBtn" data-toggle="modal" data-target="#memberStatusChange">상태 변경하기</button>
-							</td>
+							</select>
+								<button type="button" class="btn btn-danger"
+									id="statusChangeBtn" data-toggle="modal"
+									data-target="#memberStatusChange">상태 변경하기</button></td>
 						</tr>
 						<tr>
 							<th>멤버십</th>
-					<td width="350px">${member.grade_name}<br>
-					  <span>
-					    <c:choose>
-					      <c:when test="${not empty member.payment_total_price}">
-					        <fmf:formatNumber value="${member.payment_total_price}" pattern="#,###,###" />
-					      </c:when>
-					      <c:otherwise>0</c:otherwise>
-					    </c:choose>
-					  </span>
-					  / <span><fmf:formatNumber value="${member.grade_max}" pattern="#,###,###" /> 원</span>
-					</td>
-							<td><select id="gradeSelect">
-										<option selected disabled>현재멤버십 : ${member.grade_name}</option>
-										<option value="BRONZE">BRONZE</option>
-										<option value="SILVER">SILVER</option>
-										<option value="GOLD">GOLD</option>
-										<option value="PLATINUM">PLATINUM</option>
+							<td width="350px">${member.grade_name}<br> 
+								<span>
+									<c:choose>
+										<c:when test="${not empty member.payment_total_price}">
+											<fmf:formatNumber value="${member.payment_total_price}" pattern="#,###,###" />
+										</c:when>
+										<c:otherwise>0</c:otherwise>
+									</c:choose>
+								</span> /
+								<span> 
+									<fmf:formatNumber value="${member.grade_max}" pattern="#,###,###" /> 원
+								</span>
+							</td>
+							<td>
+								<select id="gradeSelect">
+									<option selected disabled>현재멤버십 : ${member.grade_name}</option>
+									<option value="BRONZE">BRONZE</option>
+									<option value="SILVER">SILVER</option>
+									<option value="GOLD">GOLD</option>
+									<option value="PLATINUM">PLATINUM</option>
 								</select>
-								<button type="button" class="btn btn-danger" id="gradeChangeBtn" data-toggle="modal" data-target="#memberGradeChange">등급 변경하기</button>
+								<button type="button" 
+										class="btn btn-danger" 
+										id="gradeChangeBtn"
+										data-toggle="modal" 
+										data-target="#memberGradeChange">등급	변경하기</button>
 							</td>
 						</tr>
 						<tr>
@@ -152,31 +159,34 @@ a:hover, a:active{
 			<%-- 버튼 --%>
 			<div class="row d-flex justify-content-center mt-3">
 				<div class="col-3">
-					<button class="w-100 btn btn-outline-red mb-3" type="submit"
-						data-toggle="modal" data-target="#memberTypeChange">삭제</button>
+					<button class="w-100 btn btn-outline-red mb-3" 
+							type="submit"
+							data-toggle="modal" 
+							data-target="#memberTypeChange">삭제</button>
 				</div>
 				<div class="col-3">
-    <button class="w-100 btn btn-outline-red mb-3" type="button" onclick="location.href='admin_member_list?pageNo=${pageNo}&memberSearchType=${memberSearchType}&memberSearchKeyword=${memberSearchKeyword}'">돌아가기</button>
-</div>
+					<button class="w-100 btn btn-outline-red mb-3" 
+							type="button"
+							onclick="location.href='admin_member_list?pageNo=${pageNo}&memberSearchType=${memberSearchType}&memberSearchKeyword=${memberSearchKeyword}'">돌아가기</button>
+				</div>
 			</div>
 		</div>
 
 		<%-- '회원삭제' 모달 --%>
-		<div class="modal fade" id="memberTypeChange" tabindex="-1"
-			role="dialog" aria-labelledby="memberDeleteTitle" aria-hidden="true">
+		<div class="modal fade" id="memberTypeChange" tabindex="-1"	role="dialog" aria-labelledby="memberDeleteTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="memberDeleteTitle">회원 삭제확인</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">회원 정보를 삭제 하시겠습니까?</div>
 					<div class="modal-footer justify-content-center">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">아니오</button>
+						<button type="button" 
+								class="btn btn-secondary"
+								data-dismiss="modal">아니오</button>
 						<!-- 0619 정의효 회원삭제 -->
 						<form action="admin_memberDelete" method="post">
 							<input type="hidden" name="member_id" value="${member.member_id}">
@@ -188,26 +198,23 @@ a:hover, a:active{
 		</div>
 
 		<%-- '회원상태변경' 모달 --%>
-		<div class="modal fade" id="memberStatusChange" tabindex="-1"
-			role="dialog" aria-labelledby="memberStatusChangeTitle"
-			aria-hidden="true">
+		<div class="modal fade" id="memberStatusChange" tabindex="-1" role="dialog" aria-labelledby="memberStatusChangeTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="memberStatusChangeTitle">회원 상태변경 확인</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">회원 상태를 변경하시겠습니까??</div>
 					<div class="modal-footer justify-content-center">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">아니오</button>
+						<button type="button" 
+								class="btn btn-secondary"	
+								data-dismiss="modal">아니오</button>
 						<form action="admin_changeMemberStatus" method="post">
 							<input type="hidden" name="member_id" value="${member.member_id}">
-							<input type="hidden" name="member_status"
-								value="${member.member_status}">
+							<input type="hidden" name="member_status" value="${member.member_status}">
 							<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
 						</form>
 					</div>
@@ -215,28 +222,22 @@ a:hover, a:active{
 			</div>
 		</div>
 
-
 		<script>
-		$('#statusChangeBtn').on('click', function() {
-		    const selectedStatus = $('#statusSelect').val();
-
-		    if (selectedStatus === null || selectedStatus === "회원 상태 선택") {
-		      alert("회원 상태를 선택해주세요.");
-		      return false; // 차단 시도 추가
-		    } else {
-		      $('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
-		      $('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
-		    }
-		});
-</script>
-
-
+			$('#statusChangeBtn').on('click', function() {
+				const selectedStatus = $('#statusSelect').val();
+				if (selectedStatus === null	|| selectedStatus === "회원 상태 선택") {
+					alert("회원 상태를 선택해주세요.");
+					return false; // 차단 시도 추가
+				} else {
+					$('#memberStatusChange .modal-footer form input[name="member_status"]').val(selectedStatus);
+					$('#memberStatusChange').modal('show'); // 모달 창을 여기에서만 표시하도록 함
+				}
+			});
+		</script>
 		<%-- '회원상태변경' 모달  끝--%>
-		
+
 		<%-- '회원등급변경' 모달 --%>
-		<div class="modal fade" id="memberGradeChange" tabindex="-1"
-			role="dialog" aria-labelledby="memberGradeChangeTitle"
-			aria-hidden="true">
+		<div class="modal fade" id="memberGradeChange" tabindex="-1" role="dialog" aria-labelledby="memberGradeChangeTitle"	aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -247,36 +248,31 @@ a:hover, a:active{
 					</div>
 					<div class="modal-body">회원 상태를 변경하시겠습니까??</div>
 					<div class="modal-footer justify-content-center">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">아니오</button>
+						<button type="button" class="btn btn-secondary"	data-dismiss="modal">아니오</button>
 						<form action="admin_changeMemberGrade" method="post">
 							<input type="hidden" name="member_id" value="${member.member_id}">
 							<input type="hidden" name="grade_name" value="${member.grade_name}">
-							<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+							<button type="submit" 
+									class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 
-
 		<script>
-		$('#gradeChangeBtn').on('click', function() {
-		    const selectedGrade = $('#gradeSelect').val();
-
-		    if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
-		      alert("변경할 등급을 선택해주세요.");
-		      return false; // 차단 시도 추가
-		    } else {
-		      $('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
-		      $('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함
-		    }
-		});
+			$('#gradeChangeBtn').on('click', function() {
+				const selectedGrade = $('#gradeSelect').val();
+				if (selectedGrade === null || selectedGrade === "현재멤버십 : ${member.grade_name}") {
+					alert("변경할 등급을 선택해주세요.");
+					return false; // 차단 시도 추가
+				} else {
+					$('#memberGradeChange .modal-footer form input[name="grade_name"]').val(selectedGrade);
+					$('#memberGradeChange').modal('show'); // 추가된 line: 모달 창을 여기에서만 표시하도록 함
+				}
+			});
 		</script>
-
 		<%-- '회원등급변경' 모달  끝--%>
-
-
 		<%-- 본문 테이블 끝 --%>
 	</article>
 
@@ -287,5 +283,7 @@ a:hover, a:active{
 
 	<%--페이지 하단 --%>
 	<div id="siteAds"></div>
-	<footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
+	<footer id="pageFooter">
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
 </body>
