@@ -218,9 +218,7 @@ function reservation_ing(){
 	               		</div>
 	               		
 	               		
-					<div id="beforeBtnArea">	<%-- 영역왼쪽하단에 위치시키고 싶음 --%>
-						<button onclick="history.back()" class="btn btn-secondary"> &lt; 이전</button>
-					</div>
+					
 	               </div>
 	               
 	               <%-- 주문 정보 확인 파트 --%>
@@ -258,6 +256,9 @@ function reservation_ing(){
 	           
 	           <%-- 선택사항 안내 구간, 다음으로 넘어가기 --%>
 	           <div class="row row2">
+	           <div class="col-1 p-2">
+				<button class="btn btn-secondary" onclick="history.back()"> &lt; 이전</button>
+			</div>
 	           	<%-- 선택한 영화 포스터와 영화명 노출 --%>
 	               <div class="col-3.5">
 					<h5>선택 정보</h5>

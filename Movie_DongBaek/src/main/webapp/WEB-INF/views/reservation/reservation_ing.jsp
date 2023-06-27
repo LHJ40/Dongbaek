@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!doctype html>
 <head>
 
@@ -102,8 +104,40 @@ article {
 <script type="text/javascript">
 	
  	$(function() {
- 		
- 		$("#check_module").click(function () {
+ 	
+ 	$("#check_module").click(function () {
+ 		$.ajax({//예약된 좌석이면 결제 불가
+ 				type : "post", 
+ 				url : "SelectPeople", 
+ 				data : {"play_num" : ${param.play_num}},
+ 				dataType : "json", 
+ 			})
+ 			.done(function(orderTicketList) {
+ 				
+ 			   let seatNumList = new Array();
+ 			    <c:forEach items="${seatNumList}" var="item">        
+ 			    	seatNumList.push(${item});
+ 			    </c:forEach>
+ 			    
+ 			    for(let i = 0; i <orderTicketList.length; i++) {
+ 					for(let j = 0; j < seatNumList.length; j++){
+ 						
+ 						if(orderTicketList[i].seat_num == seatNumList[j]){
+ 							alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+ 							location.replace("reservation_seat?play_num=${param.play_num}");
+ 							
+ 						}
+ 					}
+ 				}
+ 			    
+ 			})
+ 			.fail(function() { // 요청 실패 시
+ 				alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+				location.replace("reservation_seat?play_num=${param.play_num}");
+ 			});
+ 			
+ 			
+ 				
  	        var IMP = window.IMP; // 생략가능
  	        IMP.init('imp68416584'); 
  	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -169,7 +203,7 @@ article {
                        "snack_num_param":"${param.snack_num}",
                        "snack_quantity_param":"${param.snack_quantity}",
                        "payment_card_num":rsp.apply_num, //임시
-                       "payment_card_name":"NH"//임시
+                       "payment_card_name":rsp.pay_method//임시
                        },
                        dataType: "json", 
                    })
@@ -192,6 +226,7 @@ article {
  	            }
  	            alert(msg);
  	        });
+ 			
  	    });
 		
  	});
@@ -396,7 +431,7 @@ article {
 	                </div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
 	                <div class="col-3">
-			  			<button class="btn btn-secondary btn-lg" id="nextBtn" onclick=""> 돌아가기 </button>
+			  			<button class="btn btn-secondary btn-lg" id="nextBtn" onclick="history.back()"> 돌아가기 </button>
 			  			<button class="btn btn-danger btn-lg" id="check_module" onclick=""> 결제하기 </button>
 	                </div>
 	            </div>

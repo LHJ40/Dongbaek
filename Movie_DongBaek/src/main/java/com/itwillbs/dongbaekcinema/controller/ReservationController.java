@@ -270,6 +270,14 @@ public class ReservationController {
 			   model.addAttribute("snackNumlist", snackNumlist);
 			   model.addAttribute("snackquantitylist", snackquantitylist);
 		   }
+		   
+		   List<Integer> seatNumList=new ArrayList<Integer>();
+	       String seatlist[] =seat_name.split(",");
+	        for(String seat : seatlist) {
+	        	int seatnum=service.getSeatNumListByName(seat);
+	        	seatNumList.add(seatnum);
+	        }
+	        model.addAttribute("seatNumList", seatNumList); 
 			   
 		int beforeTotalprice=ticketTotalPrice+snackTotalPrice;
 		model.addAttribute("beforeTotalprice", beforeTotalprice);  
