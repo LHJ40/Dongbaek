@@ -46,8 +46,8 @@ public class MovieService {
 	}
 		
 	// 현재상영작 전체 글 목록 갯수 조회 요청 - 검색X
-	public int getMovieListCount() {
-		return mapper.selectMovieListCounting();
+	public int getMovieListCounting(String movieSearchKeyword) {
+		return mapper.selectMovieListCounting(movieSearchKeyword);
 	}
 	
 	

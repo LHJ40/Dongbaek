@@ -34,7 +34,7 @@ public class MovieController {
 		
 		//페이징 계산작업
 		//1.전체게시물 수 조회 작업 요청-검색X
-		int listCount = service.getMovieListCount(movieSearchKeyword);
+		int listCount = service.getMovieListCounting(movieSearchKeyword);
 		int pageListLimit = 2; //2.페이지번호개수
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
@@ -60,7 +60,9 @@ public class MovieController {
 	//영화목록-현재상영작 평점순셀렉트박스 선택시
 	@ResponseBody
 	@GetMapping("movie_list_present2")
-	public List<MovieVO> movie_list_present2(Model model,@RequestParam(defaultValue="1") int pageNum) {
+	public List<MovieVO> movie_list_present2(Model model,
+			@RequestParam(defaultValue="1") int pageNum,
+			@RequestParam(defaultValue="") String movieSearchKeyword) {
 		System.out.println("movie_list_present2");
 		
 		//페이징처리 변수선언
@@ -69,7 +71,7 @@ public class MovieController {
 		
 		//페이징 계산작업
 		//1.전체게시물 수 조회 작업 요청-검색X
-		int listCount = service.getMovieListCount();
+		int listCount = service.getMovieListCounting(movieSearchKeyword);
 		int pageListLimit = 2; //2.페이지번호개수
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
@@ -102,7 +104,7 @@ public class MovieController {
 			
 			//페이징 계산작업
 			//1.전체게시물 수 조회 작업 요청-검색X
-			int listCount = service.getMovieListCount();
+			int listCount = service.getMovieListCounting(movieSearchKeyword);
 			int pageListLimit = 2; //2.페이지번호개수
 			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 			int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
@@ -158,11 +160,12 @@ public class MovieController {
 		
 		
 		//상영예정작 
-		//영화목록-현재상영작 가나다순 셀렉트박스 선택시
+		//영화목록-상영예정작 가나다순 셀렉트박스 선택시
 		@ResponseBody
 		@GetMapping("movie_list_prepareNameDESC")
 		public List<MovieVO> movie_list_prepareNameDESC(Model model,
-										@RequestParam(defaultValue="1") int pageNum) {
+										@RequestParam(defaultValue="1") int pageNum
+										) {
 			System.out.println("movie_list_prepareNameDESC");
 			
 			
