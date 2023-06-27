@@ -53,10 +53,10 @@
 	<section id="movie-end" style="padding: 50px; padding-right: 80px">
 		<div class="p-3">
 			<div class="row" style="padding:20px">
-				<div> ${movie.movie_director} </div> &nbsp;|&nbsp;
-			  	<div>${movie.movie_genre }</div> &nbsp;|&nbsp;
-			  	<div>${movie.movie_running_time }</div> &nbsp;|&nbsp;
-			  	<div>${movie.movie_grade }</div> &nbsp;|&nbsp;
+				<div> ${movie.movie_director} </div> &nbsp;<b>|</b>&nbsp;
+			  	<div>${movie.movie_genre }</div> &nbsp;<b>|</b>&nbsp;
+			  	<div>${movie.movie_running_time }</div> &nbsp;<b>|</b>&nbsp;
+			  	<div>${movie.movie_grade }</div> &nbsp;<b>|</b>&nbsp;
 			  	<div>${movie.movie_release_date }</div>
 		  	</div>
 		 		<div class="row" style="padding:20px">
