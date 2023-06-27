@@ -62,7 +62,8 @@
          , #{listLimit}
    </select>
 	
-	<!-- 전체 글 목록 갯수 조회 (페이징처리)-->
+	<!-- 전체 글 목록 갯수 조회 (페이징처리)
+	++ 검색기능추가로 if절추가-->
 	<select id="selectMovieListCounting" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -71,6 +72,10 @@
 		WHERE 
          now() &gt;= movie_release_date  
          AND movie_close_date &gt;= now() 
+      <if test="!movieSearchKeyword.equals('')">
+         AND
+         movie_name_kr LIKE '%${movieSearchKeyword}%'
+      </if>
 	</select>
 	
 	
@@ -184,12 +189,12 @@
 	</resultMap>	
 	
 <!-- 영화당 리뷰 불러오기 ==> movieDetail.jsp -->
-<!-- 영화당 리뷰개수(COUNT) 불러오기 -->
+<!-- 멤버아이디 2번째문자열부터 3개 문자 ***대체 => 아이디가리기 -->
 <select id="selectReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
 	SELECT  
 		review_date
-		,review_content
-		, member_id
+		, review_content
+		, INSERT(member_id, 2, 3, '***') as member_id 
 	FROM 
 		REVIEWS
 	WHERE
@@ -198,7 +203,7 @@
 		movie_num	
 		, review_content
 		, member_id
-		,review_date
+		, review_date
 	ORDER BY
 		review_date DESC
 	LIMIT 1
@@ -222,7 +227,7 @@
 <select id="selectReviewCounting" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
 	SELECT
 		movie_num
-		,COUNT(review_num) as 'review_count'
+		,IFNULL(COUNT(review_num),0) as 'review_count'
 	FROM 
 		REVIEWS
 	WHERE 
@@ -243,8 +248,15 @@
 
 	
 <!-- 리뷰 목록 조회 - 최신순정렬 -->
+<!-- 멤버아이디 2번째문자열부터 3개 문자 ***대체 => 아이디가리기 -->
 <select id="selectReviewList" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
-	SELECT *
+	SELECT 
+		review_num, 
+		review_rating, 
+		INSERT(member_id, 2, 3, '***') as member_id, 
+		review_content, 
+		review_date, 
+		movie_num
 	FROM 
 		REVIEWS
 	WHERE 

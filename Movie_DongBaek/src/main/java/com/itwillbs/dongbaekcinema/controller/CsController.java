@@ -98,7 +98,7 @@ public class CsController {
 		// 이클립스 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request나 session 객체필요)
 		String uploadDir = "/resources/upload";	// 현재 폴더상 경로
 		String saveDir = request.getServletContext().getRealPath(uploadDir);  // 실제 경로
-//		System.out.println(saveDir);
+		System.out.println(saveDir);
 		// (지영) - 서버상 경로 알아두기
 		
 		String subDir = ""; // 서브디렉토리(업로드 날짜에 따라 디렉토리 구분하기)
@@ -107,8 +107,8 @@ public class CsController {
 			Date date = new Date();	// 1. Date 객체 생성
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");	// 날짜 형식 포맷 지정(/로 디렉토리 구분)
 			// 실제 업로드 경로에 날짜 경로 결합
-			subDir = "/" + sdf.format(date);	// 날짜 디렉토리
-			saveDir += subDir;					// 실제 경로 + 날짜 경로
+			subDir = sdf.format(date);	// 날짜 디렉토리
+			saveDir += "/" + subDir;					// 실제 경로 + 날짜 경로
 			
 			// 실제 경로를 관리하는 객체 리턴받기(파라미터 : 
 			Path path = Paths.get(saveDir);
@@ -126,13 +126,18 @@ public class CsController {
 		
 		// 파일명 중복 방지 처리 - 랜덤ID(8글자) 붙이기 (ex.랜덤ID_파일명.확장자)
 		String uuid = UUID.randomUUID().toString().substring(0, 8);
-		board.setCs_file_real(""); 	// 파일명이 없을 때를 대비하여 기본 파일명 "" 처리
+		
+		// 파일명이 없을 때를 대비하여 기본 파일명 "" 처리
+		board.setCs_file_real(""); 	
+		
+		// 파일명을 저장할 변수 선언
+		String fileName = uuid + "_" + mFile.getOriginalFilename();
 		
 		if(!mFile.getOriginalFilename().equals("")) {	// 파일이 있을 경우
 			// 실제 이름을 (날짜디렉토리/uuid_실제받은파일명.확장자) 로 저장
-			board.setCs_file_real(subDir + "/" + uuid + "_" + mFile.getOriginalFilename());
+			board.setCs_file_real(subDir + "/" + fileName);
 		}
-//		System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
+		System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
 		
 		// ======================================== 파일 처리 끝 ========================================
 		
@@ -143,6 +148,25 @@ public class CsController {
 		if(insertCount == 0) {	// DB에 등록 실패 시
 			model.addAttribute("msg", "1:1 문의 등록 실패!");
 			return "fail_back";
+		} else { // 성공 시
+			
+			try {
+				// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장되어 있으며
+				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리로 이동 작업 필요
+				// MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(업로드)
+				// => 비어있는 파일은 이동할 수 없으므로(= 예외 발생) 제외
+				// => File 객체 생성 시 지정한 디렉토리에 지정한 이름으로 파일이 이동(생성)함
+				//		따라서, 이동할 위치의 파일명도 UUID가 결합된 파일명을 지정해야한다!
+				if(!mFile.getOriginalFilename().equals("")) {
+					// 원래 파일이름은 mFile인데 saveDir 디렉토리에 fileName을 넣어라
+					mFile.transferTo(new File(saveDir, fileName));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		// cs main으로 이동

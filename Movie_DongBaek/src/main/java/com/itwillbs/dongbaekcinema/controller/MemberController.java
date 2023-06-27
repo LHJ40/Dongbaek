@@ -76,7 +76,15 @@ public class MemberController {
 	}
 	
 	@GetMapping("member_join_step4")
-	public String member_join_step4() {
+	public String member_join_step4(HttpSession session, Model model) {
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+					
+			return "fail_location";
+		}
 		return "member_join_step4";
 	}
 	
@@ -264,7 +272,16 @@ public class MemberController {
 	
 	// 메인화면에서 회원가입 화면 1페이지로 이동
 	@GetMapping("member_join_step1")
-	public String member_join_step1() {
+	public String member_join_step1(HttpSession session, Model model) {
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			
+			return "fail_location";
+		}
+		
 		return "member/member_join_step1";
 	}
 	
@@ -285,9 +302,19 @@ public class MemberController {
 		return "member/member_join_step2";
 	}
 	
+	
 	// 회원정보(member_phone, member_email, member_birth 등)을 가지고 정보입력(step3)로 이동
 	@RequestMapping(value = "/member_join_step3", method = {RequestMethod.GET, RequestMethod.POST})
-	public String member_join_step3(MemberVO member, Model model) {
+	public String member_join_step3(MemberVO member, Model model, HttpSession session) {
+		// 세션 아이디가 있을 경우" 접근 막기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+							
+			return "fail_location";
+		}
+		
 		System.out.println(member);
 		
 		model.addAttribute("member", member);

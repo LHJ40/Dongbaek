@@ -21,6 +21,29 @@
 }
 a:link,a:visited { color:gray; }
 
+.movieDiv {
+	position: relative;
+}
+.movieDiv img {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+			 rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.85));
+}
+.movieRank {
+	position: absolute;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	bottom: -20px;
+	left: 10px;
+	font-size: 60px;
+	font-style: italic;
+	color: #eee;
+}
+
+.searchArea {
+	margin: 25px auto 20px auto;
+}
+
+/* 찜하기 관련 */
 #needLogin, #needLogin>div {
 	background-color: #ffffff00;
 }
@@ -149,9 +172,12 @@ a:link,a:visited { color:gray; }
 		<c:forEach var="movie" items="${movieList}" varStatus="i">
 			<div class="col-3">
 				<div class="card border-0 shadow-sm">
-					<a href="movie_detail_info?movie_num=${movie.movie_num}">
-						<img src="${movie.movie_poster}" class="card-img-top" alt="...">
-					</a>
+					<div class="movieDiv">
+						<a href="movie_detail_info?movie_num=${movie.movie_num}">
+							<img src="${movie.movie_poster}" class="card-img-top" alt="...">
+							<span class="movieRank">${i.count}</span>
+						</a>
+					</div>
 					<div class="card-body">
 						<h6 class="card-title"><b> ${movie.movie_name_kr}</b></h6>
 						<p class="card-text">
@@ -256,11 +282,25 @@ a:link,a:visited { color:gray; }
 	      </div>
 	      <div class="modal-body text-center" id="modalMsg">
 	      <%-- 메세지가 표시되는 부분 --%>
-	      회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+	      <c:choose>
+		      <c:when test="${member_type eq '비회원'}">
+		      	회원 로그인이 필요한 작업입니다.
+		      </c:when>
+		      <c:otherwise>
+		      	회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+		      </c:otherwise>
+	      </c:choose>
 	      </div>
 	      <div class="modal-footer justify-content-center">
-	        <button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+	      	<c:choose>
+	      		<c:when test="${empty sessionScope.member_id}">
+		        	<button type="button" class="btn btn-danger" onclick="location.href='member_login_form'">로그인</button>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">아니오</button>
+		        </c:when>
+		        <c:otherwise>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">확인</button>
+		        </c:otherwise>
+	      	</c:choose>
 	      </div>
 	    </div>
 	  </div>
@@ -271,10 +311,10 @@ a:link,a:visited { color:gray; }
 		
 		<%--    <%-- 영화검색창(if로 현재상영작, 상영예정작 구분해서 보내기 --%> 
 	    <%-- 현재상영작 내 --%> 
-	   <div class="row">
+	   <div class="row searchArea">
 	      <form class="form-inline my-2 my-lg-0" action="movie_list_present" id="movieSearchKeyword" name="movieSearchKeyword" method="get" >
 	          <input class="form-control mr-sm-2" type="text"
-	                           placeholder="Search" aria-label="Search" 
+	                           placeholder="영화명을 입력해주세요" aria-label="Search" 
 	                           name="movieSearchKeyword"
 	                           value="${not empty param.movieSearchKeyword ? param.movieSearchKeyword : ''}">
 	            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="location.href='movie_list_present?movieSearchKeyword=${param.movieSearchKeyword}'">Search</button>
@@ -282,7 +322,6 @@ a:link,a:visited { color:gray; }
 	       
 		 <%-- 상영예정작 내 --%>    
 	     
-	       
 	    </div>
 		<%--     영화검색창 끝 --%>
 	    

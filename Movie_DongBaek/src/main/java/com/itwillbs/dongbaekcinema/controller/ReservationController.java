@@ -150,15 +150,17 @@ public class ReservationController {
 	// reservation_seat 요청에 의해 "reservation_seat.jsp" 페이지로 포워딩
 	// 포워딩 시 상영번호에 해당하는 상영정보를 [선택정보] 영역에 출력
 	@RequestMapping(value = "reservation_seat", method= {RequestMethod.GET, RequestMethod.POST})
-	public String reservation_seat(@RequestParam int play_num, Model model, HttpSession session) {
+	public String reservation_seat(@RequestParam(defaultValue = "0") int play_num, Model model, HttpSession session) {
 		System.out.println("ReservationController - Play()");
 		System.out.println(play_num);
 		
 		// 세션 아이디가 존재하지 않으면(미로그인) "잘못된 접근입니다!"출력 후 이전 페이지로 돌아가기 처리
 		String member_id = (String) session.getAttribute("member_id");
-		if(member_id == null) {
-			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("targetURL", "member_login_form");
+		if(member_id == null || play_num == 0) {
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			model.addAttribute("targetURL", "./");
+//			model.addAttribute("msg", " 로그인이 필요합니다!");
+//			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
