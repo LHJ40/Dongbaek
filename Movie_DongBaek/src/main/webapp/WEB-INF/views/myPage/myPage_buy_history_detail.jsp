@@ -40,6 +40,10 @@
 		font-size: 0.8em;
 	}
 	
+	.row>button{
+		margin-left: 10px;
+	}
+	
 </style>
 <script type="text/javascript">
 	
@@ -107,7 +111,6 @@
   		<div class="mainTop">
 			<h2>나의 구매 내역</h2>
 			<br>
-				<hr>
 				<%-- 상세보기 테이블 --%>
 		  	<div class="row">
 				<table class="table table-bordered text-center">
@@ -130,7 +133,7 @@
 							    	<th>주문 내역</th>
 							    		<td>
 							    			<c:choose>
-									    		<c:when test="${snack.snack_quantity eq 0}">
+									    		<c:when test="${empty snack.snack_quantity}">
 									    			<span id="nothing">스토어 주문내역 없음</span>
 									    		</c:when>
 									    		<c:otherwise>
@@ -172,7 +175,7 @@
 			<%-- 버튼 --%>
 			<div class="row d-flex justify-content-center">
 				<%-- 결제취소버튼 --%>
-				<button class="btn btn-outline-red" type="button" id="cancleCk" data-toggle="modal" data-target="#cancleCheck">결제취소</button>
+				<button class="btn btn-red" type="button" id="cancleCk" data-toggle="modal" data-target="#cancleCheck">결제취소</button>
 <!-- 				<button class="btn btn-outline-red" type="button" id="cancleCk" >결제취소</button> -->
 				<button class="btn btn-secondary" type="button" onclick="history.back()">뒤로가기</button>
 			</div>

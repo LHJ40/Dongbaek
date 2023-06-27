@@ -177,11 +177,11 @@ div {
 			let member_phone = $("#phone").val();
 			let member_pass = $("#passwd").val();
 			
-			alert(nameck);
-			alert(birthck);
-			alert(phoneck);
-			alert(passwdck);
-			alert(passwdck2);
+// 			alert(nameck);
+// 			alert(birthck);
+// 			alert(phoneck);
+// 			alert(passwdck);
+// 			alert(passwdck2);
 			
 			// 동의 버튼 클릭, 정상적으로 입력값 입력 시
 			// 입력정보 안내와 로그인 확인버튼 보이게 하기
@@ -514,9 +514,9 @@ div {
 	
   </article>
   
-  <nav id="mainNav" class="d-none d-md-block sidebar">
+<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
   	<%-- 사이드바(최대 width:200px, 최소 width:150px, 전체 화면 사이즈 middle 이하되면 사라짐) --%>
-  </nav>
+<!--   </nav> -->
   
   <div id="siteAds"></div>
   <%--페이지 하단 --%>

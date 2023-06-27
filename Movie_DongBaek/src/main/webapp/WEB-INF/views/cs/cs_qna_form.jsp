@@ -147,10 +147,8 @@
 	    		내용<em style="color: #EB323A;">*</em>
 	    	</th>
 	    	<td>
-	    		<textarea rows="5" cols="50" name="cs_content" required="required"
-	    			placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다. - 
-	    					-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다.">
-	    		</textarea>
+	    		<textarea rows="5" cols="70" name="cs_content" required="required"
+	    			placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다.&#13;&#10;-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다."></textarea>
     		</td>
   		</tr>
   		<tr>
