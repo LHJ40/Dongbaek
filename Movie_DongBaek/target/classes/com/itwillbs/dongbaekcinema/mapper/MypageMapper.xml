@@ -47,13 +47,63 @@
  			FROM CS
  			WHERE member_id = #{member_id}
   </select>
-
-  <!--  비밀번호  -->
-  <select id="selectMyPasswd" resultType="String">
-  		SELECT member_pass
-  			FROM MEMBERS
-  			WHERE member_id = #{member_id}
+  
+   <!-- 나의 문의 내역 조회 : 게시판 -->
+  <select id="selectMyInqList" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
+  		SELECT *
+ 			FROM CS
+ 			WHERE member_id = #{member_id}
   </select>
+  
+    <!-- 나의 문의 내역 상세 조회-->
+	  <select id="selectMyInquiryDetail" resultType="com.itwillbs.dongbaekcinema.voNew.CsInfoVO">
+	<!--   <select id="selectMyInquiryDetail" resultType="com.itwillbs.dongbaekcinema.vo.CsInfoVO"> -->
+	  		SELECT 
+	 			cs_num
+	 			, cs_subject
+	 			, cs_content
+	 			, cs_date
+	 			, cs_type
+	 			, cs_file
+	 			, cs_file_real
+	 			, cs_phone
+	 			, cs_reply
+	 			, m.member_id
+	 			, member_email
+	 		FROM CS c
+			JOIN MEMBERS m ON c.member_id = m.member_id
+			WHERE cs_num = #{cs_num}
+	  </select>
+
+	<!--  나의 문의 내역 수정 -->
+	<update id="updateMyInqList">
+		UPDATE
+			CS
+			SET 
+  				cs_content = #{cs_content}
+				<if test="cs_file_real neq ''">
+  					, cs_file_real = #{cs_file_real}
+  				</if>
+  			WHERE cs_num = #{cs_num}
+	</update>
+
+	<!-- 나의 문의 내역 1:1 문의 글 삭제 -->
+	<delete id="deleteMyInq">
+		DELETE 
+			FROM
+				CS
+			WHERE 
+				cs_num = #{cs_num} 
+	</delete>
+
+	<!--  비밀번호  -->
+	<select id="selectMyPasswd" resultType="String">
+			SELECT member_pass
+	  			FROM MEMBERS
+	  			WHERE member_id = #{member_id}
+	</select>
+	  
+	  
 
   <!-- 나의 회원정보 수정  -->
   <!-- 변경 가능 항목 : 비밀번호, 휴대폰, 이메일, 좋아하는 장르 -->
@@ -86,18 +136,26 @@
 	</update>
   
 	<!-- 나의 리뷰 조회하기 -->
-	<select id="selectMyReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
-		SELECT
-			review_num
-			, review_rating
-			, review_content
-			, review_date
-			, R.movie_num
-			, M.movie_name_kr
-			FROM REVIEWS R
-			JOIN MOVIES M ON R.movie_num = M.movie_num
-			WHERE member_id = #{member_id}
-			LIMIT 5
+	<select id="selectMyReviewList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+		SELECT DISTINCT
+				omt.member_id
+				, movie_name_kr
+				, play_date
+				, play_status
+				, play_change
+				, review_rating
+				, review_date
+				, review_content
+			FROM
+				ORDER_MY_TICKET omt
+			JOIN
+				REVIEWS r ON omt.member_id = r.member_id
+			WHERE omt.member_id = #{member_id}
+			<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
+				LIMIT 
+					#{startRow}
+					, #{listLimit}
+			</if>
 	</select>
   
 </mapper>

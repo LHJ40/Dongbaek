@@ -32,7 +32,7 @@ a:hover, a:active{
 				 	
 				 	<%-- 영화 제목 --%>
 					<div class="row mb-3">
-		              <label for="id" class="col-2 text-nowrap">이름</label>
+		              <label for="id" class="col-2 text-nowrap"> 영화 이름</label>
 		              <div class="col-10">
 		              		<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  <%--디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>
 		              </div>
