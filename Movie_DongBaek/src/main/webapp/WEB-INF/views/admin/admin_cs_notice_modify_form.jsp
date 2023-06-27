@@ -82,7 +82,7 @@ $(function() {
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">제목</td>
-                            <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value="${csInfo.cs_subject }"></td>
+                            <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" id="cs_subject" value="${csInfo.cs_subject }"></td>
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">작성자</td>
@@ -90,7 +90,7 @@ $(function() {
                         </tr>
                         <tr>
                             <td scope="col" class="align-middle" width="100">내용</td>
-                            <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content">${csInfo.cs_content }</textarea></td>
+                            <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content" id="cs_content">${csInfo.cs_content }</textarea></td>
                         </tr>
                         <tr>
                         	<td scope="col" class="align-middle" width="100">사진첨부(이전)</td>

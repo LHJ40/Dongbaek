@@ -341,7 +341,7 @@
 					#{csInfo.cs_subject}
 					, #{csInfo.cs_content}
 					, #{csInfo.cs_type}
-					, now()
+					, SYSDATE()
 					, #{csInfo.member_id}
 					, #{csInfo.cs_type_list_num} + 1
 					, #{csInfo.cs_file})
@@ -356,10 +356,12 @@
 				, cs_subject = #{csInfo.cs_subject}
 				, member_id = #{csInfo.member_id}
 				, cs_content = #{csInfo.cs_content}
-				<if test="cs_file != ''"> 
-					, cs_file = #{qnaInfo.cs_file}
+				<if test="csInfo.cs_file != null and csInfo.cs_file != ''">
+					, cs_file = #{csInfo.cs_file}
 				</if>
-				, cs_file = #{csInfo.cs_file}
+<!-- 				<if test="#{csInfo.file1} != ''">  -->
+<!-- 					, cs_file = #{csInfo.cs_file} -->
+<!-- 				</if> -->
     		 WHERE
     		 	cs_type IN(${condition})
     		 	AND cs_type_list_num = #{csInfo.cs_type_list_num}
@@ -379,6 +381,7 @@
 		UPDATE 
 			CS
 			SET cs_reply = #{qnaInfo.cs_reply}
+				cs_type = #{qnaInfo.cs_type}
     		 	WHERE 
     		 		cs_type IN(${condition})
     		 		AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
