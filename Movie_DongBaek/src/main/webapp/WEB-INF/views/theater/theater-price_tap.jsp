@@ -109,7 +109,7 @@
 	</div>
 <%--컨텐츠 섹션 끝 ------------------------------------------------------------------------------------- --%>
 </section>
- <nav id="mainNav">
+ <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   <div id=left-margin></div>
   </nav>

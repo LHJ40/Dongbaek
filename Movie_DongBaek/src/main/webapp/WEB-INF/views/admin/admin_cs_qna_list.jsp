@@ -202,7 +202,7 @@ a:hover, a:active{
     
   </article>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   	<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
   </nav>
