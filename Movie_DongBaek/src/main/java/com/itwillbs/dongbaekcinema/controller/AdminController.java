@@ -317,8 +317,8 @@ public class AdminController {
 		
 		// 상영날짜가 이전일 경우 등록 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(playDate.isBefore(LocalDate.now()) ) {
-			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 등록가능합니다");
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재 날짜 보다 미래인 경우에만 등록가능합니다");
 			return jsonObject.toString();
 		}
 
@@ -442,8 +442,8 @@ public class AdminController {
 
 		// 상영날짜가 오늘보다 이전일 경우 변경 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(playDate.isBefore(LocalDate.now()) ) {
-			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 변경가능합니다");
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재 날짜 보다 미래인 경우에만 변경가능합니다");
 			return jsonObject.toString();
 		}
 
@@ -456,7 +456,7 @@ public class AdminController {
 	    	
 	    	if( scheduelCount == 0) { // 기존 상영 스케줄이 존재하지 않는 경우
 	    		
-	    		jsonObject.put("result", "등록된 스케줄이 없습니다 등록버튼을 클릭해 주세요");
+	    		jsonObject.put("result", "등록된 스케줄이 없습니다 등록 버튼을 클릭해 주세요");
 	    		return jsonObject.toString();
 	    	
 	    	} else { //기존 상영 스케줄이 존재할 경우
@@ -536,10 +536,10 @@ public class AdminController {
 		                
 		                if(updateCount > 0) {
 //		                	System.out.println("상영회차 변경:" + updateCount + "개");
-		                	jsonObject.put("result", "상영 회차가 변경되었습니다 조회버튼을 눌러주세요");	                	
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다 조회 버튼을 눌러주세요");	                	
 		                } else { // 기존 회차가 존재하지 않을 경우(ex.4회차까지만 등록되어있는 경우 5회차)
 		                	admin_service.insertSchedule(play_date, theater_num, room_num, movie_num, new_start_turn[i], new_end_turn[i], play_turn, play_time_type[i]);
-		                	jsonObject.put("result", "상영 회차가 변경되었습니다! 조회버튼을 눌러주세요");	                		                	
+		                	jsonObject.put("result", "상영 회차가 변경되었습니다! 조회 버튼을 눌러주세요");	                		                	
 		                }
 		            }
 		            
@@ -574,8 +574,8 @@ public class AdminController {
 
 		// 상영날짜가 오늘보다 이전일 경우 삭제 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(playDate.isBefore(LocalDate.now())  ) {
-			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 삭제가능합니다");
+		if(!playDate.isAfter(LocalDate.now()) ) {
+			jsonObject.put("result", "상영일자는 현재날짜보다 미래일 경우에만 삭제가능합니다");
 			return jsonObject.toString();
 		}
 		
@@ -594,7 +594,7 @@ public class AdminController {
 	    		return jsonObject.toString();
 
 	    	} else { // 기존 상영 스케줄인 없는 경우
-	    		jsonObject.put("result", "삭제할 상영정보가 없습니다 먼저 생성해주세요");
+	    		jsonObject.put("result", "삭제할 상영정보가 없습니다 먼저 등록해주세요");
 	    		return jsonObject.toString();  		
 	    	}
 	    	
@@ -910,10 +910,11 @@ public class AdminController {
 
 		
 //		System.out.println("실제 업로드 파일명1 : " + csInfo.getCs_file());
+		System.out.println("글쓰기 변경시 전달될 정보 : " + csInfo);
 		
 		// -----------------------------------------------------------------------------------
 		// BoardService - registBoard() 메서드를 호출하여 게시물 등록 작업 요청
-		// => 파라미터 : BoardVO 객체    리턴타입 : int(insertCount)
+		// => 파라미터 : csTypeNo,csInfo 객체    리턴타입 : int(updateCount)
 		int updateCount = admin_service.updateCs(csTypeNo, csInfo);
 		
 		

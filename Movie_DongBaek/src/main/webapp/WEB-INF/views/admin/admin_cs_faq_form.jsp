@@ -44,13 +44,23 @@ a:hover, a:active{
 
 $(function() {
     $("#cs_form").submit(function(e) {
-      var csContent = $("#cs_content").val().trim();
+        var csContent = $("#cs_subject").val().trim();
+        
+        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+            e.preventDefault(); // 등록 방지
+            
+            alert("제목을 입력해주세요.");
+        }
+    });
       
-      if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
-          e.preventDefault(); // 등록 방지
-          
-          alert("내용을 입력해주세요.");
-      }
+    $("#cs_form").submit(function(e) {
+        var csContent = $("#cs_content").val().trim();
+        
+        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+            e.preventDefault(); // 등록 방지
+            
+            alert("내용을 입력해주세요.");
+        }
     });
 });
 </script>
@@ -82,7 +92,6 @@ $(function() {
 			      <td scope="col" class="align-middle" width="100">유형</th>
 			      <td scope="col" class="align-middle" width="400">
 				       <select class="form-control" name="cs_type" id="cs_type">
-							<option value="">전체</option>
 							<option value="예매">예매</option>
 							<option value="멤버십">멤버십</option>
 							<option value="결제수단">결제수단</option>

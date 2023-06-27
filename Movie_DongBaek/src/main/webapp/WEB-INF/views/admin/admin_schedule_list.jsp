@@ -44,7 +44,7 @@ div {
 #upBtn {
   position: fixed; 
   right: 50%; 
-  top: 75%; 
+  top: 20%; 
   margin-right: -720px;
   text-align:center;
   width: 60px;
@@ -52,10 +52,39 @@ div {
 #downBtn {
   position: fixed; 
   right: 50%; 
-  top: 80%; 
+  top: 25%; 
   margin-right: -720px;
   text-align:center;
   width: 60px;
+}
+
+
+	
+<%-- 페이징 색상변경 --%>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
+a:hover, a:active{
+ color:  #ff5050 !important;
+	
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -183,7 +212,8 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 			            "play_date": play_date
 			          },
 			          success: function(data) {
-// 			            $(".movieSelect").empty();
+			            $(".movieSelect").empty();
+			            $(".movieSelect").append("<option>변경할 영화명</option>");
 	
 			            $(data).each(function(index, item) {
 			              let option = $("<option>")
@@ -411,38 +441,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 
 
 
-<style>
-div {
-background-color: transparent;
-}
-	
-<%-- 페이징 색상변경 --%>
-.page-link {
-  color: #000; 
-  background-color: #fff;
-  border: 1px solid #ccc; 
-}
 
-.page-item.active .page-link {
- z-index: 1;
- color: #555;
- font-weight:bold;
- background-color: #f1f1f1;
- border-color: #ccc;
- 
-}
-
-.page-link:focus, .page-link:hover {
-  color: #000;
-  background-color: #fafafa; 
-  border-color: #ccc;
-}
-
-a:hover, a:active{
- color:  #ff5050 !important;
-	
-}
-</style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>

@@ -32,13 +32,13 @@
 
 	<!-- 상영날짜 별 선택가능한 영화 목록 조회 -->
 	<select id="findMovieList" resultType="com.itwillbs.dongbaekcinema.vo.MovieVO">
-		SELECT 
+		SELECT
 			movie_num, movie_name_kr
 			FROM 
 				MOVIES
 			WHERE
 				#{play_date} 
-			BETWEEN movie_release_date
+			BETWEEN movie_release_date 
 			AND movie_close_date
 	</select>
 	
@@ -341,7 +341,7 @@
 					#{csInfo.cs_subject}
 					, #{csInfo.cs_content}
 					, #{csInfo.cs_type}
-					, now()
+					, SYSDATE()
 					, #{csInfo.member_id}
 					, #{csInfo.cs_type_list_num} + 1
 					, #{csInfo.cs_file})
@@ -356,7 +356,12 @@
 				, cs_subject = #{csInfo.cs_subject}
 				, member_id = #{csInfo.member_id}
 				, cs_content = #{csInfo.cs_content}
-				, cs_file = #{csInfo.cs_file}
+				<if test="csInfo.cs_file != null and csInfo.cs_file != ''">
+					, cs_file = #{csInfo.cs_file}
+				</if>
+<!-- 				<if test="#{csInfo.file1} != ''">  -->
+<!-- 					, cs_file = #{csInfo.cs_file} -->
+<!-- 				</if> -->
     		 WHERE
     		 	cs_type IN(${condition})
     		 	AND cs_type_list_num = #{csInfo.cs_type_list_num}
@@ -376,9 +381,10 @@
 		UPDATE 
 			CS
 			SET cs_reply = #{qnaInfo.cs_reply}
-    		 WHERE 
-    		 	cs_type IN(${condition})
-    		 	AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
+				cs_type = #{qnaInfo.cs_type}
+    		 	WHERE 
+    		 		cs_type IN(${condition})
+    		 		AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
 	</update>
 	
 	
