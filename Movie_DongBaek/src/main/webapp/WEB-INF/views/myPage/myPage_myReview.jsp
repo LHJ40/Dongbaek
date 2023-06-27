@@ -22,7 +22,7 @@
  
 <article id="mainArticle">
 	<%--본문내용 --%>
-	<div class="container">
+	<div class="container container-fluid w-900">
 	<div class="mainTop">
  		<h1>나의 리뷰</h1>
  		<hr>
@@ -30,14 +30,16 @@
  		
  		<table class="table">
  			<c:choose>
- 				<c:when test="${empty myReviewList}">
+ 				
+<%--  				<c:when test="${myReviewList.play_change }"> --%>
+ 				<c:when test="${empty myReviewList }">
  					<tr>
 						<td>고객님께서 작성하신 리뷰는 존재하지 않습니다.</td>
 					</tr>
  				</c:when>
 	 			<c:otherwise>
 		 			<tr>
-			 			<th>번호</th>
+<!-- 			 			<th>번호</th> -->
 			 			<th>영화 제목</th>
 			 			<th>리뷰 내용</th>
 <!-- 			 			<th>공감 수</th> -->
@@ -49,12 +51,12 @@
 	 				</tr>
 	 				<c:forEach var="myReviewList" items="${myReviewList }" begin="0" end="3" step="1" varStatus="status">
 		 				<tr>
-					 		<td>
-					 			${status.index+1}
-					 		</td> <%-- {param.myreview_num} 최신순이 위로 --%>
+<!-- 					 		<td> -->
+<%-- 					 			${status.index+1} --%>
+<%-- 					 		</td> {param.myreview_num} 최신순이 위로 --%>
 					 		
 					 		<td>
-<%-- 					 		${myReviewList.movie_name_kr } --%>
+					 			${myReviewList.movie_name_kr }
 					 		</td> 
 					 		
 					 		<td>
@@ -62,19 +64,12 @@
 					 			<a href="review_detail">더보기</a><%-- 알림창으로 뜨니까 href 아닌데 현재 생각안남--%>
 					 		</td>
 
-<%-- 					 	<td>
-								공감 수
-							</td> {param.sympathy_num}구현할지안할지 --%>
-					 		
 					 		<td>
 					 			${myReviewList.review_rating }
 					 		</td> <%-- {param.avg_review_point} --%>
 					 		
 					 		<td>
-<%-- 					 			<fmt:formatDate value="${myReviewList.review_date}	" pattern="yy-MM-dd HH:mm" />  --%>
-<%-- 					 			<fmf:formatDate value=" --%>
 					 			${myReviewList.review_date}	
-<%-- 					 			"/>				 			"/> --%>
 					 		</td> <%-- {param.review_datetime} --%>
 					 		
 					 		<c:choose>
@@ -95,12 +90,64 @@
 						 		</c:otherwise>
 					 		</c:choose>
 				 		</tr>
-	 				
 	 				</c:forEach>
 	 			</c:otherwise>	
  			</c:choose>
- 	</table>
-  </div>
+ 		</table>
+ 	 </div>
+  
+  	<%-- 페이징 처리 시작 --%>
+  	<nav aria-label="...">
+		<ul class="pagination pagination-md justify-content-center">
+			<%-- 이전 페이지로 이동 --%>
+			<c:choose>
+			    <c:when test="${pageInfo.startPage > 1}">
+			    	<li class="page-item">
+			    		<a class="page-link" href="myPage_myReview?pageNo=${pageInfo.startPage - 1}" tabindex="-1" aria-disabled="false">&laquo;</a>
+			    	</li>
+			    </c:when>
+			    <c:otherwise>
+			    	<li class="page-item disabled">
+			    		<a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+			   		</li>
+			    </c:otherwise>
+			</c:choose>
+			
+			<%-- 각 페이지 번호마다 하이퍼링크 설정(현재 페이지는 하이퍼링크 제거) --%>
+			<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+				<c:choose>
+					<%-- 현재 페이지 --%>
+					<c:when test="${pageNo eq i}">
+						<li class="page-item active" aria-current="page">
+							<a class="page-link">${i} <span class="sr-only">(current)</span></a>
+						</li>
+					</c:when>
+					
+			    	<%-- 다른 페이지 --%>
+		        	<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href="myPage_myReview?pageNo=${i}">${i}</a>
+						</li>
+					</c:otherwise>
+	       		</c:choose>
+			</c:forEach>
+			
+			<%-- 다음 페이지로 이동 --%>
+			<c:choose>
+				<c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+			    	<li class="page-item">
+			        	<a class="page-link" href="myPage_myReview?pageNo=${pageInfo.endPage + 1}">&raquo;</a>
+			        </li>
+			    </c:when>
+			    <c:otherwise>
+			    	<li class="page-item disabled">
+			        	<a class="page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+			        </li>
+			    </c:otherwise>
+			</c:choose>
+		</ul>
+	</nav>
+			
   </div>
   
   </article>
