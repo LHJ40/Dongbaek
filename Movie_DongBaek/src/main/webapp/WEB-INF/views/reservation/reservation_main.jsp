@@ -268,7 +268,7 @@
 					// 년도 출력
 					res += "<div class='col-12'>" + 
 								"<div class='row'>" + 
-									"<div class='col-12 playYear'>" + year + "년</div>" + \
+									"<div class='col-12 playYear'>" + year + "년</div>" + 
 								"</div>";
 					// 월 출력
 					res += "<div class='month'>" + 
