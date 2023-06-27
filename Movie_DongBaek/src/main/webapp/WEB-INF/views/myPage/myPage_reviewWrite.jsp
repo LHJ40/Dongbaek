@@ -81,12 +81,12 @@ a:hover, a:active{
   	</div>
   </article>
   
-  	<nav id="mainNav">
+  	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%--왼쪽 사이드바 --%>
   		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
   	</nav>
   
-<!--   <nav id="mainNav"> -->
+<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
 <%--   <%--왼쪽 사이드바 --%> --%>
 <!--   <!-- 	왼쪽 탭 링크들 --> -->
 <!--   	<h3>마이페이지</h3> -->

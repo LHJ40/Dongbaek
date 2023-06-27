@@ -173,7 +173,7 @@
 
   </article>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
 	<jsp:include page="/WEB-INF/views/sidebar/sideBar_cs.jsp"></jsp:include>
   </nav>

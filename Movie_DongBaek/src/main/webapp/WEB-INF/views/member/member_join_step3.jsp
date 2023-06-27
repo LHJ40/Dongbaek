@@ -129,7 +129,7 @@ th{
 	
 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
 		
-		if(regex.exec(member_birth)) {
+		if(regex.test(member_birth)) {
 			document.querySelector("#birth_check").innerHTML = "사용 가능한 비밀번호입니다!"
 			document.querySelector("#birth_check").style.color = "green";
 		} else {
