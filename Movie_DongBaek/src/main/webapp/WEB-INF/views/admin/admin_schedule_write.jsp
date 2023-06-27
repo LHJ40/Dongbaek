@@ -152,7 +152,7 @@ admin_schedule.jsp<%@ page language="java" contentType="text/html; charset=UTF-8
   	</div>
   </article>
   
-  <nav id="mainNav">
+  <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   </nav>
   
