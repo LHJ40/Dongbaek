@@ -61,11 +61,11 @@ div {
 	});
 	
 	// 확인 버튼 클릭 시 확인완료로 value 변경
-	$(function() {
-		$("#phoneChk2").on("click", function() {
-			$("#phoneChk2").attr("value", "확인완료");			
-		});
-	});
+// 	$(function() {
+// 		$("#phoneChk2").on("click", function() {
+// 			$("#phoneChk2").attr("value", "");			
+// 		});
+// 	});
 	
 	// ------[입력값 유효성 검사] --------------------
 	// 이름 체크
@@ -73,7 +73,8 @@ div {
 		let getName = RegExp(/^[A-Za-z가-힣]{2,15}$/);
 		 
 		if (!getName.test(value)) {
-			$("#namefeedback").text("이름을 입력해주세요.");
+			$("#namefeedback").text("올바른 이름을 입력해주세요.");
+			$("#namecheck").attr("disabled", false);
 			$(this).focus();
 		} else {
 			$("#namecheck").attr("disabled", true);
@@ -87,11 +88,12 @@ div {
 		
 		if(!getBirth.test(value)) {
 			$("#birthfeedback").text("생년월일 8자를 입력해주세요.");
+			$("#birthcheck").attr("disabled", false);
 			$(this).focus();
 		} else {
 // 			alert(value);
-			$("#birthcheck").attr("disabled", true);
 			$("#birthfeedback").text("");
+			$("#birthcheck").attr("disabled", true);
 		}
 	}
 	
@@ -104,26 +106,59 @@ div {
 			$(this).focus();
 		} else {
 // 			alert(value);
-			$("#phoneChk").attr("disabled", false);
 			$("#phonefeedback").text("");
+			$("#phoneChk").attr("disabled", false);
 		}
 	}
 	
 	
 	// 비밀번호 체크
-	function checkPasswd(value) {
+	function checkPasswd1(value) {
 		let getPass = RegExp(/^[\d]{4}/);
 		if(!getPass.test(value)) {	// 맞지 않을 때
-			$("#passwdfeedback").text("비밀번호 4자리를 입력해주세요.");
+			$("#passwdfeedback1").text("비밀번호 4자리를 입력해주세요.");
+			$("#passcheck1").attr("disabled", false);
+		} else {
+			$("#passwdfeedback1").text("");
+			$("#passwdfeedback2").text("");
+			$("#passcheck1").attr("disabled", true);
+		}
+	}
+	
+	
+	// 비밀번호 확인 체크
+	function checkPasswd2(value) {
+		let getPass = RegExp(/^[\d]{4}/);
+		if(!getPass.test(value)) {	// 맞지 않을 때
+			$("#passwdfeedback2").text("비밀번호 확인 : 비밀번호가 일치하지 않습니다.");
+			$("#passcheck2").attr("disabled", false);
 			$(this).focus();
 		} else {
 			if($("#passwd").val() === $("#passwdCheck").val() ){	// 두 칸에 들어간 값이 같으면
-				$("#passcheck").attr("disabled", true);
-				$("#passwdfeedback").text();
+				$("#passcheck2").attr("disabled", true);
+				$("#passwdfeedback2").text("");
 // 				alert(value);
 			} else {
-				$("#passwdfeedback").text("비밀번호와 일치하지 않습니다.");
+				$("#passwdfeedback2").text("비밀번호와 일치하지 않습니다.");
+				$("#passcheck2").attr("disabled", false);
 			}
+		}
+	}
+	
+	
+	// 되돌아와서 비밀번호 변경 시 비밀번호 확인 체크
+	function checkPasswd() {
+		let getPass = RegExp(/^[\d]{4}/);
+		let passwd = $("#passwd").val();
+		let passwdCheck = $("#passwdCheck").val();
+		
+		if((!getPass.test(passwd) || !getPass.test(passwdCheck)) || !(passwd == passwdCheck)) {	// 맞지 않을 때
+			$("#passwdfeedback2").text("비밀번호 확인 : 비밀번호가 일치하지 않습니다.");
+			$("#passcheck2").attr("disabled", false);
+			$(this).focus();
+		} else {
+				$("#passcheck2").attr("disabled", true);
+				$("#passwdfeedback2").text("");
 		}
 	}
 	
@@ -134,16 +169,23 @@ div {
 			let nameck = $("#namecheck").prop("disabled");
 			let birthck = $("#birthcheck").prop("disabled");
 			let phoneck = $("#phoneDoubleChk").prop("disabled");
-			let passwdck = $("#passcheck").prop("disabled");
+			let passwdck = $("#passcheck1").prop("disabled");
+			let passwdck2 = $("#passcheck2").prop("disabled");
 			
 			let member_name = $("#name").val();
 			let member_birth = $("#birth").val();
 			let member_phone = $("#phone").val();
 			let member_pass = $("#passwd").val();
 			
+			alert(nameck);
+			alert(birthck);
+			alert(phoneck);
+			alert(passwdck);
+			alert(passwdck2);
+			
 			// 동의 버튼 클릭, 정상적으로 입력값 입력 시
 			// 입력정보 안내와 로그인 확인버튼 보이게 하기
-			if($("#agree").is(':checked') && nameck && birthck && phoneck && passwdck) {	
+			if($("#agree").is(':checked') && nameck && birthck && phoneck && passwdck && passwdck2) {	
 				// 모달창에 값 넣기
 				$("#member_name").val(member_name);
          		$("#member_birth").val(member_birth);
@@ -166,7 +208,6 @@ div {
 			}
 		});
 	});
-	
 	
 	
 </script>
@@ -197,7 +238,7 @@ div {
 	            <div class="row mb-3">
 	              <label for="name" class="col-3 text-nowrap">이름</label>
 	              <div class="col-9">
-		              <input type="text" class="form-control" id="name" name="name" placeholder="이름" required="required" onchange="checkName(this.value)">
+		              <input type="text" class="form-control" id="name" name="name" placeholder="이름" required="required" onkeyup="checkName(this.value)">
 		              <div class="invalid-feedback">이름을 입력하세요</div>
 		              <div id="namefeedback"></div>
 		              <input type="hidden" id="namecheck">
@@ -208,8 +249,8 @@ div {
 	            <div class="row mb-3">
 	              <label for="birth" class="col-3 text-nowrap">생년월일</label>
 	              <div class="col-9">
-		              <input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일(8자리)" min="19000101" max="20090101"
-		              		maxlength="8" required="required" onchange="checkBirth(this.value)">
+		              <input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일(8자리)"
+		              		maxlength="8" required="required" onkeyup="checkBirth(this.value)">
 		              <div id="birthfeedback"></div>
 		              <input type="hidden" id="birthcheck">
 	              </div>
@@ -280,6 +321,7 @@ div {
 											$("#modalMsg").html("휴대폰 인증 완료!<br>나머지 정보를 입력해주세요.");
 // 											$(".invalid-feedback").css("color","green");
 											$("#phoneDoubleChk").attr("disabled", true);
+											$("#phoneChk2").attr("value", "인증완료");
 							        		$("#checkNum").attr("readonly",true);
 // 											$("#phoneChk2").attr("disabled", true);
 											// 회원가입 진행시 자동으로 값을 입력해주기 위해서
@@ -306,7 +348,9 @@ div {
 	              <label for="passwd" class="col-3 text-nowrap">비밀번호</label>
 	              <div class="col-9">
 		              <input type="password" class="form-control" id="passwd" name="passwd"
-		              		maxlength="4" placeholder="비밀번호(숫자4자리)" required="required">
+		              		maxlength="4" placeholder="비밀번호(숫자4자리)" required="required" onkeyup="checkPasswd1(this.value)">
+		              <div id="passwdfeedback1"></div>
+		              <input type="hidden" id="passcheck1">
 		          </div>
 	            </div>
 	            
@@ -315,10 +359,10 @@ div {
 	              <label for="passwdCheck" class="col-3 text-nowrap">비밀번호확인</label>
 	              <div class="col-9">
 		              <input type="password" class="form-control" id="passwdCheck" name="passwdCheck"
-		              	 	maxlength="4" placeholder="비밀번호(숫자4자리)확인" required="required" onchange="checkPasswd(this.value)">
+		              	 	maxlength="4" placeholder="비밀번호(숫자4자리)확인" required="required" onkeyup="checkPasswd2(this.value)">
 		              <div class="invalid-feedback">비밀번호를 입력하세요</div>
-		              <div id="passwdfeedback"></div>
-		              <input type="hidden" id="passcheck">
+		              <div id="passwdfeedback2"></div>
+		              <input type="hidden" id="passcheck2">
 	              </div>
 	            </div>            	
 <!-- 			</form> -->
@@ -380,7 +424,7 @@ div {
 				</p>
 				<%-- '확인'버튼 --%>
 				<div class="col-12 pt-3 d-flex justify-content-center">
-				<input type="button" class="btn btn-outline-red" data-toggle="modal" data-target="#agreeFinish" 
+				<input type="button" class="btn btn-outline-red" data-toggle="modal" data-target="#agreeFinish" onclick="checkPasswd()"
 					id ="infoBtn" value="확인">
           	    </div>
 			</div>

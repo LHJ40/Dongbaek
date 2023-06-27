@@ -49,10 +49,32 @@ public class MypageService {
 		return mapper.memberwithdrawal(member_id);
 	}
 
-	// 나의 리뷰public List<ReviewVO> getMyReview(String member_id, int pageNum) {
-//	public List<MyReviewVO> getMyReview(String member_id, int pageNum) {
-	public List<ReviewVO> getMyReview(String member_id, int pageNum) {
-		return mapper.selectMyReview(member_id, pageNum);
+	// 마이페이지 - 회원 나의 리뷰 페이지 조회
+	public List<MyReviewVO> getMyReviewList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyReviewList(member_id, startRow, listLimit);
+	}
+
+	// 마이페이지 - 회원 나의 문의 페이지 조회
+	public List<CsInfoVO> getMyInqList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyInqList(member_id, startRow, listLimit);
+	}
+	
+	// 마이페이지 - 회원 나의 문의 내역 상세 조회
+	public List<CsInfoVO> getMyInquiryDetail(String cs_num) {
+		return mapper.selectMyInquiryDetail(cs_num);
+	}
+	
+	// 마이페이지 - 회원 나의 문의 내역 수정 
+//	public int updateMyInqList(String cs_num, CsInfoVO csInfo) {
+//		return mapper.updateMyInqList(cs_num, csInfo);
+//	}
+	public int updateMyInqList(CsVO cs) {
+		return mapper.updateMyInqList(cs);
+	}
+
+	// 마이페이지 - 회원 나의 문의 내역 삭제
+	public int deleteMyInquiry(String cs_num) {
+		return mapper.deleteMyInq(cs_num);
 	}
 
 

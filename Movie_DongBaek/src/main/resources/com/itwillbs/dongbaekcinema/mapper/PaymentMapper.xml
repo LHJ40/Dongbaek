@@ -6,7 +6,8 @@
 	<!-- 관리자페이지 - 결제내역에서 상세보기로 클릭했을때 id의 결제상세내역 0621정의효 하는중 -->
 	<select id="getPaymentDetail" resultType="com.itwillbs.dongbaekcinema.vo.PaymentVO">
 		SELECT pm.payment_num
-				, pm.payment_name 			
+				, pm.payment_name 
+				, pm.payment_status			
 				, mb.member_name 
 				, pm.payment_datetime 
 				, mv.movie_name_kr

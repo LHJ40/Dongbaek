@@ -23,73 +23,64 @@ a:hover, a:active{
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
  
   <article id="mainArticle">
-  <%--본문내용 --%>
-  <div class="container container-fluid w-900">
-	  <div class="mainTop">
-		 <h2>문의 내역</h2>
-		 <hr>
-		 <form action="">
-		 	<table class="table table-striped">
-					<c:choose>
-						<c:when test="${empty myInq}">
-							<tr>
-								<td>고객님의 최근 문의 내역이 존재하지 않습니다.</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="myInq" items="${myinq }">
+	  <%--본문내용 --%>
+	  <div class="container container-fluid w-900">
+		  <div class="mainTop">
+			 <h2>문의 내역</h2>
+			 <hr>
+<!-- 			 <form action=""> -->
+			 	<table class="table">
+						<c:choose>
+							<c:when test="${empty myInqList}">
 								<tr>
-							 		<th>문의 번호 </th>
-							 		<th>문의 유형</th>
-							 		<th>문의 제목</th>
-							 		<th>문의 내용</th>
-							 		<th>답변 여부</th>
-							 		<th>문의내역 변경</th>
-							 	</tr>
-							 	<tr>
-							 		<td>{myInq.cs_num }</td><%--{param.inquiry_board_num} --%>
-							 		<td>{myInq.cs_type}</td><%--{param.inquiry-category} --%>
-							 		<td>{myInq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
-							 		<td>{myInq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-							 	</tr>
-							 	<tr>
-							 		<td>{myInq.cs_num }</td><%--{param.inquiry_board_num} --%>
-							 		<td>{myInq.cs_type}</td><%--{param.inquiry-category} --%>
-							 		<td>{myInq.cs_subject }</td><%--{param.inquiry_board_subject} --%>
-							 		<td>{myInq.cs_content }<a href="inqury_content_detail">더보기</a> </td> <%--{param.inquiry_board_content} 팝업으로 --%>
-							 		<td><img alt="답변안달렸을때X사진" src="X.jpg"> </td><%--{param.inquiry_board_isanswer} --%>
-							 		<td><button value="수정">수정</button> <button value="삭제">삭제</button> </td>
-							 	</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</table>
-		 </form>
-	 </div>
-  </div>
+									<td>고객님의 최근 문의 내역이 존재하지 않습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+									<tr>
+								 		<th scope="col" width="200px">문의 유형</th>
+								 		<th scope="col" width="200px">문의 제목</th>
+								 		<th scope="col" width="400px">문의 내용</th>
+								 		<th scope="col" width="150px">답변 여부</th>
+								 		<th scope="col" width="200px">문의내역 변경</th>
+								 	</tr>
+								<c:forEach var="myInqList" items="${myInqList }">
+								 	<tr>
+								 		<td>${myInqList.cs_type}</td>
+								 		<td>${myInqList.cs_subject }</td>
+								 		<td>${myInqList.cs_content }</td>
+								 		<c:choose>
+								 			<c:when test="${empty myInqList.cs_reply }">
+								 				<td> 답변 예정 </td>
+								 			</c:when>
+									 		<c:otherwise>
+									 			<td> 답변 완료 </td>
+									 		</c:otherwise>
+								 		</c:choose>
+								 		<%-- 버튼 영역 --%>
+									 	<td>
+											<form action="inquiry_detail" method="post" >
+												<input type="hidden" value="${myInqList.cs_num }" name="cs_num">
+<%-- 												<input type="hidden" value="${myInqList.cs_reply }" name="cs_reply"> --%>
+												<button class="btn btn-danger" type="submit">수정 및 삭제</button>
+<!-- 												<input type="submit" value="수정 및 삭제"> -->
+											</form>	 	
+									 	</td>
+								 	</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</table>
+<!-- 			 </form> -->
+		 </div>
+	  </div>
   </article>
   
   	<nav id="mainNav" class="d-none d-md-block sidebar">
-		<%--왼쪽 사이드바 --%>
+<%-- 		<%--왼쪽 사이드바 --%>
+<!--   	<nav id="mainNav"> -->
   		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
   	</nav>
-  
-<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
-<%--   <%--왼쪽 사이드바 --%> --%>
-<!--   	<h3>마이페이지</h3> -->
-<!-- 		<ul class="left-tap"> -->
-<!-- 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매 -->
-<!-- 					/ 구매내역</a></li> -->
-<!-- 			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li> -->
-<!-- 			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li> -->
-<!-- 			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li> -->
-<!-- 			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li> -->
-<!-- 			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li> -->
-<!-- 		</ul> -->
-<!--   </nav> -->
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
