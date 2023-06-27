@@ -63,6 +63,7 @@
 				ON L.movie_num = DW.movie_num
 			WHERE
 				L.member_id = #{member_id}
+			ORDER BY like_num DESC
 			LIMIT
 				#{startRow},
 				#{listLimit}

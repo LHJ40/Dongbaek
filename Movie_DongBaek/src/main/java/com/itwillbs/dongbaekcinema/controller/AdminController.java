@@ -317,7 +317,7 @@ public class AdminController {
 		
 		// 상영날짜가 이전일 경우 등록 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(!playDate.isAfter(LocalDate.now()) ) {
+		if(playDate.isBefore(LocalDate.now()) ) {
 			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 등록가능합니다");
 			return jsonObject.toString();
 		}
@@ -442,7 +442,7 @@ public class AdminController {
 
 		// 상영날짜가 오늘보다 이전일 경우 변경 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(!playDate.isAfter(LocalDate.now()) ) {
+		if(playDate.isBefore(LocalDate.now()) ) {
 			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 변경가능합니다");
 			return jsonObject.toString();
 		}
@@ -574,7 +574,7 @@ public class AdminController {
 
 		// 상영날짜가 오늘보다 이전일 경우 삭제 불가
 		LocalDate playDate = LocalDate.parse(play_date);
-		if(!playDate.isAfter(LocalDate.now()) ) {
+		if(playDate.isBefore(LocalDate.now())  ) {
 			jsonObject.put("result", "상영일자는 현재 날짜 또는 미래인 경우에만 삭제가능합니다");
 			return jsonObject.toString();
 		}
