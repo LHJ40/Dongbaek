@@ -62,7 +62,8 @@
          , #{listLimit}
    </select>
 	
-	<!-- 전체 글 목록 갯수 조회 (페이징처리)-->
+	<!-- 전체 글 목록 갯수 조회 (페이징처리)
+	++ 검색기능추가로 if절추가-->
 	<select id="selectMovieListCounting" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -71,6 +72,10 @@
 		WHERE 
          now() &gt;= movie_release_date  
          AND movie_close_date &gt;= now() 
+      <if test="!movieSearchKeyword.equals('')">
+         AND
+         movie_name_kr LIKE '%${movieSearchKeyword}%'
+      </if>
 	</select>
 	
 	
@@ -307,6 +312,10 @@
 					movie_name_kr LIKE '%${movieSearchKeyword}%'
 			</if>
 	</select>
+
+
+
+
 
 
 

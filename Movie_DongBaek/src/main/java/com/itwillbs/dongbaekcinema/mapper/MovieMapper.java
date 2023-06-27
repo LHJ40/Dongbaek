@@ -30,8 +30,8 @@ public interface MovieMapper {
 	//수정
 
 
-	// 전체 글 목록 갯수 조회 - 검색X
-	int selectMovieListCounting();
+	// 전체 글 목록 갯수 조회 - 검색O
+	int selectMovieListCounting(String movieSearchKeyword);
 	
 	
 	

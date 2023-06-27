@@ -71,8 +71,8 @@ article {
 					</div>
 					<div class="row row2">
 						<div class="col-xl-12">
-						 	<button type="submit" class="btn btn-primary btn-secondary mr-3 btn-lg" >&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;</button>
-						  	<button type="submit" class="btn btn-primary btn-danger ml-3 btn-lg" >메인페이지</button>				
+							<button type="submit" class="btn btn-primary btn-secondary mr-3 btn-lg" onclick="location.href='member_login_form'">&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;</button>
+				  			<button type="submit" class="btn btn-primary btn-danger ml-3 btn-lg" onclick="location.href='./'">메인페이지</button>				
 						</div>
 					</div>
 				</div>

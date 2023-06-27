@@ -110,7 +110,7 @@
 
  <%-- 찜하기 기능 - 세션아이디로 조회 --%>
  <input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
-
+	
 	<div class="row">
 		<%-- 1. 왼쪽 섹션 --%>
 		<div class="col-md-8 d-flex" style="padding-left: 80px">
