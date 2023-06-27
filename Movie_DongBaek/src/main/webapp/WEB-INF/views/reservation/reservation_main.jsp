@@ -16,7 +16,6 @@
 
 </style>
 <script type="text/javascript">
-
 	$(function() {
 		// 1) 메인페이지(home.jsp) 네비바의 [영화] 클릭 후 각 영화의 예매하기 버튼 클릭 시
 		// 2) 영화 상세정보의 [예매하기] 버튼 클릭 시
@@ -220,7 +219,7 @@
 							"<span class='playMonth'><h4>" + thisMonth + "</h4></span><span style='display:table-cell;'>월</span>" + 
 						"</div>" +
 						"<div class='day'><ul>";
-				for(let i = date; i <= date + showDateRange; i++){
+				for(let i = date; i < date + showDateRange; i++){
 					today = new Date(year, month, i);   // 오늘 날짜 넣기
 					dayLabel = today.getDay();         // 오늘 날짜의 요일 인덱스
 					todayLabel = weekDay[dayLabel];
@@ -276,7 +275,7 @@
 							"</div>" + 
 							"<div class='day'><ul>";
 							
-					for(let i = 1; i <= showDateRange - dateDiff; i++){
+					for(let i = 1; i < showDateRange - dateDiff; i++){
 						today = new Date(year, month + 1, i);   // 오늘 날짜 넣기
 						dayLabel = today.getDay();         // 오늘 날짜의 요일 인덱스
 						todayLabel = weekDay[dayLabel];
@@ -329,7 +328,7 @@
 							"</div>" + 
 						"<div class='day'><ul>";
 						
-					for(let i = 1; i <= showDateRange - dateDiff; i++){
+					for(let i = 1; i < showDateRange - dateDiff; i++){
 						today = new Date(year + 1, month - 11, i);   // 오늘 날짜 넣기
 						dayLabel = today.getDay();         // 오늘 날짜의 요일 인덱스
 						todayLabel = weekDay[dayLabel];
