@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
-
 <script type="text/javascript">
 $(document).ready(function(){
 	let currentPosition = parseInt($(".sidebar").css("top"));

@@ -223,6 +223,15 @@ public class ReservationController {
 
             return "fail_location";
         }
+        //세션 끊겼을때 처리
+        String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("targetURL", "member_login_form");
+			
+			return "fail_location";
+		}
+        
        
         List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
 		String ticketlist[] =ticket_type_num.split(","); // ticket_type_num ,로 나눠 배열 저장
@@ -264,8 +273,7 @@ public class ReservationController {
 		model.addAttribute("beforeTotalprice", beforeTotalprice);  
         
         
-		String member_id=(String) session.getAttribute("member_id");
-		System.out.println(member_id);
+		
 		MemberVO member=service4.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
 		int discount=(int) (ticketTotalPrice*member_grade.getGrade_discount());
@@ -291,9 +299,17 @@ public class ReservationController {
 							
 			return "fail_location";
 		}
+		//세션 끊겼을때 처리
+        String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("targetURL", "member_login_form");
+			
+			return "fail_location";
+		}
 		ReservationVO reservation = service.getPlay(play_num);
 		model.addAttribute("reservation", reservation);
-		String member_id=(String) session.getAttribute("member_id");
+		
 		MemberVO member=service4.getMember(member_id);
 		model.addAttribute("member", member);
 		
@@ -316,12 +332,20 @@ public class ReservationController {
 	}
 	
 	@GetMapping("reservation_snack")
-	public String reservation_snack(int play_num,String ticket_type_num, HttpServletRequest request, Model model) {
+	public String reservation_snack(int play_num,String ticket_type_num,HttpSession session, HttpServletRequest request, Model model) {
 		//잘못된 접근처리
 		String beforePage =(String)request.getHeader("REFERER");
 		if(beforePage==null) {
 			model.addAttribute("msg", "잘못된 접근");
 			model.addAttribute("targetURL", "./");
+			
+			return "fail_location";
+		}
+		//세션 끊겼을때 처리
+        String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
 		}
