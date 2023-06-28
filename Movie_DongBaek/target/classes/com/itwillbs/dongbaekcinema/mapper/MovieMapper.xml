@@ -232,8 +232,6 @@
 		REVIEWS
 	WHERE 
 		movie_num = #{movie_num}
-	GROUP BY
-		movie_num
 </select>
 
 <!--  리뷰총개수카운팅 (페이징용) -->
