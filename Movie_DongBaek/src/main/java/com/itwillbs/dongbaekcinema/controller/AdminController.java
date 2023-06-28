@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -1808,8 +1809,25 @@ public class AdminController {
 		return "redirect:/admin_movie_management";
 	}
 	
-	
+	// 관리자 - 영화등록 - 중복검사 - 정의효
+	@GetMapping("checkMovie")
+	public void checkMovie(
+				@RequestParam String movie_name_kr,
+				HttpServletResponse response,
+				HttpSession session)throws IOException {
+	    // 직원 세션 확인
+	    String member_type = (String) session.getAttribute("member_type");
+	    if (member_type == null || !member_type.equals("직원")) {
+	        return;
+	    }
+
+	    boolean isMovieAlreadyRegistered = movie_service.isMovieAlreadyRegistered(movie_name_kr);
+	    response.setContentType("text/plain");
+	    response.getWriter().write(isMovieAlreadyRegistered ? "true" : "false");
+	    System.out.println(isMovieAlreadyRegistered);
+	}
     
+	
 }
 
 
