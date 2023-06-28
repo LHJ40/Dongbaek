@@ -1,32 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<style>
-	.nav-item {
-		width: 120px;
-	}
-	.nav-link {
-		background-color: white;
-	}
-	
-	@font-face {
-	  	font-family: 'IBMPlexSansKR-Regular';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-	}
-	
-	.font-jua {
-		font-family: 'IBMPlexSansKR-Regular';
-		font-size: 22px;
-		color: #333 !important;
-	}
-	
-	.font-jua:hover {
-		color: #dc3545;
-	}
-	
-</style>
+
 <script>
 	function logout() {
 		// 컨펌창으로 로그아웃 여부 한번 확인 후 로그아웃하기
@@ -69,27 +44,27 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   <li class="nav-item" >
-    <a class="nav-link menuItem font-jua" href="movie_list_present">영화</a>
+    <a class="nav-link menuItem" href="movie_list_present" style="background-color:white; color:black;">영화</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link menuItem font-jua" href="reservation_main">예매</a>
+    <a class="nav-link menuItem" href="reservation_main" style="background-color:white; color:black;">예매</a>
   </li>
-  <li class="nav-item" style=margin-right:20px>
-    <a class="nav-link menuItem font-jua" href="theater_main">영화관</a>
+  <li class="nav-item" style=margin-right:30px>
+    <a class="nav-link menuItem" href="theater_main" style="background-color:white; color:black;">영화관</a>
   </li>
   <a class="navbar-brand" href="./">
 
    <img src="${pageContext.request.contextPath}/resources/img/logo2.png" width="220"  alt="">
 
     </a>
-  <li class="nav-item" style=margin-left:20px>
-    <a class="nav-link active menuItem font-jua" href="grade">멤버십</a>
+  <li class="nav-item" style=margin-left:30px>
+    <a class="nav-link active menuItem" href="grade" style="background-color:white; color:black;">멤버십</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link menuItem font-jua" href="snack_main">스토어</a>
+    <a class="nav-link menuItem" href="snack_main" style="background-color:white; color:black;">스토어</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link menuItem font-jua" href="cs_main">고객센터</a>
+    <a class="nav-link menuItem" href="cs_main" style="background-color:white; color:black;">고객센터</a>
   </li>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 </ul>

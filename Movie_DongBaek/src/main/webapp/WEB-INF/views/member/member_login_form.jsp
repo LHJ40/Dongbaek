@@ -37,10 +37,27 @@ div {
 	background-color: transparent;
 }
 
+.inputArea {
+	 border: 1px solid red;
+	 padding: 15px 20px 10px 20px;
+}
+
+.col-3 {
+	padding: 0;
+}
+
+.col-3>img {
+	margin-left: 20px;
+}
+
 /* 회원로그인/비회원로그인/비회원예매 확인 탭 */
 .nav-pills .nav-link.active {
 	color: #fff;
 	background-color: #ef4f4f;
+	border-bottom:none;
+}
+.nav-link {
+	width: 150px;
 }
 
 .nav-link:hover {
@@ -49,11 +66,20 @@ div {
 
 /* 확인용 */
 .container-fluid{
-	border: 1px solid gray;
+/* 	border: 1px solid gray; */
 }
 
-#mainNav{
-	border: 1px solid blue;
+.atext {
+	color: #aaa;
+	font-weight: bold;
+}
+
+.atext:hover {
+	color: #dc3545;
+}
+
+#naverIdLogin_loginButton {
+	border-radius: 5px;
 }
 
 </style>
@@ -96,7 +122,7 @@ div {
     </header>
 	
 	<div class="row d-flex justify-content-center mt-3">
-	  <div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+	  <div class="col-8 inputArea">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
 		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
@@ -124,26 +150,40 @@ div {
 		      	<%-- 쿠키에 member_id가 있는 경우 check 상태로 보이게 하기  --%>
 		      	<input type="checkbox" name="remember_me" <c:if test="${not empty cookie.member_id}">checked</c:if> > 아이디 저장
 		      </label>
-		      <span class="col-2 d-flex justify-content-end">
-		        <a href="member_join_step1">회원가입</a>
-		      </span>
-		      <span class="col-2 d-flex justify-content-end">
-		        <a href="MemberModifyFormId" >아이디 찾기</a>
-		      </span>
-		      <span class="col-2 d-flex justify-content-end">
-		        <a href="MemberFindPasswd" >비밀번호 찾기</a>
-		      </span>
+		      <div class="col-6" >
+			      <span>
+			        <a href="member_join_step1" class="atext">회원가입</a>
+			      </span>
+			      &nbsp;&nbsp;
+			      <span>
+			        <a href="MemberModifyFormId" class="atext">아이디</a>
+			      </span>
+			      /
+			      <span>
+			        <a href="MemberFindPasswd" class="atext">비밀번호 찾기</a>
+			      </span>
+		      </div>
+<!-- 		      <span class="col-2 d-flex justify-content-end"> -->
+<!-- 		        <a href="member_join_step1">회원가입</a> -->
+<!-- 		      </span> -->
+<!-- 		      <span class="col-2 d-flex justify-content-end"> -->
+<!-- 		        <a href="MemberModifyFormId" >아이디 찾기</a> -->
+<!-- 		      </span> -->
+<!-- 		      <span class="col-2 d-flex justify-content-end"> -->
+<!-- 		        <a href="MemberFindPasswd" >비밀번호 찾기</a> -->
+<!-- 		      </span> -->
 		    </div>
 		    
 		    <%-- '로그인' 버튼 --%>
 		    <button class="w-100 btn btn-lg btn-red mb-3" type="submit">로그인</button>
 		    
 		    <%-- 다른 로그인 방법 --%>
-		    <div class="row mb-3 d-flext justify-content-center">
+		    <div class="row d-flext justify-content-center">
 		    	<%-- 네이버 --%>
-		    	<div class="col-2">
+		    	<div class="col-3">
 		    		<%--  네이버 로그인 버튼 노출 영역  --%>
-		    		<a id="naverIdLogin_loginButton" href="javascript:void(0)"><span>네이버</span></a>
+		    		<img id="naverIdLogin_loginButton" alt="naver" href="javascript:void(0)" src="${pageContext.request.contextPath }/resources/img/btnG_축약형2.png" height="50px">
+<!-- 		    		<a id="naverIdLogin_loginButton" href="javascript:void(0)"><span>네이버</span></a> -->
 					<br>
 		    	</div>
 		    		<!--  네이버 로그인 시작 -->
@@ -197,7 +237,7 @@ div {
 <!-- 				</script>
 		    	
 		    	<%-- 카카오 --%>
-		    	<div class="col-2">
+		    	<div class="col-3">
 <!-- 			    	<button type="button" id="submit-btn" onclick="loginWithKakao()"> -->
 			    		<img alt="kakao" src="${pageContext.request.contextPath }/resources/img/kakao_login_medium.png" height="50px" onclick="loginWithKakao()">
 <!-- 			    	</button> -->

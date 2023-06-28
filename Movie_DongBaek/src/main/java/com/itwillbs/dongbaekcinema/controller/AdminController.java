@@ -192,13 +192,15 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "testSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String testSchedule(HttpSession session, Model model,
-	                           @RequestParam int theater_num, @RequestParam int room_num, @RequestParam int movie_num) {
+	                           @RequestParam int theater_num, @RequestParam int room_num
+	                           , @RequestParam int movie_num, @RequestParam int breakTime) {
 
 //		System.out.println("testSchedule 전송정보 확인 theater_num:" + theater_num);
 //	    System.out.println("testSchedule 전송정보 확인 room_num:" + room_num);
 //	    System.out.println("testSchedule 전송정보 확인 movie_num:" + movie_num);
 
 	    JSONArray jsonArray = new JSONArray(); // JSON 배열 변수 선언
+	    
 
 	    try {
 	    	// 해당 영화 이름 가져오기
@@ -214,9 +216,6 @@ public class AdminController {
 	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
 
 	        // 회차별 시간 계산
-	        // 쉬는 시간 변수
-	        int breakTime = 60;
-
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 	        // 새로운 배열 생성
@@ -290,6 +289,8 @@ public class AdminController {
 	            }
 	        }
 
+
+	        	
 	        return jsonArray.toString();
 
 	    } catch (Exception e) {
@@ -305,7 +306,8 @@ public class AdminController {
 	@RequestMapping(value = "createSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String createSchedule(HttpSession session, Model model
 			, @RequestParam String play_date, @RequestParam int theater_num
-			, @RequestParam int row_num, @RequestParam int movie_num) {
+			, @RequestParam int row_num, @RequestParam int movie_num
+			, @RequestParam int breakTime) {
 		
 //		System.out.println("createUpdateSchedule 전송정보 확인 play_date:" + play_date);
 //		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
@@ -343,8 +345,7 @@ public class AdminController {
 	        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
 
 	        // 회차별 시간 계산
-	        // 쉬는 시간 변수
-	        int breakTime = 60;
+
 
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -430,7 +431,8 @@ public class AdminController {
 	@RequestMapping(value = "updateSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String updateSchedule(HttpSession session, Model model
 			, @RequestParam String play_date, @RequestParam int theater_num
-			, @RequestParam int row_num, @RequestParam int movie_num) {
+			, @RequestParam int row_num, @RequestParam int movie_num
+			, @RequestParam int breakTime) {
 		
 //		System.out.println("updateSchedule 전송정보 확인 play_date:" + play_date);
 //		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
@@ -468,8 +470,7 @@ public class AdminController {
 		        PlayScheduleVO playSchedule = admin_service.getRoomStartTime(theater_num, room_num);
 
 		        // 회차별 시간 계산
-		        // 쉬는 시간 변수
-		        int breakTime = 60;
+
 
 		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 

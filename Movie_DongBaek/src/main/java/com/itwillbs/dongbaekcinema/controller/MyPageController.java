@@ -162,7 +162,7 @@ public class MyPageController {
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
-		
+		System.out.println("listLimit : " + listLimit + ", startRow : " + startRow);
 		// 나의 구매내역 조회
 		// MypageService - getMyPayment()
 		// 파라미터 : member_id		리턴타입 : List<PaymentVO>(myPaymentList)
@@ -273,8 +273,9 @@ public class MyPageController {
 		// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
 		String member_type = (String) session.getAttribute("member_type");
 		String member_id = (String) session.getAttribute("member_id");
-
-		if (member_id == null || member_type.equals("비회원")) {
+		System.out.println(member_type);
+		System.out.println(member_id);
+		if (member_id == null || (member_type != null && member_type.equals("비회원"))) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
 			model.addAttribute("targetURL", "member_login_form");
 			return "fail_location";

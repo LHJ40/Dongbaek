@@ -29,10 +29,19 @@ div {
 	background-color: transparent;
 }
 
+.inputArea {
+	 border: 1px solid red;
+	 padding: 15px 20px 0 20px;
+}
+
 /* 회원로그인/비회원로그인/비회원예매 확인 탭 */
 .nav-pills .nav-link.active {
 	color: #fff;
 	background-color: #ef4f4f;
+	border-bottom:none;
+}
+.nav-link {
+	width: 150px;
 }
 
 .nav-link:hover {
@@ -40,13 +49,10 @@ div {
 }
 
 /* 확인용 */
-.container-fluid{
-	border: 1px solid gray;
-}
+/* .container-fluid{ */
+/* 	border: 1px solid gray; */
+/* } */
 
-#mainNav{
-	border: 1px solid blue;
-}
 
 </style>
 <script type="text/javascript">
@@ -82,7 +88,7 @@ div {
 	
 	<%-- 비회원예매 확인 폼 --%>
 	<div class="row d-flex justify-content-center mt-3">
-		<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+		<div class="col-8 inputArea">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
 		<form action="noMemberCheckPro" method="post">
 			<%-- 이름 --%>
             <div class="row mb-3">
@@ -114,7 +120,7 @@ div {
 		    	* 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
 		    </p>
 		
-		    <button class="w-100 btn btn-lg btn-danger mb-3" type="submit">비회원예매 확인</button>
+		    <button class="w-100 btn btn-lg btn-red mb-3" type="submit">비회원예매 확인</button>
 		</form>
         </div>
 	</div>
