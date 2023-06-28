@@ -17,34 +17,53 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
+	
+	// 각각의 리뷰
 	let myReview = $("tr.myReview");
-	myReview.each(function() {
+	
+	
+	myReview.each(function() { // 각 리뷰에 대해 수행
+		
+		// 상영상태가 "상영종료" 인 영화에 대해
+		// 리뷰가 있으면 해당 리뷰 가져오기
 		if($("input[type=hidden]").val() == "상영완료") {
 			let movieNum = $(".movieName").attr("data-movie-num");
 			let memberId = $(".movieName").attr("data-member-id");
 			let playNum = $(".movieName").attr("data-play-num");
-			let playStatus = $("movieName").attr("data-play-status");
-				getReview(memberId, playNum, playStatus);
-		}		
+			let playStatus = $(".movieName").attr("data-play-status");
+			
+			getReview(movieNum, memberId, playNum);
+		}
 	});
 	
 });
 
 
-function getReview() {	
-	let movieNum = $(".movieName").attr("data-movie-num");
-	let memberId = $(".movieName").attr("data-member-id");
-	let playNum = $(".movieName").attr("data-play-num");
-	let playStatus = $("input[type=hidden]").val(); 
+function getReview(movieNum, memberId, playNum) {	
 	
 	$.ajax({
 		type : "post", 
 		url : "GetReivew", 
-		data : {"member_id" : memberId, "play_num" : playNum, "play_status" : playStatus}, 
+		data : {"member_id" : memberId, "play_num" : playNum}, 
 		dataType : "json",
 	})
-	.done(function(theater) {
-		alert("요청성공");
+	.done(function(myReview) {
+		for(let i = 0; i < myReview.length; i++){
+			if(myReview[i].review_content == null){
+				$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>작성하기</a>");								
+			}else {
+				let reviewContent = myReview[i].review_content;
+				let reviewRating = myReview[i].review_rating;
+				let review_date = myReview[i].review_date;
+				let reviewDate = review_date.substring(0, 10);
+				
+				$(".myReview[id='" + movieNum + "'] .reviewContent").html(reviewContent);
+				$(".myReview[id='" + movieNum + "'] .reviewRating").html(reviewRating);
+				$(".myReview[id='" + movieNum + "'] .reviewDate").html(reviewDate);
+				$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>수정하기</a>");				
+			}
+			
+		}
 	})
 	.fail(function() { // 요청 실패 시
 		alert("요청 실패!");
@@ -66,26 +85,25 @@ function getReview() {
  		<span> 회원님이 작성하신 리뷰를 확인하실 수 있습니다! </span>
  		
  		<table class="table">
- 			<c:choose>
+<%--  			<c:choose> --%>
  				
 <%--  				<c:when test="${myReviewList.play_change }"> --%>
- 				<c:when test="${empty myReviewList }">
- 					<tr>
-						<td>고객님께서 작성하신 리뷰는 존재하지 않습니다.</td>
-					</tr>
- 				</c:when>
-	 			<c:otherwise>
+<%--  				<c:when test="${empty myReviewList }"> --%>
+<!--  					<tr> -->
+<!-- 						<td>고객님께서 작성하신 리뷰는 존재하지 않습니다.</td> -->
+<!-- 					</tr> -->
+<%--  				</c:when> --%>
+<%-- 	 			<c:otherwise> --%>
 		 			<tr>
 		 				<th>번호</th>
 			 			<th>영화 제목</th>
 			 			<th>리뷰 내용</th>
 			 			<th>평점</th>
 			 			<th>등록일</th>
-				 		<th>수정 및 삭제</th>
-				 		<th>리뷰 작성 상태</th>
+				 		<th>작성 및 수정</th>
 	 				</tr>
 	 				<c:forEach var="myReviewList" items="${myReviewList }" begin="0" end="3" step="1" varStatus="status">
-		 				<tr class="myReview">
+		 				<tr class="myReview" id="${myReviewList.movie_num }">
 					 		<td>
 					 			${status.index+1}
 					 		</td> 
@@ -95,39 +113,43 @@ function getReview() {
 					 			<input type="hidden" value="${myReviewList.play_status }">
 					 		</td> 
 					 		
-					 		<td>
-					 			${myReviewList.review_content }
+					 		<td class="reviewContent">
+					 			<!-- 리뷰 내용 출력 -->
 					 		</td>
 
-					 		<td>
-					 			${myReviewList.review_rating }
+					 		<td class="reviewRating">
+					 			<!-- 리뷰 평점 출력 -->
 					 		</td> <%-- {param.avg_review_point} --%>
 					 		
-					 		<td>
-					 			${myReviewList.review_date}	
+					 		<td class="reviewDate">
+					 			<!-- 리뷰 쓴 날짜 출력 -->
 					 		</td> <%-- {param.review_datetime} --%>
 					 		
-					 		<c:choose>
-					 			<c:when test="${empty myReviewList.review_content}">
-							 		<td>
-							 			<a href="myPage_reviewWrite">작성하기</a>
-							 		</td>
-						 		</c:when>
-						 		<c:otherwise>
-							 		<td>
-							 			<a href="modify_review">수정 및 삭제</a>
+					 		<td class="reviewWriteModify">
+					 			<a href="#">작성불가</a>
+					 		</td>
+					 		
+<%-- 					 		<c:choose> --%>
+<%-- 					 			<c:when test="${empty myReviewList.review_content}"> --%>
+<!-- 							 		<td class="reviewModify"> -->
+<!-- 							 			<a href="myPage_reviewWrite">작성하기</a> -->
+<!-- 							 		</td> -->
+<%-- 						 		</c:when> --%>
+<%-- 						 		<c:otherwise> --%>
+<!-- 							 		<td> -->
+<!-- 							 			<a href="modify_review">수정 및 삭제</a> -->
 <!-- 							 			<a href="modify_delete">삭제</a> -->
-							 		</td>
+<!-- 							 		</td> -->
 							 		
-							 		<td>
-							 			작성완료
-							 		</td>
-						 		</c:otherwise>
-					 		</c:choose>
+<!-- 							 		<td> -->
+<!-- 							 			작성완료 -->
+<!-- 							 		</td> -->
+<%-- 						 		</c:otherwise> --%>
+<%-- 					 		</c:choose> --%>
 				 		</tr>
 	 				</c:forEach>
-	 			</c:otherwise>	
- 			</c:choose>
+<%-- 	 			</c:otherwise>	 --%>
+<%--  			</c:choose> --%>
  		</table>
  	 </div>
   

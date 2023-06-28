@@ -396,12 +396,10 @@ public class MyPageController {
         return "myPage/myPage_myReview";
     }
 	
+	// 각각의 영화에 대해 회원이 작성한 리뷰 가져오기
 	@ResponseBody
 	@PostMapping("GetReivew")
-	public List<MyReviewVO> getReview(@RequestParam String member_id, 
-										@RequestParam int play_num, 
-										@RequestParam String play_status) {
-		
+	public List<MyReviewVO> getReview(@RequestParam String member_id, @RequestParam int play_num) {
 		
 		List<MyReviewVO> myReview = service.getMyReview(member_id, play_num);
 		System.out.println(myReview);
