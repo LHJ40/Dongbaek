@@ -84,7 +84,7 @@ article {
 	#room{
 		vertical-align: top;
 	/* 	border: 1px solid #000; */
-		width: 300px;
+		width: 290px;
 		display: inline-block;
 		padding-top: 1.5rem;
 		
@@ -202,8 +202,8 @@ article {
                        "ticket_type_num_param":"${param.ticket_type_num}",
                        "snack_num_param":"${param.snack_num}",
                        "snack_quantity_param":"${param.snack_quantity}",
-                       "payment_card_num":rsp.apply_num, //임시
-                       "payment_card_name":rsp.pay_method//임시
+                       "payment_card_num":rsp.apply_num, //카드승인번호
+                       "payment_card_name":rsp.pay_method//결제방식
                        },
                        dataType: "json", 
                    })
@@ -285,6 +285,10 @@ article {
 <c:set var="morning" value='<img src="${pageContext.request.contextPath }/resources/img/sun.png" alt="해" width="15px"> 조조' />
 <c:set var="night" value='<img src="${pageContext.request.contextPath }/resources/img/moon.png" alt="달" width="15px"> 심야' />
 <c:set var="general" value='일반' />
+<c:set var="BRONZE" value='<img src="${pageContext.request.contextPath }/resources/img/grade_bronze.png" alt="브론즈" width="25px">'/>
+<c:set var="SILVER" value='<img src="${pageContext.request.contextPath }/resources/img/grade_silver.png" alt="실버" width="25px">'/>
+<c:set var="GOLD" value='<img src="${pageContext.request.contextPath }/resources/img/grade_gold.png" alt="골드" width="25px">' />
+<c:set var="PLATINUM" value='<img src="${pageContext.request.contextPath }/resources/img/grade_platinum.png" alt="플레티넘" width="25px">'/>
   <%--본문내용 --%>
 		<h2>영화 예매</h2>
 		<div class="container-fluid reservation_con" >
@@ -384,7 +388,14 @@ article {
 				  					<c:set var= "grade_discount" value="0"/>
 				  					</c:if>
 				  					<td>${grade_discount }원 </td>
-				  					<td>${member_grade.grade_name } </td>
+				  					<td>
+				  					 <c:if test="${member_grade.grade_name eq 'BRONZE'}">${BRONZE}</c:if>
+				  					 <c:if test="${member_grade.grade_name eq 'SILVER'}">${SILVER}</c:if>
+				  					 <c:if test="${member_grade.grade_name eq 'GOLD'}">${GOLD}</c:if>
+				  					 <c:if test="${member_grade.grade_name eq 'PLATINUM'}">${PLATINUM}</c:if>
+				  					
+				  					
+				  					${member_grade.grade_name } </td>
 				  				</tr>
 				  				<tr>
 				  					<th>최종 영화금액 </th>
