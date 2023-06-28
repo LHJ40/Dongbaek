@@ -47,7 +47,7 @@ div {
   top: 20%; 
   margin-right: -720px;
   text-align:center;
-  width: 60px;
+  width: 50px;
 }
 #downBtn {
   position: fixed; 
@@ -55,7 +55,7 @@ div {
   top: 25%; 
   margin-right: -720px;
   text-align:center;
-  width: 60px;
+  width: 50px;
 }
 
 
@@ -231,6 +231,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 						  let movie_num = $(this).val();
 						  let theater_num = $("#theater_num").val();
 						  let room_num = 1;
+						  let breakTime = $("#breakTime").val();
 						
 // 						  alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 
@@ -241,7 +242,8 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							    data: {
 							      theater_num: theater_num,
 							      room_num: room_num,
-							      movie_num: movie_num
+							      movie_num: movie_num,
+							      breakTime: breakTime
 							    },
 							    dataType: 'json',
 							    success: function(result1) {
@@ -294,6 +296,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							 let movie_num = $(this).val();
 							 let theater_num = $("#theater_num").val();
 							 let room_num = 2;
+							 let breakTime = $("#breakTime").val();
 							
 // 							 alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 							
@@ -303,7 +306,8 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							    data: {
 							      theater_num: theater_num,
 							      room_num: room_num,
-							      movie_num: movie_num
+							      movie_num: movie_num,
+							      breakTime: breakTime
 							    },
 							    dataType: 'json',
 							    success: function(result2) {
@@ -355,6 +359,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							 let movie_num = $(this).val();
 							 let theater_num = $("#theater_num").val();
 							 let room_num = 3;
+							 let breakTime = $("#breakTime").val();
 							
 // 							 alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 							
@@ -364,7 +369,8 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							    data: {
 							      theater_num: theater_num,
 							      room_num: room_num,
-							      movie_num: movie_num
+							      movie_num: movie_num,
+							      breakTime: breakTime
 							    },
 							    dataType: 'json',
 							    success: function(result3) {
@@ -421,6 +427,12 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 			          
 			    }); //ajax findMovieList  끝		    
 		    
+			    $("#breakTime").on("change", function(){ // 쉬는시간 값이 변경될 경우
+			    	
+			    	// 영화명 첫번째 목록이 출력되도록 변경
+			    	$('.movieSelect').prop('selectedIndex', 0); 
+			    	
+			    }); // #breakTime 온체인지 함수 끝
 		    
 		    } // prevent if문 끝
 		    
@@ -456,25 +468,38 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-		  	<div class="col col-md-4">
+		  	<div class="col col-md-2">
 		    	<div class="navbar-brand" >상영스케줄 관리</div>
 		    </div>
 	    	<div class="col col-md-10">
 	    	
 			    <form action="showSchedual" class="form-inline">
-			      <select class="form-control mr-sm-2" name="theater_num" id="theater_num" >
-			      	<option value="영화관">영화관</option>
-			      	<c:forEach var="theater" items="${theaterInfo }">
-			      		<option value="${theater.theater_num }">${theater.theater_name }</option>
-			      	</c:forEach>
-			      </select>
 			      <div class="input-group">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text">상영날짜</span>
+					      <select class="form-control mr-sm-2" name="theater_num" id="theater_num" >
+					      	<option value="영화관">영화관</option>
+					      	<c:forEach var="theater" items="${theaterInfo }">
+					      		<option value="${theater.theater_num }">${theater.theater_name }</option>
+					      	</c:forEach>
+					      </select>
+					  </div>
+				  </div>
+			      <div class="input-group">
+					  <div class="input-group-prepend">
+					      <span class="input-group-text">상영날짜</span>
 					  </div>
 					  <input type="date" class="form-control" placeholder="상영일(yy-mm-dd)" aria-label="Username" aria-describedby="basic-addon1" name="play_date" id="play_date">
 				  </div>
-			      <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">조회</button>
+			      <div class="input-group">
+			    	  <button class="btn btn-outline-danger my-2 my-sm-2 ml-2" type="button" id="createScheduel">조회</button>
+				  </div>
+			      <div class="input-group ml-5">
+					  <div class="input-group-prepend">
+					      <span class="input-group-text">휴게시간(분)</span>
+					  </div>
+					  <%-- 최소 10분~ 120분까지설정 기본값 60분 --%>
+					  <input type="number" class="form-control" placeholder="휴게시간" aria-label="Breaktime" aria-describedby="basic-addon1" name="breakTime" id="breakTime" min="10" max="120" step="10" value="60">
+				  </div>
 			    </form>
 
 			    
@@ -631,6 +656,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 1;
 	    let movie_num = $("#movieBox1").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -644,19 +670,19 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
-
-		         alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	         console.log(result);
+	         let text = result.result;
+	         alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 	    
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
@@ -669,6 +695,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 2;
 	    let movie_num = $("#movieBox2").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -682,19 +709,20 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		    	 alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	    	 alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		    
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
@@ -706,6 +734,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 3;
 	    let movie_num = $("#movieBox3").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -719,20 +748,21 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		         alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
+	         alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
 
-		    	 alert('영화명을 선택해주세요');
-		      }
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		
 	}); // $("#newSchedule1").on("click", function() { 메서드 끝
@@ -745,6 +775,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 1;
 	    let movie_num = $("#movieBox1").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -758,19 +789,20 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		         alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	         alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 	    
 	}); // $("#updateSchedule1").on("click", function() { 메서드 끝
@@ -783,6 +815,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 2;
 	    let movie_num = $("#movieBox2").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -796,19 +829,20 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		    	 alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	    	 alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		    
 	}); // $("#updateSchedule2").on("click", function() { 메서드 끝
@@ -820,6 +854,7 @@ $(function() {
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 3;
 	    let movie_num = $("#movieBox3").val();
+	    let breakTime = $("#breakTime").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
@@ -833,19 +868,20 @@ $(function() {
 	        play_date: play_date,
 	        theater_num: theater_num,
 	        row_num: row_num,
-	        movie_num: movie_num
+	        movie_num: movie_num,
+	        breakTime: breakTime
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		    	 alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	    	 alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		
 	}); // $("#updateSchedule3").on("click", function() { 메서드 끝
@@ -874,15 +910,15 @@ $(function() {
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		         alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	         alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 	    
 	}); // $("#deleteSchedule1").on("click", function() { 메서드 끝
@@ -912,15 +948,15 @@ $(function() {
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
+	         console.log(result);
+	         let text = result.result;
 
-		    	 alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	    	 alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		    
 	}); // $("#deleteSchedule2").on("click", function() { 메서드 끝
@@ -949,14 +985,14 @@ $(function() {
 	      },
 	      dataType: 'json',
 	      success: function(result) {
-		         console.log(result);
-		         let text = result.result;
-		    	 alert(text);
-		      },
-		      error: function(xhr, status, error) {
-		         console.log(xhr);
-		    	 alert('영화명을 선택해주세요');
-		      }
+	         console.log(result);
+	         let text = result.result;
+	    	 alert(text);
+	      },
+	      error: function(xhr, status, error) {
+	         console.log(xhr);
+	    	 alert('영화명을 선택해주세요');
+	      }
 		});
 		
 	}); // $("#deleteSchedule3").on("click", function() { 메서드 끝
