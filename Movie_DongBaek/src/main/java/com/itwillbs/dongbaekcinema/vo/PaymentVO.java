@@ -23,5 +23,9 @@ public class PaymentVO {
 	private String snack_name;
 	private String member_name;
 //	데이터넣고 주석풀고 확인하기 0608 - 정의효
+	private String seat_names;
+	private int dong_baek_combo_count;
+	private int chul_juk_combo_count;
+	
 }
 

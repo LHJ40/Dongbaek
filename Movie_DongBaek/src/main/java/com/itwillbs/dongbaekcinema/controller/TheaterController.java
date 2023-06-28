@@ -34,11 +34,14 @@ public class TheaterController {
 	private AdminService admin_service;
 	
 	
-	
+	//영화관 메인
 	@GetMapping("theater_main")
 	public String theater_main(Model model) {
+		//영화관 목록  조회
 		List<TheaterVO> theaterList = service.getTheaterList();
 		
+		model.addAttribute("theaterList", theaterList);
+
 		int listLimit = 5; // 한 페이지에서 표시할 목록 갯수 지정
 		int startRow = listLimit; // 조회 시작 행(레코드) 번호 (다섯개만 보여줄거임)
 		
@@ -48,22 +51,22 @@ public class TheaterController {
 		model.addAttribute("csInfoList", csInfoList);
 		
 		
-		model.addAttribute("theaterList", theaterList);
 		
 		return "theater/theater_main";
 	}
 
-	
+	//영화관 정보 
 	@ResponseBody
 	@GetMapping("getTheater")
 	public Object getTheater(int theater_num, Model model) {
-		System.out.println(theater_num);
+//		System.out.println(theater_num);
 		TheaterVO theater=service.getTheater(theater_num);
 			
 //		System.out.println(theater);
 		return theater;
 	}
 	
+	//관별 상영 시간표
 	@PostMapping("getSchedule")
 	public String getSchedule(int theater_num, String play_date, Model model) {
 		System.out.println("getSchedule");

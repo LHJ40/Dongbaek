@@ -14,6 +14,7 @@ import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
 import com.itwillbs.dongbaekcinema.mapper.ReservationMapper;
 import com.itwillbs.dongbaekcinema.vo.TheaterVO;
 import com.itwillbs.dongbaekcinema.vo.TicketTypeVO;
+import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.OrderSnackVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
@@ -120,6 +121,11 @@ public class ReservationService {
 	public int getSeatNumListByName(String seat) {
 		// TODO Auto-generated method stub
 		return mapper.selectSeatNumListByName(seat);
+	}
+
+	public MemberVO getMember(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectMember(member_id);
 	}
 
 	

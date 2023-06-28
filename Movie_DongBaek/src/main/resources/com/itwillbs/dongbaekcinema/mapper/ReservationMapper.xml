@@ -220,4 +220,10 @@
 		WHERE seat_name = #{seat};
 	</select>
 	
+	<select id="selectMember" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
+		SELECT * 
+		FROM MEMBERS
+		WHERE member_id = #{member_id}
+	</select>
+	
 </mapper>
