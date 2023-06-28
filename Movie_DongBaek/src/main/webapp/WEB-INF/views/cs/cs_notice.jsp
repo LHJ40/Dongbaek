@@ -36,9 +36,9 @@ a:hover{
 
 .page-item.active .page-link {
  z-index: 1;
- color: #555;
+ color: #fff;
  font-weight:bold;
- background-color: #f1f1f1;
+ background-color: #ff5050;
  border-color: #ccc;
  
 }
@@ -152,8 +152,8 @@ a:hover, a:active{
 			<c:choose>
 			    <%-- 현재 페이지 --%>
 				<c:when test="${pageNo eq i }">
-				    <li class="page-item active" aria-current="page">
-				      <a class="page-link" href="#">${i } <span class="sr-only">(current)</span></a>
+				    <li class="page-item active page-item-danger" aria-current="page">
+				      <a class="page-link" href="#" readonly>${i } <span class="sr-only">(current)</span></a>
 				    </li>
 				</c:when>
 				<c:otherwise>

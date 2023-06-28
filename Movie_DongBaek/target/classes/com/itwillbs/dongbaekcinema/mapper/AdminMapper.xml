@@ -381,7 +381,7 @@
 		UPDATE 
 			CS
 			SET cs_reply = #{qnaInfo.cs_reply}
-				cs_type = #{qnaInfo.cs_type}
+				, cs_type = #{qnaInfo.cs_type}
     		 	WHERE 
     		 		cs_type IN(${condition})
     		 		AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				

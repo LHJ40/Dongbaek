@@ -41,6 +41,9 @@ public interface MypageMapper {
 									@Param("member_id") String member_id
 									, @Param("startRow") int startRow 
 									, @Param("listLimit") int listLimit);
+	// 
+	List<MyReviewVO> selectMyReview(@Param("member_id") String member_id, 
+									@Param("movie_num") int movie_num);
 
 	// 나의 문의 내역 조회 - 회원 아이디로 레코드 조회
 	List<CsVO> selectMyInq(String member_id);
@@ -60,6 +63,7 @@ public interface MypageMapper {
 	
 	// 나의 문의 내역 삭제 - cs_num 으로 레코드 조회 후 삭제
 	int deleteMyInq(String cs_num);
+
 	
 	;
 }

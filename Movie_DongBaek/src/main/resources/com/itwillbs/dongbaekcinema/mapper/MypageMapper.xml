@@ -13,7 +13,7 @@
 				AND payment_datetime &gt;= SUBDATE(NOW(), INTERVAL 1 MONTH)
 			ORDER BY
 				PAYMENTS.order_num DESC
-			<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
+			<if test="listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
 				LIMIT 
 					#{startRow}
 					, #{listLimit}
@@ -136,26 +136,64 @@
 	</update>
   
 	<!-- 나의 리뷰 조회하기 -->
-	<select id="selectMyReviewList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
-		SELECT DISTINCT
-				omt.member_id
-				, movie_name_kr
-				, play_date
-				, play_status
-				, play_change
-				, review_rating
-				, review_date
-				, review_content
-			FROM
-				ORDER_MY_TICKET omt
-			JOIN
-				REVIEWS r ON omt.member_id = r.member_id
-			WHERE omt.member_id = #{member_id}
-			<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
-				LIMIT 
-					#{startRow}
-					, #{listLimit}
-			</if>
-	</select>
+<!-- 	<select id="selectMyReviewList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO"> -->
+<!-- 		 SELECT DISTINCT  -->
+<!-- 					r.* -->
+<!-- 					, m.movie_name_kr  -->
+<!-- 					, (CASE -->
+<!-- 				        WHEN ((p.play_date > now()) -->
+<!-- 				        OR ((p.play_date = now()) -->
+<!-- 				        AND (p.play_start_time  > curtime()))) THEN '상영 전' -->
+<!-- 				        ELSE '상영완료' -->
+<!-- 			   		  	END) AS `play_status` -->
+<!-- 			FROM REVIEWS r -->
+<!-- 			JOIN MEMBERS mm ON mm.member_id = r.member_id -->
+<!-- 			JOIN PLAYS p ON p.movie_num = r.movie_num -->
+<!-- 			JOIN MOVIES m ON m.movie_num = r.movie_num  -->
+<!-- 			JOIN ORDER_TICKETS ot ON ot.play_num = p.play_num -->
+<!-- 			JOIN PAYMENTS pm ON pm.order_num = ot.order_num -->
+<!-- 			WHERE mm.member_id = #{member_id} -->
+<!-- 				AND payment_status = '결제완료' -->
+<!-- 			<if test="startRow != 0 and listLimit != 0"> -->
+<!-- 				LIMIT  -->
+<!-- 					#{startRow} -->
+<!-- 					, #{listLimit} -->
+<!-- 			</if> -->
+<!-- 	</select> -->
+
+		<select id="selectMyReviewList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+			SELECT DISTINCT
+		         p.movie_num
+		         , ot.member_id 
+		         , m.movie_name_kr
+		         , (CASE
+		            WHEN ((p.play_date > now())
+		            OR ((p.play_date = now())
+		            AND (p.play_start_time  > curtime()))) THEN '상영 전'
+		            ELSE '상영완료'
+		             END) AS play_status
+		 FROM ORDERS o -- 전체 주문
+		 JOIN ORDER_TICKETS ot ON o.order_num = ot.order_num
+		 JOIN PLAYS p ON ot.play_num = p.play_num
+		 JOIN MOVIES m ON p.movie_num = m.movie_num
+		 WHERE o.member_id = #{member_id};
+				 <if test="startRow != 0 and listLimit != 0">
+					LIMIT 
+						#{startRow}
+						, #{listLimit}
+				</if>
+		</select>
+		
+		<select id="selectMyReview" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+			SELECT DISTINCT r.* 
+			FROM REVIEWS r
+			JOIN MEMBERS mm ON mm.member_id = r.member_id
+			JOIN PLAYS p ON p.movie_num = r.movie_num
+			JOIN ORDER_TICKETS ot ON ot.play_num = p.play_num
+			JOIN PAYMENTS pm ON pm.order_num = ot.order_num
+			WHERE mm.member_id = #{member_id}
+			AND payment_status = '결제완료'
+			AND p.movie_num = #{movie_num};
+		</select>
   
 </mapper>

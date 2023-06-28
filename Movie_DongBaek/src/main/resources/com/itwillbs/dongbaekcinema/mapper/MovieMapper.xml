@@ -357,6 +357,13 @@
 			    , movie_booking_rate = #{movie_booking_rate}
 			WHERE movie_num = #{movie_num}
 	</update>
+	
+	<!-- 영화 중복 검사 -->
+	<select id="isMovieAlreadyRegistered" parameterType="com.itwillbs.dongbaekcinema.vo.MovieVO" resultType="boolean">
+		  SELECT EXISTS (
+        			SELECT 1 FROM MOVIES WHERE movie_name_kr = #{movieNameKr}
+    			 ) as is_movie_already_registered
+	</select>
 </mapper>
 
 

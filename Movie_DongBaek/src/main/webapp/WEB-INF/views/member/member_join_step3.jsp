@@ -85,25 +85,24 @@ th{
 	}
 	
 	// 아이디 정규식
-// 	function checkIdRegex(member_id) {
-// 		let regex =/^[a-z0-9]{5,10}$/;
+	function checkIdRegex(member_id) {
+		let regex =/^[a-z0-9]{5,10}$/;
 		
-// 		if(member_id == null) { // 일반 회원 가입
-// 			if(regex.exec(member_id)) {
-// 				document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
-// 				document.querySelector("#pass_check").style.color = "green";
-// 			} else {
-// 				document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
-// 				document.querySelector("#pass_check").style.color = "red";
-// 				alert("영어 소문자와 숫자를 조합하여 5 ~ 10글자로 다시 입력해주세요!");
-// 				$("#member_id").val('');
-// 		}
-// 	}
+		if(member_id == null) { // 일반 회원 가입
+			if(regex.exec(member_id)) {
+				document.querySelector("#id_check").innerHTML = ""
+				document.querySelector("#id_check").style.color = "green";
+			} else {
+				document.querySelector("#id_check").innerHTML = "사용 불가능한 아이디입니다!"
+				document.querySelector("#id_check").style.color = "red";
+				alert("영어 소문자와 숫자를 조합하여 5 ~ 10글자로 다시 입력해주세요!");
+				$("#member_id").val('');
+		}
+	}
 	
 	
 	// 비밀번호 정규식
 	function checkPass(member_pass, member_pass2) {
-// 		let regex = /^[A-Za-z0-9!@#$%]{8,16}$/;
 		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
 		
 		if(regex.exec(member_pass)) {
@@ -151,12 +150,8 @@ th{
 	
 	// 생년월일 정규식
 	function inputNum(member_birth) {
-// 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
 		let regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 		
-// =======
-// 		if(regex.test(member_birth)) {
-// 			document.querySelector("#birth_check").innerHTML = "사용 가능한 비밀번호입니다!"
 		if(regex.exec(member_birth)) {
 			document.querySelector("#birth_check").innerHTML = ""
 			document.querySelector("#birth_check").style.color = "green";
@@ -171,9 +166,6 @@ th{
 	
 	// 전화번호 정규식
 	function inputNum_phone(member_phone) {
-// 		element.value = element.value.replace(/[^0-9]/gi, "");
-// 		element.value = element.value.replace(/^(010|011)[\d]{3,4}[\d]{4}$/gi, "");
-		
 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
 		
 		if(regex.exec(member_phone)) {

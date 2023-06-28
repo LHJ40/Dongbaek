@@ -38,9 +38,9 @@ background-color: transparent;
 
 .page-item.active .page-link {
  z-index: 1;
- color: #555;
+ color: #fff;
  font-weight:bold;
- background-color: #f1f1f1;
+ background-color: #ff5050;
  border-color: #ccc;
  
 }

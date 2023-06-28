@@ -126,9 +126,9 @@ a:hover, a:active {
 										<c:when test="${member.grade_name eq 'NONE'}">
 											<td>
 												<button type="button" 
-														class="btn btn-secondary" 
-														disabled
-														onclick="location.href='admin_member_oneperson?member_id=${member.member_id}&grade_name=${member.grade_name }'">${member.member_type}</button>
+													    class="btn btn-secondary" 
+													    onclick="deleteNonMember('${member.member_id}')" 
+													    data-toggle="modal">${member.member_type}</button>
 											</td>
 										</c:when>
 										<c:otherwise>
@@ -145,6 +145,45 @@ a:hover, a:active {
 					</table>
 				</div>
 			</div>
+
+			
+			<%-- '비회원삭제' 모달 --%>
+			<div class="modal fade" id="nonMemberTypeChange" tabindex="-1"	role="dialog" aria-labelledby="nonMemberDeleteTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="nonMemberDeleteTitle">회원 삭제확인</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">비회원 정보를 삭제 하시겠습니까?</div>
+						<div class="modal-footer justify-content-center">
+							<button type="button" 
+									class="btn btn-secondary"
+									data-dismiss="modal">아니오</button>
+							<!-- 0619 정의효 회원삭제 -->
+							<form action="admin_memberDelete" method="post">
+								<input type="hidden" name="member_id" value="${member.member_id}">
+								<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+			    function deleteNonMember(member_id) {
+			        $("#nonMemberTypeChange").data("memberId", member_id);
+			        $("#nonMemberTypeChange").modal("show");
+			    }
+			    
+			    $('#nonMemberTypeChange').on('show.bs.modal', function () {
+			        var memberId = $(this).data('memberId');
+			        $('input[name="member_id"]').val(memberId);
+			    });
+			</script>
+			<%-- '비회원삭제' 모달 끝 --%>
 
 			<%-- 페이징 처리 --%>
 			<nav aria-label="...">
@@ -183,7 +222,7 @@ a:hover, a:active {
 
 					<%-- 다음 페이지로 이동 --%>
 					<c:choose>
-						<c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+						<c:when test="${pageNo < pageInfo.maxPage }">
 							<li class="page-item"><a class="page-link"
 								href="admin_member_list?pageNo=${pageNo + 1}&memberSearchType=${param.memberSearchType}&memberSearchKeyword=${param.memberSearchKeyword}">&raquo;</a>
 							</li>

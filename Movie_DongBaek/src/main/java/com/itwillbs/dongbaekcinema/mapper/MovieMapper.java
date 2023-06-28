@@ -104,6 +104,9 @@ public interface MovieMapper {
 	// 전체 영화 목록 개수 조회 / 페이징 - 0622정의효
 	int selectMovieListCount(String movieSearchKeyword);
 
+	// 영화 중복검사
+	boolean isMovieAlreadyRegistered(String movie_name_kr);
+
 	
 
 
