@@ -193,7 +193,8 @@ public class AdminController {
 	@RequestMapping(value = "testSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String testSchedule(HttpSession session, Model model,
 	                           @RequestParam int theater_num, @RequestParam int room_num
-	                           , @RequestParam int movie_num, @RequestParam int breakTime) {
+	                           , @RequestParam int movie_num, @RequestParam String play_date
+	                           , @RequestParam int breakTime) {
 
 //		System.out.println("testSchedule 전송정보 확인 theater_num:" + theater_num);
 //	    System.out.println("testSchedule 전송정보 확인 room_num:" + room_num);
@@ -285,13 +286,26 @@ public class AdminController {
 //	                System.out.println("movie_running_time:"+ movie_running_time);
 //	                System.out.println("movie_name_kr:"+ movie_name_kr);
 	                
-	                jsonArray.put(jsonObject);
+	                // 이미 등록된 상영스케줄이 있는지 여부 확인(없을 경우 scheduelCount == 0)
+	                int scheduelCount = admin_service.checkSchedule(play_date, theater_num, room_num);
+	                System.out.println("scheduelCount:" + scheduelCount);
+	                System.out.println("play_date:" + play_date);
+	                System.out.println("theater_num:" + theater_num);
+	                System.out.println("room_num:" + room_num);
+	                
+	                if(scheduelCount == 0) { // 등록된 상영스케줄이 없을 경우
+	                	jsonObject.put("isRegist", "미등록");
+	                	jsonArray.put(jsonObject);
+	                } else { // 등록된 상영스케줄이 있을 경우	        	
+	                	jsonObject.put("isRegist", "변경");
+	                	jsonArray.put(jsonObject);
+	                }
 	            }
 	        }
+	        
+	        
 
-
-	        	
-	        return jsonArray.toString();
+	        return jsonArray.toString();	
 
 	    } catch (Exception e) {
 	        return "";

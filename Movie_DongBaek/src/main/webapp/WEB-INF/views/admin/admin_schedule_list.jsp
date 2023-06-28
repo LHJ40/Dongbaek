@@ -118,7 +118,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		    	event.preventDefault();
 		    } else{
 		    	
-			    $("#hide_div").css("display", "block");
+// 			    $("#hide_div").css("display", "block");
 			    
 			    $.ajax({
 			    	  url: 'showSchedual',
@@ -223,7 +223,6 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 			            }); // data 반복 함수 끝
 	
 			            
-			          
 			            
 			            <%-- 여기 작업중 --%>
 						// 첫번째 영화명 셀렉트 박스 선택시 등록정보 출력
@@ -232,6 +231,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 						  let theater_num = $("#theater_num").val();
 						  let room_num = 1;
 						  let breakTime = $("#breakTime").val();
+						  let play_date1 = $("#play_date").val(); // 날짜정보 리셋을 위한 새로운 변수 선언
 						
 // 						  alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 
@@ -243,21 +243,22 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							      theater_num: theater_num,
 							      room_num: room_num,
 							      movie_num: movie_num,
+							      play_date: play_date1,
 							      breakTime: breakTime
 							    },
 							    dataType: 'json',
 							    success: function(result1) {
-							      console.log('result1:'+ result1);
-							
+							      
 							      let schedule1 = '';
 							      let found = false;
+
 							      for (let i = 0; i < 5; i++) {
 		//					        alert(data[i].movie_name_kr + ', ' + data[i].play_turn);
 							        found = false; // found 변수 초기화
 							        for (let j = 0; j < result1.length; j++) {
 							            if (result1[j].play_turn === i + 1) {
 							              found = true;
-							              schedule1 += '<div class="font-weight-bold" style="color:red;">미등록<br></div><div></div>\
+							              schedule1 += '<div class="font-weight-bold" style="color:red;">'+ result1[j].isRegist +'<br></div>\
 							                            <div class="font-weight-bold">상영시간 :<br></div><div> ' + result1[j].new_start_turn + '<br> ~ <br>' + result1[j].new_end_turn + '</div>\
 							                            <div class="font-weight-bold">러닝타임 :<br></div><div> ' + result1[j].movie_running_time + '분' + '</div>\
 							                            <div class="font-weight-bold">영화명 :<br></div><div> ' + result1[j].movie_name_kr + '</div>?';
@@ -297,6 +298,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							 let theater_num = $("#theater_num").val();
 							 let room_num = 2;
 							 let breakTime = $("#breakTime").val();
+							 let play_date2 = $("#play_date").val(); // 날짜정보 리셋을 위한 새로운 변수 선언
 							
 // 							 alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 							
@@ -307,6 +309,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							      theater_num: theater_num,
 							      room_num: room_num,
 							      movie_num: movie_num,
+							      play_date: play_date2,
 							      breakTime: breakTime
 							    },
 							    dataType: 'json',
@@ -321,7 +324,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							        for (let j = 0; j < result2.length; j++) {
 							            if (result2[j].play_turn === i + 1) {
 							              found = true;
-							              schedule2 += '<div class="font-weight-bold" style="color:red;">미등록<br></div><div></div>\
+							              schedule2 += '<div class="font-weight-bold" style="color:red;">'+ result2[j].isRegist +'<br></div>\
 							                            <div class="font-weight-bold">상영시간 :<br></div><div> ' + result2[j].new_start_turn + '<br> ~ <br>' + result2[j].new_end_turn + '</div>\
 							                            <div class="font-weight-bold">러닝타임 :<br></div><div> ' + result2[j].movie_running_time + '분' + '</div>\
 							                            <div class="font-weight-bold">영화명 :<br></div><div> ' + result2[j].movie_name_kr + '</div>?';
@@ -358,8 +361,9 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 						$("#movieBox3").on("change", function() {
 							 let movie_num = $(this).val();
 							 let theater_num = $("#theater_num").val();
-							 let room_num = 3;
+							 let room_num = 3; // 상영관 정보
 							 let breakTime = $("#breakTime").val();
+							 let play_date3 = $("#play_date").val(); // 날짜정보 리셋을 위한 새로운 변수 선언
 							
 // 							 alert('영화번호:' + movie_num + ', 상영관번호:' + room_num + ', 영화관번호:' + theater_num);
 							
@@ -370,6 +374,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							      theater_num: theater_num,
 							      room_num: room_num,
 							      movie_num: movie_num,
+							      play_date: play_date3,
 							      breakTime: breakTime
 							    },
 							    dataType: 'json',
@@ -384,7 +389,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 							        for (let j = 0; j < result3.length; j++) {
 							            if (result3[j].play_turn === i + 1) {
 							              found = true;
-							              schedule3 += '<div class="font-weight-bold" style="color:red;">미등록<br></div><div></div>\
+							              schedule3 += '<div class="font-weight-bold" style="color:red;">'+ result3[j].isRegist +'<br></div>\
 							                            <div class="font-weight-bold">상영시간 :<br></div><div> ' + result3[j].new_start_turn + '<br> ~ <br>' + result3[j].new_end_turn + '</div>\
 							                            <div class="font-weight-bold">러닝타임 :<br></div><div> ' + result3[j].movie_running_time + '분' + '</div>\
 							                            <div class="font-weight-bold">영화명 :<br></div><div> ' + result3[j].movie_name_kr + '</div>?';
@@ -434,7 +439,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 			    	
 			    }); // #breakTime 온체인지 함수 끝
 		    
-		    } // prevent if문 끝
+		    } // 영화관, 상영날짜 미선택시 prevent if문 끝
 		    
 		}); // "#createScheduel" 온클릭 함수 끝
 		
