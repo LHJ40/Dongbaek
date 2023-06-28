@@ -7,7 +7,7 @@ div{
     max-width: 240px;
     min-width: 200px;
     padding: 150px 0 0 40px;
-    background-color: #fff;
+    background-color:transparent;
 }
 
 .sidebar{
