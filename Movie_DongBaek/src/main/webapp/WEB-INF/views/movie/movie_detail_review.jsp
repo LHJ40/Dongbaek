@@ -244,7 +244,14 @@
 	</section>
 
 	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
-	 <section id="review_content" style="margin: 80px">
+	 <section id="review_content" style="margin: 50px">
+	 <%-- 실관람객 리뷰작성가능 안내 --%>
+	 <div style="color: gray; margin-bottom: 20px; font-size: small;">
+	 * 리뷰 작성은 실 관람 후 작성가능합니다<br>
+	 * 리뷰작성은 로그인 후 가능합니다<br><br>
+<!-- 	 <textarea rows="3" cols="90"></textarea> -->
+<!-- 	 <input type="submit" value="등록" style="co"> -->
+	 </div>
 	 	<div class="row">
      		<b>${movie.movie_name_kr}</b> 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
          	<%-- 리뷰개수카운팅 전달필요 => movie_num(movie_name_kr)에 해당하는 review_num 카운팅--%>
@@ -256,6 +263,8 @@
 	    <%-- 리뷰컨텐츠 --%>
 	      <c:forEach var="review" items="${reviewList}">
 	         <div class="row" style="margin-top: 20px">
+	         	
+	         	
 	            <%-- 아이콘,아이디 --%>
 	            <div class="col sm-2">
 	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px" style="margin:10px">
@@ -305,7 +314,7 @@
 		<%-- 1. 현재페이지>1 =>[이전]버튼 동작 => 버튼클릭시 : BoardList서블릿요청(파라미터:현재pg-1) --%>
 		<c:choose>
 			<c:when test="${pageNum > 1 }">
-				<input type="button" class="btn-sm btn-outline-danger mr-2" value="이전" onclick="location.href='movie_detail_review?pageNum=${pageNum - 1}'">
+				<input type="button" class="btn-sm btn-outline-danger mr-2" value="이전" onclick="location.href='movie_detail_review?pageNum=${pageNum - 1}&movie_num=${movie.movie_num}'">
 			</c:when>
 			<c:otherwise>
 				<input type="button" class="btn-sm btn-outline-danger mr-2" value="이전" disabled="disabled">
@@ -323,7 +332,7 @@
 					<b id="nowPage">${i }</b> <%--페이지번호=현재페이지번호 -> 글자만표시  --%>
 				</c:when>
 				<c:otherwise>
-					<a href="movie_detail_review?pageNum=${i }" id="anotherPage">${i }</a><%--하이퍼링크활성화 --%>
+					<a href="movie_detail_review?pageNum=${i }&movie_num=${movie.movie_num}" id="anotherPage">${i }</a><%--하이퍼링크활성화 --%>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>	
@@ -331,7 +340,7 @@
 		<%-- 3. 현재페이지<maxPage =>[다음]버튼 동작 => 버튼클릭시 : BoardList서블릿요청(파라미터:현재pg+1) --%>
 		<c:choose>
 			<c:when test="${pageNum < pageInfo.maxPage }">
-				<input type="button" value="다음" class="btn-sm btn-outline-danger mr-2" onclick="location.href='movie_detail_review?pageNum=${pageNum + 1}'">
+				<input type="button" value="다음" class="btn-sm btn-outline-danger mr-2" onclick="location.href='movie_detail_review?pageNum=${pageNum + 1}&movie_num=${movie.movie_num}'">
 			</c:when>
 			<c:otherwise>
 				<input type="button" value="다음" class="btn-sm btn-outline-danger mr-2" disabled="disabled">
@@ -339,7 +348,7 @@
 		</c:choose>
 	</section>
 	<%--페이징처리 끝 ==========================================--%>
-		
+	<%-- 추가저장장장장장장장장저장저ㅇ장저장 --%>
 		
       
 		  	
@@ -350,7 +359,7 @@
 	 
 	 
 	 
-  <nav id="mainNav" class="d-none d-md-block sidebar">
+  <nav id="mainNav">
   <%--왼쪽 사이드바 --%>
   </nav>
   

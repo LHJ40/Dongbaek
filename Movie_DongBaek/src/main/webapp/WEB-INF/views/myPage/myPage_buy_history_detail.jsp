@@ -48,7 +48,7 @@
 <script type="text/javascript">
 	
 	$(function() {
-		$("#cancleCk").hide();	// 나중에 풀기
+// 		$("#cancleCk").hide();	// 나중에 풀기
 		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
 		if($("#play_change").val() === '취소가능') {
 			$("#cancleCk").show();
@@ -133,7 +133,7 @@
 							    	<th>주문 내역</th>
 							    		<td>
 							    			<c:choose>
-									    		<c:when test="${empty snack.snack_quantity}">
+									    		<c:when test="${empty mySnack}">
 									    			<span id="nothing">스토어 주문내역 없음</span>
 									    		</c:when>
 									    		<c:otherwise>

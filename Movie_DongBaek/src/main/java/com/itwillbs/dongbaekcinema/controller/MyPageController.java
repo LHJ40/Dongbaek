@@ -162,7 +162,7 @@ public class MyPageController {
 		
 		// 조회 시작 행(레코드) 번호 계산
 		int startRow = (pageNo - 1) * listLimit;
-		
+		System.out.println("listLimit : " + listLimit + ", startRow : " + startRow);
 		// 나의 구매내역 조회
 		// MypageService - getMyPayment()
 		// 파라미터 : member_id		리턴타입 : List<PaymentVO>(myPaymentList)
@@ -262,19 +262,6 @@ public class MyPageController {
 		return ResponseEntity.ok().body("주문취소완료"); // <200 OK OK,주문취소완료,[]>
 	}
 	
-	
-	// 마이페이지 - 나의 리뷰 페이지로 이동
-//	@GetMapping("myPage_myReview")
-//	public String myPage_myReview() {
-//		return "myPage/myPage_myReview";
-//	}
-//	
-//	// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
-//	@GetMapping("myPage_reviewWrite")
-//	public String myPage_reviewWrite() {
-//		return "myPage/myPage_reviewWrite";
-//	}
-	
 	// 마이페이지 - 찜한 영화 목록으로 이동
 	@GetMapping("myPage_like")
 	public String myPageLike(HttpSession session, Model model,
@@ -286,8 +273,9 @@ public class MyPageController {
 		// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
 		String member_type = (String) session.getAttribute("member_type");
 		String member_id = (String) session.getAttribute("member_id");
-
-		if (member_id == null || member_type.equals("비회원")) {
+		System.out.println(member_type);
+		System.out.println(member_id);
+		if (member_id == null || (member_type != null && member_type.equals("비회원"))) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
 			model.addAttribute("targetURL", "member_login_form");
 			return "fail_location";
@@ -307,6 +295,8 @@ public class MyPageController {
 		List<MovieLikeVO> likeList = likeService.getLikeMovieList(member_id, startRow, listLimit); 
 //		System.out.println(likeList);
 		
+		// 나의 예매
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, startRow, listLimit);
 		// 페이징처리, 찜한 영화 총 갯수
 		int likeListCount = likeService.getLikeMovieCount(member_id); 
 
@@ -371,6 +361,9 @@ public class MyPageController {
         List<MyReviewVO> myReviewList = service.getMyReviewList(member_id,startRow, listLimit);
         System.out.println(myReviewList);
         System.out.println(); 
+        
+        // 나의 예매 내역 가져오기
+//        List<MyTicketVO> myTicketList = service.getMyTicket(member_id, startRow, listLimit);
         
         // 나의 리뷰 전체
         List<MyReviewVO> myReviewListAll = service.getMyReviewList(member_id, 0, 0);
