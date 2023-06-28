@@ -23,6 +23,10 @@ div {
 th{
 	width: 200px;
 }
+
+.fr {
+	margin-top: 150px;
+}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -61,8 +65,9 @@ th{
 <!--     </header> -->
 	
 	<div class="row d-flex justify-content-center mt-3">
-		<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
-			<form action="MemberPasswdFind" method="post" name="fr">
+		<div class="col-8">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+			<form action="MemberPasswdFind" method="post" name="fr" class="Fr">
+		    	<h2>비밀번호 찾기</h2>
 		    	<p class="mb-3 fw-normal">아이디와 핸드폰 번호를 입력하신 후, 비밀번호 찾기 버튼을 눌러주세요.</p>
 			
 				<%-- 아이디 --%>
@@ -106,6 +111,7 @@ th{
 				<div class="row mb-3">
 	            	<label for="certify" class="col-2 text-nowrap"></label>
 	            	<div class="col-10">
+<!-- 	            	<button class="btn btn-outline-danger btn-lg ml-3" type="submit" disabled="disabled">비밀번호 변경</button> -->
 						<input type="submit" id="DoneBtn" value="비밀번호 변경하기" disabled="disabled">
 	             	</div>
 		        </div>

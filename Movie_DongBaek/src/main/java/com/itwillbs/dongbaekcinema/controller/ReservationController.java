@@ -1,5 +1,6 @@
 package com.itwillbs.dongbaekcinema.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,10 @@ import com.itwillbs.dongbaekcinema.vo.OrderVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
 import com.itwillbs.dongbaekcinema.voNew.GradeNextVO;
 import com.itwillbs.dongbaekcinema.voNew.ReservationVO;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MypageService;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
@@ -444,5 +450,13 @@ public class ReservationController {
 			return res;
 		 
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "verify_iamport/{imp_uid}", method = RequestMethod.POST)
+	public IamportResponse<Payment> verifyIamportPOST(@PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
+			
+		IamportClient client=new IamportClient("2836321062537518","gDtR42HoIUGMBdqwjWpjtZsXqwv1CQYBV04n7CRKxEXzx5vkdBH4J9OYKqsdtSdjMXHEfHM7hJVe8Luo");
+			return client.paymentByImpUid(imp_uid);
+		}
 }
 
