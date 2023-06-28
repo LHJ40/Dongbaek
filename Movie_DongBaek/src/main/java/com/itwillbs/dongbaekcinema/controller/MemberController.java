@@ -166,8 +166,6 @@ public class MemberController {
 				model.addAttribute("msg", "탈퇴한 회원입니다. 로그인이 불가능합니다.");
 				return "fail_back";
 			}
-			
-			// 세션에 값 넣기
 			session.setAttribute("member_id", getMember.getMember_id());
 			session.setAttribute("member_type", getMember.getMember_type());
 			
@@ -185,7 +183,7 @@ public class MemberController {
 			}
 			response.addCookie(cookie);
 			
-			System.out.println("play_num 없어? " + session.getAttribute("play_num"));
+//			System.out.println("play_num 없어? " + session.getAttribute("play_num"));
 			
 			// 나중에 작업하던 곳으로 돌아가게 설정하기(예매-좌석)
 			if(session.getAttribute("play_num") != null) {
@@ -438,7 +436,7 @@ public class MemberController {
 					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
 		}  else  {	// 비밀번호 일치 -> 로그인 성공
-			session.setAttribute("member_id", noMember.getMember_name());
+			session.setAttribute("member_id", noMember.getMember_phone());
 			// 세션에 "member_type"로 저장해서 비회원의 경우 권한 제한
 			session.setAttribute("member_type", "비회원");
 			// 마이페이지 홈으로 이동

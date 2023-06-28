@@ -74,6 +74,7 @@
 			FROM MEMBERS
 			WHERE
 				member_id = #{member_id}
+				AND member_type != '비회원'
 	</select>
 	
 	<!-- (member_phone)이 중복 확인 - SELECT -->
