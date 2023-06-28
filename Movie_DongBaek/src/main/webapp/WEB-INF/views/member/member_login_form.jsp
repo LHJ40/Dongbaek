@@ -7,7 +7,8 @@
 <!doctype html>
 <head>
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -182,12 +183,23 @@ div {
 		    	<%-- 네이버 --%>
 		    	<div class="col-3">
 		    		<%--  네이버 로그인 버튼 노출 영역  --%>
-		    		<img id="naverIdLogin_loginButton" alt="naver" href="javascript:void(0)" src="${pageContext.request.contextPath }/resources/img/btnG_축약형2.png" height="50px">
+		    		<img id="naverIdLogin_loginButton" alt="naver" src="${pageContext.request.contextPath }/resources/img/btnG_축약형2.png" height="50px">
 <!-- 		    		<a id="naverIdLogin_loginButton" href="javascript:void(0)"><span>네이버</span></a> -->
 					<br>
 		    	</div>
 		    		<!--  네이버 로그인 시작 -->
 					<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+					<script type="text/javascript">
+// 						$('#naverIdLogin_loginButton').on('click', function() {
+// 							let url = "https://nid.naver.com/oauth2.0/authorize?"
+// 											+ "response_type=code"
+// 											+ "&client_id=FapLXYLoVFVUWfuqISrN"
+// 											+ "&redirect_uri=http://localhost:8089/dongbaekcinema/member_join_step2"
+// 											+ "&state=test";
+// 							window.open(url, "loginForm", "");
+// 						});
+					</script>
+					
 					<script>
 					var naverLogin = new naver.LoginWithNaverId(
 							{
@@ -197,10 +209,12 @@ div {
 								callbackHandle: true
 							} );
 					
-// 					naverLogin.init();
+					naverLogin.init();
 					
 					$('#naverIdLogin_loginButton').on('click', function() {
 					    naverLogin.getLoginStatus(function(status) {
+					    	
+					    	alert(status);
 					    	
 					    	if (status) {
 					            var email = naverLogin.user.getEmail();
@@ -209,14 +223,14 @@ div {
 					            
 					            $.ajax({
 					                type: 'post',
-					                url: '<c:url value="/checkUserNaver"/>',
-					                data: {email: email},
+					                url: 'checkUserNaver',
+					                data: {email:email},
 					                dataType: 'text',
 					                success: function(response) {
 					                  console.log(response);
 					                  if (response === 'new') {
-					                	  sessionStorage.setItem('email', email);
-					                	  location.href = '<c:url value="//member_join_step2"/>';
+					                	  sessionStorage.setItem('email', member_email);
+					                	  location.href = '<c:url value="/member_join_step2"/>';
 					                	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
 
 					                  }  else if (response === 'existing') { 
@@ -231,10 +245,10 @@ div {
 					            });
 					    	} else {
 					            alert("fail");
-					          }
+					        }
 					    });
 					});
-<!-- 				</script>
+				</script> 
 		    	
 		    	<%-- 카카오 --%>
 		    	<div class="col-3">

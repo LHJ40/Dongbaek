@@ -9,7 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <title>동백시네마 회원가입 2. 약관동의</title>
-<script src="../js/jquery-3.7.0.js"></script>
+<!-- <script src="../js/jquery-3.7.0.js"></script> -->
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	// 전체선택 체크박스 체크 시 하위 체크박스 모두 checked로 변경
 	$(function() {
@@ -140,15 +141,21 @@ th{
 		  		<script type="text/javascript">
 					  var naver_id_login = new naver_id_login("YOUR_CLIENT_ID", "YOUR_CALLBACK_URL");
 					  // 접근 토큰 값 출력
-// 					  alert(naver_id_login.oauthParams.access_token);
+					  alert(naver_id_login.oauthParams.access_token);
 					  // 네이버 사용자 프로필 조회
-					  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+					  if (naver_id_login.is_callback == true){
+						  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+					  }
 					  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
 					  function naverSignInCallback() {
 						 // 수정 필요 - 휴대전화 와 이름 가져오기 
-// 					    alert(naver_id_login.getProfileData('email'));
-// 					    alert(naver_id_login.getProfileData('nickname'));
-// 					    alert(naver_id_login.getProfileData('age'));
+					    alert(naver_id_login.getProfileData('email'));
+// 					    alert("b" + naver_id_login.getProfileData('nickname'));
+// 					    alert("c" + naver_id_login.getProfileData('age'));
+					    naver_id_login.getProfileData('email');
+					    sessionStorage.setItem('member_email', naver_id_login.getProfileData('email'));
+// 					    naver_id_login.getProfileData('nickname');
+// 					    naver_id_login.getProfileData('age');
 					  }
 				</script>
 		  		
