@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -1462,6 +1463,15 @@ public class AdminController {
 			@RequestParam(defaultValue = "1") int pageNo, 
 			Model model) {
 		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
+		
 		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
 		
 		// 조회 시작 행(레코드) 번호 계산
@@ -1518,15 +1528,14 @@ public class AdminController {
 		        Model model,
 		        HttpServletRequest request) {
 
-			
-//			// 직원 세션이 아닐 경우 잘못된 접근 처리
-//			String member_type = (String)session.getAttribute("member_type");
-//			System.out.println(member_type);
-//			if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-	//
-//	            model.addAttribute("msg", "잘못된 접근입니다!");
-//	            return "fail_back";
-//	        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }	
 			
 			
 			MemberVO member = member_service.getMemberWithGradeName(member_id);
@@ -1544,14 +1553,14 @@ public class AdminController {
 						@RequestParam(defaultValue = "1") int pageNo, 
 						Model model) {
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		
 		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
@@ -1598,14 +1607,14 @@ public class AdminController {
 	public String adminMemberOneperson(HttpSession session, @RequestParam int movie_num, Model model) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		
 		MovieVO movie = movie_service.getMovie(movie_num);
@@ -1619,14 +1628,14 @@ public class AdminController {
 	public String adminMovieRegist(HttpSession session, Model model) {
 
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		
 		return "admin/admin_movie_regist";
@@ -1637,14 +1646,14 @@ public class AdminController {
 	public String adminMovieRegistPro(HttpSession session, @DateTimeFormat(pattern = "yyyy-MM-dd") MovieVO movie, Model model) {
 		System.out.println(movie);
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		
 		int insertCount = movie_service.registMovie(movie);
@@ -1663,14 +1672,14 @@ public class AdminController {
 						Model model) {
 		
 		
-//		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }		
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }		
 		
 		int listLimit = 10; // 한 페이지에 보여줄 게시물 수
 		
@@ -1715,9 +1724,18 @@ public class AdminController {
 	
 	// 관리자 - 결제상세 - 정의효
 	@PostMapping("admin_payment_list_detail")
-	public String adminPaymentListDetail(@RequestParam String order_num, Model model) {
+	public String adminPaymentListDetail(HttpSession session, @RequestParam String order_num, @RequestParam String payment_num, Model model) {
 		
-		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num);
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+			String member_type = (String)session.getAttribute("member_type");
+			System.out.println(member_type);
+			if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+		
+	            model.addAttribute("msg", "잘못된 접근입니다!");
+	            return "fail_back";
+	        }
+		
+		List<PaymentVO> paymentDetail = payment_service.getPaymentDetail(order_num, payment_num);
 		model.addAttribute("paymentDetail", paymentDetail);
 		
 		
@@ -1727,6 +1745,14 @@ public class AdminController {
 	// 관리자 - 회원등급변경 - 정의효
 	@PostMapping("admin_changeMemberGrade")
 	public String adminChangeMemberGrade(HttpSession session, @RequestParam String grade_name, @RequestParam String member_id, Model model) {
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		System.out.println(grade_name);
 	    member_service.changeMemberGrade(grade_name, member_id);
 	    model.addAttribute("member_id", member_id); // 변경후 리다이렉트를 위해 전달하는 member_id model객체에 저장
@@ -1736,6 +1762,14 @@ public class AdminController {
 	// 관리자 - 회원상태변경 - 정의효
 	@PostMapping("admin_changeMemberStatus")
 	public String adminChangeMemberStatus(HttpSession session, @RequestParam String member_status, @RequestParam String member_id, Model model) {
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		System.out.println(member_status);
 		member_service.changeMemberStatus(member_status, member_id);
 		model.addAttribute("member_id", member_id);
@@ -1744,29 +1778,70 @@ public class AdminController {
     
 	// 관리자 - 회원삭제 - 정의효
 	@PostMapping("admin_memberDelete")
-	public String adminMemberDelete(HttpSession session, @RequestParam String member_id) {
+	public String adminMemberDelete(HttpSession session, @RequestParam String member_id, Model model) {
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		member_service.memberDelete(member_id);
 		return "redirect:/admin_member_list";
 	}
 		
 	// 관리자 - 영화삭제 - 정의효
 	@PostMapping("admin_movieDelete")
-	public String adminMovierDelete(HttpSession session, @RequestParam String movie_num) {
+	public String adminMovierDelete(HttpSession session, @RequestParam String movie_num, Model model) {
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		movie_service.movieDelete(movie_num);
 		return "redirect:/admin_movie_management";
 	}
 		
 	// 관리자 - 영화수정 - 정의효
 	@PostMapping("admin_movie_modify")
-	public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie) {
+	public String adminMovieModify(HttpSession session, @ModelAttribute MovieVO movie, Model model) {
+		// 직원 세션이 아닐 경우 잘못된 접근 처리
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+	
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		movie_service.movieModify(movie);
 		
 		System.out.println(movie);
 		return "redirect:/admin_movie_management";
 	}
 	
-	
+	// 관리자 - 영화등록 - 중복검사 - 정의효
+	@GetMapping("checkMovie")
+	public void checkMovie(
+				@RequestParam String movie_name_kr,
+				HttpServletResponse response,
+				HttpSession session)throws IOException {
+	    // 직원 세션 확인
+	    String member_type = (String) session.getAttribute("member_type");
+	    if (member_type == null || !member_type.equals("직원")) {
+	        return;
+	    }
+
+	    boolean isMovieAlreadyRegistered = movie_service.isMovieAlreadyRegistered(movie_name_kr);
+	    response.setContentType("text/plain");
+	    response.getWriter().write(isMovieAlreadyRegistered ? "true" : "false");
+	    System.out.println(isMovieAlreadyRegistered);
+	}
     
+	
 }
 
 

@@ -284,7 +284,7 @@ public class ReservationController {
         
         
 		
-		MemberVO member=service4.getMember(member_id);
+		MemberVO member=service.getMember(member_id);
 		GradeNextVO member_grade=service3.getMyGrade(member_id);
 		int discount=(int) (ticketTotalPrice*member_grade.getGrade_discount());
 		

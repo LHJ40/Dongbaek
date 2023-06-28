@@ -160,6 +160,11 @@ public class MovieService {
 		return mapper.selectMovieListCount(movieSearchKeyword);
 	}
 
+	//영화 중복검사
+	public boolean isMovieAlreadyRegistered(String movie_name_kr) {
+		return mapper.isMovieAlreadyRegistered(movie_name_kr);
+	}
+
 
 
 

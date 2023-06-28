@@ -262,19 +262,6 @@ public class MyPageController {
 		return ResponseEntity.ok().body("주문취소완료"); // <200 OK OK,주문취소완료,[]>
 	}
 	
-	
-	// 마이페이지 - 나의 리뷰 페이지로 이동
-//	@GetMapping("myPage_myReview")
-//	public String myPage_myReview() {
-//		return "myPage/myPage_myReview";
-//	}
-//	
-//	// 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
-//	@GetMapping("myPage_reviewWrite")
-//	public String myPage_reviewWrite() {
-//		return "myPage/myPage_reviewWrite";
-//	}
-	
 	// 마이페이지 - 찜한 영화 목록으로 이동
 	@GetMapping("myPage_like")
 	public String myPageLike(HttpSession session, Model model,
@@ -308,6 +295,8 @@ public class MyPageController {
 		List<MovieLikeVO> likeList = likeService.getLikeMovieList(member_id, startRow, listLimit); 
 //		System.out.println(likeList);
 		
+		// 나의 예매
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, startRow, listLimit);
 		// 페이징처리, 찜한 영화 총 갯수
 		int likeListCount = likeService.getLikeMovieCount(member_id); 
 
@@ -373,6 +362,9 @@ public class MyPageController {
         System.out.println(myReviewList);
         System.out.println(); 
         
+        // 나의 예매 내역 가져오기
+//        List<MyTicketVO> myTicketList = service.getMyTicket(member_id, startRow, listLimit);
+        
         // 나의 리뷰 전체
         List<MyReviewVO> myReviewListAll = service.getMyReviewList(member_id, 0, 0);
         int listCount = myReviewListAll.size();
@@ -403,6 +395,18 @@ public class MyPageController {
 
         return "myPage/myPage_myReview";
     }
+	
+	@ResponseBody
+	@PostMapping("GetReivew")
+	public List<MyReviewVO> getReview(@RequestParam String member_id, 
+										@RequestParam int play_num, 
+										@RequestParam String play_status) {
+		
+		
+		List<MyReviewVO> myReview = service.getMyReview(member_id, play_num);
+		System.out.println(myReview);
+		return myReview;
+	}
 
     // 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
     @GetMapping("myPage_reviewWrite")

@@ -324,11 +324,28 @@ article {
 			});
 
 			// 예 버튼 클릭 시 폼 제출
-			$("#confirm-submit").click(function() {
-				if (checkRequiredFields() && checkGenre()) {
-					$("form").submit();
-				}
-			});
+			$("#confirm-submit").click(function () {
+		    	if (checkRequiredFields() && checkGenre()) {
+			        var movieNameKr = $("#movie_name_kr").val();
+			        $.ajax({
+			            url: "checkMovie",
+			            data: {
+			                movie_name_kr: movieNameKr,
+			            },
+			            success: function (response) {
+			                if (response.trim() === "true") {
+			                    alert("이미 등록된 영화입니다.");
+			                    $("#confirmModal").modal("hide"); // 모달 창 닫기 추가
+			                } else {
+			                    $("form").submit();
+			                }
+			            },
+			            error: function (xhr, status, error) {
+			                console.log("AJAX 요청 실패:", error);
+			            },
+			        });
+			     }
+			 });
 
 			function checkGenre() {
 				const validGenres = [ '공포', 'SF', '범죄', '액션', '판타지', '음악',
@@ -341,12 +358,11 @@ article {
 			function checkRequiredFields() {
 				let isValid = true;
 
-				$('form input[required], form textarea[required]').each(
-						function() {
-							if ($(this).val().trim() === '') {
-								isValid = false;
-							}
-						});
+				$('form input[required], form textarea[required]').each(function() {
+					if ($(this).val().trim() === '') {
+						isValid = false;
+					}
+				});
 
 				return isValid;
 			}

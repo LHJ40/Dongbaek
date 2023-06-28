@@ -67,6 +67,8 @@
 					현재 등급
 					<%-- 등급에 따른 아이콘 표시 --%>
 					<c:choose>
+						<c:when test="${myGrade.grade_name eq 'NONE'}">
+						</c:when>
 						<c:when test="${myGrade.grade_name eq 'BRONZE'}">
 							<img class="gradeImg" src="${pageContext.request.contextPath }/resources/img/grade_bronze.png">
 						</c:when>
