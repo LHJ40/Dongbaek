@@ -395,6 +395,18 @@ public class MyPageController {
 
         return "myPage/myPage_myReview";
     }
+	
+	@ResponseBody
+	@PostMapping("GetReivew")
+	public List<MyReviewVO> getReview(@RequestParam String member_id, 
+										@RequestParam int play_num, 
+										@RequestParam String play_status) {
+		
+		
+		List<MyReviewVO> myReview = service.getMyReview(member_id, play_num);
+		System.out.println(myReview);
+		return myReview;
+	}
 
     // 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
     @GetMapping("myPage_reviewWrite")
