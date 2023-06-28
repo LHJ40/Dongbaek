@@ -39,21 +39,18 @@
  				</c:when>
 	 			<c:otherwise>
 		 			<tr>
-<!-- 			 			<th>번호</th> -->
 			 			<th>영화 제목</th>
 			 			<th>리뷰 내용</th>
-<!-- 			 			<th>공감 수</th> -->
 			 			<th>평점</th>
 			 			<th>등록일</th>
-			 			<th>수정 및 삭제</th>
-<!-- 			 			<th>리뷰 작성</th> -->
-			 			<th>리뷰 작성 상태</th>
+				 		<th>수정 및 삭제</th>
+				 		<th>리뷰 작성 상태</th>
 	 				</tr>
 	 				<c:forEach var="myReviewList" items="${myReviewList }" begin="0" end="3" step="1" varStatus="status">
 		 				<tr>
-<!-- 					 		<td> -->
-<%-- 					 			${status.index+1} --%>
-<%-- 					 		</td> {param.myreview_num} 최신순이 위로 --%>
+					 		<td>
+					 			${status.index+1}
+					 		</td> 
 					 		
 					 		<td>
 					 			${myReviewList.movie_name_kr }
