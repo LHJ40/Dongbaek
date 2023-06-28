@@ -84,8 +84,9 @@ function getReview(movieNum, memberId, playNum) {
 	<%--본문내용 --%>
 	<div class="container container-fluid w-900">
 	<div class="mainTop">
- 		<h1>나의 리뷰</h1>
- 		<hr>
+ 		<h2>나의 리뷰</h2>
+ 		<br>
+ 		<br>
  		<span> 회원님이 작성하신 리뷰를 확인하실 수 있습니다! </span>
  		
  		<table class="table">
