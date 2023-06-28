@@ -76,11 +76,10 @@
 	리턴타입 : List<> -->
 	<select id="selectMyPaymentList" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailVO">
 		SELECT 
-			payment_num
+			member_id
+			, payment_num
 			, payment_datetime
-<!-- 			, IFNULL( -->
 			, payment_total_price
-<!-- 			, 0) -->
 			, payment_status
 		FROM BUY_DETAIL
 		WHERE
@@ -88,11 +87,14 @@
 			AND payment_datetime &gt;= SUBDATE(now(), INTERVAL 3 MONTH)
 			AND payment_datetime &lt;= now()
 			GROUP BY 
-				payment_num
+				member_id
+				, payment_num
 				, payment_datetime
 				, payment_total_price
 				, payment_status
-		<if test="startRow != 0 and listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
+			ORDER BY
+				payment_datetime DESC
+		<if test="listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
 				LIMIT 
 					#{startRow}
 					, #{listLimit}
