@@ -128,7 +128,7 @@
 			FROM BUY_DETAIL_SNACK
 			WHERE payment_num = #{payment_num}
 			GROUP BY snack_name
-			
+			<!-- 수정용 -->
 	</select>
 	
 	<!-- 마이페이지 - 나의 멤버십. 올해 누적 실적 조회(지영) -->

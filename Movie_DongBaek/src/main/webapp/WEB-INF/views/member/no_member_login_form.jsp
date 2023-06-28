@@ -45,9 +45,6 @@ div {
 	border: 1px solid gray;
 }
 
-#mainNav{
-	border: 1px solid blue;
-}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">

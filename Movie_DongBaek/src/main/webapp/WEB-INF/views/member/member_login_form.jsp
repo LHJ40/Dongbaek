@@ -37,6 +37,11 @@ div {
 	background-color: transparent;
 }
 
+.inputArea {
+	 border: 1px solid red;
+	 padding: 15px 20px 0 20px;
+}
+
 /* 회원로그인/비회원로그인/비회원예매 확인 탭 */
 .nav-pills .nav-link.active {
 	color: #fff;
@@ -49,12 +54,10 @@ div {
 
 /* 확인용 */
 .container-fluid{
-	border: 1px solid gray;
+/* 	border: 1px solid gray; */
 }
 
-#mainNav{
-	border: 1px solid blue;
-}
+
 
 </style>
 <script type="text/javascript">
@@ -96,7 +99,7 @@ div {
     </header>
 	
 	<div class="row d-flex justify-content-center mt-3">
-	  <div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+	  <div class="col-8 inputArea">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
 		<form action="member_login_pro" method="post">
 		    <p class="mb-3 fw-normal">아이디와 비밀번호를 입력하신 후, 로그인 버튼을 눌러주세요.</p>
 			
