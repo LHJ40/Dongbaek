@@ -341,12 +341,11 @@ article {
 			function checkRequiredFields() {
 				let isValid = true;
 
-				$('form input[required], form textarea[required]').each(
-						function() {
-							if ($(this).val().trim() === '') {
-								isValid = false;
-							}
-						});
+				$('form input[required], form textarea[required]').each(function() {
+					if ($(this).val().trim() === '') {
+						isValid = false;
+					}
+				});
 
 				return isValid;
 			}

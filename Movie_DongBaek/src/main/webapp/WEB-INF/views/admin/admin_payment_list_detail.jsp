@@ -138,22 +138,27 @@ article {
 				</div>
 			</div>
 
+
 			<%-- 상세보기 테이블 --%>
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table table-bordered text-center">
 
 						<c:set var="headcount" value="0" />
-						<c:set var="seat_nums" value="" />
+						<c:set var="seat_names" value="" />
 						<c:set var="snack_names" value="" />
-
+						<c:set var="dong_baek_combo_count" value="0" />
+						<c:set var="chul_juk_combo_count" value="0" />
+						
 						<c:forEach var="paymentDetail" items="${paymentDetail}">
-							<c:set var="headcount"
-								   value="${headcount + paymentDetail.headcount}" />
-							<c:set var="seat_nums"
-								   value="${seat_nums}${seat_nums != '' ? ',' : ''}${paymentDetail.seat_num}" />
-							<c:set var="snack_names"
-								   value="${snack_names}${snack_names != '' ? ',' : ''}${paymentDetail.snack_name}" />
+						    <c:set var="headcount"
+						           value="${headcount + paymentDetail.headcount}" />
+						    <c:set var="seat_names" value="${paymentDetail.seat_names}" />
+							<c:set var="snack_names" value="" />
+						    <c:set var="dong_baek_combo_count"
+						           value="${dong_baek_combo_count + paymentDetail.dong_baek_combo_count}" />
+						    <c:set var="chul_juk_combo_count"
+						           value="${chul_juk_combo_count + paymentDetail.chul_juk_combo_count}" />
 						</c:forEach>
 
 						<c:set var="last_paymentDetail"
@@ -184,17 +189,21 @@ article {
 							<td>${headcount}</td>
 						<tr>
 						<tr>
-							<th>좌석번호</th>
-							<td>${seat_nums}</td>
+						<th>좌석번호</th>
+						<td>${seat_names}</td>
 						</tr>
 						<tr>
-							<th>주문한 스낵</th>
-							<td>
-								<c:choose>
-									<c:when test="${empty snack_names}">없음</c:when>
-									<c:otherwise>${snack_names}</c:otherwise>
-								</c:choose>
-							</td>
+						<th>주문한 스낵</th>
+						<td>
+							<c:choose>
+								<c:when test="${last_paymentDetail.dong_baek_combo_count == 0 && last_paymentDetail.chul_juk_combo_count == 0}">없음</c:when>
+								<c:otherwise>
+									<c:if test="${last_paymentDetail.dong_baek_combo_count > 0}">동백콤보 ${last_paymentDetail.dong_baek_combo_count}개</c:if>
+									<c:if test="${last_paymentDetail.dong_baek_combo_count > 0 && last_paymentDetail.chul_juk_combo_count > 0}">, </c:if>
+									<c:if test="${last_paymentDetail.chul_juk_combo_count > 0}">철쭉콤보 ${last_paymentDetail.chul_juk_combo_count}개</c:if>
+								</c:otherwise>
+							</c:choose>
+						</td>
 						</tr>
 						<tr>
 							<th>결제방법</th>
@@ -263,6 +272,7 @@ article {
 			</div>
 		</div>
 		<%-- 본문 테이블 끝 --%>
+
 	</article>
 
 	<%--왼쪽 사이드바 --%>

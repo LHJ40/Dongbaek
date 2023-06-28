@@ -43,7 +43,7 @@ public interface PaymentMapper {
 //	int getCount();
 
 	//0621 정의효 - 결제상세 list작성중
-	List<PaymentVO> getPaymentDetail(String order_num);
+	List<PaymentVO> getPaymentDetail(@Param("order_num") String order_num, @Param("payment_num") String payment_num);
 	
 	//전체 결제 목록 조회 0622정의효
 	List<PaymentVO> selectPaymentList(@Param("paymentSearchKeyword") String paymentSearchKeyword, 

@@ -75,8 +75,8 @@ public class PaymentService {
 //	}
 
 	// 0621 정의효 관리자-결제상세정보
-	public List<PaymentVO> getPaymentDetail(String order_num) {
-		return mapper.getPaymentDetail(order_num);
+	public List<PaymentVO> getPaymentDetail(String order_num, String payment_num) {
+		return mapper.getPaymentDetail(order_num, payment_num);
 	}
 	
 //	결제 목록 조회 0622 정의효
