@@ -16,10 +16,7 @@
 <!-- </script> -->
 
 <title>영화 예매 사이트</title>
-<style>
 
-
-</style>
 </head>
 <body>
 <%--네비게이션 바 영역 --%>
@@ -50,20 +47,20 @@
 	</section>
 		  	
 	<%-- 2-1. 탭 컨텐츠 --%>	  	
-	<section id="movie-end" style="padding: 50px; padding-right: 80px">
+	<section id="movie-end">
 		<div class="p-3">
-			<div class="row" style="padding:20px">
-				<div> ${movie.movie_director} </div> &nbsp;<b>|</b>&nbsp;
-			  	<div>${movie.movie_genre }</div> &nbsp;<b>|</b>&nbsp;
-			  	<div>${movie.movie_running_time }</div> &nbsp;<b>|</b>&nbsp;
-			  	<div>${movie.movie_grade }</div> &nbsp;<b>|</b>&nbsp;
-			  	<div>${movie.movie_release_date }</div>
+				<div><b>감독  </b> ${movie.movie_director} </div>
+			  	<div><b>장르 </b>${movie.movie_genre }</div>
+			  	<div><b>러닝타임 </b>${movie.movie_running_time }</div>
+			  	<div><b>관람등급 </b>${movie.movie_grade }</div>
+			  	<div><b>개봉일 </b>${movie.movie_release_date }</div>
+		  	<hr>
+		 		<div class="row">
+		  			<b>출연진 &nbsp; </b> ${movie.movie_cast }
 		  	</div>
-		 		<div class="row" style="padding:20px">
-		  			출연진 ${movie.movie_cast }
-		  	</div>
-		  	<div class="row" style="padding:20px">
-				${movie.movie_content }
+		  	<hr>
+		  	<div class="row">
+		  		<b> 시놉시스 &nbsp;</b> ${movie.movie_content }
 		  	</div>
 		 </div>
 	</section>		

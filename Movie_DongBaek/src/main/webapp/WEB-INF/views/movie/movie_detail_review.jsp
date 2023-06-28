@@ -245,62 +245,64 @@
 
 	 <%-- 2-1. 두번째 섹션 - 탭내용(리뷰) --%>
 	 <section id="review_content" style="margin: 50px">
-	 <%-- 실관람객 리뷰작성가능 안내 --%>
-	 <div style="color: gray; margin-bottom: 20px; font-size: small;">
-	 * 리뷰 작성은 실 관람 후 작성가능합니다<br>
-	 * 리뷰작성은 로그인 후 가능합니다<br><br>
-<!-- 	 <textarea rows="3" cols="90"></textarea> -->
-<!-- 	 <input type="submit" value="등록" style="co"> -->
-	 </div>
-	 	<div class="row">
-     		<b>${movie.movie_name_kr}</b> 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
-         	<%-- 리뷰개수카운팅 전달필요 => movie_num(movie_name_kr)에 해당하는 review_num 카운팅--%>
-      	</div>
-      	<div class="row h6" id="review_count" style="margin-bottom:10px; margin-top: 10px">
-            전체 리뷰 개수 : ${reviewCount.review_count}개
-      	</div>
-      	
-	    <%-- 리뷰컨텐츠 --%>
-	      <c:forEach var="review" items="${reviewList}">
-	         <div class="row" style="margin-top: 20px">
-	         	
-	         	
-	            <%-- 아이콘,아이디 --%>
-	            <div class="col sm-2">
-	               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px" style="margin:10px">
-	               <p class="member_id">${review.member_id} 님</p>
-	            </div>
-	            <%-- 평점 --%>
-	            <div class="col sm-2">
-	               <h5>평점</h5>
-	               <p> ${review.review_rating} 점</p>
-	            </div>
-	            <%-- 리뷰내용 --%>
-	            <div class="col sm-6">
-	               ${review.review_content}
-	            </div>
-	            <%-- 공감버튼,공감수? --%>
-	            <div class="col sm-2">
-	            	<c:choose>
-	            		<c:when test="${empty sessionScope.member_id }">
-			            	<div class="reviewLikeArea">
-		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
-				            	<button data-review-num="${review.review_num }" onclick="login()">
-				            		<img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px">
-				            	</button>	            		
-			            	</div>
-	            		</c:when>
-	            		<c:otherwise>
-			            	<div class="reviewLikeArea">
-		            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
-				            	<button class="reviewLike" data-review-num="${review.review_num }"></button>	            				
-		            			<input type="hidden" value="${sessionScope.member_id }">
-							</div>
-	            		</c:otherwise>
-	            	</c:choose>
-	            </div>
-	         </div>
-	      </c:forEach>
+	 <div class="card border-0 shadow-sm">
+		 <%-- 실관람객 리뷰작성가능 안내 --%>
+		 <div style="color: gray; margin-bottom: 20px; font-size: small;">
+		 * 리뷰 작성은 실 관람 후 작성가능합니다<br>
+		 * 리뷰작성은 로그인 후 가능합니다<br><br>
+		<!-- 	 <textarea rows="3" cols="90"></textarea> -->
+		<!-- 	 <input type="submit" value="등록" style="co"> -->
+		 </div>
+		 	<div class="row">
+	     		<b>${movie.movie_name_kr}</b> 에 대한 리뷰 ${reviewCount.review_count } 개가 등록되어있습니다
+	         	<%-- 리뷰개수카운팅 전달필요 => movie_num(movie_name_kr)에 해당하는 review_num 카운팅--%>
+	      	</div>
+	      	<div class="row h6" id="review_count" style="margin-bottom:10px; margin-top: 10px">
+	            전체 리뷰 개수 : ${reviewCount.review_count}개
+	      	</div>
+	      	
+		    <%-- 리뷰컨텐츠 --%>
+		      <c:forEach var="review" items="${reviewList}">
+		         <div class="row" style="margin-top: 20px">
+		         	
+		         	
+		            <%-- 아이콘,아이디 --%>
+		            <div class="col sm-2">
+		               <img src="${pageContext.request.contextPath }/resources/img/anonymous.png" class="rounded float-left rounded-circle" alt="..." width="50px" style="margin:10px">
+		               <p class="member_id">${review.member_id} 님</p>
+		            </div>
+		            <%-- 평점 --%>
+		            <div class="col sm-2">
+		               <h5>평점</h5>
+		               <p> ${review.review_rating} 점</p>
+		            </div>
+		            <%-- 리뷰내용 --%>
+		            <div class="col sm-6" id="review_contents">
+		               ${review.review_content}
+		            </div>
+		            <%-- 공감버튼,공감수? --%>
+		            <div class="col sm-2">
+		            	<c:choose>
+		            		<c:when test="${empty sessionScope.member_id }">
+				            	<div class="reviewLikeArea">
+			            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
+					            	<button data-review-num="${review.review_num }" onclick="login()">
+					            		<img src="${pageContext.request.contextPath }/resources/img/likeBefore.png" class="rounded float-left" alt="..." width="50px">
+					            	</button>	            		
+				            	</div>
+		            		</c:when>
+		            		<c:otherwise>
+				            	<div class="reviewLikeArea">
+			            			<span class="reviewLikeCount" data-review-num="${review.review_num }"></span>
+					            	<button class="reviewLike" data-review-num="${review.review_num }"></button>	            				
+			            			<input type="hidden" value="${sessionScope.member_id }">
+								</div>
+		            		</c:otherwise>
+		            	</c:choose>
+		            </div>
+		         </div>
+		      </c:forEach>
+		</div>
       </section>
       
     <%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
