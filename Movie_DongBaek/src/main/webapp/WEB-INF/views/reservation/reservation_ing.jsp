@@ -104,7 +104,26 @@ article {
 <script type="text/javascript">
 	
  	$(function() {
- 	
+ 		var today = new Date();
+
+ 		var year = today.getFullYear();
+ 		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+ 		var day = ('0' + today.getDate()).slice(-2);
+
+ 		var dateString = year + '-' + month  + '-' + day;
+
+ 		var hours = ('0' + today.getHours()).slice(-2); 
+ 		var minutes = ('0' + today.getMinutes()).slice(-2);
+ 		var seconds = ('0' + today.getSeconds()).slice(-2); 
+
+ 		var timeString = hours + ':' + minutes  + ':' + seconds
+
+ 		var dateTimeString = year + '-' + month  + '-' + day +' '+ hours + ':' + minutes  + ':' + seconds;
+ 		
+ 	if("${reservation.play_date}"==dateString && "${reservation.play_start_time}" <timeString ){
+ 		alert("이미 상영이 시작된 영화라 예매가 불가능합니다");
+ 		location.replace("reservation_seat?play_num=${param.play_num}");
+ 	}
  	$("#check_module").click(function () {
  		$.ajax({//예약된 좌석이면 결제 불가
  				type : "post", 

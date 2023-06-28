@@ -55,8 +55,8 @@ public class MypageService {
 	}
 	
 	// 
-	public List<MyReviewVO> getMyReview(String member_id, int play_num) {
-		return mapper.selectMyReview(member_id, play_num);
+	public List<MyReviewVO> getMyReview(String member_id, int movie_num) {
+		return mapper.selectMyReview(member_id, movie_num);
 	}
 	
 

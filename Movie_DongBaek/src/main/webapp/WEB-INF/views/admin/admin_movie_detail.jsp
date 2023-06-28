@@ -61,7 +61,7 @@ a:hover, a:active {
 
 	<%--본문내용 --%>
 	<article id="mainArticle">
-		<div class="container-fluid w-900 justify-content-center" style="border: 1px solid gray">
+		<div class="container-fluid w-900 justify-content-center">
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<h3>

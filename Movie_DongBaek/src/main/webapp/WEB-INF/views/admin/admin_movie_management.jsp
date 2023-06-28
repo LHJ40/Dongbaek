@@ -176,7 +176,7 @@ a:hover, a:active {
 
 							<%-- 다음 페이지로 이동 --%>
 							<c:choose>
-								<c:when test="${pageInfo.endPage < pageInfo.maxPage}">
+								<c:when test="${pageNo < pageInfo.maxPage }">
 									<li class="page-item">
 										<a class="page-link"
 										   href="admin_movie_management?pageNo=${pageNo + 1}&movieSearchKeyword=${param.movieSearchKeyword}">&raquo;</a>
