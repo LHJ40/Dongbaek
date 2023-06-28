@@ -15,6 +15,43 @@
 <style>
 
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+	let myReview = $("tr.myReview");
+	myReview.each(function() {
+		if($("input[type=hidden]").val() == "상영완료") {
+			let movieNum = $(".movieName").attr("data-movie-num");
+			let memberId = $(".movieName").attr("data-member-id");
+			let playNum = $(".movieName").attr("data-play-num");
+			let playStatus = $("movieName").attr("data-play-status");
+				getReview(memberId, playNum, playStatus);
+		}		
+	});
+	
+});
+
+
+function getReview() {	
+	let movieNum = $(".movieName").attr("data-movie-num");
+	let memberId = $(".movieName").attr("data-member-id");
+	let playNum = $(".movieName").attr("data-play-num");
+	let playStatus = $("input[type=hidden]").val(); 
+	
+	$.ajax({
+		type : "post", 
+		url : "GetReivew", 
+		data : {"member_id" : memberId, "play_num" : playNum, "play_status" : playStatus}, 
+		dataType : "json",
+	})
+	.done(function(theater) {
+		alert("요청성공");
+	})
+	.fail(function() { // 요청 실패 시
+		alert("요청 실패!");
+	});
+}
+</script>
+
 </head>
 <body>
 <%--네비게이션 바 영역 --%>
@@ -39,6 +76,7 @@
  				</c:when>
 	 			<c:otherwise>
 		 			<tr>
+		 				<th>번호</th>
 			 			<th>영화 제목</th>
 			 			<th>리뷰 내용</th>
 			 			<th>평점</th>
@@ -47,18 +85,18 @@
 				 		<th>리뷰 작성 상태</th>
 	 				</tr>
 	 				<c:forEach var="myReviewList" items="${myReviewList }" begin="0" end="3" step="1" varStatus="status">
-		 				<tr>
+		 				<tr class="myReview">
 					 		<td>
 					 			${status.index+1}
 					 		</td> 
 					 		
-					 		<td>
+					 		<td class="movieName" data-movie-num="${myReviewList.movie_num }" data-member-id="${myReviewList.member_id }" data-play-num="${myReviewList.play_num }" data-play-status="${myReviewList.play_status }">
 					 			${myReviewList.movie_name_kr }
+					 			<input type="hidden" value="${myReviewList.play_status }">
 					 		</td> 
 					 		
 					 		<td>
 					 			${myReviewList.review_content }
-					 			<a href="review_detail">더보기</a><%-- 알림창으로 뜨니까 href 아닌데 현재 생각안남--%>
 					 		</td>
 
 					 		<td>

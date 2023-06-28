@@ -53,6 +53,12 @@ public class MypageService {
 	public List<MyReviewVO> getMyReviewList(String member_id, int startRow, int listLimit) {
 		return mapper.selectMyReviewList(member_id, startRow, listLimit);
 	}
+	
+	// 
+	public List<MyReviewVO> getMyReview(String member_id, int play_num) {
+		return mapper.selectMyReview(member_id, play_num);
+	}
+	
 
 	// 마이페이지 - 회원 나의 문의 페이지 조회
 	public List<CsInfoVO> getMyInqList(String member_id, int startRow, int listLimit) {
@@ -76,6 +82,9 @@ public class MypageService {
 	public int deleteMyInquiry(String cs_num) {
 		return mapper.deleteMyInq(cs_num);
 	}
+
+	
+	
 
 
 
