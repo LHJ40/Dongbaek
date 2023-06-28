@@ -38,6 +38,10 @@ div {
 .nav-pills .nav-link.active {
 	color: #fff;
 	background-color: #ef4f4f;
+	border-bottom:none;
+}
+.nav-link {
+	width: 150px;
 }
 
 .nav-link:hover {
@@ -45,9 +49,9 @@ div {
 }
 
 /* 확인용 */
-.container-fluid{
-	border: 1px solid gray;
-}
+/* .container-fluid{ */
+/* 	border: 1px solid gray; */
+/* } */
 
 
 </style>
@@ -116,7 +120,7 @@ div {
 		    	* 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
 		    </p>
 		
-		    <button class="w-100 btn btn-lg btn-danger mb-3" type="submit">비회원예매 확인</button>
+		    <button class="w-100 btn btn-lg btn-red mb-3" type="submit">비회원예매 확인</button>
 		</form>
         </div>
 	</div>

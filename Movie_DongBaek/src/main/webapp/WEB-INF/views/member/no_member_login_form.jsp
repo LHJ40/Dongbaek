@@ -30,10 +30,19 @@ div {
 	background-color: transparent;
 }
 
+.inputArea {
+	 border: 1px solid red;
+/* 	 padding: 15px 20px 0 20px; */
+}
+
 /* 회원로그인/비회원로그인/비회원예매 확인 탭 */
 .nav-pills .nav-link.active {
 	color: #fff;
 	background-color: #ef4f4f;
+	border-bottom:none;
+}
+.nav-link {
+	width: 150px;
 }
 
 .nav-link:hover {
@@ -41,9 +50,9 @@ div {
 }
 
 /* 확인용 */
-.container-fluid{
-	border: 1px solid gray;
-}
+/* .container-fluid{ */
+/* 	border: 1px solid gray; */
+/* } */
 
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
@@ -228,7 +237,7 @@ div {
 	
 <!-- 	<form action="#" method="post" class="needs-validation mt-3 py-3"> -->
 	<%-- 비회원 로그인 폼 --%>
-	<div class="row mt-3" style="border: 1px solid red;">
+	<div class="row mt-3 inputArea">
 		<div class="col-6 mt-3">
 			
 				<%-- 이름 --%>
