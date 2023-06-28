@@ -23,6 +23,10 @@ div {
 th{
 	width: 200px;
 }
+
+.fr {
+	margin-top: 100px;
+}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -61,8 +65,9 @@ th{
 <!--     </header> -->
 	
 	<div class="row d-flex justify-content-center mt-3">
-		<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
-			<form action="MemberIdFind" method="post" name="fr">
+		<div class="col-8">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+			<form action="MemberIdFind" method="post" name="fr" class="fr">
+				<h2>아이디 찾기</h2>
 		    	<p class="mb-3 fw-normal">이름과 전화번호를 입력하신 후, 아이디 찾기 버튼을 눌러주세요.</p>
 			
 				<%-- 아이디 --%>
