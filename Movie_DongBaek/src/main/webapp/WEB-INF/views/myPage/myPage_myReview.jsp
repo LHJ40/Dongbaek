@@ -26,13 +26,19 @@ $(document).ready(function() {
 		
 		// 상영상태가 "상영종료" 인 영화에 대해
 		// 리뷰가 있으면 해당 리뷰 가져오기
-		if($("input[type=hidden]").val() == "상영완료") {
-			let movieNum = $(".movieName").attr("data-movie-num");
-			let memberId = $(".movieName").attr("data-member-id");
-			let playNum = $(".movieName").attr("data-play-num");
-			let playStatus = $(".movieName").attr("data-play-status");
+		if($("input[type=hidden]", this).val() == "상영완료") {
+			let movieNum = $(".movieName", this).attr("data-movie-num");
+			let memberId = $(".movieName", this).attr("data-member-id");
+			let playNum = $(".movieName", this).attr("data-play-num");
+			let playStatus = $(".movieName", this).attr("data-play-status");
 			
 			getReview(movieNum, memberId, playNum);
+		}
+	
+		if($("input[type=hidden]", this).val() == "상영 전"){
+			let movieNum = $(".movieName", this).attr("data-movie-num");
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='#'>작성불가</a>");								
+			
 		}
 	});
 	
@@ -44,25 +50,23 @@ function getReview(movieNum, memberId, playNum) {
 	$.ajax({
 		type : "post", 
 		url : "GetReivew", 
-		data : {"member_id" : memberId, "play_num" : playNum}, 
+		data : {"member_id" : memberId, "movie_num" : movieNum}, 
 		dataType : "json",
 	})
 	.done(function(myReview) {
-		for(let i = 0; i < myReview.length; i++){
-			if(myReview[i].review_content == null){
-				$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>작성하기</a>");								
-			}else {
-				let reviewContent = myReview[i].review_content;
-				let reviewRating = myReview[i].review_rating;
-				let review_date = myReview[i].review_date;
-				let reviewDate = review_date.substring(0, 10);
-				
-				$(".myReview[id='" + movieNum + "'] .reviewContent").html(reviewContent);
-				$(".myReview[id='" + movieNum + "'] .reviewRating").html(reviewRating);
-				$(".myReview[id='" + movieNum + "'] .reviewDate").html(reviewDate);
-				$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>수정하기</a>");				
-			}
+		
+		if(myReview.length > 0){
+			let reviewContent = myReview[0].review_content;
+			let reviewRating = myReview[0].review_rating;
+			let review_date = myReview[0].review_date;
+			let reviewDate = review_date.substring(0, 10);
 			
+			$(".myReview[id='" + movieNum + "'] .reviewContent").html(reviewContent);
+			$(".myReview[id='" + movieNum + "'] .reviewRating").html(reviewRating);
+			$(".myReview[id='" + movieNum + "'] .reviewDate").html(reviewDate);
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>수정하기</a>");
+		}else{
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a href='review_write_pro'>작성하기</a>");
 		}
 	})
 	.fail(function() { // 요청 실패 시
@@ -85,15 +89,15 @@ function getReview(movieNum, memberId, playNum) {
  		<span> 회원님이 작성하신 리뷰를 확인하실 수 있습니다! </span>
  		
  		<table class="table">
-<%--  			<c:choose> --%>
+ 			<c:choose>
  				
 <%--  				<c:when test="${myReviewList.play_change }"> --%>
-<%--  				<c:when test="${empty myReviewList }"> --%>
-<!--  					<tr> -->
-<!-- 						<td>고객님께서 작성하신 리뷰는 존재하지 않습니다.</td> -->
-<!-- 					</tr> -->
-<%--  				</c:when> --%>
-<%-- 	 			<c:otherwise> --%>
+ 				<c:when test="${empty myReviewList }">
+ 					<tr>
+						<td>고객님께서 작성하신 리뷰는 존재하지 않습니다.</td>
+					</tr>
+ 				</c:when>
+	 			<c:otherwise>
 		 			<tr>
 		 				<th>번호</th>
 			 			<th>영화 제목</th>
@@ -108,7 +112,7 @@ function getReview(movieNum, memberId, playNum) {
 					 			${status.index+1}
 					 		</td> 
 					 		
-					 		<td class="movieName" data-movie-num="${myReviewList.movie_num }" data-member-id="${myReviewList.member_id }" data-play-num="${myReviewList.play_num }" data-play-status="${myReviewList.play_status }">
+					 		<td class="movieName" data-movie-num="${myReviewList.movie_num }" data-member-id="${myReviewList.member_id }" data-play-status="${myReviewList.play_status }">
 					 			${myReviewList.movie_name_kr }
 					 			<input type="hidden" value="${myReviewList.play_status }">
 					 		</td> 
@@ -126,7 +130,7 @@ function getReview(movieNum, memberId, playNum) {
 					 		</td> <%-- {param.review_datetime} --%>
 					 		
 					 		<td class="reviewWriteModify">
-					 			<a href="#">작성불가</a>
+<!-- 					 			<a href="#">작성불가</a> -->
 					 		</td>
 					 		
 <%-- 					 		<c:choose> --%>
@@ -148,8 +152,8 @@ function getReview(movieNum, memberId, playNum) {
 <%-- 					 		</c:choose> --%>
 				 		</tr>
 	 				</c:forEach>
-<%-- 	 			</c:otherwise>	 --%>
-<%--  			</c:choose> --%>
+	 			</c:otherwise>	
+ 			</c:choose>
  		</table>
  	 </div>
   

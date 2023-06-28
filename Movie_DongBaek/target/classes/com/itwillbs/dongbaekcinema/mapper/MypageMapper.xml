@@ -173,10 +173,10 @@
 		            ELSE '상영완료'
 		             END) AS play_status
 		 FROM ORDERS o -- 전체 주문
-		 JOIN ORDER_TICKETS ot ON o.order_num = ot.order_num -- 티켓 주문만 가져옴
-		 JOIN PLAYS p ON ot.play_num = p.play_num -- 티켓 주문 시 상영한 play
+		 JOIN ORDER_TICKETS ot ON o.order_num = ot.order_num
+		 JOIN PLAYS p ON ot.play_num = p.play_num
 		 JOIN MOVIES m ON p.movie_num = m.movie_num
-		 WHERE o.member_id = 'admin';
+		 WHERE o.member_id = #{member_id};
 				 <if test="startRow != 0 and listLimit != 0">
 					LIMIT 
 						#{startRow}
@@ -193,7 +193,7 @@
 			JOIN PAYMENTS pm ON pm.order_num = ot.order_num
 			WHERE mm.member_id = #{member_id}
 			AND payment_status = '결제완료'
-			AND p.play_num = #{play_num};
+			AND p.movie_num = #{movie_num};
 		</select>
   
 </mapper>
