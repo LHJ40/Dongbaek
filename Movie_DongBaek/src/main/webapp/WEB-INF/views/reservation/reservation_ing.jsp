@@ -198,13 +198,14 @@ article {
  	        }, function (rsp) {
  	        	
  	            if (rsp.success) {
- 	                var msg = '결제가 완료되었습니다.';
-//  	              	 location.href='reservation_check'
- 	                msg += '고유ID : ' + typeof(rsp.imp_uid);
- 	                msg += '상점 거래ID : ' + rsp.merchant_uid;
- 	                msg += '결제 금액 : ' + rsp.paid_amount;
- 	                msg += '카드 승인번호 : ' + rsp.apply_num;
- 	                
+ 	            	uid = rsp.imp_uid;
+ 	               
+ 	               $.ajax({
+ 	                   url: 'verify_iamport/' + rsp.imp_uid,
+ 	                   type: 'post'
+ 	              }).done(function(data) {
+ 	                 // 결제를 요청했던 금액과 실제 결제된 금액이 같으면 해당 주문건의 결제가 정상적으로 완료된 것으로 간주한다.
+ 	                 if (${totalprice} == data.response.amount) {
  	               jQuery.ajax({
                        url: "complete", 
                        type: "POST",
@@ -238,12 +239,16 @@ article {
                        }
                    })
            }
+ 	       else {
+ 	             alert('결제 실패');
+ 	                }
+ 	            })
  	                
- 	             else {
+ 	            }else {
  	                var msg = '결제에 실패하였습니다.';
  	                msg += '에러내용 : ' + rsp.error_msg;
  	            }
- 	            alert(msg);
+ 	            
  	        });
  			
  	    });
