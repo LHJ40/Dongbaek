@@ -133,7 +133,7 @@
 							    	<th>주문 내역</th>
 							    		<td>
 							    			<c:choose>
-									    		<c:when test="${empty snack.snack_quantity}">
+									    		<c:when test="${empty mySnack}">
 									    			<span id="nothing">스토어 주문내역 없음</span>
 									    		</c:when>
 									    		<c:otherwise>
