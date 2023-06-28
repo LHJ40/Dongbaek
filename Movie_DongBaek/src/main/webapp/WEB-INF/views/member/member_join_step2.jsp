@@ -139,10 +139,10 @@ th{
 		  		
 		  		<%-- 네이버 callback 구현--%>
 		  		<script type="text/javascript">
-					  var naver_id_login = new naver_id_login("YOUR_CLIENT_ID", "YOUR_CALLBACK_URL");
+					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8089/dongbaekcinema/member_join_step2");
 					  // 접근 토큰 값 출력
 					  alert(naver_id_login.oauthParams.access_token);
-					  // 네이버 사용자 프로필 조회
+// 					  네이버 사용자 프로필 조회
 					  if (naver_id_login.is_callback == true){
 						  naver_id_login.get_naver_userprofile("naverSignInCallback()");
 					  }
@@ -157,6 +157,7 @@ th{
 // 					    naver_id_login.getProfileData('nickname');
 // 					    naver_id_login.getProfileData('age');
 					  }
+
 				</script>
 		  		
 		<!-- 		<div class="d-grid gap-2"> -->

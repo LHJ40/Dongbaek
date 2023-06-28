@@ -228,7 +228,7 @@ public class MemberController {
 	// 3. 네이버 로그인 클릭
 	@PostMapping("/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
-	public String checkUser(@RequestParam("email") String email,HttpSession session) {
+	public String checkUser(@RequestParam("email") String email, HttpSession session) {
 		  System.out.println("email : "+ email);
 		  int idCheck = service.idCheck(email);
 		  System.out.println(idCheck);
