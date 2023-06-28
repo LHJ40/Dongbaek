@@ -30,7 +30,7 @@ div {
 }
 
 .inputArea {
-	 border: 1px solid red;
+/* 	 border: 1px solid red; */
 	 padding: 15px 20px 0 20px;
 }
 

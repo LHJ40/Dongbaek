@@ -132,6 +132,13 @@
 			FROM BUY_DETAIL_SNACK
 			WHERE payment_num = #{payment_num}
 			GROUP BY snack_name
+			
+			SELECT 
+            snack_name
+            , SUM(snack_quantity) AS 'snack_quantity'
+            FROM BUY_DETAIL_SNACK
+            WHERE payment_num = 'imp_475260789203'
+        	GROUP BY snack_name;
 			<!-- 수정용 -->
 	</select>
 	

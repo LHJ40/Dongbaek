@@ -48,7 +48,7 @@
 <script type="text/javascript">
 	
 	$(function() {
-// 		$("#cancleCk").hide();	// 나중에 풀기
+		$("#cancleCk").hide();	// 나중에 풀기
 		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
 		if($("#play_change").val() === '취소가능') {
 			$("#cancleCk").show();
