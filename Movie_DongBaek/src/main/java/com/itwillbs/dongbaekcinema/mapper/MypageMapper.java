@@ -43,7 +43,7 @@ public interface MypageMapper {
 									, @Param("listLimit") int listLimit);
 	// 
 	List<MyReviewVO> selectMyReview(@Param("member_id") String member_id, 
-									@Param("play_num") int play_num);
+									@Param("movie_num") int movie_num);
 
 	// 나의 문의 내역 조회 - 회원 아이디로 레코드 조회
 	List<CsVO> selectMyInq(String member_id);

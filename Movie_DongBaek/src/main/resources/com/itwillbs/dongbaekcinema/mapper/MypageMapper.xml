@@ -163,23 +163,20 @@
 
 		<select id="selectMyReviewList" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
 			SELECT DISTINCT
-		 		p.movie_num
-		 		, ot.order_num
-		 		, ot.member_id 
-		 		, ot.play_num
-		 		, m.movie_name_kr
-		 		, (CASE
-			        WHEN ((p.play_date > now())
-			        OR ((p.play_date = now())
-			        AND (p.play_start_time  > curtime()))) THEN '상영 전'
-			        ELSE '상영완료'
-		   		  END) AS `play_status`
-				 FROM ORDERS o 
-				 JOIN ORDER_TICKETS ot ON o.order_num = ot.order_num
-				 JOIN PLAYS p ON ot.play_num = p.play_num
-				 JOIN MOVIES m ON p.movie_num = m.movie_num
-				 JOIN REVIEWS r ON r.member_id = ot.member_id
-				 WHERE ot.member_id = #{member_id};
+		         p.movie_num
+		         , ot.member_id 
+		         , m.movie_name_kr
+		         , (CASE
+		            WHEN ((p.play_date > now())
+		            OR ((p.play_date = now())
+		            AND (p.play_start_time  > curtime()))) THEN '상영 전'
+		            ELSE '상영완료'
+		             END) AS play_status
+		 FROM ORDERS o -- 전체 주문
+		 JOIN ORDER_TICKETS ot ON o.order_num = ot.order_num
+		 JOIN PLAYS p ON ot.play_num = p.play_num
+		 JOIN MOVIES m ON p.movie_num = m.movie_num
+		 WHERE o.member_id = #{member_id};
 				 <if test="startRow != 0 and listLimit != 0">
 					LIMIT 
 						#{startRow}
@@ -188,14 +185,15 @@
 		</select>
 		
 		<select id="selectMyReview" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
-			SELECT DISTINCT r.member_id, r.movie_num, r.*, p.play_num FROM REVIEWS r
+			SELECT DISTINCT r.* 
+			FROM REVIEWS r
 			JOIN MEMBERS mm ON mm.member_id = r.member_id
 			JOIN PLAYS p ON p.movie_num = r.movie_num
 			JOIN ORDER_TICKETS ot ON ot.play_num = p.play_num
 			JOIN PAYMENTS pm ON pm.order_num = ot.order_num
 			WHERE mm.member_id = #{member_id}
 			AND payment_status = '결제완료'
-			AND p.play_num = #{play_num};
+			AND p.movie_num = #{movie_num};
 		</select>
   
 </mapper>

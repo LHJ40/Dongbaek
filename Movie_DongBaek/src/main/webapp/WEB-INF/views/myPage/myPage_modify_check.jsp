@@ -17,6 +17,10 @@ a:hover, a:active{
  color:  #ff5050 !important;
 	
 }
+
+.container {
+    margin-top: 150px;
+}
 </style>
 </head>
 <body>
@@ -28,16 +32,46 @@ a:hover, a:active{
 	<div class="container container-fluid w-900">
 		<div class="mainTop">
 		<form action="myPage_modify_check_pro" method="POST">
-			<table class="table table-striped">
+			<h3>개인 정보 수정</h3>
+			
+			<table class="table">
 				<tr>
-					<td>아이디</td>
-					<td>${member_id}</td>
+					<td>
+						<div class="row mb-3">
+				    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+					    	<div class="col-sm-12">
+					    		<h5>아이디</h5>
+					    	</div>
+					</div>
+						
+					<td>
+						<div class="row mb-3">
+				    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+					    	<div class="col-sm-12">
+					    		<h5>${member_id}</h5>
+					    	</div>
+					</div>
+						
+					</td>
 				</tr>
 				<tr>
-					<td>비밀번호</td>
 					<td>
-						<input type="password" id="member_pass_check" name="member_pass_check">
-						<input type="submit" value="확인" required="required">
+						<div class="row mb-3">
+				    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+					    	<div class="col-sm-12">
+					    		<h5>비밀번호</h5>
+					    	</div>
+					</div>
+						
+					</td>
+					<td>
+						<div class="row mb-3">
+					    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
+						    	<div class="col-sm-12">
+						    		<input type="password" id="member_pass_check" name="member_pass_check"> &nbsp;&nbsp;&nbsp;
+						    		<button class="btn btn-danger btn-lg" type="submit">확인</button>
+						    	</div>
+						</div>
 					</td>
 				</tr>
 			</table>
