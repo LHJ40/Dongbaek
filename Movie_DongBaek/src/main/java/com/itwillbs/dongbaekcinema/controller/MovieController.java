@@ -286,6 +286,8 @@ public class MovieController {
 		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
 		
 		
+		
+		
 		// 각 영화의 리뷰정보 출력
 		ReviewVO review = service.getReview(movie_num);
 		model.addAttribute("review", review);
