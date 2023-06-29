@@ -215,7 +215,7 @@ div {
 					$('#naverIdLogin_loginButton').on('click', function() {
 					    naverLogin.getLoginStatus(function(status) {
 					    	
-					    	alert("a333333333333333333333333333333333" +status); // false
+// 					    	alert("a333333333333333333333333333333333" +status); // false
 					    	
 					    	if (status) {
 					            var email = naverLogin.user.getEmail();
@@ -245,7 +245,7 @@ div {
 					                }
 					            });
 					    	} else {
-					            alert("fail");
+// 					            alert("fail");
 					        }
 					    });
 					});
