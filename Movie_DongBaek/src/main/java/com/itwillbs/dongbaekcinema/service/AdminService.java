@@ -246,6 +246,18 @@ public class AdminService {
     	return condition;
     }
 
+    // 통계 late 회원가입 수
+	public AdminLateVO getMemberJoinCount(AdminLateVO adminLate) {
+		
+		return mapper.getMemberJoinCount(adminLate);
+	}
+
+	// 총 회원 연령대 수 조회
+	public AdminLateVO getMemberAgeCount(AdminLateVO adminLate) {
+		
+		return mapper.getMemberAgeCount(adminLate);
+	}
+
 
 
 

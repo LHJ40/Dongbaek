@@ -107,7 +107,8 @@ a:hover, a:active{
 	      <td scope="col" class="align-middle text-left"><a href="cs_notice_view?cstypeNo=1&cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;" disable>${csInfo.cs_subject }</a></td>
 	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
 	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd" />
+<%-- 	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" /> --%>
 	      </td>
 	      <td scope="col" class="align-middle">
 	      

@@ -387,6 +387,35 @@
     		 		AND cs_type_list_num = #{qnaInfo.cs_type_list_num}				
 	</update>
 	
+	<!-- 통계 일일 회원 가입 수 -->
+	<select id="getMemberJoinCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
+		SELECT 
+			COUNT(*) AS joinLate${dayCount}
+			FROM member_num
+				WHERE member_date = CURDATE() - INTERVAL #{dayCount} DAY;
+	</select>
+	
+	<!-- 통계 회원 연령대 수 -->
+	<select id="getMemberAgeCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
+		SELECT COUNT(*) AS joinAge
+	  			FROM MEMBERS
+	  			WHERE
+	    <choose>
+		      <when test="dayCount == 0">
+		       	 member_birthday > currentTimestamp() - interval '20 years'
+		      </when>
+		      <when test="dayCount == 1">
+		       	 member_birthday > currentTimestamp() - interval '40 years' AND member_birthday &lt;= currentTimestamp() - interval '20 years'
+		      </when>
+		      <when test="dayCount == 2">
+		       	 member_birthday > currentTimestamp() - interval '60 years' AND member_birthday &lt;= currentTimestamp() - interval '40 years'
+		      </when>
+		      <when test="dayCount == 3">
+		      	 member_birthday &lt;= currentTimestamp() - interval '60 years'
+		      </when>
+	    </choose>
+	</select>
+	
 	
 	
 </mapper>

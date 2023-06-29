@@ -47,6 +47,7 @@ import com.itwillbs.dongbaekcinema.service.PaymentService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PaymentVO;
+import com.itwillbs.dongbaekcinema.voNew.AdminLateVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PageInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
@@ -83,6 +84,34 @@ public class AdminController {
             model.addAttribute("msg", "잘못된 접근입니다!");
             return "fail_back";
         }
+		
+		List<AdminLateVO> adminLateList = new ArrayList<AdminLateVO>();
+
+    	
+    	for(int i = 0; i < 4; i++) {
+    		// vo객체 생성
+    		AdminLateVO adminLate = new AdminLateVO();
+
+    		adminLate.setDayCount(i); // 날짜 출력할 0~3번
+    		
+    		// 일일 회원 가입수(joinLate)
+    		adminLate = admin_service.getMemberJoinCount(adminLate);
+    		
+    		// 일일 예매 수(orderLate)
+//			adminLate = admin_service.
+    		
+    		// 회원 연령대 수(joinAge0~joinAge4)-0~20대/20대~40대/40대~60대/60대~
+    		adminLate = admin_service.getMemberAgeCount(adminLate);
+    		
+    		adminLateList.add(adminLate);
+    		
+    		model.addAttribute("adminLateList", adminLateList);
+    		
+    	}
+    	
+    	
+
+		
 		
 		
 		return "admin/admin_main";
@@ -275,7 +304,9 @@ public class AdminController {
 	            } else {
 	            	System.out.println("endTime:" + endTime + "roomEndTime:" + roomEndTime);
 //	                System.out.println( i + 1 + "회차 종료 시간이 상영관 종료 시간보다 빠릅니다.");
-	                JSONObject jsonObject = new JSONObject();
+	                
+
+	            	JSONObject jsonObject = new JSONObject();
 	                jsonObject.put("play_turn", i + 1);
 	                jsonObject.put("new_start_turn", new_start_turn[i]);
 	                jsonObject.put("new_end_turn", new_end_turn[i]);
@@ -578,7 +609,7 @@ public class AdminController {
 	@RequestMapping(value = "deleteSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleteSchedule1(HttpSession session, Model model
 			, @RequestParam String play_date, @RequestParam int theater_num
-			, @RequestParam int row_num, @RequestParam int movie_num) {
+			, @RequestParam int row_num) {
 		
 //		System.out.println("deleteSchedule 전송정보 확인 play_date:" + play_date);
 //		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);
@@ -621,6 +652,40 @@ public class AdminController {
 		}	
 	    	
 		
+	}
+	
+	
+	// 관리자 메인 차트 출력부분
+	@ResponseBody
+	@RequestMapping(value = "adminLate", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
+	public String adminLate(HttpSession session, Model model) {
+		
+		
+    	JSONArray jsonArray = new JSONArray(); // JSON 배열 변수 선언
+    	JSONObject jsonObject = new JSONObject();
+		    	
+    	
+    	for(int i = 0; i < 4; i++) {
+    		// vo객체 생성
+    		AdminLateVO adminLate = new AdminLateVO();
+
+    		adminLate.setDayCount(i); // 날짜 출력할 0~3번
+    		
+    		// 일일 회원 가입수(joinLate)
+    		adminLate = admin_service.getMemberJoinCount(adminLate);
+    		
+    		// 일일 예매 수(orderLate)
+//			adminLate = admin_service.
+    		
+    		// 회원 연령대 수(joinAge0~joinAge4)-0~20대/20대~40대/40대~60대/60대~
+    		adminLate = admin_service.getMemberAgeCount(adminLate);
+    		
+    		jsonObject.put("adminLate", adminLate);
+    		
+    	}
+		jsonArray.put(jsonObject);
+    	
+		return jsonArray.toString();
 	}
 	
 	

@@ -113,8 +113,12 @@ $(function() {
 			      </td>
 			    </tr>
 				<tr>
+			      <th scope="col" class="align-middle" width="100">제목</th>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" value="${csInfo.cs_subject }" readonly></td>
+			    </tr>
+				<tr>
 			      <th scope="col" class="align-middle" width="100">이름</th>
-			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="member_name" value="${csInfo.member_name }" readonly></td>
+			      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="member_name" name="member_name" value="${csInfo.member_name }" readonly></td>
 			    </tr>
 				<tr>
 			      <th scope="col" class="align-middle" width="100">이메일</th>

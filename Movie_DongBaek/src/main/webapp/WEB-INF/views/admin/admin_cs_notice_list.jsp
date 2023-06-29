@@ -106,7 +106,8 @@ a:hover, a:active{
 	      <td scope="col" class="align-middle text-left"><a href="admin_cs_notice_modify_form?cstypeNo=1&cs_type_list_num=${csInfo.cs_type_list_num }&pageNo=${pageNo}" class="mb-5" style="color: #3D2C1E;">${csInfo.cs_subject }</a></td>
 	      <td scope="col" class="align-middle">${csInfo.member_id }</td>
 	      <td scope="col" class="align-middle">
-	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" />
+	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd" />
+<%-- 	      	<fmt:formatDate value="${csInfo.cs_date }" pattern="yy-MM-dd HH:mm" /> --%>
 	      </td>
 	      <td scope="col" class="align-middle">
 	      
@@ -114,13 +115,13 @@ a:hover, a:active{
 	    </tr>
 	  </c:forEach>
 	    <%-- 밑줄 용 빈칸 --%>
-	    <tr>
-	     <th scope="row"></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	     <th></th>
-	    </tr>
+<!-- 	    <tr> -->
+<!-- 	     <th scope="row"></th> -->
+<!-- 	     <th></th> -->
+<!-- 	     <th></th> -->
+<!-- 	     <th></th> -->
+<!-- 	     <th></th> -->
+<!-- 	    </tr> -->
 	
 	  </tbody>
 	</table>

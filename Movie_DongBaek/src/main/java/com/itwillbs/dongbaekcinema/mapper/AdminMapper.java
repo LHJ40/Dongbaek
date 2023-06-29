@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.itwillbs.dongbaekcinema.vo.CsVO;
 import com.itwillbs.dongbaekcinema.vo.MovieVO;
 import com.itwillbs.dongbaekcinema.vo.PlayVO;
+import com.itwillbs.dongbaekcinema.voNew.AdminLateVO;
 import com.itwillbs.dongbaekcinema.voNew.CsInfoVO;
 import com.itwillbs.dongbaekcinema.voNew.PlayScheduleVO;
 
@@ -89,6 +90,12 @@ public interface AdminMapper {
 
 	// CS 게시판 키워드로 총 목록 개수 조회하기
 	public int getCsCountKeyword(@Param("condition")String condition, @Param("cs_type_keyword")String cs_type_keyword);
+
+	// 통계 일일 회원 가입수
+	public AdminLateVO getMemberJoinCount(AdminLateVO adminLate);
+
+	// 통계 회원 연령대 계산
+	public AdminLateVO getMemberAgeCount(AdminLateVO adminLate);
 
 
 
