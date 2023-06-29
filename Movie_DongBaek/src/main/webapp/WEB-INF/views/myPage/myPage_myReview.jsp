@@ -65,11 +65,12 @@ function getReview(movieNum, memberId, playNum) {
 			$(".myReview[id='" + movieNum + "'] .reviewContent").html(reviewContent);
 			$(".myReview[id='" + movieNum + "'] .reviewRating").html(reviewRating);
 			$(".myReview[id='" + movieNum + "'] .reviewDate").html(reviewDate);
-			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' data-review-num='" + reviewNum + "' onclick='review_write(this)'>수정하기</a>");
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' data-review-num='" + reviewNum + "'>작성완료</a>");
 // 			alert($(".myReview[id='" + movieNum + "'] .reviewWriteModify").html());
 		}else{
 			// 클래스
-			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a  data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write(this)'>작성하기</a>");
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write(this)'>작성하기</a>");
+// 			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<button type='submit' class='btn btn-outline-danger' data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write(this)'>작성하기</button>");
 		}
 	})
 	.fail(function() { // 요청 실패 시

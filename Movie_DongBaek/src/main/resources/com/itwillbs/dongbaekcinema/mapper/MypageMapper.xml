@@ -228,8 +228,14 @@
 			AND p.movie_num = #{movie_num};
 		</select>
   
+  <select id="selectMovieName" resultType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+	SELECT movie_name_kr
+	FROM MOVIES
+	WHERE movie_num = #{movie_num}
+  </select>
+  
 	<!-- 리뷰 등록하기 -->
-	<insert id="insertReview" parameterType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+	<insert id="insertMyReview" parameterType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
 		INSERT
 			INTO REVIEWS
 			VALUES (
