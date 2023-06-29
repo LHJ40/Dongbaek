@@ -110,8 +110,8 @@ a:hover, a:active {
 							<td width="350px">${member.grade_name}<br> 
 								<span>
 									<c:choose>
-										<c:when test="${not empty member.payment_total_price}">
-											<fmf:formatNumber value="${member.payment_total_price}" pattern="#,###,###" />
+										<c:when test="${not empty member.total_payment}">
+											<fmf:formatNumber value="${member.total_payment}" pattern="#,###,###" />
 										</c:when>
 										<c:otherwise>0</c:otherwise>
 									</c:choose>
