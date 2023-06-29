@@ -147,7 +147,7 @@ article {
 									<span style="color: red; font-size: 0.7em;">*</span> 개봉일</th>
 								<td>
 									<input type="text" 
-										   placeholder="개봉일(XXXX-XX-XX)"
+										   placeholder="개봉일(YYYY-MM-DD)"
 										   id="movie_release_date" 
 										   name="movie_release_date"
 										   required="required"></td>
@@ -157,7 +157,7 @@ article {
 									<span style="color: red; font-size: 0.7em;">*</span> 종영일</th>
 								<td>
 									<input type="text" 
-										   placeholder="종영일(XXXX-XX-XX)"
+										   placeholder="종영일(YYYY-MM-DD)"
 										   id="movie_close_date" 
 										   name="movie_close_date"
 										   required="required"></td>
