@@ -125,74 +125,56 @@ article {
  		location.replace("reservation_seat?play_num=${param.play_num}");
  	}
  	$("#check_module").click(function () {
-//  		$.ajax({//예약된 좌석이면 결제 불가
-//  				type : "post", 
-//  				url : "SelectPeople", 
-//  				data : {"play_num" : ${param.play_num}},
-//  				dataType : "json", 
-//  			})
-//  			.done(function(orderTicketList) {
+ 		$.ajax({//예약된 좌석이면 결제 불가
+ 				type : "post", 
+ 				url : "SelectPeople", 
+ 				data : {"play_num" : ${param.play_num}},
+ 				dataType : "json", 
+ 			})
+ 			.done(function(orderTicketList) {
  				
-//  			   let seatNumList = new Array();
-//  			    <c:forEach items="${seatNumList}" var="item">        
-//  			    	seatNumList.push(${item});
-//  			    </c:forEach>
+ 			   let seatNumList = new Array();
+ 			    <c:forEach items="${seatNumList}" var="item">        
+ 			    	seatNumList.push(${item});
+ 			    </c:forEach>
  			    
-//  			    for(let i = 0; i <orderTicketList.length; i++) {
-//  					for(let j = 0; j < seatNumList.length; j++){
+ 			    for(let i = 0; i <orderTicketList.length; i++) {
+ 					for(let j = 0; j < seatNumList.length; j++){
  						
-//  						if(orderTicketList[i].seat_num == seatNumList[j]){
-//  							alert("이미 예약된 좌석입니다 다시 예약 해주세요");
-//  							location.replace("reservation_seat?play_num=${param.play_num}");
+ 						if(orderTicketList[i].seat_num == seatNumList[j]){
+ 							alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+ 							location.replace("reservation_seat?play_num=${param.play_num}");
+ 							 return;
  							
-//  						}
-//  					}
-//  				}
+ 						}
+ 					}
+ 				}
  			    
-//  			})
-//  			.fail(function() { // 요청 실패 시
-//  				alert("이미 예약된 좌석입니다 다시 예약 해주세요");
-// 				location.replace("reservation_seat?play_num=${param.play_num}");
-//  			});
+ 			})
+ 			.fail(function() { // 요청 실패 시
+ 				alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+				location.replace("reservation_seat?play_num=${param.play_num}");
+ 			});
  			
  			
  				
  	        var IMP = window.IMP; // 생략가능
- 	        IMP.init('imp68416584'); 
- 	        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
- 	        // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+ 	        IMP.init('imp68416584'); //가맹점 식별코드
+ 	        
  	        IMP.request_pay({
- 	            pg: 'html5_inicis', // version 1.1.0부터 지원.
- 	            /* 
- 	                'kakao':카카오페이, 
- 	                html5_inicis':이니시스(웹표준결제)
- 	                    'nice':나이스페이
- 	                    'jtnet':제이티넷
- 	                    'uplus':LG유플러스
- 	                    'danal':다날
- 	                    'payco':페이코
- 	                    'syrup':시럽페이
- 	                    'paypal':페이팔
- 	                */
- 	            pay_method: 'card',
- 	            /* 
- 	                'samsung':삼성페이, 
- 	                'card':신용카드, 
- 	                'trans':실시간계좌이체,
- 	                'vbank':가상계좌,
- 	                'phone':휴대폰소액결제 
- 	            */
- 	            merchant_uid: createOrderNum(),
+ 	            pg: 'html5_inicis', //html5_inicis':이니시스(웹표준결제)
+ 	                    
+ 	            pay_method: 'card', // 지불방식,
+ 	                
+ 	            merchant_uid: createOrderNum(),//주문번호 랜덤생성
  	          
+ 	            name: '주문명:동백시네마',//결제창에서 보여질 이름
+ 	           
+ 	            amount:${totalprice},//가격 
  	            
- 	            
- 	            name: '주문명:동백시네마',
- 	            //결제창에서 보여질 이름
- 	            amount:${totalprice},
- 	            //가격 
- 	            buyer_email: '${member.member_email}',
- 	            buyer_name: '${member.member_name}',
- 	            buyer_tel: '${member.member_phone}',
+ 	            buyer_email: '${member.member_email}',//주문자 이메일
+ 	            buyer_name: '${member.member_name}',//주문자 이름
+ 	            buyer_tel: '${member.member_phone}',//주문자 전화번호
  	            
  	            
  	        }, function (rsp) {
@@ -217,11 +199,11 @@ article {
                        "payment_name": '${member.member_name}',//주문자명
                        "payment_datetime" : timestamp(),//결제시간
                        "payment_total_price" : rsp.paid_amount,//총결제금액
-                       "play_num":${param.play_num},
-                       "seat_name":"${param.seat_name}",
-                       "ticket_type_num_param":"${param.ticket_type_num}",
-                       "snack_num_param":"${param.snack_num}",
-                       "snack_quantity_param":"${param.snack_quantity}",
+                       "play_num":${param.play_num},//상영번호
+                       "seat_name":"${param.seat_name}",//좌석이름
+                       "ticket_type_num_param":"${param.ticket_type_num}",//티켓종류
+                       "snack_num_param":"${param.snack_num}",//스낵번호
+                       "snack_quantity_param":"${param.snack_quantity}",//스낵갯수
                        "payment_card_num":rsp.apply_num, //카드승인번호
                        "payment_card_name":rsp.pay_method,//결제방식
                        },
@@ -235,7 +217,7 @@ article {
                         		   +'&snack_num=${param.snack_num}&snack_quantity=${param.snack_quantity}');
                        } 
                        else {
-                    	   alert('이미 예약된 좌석입니다 다시 예약 해주세요');
+                    	   alert('이미 예약된 좌석입니다 다시 예약 해주세요\n결제가 취소되었습니다');
                     	   location.replace("reservation_seat?play_num=${param.play_num}");
                        }
                    })
@@ -274,28 +256,7 @@ article {
  	    return today.toISOString().replace('T', ' ').substring(0, 19);
  	}
  	
- 	function createPayInfo(uid) {
- 	    // 결제정보 생성 및 테이블 저장 후 결제완료 페이지로 이동 
- 	    $.ajax({
- 	        type: 'get',
- 	        url: '/order/pay_info',
- 	        data: {
- 	            'imp_uid': uid,
- 	        },
- 	        success: function(data) {
- 	            
- 	            swal('결제 성공 !',"결제완료 페이지로 이동합니다.","success").then(function(){
- 	                
- 	                // 결제완료 페이지로 이동
- 	                location.replace('/order/complete?payNum='+data);
-
- 	            })
- 	        },
- 	        error: function() {
- 	            swal('결제정보 저장 통신 실패');
- 	        }
- 	    });
- 	}
+ 	
 	
 </script>
 
