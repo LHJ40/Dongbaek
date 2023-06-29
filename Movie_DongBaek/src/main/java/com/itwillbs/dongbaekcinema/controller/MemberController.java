@@ -448,7 +448,7 @@ public class MemberController {
 			// 세션에 "member_type"로 저장해서 비회원의 경우 권한 제한
 			session.setAttribute("member_type", "비회원");
 			// 마이페이지 홈으로 이동
-			return "myPage/myPage_reservation_history";
+			return "redirect:/myPage_reservation_history";
 		}
 		
 	}

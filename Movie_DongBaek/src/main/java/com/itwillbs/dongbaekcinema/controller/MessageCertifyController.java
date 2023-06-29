@@ -20,7 +20,7 @@ public class MessageCertifyController {
 		int randomNumber = 
 				1111;	// 임의로 1111 누르면 되는걸로
 //				(int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
-		service.certifiedPhoneNumber(member_phone,randomNumber);
+		service.certifiedPhoneNumber(member_phone, randomNumber);
 		
 		return Integer.toString(randomNumber);
 	}

@@ -170,7 +170,7 @@ public class CsController {
 		}
 		
 		// cs main으로 이동
-		return "redirect:/cs_main";
+		return "redirect:/myPage_inquiry";
 	}
 	
 	// cs 부분 자주묻는질문(cs_faq.jsp)으로 가는 매핑
