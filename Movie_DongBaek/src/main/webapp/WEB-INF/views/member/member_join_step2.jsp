@@ -175,7 +175,7 @@ input[type=checkbox], input[type=radio] {
 // 					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8089/dongbaekcinema/member_join_step2");
 					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://c5d2302t1.itwillbs.com/Movie_DongBaek/member_join_step2");
 					  // 접근 토큰 값 출력
-					  alert(naver_id_login.oauthParams.access_token);
+// 					  alert(naver_id_login.oauthParams.access_token);
 // 					  네이버 사용자 프로필 조회
 					  if (naver_id_login.is_callback == true){
 						  naver_id_login.get_naver_userprofile("naverSignInCallback()");
@@ -183,7 +183,7 @@ input[type=checkbox], input[type=radio] {
 					  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
 					  function naverSignInCallback() {
 						 // 수정 필요 - 휴대전화 와 이름 가져오기 
-					    alert(naver_id_login.getProfileData('email'));
+// 					    alert(naver_id_login.getProfileData('email'));
 // 					    alert("b" + naver_id_login.getProfileData('nickname'));
 // 					    alert("c" + naver_id_login.getProfileData('age'));
 // 					    naver_id_login.getProfileData('email');

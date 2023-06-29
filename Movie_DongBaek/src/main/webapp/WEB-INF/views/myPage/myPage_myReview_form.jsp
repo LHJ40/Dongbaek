@@ -28,13 +28,18 @@ a:hover, a:active{
   	<div class="container container-fluid w-900">
   		<div class="row d-flex justify-content-center mt-3">
   			<div class="col-10">
+				<h2>리뷰 쓰기 / 수정하기</h2>
+				
+				<br>
+				<br>
   				<form action="review_write_pro" method="post" name="fr" >
-				 	
+				 	<input type="hidden" name="movie_num" value="${movie_num}">
 				 	<%-- 영화 제목 --%>
 					<div class="row mb-3">
 		              <label for="id" class="col-2 text-nowrap">영화 이름</label>
 		              <div class="col-10">
-		              		<input type="text" disabled="disabled" readonly="readonly" value="{param.movie_name}앞페이지에서가져오기?">  <%--디스패치? 앞에서 작성하기누르면 영화제목그대로 가져오기 --%>
+<!-- 		              		<input type="text" disabled="disabled" readonly="readonly"> -->
+		              			${myReview.movie_name_kr } 
 		              </div>
 			        </div>
 					 	
@@ -47,7 +52,7 @@ a:hover, a:active{
 		              <label for="id" class="col-2 text-nowrap">평점</label>
 		              <div class="col-10">
 							<div class="selectBox_movie">
-							  	<select name="review_rating" class="select">
+							  	<select name="review_rating" class="select" id="review_rating">
 							  		<option value="none">선택해주세요</option>
 							  		<option value="1" <c:if test="${review_rating=='1'}">${'selected' }</c:if>>1</option>
 							  		<option value="2" <c:if test="${review_rating=='2'}">${'selected' }</c:if>>2</option>
@@ -63,7 +68,7 @@ a:hover, a:active{
 					<div class="row mb-3">
 		              <label for="id" class="col-2 text-nowrap">리뷰</label>
 		              <div class="col-10">
-		              		<textarea rows="5" cols="50" placeholder="리뷰를 작성해 주세요"></textarea> <%--css에서 마진넣어서  --%>
+		              		<textarea rows="5" cols="50" placeholder="리뷰를 작성해 주세요" id="review_content"  name="review_content"></textarea> <%--css에서 마진넣어서  --%>
 		              </div>
 			        </div>
 				  	
@@ -87,8 +92,8 @@ a:hover, a:active{
   	</nav>
   
 <!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
-<%--   <%--왼쪽 사이드바 --%> --%>
-<!--   <!-- 	왼쪽 탭 링크들 --> -->
+<%--   <%--왼쪽 사이드바 --%>
+<!--   <!-- 	왼쪽 탭 링크들 -->
 <!--   	<h3>마이페이지</h3> -->
 <!-- 		<ul class="left-tap"> -->
 <!-- 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매 -->
