@@ -578,7 +578,7 @@ public class AdminController {
 	@RequestMapping(value = "deleteSchedule", method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleteSchedule1(HttpSession session, Model model
 			, @RequestParam String play_date, @RequestParam int theater_num
-			, @RequestParam int row_num, @RequestParam int movie_num) {
+			, @RequestParam int row_num) {
 		
 //		System.out.println("deleteSchedule 전송정보 확인 play_date:" + play_date);
 //		System.out.println("theater_num:" + theater_num + ", row_num:" + row_num +", movie_num:" + movie_num);

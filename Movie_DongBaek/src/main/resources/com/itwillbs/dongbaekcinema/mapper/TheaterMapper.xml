@@ -30,7 +30,7 @@
 			ON r.room_num =p.room_num
 	WHERE play_date=#{play_date} 
 		AND p.theater_num=#{theater_num}
-		AND concat(p.play_date,' ',p.play_start_time) >= SUBTIME(SYSDATE(), '00:20:00')
+		AND concat(p.play_date,' ',p.play_start_time) >= DATE_ADD(SYSDATE(), interval 20 minute)
 	ORDER BY movie_name_kr
 			,p.room_num
 			,play_start_time; 

@@ -201,7 +201,6 @@ article {
 	             	</div>
 	                <%-- 돌아가기, 결제하기 버틈 --%>
 	                <div class="col-4">
-			  			<button class="btn btn-secondary" id="nextBtn" onclick="location.replace('myPage')"> 취소 </button>
 			  			<button class="btn btn-danger" id="nextBtn" onclick="location.replace('myPage')"> 확인 </button>
 	                </div>
 	            </div>
