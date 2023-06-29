@@ -27,7 +27,8 @@ a:hover, a:active{
 	  <div class="container container-fluid w-900">
 		  <div class="mainTop">
 			 <h2>문의 내역</h2>
-			 <hr>
+			 <br>
+			 <br>
 <!-- 			 <form action=""> -->
 			 	<table class="table">
 						<c:choose>

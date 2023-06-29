@@ -57,7 +57,7 @@ table {
 								<th>영화명</th>
 								<th>상영일</th>
 								<th>예매 상태 변경</th>
-								<th>리뷰 쓰기</th>
+<!-- 								<th>리뷰 쓰기</th> -->
 							</tr>
 							<c:forEach var="myTicket" items="${myTicketList }">
 								<tr>
@@ -79,16 +79,16 @@ table {
 												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >
 										</form>
 									</td><%-- {param.iscdange??} --%>
-									<td>
-										<c:choose>
-											<c:when test="${myTicket.play_change eq '취소불가' }">
-												<button class="btn btn-outline-danger" type="submit">리뷰 쓰기</button>		
-											</c:when>
-											<c:otherwise>
-												<button type="submit" class="btn btn-outline-danger" onclick="location.href='./'">리뷰 보기</button>		
-											</c:otherwise>
-										</c:choose>
-									</td>
+<!-- 									<td> -->
+<%-- 										<c:choose> --%>
+<%-- 											<c:when test="${myTicket.play_change eq '취소불가' }"> --%>
+<!-- 												<button class="btn btn-outline-danger" type="submit">리뷰 쓰기</button>		 -->
+<%-- 											</c:when> --%>
+<%-- 											<c:otherwise> --%>
+<!-- 												<button type="submit" class="btn btn-outline-danger" onclick="location.href='./'">리뷰 보기</button>		 -->
+<%-- 											</c:otherwise> --%>
+<%-- 										</c:choose> --%>
+<!-- 									</td> -->
 								</tr>
 							
 							</c:forEach>

@@ -897,12 +897,10 @@ $(function() {
 	    let play_date = $("#play_date").val();
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 1;
-	    let movie_num = $("#movieBox1").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
 	    console.log(row_num);
-	    console.log(movie_num);
 
 	    $.ajax({
 	      url: "deleteSchedule",
@@ -910,8 +908,7 @@ $(function() {
 	      data: {
 	        play_date: play_date,
 	        theater_num: theater_num,
-	        row_num: row_num,
-	        movie_num: movie_num
+	        row_num: row_num
 	      },
 	      dataType: 'json',
 	      success: function(result) {
@@ -935,12 +932,10 @@ $(function() {
 	    let play_date = $("#play_date").val();
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 2;
-	    let movie_num = $("#movieBox2").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
 	    console.log(row_num);
-	    console.log(movie_num);
 
 	    $.ajax({
 	      url: "deleteSchedule",
@@ -948,8 +943,7 @@ $(function() {
 	      data: {
 	        play_date: play_date,
 	        theater_num: theater_num,
-	        row_num: row_num,
-	        movie_num: movie_num
+	        row_num: row_num
 	      },
 	      dataType: 'json',
 	      success: function(result) {
@@ -972,12 +966,10 @@ $(function() {
 	    let play_date = $("#play_date").val();
 	    let theater_num = $("#theater_num").val();
 	    let row_num = 3;
-	    let movie_num = $("#movieBox3").val();
 	    
 	    console.log(play_date);
 	    console.log(theater_num);
 	    console.log(row_num);
-	    console.log(movie_num);
 
 	    $.ajax({
 	      url: "deleteSchedule",
@@ -985,8 +977,7 @@ $(function() {
 	      data: {
 	        play_date: play_date,
 	        theater_num: theater_num,
-	        row_num: row_num,
-	        movie_num: movie_num
+	        row_num: row_num
 	      },
 	      dataType: 'json',
 	      success: function(result) {

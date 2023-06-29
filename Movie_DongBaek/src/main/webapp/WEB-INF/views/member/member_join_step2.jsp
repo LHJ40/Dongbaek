@@ -91,8 +91,7 @@ input[type=checkbox], input[type=radio] {
 		                	<input type="checkbox" id="checkAll" name="checkAll">
 			                <label for="checkAll">
 			                	<span class="checkAll_txt "> 전체 동의하기 <br>
-			                		 <h5>동백씨-네마 이용약관, 개인정보 수집 및 이용, 위치기반서비스 이용약관(선택), 
-			                 		 프로모션 정보 수신(선택)에 모두 동의합니다.</h5>
+			                		 <h5>동백씨-네마 이용약관, 개인정보 수집 및 이용, 마케팅 활용을 위한 개인 정보 수집 이용 안내(선택)</h5>
 			                	</span>
 			                </label>
 		                </span>
@@ -135,7 +134,7 @@ input[type=checkbox], input[type=radio] {
 		                	<input type="checkbox" id="check2" name="check2" required="required">
 		                <label for="check2">
 		                	<span class="check2_txt">
-		                		개인정보 수집 및 이용 동의(필수)
+		                		개인정보 수집 및 이용 동의 <em style="color: #ef4f4f; font-style: normal;"> (필수) </em>
 <!-- 								<div class="form-floating overflow-auto"> -->
 								<div class="terms_box">
 <!-- 		 							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" readonly="readonly"> -->
@@ -173,7 +172,8 @@ input[type=checkbox], input[type=radio] {
 		  		
 		  		<%-- 네이버 callback 구현--%>
 		  		<script type="text/javascript">
-					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8089/dongbaekcinema/member_join_step2");
+// 					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://localhost:8089/dongbaekcinema/member_join_step2");
+					  var naver_id_login = new naver_id_login("FapLXYLoVFVUWfuqISrN", "http://c5d2302t1.itwillbs.com/Movie_DongBaek/member_join_step2");
 					  // 접근 토큰 값 출력
 					  alert(naver_id_login.oauthParams.access_token);
 // 					  네이버 사용자 프로필 조회
