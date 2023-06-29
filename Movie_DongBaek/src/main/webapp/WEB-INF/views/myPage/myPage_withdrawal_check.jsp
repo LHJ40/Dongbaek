@@ -23,6 +23,10 @@ div {
 th{
 	width: 200px;
 }
+
+.fr {
+	margin-top: 100px;
+}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -74,10 +78,10 @@ function checkconfirmPasswd(passwdCheck) {
   <%--본문내용(width: 900px) --%>
 	  <div class="container-fluid w-900">	
 		<div class="row d-flex justify-content-center mt-3">
-			<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
-				<form action="MemberWithdrawal" method="post" name="fr">
+			<div class="col-8">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+				<form action="MemberWithdrawal" method="post" name="fr" class="fr">
 			    	<input type="hidden" name="member_id" value="${member_id }">
-			    	   	
+			    	   	<h2>탈퇴하기</h2>
 			    	<p class="mb-3 fw-normal">
 			    		탈퇴를 원하신다면 비밀번호를 정확하게 입력해주세요. </p>
 			    	
@@ -129,7 +133,9 @@ function checkconfirmPasswd(passwdCheck) {
 						<div class="row mb-3">
 			            	<label for="certify" class="col-2 text-nowrap"></label>
 			            	<div class="col-10">
-								<input type="submit" id="DoneBtn" value="탈퇴하기">
+<!-- 								<input type="submit" id="DoneBtn" value="탈퇴하기"> -->
+								<button class="btn btn-outline-danger btn-lg ml-3" type="submit">탈퇴하기
+								</button>
 			             	</div>
 				        </div>
 				    </form>

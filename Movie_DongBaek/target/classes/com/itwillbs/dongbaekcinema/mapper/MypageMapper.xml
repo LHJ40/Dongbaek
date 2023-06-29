@@ -4,15 +4,47 @@
   
   <!-- 나의 예매내역 조회 -->
   <select id="selectMyTicket" resultType="com.itwillbs.dongbaekcinema.voNew.MyTicketVO">
-		SELECT *
-			FROM ORDER_MY_TICKET
-				JOIN PAYMENTS
+		SELECT 
+			member_id
+			, movie_poster
+			, movie_name_kr
+			, play_date
+			, movie_num
+			, play_start_time
+			, play_status
+			, payment_num
+			, payment_name
+			, payment_datetime
+			, payment_card_name
+			, payment_card_num
+			, PAYMENTS.order_num
+			, ticket_payment_status
+			, play_change
+			FROM
+				ORDER_MY_TICKET
+			JOIN PAYMENTS
 					ON PAYMENTS.order_num = ORDER_MY_TICKET.order_num
 			WHERE 
 				member_id = #{member_id}
 				AND payment_datetime &gt;= SUBDATE(NOW(), INTERVAL 1 MONTH)
+			GROUP BY
+				member_id
+				, movie_poster
+				, movie_name_kr
+				, play_date
+				, movie_num
+				, play_start_time
+				, play_status
+				, payment_num
+				, payment_name
+				, payment_datetime
+				, payment_card_name
+				, payment_card_num
+				, PAYMENTS.order_num
+				, ticket_payment_status
+				, play_change
 			ORDER BY
-				PAYMENTS.order_num DESC
+				play_date DESC, PAYMENTS.order_num DESC
 			<if test="listLimit != 0"> <!-- 페이지를 0,0으로 두면 나오지 않게 처리 -->
 				LIMIT 
 					#{startRow}

@@ -126,19 +126,19 @@
 	
 	<!-- 마이페이지 - 회원의 나의 구매내역 상세 조회 - 스낵 (지영) -->
 	<select id="selectMySnacks" resultType="com.itwillbs.dongbaekcinema.voNew.BuyDetailSnackVO">
-		SELECT 
-			snack_name
-			, count(snack_name) AS 'snack_quantity'
-			FROM BUY_DETAIL_SNACK
-			WHERE payment_num = #{payment_num}
-			GROUP BY snack_name
+			SELECT 
+            snack_name
+            , SUM(snack_quantity) AS 'snack_quantity'
+            FROM BUY_DETAIL_SNACK
+            WHERE payment_num = #{payment_num}
+        	GROUP BY snack_name;
 			<!-- 수정용 -->
 	</select>
 	
 	<!-- 마이페이지 - 나의 멤버십. 올해 누적 실적 조회(지영) -->
 	<select id="selectYearPayment">
 		SELECT
-			IFNULL(sum(payment_total_price), 0)
+			IFNULL(sum(DISTINCT payment_total_price), 0)
 			FROM BUY_DETAIL
 			WHERE
 				member_id = #{member_id}

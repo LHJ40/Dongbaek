@@ -31,7 +31,7 @@ div {
 }
 
 .inputArea {
-	 border: 1px solid red;
+/* 	 border: 1px solid red; */
 /* 	 padding: 15px 20px 0 20px; */
 }
 
@@ -183,11 +183,11 @@ div {
 			let member_phone = $("#phone").val();
 			let member_pass = $("#passwd").val();
 			
-// 			alert(nameck);
-// 			alert(birthck);
-// 			alert(phoneck);
-// 			alert(passwdck);
-// 			alert(passwdck2);
+			alert(nameck);
+			alert(birthck);
+			alert(phoneck);
+			alert(passwdck);
+			alert(passwdck2);
 			
 			// 동의 버튼 클릭, 정상적으로 입력값 입력 시
 			// 입력정보 안내와 로그인 확인버튼 보이게 하기

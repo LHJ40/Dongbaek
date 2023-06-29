@@ -216,59 +216,7 @@ a:link,a:visited { color:gray; }
 		</c:forEach>
 	</div>
   </div>
-	<%-- 컨텐츠 -- 주석처리 --%>
-<!-- 	<div class="row"> -->
-<!-- 			<div class="col-3"> -->
-<!-- 		 	 <div class="card h-100"> -->
-<%-- 		     <a href="movie_detail_info"><img src="${pageContext.request.contextPath}/resources/img/poster02@2.jpg" class="card-img-top" alt="..." ></a>  --%>
-<!-- 		      <div class="card-body"> -->
-<!-- 		        <h5 class="card-title">Card title</h5> -->
-<!-- 		        <p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button> -->
-<!-- 		        <button type="button" class="btn btn-danger" onclick="location.href='reservation_main'">예매하기</button></p> -->
-<!-- 		      </div> -->
-<!-- 		    </div> -->
-<!-- 		 	</div> -->
-		 	
-		 	
-<!-- 		 	<div class="col-3"> -->
-<!-- 		 	 <div class="card h-100"> -->
-<%-- 		      <img src="${pageContext.request.contextPath}/resources/img/poster04@2.jpg"  class="card-img-top" alt="..."> --%>
-<!-- 		      <div class="card-body"> -->
-<!-- 		        <h5 class="card-title">Card title</h5> -->
-<!-- 		        <p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button> -->
-<!-- 		        <button type="button" class="btn btn-danger">예매하기</button></p> -->
-<!-- 		      </div> -->
-<!-- 		    </div> -->
-<!-- 		 	</div> -->
-		 	
-		 	
-		 	
-<!-- 		 	<div class="col-3"> -->
-<!-- 		 	<div class="card h-100"> -->
-<%-- 		      <img src="${pageContext.request.contextPath}/resources/img/poster09.jpg"   class="card-img-top" alt="..."> --%>
-<!-- 		      <div class="card-body"> -->
-<!-- 		        <h5 class="card-title">Card title</h5> -->
-<!-- 		        <p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button> -->
-<!-- 		        <button type="button" class="btn btn-danger">예매하기</button></p> -->
-<!-- 		      </div> -->
-<!-- 		    </div> -->
-<!-- 		 	</div> -->
-		 	
-		 	
-		 	
-<!-- 		 	<div class="col-3"> -->
-<!-- 		 	<div class="card h-100"> -->
-<%-- 		      <img src="${pageContext.request.contextPath}/resources/img/poster09.jpg"   class="card-img-top" alt="..."> --%>
-<!-- 		      <div class="card-body"> -->
-<!-- 		        <h5 class="card-title">Card title</h5> -->
-<!-- 		        <p class="card-text"><button type="button" class="btn btn-outline-danger">♡찜하기</button> -->
-<!-- 		        <button type="button" class="btn btn-danger">예매하기</button></p> -->
-<!-- 		      </div> -->
-<!-- 		    </div> -->
-<!-- 		 	</div> -->
-<!-- 	</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">예매율 순위</div> -->
+
 
 	<%-- 찜하기 안내 모달 영역 --%>
 	<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
@@ -312,6 +260,7 @@ a:link,a:visited { color:gray; }
 		<%--    <%-- 영화검색창(if로 현재상영작, 상영예정작 구분해서 보내기 --%> 
 	    <%-- 현재상영작 내 --%> 
 	   <div class="row searchArea">
+	   
 	      <form class="form-inline my-2 my-lg-0" action="movie_list_present" id="movieSearchKeyword" name="movieSearchKeyword" method="get" >
 	          <input class="form-control mr-sm-2" type="text"
 	                           placeholder="영화명을 입력해주세요" aria-label="Search" 

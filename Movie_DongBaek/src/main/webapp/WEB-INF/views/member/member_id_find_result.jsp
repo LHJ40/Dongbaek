@@ -23,6 +23,13 @@ div {
 th{
 	width: 200px;
 }
+
+.col-8 {
+	margin-top: 100px;
+	font-size: 20px;
+}
+
+
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -50,8 +57,9 @@ th{
 <!--     </header> -->
 	
 	<div class="row d-flex justify-content-center mt-3">
-		<div class="col-8" style="border: 1px solid red">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
+		<div class="col-8">	<%-- 전체 12개의 col중에 가운데 8개의 col 사용 --%>
 <!-- 			<form action="MemberIdFind" method="post" name="fr"> -->
+				<h2> 아이디 찾기 </h2>
 		    	<p class="mb-3 fw-normal">이름과 전화번호를 입력하신 후, 아이디 찾기 버튼을 눌러주세요.</p>
 			
 				<%-- 아이디 --%>
@@ -75,8 +83,10 @@ th{
 				<div class="row mb-3">
 	            	<label for="certify" class="col-2 text-nowrap"></label>
 	            	<div class="col-10">
-						<input type="button" value="메인 화면" onclick="location.href='./'">
-						<input type="button" value="로그인 화면" onclick="location.href='member_login_form'">
+	            		<button class="btn btn-outline-danger btn-lg ml-3" type="button" onclick="location.href='./'">메인 화면</button>
+	            		<button class="btn btn-outline-danger btn-lg ml-3" type="button" onclick="location.href='member_login_form'">&nbsp;&nbsp;로그인&nbsp;&nbsp;</button>
+<!-- 						<input type="button" value="메인 화면" onclick="location.href='./'"> -->
+<!-- 						<input type="button" value="로그인 화면" onclick="location.href='member_login_form'"> -->
 <!-- 						<input type="button" value="비밀번호 찾기" onclick="location.href='member_passwd_find'"> -->
 	             	</div>
 		        </div>

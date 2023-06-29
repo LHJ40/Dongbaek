@@ -12,14 +12,13 @@
 <title>개인정보 수정 확인 창</title>
 <style>
 
-<%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
+.container {
+    margin-top: 125px;
+   	padding-left: 110px;
 }
 
-.container {
-    margin-top: 150px;
+.table {
+	margin-top: 25px;
 }
 </style>
 </head>
@@ -32,7 +31,7 @@ a:hover, a:active{
 	<div class="container container-fluid w-900">
 		<div class="mainTop">
 		<form action="myPage_modify_check_pro" method="POST">
-			<h3>개인 정보 수정</h3>
+			<h2>개인 정보 수정</h2>
 			
 			<table class="table">
 				<tr>
@@ -68,7 +67,7 @@ a:hover, a:active{
 						<div class="row mb-3">
 					    	<label for="inputEmail3" class="col-sm-5 "></label> <!-- col-sm-2 에서 col-sm-5 로 수정 , 아래 상동 -->
 						    	<div class="col-sm-12">
-						    		<input type="password" id="member_pass_check" name="member_pass_check"> &nbsp;&nbsp;&nbsp;
+						    		<input type="password" id="member_pass_check" name="member_pass_check" style="height: 30px;"> &nbsp;&nbsp;&nbsp;
 						    		<button class="btn btn-danger btn-lg" type="submit">확인</button>
 						    	</div>
 						</div>

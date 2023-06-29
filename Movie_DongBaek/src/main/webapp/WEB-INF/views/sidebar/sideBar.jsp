@@ -32,14 +32,14 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="admin_schedule_list">
-        상영스케줄 관리
+      <a class="nav-link" href="admin_payment_list">
+        결제관리
       </a>
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="admin_payment_list">
-        결제관리
+      <a class="nav-link" href="admin_schedule_list">
+        상영스케줄 관리
       </a>
     </li>
     <hr>

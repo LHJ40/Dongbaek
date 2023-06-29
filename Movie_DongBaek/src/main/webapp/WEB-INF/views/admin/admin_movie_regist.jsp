@@ -58,8 +58,7 @@ article {
 
 	<%--본문내용 --%>
 	<article id="mainArticle">
-		<div class="container-fluid w-900 justify-content-center"
-			style="border: 1px solid gray">
+		<div class="container-fluid w-900 justify-content-center">
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<h3>영화 등록하기 <span style="color: red; font-size: 0.5em;">*</span><span	style="font-size: 0.5em;">는 필수 입력 항목입니다!</span></h3>

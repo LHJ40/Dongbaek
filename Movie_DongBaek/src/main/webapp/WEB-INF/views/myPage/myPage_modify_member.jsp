@@ -14,18 +14,49 @@
 <link href="${pageContext.request.contextPath }/resources/css/sidebar_myPage.css" rel="stylesheet" type="text/css">
 <title>개인정보 수정</title>
 <style>
-
-<%-- a링크 활성화 색상 변경 --%>
-a:hover, a:active{
- color:  #ff5050 !important;
-	
+/* 화면 가운데 위치*/
+.container {
+    margin-top: 90px;
+   	margin-left: 200px;
 }
+
+.table {
+	margin-top: 25px;
+}
+
+.fr {
+	font-size: 1.2em;
+}
+
+.class {
+	padding-left: 800px;
+}
+
+/* .col-10 { */
+/* 	padding-left: 200px; */
+/* } */
+
 </style>
 <script type="text/javascript">
 
+// 비밀번호 정규식
+function checkPass(member_pass, member_pass2) {
+	let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
+	
+	if(regex.exec(member_pass)) {
+		document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
+		document.querySelector("#pass_check").style.color = "green";
+	} else {
+		document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
+		document.querySelector("#pass_check").style.color = "red";
+		alert("비밀번호를 다시 입력해주세요! \n 영어 대소문자, 숫자, @#$% 를 사용하여 8 ~ 16글자 입니다. ");
+		$("#member_pass").val('');
+		$("#member_pass2").val('');
+	}
+}
+
 // 비밀번호 와 비밀번호 확인 일치
 function checkconfirmPasswd(passwdCheck) {
-	
 	let member_pass = document.fr.member_pass.value;
 	
 	if(member_pass == passwdCheck) {
@@ -34,7 +65,7 @@ function checkconfirmPasswd(passwdCheck) {
 	} else {
 		document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
 		document.querySelector("#pass_confirm").style.color = "red";
-		alert("비밀번호를 다시 입력해주세요!");
+		alert("비밀번호가 일치하지 않습니다. \n 비밀번호를 다시 입력해주세요!");
 		$("#member_pass").val('');
 		$("#member_pass2").val('');
 	}
@@ -57,62 +88,78 @@ function checkconfirmPasswd(passwdCheck) {
 				<c:otherwise>
 				 	<c:forEach var="myInfo" items="${myInfoList }">
 				 		<h2>
-							* ${myInfo.member_name } 님의 정보입니다.
+							${myInfo.member_name } 님의 개인 정보
 						</h2>
 						
-						<hr>
+						<br>
 						
 						<p> <em style="color:red;">*</em> 표시 항목은 변경을 원하실 때만 입력해주세요.
 						
-						<form action="myPage_modify_member_pro" method="POST" name="fr">
+						<form action="myPage_modify_member_pro" method="POST" name="fr" class="fr">
 						<input type="hidden">
 							<%-- 아이디 --%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">아이디</label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">아이디</label>
+	              					<div class="col-8">
 		             					${myInfo.member_id }
 	              					</div>
 		        			</div>
 							
 							<%-- 이름 --%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">이름</label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">이름</label>
+	              					<div class="col-8">
 		             					${myInfo.member_name }
 	              					</div>
 		        			</div>
 							
 							<%-- 비밀번호 --%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">비밀번호 <em style="color:red;">*</em></label>
-	              					<div class="col-6">
-		             					<input type="password" name="member_pass" id="member_pass" onblur="checkPasswd(this.value)" placeholder="영어 대소문자, 숫자, @#$% 를 사용하여 8 ~ 16글자 사이 입력">
+	             				<label for="id" class="col-4 text-nowrap">비밀번호 <em style="color:red;">*</em></label>
+	              					<div class="col-8">
+		             					<input type="password" name="member_pass" id="member_pass" onchange="checkPass(this.value)" placeholder="비밀번호 변경 시 입력">
 	              					</div>
 		        			</div>
+		        			
+		        			<%-- 비밀번호 정규식 --%>
+		        			<div class="row mb-3">
+				    			<label for="inputPasswordRegex_Result" class="col-4"></label>
+							    	<div class="col-8">
+										<span id="pass_check"></span>
+							   		</div>
+							</div>
 		        			
 							<%-- 비밀번호 확인--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">비밀번호 확인 <em style="color:red;">*</em></label>
-	              					<div class="col-6">
-	              						<input type="password" name="member_pass2" id="member_pass2" onblur="checkconfirmPasswd(this.value)(this.value)" placeholder="비밀번호 변경 시 입력">
+	             				<label for="id" class="col-4 text-nowrap">비밀번호 확인 <em style="color:red;">*</em></label>
+	              					<div class="col-8">
+	              						<input type="password" name="member_pass2" id="member_pass2" onchange="checkconfirmPasswd(this.value)" placeholder="비밀번호 변경 시 입력">
 	              					</div>
-	              					<div class="col-6">
-										<span id="pass_confirm"></span>
-	              					</div>
+<!-- 	              					<div class="col-6"> -->
+<!-- 										<span id="pass_confirm"></span> -->
+<!-- 	              					</div> -->
 		        			</div>
+		        			
+		        			<%-- 비밀번호 정규식 --%>
+		        			<div class="row mb-3">
+				    			<label for="inputPasswordRegex_Result" class="col-4"></label>
+							    	<div class="col-8">
+										<span id="pass_confirm"></span>
+							   		</div>
+							</div>
 		        			
 							<%-- 생년월일--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">생일</label>
-	              					<div class="col-5">
+	             				<label for="id" class="col-4 text-nowrap">생일</label>
+	              					<div class="col-8">
 	              						${myInfo.member_birth }
 	              					</div>
 		        			</div>
 		        			
 							<%-- 전화번호--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">전화번호</label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">전화번호</label>
+	              					<div class="col-8">
 	              						<%-- 전화번호 형태로 보여주기 --%>
 	              						${myInfo.member_phone }
 	              					</div>
@@ -215,32 +262,32 @@ function checkconfirmPasswd(passwdCheck) {
 		        			
 							<%-- 이메일--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">이메일</label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">이메일</label>
+	              					<div class="col-8">
 	              						${myInfo.member_email }
 	              					</div>
 		        			</div>
 		        			
 							<%-- 이메일 변경--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">이메일 변경 <em style="color:red;">*</em></label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">이메일 변경 <em style="color:red;">*</em></label>
+	              					<div class="col-8">
 	              						<input type="email" name="member_email" placeholder="이메일 변경 시 적어주세요">
 	              					</div>
 		        			</div>
 		        			
 							<%-- 좋아하는 장르 --%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">좋아하는 장르</label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">좋아하는 장르</label>
+	              					<div class="col-8">
 	              						${myInfo.member_like_genre }
 	              					</div>
 		        			</div>
 		        			
 							<%-- 좋아하는 장르 변경--%>
 							<div class="row mb-3">
-	             				<label for="id" class="col-2 text-nowrap">좋아하는 장르 변경 <em style="color:red;">*</em></label>
-	              					<div class="col-10">
+	             				<label for="id" class="col-4 text-nowrap">좋아하는 장르 변경 <em style="color:red;">*</em></label>
+	              					<div class="col-8">
 	              						<select name="member_like_genre" class="select">
 											<option value="선택 안함" <c:if test="${member_like_genre=='선택 안함'}">${'selected' }</c:if>>선택 안함</option>
 											<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>로맨스코미디</option>
@@ -261,10 +308,16 @@ function checkconfirmPasswd(passwdCheck) {
 										</select>
 	              					</div>
 		        			</div>
-<!-- 								<input type="button" value="취소" onclick="history.back()"> -->
-							<input type="submit" value="정보 수정">
-							<input type="button" value="돌아가기" onclick="history.back()">
-							<input type="button" value="탈퇴하기" onclick="location.href='MemberWithdrawalForm'">
+<!-- 							<input type="submit" value="정보 수정"> -->
+<!-- 							<button type="submit" class="btn btn-primary btn-secondary mr-3 btn-lg" onclick="location.href='member_login_form'">&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;</button> -->
+<!-- 							<input type="button" value="돌아가기" onclick="history.back()"> -->
+<!-- 							<input type="button" value="탈퇴하기" onclick="location.href='MemberWithdrawalForm'"> -->
+<!-- 								<button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#deleteWrite">정보 수정</button> -->
+							<div class="button">
+								<button class="btn btn-danger btn-lg" type="submit">정보 수정</button>
+					  			<button type="button" class="btn btn-outline-secondary ml-3 btn-lg" onclick="history.back()">돌아가기</button>				
+					  			<button type="button" class="btn btn-outline-danger ml-3 btn-lg" onclick="location.href='MemberWithdrawalForm'">탈퇴하기</button>				
+							</div>
 						</form>
 					</c:forEach>
 				</c:otherwise>
@@ -278,22 +331,8 @@ function checkconfirmPasswd(passwdCheck) {
   		<%@ include file="/WEB-INF/views/sidebar/sideBar_myPage.jsp"%>
   	</nav>
   
-<!--   <nav id="mainNav" class="d-none d-md-block sidebar"> -->
-<%--   <%--왼쪽 사이드바 --%> --%>
-<!-- <!-- 	왼쪽 탭 링크들 --> -->
-<!--   	<h3>마이페이지</h3> -->
-<!-- 		<ul class="left-tap"> -->
-<!-- 			<li class="myPage-ticketing-buy"><a class="nav-link" href="myPage_reservation_buy_history">예매 -->
-<!-- 					/ 구매내역</a></li> -->
-<!-- 			<li class="myPage-review"><a class="nav-link" href="myPage_myReview">나의 리뷰</a></li> -->
-<!-- 			<li class="myPage-moviefourcut"><a class="nav-link" href="myPage_moviefourcut">영화네컷</a></li> -->
-<!-- 			<li class="myPage-quest"><a class="nav-link" href="myPage_inquiry">문의 내역</a></li> -->
-<!-- 			<li class="myPage-grade"><a class="nav-link" href="myPage_grade">등급별 혜택</a></li> -->
-<!-- 			<li class="myPage-privacy"><a class="nav-link" href="myPage_modify_check">개인정보수정</a></li> -->
-<!-- 		</ul> -->
-<!--   </nav> -->
-  
   <div id="siteAds"></div>
   <%--페이지 하단 --%>
   <footer id="pageFooter"><%@ include file="../inc/footer.jsp"%></footer>
+  
 </body>

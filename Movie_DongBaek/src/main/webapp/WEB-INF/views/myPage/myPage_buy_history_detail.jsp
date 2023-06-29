@@ -48,7 +48,7 @@
 <script type="text/javascript">
 	
 	$(function() {
-// 		$("#cancleCk").hide();	// 나중에 풀기
+		$("#cancleCk").hide();	// 나중에 풀기
 		// 받아온 파라미터 play_change에 '취소가능'이 있으면 결제취소버튼 생성
 		if($("#play_change").val() === '취소가능') {
 			$("#cancleCk").show();
@@ -63,6 +63,7 @@
 		let order_num = $("#order_num").val();
 		let payment_total_price = $("#payment_total_price").val();
 		console.log("payment_num : " + payment_num);
+		console.log("order_num : " + order_num);
 	   	
 		$.ajax({
 	      // 예: http://www.myservice.com/payments/cancel

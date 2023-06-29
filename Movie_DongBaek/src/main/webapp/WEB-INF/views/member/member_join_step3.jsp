@@ -97,9 +97,10 @@ th{
 				document.querySelector("#id_check").style.color = "red";
 				alert("영어 소문자와 숫자를 조합하여 5 ~ 10글자로 다시 입력해주세요!");
 				$("#member_id").val('');
+			}
 		}
-	}
 	
+	}
 	
 	// 비밀번호 정규식
 	function checkPass(member_pass, member_pass2) {
@@ -166,7 +167,8 @@ th{
 	
 	// 전화번호 정규식
 	function inputNum_phone(member_phone) {
-		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+// 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+		let regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
 		
 		if(regex.exec(member_phone)) {
 			document.querySelector("#phone_check").innerHTML = ""
@@ -203,7 +205,6 @@ th{
 		let member_name = sessionStorage.getItem('member_name');
 		let member_email = sessionStorage.getItem('member_email');
 		let member_phone = sessionStorage.getItem('member_phone');
-		
 		
 		// 세션 스토리지에 카카오 값이 존재할 경우 <input> 요소를 읽기 전용으로 설정
 		if(member_name != null) {
@@ -272,6 +273,7 @@ th{
 <!-- 					    		<div class="check_font" id="id_check"></div> -->
 					    	</div>
 					</div>
+					
 <!-- 					아이디 중복확인 : ajax -->
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>
@@ -405,7 +407,7 @@ th{
 							<div class="selectBox_movie">
 								<select name="member_like_genre" class="select">
 									<option value="선택 안함" <c:if test="${member_like_genre=='선택 안함'}">${'selected' }</c:if>>선택 안함</option>
-									<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>>로맨스코미디</option>
+									<option value="로맨스코미디" <c:if test="${member_like_genre=='로맨스 코미디'}">${'selected' }</c:if>>로맨스코미디</option>
 									<option value="스릴러"<c:if test="${member_like_genre=='스릴러'}">${'selected' }</c:if>>스릴러</option>
 									<option value="공포"<c:if test="${member_like_genre=='공포'}">${'selected' }</c:if>>공포</option>
 									<option value="SF"<c:if test="${member_like_genre=='SF'}">${'selected' }</c:if>>SF</option>
@@ -419,7 +421,7 @@ th{
 									<option value="스포츠"<c:if test="${member_like_genre=='스포츠'}">${'selected' }</c:if>>스포츠</option>
 									<option value="애니메이션"<c:if test="${member_like_genre=='애니메이션'}">${'selected' }</c:if>>애니메이션</option>
 									<option value="다큐멘터리"<c:if test="${member_like_genre=='다큐멘터리'}">${'selected' }</c:if>>다큐멘터리</option>
-									<option value="기타"<c:if test="${member_like_genre=='기타'}">${'selected' }</c:if>>>기타</option>
+									<option value="기타"<c:if test="${member_like_genre=='기타'}">${'selected' }</c:if>>기타</option>
 								</select>
 							</div>
 						</div>
