@@ -396,6 +396,7 @@ public class ReservationController {
 		
 			
 			int res = 1;
+			String token = payservice.getToken();
 			String seatlist[] =seat_name.split(",");
 			List<Integer> seatNumList=new ArrayList<Integer>();
 	        int ticket_num [] = Stream.of(ticket_type_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
@@ -409,7 +410,6 @@ public class ReservationController {
 	        for(OrderTicketVO seat:orderTicketList) {//이미 예약된 좌석인지 검증
 	        	for(int seat2: seatNumList) {
     				if(seat2==seat.getSeat_num()) {
-    					String token = payservice.getToken();
     					res = 0;
     					payservice.payMentCancle(token, payment.getPayment_num(), Integer.parseInt(payment.getPayment_total_price()),"결제실패");//결제취소
     					return res;
@@ -419,46 +419,67 @@ public class ReservationController {
 	        }
 	        
 	        
-	        
-	        
-	        
-//	        System.out.println(seatNumList);
-//			System.out.println(ticket_type_num_param);
-//			System.out.println(seat_name);
-//		    System.out.println(order);
-//		    System.out.println(ticket);
-//		    System.out.println(payment);
-//		    String token = payService.getToken();
-//		    
-//		    // 결제 완료된 금액
-//		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
 		    
+		    List<TicketTypeVO> ticketPriceList = new ArrayList<TicketTypeVO>();
+			String ticketlist[] =ticket_type_num_param.split(","); // ticket_type_num ,로 나눠 배열 저장
+			
+				int ticketTotalPrice=0;
+				int i=0;
+			   for(String ticketpPrice : ticketlist) {
+				   int ticketNum=Integer.parseInt(ticketpPrice);
+				   TicketTypeVO ticketType = service.getTicketPriceListByNum(ticketNum);
+				   ticketPriceList.add(ticketType);
+				   ticketTotalPrice+=ticketPriceList.get(i).getTicket_type_price();
+				   i++;
+		        };
+
+
+		    List<SnackVO> snackNumlist = new ArrayList<SnackVO>();
+			   int snackTotalPrice=0;
+			   if(!snack_num_param.equals("")) {
+				   String snacklist[]=snack_num_param.split(",");
+				   int i2=0;
+				   int snackquantitylist [] = Stream.of(snack_quantity_param.split(",")).mapToInt(Integer::parseInt).toArray();//문자열 ,단위로 나눠 int 타입 배열로 저장 
+				   for(String snackprice : snacklist) {
+					   int snackNum=Integer.parseInt(snackprice);
+					   SnackVO snacks=service2.getSnackListByNum(snackNum);
+					   snackNumlist.add(snacks);
+					   snackTotalPrice+=snackNumlist.get(i2).getSnack_price()*snackquantitylist[i2];
+					   i2++;
+				   };
+			   }
+
+			GradeNextVO member_grade=service3.getMyGrade((String) session.getAttribute("member_id"));
+			int discount=(int)(ticketTotalPrice*member_grade.getGrade_discount());
+
+
+			int totalprice=ticketTotalPrice-discount+snackTotalPrice;
 		    
+			String amount = payservice.paymentInfo(payment.getPayment_num(), token);
+			if(totalprice!=Integer.parseInt(amount) ) {//결제금액 실제 총가격과 비교검증
+				res = 0;
+				payservice.payMentCancle(token, payment.getPayment_num(), Integer.parseInt(payment.getPayment_total_price()),"결제실패");//결제취소
+				return res;
+			}
 		    
-//		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
-//				res = 0;
-//				// 결제 취소
-//				payService.payMentCancle(token, orderDTO.getImp_uid(), amount,"결제 금액 오류");
-//				return res;
-//			}
-//			orderService.insert_pay(orderDTO);
+
 		    service.registOrder(order); //주문정보 저장
 		    service.registPayment(payment);//결제정보 저장
 		    
-		    int i=0;
+		    int i3=0;
 		    for(int seat:seatNumList) {
 	        	ticket.setSeat_num(seat);
-	        	ticket.setTicket_type_num(ticket_num[i]);
+	        	ticket.setTicket_type_num(ticket_num[i3]);
 	        	service.registTicket(ticket);//티켓정보 저장
-	        	i++;
+	        	i3++;
 	        }
 		    
 		    if(!snack_num_param.equals("")) {//스낵구매시에만
 				int snackNum[]=Stream.of(snack_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
 				int snackQuantity[]=Stream.of(snack_quantity_param.split(",")).mapToInt(Integer::parseInt).toArray();
-				for(int i2=0; i2<snackNum.length; i2++) {
-					snack.setSnack_num(snackNum[i2]);
-					snack.setSnack_quantity(snackQuantity[i2]);
+				for(int i4=0; i4<snackNum.length; i4++) {
+					snack.setSnack_num(snackNum[i4]);
+					snack.setSnack_quantity(snackQuantity[i4]);
 					service.registSnack(snack);//스낵정보 저장
 				}
 				
