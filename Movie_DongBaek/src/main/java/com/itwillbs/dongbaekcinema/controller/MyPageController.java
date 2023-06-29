@@ -66,19 +66,19 @@ public class MyPageController {
 //		System.out.println(myGrade);
 		
 		// 세션 아이디로 예매내역 받아오기(최근 세개만)
-		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, 0, 3);
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, 0, 2);
 		
 		// 세션 아이디로 회원 이름 받아오기
 		MemberVO member = memberService.getMember(member_id);
 		
 		// 세션 아이디로 나의 문의 내역 받아오기
-//		List<CsVO> myInq = service.getMyInq(member_id);
+		List<CsVO> myInq = service.getMyInq(member_id);
 		
 		// 받아온 등급 정보와 예매내역 정보 저장
 		model.addAttribute("myGrade", myGrade);				                         
 		model.addAttribute("myTicketList", myTicketList);
 		model.addAttribute("member", member);
-//		model.addAttribute("myInq", myInq);
+		model.addAttribute("myInq", myInq);
 		
 		return "myPage/myPage";
 	}
@@ -408,26 +408,65 @@ public class MyPageController {
 	}
 
     // 마이페이지 - 나의 리뷰 글쓰기 페이지로 이동
-    @GetMapping("myPage_reviewWrite")
-    public String myPage_reviewWrite(HttpSession session, Model model) {
-        // 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+//    @GetMapping("review_write")
+	@RequestMapping(value = "review_write", method = {RequestMethod.GET, RequestMethod.POST})
+    public String myPage_reviewWrite(HttpSession session, Model model 
+						    		,@RequestParam String movie_num) {
+		 // 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
         String member_id = (String) session.getAttribute("member_id");
         if(member_id == null) {
             model.addAttribute("msg", " 로그인이 필요합니다!");
             model.addAttribute("targetURL", "member_login_form");
 
-            return "fail_location";
         }
+        
+       System.out.println(movie_num);
 
-
-        return "myPage/myPage_reviewWrite";
+       MyReviewVO myReview = service.getMovieName(movie_num);
+        
+        model.addAttribute("myReview", myReview);
+        model.addAttribute("movie_num", movie_num);
+        
+        return "myPage/myPage_myReview_form";
     }
-
-	// 마이페이지 - 영화 네컷 페이지로 이동
-	@GetMapping("myPage_moviefourcut")
-	public String myPage_moviefourcut() {
-		return "myPage/myPage_moviefourcut";
+	
+	
+	// 나의 리뷰 글쓰기
+	@PostMapping("review_write_pro")
+	public String review_write_pro(MyReviewVO myReview
+							, HttpSession session
+							, Model model
+							) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+				model.addAttribute("msg", " 로그인이 필요합니다!");
+				model.addAttribute("targetURL", "member_login_form");
+						
+			return "fail_location";
+		}
+		
+		System.out.println(myReview);
+		
+//		int insertReviewCount = service.registReview(myReview, member_id);
+		myReview.setMember_id(member_id);
+		int insertReviewCount = service.registReview(myReview);
+		
+		
+		if(insertReviewCount > 0) {
+			return "redirect:/myPage_myReview";
+		} else {
+			model.addAttribute("msg", "글쓰기 실패!");
+			return "fail_back";
+		}
 	}
+	
+	
+	// 마이페이지 - 영화 네컷 페이지로 이동
+//	@GetMapping("myPage_moviefourcut")
+//	public String myPage_moviefourcut() {
+//		return "myPage/myPage_moviefourcut";
+//	}
 	
 	// 마이페이지 - 문의 내역 페이지로 이동
 	@GetMapping("myPage_inquiry")

@@ -228,4 +228,16 @@
 			AND p.movie_num = #{movie_num};
 		</select>
   
+	<!-- 리뷰 등록하기 -->
+	<insert id="insertReview" parameterType="com.itwillbs.dongbaekcinema.voNew.MyReviewVO">
+		INSERT
+			INTO REVIEWS
+			VALUES (
+				#{review_rating}
+				, #{review_content}
+				, now()
+				, #{movie_num}
+				, #{member_id}
+			)
+	</insert>
 </mapper>
