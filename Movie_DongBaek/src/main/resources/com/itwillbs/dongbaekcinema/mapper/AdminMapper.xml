@@ -391,7 +391,7 @@
 	<select id="getMemberJoinCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
 		SELECT 
 			COUNT(*) AS joinLate${dayCount}
-			FROM member_num
+			FROM MEMBERS
 				WHERE member_date = CURDATE() - INTERVAL #{dayCount} DAY;
 	</select>
 	
@@ -399,18 +399,21 @@
 	<select id="getMemberAgeCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
 		SELECT COUNT(*) AS joinAge
 	  			FROM MEMBERS
-	  			WHERE
 	    <choose>
 		      <when test="dayCount == 0">
+	  			WHERE
 		       	 member_birthday > currentTimestamp() - interval '20 years'
 		      </when>
 		      <when test="dayCount == 1">
+	  			WHERE
 		       	 member_birthday > currentTimestamp() - interval '40 years' AND member_birthday &lt;= currentTimestamp() - interval '20 years'
 		      </when>
 		      <when test="dayCount == 2">
+	  			WHERE
 		       	 member_birthday > currentTimestamp() - interval '60 years' AND member_birthday &lt;= currentTimestamp() - interval '40 years'
 		      </when>
 		      <when test="dayCount == 3">
+	  			WHERE
 		      	 member_birthday &lt;= currentTimestamp() - interval '60 years'
 		      </when>
 	    </choose>

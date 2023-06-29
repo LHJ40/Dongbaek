@@ -85,31 +85,7 @@ public class AdminController {
             return "fail_back";
         }
 		
-		List<AdminLateVO> adminLateList = new ArrayList<AdminLateVO>();
 
-    	
-    	for(int i = 0; i < 4; i++) {
-    		// vo객체 생성
-    		AdminLateVO adminLate = new AdminLateVO();
-
-    		adminLate.setDayCount(i); // 날짜 출력할 0~3번
-    		
-    		// 일일 회원 가입수(joinLate)
-    		adminLate = admin_service.getMemberJoinCount(adminLate);
-    		
-    		// 일일 예매 수(orderLate)
-//			adminLate = admin_service.
-    		
-    		// 회원 연령대 수(joinAge0~joinAge4)-0~20대/20대~40대/40대~60대/60대~
-    		adminLate = admin_service.getMemberAgeCount(adminLate);
-    		
-    		adminLateList.add(adminLate);
-    		
-    		model.addAttribute("adminLateList", adminLateList);
-    		
-    	}
-    	
-    	
 
 		
 		
