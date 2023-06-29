@@ -77,13 +77,13 @@ public class AdminController {
 	public String adminMain(HttpSession session, Model model) {
 		
 		// 직원 세션이 아닐 경우 잘못된 접근 처리
-		String member_type = (String)session.getAttribute("member_type");
-		System.out.println(member_type);
-		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-
-            model.addAttribute("msg", "잘못된 접근입니다!");
-            return "fail_back";
-        }
+//		String member_type = (String)session.getAttribute("member_type");
+//		System.out.println(member_type);
+//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+//
+//            model.addAttribute("msg", "잘못된 접근입니다!");
+//            return "fail_back";
+//        }
 		
 
 
@@ -634,34 +634,48 @@ public class AdminController {
 	// 관리자 메인 차트 출력부분
 	@ResponseBody
 	@RequestMapping(value = "adminLate", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json;charset=utf-8")
-	public String adminLate(HttpSession session, Model model) {
+	public List<AdminLateVO> adminLate(HttpSession session, Model model) {
 		
 		
-    	JSONArray jsonArray = new JSONArray(); // JSON 배열 변수 선언
-    	JSONObject jsonObject = new JSONObject();
+    	List<AdminLateVO> adminLateList = new ArrayList<AdminLateVO>();
 		    	
     	
     	for(int i = 0; i < 4; i++) {
     		// vo객체 생성
     		AdminLateVO adminLate = new AdminLateVO();
 
-    		adminLate.setDayCount(i); // 날짜 출력할 0~3번
+    		adminLate.setDayCount(i); // 인덱스
     		
-    		// 일일 회원 가입수(joinLate)
-    		adminLate = admin_service.getMemberJoinCount(adminLate);
+    		// 날짜 변수 저장(0-오늘 1-1일전 2-2일전 3-3일전)
+    		LocalDate today = LocalDate.now();
+            LocalDate daysBefore = today.minusDays(i);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = daysBefore.format(dtf);
+            adminLate.setDateNow(date);
+            System.out.println("1:" + adminLate);
     		
+    		// 일일 회원 가입 수(joinLate)
+            adminLate.setJoinLate(admin_service.getMemberJoinCount(adminLate.getDayCount()));
+    		
+            System.out.println("2:" + adminLate);
     		// 일일 예매 수(orderLate)
-//			adminLate = admin_service.
-    		
-    		// 회원 연령대 수(joinAge0~joinAge4)-0~20대/20대~40대/40대~60대/60대~
-    		adminLate = admin_service.getMemberAgeCount(adminLate);
-    		
-    		jsonObject.put("adminLate", adminLate);
+            adminLate.setOrderLate(admin_service.getOrderLate(adminLate.getDayCount()));
+			
+            System.out.println("3:" + adminLate);
+			// 일주일간 영화 예매 수 top4 movieLate
+            adminLate.setMovieLate(admin_service.getMovieLateCount(adminLate.getDayCount()));
+
+    		System.out.println("4:" + adminLate);
+			// 일주일간 영화 예매 수 top4 movieName
+            adminLate.setMovie_name_kr(admin_service.getMovieLateName(adminLate.getDayCount()));
+    	
+    		// 통계 정보 저장
+    		adminLateList.add(adminLate);
     		
     	}
-		jsonArray.put(jsonObject);
     	
-		return jsonArray.toString();
+    	//데이터 전송
+		return adminLateList;
 	}
 	
 	

@@ -247,15 +247,29 @@ public class AdminService {
     }
 
     // 통계 late 회원가입 수
-	public AdminLateVO getMemberJoinCount(AdminLateVO adminLate) {
+	public int getMemberJoinCount(int dayCount) {
 		
-		return mapper.getMemberJoinCount(adminLate);
+		return mapper.getMemberJoinCount(dayCount);
 	}
 
-	// 총 회원 연령대 수 조회
-	public AdminLateVO getMemberAgeCount(AdminLateVO adminLate) {
+
+	// 예매 수 조회
+	public int getOrderLate(int dayCount) {
 		
-		return mapper.getMemberAgeCount(adminLate);
+		return mapper.getOrderLate(dayCount);
+	}
+
+
+	// 해당 날짜 영화별 예매 수 조회
+	public int getMovieLateCount(int dayCount) {
+
+		return mapper.getMovieLateCount(dayCount);
+	}
+
+	// 해당 날짜 영화별 예매 수 영화명
+	public String getMovieLateName(int dayCount) {
+		
+		return mapper.getMovieLateName(dayCount);
 	}
 
 

@@ -92,11 +92,16 @@ public interface AdminMapper {
 	public int getCsCountKeyword(@Param("condition")String condition, @Param("cs_type_keyword")String cs_type_keyword);
 
 	// 통계 일일 회원 가입수
-	public AdminLateVO getMemberJoinCount(AdminLateVO adminLate);
+	public int getMemberJoinCount(int dayCount);
 
-	// 통계 회원 연령대 계산
-	public AdminLateVO getMemberAgeCount(AdminLateVO adminLate);
+	// 일일 예매 수 조회
+	public int getOrderLate(int dayCount);
 
+	// 해당 날짜 예매율 탑4 영화 예매 수
+	public int getMovieLateCount(int dayCount);
+	
+	// 해당 날짜 예매율 탑4 영화명
+	public String getMovieLateName(int dayCount);
 
 
 	

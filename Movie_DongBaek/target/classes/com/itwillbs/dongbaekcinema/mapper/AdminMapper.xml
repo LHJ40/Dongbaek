@@ -388,35 +388,42 @@
 	</update>
 	
 	<!-- 통계 일일 회원 가입 수 -->
-	<select id="getMemberJoinCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
+	<select id="getMemberJoinCount" resultType="int">
 		SELECT 
-			COUNT(*) AS joinLate${dayCount}
+			COUNT(*) AS joinLate
 			FROM MEMBERS
-				WHERE member_date = CURDATE() - INTERVAL #{dayCount} DAY;
+				WHERE member_date = CURDATE() - INTERVAL #{dayCount} DAY
 	</select>
 	
-	<!-- 통계 회원 연령대 수 -->
-	<select id="getMemberAgeCount" resultType="com.itwillbs.dongbaekcinema.voNew.AdminLateVO">
-		SELECT COUNT(*) AS joinAge
-	  			FROM MEMBERS
-	    <choose>
-		      <when test="dayCount == 0">
-	  			WHERE
-		       	 member_birthday > currentTimestamp() - interval '20 years'
-		      </when>
-		      <when test="dayCount == 1">
-	  			WHERE
-		       	 member_birthday > currentTimestamp() - interval '40 years' AND member_birthday &lt;= currentTimestamp() - interval '20 years'
-		      </when>
-		      <when test="dayCount == 2">
-	  			WHERE
-		       	 member_birthday > currentTimestamp() - interval '60 years' AND member_birthday &lt;= currentTimestamp() - interval '40 years'
-		      </when>
-		      <when test="dayCount == 3">
-	  			WHERE
-		      	 member_birthday &lt;= currentTimestamp() - interval '60 years'
-		      </when>
-	    </choose>
+	<!-- 일주일간 날짜 예매율 순 -->
+	<select id="getMovieLateCount" resultType="int">
+		SELECT COUNT(movie_num) AS movieLate
+			FROM ORDER_MY_TICKET
+			WHERE play_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+			    AND play_change = '취소불가'
+			GROUP BY movie_num
+			ORDER BY movieLate DESC
+			LIMIT #{dayCount}, 1;        
+	</select>
+	
+	<!-- 일주일간 예매 수 영화며 조회 -->
+	<select id="getMovieLateName" resultType="String">
+		SELECT movie_name_kr, COUNT(movie_num) AS movieLate
+			FROM ORDER_MY_TICKET
+			WHERE play_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+			    AND play_change = '취소불가'
+			GROUP BY movie_num
+			ORDER BY movieLate DESC
+			LIMIT #{dayCount}, 1;        
+	</select>
+
+	<!-- 일일 예매 수 조회 -->
+	<select id="getOrderLate" resultType="int">
+		SELECT 
+			COUNT(*)  AS orderLate
+			FROM ORDER_MY_TICKET
+				WHERE play_date = CURDATE() - INTERVAL #{dayCount} DAY
+				AND play_change = '취소불가'
 	</select>
 	
 	

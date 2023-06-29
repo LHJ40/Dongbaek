@@ -14,10 +14,10 @@ public class AdminLateVO {
 		private int dayCount; // 배열 인덱스(0~3)
 		private String dateNow; //
 		private int joinLate; // 해당일 회원가입수 당일
-		private int joinAge; // 0~20대/20대~40대/40대~60대/60대~
 		private int orderLate; // 예매 수
 		private int movie_num; // 영화 번호
-		private String movie_name; // 영화 이름
+		private String movie_name_kr; // 영화 이름
+		private int movieLate; // 오늘자 기준 영화 예매 수
 //		private int movieOrderCount; // 영화 예매수
 //		private int totalOrderCount; // 총 예매수
 		private double movieOrderLate; // 영화별 예매율( 영화 예매수/총 예매수)
