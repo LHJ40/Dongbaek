@@ -98,6 +98,7 @@ a:hover, a:active{
 		
 	  </div>
 
+		<%@ include file="/WEB-INF/views/chart.jsp"%>
 </div>
 
        

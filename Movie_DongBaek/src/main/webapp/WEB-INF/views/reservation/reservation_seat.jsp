@@ -157,9 +157,7 @@
 		});
 	});
 	
-	$(function() {
-		
-		
+	$(function() {		
 		// [관람인원선택] 영역이 클릭되면 =========================================================================================================================================
 		$("#selectPeople button").on("click", function() {
 			$("#seat-part").removeClass("disabled");   // 좌석 선택 영역 disable 클래스 제거
@@ -207,9 +205,13 @@
 						
 			// 인원 선택 수 제한두기
 			// 일반, 청소년, 우대, 장애인 수를 더해서 8 이상이면 좌석에 disabled 클래스 추가
-			if(countPeople > 8){   // 관람인원의 합이 8명 이상일 때
+			if(countPeople >= 8){   // 관람인원의 합이 8명 이상일 때
+// 				$("#seat-part button").addClass("disabled");
+				$("#selectPeople #adult button.up").addClass("disabled");
+				$("#selectPeople #teenager button.up").addClass("disabled");
+				$("#selectPeople #child button.up").addClass("disabled");
+				$("#selectPeople #handi button.up").addClass("disabled");
 				alert("인원 선택은 총 8명까지 가능합니다");
-				$("#seat-part button").addClass("disabled");
 				
 			}else if(countPeople == 0){   // 관람인원의 합이 0일 때
 				alert("관람인원을 선택해 주세요");
@@ -498,6 +500,9 @@
 											}else {
 												adultCount = adultCount - 1;
 												$("#selectPeople #adult button.up").removeClass("disabled");
+												$("#selectPeople #teenager button.up").removeClass("disabled");
+												$("#selectPeople #child button.up").removeClass("disabled");
+												$("#selectPeople #handi button.up").removeClass("disabled");
 												$("#selectPeople #adult button.result").html(adultCount);
 											}
 										} 
@@ -520,7 +525,10 @@
 												$("#selectPeople #teenager button.down").addClass("disabled");
 											}else {
 												teenagerCount = teenagerCount - 1;
+												$("#selectPeople #adult button.up").removeClass("disabled");
 												$("#selectPeople #teenager button.up").removeClass("disabled");
+												$("#selectPeople #child button.up").removeClass("disabled");
+												$("#selectPeople #handi button.up").removeClass("disabled");
 												$("#selectPeople #teenager button.result").html(teenagerCount);
 											}
 										}
@@ -541,7 +549,10 @@
 												$("#selectPeople #child button.down").addClass("disabled");
 		                                    }else {
 		                                    	childCount = childCount - 1;
-		                                    	$("#selectPeople #child button.up").removeClass("disabled");
+		                                    	$("#selectPeople #adult button.up").removeClass("disabled");
+												$("#selectPeople #teenager button.up").removeClass("disabled");
+												$("#selectPeople #child button.up").removeClass("disabled");
+												$("#selectPeople #handi button.up").removeClass("disabled");
 		                                    	$("#selectPeople #child button.result").html(childCount);
 		                                    }
 										}
@@ -562,6 +573,9 @@
 												$("#selectPeople #handi button.down").addClass("disabled");
 											}else {
 												handiCount = handiCount - 1;
+												$("#selectPeople #adult button.up").removeClass("disabled");
+												$("#selectPeople #teenager button.up").removeClass("disabled");
+												$("#selectPeople #child button.up").removeClass("disabled");
 												$("#selectPeople #handi button.up").removeClass("disabled");
 												$("#selectPeople #handi button.result").html(handiCount);
 											}

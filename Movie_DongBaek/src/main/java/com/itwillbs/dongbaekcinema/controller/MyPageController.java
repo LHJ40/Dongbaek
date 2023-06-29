@@ -66,19 +66,19 @@ public class MyPageController {
 //		System.out.println(myGrade);
 		
 		// 세션 아이디로 예매내역 받아오기(최근 세개만)
-		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, 0, 2);
+		List<MyTicketVO> myTicketList = service.getMyTicket(member_id, 0, 3);
 		
 		// 세션 아이디로 회원 이름 받아오기
 		MemberVO member = memberService.getMember(member_id);
 		
 		// 세션 아이디로 나의 문의 내역 받아오기
-		List<CsVO> myInq = service.getMyInq(member_id);
+//		List<CsVO> myInq = service.getMyInq(member_id);
 		
 		// 받아온 등급 정보와 예매내역 정보 저장
 		model.addAttribute("myGrade", myGrade);				                         
 		model.addAttribute("myTicketList", myTicketList);
 		model.addAttribute("member", member);
-		model.addAttribute("myInq", myInq);
+//		model.addAttribute("myInq", myInq);
 		
 		return "myPage/myPage";
 	}

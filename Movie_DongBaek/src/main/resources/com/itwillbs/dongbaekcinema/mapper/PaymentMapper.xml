@@ -138,7 +138,7 @@
 	<!-- 마이페이지 - 나의 멤버십. 올해 누적 실적 조회(지영) -->
 	<select id="selectYearPayment">
 		SELECT
-			IFNULL(sum(payment_total_price), 0)
+			IFNULL(sum(DISTINCT payment_total_price), 0)
 			FROM BUY_DETAIL
 			WHERE
 				member_id = #{member_id}

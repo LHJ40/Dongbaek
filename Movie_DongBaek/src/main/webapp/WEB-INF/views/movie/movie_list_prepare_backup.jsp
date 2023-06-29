@@ -12,10 +12,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script  type="text/javascript">
  $(function() {
-	// 찜하기에 사용
-	 let sId = $("#sessionId").val();
-	 let member_type = $("#member_type").val();
-	 
 	$(".custom-select").on("change", function(){
 	
 		//셀렉트박스 옵션 선택텍스트(예매순/가나다순) 저장
@@ -57,22 +53,12 @@
 						//날짜데이터 변환(밀리초->날짜형식으로)		   
 						let releaseDate = new Date(movie[i].movie_release_date);
 				        let formattedDate = releaseDate.getFullYear() + "-" + ("0" + (releaseDate.getMonth() + 1)).slice(-2) + "-" + ("0" + releaseDate.getDate()).slice(-2);
-						
-				        let button = "";
-						// 찜하기 --------------------
-						if(sId != "" && member_type != '비회원') {
-						    	button = "<button type='button' class='btn btn-outline-danger mr-2' id='likeMovie" + i + "' data-target='" + movie[i].movie_num + "' value='" + i + "' onclick='checkMovie(this, " + i + ")'>♡찜하기</button>"
-						    	+ "<input type='hidden' id='clickCk" + i + "'>"
-						} else {
-								button = "<button type='button' class='btn btn-outline-danger' id='likeMovieNo" + i + "' data-toggle='modal' data-target='#needLogin'>♡찜하기</button>"
-						}
-						console.log(button);
-						// -------------------------------
+		
 				
 						res += "<div class='col-lg-3 col-mid-4'>" +
 						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
 						  "<a href='movie_detail_info?movie_num=" + movie[i].movie_num + "'>" +
-						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...' width = 288 height = 410>" +
+						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...'>" +
 						  "</a>" +
 							"<div class='card-body'>" +
 								"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
@@ -80,9 +66,8 @@
 									"<b>" + movie[i].movie_name_kr + "</b>" + "</h6>" +
 								"<p class='card-text'>예매율: " + movie[i].movie_booking_rate + "% 개봉일: " + formattedDate  + "</p>" +
 								"<p class='d-flex justify-content-center'>" +
-									// 찜하기 버튼 변수
-							    	button + 
-									"<a href='reservation_main?movie_num=" +  movie[i].movie_num + "' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>" +
+							    	"<button type='button' class='btn btn-outline-danger mr-2'>♡찜하기</button>" +
+							    	"<a href='reservation_main?movie_num=" +  movie[i].movie_num + "' class='btn btn-danger'>&nbsp;&nbsp;예매&nbsp;&nbsp;</a>" +
 						    	"</p>" +
 							"</div>" +
 						"</div>" +
@@ -90,36 +75,6 @@
 					}
 					
 					$("#moviearea").html(res);
-					
-					// (정렬변경 후) 찜한 데이터 들고와서 표시하기
-					$.ajax ({
-						type: 'GET',
-						url: 'likeMovieShow',
-						data: {'member_id' : sId},
-						dataType: 'JSON',
-						success: function(result) {
-//						console.log(result);
-							
-							for(let i = 1; i <= 8; i++) {
-								let movieNo = $("#likeMovie" + i).data("target");	// movie_num
-//								console.log(movieNo);
-								
-								for(let like of result) {
-									if(like.movie_num == movieNo) {	// 일치하면
-//										console.log(i);
-										$("#likeMovie" + i).removeClass("btn-outline-danger");
-										$("#likeMovie" + i).addClass("btn-danger");
-										$("#likeMovie" + i).text("♡찜");
-										$("#clickCk" + i).attr("disabled", true);
-									}
-								}
-							}
-						},
-						error: function() {
-							console.log("에러");
-						}
-					});
-					
 			})
 			.fail(function() { // 요청 실패 시
 				alert("요청 실패!");
@@ -287,7 +242,7 @@
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
 					<%-- 해당영화의 포스터출력 -> 클릭시 상세페이지로 이동 --%>
 					<a href="movie_detail_info?movie_num=${movie.movie_num}">
-						<img src="${movie.movie_poster}" class="card-img-top" alt="..." width = 288 height = 410>
+						<img src="${movie.movie_poster}" class="card-img-top" alt="...">
 					</a>
 					<%-- 해당영화의 등급에 해당하는 이미지 출력, 영화제목 출력--%>
 					<div class="card-body">

@@ -141,7 +141,8 @@
 									<span class="sale">${myGrade.next_grade_discount * 100} %</span> 할인<br>
 								</td>
 								<td>
-									선정 기준 및 유지 기준 : 1년간 <fmf:formatNumber value="${myGrade.grade_max}" pattern="#,###,###" /> 원 달성 시 다음해 승급
+									선정 기준 및 유지 기준 : 1년간 <fmf:formatNumber value="${myGrade.grade_max}" pattern="#,###,###" /> 원 달성 시 다음해 승급 <br>
+									<a href="grade">전체 등급 혜택 확인하러 가기 click</a>
 								</td>
 							</tr>
 						</c:otherwise>
