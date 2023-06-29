@@ -370,7 +370,7 @@ article {
 			function checkEndDateLaterThanStartDate() {
 				let startDate = new Date($("#movie_release_date").val());
 				let endDate = new Date($("#movie_close_date").val());
-				return endDate >= startDate;
+				return endDate > startDate;
 			}
 		</script>
 
