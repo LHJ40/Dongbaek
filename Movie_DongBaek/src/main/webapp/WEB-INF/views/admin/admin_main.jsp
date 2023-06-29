@@ -44,6 +44,12 @@ div {
 background-color: transparent;
 }
 
+.navbar {
+    background-color: #fff!important;
+}
+.menuItem {padding-top: 35px!important;
+}
+
 <%-- 페이징 색상변경 --%>
 .page-link {
   color: #000; 
