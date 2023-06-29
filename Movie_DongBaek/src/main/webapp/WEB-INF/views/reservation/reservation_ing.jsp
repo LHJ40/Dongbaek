@@ -125,35 +125,35 @@ article {
  		location.replace("reservation_seat?play_num=${param.play_num}");
  	}
  	$("#check_module").click(function () {
- 		$.ajax({//예약된 좌석이면 결제 불가
- 				type : "post", 
- 				url : "SelectPeople", 
- 				data : {"play_num" : ${param.play_num}},
- 				dataType : "json", 
- 			})
- 			.done(function(orderTicketList) {
+//  		$.ajax({//예약된 좌석이면 결제 불가
+//  				type : "post", 
+//  				url : "SelectPeople", 
+//  				data : {"play_num" : ${param.play_num}},
+//  				dataType : "json", 
+//  			})
+//  			.done(function(orderTicketList) {
  				
- 			   let seatNumList = new Array();
- 			    <c:forEach items="${seatNumList}" var="item">        
- 			    	seatNumList.push(${item});
- 			    </c:forEach>
+//  			   let seatNumList = new Array();
+//  			    <c:forEach items="${seatNumList}" var="item">        
+//  			    	seatNumList.push(${item});
+//  			    </c:forEach>
  			    
- 			    for(let i = 0; i <orderTicketList.length; i++) {
- 					for(let j = 0; j < seatNumList.length; j++){
+//  			    for(let i = 0; i <orderTicketList.length; i++) {
+//  					for(let j = 0; j < seatNumList.length; j++){
  						
- 						if(orderTicketList[i].seat_num == seatNumList[j]){
- 							alert("이미 예약된 좌석입니다 다시 예약 해주세요");
- 							location.replace("reservation_seat?play_num=${param.play_num}");
+//  						if(orderTicketList[i].seat_num == seatNumList[j]){
+//  							alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+//  							location.replace("reservation_seat?play_num=${param.play_num}");
  							
- 						}
- 					}
- 				}
+//  						}
+//  					}
+//  				}
  			    
- 			})
- 			.fail(function() { // 요청 실패 시
- 				alert("이미 예약된 좌석입니다 다시 예약 해주세요");
-				location.replace("reservation_seat?play_num=${param.play_num}");
- 			});
+//  			})
+//  			.fail(function() { // 요청 실패 시
+//  				alert("이미 예약된 좌석입니다 다시 예약 해주세요");
+// 				location.replace("reservation_seat?play_num=${param.play_num}");
+//  			});
  			
  			
  				
@@ -204,7 +204,7 @@ article {
  	                   url: 'verify_iamport/' + rsp.imp_uid,
  	                   type: 'post'
  	              }).done(function(data) {
- 	                 // 결제를 요청했던 금액과 실제 결제된 금액이 같으면 해당 주문건의 결제가 정상적으로 완료된 것으로 간주한다.
+ 	                 // 결제 검증
  	                 if (${totalprice} == data.response.amount) {
  	               jQuery.ajax({
                        url: "complete", 
@@ -223,19 +223,20 @@ article {
                        "snack_num_param":"${param.snack_num}",
                        "snack_quantity_param":"${param.snack_quantity}",
                        "payment_card_num":rsp.apply_num, //카드승인번호
-                       "payment_card_name":rsp.pay_method//결제방식
+                       "payment_card_name":rsp.pay_method,//결제방식
                        },
                        dataType: "json", 
                    })
                    .done(function(res) {
                        if (res > 0) {
-                           alert('주문정보 저장 성공');
-//                            createPayInfo(uid);
+                           
+						   alert("결제 성공 ! 결제완료 페이지로 이동합니다");
                            location.replace('reservation_check?order_num='+rsp.merchant_uid+'&play_num=${param.play_num}&seat_name=${param.seat_name}&payment_total_price='+rsp.paid_amount
                         		   +'&snack_num=${param.snack_num}&snack_quantity=${param.snack_quantity}');
                        } 
                        else {
-                    	   alert('주문정보 저장 실패');
+                    	   alert('이미 예약된 좌석입니다 다시 예약 해주세요');
+                    	   location.replace("reservation_seat?play_num=${param.play_num}");
                        }
                    })
            }

@@ -34,6 +34,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.itwillbs.dongbaekcinema.service.MemberService;
 import com.itwillbs.dongbaekcinema.service.MypageService;
+import com.itwillbs.dongbaekcinema.service.PayService;
 import com.itwillbs.dongbaekcinema.service.ReservationService;
 import com.itwillbs.dongbaekcinema.service.StoreService;
 import com.itwillbs.dongbaekcinema.vo.MemberVO;
@@ -55,6 +56,8 @@ public class ReservationController {
 	private MypageService service3;
 	@Autowired
 	private MemberService service4;
+	@Autowired
+	private PayService payservice;
 	
 	// 네비바의 [예매] 클릭 시 
 	// reservation_main 요청에 의해 "reservation_main/reservation_main.jsp" 페이지로 포워딩
@@ -234,7 +237,7 @@ public class ReservationController {
         //세션 끊겼을때 처리
         String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("msg", " 세션이 만료되었습니다");
 			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
@@ -318,7 +321,7 @@ public class ReservationController {
 		//세션 끊겼을때 처리
         String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("msg", " 세션이 만료되었습니다");
 			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
@@ -360,7 +363,7 @@ public class ReservationController {
 		//세션 끊겼을때 처리
         String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
-			model.addAttribute("msg", " 세션이 만료었습니다");
+			model.addAttribute("msg", " 세션이 만료되었습니다");
 			model.addAttribute("targetURL", "member_login_form");
 			
 			return "fail_location";
@@ -390,16 +393,32 @@ public class ReservationController {
 	@ResponseBody
 	public int paymentComplete(String seat_name,String snack_num_param,String snack_quantity_param,String ticket_type_num_param,OrderSnackVO snack,OrderVO order,OrderTicketVO ticket,PaymentVO payment,HttpSession session
 			) throws Exception {
-			
 		
+			
+			int res = 1;
+			String seatlist[] =seat_name.split(",");
 			List<Integer> seatNumList=new ArrayList<Integer>();
-	        String seatlist[] =seat_name.split(",");
 	        int ticket_num [] = Stream.of(ticket_type_num_param.split(",")).mapToInt(Integer::parseInt).toArray();
 	        for(String seat : seatlist) {
 	        	int seatnum=service.getSeatNumListByName(seat);
 	        	seatNumList.add(seatnum);
 	        }
 	       
+	        List<OrderTicketVO> orderTicketList = service.getOrderTicket(ticket.getPlay_num());
+	        
+	        for(OrderTicketVO seat:orderTicketList) {//이미 예약된 좌석인지 검증
+	        	for(int seat2: seatNumList) {
+    				if(seat2==seat.getSeat_num()) {
+    					String token = payservice.getToken();
+    					res = 0;
+    					payservice.payMentCancle(token, payment.getPayment_num(), Integer.parseInt(payment.getPayment_total_price()),"결제실패");//결제취소
+    					return res;
+    				}
+    	}
+	        	
+	        }
+	        
+	        
 	        
 	        
 	        
@@ -414,7 +433,7 @@ public class ReservationController {
 //		    // 결제 완료된 금액
 //		    String amount = payService.paymentInfo(orderDTO.getImp_uid(), token);
 		    
-		    int res = 1;
+		    
 		    
 //		    if (orderDTO.getTotalPrice() != Long.parseLong(amount)) {
 //				res = 0;
@@ -455,7 +474,7 @@ public class ReservationController {
 	@RequestMapping(value = "verify_iamport/{imp_uid}", method = RequestMethod.POST)
 	public IamportResponse<Payment> verifyIamportPOST(@PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
 			
-		IamportClient client=new IamportClient("2836321062537518","gDtR42HoIUGMBdqwjWpjtZsXqwv1CQYBV04n7CRKxEXzx5vkdBH4J9OYKqsdtSdjMXHEfHM7hJVe8Luo");
+		IamportClient client = payservice.getClient();
 			return client.paymentByImpUid(imp_uid);
 		}
 }

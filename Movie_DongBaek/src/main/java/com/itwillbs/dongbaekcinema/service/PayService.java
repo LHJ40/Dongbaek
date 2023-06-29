@@ -21,6 +21,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.itwillbs.dongbaekcinema.mapper.*;
 import com.itwillbs.dongbaekcinema.voNew.*;
+import com.siot.IamportRestClient.IamportClient;
+
+import lombok.Getter;
 
 
 @Service
@@ -32,6 +35,8 @@ public class PayService {
 	private String impKey="2836321062537518";
 	
 	private String impSecret="gDtR42HoIUGMBdqwjWpjtZsXqwv1CQYBV04n7CRKxEXzx5vkdBH4J9OYKqsdtSdjMXHEfHM7hJVe8Luo";
+	@Getter
+	private IamportClient client=new IamportClient(impKey,impSecret);
 	
 	public String getToken() throws Exception {
 
