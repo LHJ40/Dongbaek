@@ -77,13 +77,13 @@ public class AdminController {
 	public String adminMain(HttpSession session, Model model) {
 		
 		// 직원 세션이 아닐 경우 잘못된 접근 처리
-//		String member_type = (String)session.getAttribute("member_type");
-//		System.out.println(member_type);
-//		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
-//
-//            model.addAttribute("msg", "잘못된 접근입니다!");
-//            return "fail_back";
-//        }
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type == null || !member_type.equals("직원")) { // 미로그인 또는 "직원"이 아닐 경우
+
+            model.addAttribute("msg", "잘못된 접근입니다!");
+            return "fail_back";
+        }
 		
 
 
