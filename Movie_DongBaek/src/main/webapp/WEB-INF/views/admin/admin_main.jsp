@@ -165,7 +165,7 @@ a:hover, a:active{
   var ctx = document.getElementsByClassName("myChart");
   
 
-<<<<<<< HEAD
+
 
   var mixedChart = {
     type: 'bar',
@@ -278,10 +278,10 @@ a:hover, a:active{
 	
 	
 	
-=======
+
 		<%@ include file="/WEB-INF/views/chart.jsp"%>
 </div>
->>>>>>> branch 'main' of https://github.com/itwillbs51/Dongbaek.git
+
 
        
 		
