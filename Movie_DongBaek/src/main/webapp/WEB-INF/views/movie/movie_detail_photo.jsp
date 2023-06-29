@@ -45,17 +45,7 @@
 	<%-- 세번째 섹션 --%>
 	<section id="movie-end">
 		<div class="container p-3" style="padding:50px; margin: 50px;">
-	  	  	
- 		<%-- 썸네일 이미지 --%>
-			<%-- 	<c:forEach var="photo" items="${movie }"> --%>
-			<!-- 		<div class="row row-md-12"> -->
-			<%-- 			<c:forEach var="i" begin="1" end="3" step="i++" > --%>
-			<!-- 				<div class="col col-md-3"> -->
-			<%-- 					<img src="${movie_photo[i] }"> --%>
-			<!-- 				</div> -->
-			<%-- 			</c:forEach> --%>
-			<!-- 		</div> -->
-			<%-- 	</c:forEach> --%>
+	  	  
 			
 			<%-- 프리뷰 영상 --%>
 			<div class="row" >
@@ -65,7 +55,7 @@
 	  	  	</div>
 	  	  	
 	  	  	<%-- 스틸컷 --%>
-	  	  	<div class="row row-md-12" style="margin-left: 60px;">
+	  	  	<div class="row row-md-12" style="margin-left: 60px; margin-top:30px;">
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo1 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo1 }' ,'pop01','width=900 height=600');">
 	  	  		</div>

@@ -190,37 +190,48 @@
 	
 <!-- 영화당 리뷰 불러오기 ==> movieDetail.jsp -->
 <!-- 멤버아이디 2번째문자열부터 3개 문자 ***대체 => 아이디가리기 -->
-<select id="selectReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
-	SELECT  
-		review_date
-		, review_content
-		, INSERT(member_id, 2, 3, '***') as member_id 
-	FROM 
-		REVIEWS
-	WHERE
-		movie_num = #{movie_num}
-	GROUP BY 
-		movie_num	
-		, review_content
-		, member_id
-		, review_date
-	ORDER BY
-		review_date DESC
-	LIMIT 1
-</select>
-
-<!-- 최신순(변경가능-리뷰공감순으로) 리뷰 콘텐츠 1개 출력(아이디,리뷰컨텐츠) -->
-<!-- <select id="selectReviewLecent" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO"> -->
-<!-- 	SELECT -->
-<!-- 		member_id, review_content -->
-<!-- 	FROM -->
+<!-- <select id="selectReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO"> -->
+<!-- 	SELECT   -->
+<!-- 		review_date -->
+<!-- 		, review_content -->
+<!-- 		, INSERT(member_id, 2, 3, '***') as member_id  -->
+<!-- 	FROM  -->
 <!-- 		REVIEWS -->
 <!-- 	WHERE -->
 <!-- 		movie_num = #{movie_num} -->
-<!-- 	ORDER BY  -->
+<!-- 	GROUP BY  -->
+<!-- 		movie_num	 -->
+<!-- 		, review_content -->
+<!-- 		, member_id -->
+<!-- 		, review_date -->
+<!-- 	ORDER BY -->
 <!-- 		review_date DESC -->
-<!-- 	LIMIT 1; -->
+<!-- 	LIMIT 1 -->
 <!-- </select> -->
+
+<!-- 영화당 베스트리뷰(공감가장많이받은 리뷰) 출력하기 -->
+<!-- 멤버아이디 2번째문자열부터 3개 문자 ***대체 => 아이디가리기 -->
+<select id="selectReview" resultType="com.itwillbs.dongbaekcinema.vo.ReviewVO">
+	SELECT  
+		r.review_content
+		, INSERT(r.member_id, 2, 3, '***') as member_id 
+	FROM 
+		REVIEWS r
+	JOIN
+		REVIEW_LIKES rl
+	ON 
+		r.review_num = rl.review_num
+	WHERE
+		movie_num = #{movie_num}
+	GROUP BY 
+ 		r.review_num
+	ORDER BY
+   		 COUNT(rl.review_like_num) DESC
+	LIMIT 1
+</select>
+
+
+
 
 
 <!-- 전달받은 movie_num 파라미터값과 일치하는 리뷰카운팅정보 전달 -->

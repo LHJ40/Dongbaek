@@ -50,6 +50,12 @@ div>h5, div>h4, div .row .col{
 #section3{
 	margin-top:20px;
 }
+/* #cast, #content{ */
+/* 	padding-left:20px; */
+/* } */
+#cast{
+	padding-left:10px;
+}
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
 <script>

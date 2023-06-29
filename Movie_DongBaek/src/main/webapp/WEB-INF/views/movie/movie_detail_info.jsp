@@ -55,11 +55,11 @@
 			  	<div><b>관람등급 </b>${movie.movie_grade }</div>
 			  	<div><b>개봉일 </b>${movie.movie_release_date }</div>
 		  	<hr>
-		 		<div class="row">
+		 		<div class="row" id="cast">
 		  			<b>출연진 &nbsp; </b> ${movie.movie_cast }
 		  	</div>
 		  	<hr>
-		  	<div class="row">
+		  	<div class="row" id="content">
 		  		<b> 시놉시스 &nbsp;</b> ${movie.movie_content }
 		  	</div>
 		 </div>

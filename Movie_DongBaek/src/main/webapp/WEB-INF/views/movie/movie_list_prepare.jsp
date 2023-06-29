@@ -58,7 +58,7 @@
 						res += "<div class='col-lg-3 col-mid-4'>" +
 						"<div class='card border-0 shadow-sm' style='width: 18rem;'>" +
 						  "<a href='movie_detail_info?movie_num=" + movie[i].movie_num + "'>" +
-						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...'>" +
+						  	"<img src='" + movie[i].movie_poster + "' class='card-img-top' alt='...' width = 288 height = 410>" +
 						  "</a>" +
 							"<div class='card-body'>" +
 								"<h6 class='card-title' style='white-space: nowrap; overflow:hidden; text-overflow: elipsis;'>" +
@@ -242,7 +242,7 @@
 				<div class="card border-0 shadow-sm" style="width: 18rem;">
 					<%-- 해당영화의 포스터출력 -> 클릭시 상세페이지로 이동 --%>
 					<a href="movie_detail_info?movie_num=${movie.movie_num}">
-						<img src="${movie.movie_poster}" class="card-img-top" alt="...">
+						<img src="${movie.movie_poster}" class="card-img-top" alt="..." width = 288 height = 410>
 					</a>
 					<%-- 해당영화의 등급에 해당하는 이미지 출력, 영화제목 출력--%>
 					<div class="card-body">
