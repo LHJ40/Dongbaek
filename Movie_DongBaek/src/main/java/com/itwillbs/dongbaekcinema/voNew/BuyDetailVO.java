@@ -7,17 +7,15 @@ import lombok.*;
 /*
 CREATE OR REPLACE VIEW BUY_DETAIL AS
 (
-    SELECT O.member_id, P.payment_num, P.payment_name, P.payment_card_name, P.payment_card_num
+    SELECT O.member_id, P.payment_num, P.payment_name, P.payment_card_name, P.payment_card_num, O.order_num
         , P.payment_datetime, P.payment_total_price, P.payment_status, M.movie_name_kr
         , CONCAT(TT.ticket_user_type, '/', TT.ticket_time_type) AS 'ticket_type'
-
         FROM PAYMENTS P
         JOIN ORDERS O ON P.order_num = O.order_num
         JOIN ORDER_TICKETS OT ON P.order_num = OT.order_num -- 갯수만큼 나오는 거 play_num 으로 묶어 카운팅
         JOIN PLAYS ON OT.play_num = PLAYS.play_num
         JOIN MOVIES M ON PLAYS.movie_num = M.movie_num
         JOIN TICKET_TYPES TT ON OT.ticket_type_num = TT.ticket_type_num
-
 );
  */
 

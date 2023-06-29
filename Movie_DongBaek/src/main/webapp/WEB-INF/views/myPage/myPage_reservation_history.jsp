@@ -56,6 +56,7 @@ table {
 								<th>포스터</th> <%-- {param.board_ticket_num} --%>
 								<th>영화명</th>
 								<th>상영일</th>
+								<th>결제</th>
 								<th>예매 상태 변경</th>
 <!-- 								<th>리뷰 쓰기</th> -->
 							</tr>
@@ -70,7 +71,9 @@ table {
 										${myTicket.play_date }
 										<fmf:formatDate value="${myTicket.play_start_time }" pattern="HH:mm"/>
 									</td><%-- {param.datetime_start} ~ {param.datetime_end} --%>
-									
+									<td>
+										${myTicket.ticket_payment_status }
+									</td>
 									<td>
 										<form action="myPayment_detail" method="post">
 										<input type="hidden" name="payment_num" value="${myTicket.payment_num }">
@@ -78,17 +81,7 @@ table {
 										<input type="submit" value="${myTicket.play_change }"
 												<c:if test="${myTicket.play_change eq '취소불가' }"> disabled</c:if> >
 										</form>
-									</td><%-- {param.iscdange??} --%>
-<!-- 									<td> -->
-<%-- 										<c:choose> --%>
-<%-- 											<c:when test="${myTicket.play_change eq '취소불가' }"> --%>
-<!-- 												<button class="btn btn-outline-danger" type="submit">리뷰 쓰기</button>		 -->
-<%-- 											</c:when> --%>
-<%-- 											<c:otherwise> --%>
-<!-- 												<button type="submit" class="btn btn-outline-danger" onclick="location.href='./'">리뷰 보기</button>		 -->
-<%-- 											</c:otherwise> --%>
-<%-- 										</c:choose> --%>
-<!-- 									</td> -->
+									</td>
 								</tr>
 							
 							</c:forEach>

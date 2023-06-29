@@ -63,6 +63,7 @@
 		let order_num = $("#order_num").val();
 		let payment_total_price = $("#payment_total_price").val();
 		console.log("payment_num : " + payment_num);
+		console.log("order_num : " + order_num);
 	   	
 		$.ajax({
 	      // 예: http://www.myservice.com/payments/cancel

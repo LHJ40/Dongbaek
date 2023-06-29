@@ -13,7 +13,7 @@ SELECT member_id, movie_poster, movie_name_kr, play_date, ticket_type, order_num
 	        ELSE '상영완료'
         END AS 'play_status',
         CASE
-	        WHEN (play_date > now() OR (play_date = now() AND play_start_time >= ADDTIME(CURTIME(), '0:30:00')) ) THEN '취소가능'
+	        WHEN (play_date > now() OR (play_date = now() AND play_start_time >= ADDTIME(CURTIME(), '0:30:00')) ) AND ticket_payment_status = '결제완료' THEN '취소가능'
             ELSE '취소불가'
         END AS 'play_change'
 FROM (SELECT movie_name_kr, movie_poster, play_date, play_start_time, member_id, MOVIES.movie_num, ticket_payment_status
