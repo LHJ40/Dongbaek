@@ -204,7 +204,8 @@ div {
 					var naverLogin = new naver.LoginWithNaverId(
 							{
 								clientId: "FapLXYLoVFVUWfuqISrN", // cliendId
-								callbackUrl: "http://localhost:8089/dongbaekcinema/member_join_step2", // Callback URL 
+// 								callbackUrl: "http://localhost:8089/dongbaekcinema/member_join_step2", // Callback URL 
+								callbackUrl: "http://c5d2302t1.itwillbs.com/Movie_DongBaek/member_join_step2", // Callback URL 
 								isPopup: false,
 								callbackHandle: true
 							} );

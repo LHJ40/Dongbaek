@@ -273,6 +273,7 @@ th{
 <!-- 					    		<div class="check_font" id="id_check"></div> -->
 					    	</div>
 					</div>
+					
 <!-- 					아이디 중복확인 : ajax -->
 					<div class="row mb-3">
 				    	<label for="inputPassword3" class="col-sm-5 "></label>

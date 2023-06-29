@@ -291,8 +291,16 @@ public class MemberController {
 	
 	// 회원가입 화면 1 인증 성공, 네이버/카카오 인증 성공하면 회원가입 화면 2페이지로 이동
 	@RequestMapping(value = "/member_join_step2", method = {RequestMethod.GET, RequestMethod.POST})
-	public String member_join_step2(MemberVO member, Model model) {
+	public String member_join_step2(MemberVO member, Model model, HttpSession session) {
 //		System.out.println(member);
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id != null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+							
+			return "fail_location";
+		}
+		
 		
 		// 약관 동의 하는 페이지로 이동
 		model.addAttribute("member", member);
