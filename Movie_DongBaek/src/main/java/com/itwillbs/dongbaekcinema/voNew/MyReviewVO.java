@@ -17,7 +17,8 @@ public class MyReviewVO {
 	
 	// 리뷰 작성 및 수정
 	private int review_num;
-	private BigDecimal review_rating;
+	private String review_rating;
+//	private BigDecimal review_rating;
 	private String review_content;
 	private String  review_date;
 }
