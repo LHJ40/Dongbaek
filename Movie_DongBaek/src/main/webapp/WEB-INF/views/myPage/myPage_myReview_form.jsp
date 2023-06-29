@@ -28,7 +28,7 @@ a:hover, a:active{
   	<div class="container container-fluid w-900">
   		<div class="row d-flex justify-content-center mt-3">
   			<div class="col-10">
-				<h2>리뷰 쓰기 / 수정하기</h2>
+				<h2>리뷰 쓰기</h2>
 				
 				<br>
 				<br>

@@ -31,6 +31,12 @@ div>h5, div>h4, div .row .col{
 	margin-left: 5px;
 	margin-bottom: 20px;
 }
+#review_content_TOP{
+	width:250px;
+	font-family:SUITE-Regular;
+	margin-left: 5px;
+	margin-bottom: 20px;
+}
 #movie-end{
 	padding: 50px; 
 	padding-right: 80px;
@@ -40,6 +46,7 @@ div>h5, div>h4, div .row .col{
 	font-size: xx-large;
 }
 #emptyReview{
+	width:250px;
 	font-size:medium;
 	color: gray;
 }
@@ -199,11 +206,11 @@ div>h5, div>h4, div .row .col{
 						<c:choose>
 							<c:when test="${not empty review.review_content }">
 								<h5 class="card-title">아이디 : ${review.member_id }</h5>
-								<p class="card-text" id="review_content">${review.review_content }</p>
+								<p class="card-text" id="review_content_TOP">${review.review_content }</p>
 							</c:when>
 							<c:otherwise>
 								<h5 class="card-title" id="emptyReview"> 작성된 리뷰가 존재하지 않습니다 </h5>
-								<p class="card-text" id="review_content">${review.review_content }</p>
+<!-- 								<p class="card-text" id="review_content_TOP">작성된 리뷰가 존재하지 않습니다</p> -->
 							</c:otherwise>
 						</c:choose>
 				</div>
