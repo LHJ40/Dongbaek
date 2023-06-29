@@ -157,6 +157,7 @@ a:hover, a:active{
   <!-- 차트 -->
   <script>
   
+  	
   
   const mydata = [10, 20, 30, 40]; // 일일 회원가입 수 변수
   const mydataHalf = [5, 10, 20, 7]; // 일일 예매 수 변수

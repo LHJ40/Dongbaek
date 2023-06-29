@@ -446,7 +446,7 @@ $(function() { // 페이지가 시작될 때 실행될 함수
 		$("#upBtn").click(function(){
 			window.scrollTo(0, 0);
 		});
-		
+
 		$("#downBtn").click(function(){
 			$(document).scrollTop($(document).height());
 		});
