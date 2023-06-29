@@ -27,6 +27,6 @@ public class MemberVO {
 	private String grade_name;
 	private String payment_total_price;
 	private String grade_max;
-	
+	private String total_payment;
 	
 }

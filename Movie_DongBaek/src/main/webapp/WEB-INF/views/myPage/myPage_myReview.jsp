@@ -37,7 +37,7 @@ $(document).ready(function() {
 	
 		if($("input[type=hidden]", this).val() == "상영 전"){
 			let movieNum = $(".movieName", this).attr("data-movie-num");
-			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a>작성불가</a>");								
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<button class='btn btn-outline-danger' disabled>작성불가</button>");								
 			
 		}
 	});
@@ -65,9 +65,12 @@ function getReview(movieNum, memberId, playNum) {
 			$(".myReview[id='" + movieNum + "'] .reviewContent").html(reviewContent);
 			$(".myReview[id='" + movieNum + "'] .reviewRating").html(reviewRating);
 			$(".myReview[id='" + movieNum + "'] .reviewDate").html(reviewDate);
-			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' data-review-num='" + reviewNum + "' onclick='review_write_pro()'>수정하기</a>");
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<button class='btn btn-outline-danger' disabled data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' data-review-num='" + reviewNum + "'>작성완료</button>");
+// 			alert($(".myReview[id='" + movieNum + "'] .reviewWriteModify").html());
 		}else{
-			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a  data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write_pro()'>작성하기</a>");
+			// 클래스
+// 			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<a data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write(this)'>작성하기</a>");
+			$(".myReview[id='" + movieNum + "'] .reviewWriteModify").html("<button class='btn btn-outline-danger' data-movie-num='" + movieNum + "' data-member-id='" + memberId + "' onclick='review_write(this)'>작성하기</button>");
 		}
 	})
 	.fail(function() { // 요청 실패 시
@@ -76,15 +79,17 @@ function getReview(movieNum, memberId, playNum) {
 }
 
 // [작성하기/수정하기] 클릭 시 파라미터로 넘기기 위한 함수
-function review_write_pro(){
-	let movieNum = $(".reviewWriteModify ").attr("data-movie-num");      // 선택한 영화 번호   
-	let memberId = $(".reviewWriteModify ").attr("data-member-id");      // 멤버 정보
-	let reviewNum = $(".reviewWriteModify ").attr("data-review-num");      // 리뷰 번호
-	$("input[name=movie_num]").attr("value",movieNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
-	$("input[name=member_id]").attr("value",memberId);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
-	$("input[name=review_num]").attr("value",reviewNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
-	
-	location.href = "review_write_pro";
+function review_write(obj){
+// 	alert($(obj).html());
+	let movieNum = $(obj).attr("data-movie-num");      // 선택한 영화 번호   
+	let memberId = $(obj).attr("data-member-id");      // 멤버 정보
+	let reviewNum = $(obj).attr("data-review-num");      // 리뷰 번호
+	$("input[name=movie_num]").val(movieNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+	$("input[name=member_id]").val(memberId);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+	$("input[name=review_num]").val(reviewNum);   // 선택한 상영정보 hidden 타입의 input 태그에 value 값으로 넣기
+// 	alert(movieNum);
+// 	location.href = "review_write";
+	$("form").submit();
 }
 </script>
 
@@ -96,7 +101,7 @@ function review_write_pro(){
 <article id="mainArticle">
 	<%--본문내용 --%>
 	<div class="container container-fluid w-900">
-	<form action="review_write_pro">
+	<form action="review_write" method="POST">
 		<input type="hidden" name="movie_num" value="">
 		<input type="hidden" name="member_id" value="">
 		<input type="hidden" name="review_num" value="">

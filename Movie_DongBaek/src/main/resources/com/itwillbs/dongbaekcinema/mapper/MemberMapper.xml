@@ -43,29 +43,39 @@
 	
 	<!-- 관리자 - 회원상세 멤버십 0626정의효 -->
 	<select id="selectMemberWithGradeName" resultType="com.itwillbs.dongbaekcinema.vo.MemberVO">
-			SELECT 
-				  m.*
-				  , g.*
-				  , p.payment_total_price 
-				FROM 
-				  MEMBERS m  
-				LEFT JOIN 
-				  GRADES g 
-				ON 
-				  m.grade_name = g.grade_name  
-				LEFT JOIN 
-				  ORDERS o
-				ON 
-				  o.member_id = m.member_id 
-				LEFT JOIN
-				  PAYMENTS p
-				ON 
-				  p.order_num = o.order_num 
-				WHERE 
-				  m.member_id = #{member_id}
-				AND 
-				  m.member_type != '비회원'
-			LIMIT 1;
+			SELECT
+			    m.member_id
+			    , m.*
+			    , g.*
+			    , (
+			        SELECT IFNULL(SUM(DISTINCT payment_total_price), 0) 
+			        FROM BUY_DETAIL
+			        WHERE
+			            member_id = #{member_id}
+			            AND payment_datetime >= CONCAT(YEAR(now()), '-01-01')
+			            AND payment_status = '결제완료'
+			    ) AS total_payment
+			FROM
+			    MEMBERS m  
+		    LEFT JOIN 
+		        GRADES g 
+		    ON
+		        m.grade_name = g.grade_name  
+		    LEFT JOIN 
+		        ORDERS o
+		    ON
+		        o.member_id = m.member_id 
+		    LEFT JOIN
+		        PAYMENTS p
+		    ON
+		        p.order_num = o.order_num 
+			WHERE
+			    m.member_id = #{member_id}
+		    AND
+			    m.member_type != '비회원'
+			GROUP BY
+			    m.member_id
+
 	</select>
 			
 	<!-- 로그인 작업 - member_id로 조회, member_pass 받아오기 -->

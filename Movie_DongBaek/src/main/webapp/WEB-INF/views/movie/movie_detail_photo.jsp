@@ -50,12 +50,12 @@
 			<%-- 프리뷰 영상 --%>
 			<div class="row" >
 	  	  		<div class="col">
-	  	  			<iframe src="${movie.movie_preview }"  width="900" height="600" style="margin-left: 60px;"></iframe>
+	  	  			<iframe src="${movie.movie_preview }"  width="900" height="600" ></iframe>
 	  	  		</div>
 	  	  	</div>
 	  	  	
 	  	  	<%-- 스틸컷 --%>
-	  	  	<div class="row row-md-12" style="margin-left: 60px; margin-top:30px;">
+	  	  	<div class="row row-md-12" style= margin-top:30px;>
 	  	  		<div class="col col-md-3">
 			  	  	<img src="${movie.movie_photo1 }" alt="..." class="img-thumbnail" onclick="window.open('${movie.movie_photo1 }' ,'pop01','width=900 height=600');">
 	  	  		</div>

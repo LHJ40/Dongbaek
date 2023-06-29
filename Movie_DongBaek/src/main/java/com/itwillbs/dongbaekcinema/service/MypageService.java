@@ -59,6 +59,10 @@ public class MypageService {
 		return mapper.selectMyReview(member_id, movie_num);
 	}
 	
+	public MyReviewVO getMovieName(String movie_num) {
+		return mapper.selectMovieName(movie_num);
+	}
+	
 
 	// 마이페이지 - 회원 나의 문의 페이지 조회
 	public List<CsInfoVO> getMyInqList(String member_id, int startRow, int listLimit) {
@@ -82,6 +86,12 @@ public class MypageService {
 	public int deleteMyInquiry(String cs_num) {
 		return mapper.deleteMyInq(cs_num);
 	}
+
+	public int registReview(MyReviewVO myReview) {
+		return mapper.insertMyReview(myReview);
+	}
+
+	
 
 	
 	

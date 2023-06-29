@@ -64,6 +64,9 @@ public interface MypageMapper {
 	// 나의 문의 내역 삭제 - cs_num 으로 레코드 조회 후 삭제
 	int deleteMyInq(String cs_num);
 
-	
-	;
+	MyReviewVO selectMovieName(String movie_num);
+
+	int insertMyReview(MyReviewVO myReview);
+
+
 }
