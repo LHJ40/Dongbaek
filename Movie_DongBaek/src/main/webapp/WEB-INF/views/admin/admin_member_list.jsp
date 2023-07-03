@@ -56,7 +56,7 @@ a:hover, a:active {
 </head>
 <body>
 
-	<%-- 네비게이션 바 영역 --%>
+	<%-- 네비게이션 바 영역 - 공통 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 	
 	<article id="mainArticle">
@@ -68,7 +68,7 @@ a:hover, a:active {
 				</div>
 			</div>
 
-			<%-- 'search' 영역 --%>
+			<%-- 'search' 영역 - 공통 --%>
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<nav class="navbar navbar-light bg-light justify-content-end">
@@ -108,35 +108,38 @@ a:hover, a:active {
 							</tr>
 						</thead>
 						<tbody>
+						<%-- AdminController의 memberList(List) 받아서 member로 뿌림 --%>
 							<c:forEach var="member" items="${memberList}">
 								<tr>
 									<td>${member.member_name}</td>
 									<td>${member.member_id}</td>
 									<td>${member.grade_name}</td>
+									<%-- member에서 grade_name받아서 NONE=비회원, ! = 상태 가져와서 출력 --%>
 									<c:choose>
+										<%-- 등급없으면 = 비회원 출력 --%>
 										<c:when test="${member.grade_name  eq 'NONE'}">
 											<td>비회원</td>
 										</c:when>
+										<%-- 등급 있으면 멤버 상태 출력 --%>
 										<c:otherwise>
 											<td>${member.member_status}</td>
 										</c:otherwise>
 									</c:choose>
-
+									<%-- grande_name = NONE일 경우 버튼 클릭 시 deleteNonMember(178행 제이쿼리)시행 파라미터 : member_id--%>
 									<c:choose>
 										<c:when test="${member.grade_name eq 'NONE'}">
 											<td>
 												<button type="button" 
 													    class="btn btn-secondary" 
 													    onclick="deleteNonMember('${member.member_id}')" 
-													    data-toggle="modal">${member.member_type}</button>
-											</td>
+													    data-toggle="modal">${member.member_type}</button></td>
 										</c:when>
+										<%-- grade_name != NONE 일 경우 회원상세(admin_member_oneperson)페이지로 매핑 파라미터 : member_id, grade_name  --%>
 										<c:otherwise>
 											<td>
 												<button type="button" 
 														class="btn btn-secondary"
-														onclick="location.href='admin_member_oneperson?member_id=${member.member_id}&grade_name=${member.grade_name }'">${member.member_type}</button>
-											</td>
+														onclick="location.href='admin_member_oneperson?member_id=${member.member_id}&grade_name=${member.grade_name }'">${member.member_type}</button></td>
 										</c:otherwise>
 									</c:choose>
 								</tr>
@@ -147,7 +150,7 @@ a:hover, a:active {
 			</div>
 
 			
-			<%-- '비회원삭제' 모달 --%>
+			<%-- '비회원삭제' 모달 - 공통 --%>
 			<div class="modal fade" id="nonMemberTypeChange" tabindex="-1"	role="dialog" aria-labelledby="nonMemberDeleteTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
@@ -162,7 +165,7 @@ a:hover, a:active {
 							<button type="button" 
 									class="btn btn-secondary"
 									data-dismiss="modal">아니오</button>
-							<!-- 0619 정의효 회원삭제 -->
+							<!-- 삭제를 위한 admin_memberDelete 매핑 파라미터 : member_id-->
 							<form action="admin_memberDelete" method="post">
 								<input type="hidden" name="member_id" value="${member.member_id}">
 								<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
@@ -174,7 +177,7 @@ a:hover, a:active {
 
 			<script>
 			    function deleteNonMember(member_id) {
-			        $("#nonMemberTypeChange").data("memberId", member_id);
+			        $("#nonMemberTypeChange").data("memberId", member_id); 
 			        $("#nonMemberTypeChange").modal("show");
 			    }
 			    
@@ -237,13 +240,13 @@ a:hover, a:active {
 		</div>
 	</article>
 
-	<%--왼쪽 사이드바 --%>
+	<%--왼쪽 사이드바 - 공통 --%>
 	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%@ include file="/WEB-INF/views/sidebar/sideBar.jsp"%>
 	</nav>
 
 	<div id="siteAds"></div>
-	<%--페이지 하단 --%>
+	<%--페이지 하단 - 공통--%>
 	<footer id="pageFooter">
 		<%@ include file="../inc/footer.jsp"%>
 	</footer>
