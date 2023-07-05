@@ -58,10 +58,10 @@ a:hover, a:active {
 </head>
 <body>
 
-	<%--네비게이션 바 영역 --%>
+	<%--네비게이션 바 영역 - 공통 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 
-	<%--본문내용 --%>
+	<%--본문내용 - 공통 --%>
 	<article id="mainArticle">
 		<div class="container-fluid w-900 justify-content-center">
 			<div class="row">
@@ -101,6 +101,7 @@ a:hover, a:active {
 									<option value="활동">활동</option>
 									<option value="탈퇴">탈퇴</option>
 							</select>
+								<%-- 상태변경 모달 이동 200 row --%>
 								<button type="button" class="btn btn-danger"
 									id="statusChangeBtn" data-toggle="modal"
 									data-target="#memberStatusChange">상태 변경하기</button></td>
@@ -110,7 +111,9 @@ a:hover, a:active {
 							<td width="350px">${member.grade_name}<br> 
 								<span>
 									<c:choose>
+										<%-- 결제금액이 0원이 아닌 경우 --%>
 										<c:when test="${not empty member.total_payment}">
+											<%-- jstl fmt를 통해 3자리마다 ',' 추가  --%>
 											<fmf:formatNumber value="${member.total_payment}" pattern="#,###,###" />
 										</c:when>
 										<c:otherwise>0</c:otherwise>
@@ -128,12 +131,12 @@ a:hover, a:active {
 									<option value="GOLD">GOLD</option>
 									<option value="PLATINUM">PLATINUM</option>
 								</select>
-								<button type="button" 
-										class="btn btn-danger" 
-										id="gradeChangeBtn"
-										data-toggle="modal" 
-										data-target="#memberGradeChange">등급	변경하기</button>
-							</td>
+									<%-- 등급변경 모달 이동 241 row --%>
+									<button type="button" 
+											class="btn btn-danger" 
+											id="gradeChangeBtn"
+											data-toggle="modal" 
+											data-target="#memberGradeChange">등급	변경하기</button></td>
 						</tr>
 						<tr>
 							<th>아이디</th>
@@ -158,11 +161,13 @@ a:hover, a:active {
 			<%-- 버튼 --%>
 			<div class="row d-flex justify-content-center mt-3">
 				<div class="col-3">
+					<%-- 삭제 모달 178 row --%>
 					<button class="w-100 btn btn-outline-red mb-3" 
 							type="submit"
 							data-toggle="modal" 
 							data-target="#memberTypeChange">삭제</button>
 				</div>
+				<%-- AdminController의 admin_member_list 매핑 파라미터(이전 페이지 유지,검색어 유지) : pageNo, memberSearchType, memberSearchKeyword  --%>
 				<div class="col-3">
 					<button class="w-100 btn btn-outline-red mb-3" 
 							type="button"
@@ -188,6 +193,7 @@ a:hover, a:active {
 								data-dismiss="modal">아니오</button>
 						<!-- 0619 정의효 회원삭제 -->
 						<form action="admin_memberDelete" method="post">
+							<%--  --%>
 							<input type="hidden" name="member_id" value="${member.member_id}">
 							<button type="submit" class="btn btn-red">&nbsp;&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;&nbsp;</button>
 						</form>
@@ -275,12 +281,12 @@ a:hover, a:active {
 		<%-- 본문 테이블 끝 --%>
 	</article>
 
-	<%--왼쪽 사이드바 --%>
+	<%--왼쪽 사이드바 - 공통 --%>
 	<nav id="mainNav" class="d-none d-md-block sidebar">
 		<%@ include file="../sidebar/sideBar.jsp"%>
 	</nav>
 
-	<%--페이지 하단 --%>
+	<%--페이지 하단 - 공통 --%>
 	<div id="siteAds"></div>
 	<footer id="pageFooter">
 		<%@ include file="../inc/footer.jsp"%>
