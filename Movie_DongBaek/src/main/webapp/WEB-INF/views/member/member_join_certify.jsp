@@ -127,7 +127,7 @@ th{
 					        	
 					         	console.log("2");
 					         	let checkNum = data;
-					         	alert(member_phone + ', checkNum: ' + checkNum);
+// 					         	alert(member_phone + ', checkNum: ' + checkNum);
 					         	
 					        	if(data == "error"){
 					        		console.log("3");

@@ -166,20 +166,20 @@ th{
 	}
 	
 	// 전화번호 정규식
-	function inputNum_phone(member_phone) {
-// 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
-		let regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
+// 	function inputNum_phone(member_phone) {
+// // 		let regex = /^((19)[0-9]{2}|(200)[0-8]+)(0[1-9]|1[012])(0[0-9]|[12][0-9]|3[01])$/;
+// 		let regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
 		
-		if(regex.exec(member_phone)) {
-			document.querySelector("#phone_check").innerHTML = ""
-			document.querySelector("#phone_check").style.color = "green";
-		} else {
-			document.querySelector("#phone_check").innerHTML = "전화번호를 다시 입력해주세요!"
-			document.querySelector("#phone_check").style.color = "red";
-			alert("전화번호를 다시 입력해주세요!");
-			$("#member_phone").val('');
-		}
-	}
+// 		if(regex.exec(member_phone)) {
+// 			document.querySelector("#phone_check").innerHTML = ""
+// 			document.querySelector("#phone_check").style.color = "green";
+// 		} else {
+// 			document.querySelector("#phone_check").innerHTML = "전화번호를 다시 입력해주세요!"
+// 			document.querySelector("#phone_check").style.color = "red";
+// 			alert("전화번호를 다시 입력해주세요!");
+// 			$("#member_phone").val('');
+// 		}
+// 	}
 
 	// 이메일 정규식
 	function inputEmail(member_email) {

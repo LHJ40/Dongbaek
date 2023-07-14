@@ -345,7 +345,7 @@ article {
 			        });
 			     }
 			 });
-
+			// 장르 유효성 검사
 			function checkGenre() {
 				const validGenres = [ '공포', 'SF', '범죄', '액션', '판타지', '음악',
 						'멜로', '뮤지컬', '스포츠', '애니메이션', '다큐멘터리', '기타' ];
@@ -370,7 +370,7 @@ article {
 			function checkEndDateLaterThanStartDate() {
 				let startDate = new Date($("#movie_release_date").val());
 				let endDate = new Date($("#movie_close_date").val());
-				return endDate >= startDate;
+				return endDate > startDate;
 			}
 		</script>
 
@@ -400,7 +400,7 @@ article {
 
 									for (var i = 0; i < movieList.length; i++) {
 										var movieNm = movieList[i].movieNm;
-										var movieNmEn = movieList[i].movieNmEn; // 추가: 영화 제목(en) 가져오기
+										var movieNmEn = movieList[i].movieNmEn;
 										var directors = movieList[i].directors;
 										var repGenreNm = movieList[i].repGenreNm;
 										var movieCd = movieList[i].movieCd;

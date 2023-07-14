@@ -39,13 +39,11 @@ a>b{
 	list-style: none;
 }
 
-<%-- a링크 활성화 색상 변경 --%>
+/* a링크 활성화 색상 변경 */
 a:hover, a:active{
 	color:  #ff5050 !important;
 	text-decoration: none;
 }
-
-
 
 	.seachArea{
 		margin: 1.2em 0;
@@ -156,6 +154,9 @@ a:hover, a:active{
 				
 				// 한 페이지에 들어가는 글 수 만큼 반복(글 내용)
 				for(let i = 0; i <= (limit - start); i++) {
+					// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
+					let content = result[i].cs_content;
+					let fomattedContent = content.replace(/\n/g, "<br>");
 					// 지정한 div안에 내용 추가([카테고리] Q. 질문)
 					// 결과값이 List타입으로 배열 안 데이터에 접근하듯 사용
 					$("#faqContents").append(
@@ -166,7 +167,7 @@ a:hover, a:active{
 							);
 					// 지정한 div안에 내용 추가(A. 답변)
 					$("#faqContents").append(
-							"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+							"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
 							);
 				}
 				// 답변 영역 사라지게하기
@@ -235,7 +236,10 @@ a:hover, a:active{
 						
 						// 1페이지 시작(1)~끝(5)까지 반복하면서 지정 div에 값 추가
 						for(let i = (start - 1); i < limit; i++) {
-// 							console.log(limit);
+							// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
+							let content = result[i].cs_content;
+							let fomattedContent = content.replace(/\n/g, "<br>");
+// 							
 							$("#faqContents").append(
 									"<label class='qPart' id='check" + i + "'>"
 									+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
@@ -244,7 +248,7 @@ a:hover, a:active{
 									);
 							// 지정한 div안에 내용 추가(A. 답변)
 							$("#faqContents").append(
-									"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+									"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
 									);
 						}
 						// 답변 영역 사라지게하기
@@ -382,7 +386,10 @@ a:hover, a:active{
 	
 					$("#faqContents").empty();
 					for(let i = (start - 1); i < limit; i++) {
-// 						console.log(limit);
+						// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
+						let content = result[i].cs_content;
+						let fomattedContent = content.replace(/\n/g, "<br>");
+// 						
 						$("#faqContents").append(
 								"<label class='qPart' id='check" + i + "'>"
 								+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
@@ -391,7 +398,7 @@ a:hover, a:active{
 								);
 						// 지정한 div안에 내용 추가(A. 답변)
 						$("#faqContents").append(
-								"<div class='target' id='target" + i + "' > A. " + result[i].cs_content + "</div>"
+								"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
 								);
 					}
 					// 답변 영역 사라지게하기
