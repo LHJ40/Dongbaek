@@ -239,7 +239,8 @@
 		INSERT
 			INTO REVIEWS
 			VALUES (
-				#{review_rating}
+				null
+				, #{review_rating}
 				, #{review_content}
 				, now()
 				, #{movie_num}
