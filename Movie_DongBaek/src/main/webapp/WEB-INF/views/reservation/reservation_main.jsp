@@ -62,7 +62,6 @@
 			$("#selectDate").css("display", "none");      // 날짜 목록  안 보이게 하기
 			$("#selectTime").css("display", "none");      // 시간 목록  안 보이게 하기
 			$("#selectTime li").empty();               // 시간 목록에서 선택된 시간 선택 해제
-// 			$("#movieInfo span").empty();         // [선택정보] 영역의 극장 정보 지우기
 			
 			let url = "";
 			
