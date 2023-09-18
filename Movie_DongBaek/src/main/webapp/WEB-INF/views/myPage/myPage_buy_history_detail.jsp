@@ -55,8 +55,6 @@
 		}
 	}); // function() 끝
 	
-		
-	
 	// ========== 취소 환불 요청하기 ===================
 	function cancelPay() {
 		let payment_num = $("#payment_num").val();
